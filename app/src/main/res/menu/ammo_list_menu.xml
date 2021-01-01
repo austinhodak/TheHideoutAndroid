@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ammo_sort"
+        android:icon="@drawable/ic_baseline_sort_24"
+        android:title="Item"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/sort_name"
+                android:title="Name" />
+            <item
+                android:id="@+id/sort_damage"
+                android:title="Damage" />
+            <item
+                android:id="@+id/sort_pen"
+                android:title="Penetration" />
+            <item
+                android:id="@+id/sort_armor"
+                android:title="Armor Effectiveness" />
+        </menu>
+
+    </item>
+
+</menu>

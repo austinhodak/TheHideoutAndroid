@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primaryText">#FFFFFF</color>
+    <color name="primaryText87">#DEFFFFFF</color>
+    <color name="primaryText60">#99FFFFFF</color>
+
+    <color name="tabSelected">@color/md_red_400</color>
+</resources>

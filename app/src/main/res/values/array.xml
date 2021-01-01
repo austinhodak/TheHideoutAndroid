@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="ammo_sort">
+        <item>Name</item>
+        <item>Damage</item>
+        <item>Penetration</item>
+        <item>Vs. Armor</item>
+    </string-array>
+
+</resources>
