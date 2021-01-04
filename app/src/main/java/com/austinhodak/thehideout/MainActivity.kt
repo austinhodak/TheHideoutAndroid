@@ -7,6 +7,8 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         actionBarDrawerToggle.drawerArrowDrawable.color = resources.getColor(android.R.color.white)
         binding.root.addDrawerListener(actionBarDrawerToggle)
 
-        val benderFont = resources.getFont(R.font.bender)
+        val benderFont = ResourcesCompat.getFont(this, R.font.bender)
 
         binding.slider.apply {
             addItems(
@@ -55,10 +57,10 @@ class MainActivity : AppCompatActivity() {
                         SecondaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Helmet Addons"); iconRes = R.drawable.icons8_helmet_96; },
                     )
                 },
-                NavigationDrawerItem(R.id.SecondFragment, PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Containers"); iconRes = R.drawable.icons8_storage_box_96; }),
+                PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Containers"); iconRes = R.drawable.icons8_storage_box_96; },
                 PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Keys & Intel"); iconRes = R.drawable.icons8_key_100; },
                 PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Medical"); iconRes = R.drawable.icons8_syringe_100; },
-                PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Weapons"); iconRes = R.drawable.icons8_assault_rifle_100; },
+                NavigationDrawerItem(R.id.WeaponFragment, PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Weapons"); iconRes = R.drawable.icons8_assault_rifle_100; }),
                 //SectionDrawerItem().apply { nameText = "Flea Market" },
 
             )

@@ -8,4 +8,28 @@
         <item>Vs. Armor</item>
     </string-array>
 
+    <string-array name="weapon_classes_ids">
+        <item>Handgun</item>
+        <item>Assault Rifle</item>
+        <item>Assault Carbine</item>
+        <item>Submachine Gun</item>
+        <item>Shotgun</item>
+        <item>Sniper Rifle</item>
+        <item>Marksman Rifle</item>
+        <item>Light Machine Gun</item>
+        <item>Grenade Launcher</item>
+    </string-array>
+
+    <string-array name="weapon_classes_names">
+        <item>Handguns</item>
+        <item>Assault Rifles</item>
+        <item>Assault Carbines</item>
+        <item>SMGs</item>
+        <item>Shotguns</item>
+        <item>Sniper Rifles</item>
+        <item>Marksman Rifles</item>
+        <item>LMGs</item>
+        <item>Grenade Launcher</item>
+    </string-array>
+
 </resources>

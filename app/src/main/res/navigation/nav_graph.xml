@@ -9,20 +9,12 @@
         android:id="@+id/FirstFragment"
         android:name="com.austinhodak.thehideout.ammunition.AmmoTabsFragment"
         android:label="@string/ammo_label"
-        tools:layout="@layout/fragment_ammo_tabs">
+        tools:layout="@layout/fragment_ammo_tabs"/>
 
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-    </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.austinhodak.thehideout.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+        android:id="@+id/WeaponFragment"
+        android:name="com.austinhodak.thehideout.weapons.WeaponsTabFragment"
+        android:label="Weapons"
+        tools:layout="@layout/fragment_weapon_tabs">
     </fragment>
 </navigation>

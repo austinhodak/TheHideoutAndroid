@@ -11,6 +11,18 @@
 
     <color name="tabSelected">#FFFFFF</color>
 
+    <color name="timelineDark">#171717</color>
+    <color name="timelineBG">#1B1B1B</color>
+    <color name="timelineLightBlue">#89929F</color>
+    <color name="timelineGrey">#636363</color>
+    <color name="timelineBlue">#457AD1</color>
+    <color name="timelineYellow">#FFB018</color>
+    <color name="timelineNavy">#4a5175</color>
+
+    <color name="timelineGreen">@color/md_green_400</color>
+    <color name="timelineOrange">@color/md_deep_orange_400</color>
+    <color name="timelineRed">@color/md_red_400</color>
+
     <color name="primaryText">#000000</color>
     <color name="primaryText87">#DE000000</color>
     <color name="primaryText60">#99000000</color>

@@ -29,4 +29,8 @@ object AmmoHelper {
     fun getAmmoListByID(context: Context, id: String): List<AmmoModel>? {
         return getCalibers(context).find { it._id == id }?.ammo
     }
+
+    fun getCaliberByID(context: Context, id: String): CaliberModel? {
+        return getCalibers(context).find { it._id == id }
+    }
 }
