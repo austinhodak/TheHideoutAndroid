@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/statsScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/Toolbar"
+            app:title="VPO-209" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:descendantFocusability="blocksDescendants"
+        android:id="@+id/statsFragList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="8dp">
+
+        <pl.hypeapp.materialtimelineview.MaterialTimelineView
+            android:id="@+id/timeline_top_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/timeline_round"
+            android:backgroundTint="@color/md_grey_900"
+            android:clickable="true"
+            android:clipChildren="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="vertical"
+            app:timeline_position="first"
+            app:timeline_radio_outline_radius="23"
+            app:timeline_radio_radius="15"
+            app:timeline_type="item">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/timeline_round_bottom_only"
+                android:backgroundTint="@color/timelineBG"
+                android:paddingBottom="21dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@drawable/material_drawer_shadow_bottom"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/weaponLL5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="50dp"
+                    tools:layout_editor_absoluteY="126dp">
+
+
+                    <TextView
+                        android:id="@+id/weaponAcc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_bold"
+                        android:text="2.23"
+                        android:textColor="@color/primaryText87"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_light"
+                        android:text="ACCURACY"
+                        android:textColor="@color/primaryText60"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/weaponLL4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="144dp"
+                    tools:layout_editor_absoluteY="79dp">
+
+
+                    <TextView
+                        android:id="@+id/weaponRPM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_bold"
+                        android:text="600"
+                        android:textColor="@color/primaryText87"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_light"
+                        android:text="RPM"
+                        android:textColor="@color/primaryText60"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/weaponLL6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="135dp"
+                    tools:layout_editor_absoluteY="126dp">
+
+
+                    <TextView
+                        android:id="@+id/weaponErgo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_bold"
+                        android:text="2.23"
+                        android:textColor="@color/primaryText87"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_light"
+                        android:text="ACCURACY"
+                        android:textColor="@color/primaryText60"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:id="@+id/flow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:constraint_referenced_ids="weaponLL1,weaponLL4,weaponLL3,weaponLL2,weaponLL5,weaponLL6,weaponLL7"
+                    app:flow_horizontalGap="8dp"
+                    app:flow_maxElementsWrap="4"
+                    app:flow_verticalGap="16dp"
+                    app:flow_wrapMode="chain"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/weaponLL1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="49dp"
+                    tools:layout_editor_absoluteY="79dp">
+
+
+                    <TextView
+                        android:id="@+id/weaponRange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_bold"
+                        android:text="400m"
+                        android:textColor="@color/primaryText87"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_light"
+                        android:text="RANGE"
+                        android:textColor="@color/primaryText60"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/weaponLL2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="304dp"
+                    tools:layout_editor_absoluteY="79dp">
+
+
+                    <TextView
+                        android:id="@+id/weaponHRecoil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_bold"
+                        android:text="485"
+                        android:textColor="@color/primaryText87"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_light"
+                        android:text="H. RECOIL"
+                        android:textColor="@color/primaryText60"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/weaponLL3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="223dp"
+                    tools:layout_editor_absoluteY="79dp">
+
+
+                    <TextView
+                        android:id="@+id/weaponVRecoil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_bold"
+                        android:text="290"
+                        android:textColor="@color/primaryText87"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_light"
+                        android:text="V. RECOIL"
+                        android:textColor="@color/primaryText60"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/weaponLL7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="221dp"
+                    tools:layout_editor_absoluteY="126dp">
+
+
+                    <TextView
+                        android:id="@+id/weaponFM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_bold"
+                        android:text="SINGLE, AUTO"
+                        android:textColor="@color/primaryText87"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/bender_light"
+                        android:text="FIRE MODES"
+                        android:textColor="@color/primaryText60"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/weaponImage2"
+                android:layout_width="140dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout"
+                app:srcCompat="@drawable/vpo_209" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/rankL"
+                app:layout_constraintEnd_toStartOf="@+id/weaponImage2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/weaponName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:autoSizeMaxTextSize="22sp"
+                    android:autoSizeTextType="uniform"
+                    android:fontFamily="@font/bender_bold"
+                    android:maxLines="1"
+                    android:text="VPO-209"
+                    android:textColor="@color/primaryText87"
+                    android:textSize="22sp"
+                    tools:text="VPO-209" />
+
+                <TextView
+                    android:id="@+id/weaponAmmo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/bender"
+                    android:text="7.62x39" />
+
+            </LinearLayout>
+
+        </pl.hypeapp.materialtimelineview.MaterialTimelineView>
+
+        <pl.hypeapp.materialtimelineview.MaterialTimelineView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:timeline_position="middle"
+            app:timeline_radio_outline_radius="23"
+            app:timeline_radio_radius="15"
+            app:timeline_type="line">
+
+        </pl.hypeapp.materialtimelineview.MaterialTimelineView>
+
+        <pl.hypeapp.materialtimelineview.MaterialTimelineView
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/timeline_round"
+            android:backgroundTint="@color/timelineOrange"
+            app:timeline_position="middle"
+            app:timeline_radio_outline_radius="23"
+            app:timeline_radio_radius="15"
+            app:timeline_type="item">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/weaponAmmoTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bender"
+                    android:text="AMMUNITION"
+                    android:textColor="#FFF"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/top_extras1"
+                    app:layout_constraintStart_toStartOf="@+id/weaponAmmoIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/weaponAmmoIcon" />
+
+                <ImageView
+                    android:id="@+id/weaponAmmoIcon"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="24dp"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toTopOf="@+id/weaponAmmoTV"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:srcCompat="@drawable/icons8_ammo_100" />
+
+                <LinearLayout
+                    android:id="@+id/top_extras1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/weaponAmmoIcon"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </pl.hypeapp.materialtimelineview.MaterialTimelineView>
+
+        <pl.hypeapp.materialtimelineview.MaterialTimelineView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:timeline_position="middle"
+            app:timeline_radio_outline_radius="23"
+            app:timeline_radio_radius="15"
+            app:timeline_type="line">
+
+        </pl.hypeapp.materialtimelineview.MaterialTimelineView>
+
+        <pl.hypeapp.materialtimelineview.MaterialTimelineView
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/timeline_round"
+            android:backgroundTint="@color/timelineGreen"
+            app:timeline_position="middle"
+            app:timeline_radio_outline_radius="23"
+            app:timeline_radio_radius="15"
+            app:timeline_type="item">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/weaponLoadoutTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bender"
+                    android:text="LOADOUTS"
+                    android:textColor="#FFF"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/top_extras3"
+                    app:layout_constraintStart_toStartOf="@+id/weaponLoadoutIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/weaponLoadoutIcon" />
+
+                <ImageView
+                    android:id="@+id/weaponLoadoutIcon"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="24dp"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toTopOf="@+id/weaponLoadoutTV"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:srcCompat="@drawable/ic_baseline_shopping_cart_24" />
+
+                <LinearLayout
+                    android:id="@+id/top_extras3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/weaponLoadoutIcon"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </pl.hypeapp.materialtimelineview.MaterialTimelineView>
+
+        <pl.hypeapp.materialtimelineview.MaterialTimelineView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:timeline_position="middle"
+            app:timeline_radio_outline_radius="23"
+            app:timeline_radio_radius="15"
+            app:timeline_type="line">
+
+        </pl.hypeapp.materialtimelineview.MaterialTimelineView>
+
+        <pl.hypeapp.materialtimelineview.MaterialTimelineView
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/timeline_round"
+            android:backgroundTint="@color/timelineRed"
+            app:timeline_position="middle"
+            app:timeline_radio_outline_radius="23"
+            app:timeline_radio_radius="15"
+            app:timeline_type="item">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/weaponModdingTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bender"
+                    android:text="MODDING"
+                    android:textColor="#FFF"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/top_extras2"
+                    app:layout_constraintStart_toStartOf="@+id/weaponModdingIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/weaponModdingIcon" />
+
+                <ImageView
+                    android:id="@+id/weaponModdingIcon"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="24dp"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toTopOf="@+id/weaponModdingTV"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:srcCompat="@drawable/ic_baseline_build_24" />
+
+                <LinearLayout
+                    android:id="@+id/top_extras2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/weaponModdingIcon"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </pl.hypeapp.materialtimelineview.MaterialTimelineView>
+
+        <pl.hypeapp.materialtimelineview.MaterialTimelineView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:timeline_position="middle"
+            app:timeline_radio_outline_radius="23"
+            app:timeline_radio_radius="15"
+            app:timeline_type="line">
+
+        </pl.hypeapp.materialtimelineview.MaterialTimelineView>
+
+    </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
