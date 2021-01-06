@@ -15,6 +15,7 @@
 
         <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyleCustom</item>
 
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
     <style name="Widget.MaterialDrawerStyleCustom" parent="Widget.MaterialDrawerStyle">
