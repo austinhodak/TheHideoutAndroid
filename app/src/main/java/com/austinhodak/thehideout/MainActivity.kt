@@ -13,9 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.austinhodak.thehideout.ammunition.AmmoTabsFragment
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
-import com.austinhodak.thehideout.weapons.WeaponsTabFragment
 import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.iconics.iconicsIcon
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.slider.apply {
             addItems(
-                PrimaryDrawerItem().apply { identifier = 1; typeface = benderFont; isIconTinted = true; name = StringHolder("Ammunition"); iconRes = R.drawable.icons8_ammo_100; },
+                NavigationDrawerItem(R.id.FirstFragment, PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Ammunition"); iconRes = R.drawable.icons8_ammo_100; }, null, null),
                 ExpandableDrawerItem().apply {
                     typeface = benderFont;
                     nameText = "Armor & Clothing"; iconRes = R.drawable.icons8_coat_100; isSelectable = false; isIconTinted = true
@@ -64,21 +62,15 @@ class MainActivity : AppCompatActivity() {
                 PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Containers"); iconRes = R.drawable.icons8_storage_box_96; },
                 PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Keys & Intel"); iconRes = R.drawable.icons8_key_100; },
                 PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Medical"); iconRes = R.drawable.icons8_syringe_100; },
-                PrimaryDrawerItem().apply { identifier = 2; typeface = benderFont; isIconTinted = true; name = StringHolder("Weapons"); iconRes = R.drawable.icons8_assault_rifle_100; },
+                NavigationDrawerItem(R.id.WeaponFragment, PrimaryDrawerItem().apply { typeface = benderFont; isIconTinted = true; name = StringHolder("Weapons"); iconRes = R.drawable.icons8_assault_rifle_100; }, null, null),
                 //SectionDrawerItem().apply { nameText = "Flea Market" },
+
             )
             headerView = View.inflate(this@MainActivity, R.layout.main_drawer_header, null)
             headerDivider = false
-            onDrawerItemClickListener = { _, drawerItem, _ ->
-                when (drawerItem.identifier) {
-                    1L -> supportFragmentManager.beginTransaction().replace(R.id.mainFrame, AmmoTabsFragment()).commit()
-                    2L -> supportFragmentManager.beginTransaction().replace(R.id.mainFrame, WeaponsTabFragment()).commit()
-                }
-                false
-            }
         }
 
-        //binding.slider.setupWithNavController(findNavController(R.id.nav_host_fragment))
+        binding.slider.setupWithNavController(findNavController(R.id.nav_host_fragment))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -99,15 +91,6 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onBackPressed() {
-        //handle the back press :D close the drawer first and if the drawer is closed close the activity
-        if (binding.root.isDrawerOpen(binding.slider)) {
-            binding.root.closeDrawer(binding.slider)
-        } else {
-            super.onBackPressed()
         }
     }
 
