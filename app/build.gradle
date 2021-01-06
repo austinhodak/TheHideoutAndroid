@@ -3,6 +3,11 @@ plugins {
     id 'kotlin-android'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'kotlin-kapt'
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 android {
@@ -21,6 +26,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 
     buildTypes {
@@ -96,4 +102,10 @@ dependencies {
     }
 
     implementation 'pl.hypeapp:materialtimelineview:1.1'
+    implementation 'net.idik:slimadapter:2.1.2'
+
+    implementation "com.airbnb.android:epoxy:${versions.epoxy}"
+    // Add the annotation processor if you are using Epoxy's annotations (recommended)
+    annotationProcessor "com.airbnb.android:epoxy-processor:${versions.epoxy}"
+    implementation "com.airbnb.android:epoxy-databinding:${versions.epoxy}"
 }

@@ -3,6 +3,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac3623",
     "name": "5.7x28",
+    "long_name": "5.7x28mm FN",
     "image": "Calibre/5.7x28.png",
     "ammo": [
       {
@@ -180,6 +181,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac3632",
     "name": ".45",
+    "long_name": ".45 ACP",
     "image": "Calibre/45.png",
     "ammo": [
       {
@@ -309,6 +311,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac363d",
     "name": "12.7x55",
+    "long_name": "12.7x55mm STs-130",
     "image": "Calibre/12.7x55.png",
     "ammo": [
       {
@@ -390,6 +393,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac3644",
     "name": "40x46",
+    "long_name": "40x46mm",
     "image": "Calibre/40x46.png",
     "ammo": [
       {
@@ -524,6 +528,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac3650",
     "name": ".366",
+    "long_name": ".366 TKM",
     "image": "Calibre/366.png",
     "ammo": [
       {
@@ -636,6 +641,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac365a",
     "name": "12G",
+    "long_name": "12x70mm",
     "image": "Calibre/12x70.png",
     "ammo": [
       {
@@ -1040,6 +1046,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac367e",
     "name": "20G",
+    "long_name": "20x70mm",
     "image": "Calibre/20x70.png",
     "ammo": [
       {
@@ -1248,6 +1255,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac3690",
     "name": "4.6x30",
+    "long_name": "4.6x30mm HK",
     "image": "Calibre/4.6x30.png",
     "ammo": [
       {
@@ -1360,6 +1368,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac369a",
     "name": "5.45x39",
+    "long_name": "5.45x39mm",
     "image": "Calibre/5.45x39.png",
     "ammo": [
       {
@@ -1676,6 +1685,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac36b6",
     "name": "5.56x45",
+    "long_name": "5.56x45mm NATO",
     "image": "Calibre/5.56x45.png",
     "ammo": [
       {
@@ -1913,6 +1923,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac36cb",
     "name": "7.62x25",
+    "long_name": "7.62x25mm Tokarev",
     "image": "Calibre/7.62x25.png",
     "ammo": [
       {
@@ -2090,6 +2101,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac36da",
     "name": "7.62x39",
+    "long_name": "7.62x39mm",
     "image": "Calibre/7.62x39.png",
     "ammo": [
       {
@@ -2219,6 +2231,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac36e5",
     "name": "7.62x51",
+    "long_name": "7.62x51mm NATO",
     "image": "Calibre/7.62x51.png",
     "ammo": [
       {
@@ -2388,6 +2401,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac36f3",
     "name": "7.62x54R",
+    "long_name": "7.62x54mmR",
     "image": "Calibre/7.62x54R.png",
     "ammo": [
       {
@@ -2541,6 +2555,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac3700",
     "name": "9x18",
+    "long_name": "9x18mm Makarov",
     "image": "Calibre/9x18.png",
     "ammo": [
       {
@@ -2886,6 +2901,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac371d",
     "name": "9x19",
+    "long_name": "9x19mm Parabellum",
     "image": "Calibre/9x19.png",
     "ammo": [
       {
@@ -3113,6 +3129,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac3732",
     "name": "9x21",
+    "long_name": "9x21mm Gyurza",
     "image": "Calibre/9x21.png",
     "ammo": [
       {
@@ -3218,6 +3235,7 @@
     "description": "",
     "_id": "5f4a52549f319f4528ac373b",
     "name": "9x39",
+    "long_name": "9x39mm",
     "image": "Calibre/9x39.png",
     "ammo": [
       {
@@ -3321,6 +3339,122 @@
         "_id": "5f4a52549f319f4528ac3743",
         "name": "7N12",
         "image": "9x39/7N12.png"
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "description": "",
+    "_id": "300blackout",
+    "name": ".300",
+    "long_name": ".300 Blackout",
+    "image": "",
+    "ammo": [
+    {
+      "description": "",
+      "weight": 0.014,
+      "velocity": 720,
+      "damage": 55,
+      "penetration": 44,
+      "recoil": 5.0,
+      "accuracy": 5.0,
+      "tracer": false,
+      "armor": "666654",
+      "prices": [],
+      "tradeups": [],
+      "_id": "300_aac_blackout_ap",
+      "name": "AAC Blackout AP",
+      "image": ""
+    },
+      {
+        "description": "",
+        "weight": 0.015,
+        "velocity": 605,
+        "damage": 60,
+        "penetration": 28,
+        "recoil": 0,
+        "accuracy": 0,
+        "tracer": false,
+        "armor": "665320",
+        "prices": [],
+        "tradeups": [],
+        "_id": "300_aac_blackout_bpz",
+        "name": "BPZ AAC Blackout",
+        "image": ""
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "description": "",
+    "_id": "338lapua",
+    "name": ".338",
+    "long_name": ".338 Lapua",
+    "image": "",
+    "ammo": [
+      {
+        "description": "",
+        "weight": 0.014,
+        "velocity": 849,
+        "damage": 115,
+        "penetration": 79,
+        "recoil": -10,
+        "accuracy": 0,
+        "tracer": false,
+        "armor": "666666",
+        "prices": [],
+        "tradeups": [],
+        "_id": "338_lapua_ap",
+        "name": "Lapua Magnum AP",
+        "image": ""
+      },
+      {
+        "description": "",
+        "weight": 0.014,
+        "velocity": 900,
+        "damage": 122,
+        "penetration": 47,
+        "recoil": 0,
+        "accuracy": 0,
+        "tracer": false,
+        "armor": "666655",
+        "prices": [],
+        "tradeups": [],
+        "_id": "338_lapua_fmj",
+        "name": "Lapua Magnum FMJ",
+        "image": ""
+      },
+      {
+        "description": "",
+        "weight": 0.014,
+        "velocity": 880,
+        "damage": 196,
+        "penetration": 18,
+        "recoil": 5,
+        "accuracy": 10,
+        "tracer": false,
+        "armor": "653100",
+        "prices": [],
+        "tradeups": [],
+        "_id": "338_lapua_tacx",
+        "name": "Lapua Magnum TAC-X",
+        "image": ""
+      },
+      {
+        "description": "",
+        "weight": 0.014,
+        "velocity": 849,
+        "damage": 142,
+        "penetration": 32,
+        "recoil": 0,
+        "accuracy": -5,
+        "tracer": false,
+        "armor": "666542",
+        "prices": [],
+        "tradeups": [],
+        "_id": "338_lapua_upz",
+        "name": "UPZ Lapua Magnum",
+        "image": ""
       }
     ],
     "__v": 0

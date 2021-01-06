@@ -7,6 +7,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.AmmoListFragment
@@ -30,7 +32,7 @@ class WeaponsTabFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
 
         weaponViewModel.loadWeapons()
         // Inflate the layout for this fragment
@@ -56,10 +58,10 @@ class WeaponsTabFragment : Fragment() {
         }.attach()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.ammo_list_menu, menu)
-    }
+        inflater.inflate(R.menu.weapon_list_menu, menu)
+    }*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -74,6 +76,14 @@ class WeaponsTabFragment : Fragment() {
             }
             R.id.sort_armor -> {
                 sharedViewModel.setSortBy(3)
+            }
+            R.id.weapon_sort -> {
+                MaterialDialog(requireContext()).show {
+                    listItemsSingleChoice(R.array.weapon_sort, initialSelection = sortBy) { dialog, index, text ->
+                        sortBy = index
+                    }
+                    title(text = "Sort By")
+                }
             }
         }
         return super.onOptionsItemSelected(item)

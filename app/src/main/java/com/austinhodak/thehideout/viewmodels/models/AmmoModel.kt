@@ -19,11 +19,28 @@ data class AmmoModel (
     var _id: String,
     var name: String,
     var armor: String,
-    var image: String
+    var image: String,
+    var tradeups: List<AmmoTradeup>
 ) {
+    fun getAccuracy(): String {
+        return "$accuracy%"
+    }
+
     fun getSubtitle(): String {
-        return if (prices.isNullOrEmpty()) {
-            "Flea Market or Loot Only"
+        return if (prices.isEmpty()) {
+            return if (!tradeups.isNullOrEmpty()) {
+                var tradeString = ""
+                for (trade in tradeups) {
+                    tradeString += if (tradeups.indexOf(trade) == 0) {
+                        trade.toString()
+                    } else {
+                        "\n$trade"
+                    }
+                }
+                tradeString
+            } else {
+                "FIR Only"
+            }
         } else {
             var priceString = ""
             for (price in prices) {
@@ -63,5 +80,16 @@ data class AmmoPriceModel (
     override fun toString(): String {
         val format = DecimalFormat("###.##")
         return "${level.getTraderLevel()} $trader ${currency.getCurrency()}${format.format(value)}"
+    }
+}
+
+data class AmmoTradeup (
+    var _id: String,
+    var trader: String,
+    var level: Int
+) {
+    override fun toString(): String {
+        val format = DecimalFormat("###.##")
+        return "${level.getTraderLevel()} $trader Tradeup"
     }
 }

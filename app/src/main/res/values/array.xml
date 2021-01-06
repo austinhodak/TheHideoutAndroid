@@ -5,7 +5,18 @@
         <item>Name</item>
         <item>Damage</item>
         <item>Penetration</item>
-        <item>Vs. Armor</item>
+        <item>Recoil</item>
+        <item>Accuracy</item>
+        <item>Armor Effectiveness</item>
+    </string-array>
+
+    <string-array name="weapon_sort">
+        <item>Name</item>
+        <item>Ammo</item>
+        <item>Range</item>
+        <item>RPM</item>
+        <item>Recoil</item>
+        <item>Accuracy</item>
     </string-array>
 
     <string-array name="weapon_classes_ids">

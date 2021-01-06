@@ -48,4 +48,8 @@ class WeaponViewModel(application: Application) : AndroidViewModel(application) 
 
         return list!!.sortedBy { it.name }
     }
+
+    fun getWeaponByID(id: String): WeaponModel {
+        return list!!.find { it._id == id }!!
+    }
 }

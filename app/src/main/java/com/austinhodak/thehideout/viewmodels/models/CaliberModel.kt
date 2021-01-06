@@ -5,5 +5,6 @@ data class CaliberModel (
     var _id: String,
     var name: String,
     var image: String,
-    var ammo: List<AmmoModel>
+    var ammo: List<AmmoModel>,
+    var long_name: String
 )

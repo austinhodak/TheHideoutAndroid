@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout">
-<!--        <activity android:name=".weapons.WeaponDetailActivity"></activity>-->
         <activity
             android:name=".weapons.WeaponDetailActivity"
+            android:theme="@style/Theme.TheHideout.NoActionBar"/>
+        <activity
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.TheHideout.NoActionBar">
             <intent-filter>

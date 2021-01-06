@@ -1,5 +1,9 @@
 package com.austinhodak.thehideout
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,4 +30,14 @@ fun Int.getTraderLevel(): String {
         4 -> "IV"
         else -> ""
     }
+}
+
+inline fun <reified T : Activity> Context.startActivity(block: Intent.() -> Unit = {}) {
+    startActivity(Intent(this, T::class.java).apply(block))
+}
+
+fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
+    val intent = Intent(this, it)
+    intent.putExtras(Bundle().apply(extras))
+    startActivity(intent)
 }

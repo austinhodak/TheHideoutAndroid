@@ -1,3 +1,4 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <item name="timeline_header_margin" type="integer" format="float">150.0</item>
 </resources>
