@@ -1,47 +1,57 @@
 package com.austinhodak.thehideout
 
-import android.content.res.ColorStateList
+import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
-import androidx.navigation.Navigation
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
-import com.mikepenz.iconics.typeface.library.googlematerial.GoogleMaterial
+import com.austinhodak.thehideout.viewmodels.WeaponViewModel
+import com.austinhodak.thehideout.viewmodels.models.AmmoModel
+import com.austinhodak.thehideout.viewmodels.models.WeaponModel
+import com.austinhodak.thehideout.weapons.WeaponDetailActivity
+import com.miguelcatalan.materialsearchview.SuggestionModel
 import com.mikepenz.materialdrawer.holder.StringHolder
-import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
 import com.mikepenz.materialdrawer.util.addItems
 import com.mikepenz.materialdrawer.util.setupWithNavController
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
+import net.idik.lib.slimadapter.SlimAdapter
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var weaponViewModel: WeaponViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var headerView: AccountHeaderView
+    private lateinit var mSearchAdapter: SlimAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
+        weaponViewModel = ViewModelProvider(this).get(WeaponViewModel::class.java)
 
         setupDrawer(savedInstanceState)
+        setupSearchAdapter()
         setupNavigation()
+
+
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -125,6 +135,66 @@ class MainActivity : AppCompatActivity() {
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
         binding.root.addDrawerListener(actionBarDrawerToggle)
         binding.slider.setupWithNavController(navController)
+
+        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { controller, destination, arguments ->
+            setupSearch(destination)
+        }
+    }
+
+    private fun setupSearch(currentDestination: NavDestination) {
+        Log.d("SEARCH", "CURRENT DESTINATION ${currentDestination.label}")
+        val list = when (currentDestination.id) {
+            R.id.FirstFragment -> {
+                AmmoHelper.getAllAmmoList(this)
+            }
+            R.id.WeaponFragment -> {
+                weaponViewModel.getAllWeaponSearch()
+            }
+            else -> AmmoHelper.getAllAmmoList(this)
+        }
+
+        binding.searchView.setAdapter(mSearchAdapter)
+        binding.searchView.setSuggestions(list)
+
+        binding.searchView.setHint("Search ${currentDestination.label}")
+    }
+
+    private fun setupSearchAdapter() {
+        mSearchAdapter = SlimAdapter.create().register<AmmoModel>(R.layout.ammo_list_item_small_search) { data, injector ->
+            injector.text(R.id.ammoSmallName, data.name)
+            injector.text(R.id.textView2, data.getSubtitle())
+            injector.text(R.id.ammoSmallDamage, data.damage.toString())
+            injector.text(R.id.ammoSmallPen, data.penetration.toString())
+            injector.text(R.id.ammoSmallCal, data.caliber)
+
+            val subtitleTV = injector.findViewById<TextView>(R.id.textView2)
+
+            if (data.getSubtitle().contains("\n")) {
+                if (data.prices.isEmpty()) {
+                    subtitleTV.maxLines = data.tradeups.size
+                } else {
+                    subtitleTV.maxLines = data.prices.size
+                }
+            } else {
+                subtitleTV.maxLines = 1
+            }
+
+            injector.background(R.id.ammoSmallDMG1, data.getColor(1))
+            injector.background(R.id.ammoSmallDMG2, data.getColor(2))
+            injector.background(R.id.ammoSmallDMG3, data.getColor(3))
+            injector.background(R.id.ammoSmallDMG4, data.getColor(4))
+            injector.background(R.id.ammoSmallDMG5, data.getColor(5))
+            injector.background(R.id.ammoSmallDMG6, data.getColor(6))
+
+        }.register<WeaponModel>(R.layout.search_item_weapon) { weapon, i ->
+            i.text(R.id.searchItemWeaponName, weapon.name)
+            i.text(R.id.searchItemWeaponSubtitle, AmmoHelper.getCaliberByID(this, weapon.calibre)?.long_name)
+            i.clicked(R.id.searchItemWeaponRoot) {
+                startActivity(Intent(this, WeaponDetailActivity::class.java).apply {
+                    putExtra("id", weapon._id)
+                })
+            }
+        }.registerDefault(R.layout.empty_layout) { default, i -> }.attachTo(binding.searchView.getRV())
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -135,6 +205,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+        val searchItem = menu.findItem(R.id.main_search)
+        binding.searchView.setMenuItem(searchItem)
         return true
     }
 
@@ -168,6 +240,8 @@ class MainActivity : AppCompatActivity() {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
         if (binding.root.isDrawerOpen(binding.slider)) {
             binding.root.closeDrawer(binding.slider)
+        } else if (binding.searchView.isSearchOpen) {
+            binding.searchView.closeSearch()
         } else {
             super.onBackPressed()
         }
@@ -176,6 +250,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         actionBarDrawerToggle.syncState()
-
+        setupSearch(findNavController(R.id.nav_host_fragment).currentDestination!!)
     }
 }

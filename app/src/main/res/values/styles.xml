@@ -6,7 +6,7 @@
     </style>
 
     <style name="TabsBender" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/bender</item>
+        <item name="android:fontFamily">@font/bender_bold</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">

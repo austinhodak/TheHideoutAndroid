@@ -8,10 +8,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoHelper
+import com.austinhodak.thehideout.viewmodels.models.AmmoModel
 import com.austinhodak.thehideout.viewmodels.models.CaliberModel
 import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.miguelcatalan.materialsearchview.SuggestionModel
 import org.json.JSONArray
 import java.lang.reflect.Type
 
@@ -51,5 +53,15 @@ class WeaponViewModel(application: Application) : AndroidViewModel(application) 
 
     fun getWeaponByID(id: String): WeaponModel {
         return list!!.find { it._id == id }!!
+    }
+
+    fun getAllWeaponSearch(): MutableList<SuggestionModel> {
+        val ammoList: MutableList<WeaponModel> = ArrayList()
+        val stringList: MutableList<SuggestionModel> = ArrayList()
+        for (item in list!!) {
+            stringList.add(SuggestionModel(item.name, item))
+        }
+
+        return  stringList
     }
 }

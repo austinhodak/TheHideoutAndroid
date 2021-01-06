@@ -7,6 +7,7 @@ import com.austinhodak.thehideout.viewmodels.models.AmmoModel
 import com.austinhodak.thehideout.viewmodels.models.CaliberModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.miguelcatalan.materialsearchview.SuggestionModel
 import org.json.JSONArray
 import java.lang.reflect.Type
 
@@ -32,5 +33,18 @@ object AmmoHelper {
 
     fun getCaliberByID(context: Context, id: String): CaliberModel? {
         return getCalibers(context).find { it._id == id }
+    }
+
+    fun getAllAmmoList(context: Context): MutableList<SuggestionModel> {
+        val ammoList: MutableList<AmmoModel> = ArrayList()
+        val stringList: MutableList<SuggestionModel> = ArrayList()
+        for (item in getCalibers(context)) {
+            for (ammo in item.ammo) {
+                ammo.caliber = item.name
+                stringList.add(SuggestionModel("${item.name} ${ammo.name}", ammo))
+            }
+        }
+
+        return  stringList
     }
 }

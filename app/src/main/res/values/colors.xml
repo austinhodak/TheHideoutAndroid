@@ -11,6 +11,8 @@
 
     <color name="tabSelected">#FFFFFF</color>
 
+    <color name="appbarBackground">#1F1F1F</color>
+
     <color name="timelineDark">#171717</color>
     <color name="timelineBG">#1B1B1B</color>
     <color name="timelineLightBlue">#89929F</color>

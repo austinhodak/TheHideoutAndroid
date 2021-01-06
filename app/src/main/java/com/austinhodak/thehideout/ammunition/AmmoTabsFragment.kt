@@ -25,7 +25,6 @@ class AmmoTabsFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        // Inflate the layout for this fragment
         calibers = AmmoHelper.getCalibers(requireContext())
 
 

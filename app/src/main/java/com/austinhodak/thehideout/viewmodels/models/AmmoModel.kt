@@ -20,11 +20,13 @@ data class AmmoModel (
     var name: String,
     var armor: String,
     var image: String,
-    var tradeups: List<AmmoTradeup>
+    var tradeups: List<AmmoTradeup>,
+    var caliber: String
 ) {
     fun getAccuracy(): String {
         return "$accuracy%"
     }
+
 
     fun getSubtitle(): String {
         return if (prices.isEmpty()) {

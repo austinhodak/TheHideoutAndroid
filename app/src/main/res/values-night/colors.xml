@@ -5,5 +5,5 @@
     <color name="primaryText87">#DEFFFFFF</color>
     <color name="primaryText60">#99FFFFFF</color>
 
-    <color name="tabSelected">@color/md_red_400</color>
+    <color name="tabSelected">@color/md_red_A200</color>
 </resources>
