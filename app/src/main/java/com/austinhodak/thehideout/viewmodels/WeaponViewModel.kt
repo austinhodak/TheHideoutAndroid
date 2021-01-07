@@ -59,7 +59,7 @@ class WeaponViewModel(application: Application) : AndroidViewModel(application) 
         val ammoList: MutableList<WeaponModel> = ArrayList()
         val stringList: MutableList<SuggestionModel> = ArrayList()
         for (item in list!!) {
-            stringList.add(SuggestionModel(item.name, item))
+            stringList.add(SuggestionModel("${item.name} ${AmmoHelper.getCaliberByID(context, item.calibre)?.long_name}", item))
         }
 
         return  stringList
