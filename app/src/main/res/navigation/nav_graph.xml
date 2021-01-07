@@ -17,4 +17,14 @@
         android:label="Weapons"
         tools:layout="@layout/fragment_weapon_tabs">
     </fragment>
+
+    <fragment
+        android:id="@+id/armorTabFragment"
+        android:name="com.austinhodak.thehideout.clothing.armor.ArmorTabFragment"
+        android:label="Armor" />
+    <fragment
+        android:id="@+id/backpackRigTabFragment"
+        android:name="com.austinhodak.thehideout.clothing.backpacks.BackpackRigTabFragment"
+        android:label="Backpacks &amp; Rigs" />
+
 </navigation>

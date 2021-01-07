@@ -43,4 +43,16 @@
         <item>Grenade Launcher</item>
     </string-array>
 
+    <string-array name="armor_tabs">
+        <item>Armored Rigs</item>
+        <item>Chest Armor</item>
+        <item>Helmets</item>
+        <item>Helmet Addons</item>
+    </string-array>
+
+    <string-array name="backpack_rig_tabs">
+        <item>Backpacks</item>
+        <item>Chest Rigs</item>
+    </string-array>
+
 </resources>

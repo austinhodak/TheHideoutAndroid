@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                     null,
                     null
                 ),
-                ExpandableDrawerItem().apply {
+                /*ExpandableDrawerItem().apply {
                     typeface = benderFont;
                     nameText = "Armor & Clothing"; iconRes =
                     R.drawable.icons8_coat_100; isSelectable = false; isIconTinted = true
@@ -90,7 +90,15 @@ class MainActivity : AppCompatActivity() {
                             StringHolder("Helmet Addons"); iconRes = R.drawable.icons8_helmet_96;
                         },
                     )
-                },
+                },*/
+                NavigationDrawerItem(R.id.armorTabFragment, PrimaryDrawerItem().apply {
+                    typeface = benderFont; isIconTinted = true; name =
+                    StringHolder("Armor"); iconRes = R.drawable.icons8_bulletproof_vest_100;
+                }, null, null),
+                NavigationDrawerItem(R.id.backpackRigTabFragment, PrimaryDrawerItem().apply {
+                    typeface = benderFont; isIconTinted = true; name =
+                    StringHolder("Backpacks & Rigs"); iconRes = R.drawable.icons8_rucksack_96;
+                }),
                 PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Containers"); iconRes = R.drawable.icons8_storage_box_96;
@@ -112,9 +120,26 @@ class MainActivity : AppCompatActivity() {
                     null,
                     null
                 ),
-                //SectionDrawerItem().apply { nameText = "Flea Market" },
-
+                DividerDrawerItem(),
+                PrimaryDrawerItem().apply {
+                    typeface = benderFont; isIconTinted = true; name =
+                    StringHolder("Hideout"); iconRes = R.drawable.hideout_shadow_1;
+                },
+                PrimaryDrawerItem().apply {
+                    typeface = benderFont; isIconTinted = true; name =
+                    StringHolder("Traders"); iconRes = R.drawable.ic_baseline_groups_24;
+                },
+                PrimaryDrawerItem().apply {
+                    typeface = benderFont; isIconTinted = true; name =
+                    StringHolder("Quests"); iconRes = R.drawable.ic_baseline_assignment_24;
+                },
+                DividerDrawerItem(),
+                PrimaryDrawerItem().apply {
+                    typeface = benderFont; isIconTinted = true; name =
+                    StringHolder("Settings"); iconRes = R.drawable.ic_baseline_settings_24;
+                },
             )
+
             headerView = View.inflate(this@MainActivity, R.layout.main_drawer_header, null)
             headerDivider = false
             setSavedInstance(savedInstanceState)
@@ -129,7 +154,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.FirstFragment, R.id.WeaponFragment), binding.root)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment), binding.root)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
