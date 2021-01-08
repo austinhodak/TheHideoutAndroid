@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout">
+        <activity android:name=".calculator.CalculatorMainActivity" android:theme="@style/Theme.TheHideout.NoActionBar"></activity>
         <activity
             android:name=".weapons.WeaponDetailActivity"
-            android:theme="@style/Theme.TheHideout.NoActionBar"/>
+            android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

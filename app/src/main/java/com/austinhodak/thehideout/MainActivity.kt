@@ -18,6 +18,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.austinhodak.thehideout.ammunition.AmmoHelper
+import com.austinhodak.thehideout.calculator.CalculatorMainActivity
+import com.austinhodak.thehideout.calculator.models.CAmmo
+import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.AmmoModel
@@ -31,6 +34,7 @@ import com.mikepenz.materialdrawer.util.addItems
 import com.mikepenz.materialdrawer.util.setupWithNavController
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import net.idik.lib.slimadapter.SlimAdapter
+import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
 
@@ -135,7 +139,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 DividerDrawerItem(),
                 PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
+                    identifier = 10; typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Settings"); iconRes = R.drawable.ic_baseline_settings_24;
                 },
             )
@@ -144,6 +148,8 @@ class MainActivity : AppCompatActivity() {
             headerDivider = false
             setSavedInstance(savedInstanceState)
         }
+
+        startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
     }
 
     private fun setupNavigation() {
