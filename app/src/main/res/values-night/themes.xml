@@ -16,6 +16,9 @@
         <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyleCustom</item>
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+        <item name="colorBackgroundFloating">@color/md_grey_900</item>
+        <item name="md_color_button_text">?attr/colorSecondary</item>
     </style>
 
     <style name="Widget.MaterialDrawerStyleCustom" parent="Widget.MaterialDrawerStyle">

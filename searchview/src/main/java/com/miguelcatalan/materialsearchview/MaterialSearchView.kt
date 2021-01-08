@@ -380,10 +380,9 @@ class MaterialSearchView @JvmOverloads constructor(
      * @param suggestions array of suggestions
      */
     fun setSuggestions(suggestions: MutableList<SuggestionModel>) {
+        mList = suggestions
         if (suggestions != null && suggestions.size > 0) {
-
             mTintView!!.visibility = VISIBLE
-            mList = suggestions
         } else {
             mTintView!!.visibility = GONE
         }

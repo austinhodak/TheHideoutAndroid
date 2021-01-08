@@ -34,7 +34,7 @@ class WeaponsTabFragment : Fragment() {
     ): View? {
         //setHasOptionsMenu(true)
 
-        weaponViewModel.loadWeapons()
+        //weaponViewModel.loadWeapons()
         // Inflate the layout for this fragment
         classes = resources.getStringArray(R.array.weapon_classes_ids)
         classesNames = resources.getStringArray(R.array.weapon_classes_names)

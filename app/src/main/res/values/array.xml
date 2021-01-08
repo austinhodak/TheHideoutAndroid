@@ -55,4 +55,13 @@
         <item>Chest Rigs</item>
     </string-array>
 
+    <string-array name="keys_filter_list">
+        <item>Customs</item>
+        <item>Factory</item>
+        <item>Interchange</item>
+        <item>Shoreline</item>
+        <item>Woods</item>
+        <item>The Lab</item>
+    </string-array>
+
 </resources>

@@ -25,8 +25,9 @@ class AmmoTabsFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        calibers = AmmoHelper.getCalibers(requireContext())
 
+        
+        calibers = AmmoHelper.getCalibers(requireContext())
 
         return inflater.inflate(R.layout.fragment_ammo_tabs, container, false)
     }

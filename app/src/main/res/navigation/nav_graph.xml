@@ -26,5 +26,9 @@
         android:id="@+id/backpackRigTabFragment"
         android:name="com.austinhodak.thehideout.clothing.backpacks.BackpackRigTabFragment"
         android:label="Backpacks &amp; Rigs" />
+    <fragment
+        android:id="@+id/keysListFragment"
+        android:name="com.austinhodak.thehideout.keys.KeysListFragment"
+        android:label="Keys" />
 
 </navigation>

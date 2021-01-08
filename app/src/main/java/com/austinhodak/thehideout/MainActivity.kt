@@ -22,10 +22,15 @@ import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
+import com.austinhodak.thehideout.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.AmmoModel
 import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.miguelcatalan.materialsearchview.SuggestionModel
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.*
@@ -43,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var headerView: AccountHeaderView
     private lateinit var mSearchAdapter: SlimAdapter
+    private lateinit var keysViewModel: KeysViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,12 +56,18 @@ class MainActivity : AppCompatActivity() {
             setContentView(it.root)
         }
         weaponViewModel = ViewModelProvider(this).get(WeaponViewModel::class.java)
+        keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
 
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
 
+        Firebase.database.setPersistenceEnabled(true)
+    }
 
+    override fun onStart() {
+        super.onStart()
+        Firebase.auth.signInAnonymously()
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -107,10 +119,10 @@ class MainActivity : AppCompatActivity() {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Containers"); iconRes = R.drawable.icons8_storage_box_96;
                 },
-                PrimaryDrawerItem().apply {
+                NavigationDrawerItem(R.id.keysListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Keys & Intel"); iconRes = R.drawable.icons8_key_100;
-                },
+                }),
                 PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Medical"); iconRes = R.drawable.icons8_syringe_100;
@@ -149,7 +161,7 @@ class MainActivity : AppCompatActivity() {
             setSavedInstance(savedInstanceState)
         }
 
-        startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
+       //startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
     }
 
     private fun setupNavigation() {
@@ -160,7 +172,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment), binding.root)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment), binding.root)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
@@ -169,6 +181,21 @@ class MainActivity : AppCompatActivity() {
 
         findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { controller, destination, arguments ->
             setupSearch(destination)
+            setToolbarElevation(destination)
+        }
+    }
+
+    private fun setToolbarElevation(destination: NavDestination) {
+        when (destination.id) {
+            R.id.FirstFragment,
+            R.id.WeaponFragment,
+            R.id.armorTabFragment,
+            R.id.backpackRigTabFragment -> {
+                    binding.toolbar.elevation = 0f
+            }
+            R.id.keysListFragment -> {
+                binding.toolbar.elevation = 15f
+            }
         }
     }
 
@@ -181,13 +208,27 @@ class MainActivity : AppCompatActivity() {
             R.id.WeaponFragment -> {
                 weaponViewModel.getAllWeaponSearch()
             }
-            else -> AmmoHelper.getAllAmmoList(this)
+            R.id.keysListFragment -> {
+                mutableListOf()
+            }
+            else -> mutableListOf()
         }
 
         binding.searchView.setAdapter(mSearchAdapter)
         binding.searchView.setSuggestions(list)
 
         binding.searchView.setHint("Search ${currentDestination.label}")
+
+        binding.searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                keysViewModel.searchKey.value = newText
+                return true
+            }
+        })
     }
 
     private fun setupSearchAdapter() {

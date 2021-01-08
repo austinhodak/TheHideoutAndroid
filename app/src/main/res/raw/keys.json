@@ -1,0 +1,1661 @@
+[
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/34/Cabinet_key_Gas_Station_Icon.png?version=9f128b08290a14f913c563ef7a8b28ee",
+    "name": "Cabinet Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Cabinet_key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRDhLXgef0AMlU9"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/28/Car-key-Icon.png?version=8cf57ef15c19aa0302a2d79c5542af8c",
+    "name": "Car Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Car_key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "?",
+    "details": [
+      "useless"
+    ],
+    "_id": "-MQYNmRDhLXgef0AMlUA"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/7d/Cottage_Shoreline_key.png?version=86fd89757a49c663dd9a46a07bf04d0f",
+    "name": "Cottage Back Entrance Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Cottage_back_entrance_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRDhLXgef0AMlUB"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/06/Cottagesafe.png?version=1ff47e3739be8e84c0f1a3803a00c120",
+    "name": "Cottage Safe Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Cottage_safe_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRDhLXgef0AMlUC"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/f9/Customs-office-key-Icon.png?version=830e257b6fdba032982edd150b297a7a",
+    "name": "Customs Office Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Customs_office_key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVa1"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/77/Door_key_Icon.png?version=1aa267ef7e6547f4645b4151d6c7ff81",
+    "name": "Door Key (Alternative)",
+    "link": "https://escapefromtarkov.gamepedia.com/Door_key_(alternative)",
+    "map": "Factory",
+    "location": "Random",
+    "door": "Factory",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVa2"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/77/Door_key_Icon.png?version=1aa267ef7e6547f4645b4151d6c7ff81",
+    "name": "Door Key (Pumping Station)",
+    "link": "https://escapefromtarkov.gamepedia.com/Door_key",
+    "map": "Factory",
+    "location": "Factory",
+    "door": "Factory",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVa3"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/e/e4/GDesk-Key-Icon.png?version=4aa5e72d7ef8320b18ad50731d5bcc29",
+    "name": "Dorm Guard Desk Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_guard_desk_key",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVa4"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/7e/Dorm_103_icon.png?version=a75964d15f2308a34cf7da19abb45d0e",
+    "name": "Dorm Room 103 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_103_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVa5"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/8/8c/Key-104-Icon.png?version=f8fdea3d177afad129a31e2d1151d9b0",
+    "name": "Dorm Room 104 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_104_Key",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVa6"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/5/56/Key-105-Icon.png?version=117a9924b54827a4f34577bfe5c606b6",
+    "name": "Dorm Room 105 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_105_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVa7"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/d/d7/Key-108-Icon.png?version=bbb8c18b264191d3cf169b36559d727c",
+    "name": "Dorm Room 108 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_108_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVa8"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/01/Key-110-Icon.png?version=3e1e6d20f76ce61b23bd9279b73cb969",
+    "name": "Dorm Room 110 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_110_Key",
+    "map": "Customs",
+    "location": "Woods, Customs",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVa9"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/4/4b/Key-114-Icon.png?version=0f9275db950f98dcaa5e7197dc47f848",
+    "name": "Dorm Room 114 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_114_Key",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaA"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/b/b0/Dorm_118_icon.png?version=64cd501d4bc11220ea5a3ec34d1ec2ab",
+    "name": "Dorm Room 118 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_118_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVaB"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/cb/Key-203-Icon.png?version=2f4789ffdf1dc39ae981d640126af34f",
+    "name": "Dorm Room 203 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_203_Key",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaC"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/fe/Key-204-Icon.png?version=9e423b303c49cfbd0c41873a6aba281d",
+    "name": "Dorm Room 204 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_204_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVaD"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/5/5e/Key-206-Icon.png?version=f808a7a86f9c7b4d0fb608bf8c5d3cbf",
+    "name": "Dorm Room 206 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_206_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaE"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/36/Key-214-Icon.png?version=1fe54c78e51fc723eb51d9ad3299000b",
+    "name": "Dorm Room 214 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_214_Key",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaF"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/4/40/Key-218-Icon.png?version=13ab0a3a280b2df73418b52c221a1218",
+    "name": "Dorm Room 218 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_218_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVaG"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/9/9a/Key-220-Icon.png?version=25645a8202def7aa94b2ef55c653958b",
+    "name": "Dorm Room 220 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_220_Key",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaH"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/5/52/Key-303-Icon.png?version=cfe101125a2ca38da4906914cf4998c5",
+    "name": "Dorm Room 303 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_303_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaI"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/1/18/Key-306.png?version=8d09b65e61dd81f39636a1cd89b264e7",
+    "name": "Dorm Room 306 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_306_Key",
+    "map": "Customs",
+    "location": "Woods",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVaJ"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/fe/Key-308-Icon.png?version=852fd93ad987736cb2bc63354605c22f",
+    "name": "Dorm Room 308 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_308_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVaK"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/6/6e/Key-315-Icon.png?version=423e80b50cda6912ce35d4f92d263754",
+    "name": "Dorm Room 315 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Dorm_room_315_Key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVaL"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/8/89/San205East.png?version=eb601339891f1331ede3f2a0451c7351",
+    "name": "East Wing Room 205 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_205_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaM"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/77/San.206.png?version=aad9c255f4753a29d84043863a97d39c",
+    "name": "East Wing Room 206 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_206_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaN"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a6/San.209.png?version=9ac1d05badfe9c4164fc4fad79e29d02",
+    "name": "East Wing Room 209 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_209_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "None",
+    "details": [
+      "useless",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaO"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/fd/San213.png?version=7ae0a29083ca843056fa8d7ac1d3f7e5",
+    "name": "East Wing Room 213 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_213_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "None",
+    "details": [
+      "useless"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaP"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/1/1c/San216east.png?version=b369439d7ce5350daf325ca3efb224ec",
+    "name": "East Wing Room 216 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_216_key",
+    "map": "Shoreline",
+    "location": "Woods (?)",
+    "door": "None",
+    "details": [
+      "useless",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaQ"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/4/4a/San222East.png?version=50978b0f8fd334692f92dacd7a4ed5ce",
+    "name": "East Wing Room 222 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_222_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaR"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/7f/San226icon.png?version=78ef87cbfc1cc9530eb7de5ce2c38fc2",
+    "name": "East Wing Room 226 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_226_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaS"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/75/San306East.png?version=c04c88ac51d5645a752f747f1a32e6ff",
+    "name": "East Wing Room 306 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_306_key",
+    "map": "Shoreline",
+    "location": "Customs",
+    "door": "Shoreline",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaT"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/b/b9/308_East_Icon.png?version=456364df792b3ddefb0ff82394542f93",
+    "name": "East Wing Room 308 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_308_key",
+    "map": "Shoreline",
+    "location": "Woods",
+    "door": "Shoreline",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaU"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/29/San.310.png?version=443badb75d984a9f468467b49c778d49",
+    "name": "East Wing Room 310 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_310_key",
+    "map": "Shoreline",
+    "location": "Customs",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaV"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/c6/San313icon.png?version=17f171720e8d293b3e4d48c44c642560",
+    "name": "East Wing Room 313 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_313_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaW"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/b/b3/East_314_Resort-Icon.png?version=28b3e580b6e8b4839d2b5e842994ff78",
+    "name": "East Wing Room 314 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_314_key",
+    "map": "Shoreline",
+    "location": "Woods",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaX"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/e/ed/316_East_Icon.png?version=a6afa7f1a48798ea9e5fe76e48b46808",
+    "name": "East Wing Room 316 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_316_key",
+    "map": "Shoreline",
+    "location": "Woods",
+    "door": "Shoreline",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVaY"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/1/18/San322icon.png?version=13193f254eef9b168f74a24365bdf09f",
+    "name": "East Wing Room 322 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_322_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "None",
+    "details": [
+      "useless",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaZ"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/4/4f/328_East_Icon.png?version=65f3d8d4e6d49cb417b3159e177ffa1e",
+    "name": "East Wing Room 328 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/East_wing_room_328_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVa_"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/23/Factory_key_icon.png?version=d324d7793946f960dcebda9f5da7457d",
+    "name": "Factory Exit Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Factory_exit_key",
+    "map": "Factory",
+    "location": "Customs",
+    "door": "Factory",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaa"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/06/Cottagesafe.png?version=1ff47e3739be8e84c0f1a3803a00c120",
+    "name": "Gas Station Safe Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Gas_station_safe_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "None",
+    "details": [
+      "useless"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVab"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/06/Cottagesafe.png?version=1ff47e3739be8e84c0f1a3803a00c120",
+    "name": "Health Resort Management Office Safe Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Health_resort_management_office_safe_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVac"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/9/91/Safe_321_key.png?version=a0e6e818fafe7f6dc9f834fc83815e04",
+    "name": "Health Resort Room 321 Safe Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Health_resort_room_321_safe_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVad"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/b/b7/StoreroomKey.png?version=0b124c980bc7021995d7c97f906d7422",
+    "name": "Health Resort Utility Room Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Health_resort_utility_room_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVae"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/06/Cottagesafe.png?version=1ff47e3739be8e84c0f1a3803a00c120",
+    "name": "Health Resort Warehouse Safe Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Health_resort_warehouse_safe_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaf"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/c9/EMERCOM_Key_icone.png?version=fce1769d9bf4c6a78d17bd15e85d584a",
+    "name": "Key With Tape",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_with_tape",
+    "map": "Shoreline",
+    "location": "Sanitar, Jackets, Scavs",
+    "door": "Shoreline",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVag"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/c9/EMERCOM_Key_icone.png?version=fce1769d9bf4c6a78d17bd15e85d584a",
+    "name": "Key To EMERCOM Medical Unit",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_EMERCOM_medical_unit",
+    "map": "Interchange",
+    "location": "Customs",
+    "door": "Interchange",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVah"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3c/Goshan_key.png?version=723921e99dfa13befe16ac9c6fd8271e",
+    "name": "Key To Goshan Cash Register",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_Goshan_cash_register",
+    "map": "Interchange",
+    "location": "Customs",
+    "door": "Interchange",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVai"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a0/HEPSKeyIcon.png?version=d68f790884c5e02123ce9a3c10c821cd",
+    "name": "Key To HEP Station Storage",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_HEP_station_storage",
+    "map": "Shoreline",
+    "location": "Quest: Nostalgia, Random",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaj"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/d/de/IDEARegisterKey.png?version=b5d926736d78cd819a0b4d227a748dc7",
+    "name": "Key To IDEA Cash Register",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_IDEA_cash_register",
+    "map": "Interchange",
+    "location": "Interchange",
+    "door": "Interchange",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVak"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/5/5a/KibaKey2Icon.png?version=61e59e65d4f8c89b87458edf54b36e41",
+    "name": "Key To KIBA Outlet Grate Door",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_KIBA_Outlet_grate_door",
+    "map": "Interchange",
+    "location": "Quest: Gunsmith - Part 11",
+    "door": "Interchange",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVal"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/e/ec/KibaKeyIcon.png?version=547c776af23d7b2c1e949cf3aa636a1e",
+    "name": "Key To KIBA Store Outlet",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_KIBA_store_outlet",
+    "map": "Interchange",
+    "location": "Interchange",
+    "door": "Interchange",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVam"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a3/OLIAdminOffice.png?version=363ca422b5f0746821187da612cb6004",
+    "name": "Key To OLI Administrator Office",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_OLI_administrator_office",
+    "map": "Interchange",
+    "location": "Shoreline",
+    "door": "Interchange",
+    "details": [],
+    "_id": "-MQYNmRE1eX6qsByxVan"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/0c/OLI_cash_register.png?version=6897c430869dc517de05dcfc2c1b684e",
+    "name": "Key To OLI Cash Register",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_OLI_cash_register",
+    "map": "Interchange",
+    "location": "Interchange",
+    "door": "Interchange",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVao"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/f1/LogOfficeKey.png?version=4054ad743d67111cd7d690a6c2c8ca3b",
+    "name": "Key To OLI Logistics Department Office",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_OLI_logistics_department_office",
+    "map": "Interchange",
+    "location": "Customs",
+    "door": "Interchange",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVap"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/1/15/PharmacyKeyIcon.png?version=daf7bc9a5a3cc0a35bd0927719b3143a",
+    "name": "Key To Pharmacy",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_pharmacy",
+    "map": "Interchange",
+    "location": "Shoreline",
+    "door": "Interchange",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRE1eX6qsByxVaq"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/06/Cottagesafe.png?version=1ff47e3739be8e84c0f1a3803a00c120",
+    "name": "Key To The Store Safe",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_store_safe",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "Unknown as of 0.12",
+    "details": [],
+    "_id": "-MQYNmRFLvOipBorKdHI"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/9/9a/OLIUtiKey.png?version=8a8a5cde8ab7c6e6629806e9b8c5375f",
+    "name": "Key To Utility Room Of OLI Outlet",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_utility_room_of_OLI_outlet",
+    "map": "Interchange",
+    "location": "Random",
+    "door": "?",
+    "details": [],
+    "_id": "-MQYNmRFLvOipBorKdHJ"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/27/Power_utility_Key_icone.png?version=2ea6be65f0431cd6a4d10aebbfbe5958",
+    "name": "Key To Utility Room Of Power Substation",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_to_utility_room_of_power_substation",
+    "map": "Interchange",
+    "location": "Factory",
+    "door": "Interchange",
+    "details": [],
+    "_id": "-MQYNmRFLvOipBorKdHK"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/5/5c/ZB-014-key-Icon.png?version=4795327ff9bab1f38f60c176e0cd79be",
+    "name": "Key ZB-014",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_ZB-014",
+    "map": "Woods",
+    "location": "Customs",
+    "door": "Woods",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHL"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/8/85/DuctTapeKeycard_Icon.png",
+    "name": "Key card with a blue marking",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_card_with_a_blue_marking",
+    "map": "The Lab",
+    "location": "Shoreline",
+    "door": "The Lab",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHM"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a9/LkEA_Icon.png?version=f8faea2744095a533f7235b2bcec9536",
+    "name": "Lab. Black Keycard",
+    "link": "https://escapefromtarkov.gamepedia.com/Lab._Black_keycard",
+    "map": "The Lab",
+    "location": "The Lab",
+    "door": "The Lab",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHN"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/e/ee/Lab._key._The_quarantine_zone_icon.png?version=eb285a8c543419dbd6f8e8ef092d556b",
+    "name": "Lab. Blue Keycard",
+    "link": "https://escapefromtarkov.gamepedia.com/Lab._Blue_keycard",
+    "map": "The Lab",
+    "location": "Reserve (?)",
+    "door": "The Lab",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHO"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/4/4f/Lab_Key_Block2.png?version=46631fb9662342f5aefa43f801c0d644",
+    "name": "Lab. Green Keycard",
+    "link": "https://escapefromtarkov.gamepedia.com/Lab._Green_keycard",
+    "map": "The Lab",
+    "location": "The Lab",
+    "door": "The Lab",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHP"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/2a/Lab_key_Arsenal_storage_room_icon.png?version=0042148fd01449b6e92008f1627ae9fc",
+    "name": "Lab. Key. Arsenal Storage Room",
+    "link": "https://escapefromtarkov.gamepedia.com/Lab._key._Arsenal_storage_room",
+    "map": "The Lab",
+    "location": "Customs",
+    "door": "The Lab",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHQ"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/07/Lab._key._Manager_office_icon.png?version=49ad79ee8c3bf9b94830764e0f378df2",
+    "name": "Lab. Key. Manager Office",
+    "link": "https://escapefromtarkov.gamepedia.com/Lab._key._Manager_office",
+    "map": "The Lab",
+    "location": "The Lab",
+    "door": "The Lab",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHR"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/fc/Lab._key._Testing_area_%28weap.%29_Icon.png?version=28dbbd06f732b034de5960779894721e",
+    "name": "Lab. Key. Testing Area (Weap.)",
+    "link": "https://escapefromtarkov.gamepedia.com/Lab._key._Testing_area_(weap.)",
+    "map": "The Lab",
+    "location": "The Lab",
+    "door": "The Lab",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHS"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/f3/Lab._key._Security_arsenal.png?version=cf98b0fec2a1d7a61b76855f06e824fd",
+    "name": "Lab. Red Keycard",
+    "link": "https://escapefromtarkov.gamepedia.com/Lab._Red_keycard",
+    "map": "The Lab",
+    "location": "Shoreline",
+    "door": "The Lab",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHT"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a6/Lab._key._Security_post_icon.png?version=b96bc9fd2185b2f1b9b683952e5a27d9",
+    "name": "Lab. Violet Keycard",
+    "link": "https://escapefromtarkov.gamepedia.com/Lab._Violet_keycard",
+    "map": "The Lab",
+    "location": "Woods",
+    "door": "The Lab",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHU"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/e/eb/Lab._key._Alarm_system_control_panel_icon.png?version=44e5e05658d2ad790b57a13c76ef18dd",
+    "name": "Lab. Yellow Keycard",
+    "link": "https://escapefromtarkov.gamepedia.com/Lab._Yellow_keycard",
+    "map": "The Lab",
+    "location": "The Lab",
+    "door": "The Lab",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHV"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/d/d8/Machinery-key-Icon.png?version=3546a1a8f27e2cfd14cbc2826b98c845",
+    "name": "Machinery Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Machinery_key",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRFLvOipBorKdHW"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/b/b1/Marked-key-Icon.png?version=96841dfef2c291891c339d155c3b1bb9",
+    "name": "Marked Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Marked_key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHX"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/9/95/Checkpoint_Key_icon.png?version=e3e5c9069dd78114cff103b55ddb30c7",
+    "name": "Military Base Checkpoint Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Military_base_checkpoint_key",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHY"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/2c/11sr_icon.png?version=d5f9c7810f94d8843c710fed6418cf94",
+    "name": "Object 11SR Keycard",
+    "link": "https://escapefromtarkov.gamepedia.com/Object_11SR_keycard",
+    "map": "Interchange",
+    "location": "Interchange",
+    "door": "Interchange",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHZ"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/d/d3/21ws_icon.png?version=06b40da0850865ecf732c7bbd2f19162",
+    "name": "Object 21WS keycard",
+    "link": "https://escapefromtarkov.gamepedia.com/Object_21WS_keycard",
+    "map": "Interchange",
+    "location": "Random",
+    "door": "Interchange",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdH_"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/e/e3/San104.png?version=d13885213f138a4e4a10cc488d5df7c2",
+    "name": "Office 104 West Wing Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Office_104_West_wing_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHa"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/1/11/East_107_Resort-Icon.png?version=6b52d963ac154d121c906e398dd2f977",
+    "name": "Office 107 East Wing Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Office_107_East_wing_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHb"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/76/San108KeyIcon.png?version=711836ba58cdc3d49d03f9637fead12a",
+    "name": "Office 108 East Wing Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Office_108_East_wing_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "None",
+    "details": [
+      "useless"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHc"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a1/San112icon.png?version=81642f1e72ee87bdaaf5b1d963a0f187",
+    "name": "Office 112 West Wing Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Office_112_West_wing_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHd"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/c1/Portable-cabin-key-Icon.png?version=7ba7b617a1d89e190554d89cca206c03",
+    "name": "Portable Cabin Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Portable_cabin_key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRFLvOipBorKdHe"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/00/Cabinet-key-Icon.png?version=77a93c69431bc08d5a9f2fe66790ab32",
+    "name": "Portable Cabin Key Of Customs Factory",
+    "link": "https://escapefromtarkov.gamepedia.com/Portable_cabin_key_of_customs_Factory_zone",
+    "map": "Customs",
+    "location": "Factory",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHf"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/73/Rb-ak_item.png?version=5120e27fe0a91049461c2aa58e58aadf",
+    "name": "RB-AK Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-AK_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHg"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/7c/RB-AM_Key.png?version=9a7ff8afd8cfe386d00f5cf3eee30938",
+    "name": "RB-AM Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-AM_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHh"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/ac/RB-AO_key_icon.png",
+    "name": "RB-AO Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-AO_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHi"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/c9/RB-BK_Icon.png?version=804424c6d6d939b5d0ccba262c6ee1d7",
+    "name": "RB-BK key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-BK_key",
+    "map": "Reserve",
+    "location": "Woods, Blue Jackets, Scavs, Shturman's Stash",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHj"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/b/bc/RB-GN_key_icon.png?version=a0b3ab70c427a1a49e6a47449b03a24f",
+    "name": "RB-GN Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-GN_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHk"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/5/55/RB-KORL_key_icon.png?version=c2339727c8cd37d46669c847a9a9eae4",
+    "name": "RB-KORL Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-KORL_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHl"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/6/69/RB-KPRL_key_icon.png?version=26d7bc1d70a2afd5a0830964b1e6ed5c",
+    "name": "RB-KPRL Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-KPRL_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHm"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/28/RB-KSM_Icon.PNG?version=1e4f92eee511c9cd2df216eb1c7ecff8",
+    "name": "RB-KSM Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-KSM_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHn"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/4/49/RB-MP11.png?version=c8accb66fecc02bef584464e20ef7782",
+    "name": "RB-MP11 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-MP11_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHo"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/6/62/RB-MP12.png?version=ba7fd8d8ff553816ed942003784db238",
+    "name": "RB-MP12 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-MP12_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHp"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/thumb/b/b0/RB-MP13.png/64px-RB-MP13.png?version=dda5981e19d66fd099f4d22113598f43",
+    "name": "RB-MP13 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-MP13_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHq"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/27/RB-MP21.png?version=c390f1a095a3b90a6775d1cf9e457b12",
+    "name": "RB-MP21 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-MP21_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHr"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/1/1d/RB-MP22.png?version=b999bf7f1a30e796111e4fa354de4324",
+    "name": "RB-MP22 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-MP22_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHs"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/30/RB-OB_key_icon.png?version=fd3ad27198c49c96549689b0cce1ec46",
+    "name": "RB-OB Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-OB_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHt"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a9/RB-OP_key_icon.png?version=44318bbf181917160f406396a50b11ce",
+    "name": "RB-OP Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-OP_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHu"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/f2/RB-ORB1_key_icon.png?version=e3c7514a5ccb045bf04375db4072c726",
+    "name": "RB-ORB1 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-ORB1_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [],
+    "_id": "-MQYNmRFLvOipBorKdHv"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/9/97/RB-ORB2_key_icon.png?version=bb0f8afaa7dd8edf02ad810c90fad8c0",
+    "name": "RB-ORB2 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-ORB2_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHw"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/5/58/RB-ORB3_key_icon.png?version=5488d8f52ec3419f569e4161fe2a1add",
+    "name": "RB-ORB3 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-ORB3_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHx"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/31/RB-PKPM_key_icon.png",
+    "name": "RB-PKPM Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-PKPM_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdHy"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/6/6f/RB-PP_key_icon.png?version=88d472677a632f8682ba968a3d473227",
+    "name": "RB-PP Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-PP_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [],
+    "_id": "-MQYNmRFLvOipBorKdHz"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/9/92/RB-PS81.png?version=5ec8847211b36ce83dfe897d7bbba7dd",
+    "name": "RB-PS81 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-PS81_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdI-"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/9/93/RB-PS82_key_icon.png?version=58661d98a20b3d773ce0efac04b1cf79",
+    "name": "RB-PS82 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-PS82_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdI0"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/2a/RB-PSP1_key_icon.png?version=7e7038f3740be04e758659368e34c383",
+    "name": "RB-PSP1 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-PSP1_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdI1"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/8/8f/RB-PSP2_key_icon.png?version=bf17a8b9ad793f73d9c1db8882b3cfaf",
+    "name": "RB-PSP2 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Key_RB-PSP2",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdI2"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/78/RB-RH_key_icon.png",
+    "name": "RB-RH Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-RH_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdI3"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/b/ba/RB-RLSSA_key_icon.png",
+    "name": "RB-RLSSA Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-RLSSA_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [],
+    "_id": "-MQYNmRFLvOipBorKdI4"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/8/82/RB-RS_key_icon.png",
+    "name": "RB-RS Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-RS_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdI5"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a5/RB-SMP_key_icon.png",
+    "name": "RB-SMP Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-SMP_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdI6"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/1/15/RB-ST_key_icon.png",
+    "name": "RB-ST Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-ST_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRFLvOipBorKdI7"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/c0/RB-TB_key_icon.png",
+    "name": "RB-TB Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-TB_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABm"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/75/RB-VO_key_icon.png",
+    "name": "RB-VO Key",
+    "link": "https://escapefromtarkov.gamepedia.com/RB-VO_key",
+    "map": "Reserve",
+    "location": "?",
+    "door": "?",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABn"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3e/Shturman_Key_Icon.png?version=d0dd635010e8ba5cecf26d012b56f0ed",
+    "name": "Shturman Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Shturman_key",
+    "map": "Woods",
+    "location": "Woods",
+    "door": "Woods",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABo"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/2b/SMW_shoreline_key.png?version=f94e8b5664c8b881736e532f704bbaac",
+    "name": "SMW Car Key",
+    "link": "https://escapefromtarkov.gamepedia.com/SMW_car_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [],
+    "_id": "-MQYNmRGpi6CCT8ISABp"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/79/Terragroup_Labs_access_keycard_icon.png?version=eba5a69a56a4ed39cf12bea1e5ed280d",
+    "name": "TerraGroup Labs Access Keycard",
+    "link": "https://escapefromtarkov.gamepedia.com/TerraGroup_Labs_access_keycard",
+    "map": "The Lab",
+    "location": "Boss Drops, Scavs?",
+    "door": "Lab Access",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABq"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a7/PremisesOfSanatoriumKey.png?version=d8c20359a21a87f4abfa16e8477ed899",
+    "name": "The Key To The Closed Premises of The Sanitorium",
+    "link": "https://escapefromtarkov.gamepedia.com/The_key_to_the_closed_premises_of_the_sanatorium",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Quest Item",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABr"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/6/60/Storage-Key-Icon.png?version=12381b3d757e6be96ebcd9c91aaf84a7",
+    "name": "The Key To The Gas Station Storage Room",
+    "link": "https://escapefromtarkov.gamepedia.com/The_key_to_the_gas_station_storage_room",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [],
+    "_id": "-MQYNmRGpi6CCT8ISABs"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/c1/Portable-cabin-key-Icon.png?version=7ba7b617a1d89e190554d89cca206c03",
+    "name": "Trailer Park Cabin Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Trailer_park_cabin_key",
+    "map": "Customs",
+    "location": "Quest: Golden Swag, Random",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABt"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/c9/Medst_icon.png?version=4d2c0d8a4a108754eb3edea71b2ad852",
+    "name": "ULTRA Medical Storage Key",
+    "link": "https://escapefromtarkov.gamepedia.com/ULTRA_medical_storage_key",
+    "map": "Interchange",
+    "location": "Random",
+    "door": "Interchange",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABu"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/f9/Unknown-key-Icon.png?version=b63ca7c02de0dce306af2d83ff481d49",
+    "name": "Unknown Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Unknown_key",
+    "map": "Customs",
+    "location": "Customs",
+    "door": "Customs",
+    "details": [
+      "quest"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABv"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/a/a3/USECstashoncustomskeyicon.png?version=a530239f101225d300e6e3daad3028cb",
+    "name": "USEC Stash On Customs Key",
+    "link": "https://escapefromtarkov.gamepedia.com/USEC_stash_on_Customs_key",
+    "map": "Customs",
+    "location": "Random",
+    "door": "Customs",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABw"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/d/dd/Sixpack-Key-Icon.png?version=e4d69134857647fee26d380535462be7",
+    "name": "VAZ Key",
+    "link": "https://escapefromtarkov.gamepedia.com/VAZ_key",
+    "map": "None",
+    "location": "?",
+    "door": "None",
+    "details": [],
+    "_id": "-MQYNmRGpi6CCT8ISABx"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/b/bd/ShortNameSafe.png?version=091ff9e4bc8fb3c81b27994b3dce7c78",
+    "name": "Weapon Safe Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Weapon_safe_key",
+    "map": "None",
+    "location": "?",
+    "door": "None",
+    "details": [],
+    "_id": "-MQYNmRGpi6CCT8ISABy"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/0/06/Cottagesafe.png?version=1ff47e3739be8e84c0f1a3803a00c120",
+    "name": "Weather Station Safe Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Weather_station_safe_key",
+    "map": "None",
+    "location": "?",
+    "door": "None",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISABz"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/d/d2/San203icon.png?version=02efa8bdfeca2b1ad3ef654b2b65d074",
+    "name": "West Wing Room 203 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_203_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC-"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/23/San.205.png?version=5e34150ce8a8dd9db90b15392829d21c",
+    "name": "West Wing Room 205 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_205_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC0"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/ce/San207icon.png?version=66cdc3d26e79f2966836dbd48380bb49",
+    "name": "West Wing Room 207 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_207_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "None",
+    "details": [
+      "useless",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC1"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/1/17/West_216_Resort-Icon.png?version=14fd1da0ed7d988da71f43c909d572bb",
+    "name": "West Wing Room 216 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_216_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC2"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/2/2b/San.218.png?version=e9d441dc0601d24181fc544d2b07b9ac",
+    "name": "West Wing Room 218 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_218_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC3"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/d/d8/San.219.png?version=648c8c172c807ad024c155ca95727964",
+    "name": "West Wing Room 219 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_219_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC4"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/3/3b/West_220_Resort-Icon.png?version=e161fb1c8292ae5710a4e058ae65769c",
+    "name": "West Wing Room 220 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_220_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC5"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/c/c8/San.221.png?version=f045ba6f4bfcc2999114bd12dee38458",
+    "name": "West Wing Room 221 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_221_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC6"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/f6/East_222_Resort-Icon.png?version=959b13cdfa56af909303c6593081c1e0",
+    "name": "West Wing Room 222 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_222_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC7"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/8/87/West_301_Resort-Icon.png?version=c43cf1b42b93232a92d3d47389893381",
+    "name": "West Wing Room 301 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_301_key",
+    "map": "Shoreline",
+    "location": "Shoreline",
+    "door": "Shoreline",
+    "details": [
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC8"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/9/97/San303Key.png?version=0971e923af7bb6b4cbcdf6f0e04b5090",
+    "name": "West Wing Room 303 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_303_key",
+    "map": "Shoreline",
+    "location": "?",
+    "door": "None",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISAC9"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/7/71/WestWing306KeyIcon.png?version=7695b5c11a1ac31c04552f114d3a3987",
+    "name": "West Wing Room 306 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_306_key",
+    "map": "Shoreline",
+    "location": "Factory",
+    "door": "Shoreline",
+    "details": [
+      "quest",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISACA"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/5/59/San309icon.png?version=31d2f8b5f8aa1470ad84f5beb253d586",
+    "name": "West Wing Room 309 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_309_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "None",
+    "details": [
+      "useless",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISACB"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/d/d4/San323icon.png?version=77e27a4804d792206fd736270770762b",
+    "name": "West Wing Room 323 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_323_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "None",
+    "details": [
+      "useless",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISACC"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/d/d1/San325.png?version=e62d78d7d4e98cfdc91d830fdfff50fa",
+    "name": "West Wing Room 325 Key",
+    "link": "https://escapefromtarkov.gamepedia.com/West_wing_room_325_key",
+    "map": "Shoreline",
+    "location": "Random",
+    "door": "None",
+    "details": [
+      "useless",
+      "expensive"
+    ],
+    "_id": "-MQYNmRGpi6CCT8ISACD"
+  },
+  {
+    "icon": "https://gamepedia.cursecdn.com/escapefromtarkov_gamepedia/f/f4/Yotota-car-key-Icon.png?version=c1821a08a1b807d4e248c36ca27b9ffa",
+    "name": "Yoyota Car Key",
+    "link": "https://escapefromtarkov.gamepedia.com/Yotota_car_key",
+    "map": "Woods",
+    "location": "Random",
+    "door": "Woods",
+    "details": [],
+    "_id": "-MQYNmRGpi6CCT8ISACE"
+  }
+]
