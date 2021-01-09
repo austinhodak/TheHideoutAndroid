@@ -43,6 +43,8 @@ import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
 
+    private var searchItem: MenuItem? = null
+    private var hideSearch = false
     private lateinit var weaponViewModel: WeaponViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
@@ -115,18 +117,18 @@ class MainActivity : AppCompatActivity() {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Backpacks & Rigs"); iconRes = R.drawable.icons8_rucksack_96;
                 }),
-                PrimaryDrawerItem().apply {
+                /*PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Containers"); iconRes = R.drawable.icons8_storage_box_96;
-                },
+                },*/
                 NavigationDrawerItem(R.id.keysListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Keys & Intel"); iconRes = R.drawable.icons8_key_100;
+                    StringHolder("Keys"); iconRes = R.drawable.icons8_key_100;
                 }),
-                PrimaryDrawerItem().apply {
+                NavigationDrawerItem(R.id.medicalTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Medical"); iconRes = R.drawable.icons8_syringe_100;
-                },
+                }),
                 NavigationDrawerItem(
                     R.id.WeaponFragment,
                     PrimaryDrawerItem().apply {
@@ -172,7 +174,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment), binding.root)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment, R.id.medicalTabFragment), binding.root)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
@@ -191,10 +193,16 @@ class MainActivity : AppCompatActivity() {
             R.id.WeaponFragment,
             R.id.armorTabFragment,
             R.id.backpackRigTabFragment -> {
-                    binding.toolbar.elevation = 0f
+                binding.toolbar.elevation = 0f
             }
             R.id.keysListFragment -> {
                 binding.toolbar.elevation = 15f
+            }
+            R.id.medicalTabFragment -> {
+                binding.toolbar.elevation = 0f
+            }
+            else -> {
+                binding.toolbar.elevation = 0f
             }
         }
     }
@@ -229,6 +237,13 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         })
+
+        hideSearch = when (currentDestination.id) {
+            R.id.medicalTabFragment -> true
+            else -> false
+        }
+
+        invalidateOptionsMenu()
     }
 
     private fun setupSearchAdapter() {
@@ -277,8 +292,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
-        val searchItem = menu.findItem(R.id.main_search)
+        searchItem = menu.findItem(R.id.main_search)
         binding.searchView.setMenuItem(searchItem)
+        searchItem?.isVisible = !hideSearch
         return true
     }
 

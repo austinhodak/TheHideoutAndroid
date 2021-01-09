@@ -55,6 +55,11 @@
         <item>Chest Rigs</item>
     </string-array>
 
+    <string-array name="medical_tabs">
+        <item>Medical</item>
+        <item>Stims</item>
+    </string-array>
+
     <string-array name="keys_filter_list">
         <item>Customs</item>
         <item>Factory</item>

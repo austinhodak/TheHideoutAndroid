@@ -21,7 +21,9 @@ data class AmmoModel (
     var armor: String,
     var image: String,
     var tradeups: List<AmmoTradeup>,
-    var caliber: String
+    var caliber: String,
+    val armor_damage: Int,
+    val bullets: Int = 1
 ) {
     fun getAccuracy(): String {
         return "$accuracy%"
