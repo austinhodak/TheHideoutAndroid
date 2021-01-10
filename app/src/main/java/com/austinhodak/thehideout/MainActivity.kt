@@ -143,13 +143,13 @@ class MainActivity : AppCompatActivity() {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Hideout"); iconRes = R.drawable.hideout_shadow_1;
                 },
+                NavigationDrawerItem(R.id.questMainFragment, PrimaryDrawerItem().apply {
+                    typeface = benderFont; isIconTinted = true; name =
+                    StringHolder("Quests"); iconRes = R.drawable.ic_baseline_assignment_24;
+                }),
                 PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Traders"); iconRes = R.drawable.ic_baseline_groups_24;
-                },
-                PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Quests"); iconRes = R.drawable.ic_baseline_assignment_24;
                 },
                 DividerDrawerItem(),
                 PrimaryDrawerItem().apply {

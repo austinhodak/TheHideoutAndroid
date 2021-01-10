@@ -36,4 +36,8 @@
         <item name="searchSuggestionIcon">@null</item>
         <item name="searchCloseIcon">@drawable/ic_action_navigation_close_inverted</item>
     </style>
+
+
+
+
 </resources>

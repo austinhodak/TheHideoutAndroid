@@ -9,9 +9,19 @@
         <item name="android:fontFamily">@font/bender_bold</item>
     </style>
 
+    <style name="BottomNavSelected" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/bender_light</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@drawable/bottom_nav_selector</item>
+        <item name="itemTextAppearanceActive">@style/BottomNavSelected</item>
     </style>
 
 </resources>

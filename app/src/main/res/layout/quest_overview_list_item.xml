@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/questOverviewItemIcon"
+                android:layout_width="0dp"
+                android:layout_height="72dp"
+                android:background="@color/md_green_500"
+                android:padding="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_done_all_24"
+                app:tint="#FFF" />
+
+            <TextView
+                android:id="@+id/questOverviewItemTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/bender_bold"
+                android:text="Scav Eliminations"
+                android:textColor="#FFF"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/questOverviewItemSubtitle"
+                app:layout_constraintEnd_toStartOf="@+id/questOverviewItemCount"
+                app:layout_constraintStart_toEndOf="@+id/questOverviewItemIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/questOverviewItemCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/bender_bold"
+                android:text="362/362"
+                android:textColor="#FFF"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/questOverviewItemSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/bender"
+                android:text="Includes special kill requirements."
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/questOverviewItemCount"
+                app:layout_constraintStart_toEndOf="@+id/questOverviewItemIcon"
+                app:layout_constraintTop_toBottomOf="@+id/questOverviewItemTitle" />
+
+            <View
+                android:id="@+id/view7"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/material_drawer_shadow_right"
+                app:layout_constraintStart_toEndOf="@+id/questOverviewItemIcon"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <ProgressBar
+                android:id="@+id/questOverviewItemPG"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:max="196"
+                android:progress="100"
+                android:progressTint="@color/md_grey_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/questOverviewItemIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
