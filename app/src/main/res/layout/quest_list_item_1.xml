@@ -38,11 +38,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/bender_bold"
                 android:text="Debut"
                 android:textColor="#FFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/questItemSubtitle"
+                app:layout_constraintEnd_toStartOf="@+id/questItemTertiary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
@@ -52,10 +54,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/bender"
                 android:text="Customs"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout8"
+                app:layout_constraintEnd_toStartOf="@+id/questItemTertiary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/questItemTitle" />
 

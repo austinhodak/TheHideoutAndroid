@@ -24,4 +24,9 @@
         <item name="itemTextAppearanceActive">@style/BottomNavSelected</item>
     </style>
 
+    <style name="ChipStyle" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="colorOnSurface">@color/md_orange_500</item>
+        <item name="chipBackgroundColor">@color/chip_orange</item>
+    </style>
+
 </resources>

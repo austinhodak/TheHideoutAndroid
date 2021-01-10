@@ -60,7 +60,6 @@ data class AmmoModel (
 
     fun getColor(armorClass: Int): Int {
         if (armor == "------") { return android.R.color.transparent }
-        Log.d("TEST", armor[armorClass - 1] + "")
         return when (armor[armorClass - 1].toString()) {
             "0" -> R.color.md_red_A200
             "1" -> R.color.md_deep_orange_A200

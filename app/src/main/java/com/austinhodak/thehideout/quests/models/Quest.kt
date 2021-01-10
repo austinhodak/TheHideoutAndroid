@@ -1,7 +1,9 @@
 package com.austinhodak.thehideout.quests.models
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.firebase.UserFB
 
 data class Quest(
     var id: Int,
@@ -32,6 +34,18 @@ data class Quest(
         var location: String,
         var id: Int
     ) {
+
+        fun isCompleted(objectives: UserFB.UserFBQuestObjectives?): Boolean {
+            if (objectives == null) return false
+            Log.d("QUESTS", objectives.toString())
+            val pg = objectives.progress
+            return if (pg?.containsKey("\"$id\"") == true) {
+                return pg["\"$id\""] == number
+            } else {
+                false
+            }
+        }
+
         override fun toString(): String {
             return when (type) {
                 "kill" -> "Eliminate $number $target on $location"
@@ -69,6 +83,18 @@ data class Quest(
         private fun getNumber(): String {
             return if (number <= 1) "" else number.toString()
         }
+    }
+
+    fun getLocation(): String {
+        val string: ArrayList<String> = ArrayList()
+
+        for (objective in objectives) {
+            if (!string.contains(objective.location)) {
+                string.add(objective.location)
+            }
+        }
+
+        return string.joinToString(", ")
     }
 }
 

@@ -43,7 +43,6 @@ class AmmoListFragment : Fragment() {
         adapter = RecyclerAdapter(ammoList!!, requireContext())
 
         sharedViewModel.sortBy.observe(requireActivity(), { sort ->
-            Log.d("SORT", "SORT ${sort}" )
             when (sort) {
                 0 -> adapter?.updateData(ammoList?.sortedBy { it.name })
                 1 -> adapter?.updateData(ammoList?.sortedBy { it.damage }?.reversed())

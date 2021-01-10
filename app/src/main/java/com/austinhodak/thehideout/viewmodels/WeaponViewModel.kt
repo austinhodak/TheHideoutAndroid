@@ -30,7 +30,7 @@ class WeaponViewModel(application: Application) : AndroidViewModel(application) 
         loadWeapons()
     }
 
-    fun loadWeapons(): List<WeaponModel> {
+    private fun loadWeapons(): List<WeaponModel> {
         if (objectString == null) {
             objectString = context.resources.openRawResource(R.raw.weapons).bufferedReader().use { it.readText() }
         }

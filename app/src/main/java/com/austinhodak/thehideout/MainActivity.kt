@@ -27,7 +27,11 @@ import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.AmmoModel
 import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
+import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.miguelcatalan.materialsearchview.MaterialSearchView
@@ -69,7 +73,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Firebase.auth.signInAnonymously()
+        Firebase.auth.signInAnonymously().addOnSuccessListener {
+            Log.d("FIREBASE_USER", "UID: ${it.user?.uid}")
+        }
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -174,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment, R.id.medicalTabFragment), binding.root)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment, R.id.medicalTabFragment, R.id.questMainFragment), binding.root)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
@@ -184,6 +190,9 @@ class MainActivity : AppCompatActivity() {
         findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { controller, destination, arguments ->
             setupSearch(destination)
             setToolbarElevation(destination)
+            supportActionBar?.title = ""
+            binding.toolbarTitle.text = destination.label
+            setQuestChipVisibility(false)
         }
     }
 
@@ -208,7 +217,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSearch(currentDestination: NavDestination) {
-        Log.d("SEARCH", "CURRENT DESTINATION ${currentDestination.label}")
         val list = when (currentDestination.id) {
             R.id.FirstFragment -> {
                 AmmoHelper.getAllAmmoList(this)
@@ -240,6 +248,7 @@ class MainActivity : AppCompatActivity() {
 
         hideSearch = when (currentDestination.id) {
             R.id.medicalTabFragment -> true
+            R.id.questMainFragment -> true
             else -> false
         }
 
@@ -303,7 +312,6 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -313,14 +321,14 @@ class MainActivity : AppCompatActivity() {
         var outState = _outState
         //add the values which need to be saved from the drawer to the bundle
         outState = binding.slider.saveInstanceState(outState)
-        outState.putString("title", binding.toolbar.title.toString())
+        outState.putString("title", binding.toolbarTitle.text.toString())
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         savedInstanceState.getString("title").let {
-            supportActionBar?.title = it
+            binding.toolbarTitle.text = it
         }
     }
 
@@ -339,5 +347,13 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         actionBarDrawerToggle.syncState()
         setupSearch(findNavController(R.id.nav_host_fragment).currentDestination!!)
+    }
+
+    fun setQuestChipVisibility(visible: Boolean) {
+        binding.questSelectorScrollbar.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    fun getQuestChips(): ChipGroup {
+        return binding.chipGroup2
     }
 }

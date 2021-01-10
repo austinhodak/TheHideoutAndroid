@@ -6,15 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.quests.models.Traders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class QuestMainFragment : Fragment() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         QuestsHelper.getQuests(requireContext())
-
     }
 
     override fun onCreateView(
@@ -35,10 +38,17 @@ class QuestMainFragment : Fragment() {
             val fragment = when (it.itemId) {
                 R.id.questOverview -> QuestsOverviewFragment.newInstance()
                 R.id.questTraders -> QuestsTradersTabFragment()
+                R.id.questMaps -> QuestsTradersListFragment.newInstance(Traders.PRAPOR)
                 else -> QuestsOverviewFragment.newInstance()
             }
 
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.questsFragment, fragment).commit()
+            (requireActivity() as MainActivity).setQuestChipVisibility(when (it.itemId) {
+                R.id.questTraders -> true
+                R.id.questMaps -> true
+                else -> false
+            })
+
+            childFragmentManager.beginTransaction().replace(R.id.questsFragment, fragment).commit()
             true
         }
         bottomNav.selectedItemId = R.id.questOverview

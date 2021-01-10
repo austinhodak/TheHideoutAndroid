@@ -8,6 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import com.austinhodak.thehideout.firebase.UserFB
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
@@ -41,3 +45,10 @@ fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     intent.putExtras(Bundle().apply(extras))
     startActivity(intent)
 }
+
+/*
+fun Firebase.getUser(): UserFB {
+    val userID = Firebase.auth.currentUser?.uid
+    Firebase.database.getReference("user/$userID")
+}
+*/
