@@ -39,5 +39,9 @@
         android:name="com.austinhodak.thehideout.quests.QuestMainFragment"
         android:label="Quests"
         tools:layout="@layout/fragment_quest_main" />
+    <fragment
+        android:id="@+id/fleaMarketListFragment"
+        android:name="com.austinhodak.thehideout.flea_market.FleaMarketListFragment"
+        android:label="Flea Market" />
 
 </navigation>

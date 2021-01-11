@@ -22,6 +22,7 @@ import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
+import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.AmmoModel
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var headerView: AccountHeaderView
     private lateinit var mSearchAdapter: SlimAdapter
     private lateinit var keysViewModel: KeysViewModel
+    private lateinit var fleaViewModel: FleaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         }
         weaponViewModel = ViewModelProvider(this).get(WeaponViewModel::class.java)
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
+        fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
 
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
@@ -145,6 +148,10 @@ class MainActivity : AppCompatActivity() {
                     null
                 ),
                 DividerDrawerItem(),
+                NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
+                    typeface = benderFont; isIconTinted = true; name =
+                    StringHolder("Flea Market"); iconRes = R.drawable.ic_baseline_shopping_cart_24;
+                }),
                 PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Hideout"); iconRes = R.drawable.hideout_shadow_1;
@@ -180,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment, R.id.medicalTabFragment, R.id.questMainFragment), binding.root)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.fleaMarketListFragment, R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment, R.id.medicalTabFragment, R.id.questMainFragment), binding.root)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
@@ -197,22 +204,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setToolbarElevation(destination: NavDestination) {
-        when (destination.id) {
+        binding.toolbar.elevation = when (destination.id) {
             R.id.FirstFragment,
             R.id.WeaponFragment,
             R.id.armorTabFragment,
-            R.id.backpackRigTabFragment -> {
-                binding.toolbar.elevation = 0f
-            }
-            R.id.keysListFragment -> {
-                binding.toolbar.elevation = 15f
-            }
-            R.id.medicalTabFragment -> {
-                binding.toolbar.elevation = 0f
-            }
-            else -> {
-                binding.toolbar.elevation = 0f
-            }
+            R.id.medicalTabFragment,
+            R.id.backpackRigTabFragment -> 0f
+
+            R.id.keysListFragment,
+            R.id.fleaMarketListFragment -> 15f
+            else -> 0f
         }
     }
 
@@ -242,6 +243,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 keysViewModel.searchKey.value = newText
+                fleaViewModel.searchKey.value = newText
                 return true
             }
         })

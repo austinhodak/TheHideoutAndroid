@@ -111,4 +111,6 @@ dependencies {
     // Add the annotation processor if you are using Epoxy's annotations (recommended)
     annotationProcessor "com.airbnb.android:epoxy-processor:${versions.epoxy}"
     implementation "com.airbnb.android:epoxy-databinding:${versions.epoxy}"
+
+    implementation 'com.github.kittinunf.fuel:fuel:2.2.3'
 }
