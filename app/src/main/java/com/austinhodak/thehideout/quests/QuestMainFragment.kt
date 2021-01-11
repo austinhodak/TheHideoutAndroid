@@ -38,7 +38,8 @@ class QuestMainFragment : Fragment() {
             val fragment = when (it.itemId) {
                 R.id.questOverview -> QuestsOverviewFragment.newInstance()
                 R.id.questTraders -> QuestsTradersTabFragment()
-                R.id.questMaps -> QuestsTradersListFragment.newInstance(Traders.PRAPOR)
+                R.id.questMaps -> QuestsMapTabFragment()
+                R.id.questItems -> QuestsItemListFragment()
                 else -> QuestsOverviewFragment.newInstance()
             }
 

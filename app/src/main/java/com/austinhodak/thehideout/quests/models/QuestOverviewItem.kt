@@ -10,5 +10,10 @@ data class QuestOverviewItem(
     var subtitle: String,
     var progress: Int = 0,
     var maxProgress: Int = 100,
-    val count: String = "$progress/$maxProgress",
-)
+    var count: String = "$progress/$maxProgress",
+) {
+    fun updateCount(newProgress: Int) {
+        count = "$newProgress/$maxProgress"
+        progress = newProgress
+    }
+}

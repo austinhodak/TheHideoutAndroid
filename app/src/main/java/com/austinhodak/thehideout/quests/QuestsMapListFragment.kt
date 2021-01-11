@@ -10,20 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
+import com.austinhodak.thehideout.quests.models.Maps
 import com.austinhodak.thehideout.quests.models.Quest
 import com.austinhodak.thehideout.quests.models.Traders
 import com.austinhodak.thehideout.viewmodels.QuestsViewModel
 import com.austinhodak.thehideout.views.QuestObjective
-import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.items.AbstractItem
 import net.idik.lib.slimadapter.SlimAdapter
 
 private const val ARG_PARAM1 = "param1"
 
-class QuestsTradersListFragment : Fragment() {
+class QuestsMapListFragment : Fragment() {
 
     private lateinit var adapter: SlimAdapter
-    private lateinit var selectedTrader: Traders
+    private lateinit var selectedMap: Maps
     private var questList: UserFB.UserFBQuests = UserFB.UserFBQuests()
     private val viewModel: QuestsViewModel by activityViewModels()
     private var objectivesList: UserFB.UserFBQuestObjectives = UserFB.UserFBQuestObjectives()
@@ -32,7 +31,7 @@ class QuestsTradersListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            selectedTrader = it.getSerializable(ARG_PARAM1) as Traders
+            selectedMap = it.getSerializable(ARG_PARAM1) as Maps
         }
     }
 
@@ -132,13 +131,13 @@ class QuestsTradersListFragment : Fragment() {
                 showAllQuests()
             }
             R.id.chip_locked -> {
-                adapter.updateData(QuestsHelper.getLockedQuests(selectedTrader, questList))
+                adapter.updateData(QuestsHelper.getLockedQuests(map = selectedMap, quests = questList))
             }
             R.id.chip_active -> {
-                adapter.updateData(QuestsHelper.getActiveQuests(selectedTrader, questList))
+                adapter.updateData(QuestsHelper.getActiveQuests(map = selectedMap, quests = questList))
             }
             R.id.chip_completed -> {
-                adapter.updateData(QuestsHelper.getCompletedQuests(selectedTrader, questList))
+                adapter.updateData(QuestsHelper.getCompletedQuests(map = selectedMap, quests = questList))
             }
             else -> adapter.updateData(QuestsHelper.getQuests(activity).filter { it.giver == "Fence"})
         }
@@ -151,39 +150,16 @@ class QuestsTradersListFragment : Fragment() {
     }
 
     private fun showAllQuests() {
-        adapter.updateData(QuestsHelper.getQuests(activity).filter { it.giver == selectedTrader.id })
+        adapter.updateData(QuestsHelper.getQuests(activity).filter { it.getLocation().contains(selectedMap.id, true) })
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: Traders) =
-            QuestsTradersListFragment().apply {
+        fun newInstance(param1: Maps) =
+            QuestsMapListFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_PARAM1, param1)
                 }
             }
-    }
-
-    open class QuestItem : AbstractItem<QuestItem.ViewHolder>() {
-        override val type: Int
-            get() = R.id.fast_adapter_id
-
-        override val layoutRes: Int
-            get() = R.layout.quest_list_item_1
-
-        override fun getViewHolder(v: View): QuestItem.ViewHolder {
-            return ViewHolder(v)
-        }
-
-        class ViewHolder(view: View) : FastAdapter.ViewHolder<QuestItem>(view) {
-            override fun bindView(item: QuestItem, payloads: List<Any>) {
-
-            }
-
-            override fun unbindView(item: QuestItem) {
-
-            }
-
-        }
     }
 }

@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.austinhodak.thehideout.firebase.UserFB
+import com.austinhodak.thehideout.quests.models.Quest
+import com.austinhodak.thehideout.userRef
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -69,5 +71,33 @@ class QuestsViewModel : ViewModel() {
         })
     }
 
+    fun markObjectiveComplete(objectiveID: Int, value: Int) {
+        Firebase.userRef("questObjectives/progress/\"$objectiveID\"").setValue(value)
+    }
+
+    fun unMarkObjectiveComplete(objectiveID: Int) {
+        Firebase.userRef("questObjectives/progress/\"$objectiveID\"").removeValue()
+    }
+
+    fun markQuestCompleted(quest: Quest) {
+        //Mark quest objectives completed
+        for (obj in quest.objectives) {
+            markObjectiveComplete(obj.id, obj.number)
+        }
+
+        Firebase.userRef("quests/completed/\"${quest.id}\"").setValue(true)
+    }
+
+    fun jumpToQuest(quest: Quest) {
+
+    }
+
+    fun undoQuest(quest: Quest) {
+        for (obj in quest.objectives) {
+            unMarkObjectiveComplete(obj.id)
+        }
+
+        Firebase.userRef("quests/completed/\"${quest.id}\"").removeValue()
+    }
 
 }

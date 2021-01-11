@@ -8,16 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.quests.models.QuestOverviewItem
+import com.austinhodak.thehideout.viewmodels.QuestsViewModel
 import net.idik.lib.slimadapter.SlimAdapter
 
 class QuestsOverviewFragment : Fragment() {
 
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mAdapter: SlimAdapter
+    private val sharedViewModel: QuestsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,7 @@ class QuestsOverviewFragment : Fragment() {
 
         val helper = QuestsHelper
 
-        val data = mutableListOf<Any>(
+        val data = mutableListOf(
             QuestOverviewItem(
                 R.drawable.ic_baseline_assignment_turned_in_24,
                 R.color.md_green_500,
@@ -101,6 +104,29 @@ class QuestsOverviewFragment : Fragment() {
                 helper.totalPickup()
             )
         )
+
+        sharedViewModel.quests.observe(requireActivity()) {
+            if (it == null) return@observe
+
+            data[0].updateCount(QuestsHelper.getAllCompletedQuests(it).size)
+
+            if (this::mAdapter.isInitialized)
+                mAdapter.updateData(data)
+        }
+
+        sharedViewModel.objectives.observe(requireActivity()) {
+            if (it == null) return@observe
+            data[1].updateCount(QuestsHelper.getTotalPMCEliminations(it))
+            data[2].updateCount(QuestsHelper.getTotalScavEliminations(it))
+            data[3].updateCount(QuestsHelper.getTotalQuestItemsCompleted(it))
+            data[4].updateCount(QuestsHelper.getTotalFIRItemsCompleted(it))
+            data[5].updateCount(QuestsHelper.getTotalHandoverItemCompleted(it))
+            data[6].updateCount(QuestsHelper.getTotalPlacedCompleted(it))
+            data[7].updateCount(QuestsHelper.getTotalPickupCompleted(it))
+
+            if (this::mAdapter.isInitialized)
+                mAdapter.updateData(data)
+        }
 
         mAdapter = SlimAdapter.create().attachTo(mRecyclerView).register<QuestOverviewItem>(R.layout.quest_overview_list_item) { item, i ->
             i.text(R.id.questOverviewItemTitle, item.title)

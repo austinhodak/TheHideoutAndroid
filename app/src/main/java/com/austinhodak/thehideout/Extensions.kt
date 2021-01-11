@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import com.austinhodak.thehideout.firebase.UserFB
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -44,6 +45,10 @@ fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     val intent = Intent(this, it)
     intent.putExtras(Bundle().apply(extras))
     startActivity(intent)
+}
+
+fun Firebase.userRef(ref: String? = null): DatabaseReference {
+    return Firebase.database.getReference("users/${Firebase.auth.uid}/$ref/")
 }
 
 /*

@@ -4,6 +4,9 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
+import com.austinhodak.thehideout.quests.QuestsHelper
+import com.austinhodak.thehideout.userRef
+import com.google.firebase.ktx.Firebase
 
 data class Quest(
     var id: Int,
@@ -32,12 +35,12 @@ data class Quest(
         var target: String,
         var number: Int,
         var location: String,
-        var id: Int
+        var id: Int,
+        var with: List<String>
     ) {
 
         fun isCompleted(objectives: UserFB.UserFBQuestObjectives?): Boolean {
             if (objectives == null) return false
-            Log.d("QUESTS", objectives.toString())
             val pg = objectives.progress
             return if (pg?.containsKey("\"$id\"") == true) {
                 return pg["\"$id\""] == number
@@ -46,11 +49,21 @@ data class Quest(
             }
         }
 
+        fun getCount(objectives: UserFB.UserFBQuestObjectives?): Int {
+            if (objectives == null) return 0
+            val pg = objectives.progress
+            return if (pg?.containsKey("\"$id\"") == true) {
+                return pg["\"$id\""] ?: 0
+            } else {
+                0
+            }
+        }
+
         override fun toString(): String {
             return when (type) {
                 "kill" -> "Eliminate $number $target on $location"
-                "collect" -> "Hand over ${getNumber()} $target"
-                "pickup" -> "Pick-up ${getNumber()} $target"
+                "collect" -> "Hand over ${getNumber()}$target"
+                "pickup" -> "Pick-up ${getNumber()}$target"
                 "key" -> "$target needed on $location"
                 "place" -> "Place $target on $location"
                 "mark" -> "Place MS2000 marker at $target on $location"
@@ -81,7 +94,23 @@ data class Quest(
         }
 
         private fun getNumber(): String {
-            return if (number <= 1) "" else number.toString()
+            return if (number <= 1) "" else "$number "
+        }
+
+        fun increment(objectivesList: UserFB.UserFBQuestObjectives) {
+            if (getCount(objectivesList) < number) {
+                Firebase.userRef("/questObjectives/progress/\"$id\"").setValue(getCount(objectivesList) + 1)
+            }
+        }
+
+        fun decrement(objectivesList: UserFB.UserFBQuestObjectives) {
+            if (getCount(objectivesList) in 1..number) {
+                if (getCount(objectivesList) - 1 == 0) {
+                    Firebase.userRef("/questObjectives/progress/\"$id\"").removeValue()
+                } else {
+                    Firebase.userRef("/questObjectives/progress/\"$id\"").setValue(getCount(objectivesList) - 1)
+                }
+            }
         }
     }
 
@@ -96,6 +125,21 @@ data class Quest(
 
         return string.joinToString(", ")
     }
+
+    fun isCompleted(quests: UserFB.UserFBQuests): Boolean {
+        Log.d("QUESTS_COMPLETED", quests.toString())
+        if (quests.completed == null) return false
+        for (q in quests.completed!!) {
+            if ("\"$id\"" == q.key) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isLocked(quests: UserFB.UserFBQuests): Boolean {
+        return QuestsHelper.getLockedQuests(quests).contains(this)
+    }
 }
 
 enum class Traders (var id: String) {
@@ -107,4 +151,15 @@ enum class Traders (var id: String) {
     RAGMAN      ("Ragman"),
     JAEGER      ("Jaeger"),
     FENCE       ("Fence"),
+}
+
+enum class Maps (var id: String) {
+    ANY         ("Any"),
+    FACTORY     ("Factory"),
+    CUSTOMS     ("Customs"),
+    WOODS       ("Woods"),
+    SHORELINE   ("Shoreline"),
+    INTERCHANGE ("Interchange"),
+    RESERVE     ("Reserve"),
+    LABS        ("Labs")
 }

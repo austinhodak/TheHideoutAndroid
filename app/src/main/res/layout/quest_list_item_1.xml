@@ -25,7 +25,7 @@
                 android:id="@+id/questItemTertiary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/bender"
                 android:text="Level: 1"
@@ -88,7 +88,6 @@
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"
                     android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -96,6 +95,70 @@
                     tools:listitem="@layout/quest_task_item_1">
 
                 </androidx.recyclerview.widget.RecyclerView>
+
+                <Button
+                    android:id="@+id/questCompleteButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:fontFamily="@font/bender"
+                    android:text="Complete"
+                    android:textColor="@color/md_red_400"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/questTaskListRV"
+                    app:strokeColor="@color/md_red_400"
+                    tools:layout_editor_absoluteX="8dp" />
+
+                <Button
+                    android:id="@+id/questJumpButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:fontFamily="@font/bender"
+                    android:text="Jump TO"
+                    android:textColor="@color/primaryText60"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/questTaskListRV"
+                    app:strokeColor="@color/primaryText60"
+                    tools:layout_editor_absoluteX="123dp" />
+
+                <Button
+                    android:id="@+id/questUndoButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:fontFamily="@font/bender"
+                    android:text="UNDO"
+                    android:textColor="@color/primaryText60"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/questTaskListRV"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:strokeColor="@color/primaryText60"
+                    tools:layout_editor_absoluteX="228dp" />
+
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:id="@+id/flow3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal"
+                    app:constraint_referenced_ids="questCompleteButton,questJumpButton,questUndoButton"
+                    app:flow_horizontalBias="0.0"
+                    app:flow_horizontalGap="8dp"
+                    app:flow_horizontalStyle="packed"
+                    app:flow_wrapMode="chain"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/questTaskListRV" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
