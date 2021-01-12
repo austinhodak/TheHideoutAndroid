@@ -2,39 +2,45 @@ package com.austinhodak.thehideout.flea_market.models
 
 import android.text.format.DateUtils
 import com.austinhodak.thehideout.getPrice
+import com.google.firebase.database.IgnoreExtraProperties
 import java.text.SimpleDateFormat
 import java.util.*
 
+@IgnoreExtraProperties
 data class FleaItem(
-    val avg24hPrice: Int,
-    val avg7daysPrice: Int,
-    val basePrice: Int,
-    val bsgId: String,
-    val diff24h: Double,
-    val diff7days: Double,
-    val icon: String,
-    val img: String,
-    val imgBig: String,
-    val isFunctional: Boolean,
-    val link: String,
-    val name: String,
-    val price: Int,
-    val reference: String,
-    val shortName: String,
-    val slots: Int,
-    val traderName: String,
-    val traderPrice: Int,
-    val traderPriceCur: String,
-    val uid: String,
-    val updated: String,
-    val wikiLink: String
+    val avg24hPrice: Int? = null,
+    val avg7daysPrice: Int? = null,
+    val basePrice: Int? = null,
+    val bsgId: String? = null,
+    val diff24h: Double? = null,
+    val diff7days: Double? = null,
+    val icon: String? = null,
+    val img: String? = null,
+    val imgBig: String? = null,
+    val isFunctional: Boolean? = null,
+    val link: String? = null,
+    val name: String? = null,
+    val price: Int? = null,
+    val reference: String? = null,
+    val shortName: String? = null,
+    val slots: Int? = 1,
+    val traderName: String? = null,
+    val traderPrice: Int? = null,
+    val traderPriceCur: String? = null,
+    val uid: String? = null,
+    val updated: String? = null,
+    val wikiLink: String? = null
 ) {
-    fun getPrice(): String {
-        return price.getPrice(traderPriceCur)
+    fun getCurrentPrice(): String {
+        return price?.getPrice(traderPriceCur!!)!!
+    }
+
+    fun getCurrentTraderPrice(): String {
+        return traderPrice?.getPrice(traderPriceCur!!)!!
     }
 
     fun getPricePerSlot(): String {
-        return "${(price/slots).getPrice(traderPriceCur)}/slot"
+        return "${(price!!/slots!!).getPrice(traderPriceCur!!)}/slot"
     }
 
     fun getUpdatedTime(): String {
