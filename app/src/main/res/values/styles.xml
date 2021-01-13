@@ -25,8 +25,11 @@
     </style>
 
     <style name="ChipStyle" parent="@style/Widget.MaterialComponents.Chip.Choice">
-        <item name="colorOnSurface">@color/md_orange_500</item>
-        <item name="chipBackgroundColor">@color/chip_orange</item>
+<!--        <item name="chipBackgroundColor">@color/chip_orange</item>-->
+    </style>
+
+    <style name="Widget.MaterialDrawerStyleLight" parent="Widget.MaterialDrawerStyle">
+        <item name="materialDrawerDividerColor">@color/md_grey_200</item>
     </style>
 
 </resources>

@@ -316,7 +316,7 @@ class MaterialSearchView @JvmOverloads constructor(
     fun setSuggestionBackground(background: Drawable?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mSuggestionsListView!!.background = background
-            mSuggestionsListView!!.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.rv_bg))
+            //mSuggestionsListView!!.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.rv_bg))
         } else {
             mSuggestionsListView!!.setBackgroundDrawable(background)
         }

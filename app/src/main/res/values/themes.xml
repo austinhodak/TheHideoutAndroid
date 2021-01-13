@@ -6,14 +6,14 @@
         <item name="colorPrimaryVariant">@color/md_red_700</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/md_orange_500</item>
-        <item name="colorSecondaryVariant">@color/md_orange_500</item>
+        <item name="colorSecondary">@color/md_red_400</item>
+        <item name="colorSecondaryVariant">@color/md_red_400</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
 
-        <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyle</item>
+        <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyleLight</item>
         <item name="materialDrawerHeaderStyle">@style/Widget.MaterialDrawerHeaderStyle</item>
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
@@ -30,5 +30,14 @@
 
     <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.Dark">
         <item name="android:fontFamily">@font/bender_bold</item>
+    </style>
+
+    <style name="MaterialSearchViewStyle">
+        <item name="searchBackground">@color/md_red_500</item>
+        <item name="searchBackIcon">@drawable/ic_baseline_arrow_back_24</item>
+        <item name="android:textColor">@color/md_white_1000</item>
+        <item name="searchSuggestionBackground">@drawable/timeline_round_bottom_only_large</item>
+        <item name="searchSuggestionIcon">@null</item>
+        <item name="searchCloseIcon">@drawable/ic_action_navigation_close_inverted</item>
     </style>
 </resources>

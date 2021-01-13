@@ -32,7 +32,7 @@ data class FleaItem(
     val wikiLink: String? = null
 ) {
     fun getCurrentPrice(): String {
-        return price?.getPrice(traderPriceCur!!)!!
+        return price?.getPrice("₽")!!
     }
 
     fun getCurrentTraderPrice(): String {
@@ -40,7 +40,7 @@ data class FleaItem(
     }
 
     fun getPricePerSlot(): String {
-        return "${(price!!/slots!!).getPrice(traderPriceCur!!)}/slot"
+        return "${(price!!/slots!!).getPrice("₽")}/slot"
     }
 
     fun getUpdatedTime(): String {

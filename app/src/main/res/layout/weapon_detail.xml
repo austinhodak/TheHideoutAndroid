@@ -43,6 +43,8 @@
                 android:paddingBottom="8dp">
 
                 <pl.hypeapp.materialtimelineview.MaterialTimelineView
+                    app:timeline_top_radio_color="@color/primaryText60"
+                    app:timeline_bottom_radio_color="@color/primaryText60"
                     app:timeline_margin_start="42dp"
                     android:id="@+id/timeline_top_card"
                     android:layout_width="match_parent"
@@ -51,7 +53,6 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@drawable/timeline_round"
-                    android:backgroundTint="@color/md_grey_900"
                     android:clickable="true"
                     android:clipChildren="true"
                     android:foreground="?attr/selectableItemBackground"
@@ -65,7 +66,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/timeline_round_bottom_only"
-                        android:backgroundTint="@color/timelineBG"
                         android:paddingBottom="21dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -362,6 +362,9 @@
                     android:layout_marginRight="8dp"
                     app:timeline_position="middle"
                     app:timeline_radio_outline_radius="23"
+                    app:timeline_line_color="@color/primaryText60"
+                    app:timeline_top_radio_color="@color/primaryText60"
+                    app:timeline_bottom_radio_color="@color/primaryText60"
                     app:timeline_radio_radius="15"
                     app:timeline_type="line">
 
@@ -388,9 +391,10 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@drawable/timeline_round"
-                    android:backgroundTint="@color/md_grey_900"
                     app:timeline_position="middle"
                     app:timeline_radio_outline_radius="23"
+                    app:timeline_top_radio_color="@color/primaryText60"
+                    app:timeline_bottom_radio_color="@color/primaryText60"
                     app:timeline_radio_radius="15"
                     app:timeline_type="item">
 
@@ -427,6 +431,9 @@
                     android:layout_marginRight="8dp"
                     app:timeline_position="middle"
                     app:timeline_radio_outline_radius="23"
+                    app:timeline_line_color="@color/primaryText60"
+                    app:timeline_top_radio_color="@color/primaryText60"
+                    app:timeline_bottom_radio_color="@color/primaryText60"
                     app:timeline_radio_radius="15"
                     app:timeline_type="line">
 
@@ -446,17 +453,20 @@
 
                 </pl.hypeapp.materialtimelineview.MaterialTimelineView>
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:cardBackgroundColor="@color/md_grey_900"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/cardStroke"
                     app:cardPreventCornerOverlap="true">
 
                     <pl.hypeapp.materialtimelineview.MaterialTimelineView
+                        app:timeline_top_radio_color="@color/primaryText60"
+                        app:timeline_bottom_radio_color="@color/primaryText60"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:timeline_margin_start="42dp"
@@ -488,7 +498,7 @@
 
                     </pl.hypeapp.materialtimelineview.MaterialTimelineView>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
 

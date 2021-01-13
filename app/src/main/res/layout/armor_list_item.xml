@@ -7,6 +7,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        app:cardBackgroundColor="@color/cardBottomBackgroundColor"
         android:id="@+id/weaponListItemCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,7 +73,7 @@
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/md_grey_900"
+                android:background="@color/cardBottomBackgroundColor"
                 android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +85,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/weaponLL2"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/weaponLL4"
                     app:layout_constraintTop_toTopOf="parent">

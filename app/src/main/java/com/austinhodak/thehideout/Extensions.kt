@@ -3,12 +3,14 @@ package com.austinhodak.thehideout
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.browser.customtabs.CustomTabsIntent
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -50,6 +52,12 @@ fun Int.getPrice(currency: String): String {
         return format.format(this)
     }
 
+}
+
+fun String.openWithCustomTab(context: Context) {
+    val builder = CustomTabsIntent.Builder()
+    val customTabsIntent = builder.build()
+    customTabsIntent.launchUrl(context, Uri.parse(this))
 }
 
 fun getCurrencyString(string: String): String {

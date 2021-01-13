@@ -2,5 +2,6 @@
 <resources>
 
     <color name="primaryText87">#DEFFFFFF</color>
+    <color name="hintText">#727272</color>
 
 </resources>

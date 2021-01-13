@@ -18,8 +18,8 @@ android {
         applicationId "com.austinhodak.thehideout"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "0.1"
+        versionCode 100
+        versionName "0.1 Beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -116,4 +116,6 @@ dependencies {
 
     implementation "androidx.browser:browser:1.3.0"
     implementation 'jp.wasabeef:recyclerview-animators:4.0.1'
+
+    implementation "com.github.skydoves:only:1.0.8"
 }

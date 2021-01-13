@@ -4,6 +4,17 @@
     <color name="primaryText">#FFFFFF</color>
     <color name="primaryText87">#DEFFFFFF</color>
     <color name="primaryText60">#99FFFFFF</color>
+    <color name="textDisabled">#61FFFFFF</color>
+    <color name="hintText">#727272</color>
+
+    <color name="bottomNavBackground">#1F1F1F</color>
+
+    <color name="searchBackground">#1F1F1F</color>
 
     <color name="tabSelected">@color/md_red_A200</color>
+
+    <color name="cardBottomBackgroundColor">@color/md_grey_900</color>
+    <color name="cardStroke">@color/md_grey_850</color>
+
+    <color name="chipSelectedBackgroundColor">?attr/colorSecondary</color>
 </resources>

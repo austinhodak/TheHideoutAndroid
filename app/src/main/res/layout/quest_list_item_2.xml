@@ -12,13 +12,13 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
-        app:cardBackgroundColor="@color/timelineBG"
+        app:cardBackgroundColor="@color/cardBottomBackgroundColor"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/md_grey_850"
+        app:strokeColor="@color/cardStroke"
         app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,6 +65,7 @@
                 android:clickable="true"
                 android:paddingLeft="8dp"
                 android:paddingRight="16dp"
+                app:tint="@color/primaryText87"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -80,6 +81,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/itemCount"
                 app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/primaryText87"
                 app:srcCompat="@drawable/ic_baseline_chevron_left_24" />
 
             <TextView

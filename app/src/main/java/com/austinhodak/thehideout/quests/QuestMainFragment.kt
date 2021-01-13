@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.quests.models.Traders
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class QuestMainFragment : Fragment() {
 
@@ -31,6 +33,10 @@ class QuestMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBottomNav(view.findViewById(R.id.questBottomNavBar))
+
+        view.findViewById<FloatingActionButton>(R.id.questStartRaidFAB).setOnClickListener {
+            Toast.makeText(activity, "This will be implemented Soon™", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupBottomNav(bottomNav: BottomNavigationView) {

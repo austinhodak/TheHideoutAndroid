@@ -13,7 +13,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
-        app:cardBackgroundColor="@color/md_grey_900"
+        app:cardBackgroundColor="@color/cardBottomBackgroundColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,11 +24,11 @@
             android:layout_height="match_parent">
 
             <View
-                android:visibility="gone"
                 android:id="@+id/keyIndicator"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/md_green_500"/>
+                android:background="@color/md_green_500"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/keyImage"

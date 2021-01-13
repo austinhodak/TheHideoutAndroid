@@ -18,9 +18,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.calculator.CalculatorMainActivity
-import com.austinhodak.thehideout.calculator.models.CAmmo
-import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.viewmodels.KeysViewModel
@@ -30,13 +27,8 @@ import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.miguelcatalan.materialsearchview.MaterialSearchView
-import com.miguelcatalan.materialsearchview.SuggestionModel
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
@@ -44,7 +36,6 @@ import com.mikepenz.materialdrawer.util.addItems
 import com.mikepenz.materialdrawer.util.setupWithNavController
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import net.idik.lib.slimadapter.SlimAdapter
-import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var keysViewModel: KeysViewModel
     private lateinit var fleaViewModel: FleaViewModel
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also {
@@ -70,8 +63,6 @@ class MainActivity : AppCompatActivity() {
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
-
-        Firebase.database.setPersistenceEnabled(true)
     }
 
     override fun onStart() {
@@ -83,6 +74,42 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
         val benderFont = ResourcesCompat.getFont(this, R.font.bender)
+        val discord = PrimaryDrawerItem().apply {
+            typeface = benderFont
+            nameText = "Discord"
+            iconRes = R.drawable.icons8_discord_96
+            isIconTinted = true
+            isSelectable = false
+            onDrawerItemClickListener = {_, _, _ ->
+                "https://discord.gg/YQW36z29z6".openWithCustomTab(this@MainActivity)
+                false
+            }
+        }
+
+        val twitch = PrimaryDrawerItem().apply {
+            typeface = benderFont
+            nameText = "Twitch"
+            iconRes = R.drawable.icons8_twitch_96
+            isIconTinted = true
+            isSelectable = false
+            onDrawerItemClickListener = {_, _, _ ->
+                "https://www.twitch.tv/theeeelegend".openWithCustomTab(this@MainActivity)
+                false
+            }
+        }
+
+        val twitter = PrimaryDrawerItem().apply {
+            typeface = benderFont
+            nameText = "Twitter"
+            iconRes = R.drawable.icons8_twitter_squared_96
+            isIconTinted = true
+            isSelectable = false
+            onDrawerItemClickListener = {_, _, _ ->
+                "https://twitter.com/austin6561".openWithCustomTab(this@MainActivity)
+                false
+            }
+        }
+
         binding.slider.apply {
             addItems(
                 NavigationDrawerItem(
@@ -94,30 +121,6 @@ class MainActivity : AppCompatActivity() {
                     null,
                     null
                 ),
-                /*ExpandableDrawerItem().apply {
-                    typeface = benderFont;
-                    nameText = "Armor & Clothing"; iconRes =
-                    R.drawable.icons8_coat_100; isSelectable = false; isIconTinted = true
-                    subItems = mutableListOf(
-                        SecondaryDrawerItem().apply {
-                            typeface = benderFont; isIconTinted = true; name =
-                            StringHolder("Armor Vests"); iconRes =
-                            R.drawable.icons8_bulletproof_vest_100;
-                        },
-                        SecondaryDrawerItem().apply {
-                            typeface = benderFont; isIconTinted = true; name =
-                            StringHolder("Chest Rigs"); iconRes = R.drawable.icons8_vest_100;
-                        },
-                        SecondaryDrawerItem().apply {
-                            typeface = benderFont; isIconTinted = true; name =
-                            StringHolder("Helmets"); iconRes = R.drawable.icons8_helmet_96;
-                        },
-                        SecondaryDrawerItem().apply {
-                            typeface = benderFont; isIconTinted = true; name =
-                            StringHolder("Helmet Addons"); iconRes = R.drawable.icons8_helmet_96;
-                        },
-                    )
-                },*/
                 NavigationDrawerItem(R.id.armorTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Armor"); iconRes = R.drawable.icons8_bulletproof_vest_100;
@@ -126,10 +129,6 @@ class MainActivity : AppCompatActivity() {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Backpacks & Rigs"); iconRes = R.drawable.icons8_rucksack_96;
                 }),
-                /*PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Containers"); iconRes = R.drawable.icons8_storage_box_96;
-                },*/
                 NavigationDrawerItem(R.id.keysListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Keys"); iconRes = R.drawable.icons8_key_100;
@@ -141,38 +140,53 @@ class MainActivity : AppCompatActivity() {
                 NavigationDrawerItem(
                     R.id.WeaponFragment,
                     PrimaryDrawerItem().apply {
-                        typeface = benderFont; isIconTinted = true; name =
-                        StringHolder("Weapons"); iconRes = R.drawable.icons8_assault_rifle_100;
+                        typeface = benderFont; isIconTinted = true;
+                        name = StringHolder("Weapons"); iconRes = R.drawable.icons8_assault_rifle_100;
                     },
                     null,
                     null
                 ),
                 DividerDrawerItem(),
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Flea Market"); iconRes = R.drawable.ic_baseline_shopping_cart_24;
+                    typeface = benderFont; isIconTinted = true;
+                    name = StringHolder("Flea Market"); iconRes = R.drawable.ic_baseline_shopping_cart_24;
                 }),
                 PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Hideout"); iconRes = R.drawable.hideout_shadow_1;
+                    typeface = benderFont; isIconTinted = true;
+                    name = StringHolder("Hideout"); iconRes = R.drawable.hideout_shadow_1
+                    isEnabled = false
                 },
                 NavigationDrawerItem(R.id.questMainFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Quests"); iconRes = R.drawable.ic_baseline_assignment_24;
+                    typeface = benderFont; isIconTinted = true;
+                    name = StringHolder("Quests"); iconRes = R.drawable.ic_baseline_assignment_24
                 }),
                 PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Traders"); iconRes = R.drawable.ic_baseline_groups_24;
+                    typeface = benderFont; isIconTinted = true;
+                    name = StringHolder("Traders"); iconRes = R.drawable.ic_baseline_groups_24
+                    isEnabled = false
                 },
+                SectionDrawerItem().apply {
+                    nameText = "Join us on"
+                },
+                discord,
+                twitch,
+                twitter,
                 DividerDrawerItem(),
-                PrimaryDrawerItem().apply {
-                    identifier = 10; typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Settings"); iconRes = R.drawable.ic_baseline_settings_24;
-                },
+                SecondaryDrawerItem().apply {
+                    isEnabled = false
+                    typeface = benderFont
+                    isIconTinted = true
+                    nameText = BuildConfig.VERSION_NAME
+                    iconRes = R.drawable.ic_baseline_info_24
+                }
+                /*PrimaryDrawerItem().apply {
+                    identifier = 10; typeface = benderFont; isIconTinted = true;
+                    name = StringHolder("Settings"); iconRes = R.drawable.ic_baseline_settings_24;
+                },*/
             )
 
             headerView = View.inflate(this@MainActivity, R.layout.main_drawer_header, null)
-            headerDivider = false
+            headerDivider = true
             setSavedInstance(savedInstanceState)
         }
 
