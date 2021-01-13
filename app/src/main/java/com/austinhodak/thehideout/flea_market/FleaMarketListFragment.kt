@@ -72,7 +72,7 @@ class FleaMarketListFragment : Fragment() {
 
         mAdapter = SlimAdapter.create().register<FleaItem>(R.layout.flea_item_1) { item, i ->
             val icon = i.findViewById<ImageView>(R.id.fleaItemIcon)
-            Glide.with(this).load(item.icon).into(icon)
+            Glide.with(this).load(item.getItemIcon()).into(icon)
 
             i.text(R.id.fleaItemName, item.name)
             i.text(R.id.fleaItemSubtitle, item.getUpdatedTime())
@@ -130,7 +130,7 @@ class FleaMarketListFragment : Fragment() {
             2 -> nList = this.mList?.filter { it.name!!.contains(searchKey, true) }?.sortedByDescending { (it.price!!/it.slots!!) }?.toMutableList()
         }
 
-        mAdapter.updateData(nList?.filterNot { it.icon!!.isEmpty() })
+        mAdapter.updateData(nList?.filterNot { it.icon!!.isEmpty() && it.img!!.isEmpty() })
         progressBar.visibility = View.GONE
     }
 

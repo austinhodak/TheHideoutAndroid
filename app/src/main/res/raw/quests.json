@@ -3407,7 +3407,13 @@
     "trader": "Ragman",
     "rep": 0.09
   }],
-  "objectives": []
+  "objectives": [{
+    "type": "survive",
+    "number":  7,
+    "location": "Interchange",
+    "target": "",
+    "id":  1000
+  }]
 }, {
   "id": 119,
   "require": {

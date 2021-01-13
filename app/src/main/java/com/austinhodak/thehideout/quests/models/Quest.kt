@@ -72,6 +72,7 @@ data class Quest(
                 "reputation" -> "Reach loyalty level $number with $target"
                 "warning" -> target
                 "skill" -> "Reach skill level $number with $target"
+                "survive" -> "Survive in the raid at $location $number times."
                 else -> ""
             }
         }

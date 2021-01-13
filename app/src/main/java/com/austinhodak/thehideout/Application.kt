@@ -11,5 +11,7 @@ class Application : Application() {
         super.onCreate()
         Firebase.database.setPersistenceEnabled(true)
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+
+
     }
 }

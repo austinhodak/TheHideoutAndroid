@@ -43,6 +43,16 @@ data class FleaItem(
         return "${(price!!/slots!!).getPrice("₽")}/slot"
     }
 
+    fun getItemIcon(): String {
+        return if (icon.isNullOrEmpty() && img.isNullOrEmpty()) {
+            ""
+        } else if (icon.isNullOrEmpty()) {
+            img ?: ""
+        } else if (img.isNullOrEmpty()) {
+            icon
+        } else icon
+    }
+
     fun getUpdatedTime(): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         sdf.timeZone = TimeZone.getTimeZone("GMT")
