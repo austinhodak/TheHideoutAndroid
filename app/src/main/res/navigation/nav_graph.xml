@@ -43,5 +43,9 @@
         android:id="@+id/fleaMarketListFragment"
         android:name="com.austinhodak.thehideout.flea_market.FleaMarketListFragment"
         android:label="Flea Market" />
+    <fragment
+        android:id="@+id/hideoutMainFragment"
+        android:name="com.austinhodak.thehideout.hideout.HideoutMainFragment"
+        android:label="Hideout" />
 
 </navigation>

@@ -12,6 +12,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -25,6 +26,7 @@ import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.AmmoModel
 import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
+import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -151,11 +153,11 @@ class MainActivity : AppCompatActivity() {
                     typeface = benderFont; isIconTinted = true;
                     name = StringHolder("Flea Market"); iconRes = R.drawable.ic_baseline_shopping_cart_24;
                 }),
-                PrimaryDrawerItem().apply {
+                NavigationDrawerItem(R.id.hideoutMainFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true;
                     name = StringHolder("Hideout"); iconRes = R.drawable.hideout_shadow_1
-                    isEnabled = false
-                },
+
+                }),
                 NavigationDrawerItem(R.id.questMainFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true;
                     name = StringHolder("Quests"); iconRes = R.drawable.ic_baseline_assignment_24
@@ -201,7 +203,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.fleaMarketListFragment, R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment, R.id.medicalTabFragment, R.id.questMainFragment), binding.root)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.hideoutMainFragment, R.id.fleaMarketListFragment, R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment, R.id.medicalTabFragment, R.id.questMainFragment), binding.root)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
@@ -263,8 +265,9 @@ class MainActivity : AppCompatActivity() {
         })
 
         hideSearch = when (currentDestination.id) {
-            R.id.medicalTabFragment -> true
-            R.id.questMainFragment -> true
+            R.id.medicalTabFragment,
+            R.id.questMainFragment,
+            R.id.hideoutMainFragment -> true
             else -> false
         }
 
@@ -371,5 +374,12 @@ class MainActivity : AppCompatActivity() {
 
     fun getQuestChips(): ChipGroup {
         return binding.chipGroup2
+    }
+
+    fun updateChips(list: ArrayList<String>) {
+        for (i in list) {
+            val chip = binding.chipGroup2[list.indexOf(i)] as Chip
+            chip.text = i
+        }
     }
 }

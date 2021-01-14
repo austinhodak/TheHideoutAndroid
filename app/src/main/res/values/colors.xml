@@ -33,7 +33,8 @@
     <color name="timelineOrange">@color/md_deep_orange_400</color>
     <color name="timelineRed">@color/md_red_400</color>
 
-    <color name="chipSelectedBackgroundColor">#FAFAFA</color>
+    <color name="chipSelectedBackgroundColor">#FFFFFF</color>
+    <color name="chipSelectedBackgroundColor2">#FAFAFA</color>
 
     <color name="primaryText">#000000</color>
     <color name="primaryText87">#DE000000</color>

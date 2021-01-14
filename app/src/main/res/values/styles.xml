@@ -10,8 +10,13 @@
     </style>
 
     <style name="BottomNavSelected" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/bender_light</item>
-        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:fontFamily">@font/bender_bold</item>
+        <item name="android:textColor">@drawable/bottom_nav_selector_text</item>
+    </style>
+
+    <style name="BottomNavUnSelected" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/bender</item>
+        <item name="android:textColor">@drawable/bottom_nav_selector_text</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
@@ -22,6 +27,7 @@
     <style name="BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemIconTint">@drawable/bottom_nav_selector</item>
         <item name="itemTextAppearanceActive">@style/BottomNavSelected</item>
+        <item name="itemTextAppearanceInactive">@style/BottomNavUnSelected</item>
     </style>
 
     <style name="ChipStyle" parent="@style/Widget.MaterialComponents.Chip.Choice">

@@ -6,7 +6,8 @@ import com.google.firebase.database.IgnoreExtraProperties
 data class UserFB (
     var quests: UserFBQuests? = UserFBQuests(),
     //var questObjectives: UserFBQuestObjectives? = UserFBQuestObjectives(),
-    var keys: UserKeys? = UserKeys()
+    var keys: UserKeys? = UserKeys(),
+    var hideout: UserFBHideout? = UserFBHideout()
 ) {
     data class UserKeys (
         var have: Map<String, Boolean>? = HashMap(),
@@ -20,5 +21,9 @@ data class UserFB (
 
     data class UserFBQuestObjectives (
         var progress: Map<String, Int>? = HashMap()
+    )
+
+    data class UserFBHideout (
+        var completed: Map<String, Boolean>? = HashMap()
     )
 }
