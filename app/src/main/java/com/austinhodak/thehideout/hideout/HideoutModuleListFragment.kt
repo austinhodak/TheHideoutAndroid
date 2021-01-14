@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -75,9 +76,12 @@ class HideoutModuleListFragment : Fragment() {
         mAdapter = SlimAdapter.create().register<HideoutModule>(R.layout.hideout_tracker_item_1) { module, i ->
             val requirementRV = i.findViewById<RecyclerView>(R.id.hideoutModuleRequiresRV)
             requirementRV.layoutManager = LinearLayoutManager(requireContext())
-            val requirementAdapter = SlimAdapter.create().attachTo(requirementRV)
+
+            SlimAdapter.create().attachTo(requirementRV)
                 .register<HideoutModule.ModuleRequire>(R.layout.hideout_requirement_item_1) { requirement, rI ->
                     rI.text(R.id.requirementName, "• $requirement")
+
+                    //TODO Fix stuttering from this statement
                     rI.text(R.id.requirementSubtitle, requirement.getSubtitle(fleaViewModel.fleaItems.value))
 
                     i.text(R.id.hideoutModuleBuildPrice, module.getTotalBuildCost())
@@ -96,14 +100,21 @@ class HideoutModuleListFragment : Fragment() {
 
             if (mCompletedModuleIDs.contains(module.id)) {
                 buildButton.text = "Level ${module.level}\nUndo"
+                buildButton.isEnabled = true
                 buildButton.setOnClickListener {
                     module.downgradeModule()
                 }
             } else {
                 buildButton.text = "Level ${module.level}\nBuild"
+                buildButton.isEnabled = true
                 buildButton.setOnClickListener {
                     module.buildModule()
                 }
+            }
+
+            if (chipSelected == R.id.chip_completed) {
+                buildButton.text = "Level ${module.level}\nLocked"
+                buildButton.isEnabled = false
             }
 
         }.attachTo(mRecyclerView).updateData(viewModel.moduleList.value?.sortedWith(compareBy ({ it.level }, { it.module })))
@@ -128,14 +139,14 @@ class HideoutModuleListFragment : Fragment() {
                 mAdapter.updateData(viewModel.getLockedModules(mCompletedModules))
             }
             else -> {
-
+                mAdapter.updateData(viewModel.moduleList.value?.sortedWith(compareBy ({ it.level }, { it.module })))
             }
         }
 
         if (mAdapter.itemCount == 0) {
-           // view?.findViewById<TextView>(R.id.empty)?.visibility = View.VISIBLE
+            view?.findViewById<TextView>(R.id.empty)?.visibility = View.VISIBLE
         } else {
-           // view?.findViewById<TextView>(R.id.empty)?.visibility = View.GONE
+            view?.findViewById<TextView>(R.id.empty)?.visibility = View.GONE
         }
     }
 }

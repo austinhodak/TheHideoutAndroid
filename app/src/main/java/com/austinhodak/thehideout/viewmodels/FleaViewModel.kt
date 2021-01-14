@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.austinhodak.thehideout.flea
 import com.austinhodak.thehideout.flea_market.models.FleaItem
-import com.austinhodak.thehideout.viewmodels.models.CaliberModel
 import com.github.kittinunf.fuel.httpGet
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -50,6 +49,10 @@ class FleaViewModel : ViewModel() {
 
             }
         })
+    }
+
+    fun getItemById(uid: String): FleaItem {
+        return fleaItems.value?.find { it.uid == uid }!!
     }
 
 }

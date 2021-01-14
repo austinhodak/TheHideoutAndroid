@@ -1,0 +1,219 @@
+[
+  {
+    "facility": 4,
+    "input": [
+      {
+        "id": "67f383be-d8dd-415c-8b2d-337e98e67f8c",
+        "qty": 2
+      },
+      {
+        "id": "97d6daa1-5164-4c04-8ffa-d7e6e4cb3508",
+        "qty": 1
+      }
+    ],
+    "time": 3.05,
+    "output": [
+      {
+        "id": "fb7e9a19-7029-4076-83a6-f913c3c8e9f8",
+        "qty": 1
+      }
+    ],
+    "id": 1
+  },
+  {
+    "facility": 16,
+    "input": [
+      {
+        "id": "da5c4c5a-59b9-4dbd-a78b-d888d3c880c7",
+        "qty": 3
+      },
+      {
+        "id": "33c15349-44e6-4553-9705-1b6417a1ad6a",
+        "qty": 1
+      },
+      {
+        "id": "734eb422-a419-42e5-ae8b-d510166647a5",
+        "qty": 1
+      }
+    ],
+    "time": 45.53,
+    "output": [
+      {
+        "id": "541c3bb6-e792-4434-b55b-42a94097e8b0",
+        "qty": 2
+      }
+    ],
+    "id": 2
+  },
+  {
+    "facility": 16,
+    "input": [
+      {
+        "id": "5b9f9704-4d6d-4c4b-b627-2dc4e8cbff52",
+        "qty": 4
+      },
+      {
+        "id": "b2758a6d-e5ee-47af-acb8-9c1e2b150ee6",
+        "qty": 2
+      },
+      {
+        "id": "614ee70f-b6d9-4c62-b3f7-a0248ae589e8",
+        "qty": 2
+      },
+      {
+        "id": "541c3bb6-e792-4434-b55b-42a94097e8b0",
+        "qty": 1
+      }
+    ],
+    "time": 58.03,
+    "output": [
+      {
+        "id": "c760ea3c-b3b6-4b9f-83d7-5302b3f084f7",
+        "qty": 1
+      }
+    ],
+    "id": 3
+  },
+  {
+    "facility": 17,
+    "input": [
+      {
+        "id": "f0fa8457-6638-4ad2-b7e8-4708033d8f39",
+        "qty": 3
+      }
+    ],
+    "time": 31.67,
+    "output": [
+      {
+        "id": "09e22fbe-fd90-4aad-81ea-11b7a9ebdc2b",
+        "qty": 1
+      }
+    ],
+    "id": 4
+  },
+  {
+    "facility": 16,
+    "input": [
+      {
+        "id": "84783345-b208-42c6-a3da-688d5e7339d9",
+        "qty": 2
+      },
+      {
+        "id": "b2758a6d-e5ee-47af-acb8-9c1e2b150ee6",
+        "qty": 2
+      },
+      {
+        "id": "ca0355fb-4eb6-4c51-ab80-57dc3ccdf226",
+        "qty": 5
+      }
+    ],
+    "time": 37.60,
+    "output": [
+      {
+        "id": "508d41f2-2cb2-413e-a278-2cfef4eaa9ac",
+        "qty": 1
+      }
+    ],
+    "id": 5
+  },
+  {
+    "facility": 16,
+    "input": [
+      {
+        "id": "734eb422-a419-42e5-ae8b-d510166647a5",
+        "qty": 1
+      },
+      {
+        "id": "e7a85d68-562a-4d6f-b2aa-7810d9bbdbf7",
+        "qty": 1
+      },
+      {
+        "id": "33c15349-44e6-4553-9705-1b6417a1ad6a",
+        "qty": 1
+      }
+    ],
+    "time": 34.22,
+    "output": [
+      {
+        "id": "f0fa8457-6638-4ad2-b7e8-4708033d8f39",
+        "qty": 3
+      }
+    ],
+    "id": 6
+  },
+  {
+    "facility": 16,
+    "input": [
+      {
+        "id": "e7a85d68-562a-4d6f-b2aa-7810d9bbdbf7",
+        "qty": 1
+      },
+      {
+        "id": "8442dd79-d8a3-4fd9-b575-51087a348b40",
+        "qty": 1
+      },
+      {
+        "id": "84783345-b208-42c6-a3da-688d5e7339d9",
+        "qty": 1
+      }
+    ],
+    "time": 38.88,
+    "output": [
+      {
+        "id": "8a1bb9dd-f6e3-4890-965f-6910f5bbb5d7",
+        "qty": 1
+      }
+    ],
+    "id": 7
+  },
+  {
+    "facility": 16,
+    "input": [
+      {
+        "id": "508d41f2-2cb2-413e-a278-2cfef4eaa9ac",
+        "qty": 1
+      },
+      {
+        "id": "fc401d47-8836-4a5d-a794-76f672442d66",
+        "qty": 1
+      },
+      {
+        "id": "f308b8d1-c1a0-4a9d-b930-cb5f0cca04b5",
+        "qty": 1
+      }
+    ],
+    "time": 53.33,
+    "output": [
+      {
+        "id": "c1e876ab-e0ef-4305-b392-6c72b751aac7",
+        "qty": 1
+      }
+    ],
+    "id": 8
+  },
+  {
+    "facility": 16,
+    "input": [
+      {
+        "id": "508d41f2-2cb2-413e-a278-2cfef4eaa9ac",
+        "qty": 1
+      },
+      {
+        "id": "fc401d47-8836-4a5d-a794-76f672442d66",
+        "qty": 1
+      },
+      {
+        "id": "f308b8d1-c1a0-4a9d-b930-cb5f0cca04b5",
+        "qty": 1
+      }
+    ],
+    "time": 53.33,
+    "output": [
+      {
+        "id": "aed566f6-dc68-4263-a933-061c645098fc",
+        "qty": 1
+      }
+    ],
+    "id": 9
+  }
+]

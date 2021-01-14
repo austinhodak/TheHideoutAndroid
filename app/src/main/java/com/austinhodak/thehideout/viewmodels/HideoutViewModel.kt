@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
+import com.austinhodak.thehideout.hideout.models.HideoutCraft
 import com.austinhodak.thehideout.hideout.models.HideoutModule
 import com.austinhodak.thehideout.userRef
 import com.google.firebase.database.DataSnapshot
@@ -19,12 +20,14 @@ import java.lang.reflect.Type
 
 class HideoutViewModel(application: Application) : AndroidViewModel(application) {
     var moduleList = MutableLiveData<List<HideoutModule>>()
+    var craftsList = MutableLiveData<List<HideoutCraft>>()
     var completedModules = MutableLiveData<UserFB.UserFBHideout>()
 
     private val context = getApplication<Application>().applicationContext
 
     init {
         getHideoutModules()
+        getHideoutCrafts()
         loadModuleFirebase()
     }
 
@@ -33,6 +36,13 @@ class HideoutViewModel(application: Application) : AndroidViewModel(application)
         val map = JSONArray(objectString)
         val groupListType: Type = object : TypeToken<ArrayList<HideoutModule?>?>() {}.type
         moduleList.value = Gson().fromJson(map.toString(), groupListType)
+    }
+
+    private fun getHideoutCrafts() {
+        val objectString = context.resources.openRawResource(R.raw.crafts).bufferedReader().use { it.readText() }
+        val map = JSONArray(objectString)
+        val groupListType: Type = object : TypeToken<ArrayList<HideoutCraft?>?>() {}.type
+        craftsList.value = Gson().fromJson(map.toString(), groupListType)
     }
 
     private fun loadModuleFirebase() {

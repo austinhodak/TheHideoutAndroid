@@ -24,7 +24,7 @@ class HideoutMainFragment : Fragment() {
         bottomNav.setOnNavigationItemSelectedListener {
             val fragment = when (it.itemId) {
                 R.id.menuModules -> HideoutModuleListFragment()
-                R.id.menuCrafts -> HideoutModuleListFragment()
+                R.id.menuCrafts -> HideoutCraftsListFragment()
                 else -> HideoutModuleListFragment()
             }
 
