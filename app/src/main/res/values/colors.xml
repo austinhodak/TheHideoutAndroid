@@ -10,6 +10,7 @@
     <color name="pastel_green">#9DFFAA</color>
 
     <color name="cardBottomBackgroundColor">#FFFFFF</color>
+    <color name="cardBottomBackgroundColor2">#FAFAFA</color>
     <color name="cardStroke">@color/md_grey_300</color>
 
     <color name="tabSelected">#FFFFFF</color>

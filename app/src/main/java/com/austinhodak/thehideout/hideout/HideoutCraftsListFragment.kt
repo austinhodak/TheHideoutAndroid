@@ -19,8 +19,7 @@ import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.viewmodels.HideoutViewModel
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
-import kotlin.math.log10
-import kotlin.math.pow
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class HideoutCraftsListFragment : Fragment() {
@@ -46,60 +45,68 @@ class HideoutCraftsListFragment : Fragment() {
     }
 
     private fun setupAdapter() {
+        val greenTextColor = resources.getColor(R.color.md_green_400)
+        val redTextColor = resources.getColor(R.color.md_red_400)
+
         mAdapter = SlimAdapter.create().register<HideoutCraft>(R.layout.hideout_craft_item) { craft, i ->
+
+            //Requirements
             val requirementRV = i.findViewById<RecyclerView>(R.id.craftInputRV)
             requirementRV.layoutManager = LinearLayoutManager(requireContext())
 
-            var totalCost = 0
             SlimAdapter.create().attachTo(requirementRV).register<Input>(R.layout.hideout_crafting_item_requirement) { inputItem, rI ->
                 val fleaItem = fleaViewModel.getItemById(inputItem.id)
                 val inputIcon = rI.findViewById<ImageView>(R.id.craftInputIcon)
                 Glide.with(this).load(fleaItem.getItemIcon()).into(inputIcon)
-                totalCost += (fleaItem.price?.times(inputItem.qty)) ?: 0
 
                 rI.text(R.id.craftInputName, "x${inputItem.qty} ${fleaItem.name}")
-                rI.text(R.id.craftInputPrice, "${fleaItem.price?.times(inputItem.qty)?.getPrice("₽")}")
+                rI.text(R.id.craftInputPrice, "${fleaItem.price?.times(inputItem.qty)?.roundToInt()?.getPrice("₽")}")
             }.updateData(craft.input)
+            //Requirements
 
-            val fleaItemTop = fleaViewModel.getItemById(craft.output.first().id)
-            val icon = i.findViewById<ImageView>(R.id.craftIcon)
-            Glide.with(this).load(fleaItemTop.getItemIcon()).into(icon)
+            val fleaItem = fleaViewModel.getItemById(craft.output.first().id)
 
-            i.text(R.id.craftName, fleaItemTop.name)
-            i.text(R.id.craftOutputName, "${fleaItemTop.shortName} x${craft.output[0].qty}")
-
-            i.text(R.id.craftOutputPrice, (fleaItemTop.price?.times(craft.output[0].qty)?.getPrice("₽")))
-
-            i.text(R.id.craftOutputCost, totalCost.getPrice("₽"))
-
-            i.text(R.id.craftOutputProfit, (fleaItemTop.price!! * craft.output[0].qty - totalCost).getPrice("₽"))
-
-            val VO = fleaItemTop.basePrice!!.toDouble()
-            val VR = fleaItemTop.price.toDouble()
-            val Ti = 0.05
-            val Tr = 0.05
-            val Q = 1
-            val PO = log10((VO / VR))
-            val PR = log10((VR / VO))
-
-            val PO4 = if (VO > VR) {
-                Math.pow(4.0, PO.pow(1.08))
-            } else {
-                Math.pow(4.0, PO)
+            viewModel.getHideoutByID(craft.facility) {
+                i.text(R.id.hideoutCraftItemModule, "INPUT • ${it.module.toUpperCase()} LVL ${it.level}")
             }
 
-            val PR4 = if (VR > VO) {
-                Math.pow(4.0, PR.pow(1.08))
-            } else {
-                Math.pow(4.0, PR)
+            //Craft Image
+            Glide.with(this).load(fleaItem.getItemIcon()).into(i.findViewById(R.id.craftIcon))
+
+            //Craft Name
+            i.text(R.id.craftName, fleaItem.name)
+
+            //Time to craft
+            i.text(R.id.craftTime, craft.getTimeToCraft())
+
+            //Craft Output Name + Qty
+            i.text(R.id.craftOutputName, "${fleaItem.shortName} x${craft.output[0].qty}")
+
+            //Craft Output Price
+            i.text(R.id.craftOutputPrice, (fleaItem.price?.times(craft.output[0].qty)?.getPrice("₽")))
+
+            //Craft Total Cost of Input Items
+            val totalCostToCraft = fleaItem.getTotalCostToCraft(craft.input, fleaViewModel)
+
+            //Total Cost Text
+            i.text(R.id.craftOutputCost, totalCostToCraft.getPrice("₽"))
+
+            //(Price of item * qty) - cost of items
+            val profit = (fleaItem.price!! * craft.output[0].qty - totalCostToCraft)
+            i.text(R.id.craftOutputProfit, profit.getPrice("₽"))
+            i.textColor(R.id.craftOutputProfit, if (profit <= 0) redTextColor else greenTextColor)
+
+            fleaItem.calculateTax {
+                val tax = it * craft.output[0].qty
+                i.text(R.id.craftFleaFea, (-abs(tax)).getPrice("₽"))
+                i.text(R.id.craftTotalProfit, (fleaItem.price * craft.output[0].qty - totalCostToCraft - tax).getPrice("₽"))
+                i.text(R.id.craftProfitHour, ((fleaItem.price * craft.output[0].qty - totalCostToCraft - tax) / craft.time).roundToInt().getPrice("₽"))
+
+                i.textColor(R.id.craftTotalProfit, if ((fleaItem.price * craft.output[0].qty - totalCostToCraft - tax) <= 0) redTextColor else greenTextColor)
+                i.textColor(R.id.craftProfitHour, if (((fleaItem.price * craft.output[0].qty - totalCostToCraft - tax) / craft.time).roundToInt() <= 0) redTextColor else greenTextColor)
             }
 
-            val tax = (VO * Ti * PO4 * Q + VR * Tr * PR4 * Q) * craft.output[0].qty
 
-            i.text(R.id.craftFleaFea, tax.roundToInt().getPrice("₽"))
-
-            i.text(R.id.craftTotalProfit, (fleaItemTop.price * craft.output[0].qty - totalCost - tax).roundToInt().getPrice("₽"))
-            i.text(R.id.craftProfitHour, ((fleaItemTop.price * craft.output[0].qty - totalCost - tax) / craft.time).roundToInt().getPrice("₽"))
 
         }.attachTo(mRecyclerView).updateData(viewModel.craftsList.value)
     }

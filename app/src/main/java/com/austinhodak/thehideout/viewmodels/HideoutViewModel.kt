@@ -45,6 +45,10 @@ class HideoutViewModel(application: Application) : AndroidViewModel(application)
         craftsList.value = Gson().fromJson(map.toString(), groupListType)
     }
 
+    fun getHideoutByID(id: Int, callback: (result: HideoutModule) -> Unit) {
+        callback.invoke(moduleList.value?.find { it.id == id }!!)
+    }
+
     private fun loadModuleFirebase() {
         Firebase.userRef("/hideout/").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

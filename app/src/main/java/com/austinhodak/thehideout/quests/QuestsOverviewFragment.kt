@@ -2,20 +2,17 @@ package com.austinhodak.thehideout.quests
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.quests.models.QuestOverviewItem
 import com.austinhodak.thehideout.viewmodels.QuestsViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import net.idik.lib.slimadapter.SlimAdapter
 
 class QuestsOverviewFragment : Fragment() {
@@ -37,8 +34,6 @@ class QuestsOverviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mRecyclerView = view.findViewById(R.id.questOverviewRV)
         mRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-
 
         val helper = QuestsHelper
 
