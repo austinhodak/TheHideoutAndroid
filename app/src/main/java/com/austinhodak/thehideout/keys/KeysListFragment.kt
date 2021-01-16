@@ -2,7 +2,9 @@ package com.austinhodak.thehideout.keys
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -12,7 +14,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsMultiChoice
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.viewmodels.KeysViewModel
-import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.Key
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -28,6 +29,7 @@ private const val ARG_PARAM1 = "param1"
 
 class KeysListFragment : Fragment() {
 
+    private lateinit var adapter: SlimAdapter
     private var param1: String = ""
     private var keyList: List<Key>? = null
     private var filteredKeyList: List<Key>? = null
@@ -41,8 +43,8 @@ class KeysListFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1).toString()
         }
 
-        keyList = KeysHelper.getKeys(requireContext())
-        filteredKeyList = KeysHelper.getKeys(requireContext())
+        //keyList = KeysHelper.getKeys(requireContext(), true)
+
     }
 
     override fun onCreateView(
@@ -59,7 +61,12 @@ class KeysListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.ammo_list)
         recyclerView.layoutManager = linearLayoutManager
 
-        val adapter = SlimAdapter.create().register<Key>(R.layout.key_list_item) { key, i ->
+        sharedViewModel.keys.observe(viewLifecycleOwner) {
+            filteredKeyList = it
+            adapter.updateData(it)
+        }
+
+        adapter = SlimAdapter.create().register<Key>(R.layout.key_list_item) { key, i ->
             var need = false
 
             i.text(R.id.keyName, key.name)
@@ -96,7 +103,6 @@ class KeysListFragment : Fragment() {
             })
 
         }.attachTo(recyclerView)
-            .updateData(filteredKeyList!!)
 
         sharedViewModel.searchKey.observe(requireActivity(), { string ->
             Log.d("KEYSEARCH", string)
@@ -112,7 +118,7 @@ class KeysListFragment : Fragment() {
             MaterialDialog(requireActivity()).show {
                 listItemsMultiChoice(R.array.keys_filter_list, initialSelection = filterIndices) { dialog, indices, items ->
                     filterIndices = indices
-                    filteredKeyList = keyList!!.filter { items.contains(it.map) }
+                    filteredKeyList = filteredKeyList!!.filter { items.contains(it.map) }
                     adapter.updateData(filteredKeyList)
                 }
                 title(text = "Show Only")

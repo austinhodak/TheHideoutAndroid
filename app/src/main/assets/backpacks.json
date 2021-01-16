@@ -1,0 +1,375 @@
+[
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "description": "",
+    "weight": 0.7,
+    "_id": "5f4a52549f319f4528ac37ee",
+    "name": "T-Bag",
+    "image": "T-Bag.png",
+    "internal": 9,
+    "prices": [],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 3
+    },
+    "description": "",
+    "weight": 0.9,
+    "_id": "5f4a52549f319f4528ac37ef",
+    "name": "Duffle",
+    "image": "Duffle.png",
+    "internal": 12,
+    "prices": [],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 4
+    },
+    "description": "",
+    "weight": 0.7,
+    "_id": "5f4a52549f319f4528ac37f0",
+    "name": "MBSS",
+    "image": "MBSS.png",
+    "internal": 16,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37f1",
+        "trader": "Peacekeeper",
+        "level": 1
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37f2",
+        "trader": "Ragman",
+        "level": 1
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 5
+    },
+    "description": "",
+    "weight": 1.1,
+    "_id": "5f4a52549f319f4528ac37f3",
+    "name": "ScavBP",
+    "image": "ScavBP.png",
+    "internal": 20,
+    "prices": [
+      {
+        "value": 16194,
+        "_id": "5f4a52549f319f4528ac37f4",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 5,
+      "y": 6
+    },
+    "description": "",
+    "weight": 1.3,
+    "_id": "5f4a52549f319f4528ac37f5",
+    "name": "Tri-Zip",
+    "image": "Tri-Zip.png",
+    "internal": 30,
+    "prices": [
+      {
+        "value": 40194,
+        "_id": "5f4a52549f319f4528ac37f6",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37f7",
+        "trader": "Ragman",
+        "level": 2
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 5,
+      "y": 7
+    },
+    "description": "",
+    "weight": 1.5,
+    "_id": "5f4a52549f319f4528ac37f8",
+    "name": "Pilgrim",
+    "image": "Pilgrim.png",
+    "internal": 35,
+    "prices": [],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "description": "",
+    "weight": 0.6,
+    "_id": "5f4a52549f319f4528ac37f9",
+    "name": "Sling",
+    "image": "Sling.png",
+    "internal": 6,
+    "prices": [
+      {
+        "value": 1870,
+        "_id": "5f4a52549f319f4528ac37fa",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "description": "",
+    "weight": 0.8,
+    "_id": "5f4a52549f319f4528ac37fb",
+    "name": "ArmyBag",
+    "image": "ArmyBag.png",
+    "internal": 8,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37fc",
+        "trader": "Jaeger",
+        "level": 1
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 5,
+      "y": 7
+    },
+    "description": "",
+    "weight": 1.3,
+    "_id": "5f4a52549f319f4528ac37fd",
+    "name": "Attack 2",
+    "image": "Attack2.png",
+    "internal": 35,
+    "prices": [
+      {
+        "value": 57315,
+        "_id": "5f4a52549f319f4528ac37fe",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37ff",
+        "trader": "Ragman",
+        "level": 3
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 5,
+      "y": 5
+    },
+    "description": "",
+    "weight": 1.1,
+    "_id": "5f4a52549f319f4528ac3800",
+    "name": "Beta2",
+    "image": "Beta2.png",
+    "internal": 30,
+    "prices": [
+      {
+        "value": 50421,
+        "_id": "5f4a52549f319f4528ac3801",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 5
+    },
+    "description": "",
+    "weight": 0.8,
+    "_id": "5f4a52549f319f4528ac3802",
+    "name": "Berkut",
+    "image": "Berkut.png",
+    "internal": 20,
+    "prices": [
+      {
+        "value": 20736,
+        "_id": "5f4a52549f319f4528ac3803",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 5,
+      "y": 7
+    },
+    "description": "",
+    "weight": 1.3,
+    "_id": "5f4a52549f319f4528ac3804",
+    "name": "Paratus",
+    "image": "Paratus.png",
+    "internal": 35,
+    "prices": [
+      {
+        "value": 62856,
+        "_id": "5f4a52549f319f4528ac3805",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 5,
+      "y": 7
+    },
+    "description": "",
+    "weight": 1.2,
+    "_id": "5f4a52549f319f4528ac3806",
+    "name": "Blackjack 50",
+    "image": "Blackjack_50.png",
+    "internal": 42,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3807",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 5,
+      "y": 5
+    },
+    "description": "",
+    "weight": 1.25,
+    "_id": "5f4a52549f319f4528ac3808",
+    "name": "Mechanism",
+    "image": "Mechanism.png",
+    "internal": 32,
+    "prices": [
+      {
+        "value": 41861,
+        "_id": "5f4a52549f319f4528ac3809",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 6,
+      "y": 7
+    },
+    "description": "",
+    "weight": 3.3,
+    "_id": "5f4a52549f319f4528ac380a",
+    "name": "6SH118",
+    "image": "6SH118.png",
+    "internal": 48,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac380b",
+        "trader": "Prapor",
+        "level": 3
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac380c",
+        "trader": "Prapor",
+        "level": 4
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 4
+    },
+    "description": "",
+    "weight": 1.2,
+    "_id": "5f4a52549f319f4528ac380d",
+    "name": "Sanitar bag",
+    "image": "Sanitar_bag.png",
+    "internal": 16,
+    "prices": [],
+    "tradeups": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 5
+    },
+    "description": "Consumables only",
+    "weight": 1.6,
+    "_id": "5f4a52549f319f4528ac380e",
+    "name": "SFMP",
+    "image": "SFMP.png",
+    "internal": 35,
+    "prices": [],
+    "tradeups": [],
+    "__v": 0
+  }
+]

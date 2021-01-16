@@ -15,6 +15,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDestination
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -39,6 +40,7 @@ import com.mikepenz.materialdrawer.util.setupWithNavController
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import net.idik.lib.slimadapter.SlimAdapter
 
+
 class MainActivity : AppCompatActivity() {
 
     private var searchItem: MenuItem? = null
@@ -50,8 +52,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mSearchAdapter: SlimAdapter
     private lateinit var keysViewModel: KeysViewModel
     private lateinit var fleaViewModel: FleaViewModel
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             iconRes = R.drawable.icons8_discord_96
             isIconTinted = true
             isSelectable = false
-            onDrawerItemClickListener = {_, _, _ ->
+            onDrawerItemClickListener = { _, _, _ ->
                 "https://discord.gg/YQW36z29z6".openWithCustomTab(this@MainActivity)
                 false
             }
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
             iconRes = R.drawable.icons8_twitch_96
             isIconTinted = true
             isSelectable = false
-            onDrawerItemClickListener = {_, _, _ ->
+            onDrawerItemClickListener = { _, _, _ ->
                 "https://www.twitch.tv/theeeelegend".openWithCustomTab(this@MainActivity)
                 false
             }
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             iconRes = R.drawable.icons8_twitter_squared_96
             isIconTinted = true
             isSelectable = false
-            onDrawerItemClickListener = {_, _, _ ->
+            onDrawerItemClickListener = { _, _, _ ->
                 "https://twitter.com/austin6561".openWithCustomTab(this@MainActivity)
                 false
             }
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                         StringHolder("Ammunition"); iconRes = R.drawable.icons8_ammo_100;
                     },
                     null,
-                    null
+                    getNavOptions()
                 ),
                 NavigationDrawerItem(R.id.armorTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
@@ -134,11 +134,11 @@ class MainActivity : AppCompatActivity() {
                 NavigationDrawerItem(R.id.keysListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Keys"); iconRes = R.drawable.icons8_key_100;
-                }),
+                }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.medicalTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
                     StringHolder("Medical"); iconRes = R.drawable.icons8_syringe_100;
-                }),
+                }, options = getNavOptions()),
                 NavigationDrawerItem(
                     R.id.WeaponFragment,
                     PrimaryDrawerItem().apply {
@@ -156,7 +156,6 @@ class MainActivity : AppCompatActivity() {
                 NavigationDrawerItem(R.id.hideoutMainFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true;
                     name = StringHolder("Hideout"); iconRes = R.drawable.hideout_shadow_1
-
                 }),
                 NavigationDrawerItem(R.id.questMainFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true;
@@ -192,6 +191,8 @@ class MainActivity : AppCompatActivity() {
             setSavedInstance(savedInstanceState)
         }
 
+        binding.slider.recyclerView.isVerticalScrollBarEnabled = false
+
        //startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
     }
 
@@ -203,10 +204,28 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.hideoutMainFragment, R.id.fleaMarketListFragment, R.id.FirstFragment, R.id.WeaponFragment, R.id.armorTabFragment, R.id.backpackRigTabFragment, R.id.keysListFragment, R.id.medicalTabFragment, R.id.questMainFragment), binding.root)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.hideoutMainFragment,
+                R.id.fleaMarketListFragment,
+                R.id.FirstFragment,
+                R.id.WeaponFragment,
+                R.id.armorTabFragment,
+                R.id.backpackRigTabFragment,
+                R.id.keysListFragment,
+                R.id.medicalTabFragment,
+                R.id.questMainFragment
+            ), binding.root
+        )
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
-        actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
+        actionBarDrawerToggle = ActionBarDrawerToggle(
+            this,
+            binding.root,
+            toolbar,
+            com.mikepenz.materialdrawer.R.string.material_drawer_open,
+            com.mikepenz.materialdrawer.R.string.material_drawer_close
+        )
         binding.root.addDrawerListener(actionBarDrawerToggle)
         binding.slider.setupWithNavController(navController)
 
@@ -381,5 +400,14 @@ class MainActivity : AppCompatActivity() {
             val chip = binding.chipGroup2[list.indexOf(i)] as Chip
             chip.text = i
         }
+    }
+
+    private fun getNavOptions(): NavOptions {
+        return NavOptions.Builder()
+            .setEnterAnim(R.anim.fade_in)
+            .setExitAnim(R.anim.fade_out)
+            .setPopEnterAnim(R.anim.fade_in)
+            .setPopExitAnim(R.anim.fade_out)
+            .build()
     }
 }

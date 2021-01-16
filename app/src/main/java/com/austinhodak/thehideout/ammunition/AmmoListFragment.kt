@@ -2,20 +2,20 @@ package com.austinhodak.thehideout.ammunition
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.fragment.app.Fragment
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.inflate
+import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.models.AmmoModel
-import com.austinhodak.thehideout.viewmodels.AmmoSharedViewModel
-import com.bumptech.glide.Glide
 
 private const val ARG_PARAM1 = "param1"
 
@@ -24,7 +24,7 @@ class AmmoListFragment : Fragment() {
     private var param1: String = ""
     private var ammoList: List<AmmoModel>?= null
     private var adapter: RecyclerAdapter? = null
-    internal val sharedViewModel: AmmoSharedViewModel by activityViewModels()
+    internal val sharedViewModel: AmmoViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,7 +132,7 @@ class AmmoListFragment : Fragment() {
                 a5.setBackgroundResource(ammo.getColor(5))
                 a6.setBackgroundResource(ammo.getColor(6))
 
-                Glide.with(context).load("https://www.eftdb.one/static/item/thumb/${ammo.image}").placeholder(R.drawable.icons8_ammo_100).into(ammoImage)
+                //Glide.with(context).load("https://www.eftdb.one/static/item/thumb/${ammo.image}").placeholder(R.drawable.icons8_ammo_100).into(ammoImage)
 
                 if (ammo.armor == "------") {
                     armorPenLayout.visibility = View.GONE

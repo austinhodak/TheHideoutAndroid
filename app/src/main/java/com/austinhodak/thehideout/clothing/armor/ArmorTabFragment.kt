@@ -1,14 +1,13 @@
 package com.austinhodak.thehideout.clothing.armor
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.AmmoSharedViewModel
-import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

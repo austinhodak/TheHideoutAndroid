@@ -1,0 +1,114 @@
+[
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/ab/Combat_stimulant_SJ1_icon.png/revision/latest/scale-to-width-down/64?cb=20181228104353",
+    "name": "Combat stimulant injector SJ1 TGLabs",
+    "type": "Stimulator",
+    "buffs": "1s Delay; 180s Duration: \nIncreases Endurance (+20) \nIncreases Strength (+20) \nIncreases Stress Resistance (+20)",
+    "debuffs": "100s Delay; 200s Duration: \nDecreases energy recovery (-0.25/s) \nDecreases hydration recovery (-0.3/s)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/92/ETG_change_icon.png/revision/latest/scale-to-width-down/64?cb=20181228104905",
+    "name": "Regenerative stimulant injector eTG-change",
+    "type": "Stimulator",
+    "buffs": "Removes:\n 1s Delay; 90s Duration: \nIncreases Metabolism (+20) \nIncreases Immunity (+20) 1s Delay; 60s Duration: \nIncreases health regeneration (+6.5) \nIncreases energy recovery (+0.5/s)",
+    "debuffs": "65s Delay; 20s Duration: \nDecreases energy recovery (-3/s) 65s Delay; 60s Duration: \nDecreases Health (-5) \nDecreases Endurance (-5)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/9c/Combat_stimulant_SJ6_icon.png/revision/latest/scale-to-width-down/64?cb=20181228105911",
+    "name": "Combat stimulant injector SJ6 TGLabs",
+    "type": "Stimulator",
+    "buffs": "1s Delay; 240s Duration: \nIncreases max stamina (+30) \nIncreases stamina recovery rate (+2)",
+    "debuffs": "200s Delay; 40s Duration: \nCauses hands tremor \nCauses tunnel effect",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1b/PropitalIcon.png/revision/latest/scale-to-width-down/64?cb=20181227173047",
+    "name": "Propital",
+    "type": "Stimulator",
+    "buffs": "Removes:, \nAdds: for 240 seconds\n 1s Delay; 300s Duration: \nIncreases Metabolism (+20) \nIncreases Health (+20) \nIncreases Vitality (+20) \nIncreases health regeneration (+1)",
+    "debuffs": "270s Delay; 30s Duration: \nCauses hand tremor \nCauses tunnel effect",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b0/Hemostatic_drug_Zagustin_icon.png/revision/latest/scale-to-width-down/64?cb=20181228105459",
+    "name": "Hemostatic drug Zagustin",
+    "type": "Stimulator",
+    "buffs": "Removes: 1s Delay; 180s Duration: \nIncreases Vitality (+20) No Delay; 180s Duration: \nPrevents bleeding",
+    "debuffs": "170s Delay; 40s Duration: \nCauses hand tremor \nDecreases hydration recovery (-1.4/s) 1s Delay; 180s Duration: \nDecreases Metabolism (-5)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/33/Adrenaline_Icon.png/revision/latest/scale-to-width-down/64?cb=20190106131427",
+    "name": "Adrenaline injector",
+    "type": "Stimulator",
+    "buffs": "Removes:\nAdds: for 60 seconds\n 1s Delay; 60s Duration: \nIncreases Endurance (+10) \nIncreases Strength (+10) \nIncreases Recoil Control (+10) 1s Delay; 15s Duration: \nIncreases health regeneration (+4)",
+    "debuffs": "50s Delay; 30s Duration: \nDecreases energy recovery (-0.8/s) \nDecreases hydration recovery (-1/s) 1s Delay; 60s Duration: \nDecreases Stress Resistance (-10)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/30/Meldonin_Icon.png/revision/latest/scale-to-width-down/64?cb=20200727184535",
+    "name": "Meldonin",
+    "type": "Stimulator",
+    "buffs": "1s Delay; 900s Duration: \nDecreases damage taken \n(except the head) (-10%) \nIncreases stamina recovery rate (+0.5) \nIncreases Endurance (+20) \nIncreases Strength (+10)",
+    "debuffs": "30s Delay; 900s Duration: \nDecreases energy recovery (-0.1/s) \nDecreases hydration recovery (-0.1/s)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/65/AHF1-M_icon.png/revision/latest/scale-to-width-down/64?cb=20200727183436",
+    "name": "AHF1-M",
+    "type": "Stimulator",
+    "buffs": "1s Delay; 60s Duration: \nIncreases Health (+5) \nPrevents bleeding",
+    "debuffs": "1s Delay; 120s Duration: \nDecreases hydration recovery (-0.3/s)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f7/3-%28b-TG%29_icon.png/revision/latest/scale-to-width-down/64?cb=20200727184711",
+    "name": "3-(b-TG)",
+    "type": "Stimulator",
+    "buffs": "1s Delay; 240s Duration: \nIncreases Attention (+30) \nIncreases Perception (+30) \nIncreases Strength (+10) \nIncreases stamina recovery rate (+1)",
+    "debuffs": "220s Delay; 45s Duration: \nCauses hands tremor 120s Delay; 120s Duration: \nDecreases energy recovery (-0.25/s)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/bc/L1_%28Norepinephrine%29_Icon.png/revision/latest/scale-to-width-down/64?cb=20200727184618",
+    "name": "L1 (Norepinephrine)",
+    "type": "Stimulator",
+    "buffs": "Removes:\nAdds: for 120 seconds\n 1s Delay; 120s Duration: \nIncreases Endurance (+10) \nIncreases Strength (+20) \nIncreases maximum stamina (+30)",
+    "debuffs": "1s Delay; 60s Duration: \nDecreases energy recovery (-0.45/s) \nDecreases hydration recovery (-0.45/s)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2e/P22_Icon.png/revision/latest/scale-to-width-down/64?cb=20200727184647",
+    "name": "P22",
+    "type": "Stimulator",
+    "buffs": "1s Delay; 60s Duration: \nDecreases damage taken \n(except the head) (-10%) \nIncreases Stress Resistance (+30) \nIncreases Health (+30) \nIncreases Vitality (+30)",
+    "debuffs": "65s Delay; 60s Duration: \nDecreases Endurance (-10) \nDecreases stamina recovery rate (-0.8)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/51/Cocktail_Obdolbos_Icon.png/revision/latest/scale-to-width-down/64?cb=20200727182732",
+    "name": "Cocktail \"Obdolbos\"",
+    "type": "Stimulator",
+    "buffs": "1s Delay; 1800s Duration: \nIncreases Endurance (+10) \nIncreases Strength (+10) \nIncreases Stress Resistance (+20) \nIncreases Charisma (+20) \nIncreases stamina recovery rate (+0.5)",
+    "debuffs": "1s Delay; 1800s Duration: \nAdds \nAdds \nDecreases Memory (-20) \nDecreases Intellect (-20) \nDecreases Attention (-20) \nCause abdominal bleeding (+25%) \nReduces hydration recovery (-0.05/s) \nReduces energy recovery (-0.05/s) \nIncreases damage taken \n(except the head) (+20%) \nCauses tunnel effect",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c2/M.U.L.E._Stimulator_Icon.png/revision/latest/scale-to-width-down/64?cb=20200727184509",
+    "name": "M.U.L.E. stimulator",
+    "type": "Stimulator",
+    "buffs": "1s Delay; 900s Duration: \nIncreases weight limit (+50%)",
+    "debuffs": "1s Delay; 900s Duration: \nDecreases health regeneration (-0.1) \nIncreased damage taken \n(except the head) (+9%)",
+    "use_time": 2
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/ba/XTG-12icon.png/revision/latest/scale-to-width-down/64?cb=20201228003048",
+    "name": "Antidote xTG-12",
+    "type": "Stimulator",
+    "buffs": "6s Delay; 60s Duration: \nAntidote",
+    "debuffs": "6s Delay; 60s Duration: \nDecreases Health (-5)",
+    "use_time": 2
+  }
+]

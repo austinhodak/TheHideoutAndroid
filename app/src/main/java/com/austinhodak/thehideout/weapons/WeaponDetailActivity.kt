@@ -1,13 +1,12 @@
 package com.austinhodak.thehideout.weapons
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
@@ -85,7 +84,7 @@ class WeaponDetailActivity : AppCompatActivity() {
                 injector.background(R.id.ammoSmallDMG6, data.getColor(6))
 
                 when {
-                    data.recoil == 0 -> {
+                    data.recoil == 0.0 -> {
                         injector.textColor(
                             R.id.ammoSmallRecoil,
                             resources.getColor(R.color.primaryText87)
@@ -106,7 +105,7 @@ class WeaponDetailActivity : AppCompatActivity() {
                 }
 
                 when {
-                    data.accuracy == 0 -> {
+                    data.accuracy == 0.0 -> {
                         injector.textColor(
                             R.id.ammoSmallACC,
                             resources.getColor(R.color.primaryText87)

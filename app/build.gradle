@@ -4,6 +4,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
     id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.10'
 }
 
 kapt {
@@ -118,4 +119,10 @@ dependencies {
     implementation 'jp.wasabeef:recyclerview-animators:4.0.1'
 
     implementation "com.github.skydoves:only:1.0.8"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+    implementation("com.squareup.moshi:moshi:1.11.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
 }
