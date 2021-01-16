@@ -4,7 +4,6 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.userRef
-import com.google.firebase.ktx.Firebase
 
 data class HideoutModule(
     var module: String,
@@ -83,10 +82,10 @@ data class HideoutModule(
     }
 
     fun buildModule() {
-        Firebase.userRef("/hideout/completed/\"$id\"").setValue(true)
+        userRef("/hideout/completed/\"$id\"").setValue(true)
     }
 
     fun downgradeModule() {
-        Firebase.userRef("/hideout/completed/\"$id\"").removeValue()
+        userRef("/hideout/completed/\"$id\"").removeValue()
     }
 }

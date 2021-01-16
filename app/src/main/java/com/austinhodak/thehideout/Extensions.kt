@@ -79,17 +79,10 @@ fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     startActivity(intent)
 }
 
-fun Firebase.userRef(ref: String? = null): DatabaseReference {
+fun userRef(ref: String? = null): DatabaseReference {
     return Firebase.database.getReference("users/${Firebase.auth.uid}/$ref/")
 }
 
-fun Firebase.flea(): DatabaseReference {
+fun flea(): DatabaseReference {
     return Firebase.database("https://hideout-flea-market.firebaseio.com/").reference
 }
-
-/*
-fun Firebase.getUser(): UserFB {
-    val userID = Firebase.auth.currentUser?.uid
-    Firebase.database.getReference("user/$userID")
-}
-*/

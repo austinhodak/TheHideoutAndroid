@@ -19,7 +19,6 @@ class KeysViewModel(application: Application) : AndroidViewModel(application){
         emit(getKeys())
     }
 
-
     private suspend fun getKeys(): List<Key> = withContext(Dispatchers.IO) {
         Json.decodeFromString(context.resources.openRawResource(R.raw.keys).bufferedReader().use { it.readText() })
     }

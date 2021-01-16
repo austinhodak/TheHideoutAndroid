@@ -50,7 +50,7 @@ class HideoutViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun loadModuleFirebase() {
-        Firebase.userRef("/hideout/").addValueEventListener(object : ValueEventListener {
+        userRef("/hideout/").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 completedModules.value = snapshot.getValue<UserFB.UserFBHideout>()
 

@@ -10,7 +10,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONArray
@@ -37,7 +36,7 @@ class FleaViewModel : ViewModel() {
     }
 
     private fun getAllItemsRTDB() {
-        Firebase.flea().child("items").addValueEventListener(object : ValueEventListener {
+        flea().child("items").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = snapshot.children.map {
                     it.getValue<FleaItem>()!!

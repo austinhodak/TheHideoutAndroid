@@ -30,6 +30,15 @@ android {
         dataBinding true
     }
 
+    signingConfigs {
+        debug {
+            storeFile file('../debug.keystore')
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -121,6 +130,7 @@ dependencies {
     implementation "com.github.skydoves:only:1.0.8"
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+
     implementation("com.squareup.moshi:moshi:1.11.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
 

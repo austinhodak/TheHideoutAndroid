@@ -6,7 +6,6 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.quests.QuestsHelper
 import com.austinhodak.thehideout.userRef
-import com.google.firebase.ktx.Firebase
 
 data class Quest(
     var id: Int,
@@ -100,16 +99,16 @@ data class Quest(
 
         fun increment(objectivesList: UserFB.UserFBQuestObjectives) {
             if (getCount(objectivesList) < number) {
-                Firebase.userRef("/questObjectives/progress/\"$id\"").setValue(getCount(objectivesList) + 1)
+                userRef("/questObjectives/progress/\"$id\"").setValue(getCount(objectivesList) + 1)
             }
         }
 
         fun decrement(objectivesList: UserFB.UserFBQuestObjectives) {
             if (getCount(objectivesList) in 1..number) {
                 if (getCount(objectivesList) - 1 == 0) {
-                    Firebase.userRef("/questObjectives/progress/\"$id\"").removeValue()
+                    userRef("/questObjectives/progress/\"$id\"").removeValue()
                 } else {
-                    Firebase.userRef("/questObjectives/progress/\"$id\"").setValue(getCount(objectivesList) - 1)
+                    userRef("/questObjectives/progress/\"$id\"").setValue(getCount(objectivesList) - 1)
                 }
             }
         }

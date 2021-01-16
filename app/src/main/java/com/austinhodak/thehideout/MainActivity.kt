@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var weaponViewModel: WeaponViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
-    private lateinit var headerView: AccountHeaderView
     private lateinit var mSearchAdapter: SlimAdapter
     private lateinit var keysViewModel: KeysViewModel
     private lateinit var fleaViewModel: FleaViewModel
@@ -65,13 +64,6 @@ class MainActivity : AppCompatActivity() {
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Firebase.auth.signInAnonymously().addOnSuccessListener {
-            Log.d("FIREBASE_USER", "UID: ${it.user?.uid}")
-        }
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -192,8 +184,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.slider.recyclerView.isVerticalScrollBarEnabled = false
-
-       //startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
     }
 
     private fun setupNavigation() {
@@ -372,12 +362,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
-        if (binding.root.isDrawerOpen(binding.slider)) {
-            binding.root.closeDrawer(binding.slider)
-        } else if (binding.searchView.isSearchOpen) {
-            binding.searchView.closeSearch()
-        } else {
-            super.onBackPressed()
+        when {
+            binding.root.isDrawerOpen(binding.slider) -> {
+                binding.root.closeDrawer(binding.slider)
+            }
+            binding.searchView.isSearchOpen -> {
+                binding.searchView.closeSearch()
+            }
+            else -> {
+                super.onBackPressed()
+            }
         }
     }
 
