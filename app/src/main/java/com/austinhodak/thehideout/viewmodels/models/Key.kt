@@ -1,5 +1,8 @@
 package com.austinhodak.thehideout.viewmodels.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Key(
     val icon: String,
     val name: String,

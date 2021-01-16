@@ -1,19 +1,18 @@
 package com.austinhodak.thehideout.weapons
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.observe
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.ammunition.AmmoListFragment
-import com.austinhodak.thehideout.viewmodels.models.CaliberModel
-import com.austinhodak.thehideout.viewmodels.AmmoSharedViewModel
+import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,7 +24,7 @@ class WeaponsTabFragment : Fragment() {
     private lateinit var classes: Array<String>
     private lateinit var classesNames: Array<String>
     private var sortBy: Int = 0
-    internal val sharedViewModel: AmmoSharedViewModel by activityViewModels()
+    internal val sharedViewModel: AmmoViewModel by activityViewModels()
     val weaponViewModel: WeaponViewModel by activityViewModels()
 
     override fun onCreateView(

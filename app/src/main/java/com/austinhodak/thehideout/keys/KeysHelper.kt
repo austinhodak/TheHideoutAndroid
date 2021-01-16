@@ -1,15 +1,12 @@
 package com.austinhodak.thehideout.keys
 
 import android.content.Context
-import android.util.Log
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.AmmoModel
-import com.austinhodak.thehideout.viewmodels.models.Armor
-import com.austinhodak.thehideout.viewmodels.models.CaliberModel
 import com.austinhodak.thehideout.viewmodels.models.Key
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.miguelcatalan.materialsearchview.SuggestionModel
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.json.JSONArray
 import java.lang.reflect.Type
 
@@ -27,5 +24,9 @@ object KeysHelper {
             list = Gson().fromJson(map.toString(), groupListType)
         }
         return list!!.sortedBy { it.name }
+    }
+
+    fun getKeys(context: Context, klaxon: Boolean): List<Key> {
+        return Json.decodeFromString( context.resources.openRawResource(R.raw.keys).bufferedReader().use { it.readText() } )
     }
 }

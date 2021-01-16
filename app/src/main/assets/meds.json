@@ -1,0 +1,192 @@
+[
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e0/EFT_Painkillers_Icon.png/revision/latest/scale-to-width-down/64?cb=20181225203435",
+    "name": "Analgin painkillers",
+    "type": "Drug",
+    "effect": "Removes: $pain\nAdds: $painkiller for 95 seconds \nHydration: -17",
+    "use_time": 3,
+    "uses": 4,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2c/EFT_Augmentin-antibiotic-pills_Icon.png/revision/latest/scale-to-width-down/64?cb=20181110225235",
+    "name": "Augmentin antibiotic pills",
+    "type": "Drug",
+    "effect": "Removes:  Adds: for 150 seconds",
+    "use_time": 5,
+    "uses": 1,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/99/EFT_Morphine_Icon.png/revision/latest/scale-to-width-down/64?cb=20181110225358",
+    "name": "Morphine injector",
+    "type": "Injector",
+    "effect": "Removes: \nAdds: for 300 seconds \nEnergy: -10 \nHydration: -13",
+    "use_time": 2,
+    "uses": 1,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/8a/Ibuprofen_painkiller_icon.png/revision/latest/scale-to-width-down/64?cb=20181225203448",
+    "name": "Ibuprofen painkillers",
+    "type": "Drug",
+    "effect": "Removes: \nAdds: for 280 seconds \nHydration: -15",
+    "use_time": 5,
+    "uses": 12,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/11/EFT_Aseptic-Bandage_Icon.png/revision/latest/scale-to-width-down/64?cb=20181110225317",
+    "name": "Aseptic bandage",
+    "type": "Injury treatment",
+    "effect": "Removes: Adds:",
+    "use_time": 2,
+    "uses": 1,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2a/EFT_Army-Bandage_Icon.png/revision/latest/scale-to-width-down/64?cb=20181229224554",
+    "name": "Army bandage",
+    "type": "Injury treatment",
+    "effect": "Removes: Adds:",
+    "use_time": 2,
+    "uses": 2,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ef/AI-2_Icon.png/revision/latest/scale-to-width-down/64?cb=20181108092224",
+    "name": "AI-2 medikit",
+    "type": "Medikit",
+    "effect": "Removes: Radiation Exposure Adds:",
+    "use_time": 2,
+    "uses": null,
+    "hp_pool": 100,
+    "max_hp_heal": 50
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b9/EFT_Car-first-aid-kit_Icon.png/revision/latest/scale-to-width-down/127?cb=20181110225325",
+    "name": "Car first aid kit",
+    "type": "Medikit",
+    "effect": "Removes:, Radiation Exposure Adds:",
+    "use_time": 3,
+    "uses": null,
+    "hp_pool": 220,
+    "max_hp_heal": 70
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/77/EFT_Salewa-First-Aid-Kit_Icon_2.png/revision/latest/scale-to-width-down/64?cb=20181108092455",
+    "name": "Salewa FIRST AID KIT",
+    "type": "Medikit",
+    "effect": "Removes: Adds:",
+    "use_time": 3,
+    "uses": null,
+    "hp_pool": 400,
+    "max_hp_heal": 85
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/20/EFT_IFAK_Icon.png/revision/latest/scale-to-width-down/64?cb=20181110225349",
+    "name": "IFAK personal tactical first aid kit",
+    "type": "Medikit",
+    "effect": "Removes:, Radiation Exposure Adds:",
+    "use_time": 3,
+    "uses": null,
+    "hp_pool": 300,
+    "max_hp_heal": 50
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/92/EFT_Grizzly_Icon.png/revision/latest/scale-to-width-down/127?cb=20190417074050",
+    "name": "Grizzly First Aid Kit",
+    "type": "Medikit",
+    "effect": "Removes: Adds:",
+    "use_time": 5,
+    "uses": null,
+    "hp_pool": 1800,
+    "max_hp_heal": 175
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/26/EFT_Splint_Icon.png/revision/latest/scale-to-width-down/64?cb=20181108092355",
+    "name": "Immobilizing splint",
+    "type": "Injury treatment",
+    "effect": "Removes:",
+    "use_time": 5,
+    "uses": 1,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/81/AluSplintIcon.png/revision/latest/scale-to-width-down/64?cb=20190412235606",
+    "name": "Immobilizing splint (alu)",
+    "type": "Injury treatment",
+    "effect": "Removes:",
+    "use_time": 3,
+    "uses": 5,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/43/EFT_Vaseline_Icon.png/revision/latest/scale-to-width-down/64?cb=20181227204507",
+    "name": "Vaseline",
+    "type": "Injury treatment",
+    "effect": "Removes: \nAdds: for 350 seconds \nEnergy : -5 \nHydration: -5",
+    "use_time": 6,
+    "uses": 10,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c1/Golden_Star_Balm_Icon.png/revision/latest/scale-to-width-down/64?cb=20181227204344",
+    "name": "Golden Star Balm",
+    "type": "Injury treatment",
+    "effect": "Removes: \nRadiation Exposure for 400 seconds \nAdds: for 400 seconds \nIncreases hydration recovery for 5 seconds (+1 per second) \nIncreases energy recovery for 5 seconds (+1 per second) \nEnergy: -10",
+    "use_time": 7,
+    "uses": 10,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/6d/CMS_Icon.png/revision/latest/scale-to-width-down/127?cb=20200416105348",
+    "name": "CMS kit",
+    "type": "Injury treatment",
+    "effect": "Remove: Destroyed body part (but thorax or head)",
+    "use_time": 16,
+    "uses": 5,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/46/Surv12_icon.png/revision/latest/scale-to-width-down/190?cb=20200416105341",
+    "name": "Surv12 field surgical kit",
+    "type": "Injury treatment",
+    "effect": "Remove: , Destroyed body part (but thorax or head)",
+    "use_time": 20,
+    "uses": 15,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d6/TournIcon.png/revision/latest/scale-to-width-down/64?cb=20201019165332",
+    "name": "Esmarch tourniquet",
+    "type": "Injury treatment",
+    "effect": "Remove:",
+    "use_time": 5,
+    "uses": 1,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d9/HemostaticIcon.png/revision/latest/scale-to-width-down/64?cb=20201019165621",
+    "name": "CALOK-B Hemostatic",
+    "type": "Injury treatment",
+    "effect": "Remove:",
+    "use_time": 3,
+    "uses": 3,
+    "hp_pool": 0,
+    "max_hp_heal": 0
+  }
+]

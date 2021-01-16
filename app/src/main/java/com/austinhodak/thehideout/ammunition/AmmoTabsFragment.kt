@@ -7,8 +7,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.models.CaliberModel
-import com.austinhodak.thehideout.viewmodels.AmmoSharedViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -18,7 +18,7 @@ class AmmoTabsFragment : Fragment() {
     private lateinit var tabs: TabLayout
     private lateinit var calibers: List<CaliberModel>
     private var sortBy: Int = 0
-    internal val sharedViewModel: AmmoSharedViewModel by activityViewModels()
+    internal val sharedViewModel: AmmoViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,7 @@ class AmmoTabsFragment : Fragment() {
         setHasOptionsMenu(true)
 
         
-        calibers = AmmoHelper.getCalibers(requireContext())
+        calibers = AmmoHelper.getCalibers(requireContext(), true)
 
         return inflater.inflate(R.layout.fragment_ammo_tabs, container, false)
     }
@@ -38,7 +38,7 @@ class AmmoTabsFragment : Fragment() {
         val viewpager = view.findViewById<ViewPager2>(R.id.ammo_viewpager)
         viewpager.adapter = collectionAdapter
         tabs = view.findViewById(R.id.ammo_tabs)
-        viewpager.offscreenPageLimit = 3
+        //viewpager.offscreenPageLimit = 3
         for (i in calibers) {
             tabs.addTab(tabs.newTab().setText(i.name))
         }

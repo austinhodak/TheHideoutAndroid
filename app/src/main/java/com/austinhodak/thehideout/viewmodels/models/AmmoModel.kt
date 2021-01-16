@@ -1,19 +1,20 @@
 package com.austinhodak.thehideout.viewmodels.models
 
-import android.util.Log
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.getCurrency
 import com.austinhodak.thehideout.getTraderLevel
+import kotlinx.serialization.Serializable
 import java.text.DecimalFormat
 
+@Serializable
 data class AmmoModel (
     var description: String,
     var weight: Double,
     var velocity: Int,
     var damage: Int,
     var penetration: Int,
-    var recoil: Int,
-    var accuracy: Int,
+    var recoil: Double,
+    var accuracy: Double,
     var tracer: Boolean,
     var prices: List<AmmoPriceModel>,
     var _id: String,
@@ -21,8 +22,8 @@ data class AmmoModel (
     var armor: String,
     var image: String,
     var tradeups: List<AmmoTradeup>,
-    var caliber: String,
-    val armor_damage: Int,
+    var caliber: String = "",
+    val armor_damage: Int = 0,
     val bullets: Int = 1
 ) {
     fun getAccuracy(): String {
@@ -73,6 +74,7 @@ data class AmmoModel (
     }
 }
 
+@Serializable
 data class AmmoPriceModel (
     var value: Double,
     var _id: String,
@@ -86,6 +88,7 @@ data class AmmoPriceModel (
     }
 }
 
+@Serializable
 data class AmmoTradeup (
     var _id: String,
     var trader: String,

@@ -1,0 +1,2994 @@
+[
+  {
+    "grid": {
+      "x": 4,
+      "y": 4
+    },
+    "blunt": 0.150,
+    "resistance": 40,
+    "destructibility": 0.55,
+    "description": "",
+    "weight": 7,
+    "level": 4,
+    "hitpoints": 60,
+    "movement": -8,
+    "turn": -5,
+    "ergonomics": -2,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac3745",
+    "name": "M2",
+    "image": "M2.png",
+    "material": "Titan",
+    "class": "Chest Rig",
+    "internal": 18,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3746",
+        "trader": "Ragman",
+        "level": 3
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3747",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 4
+    },
+    "blunt": 0.13,
+    "resistance": 50,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 9.5,
+    "level": 5,
+    "hitpoints": 50,
+    "turn": -3,
+    "ergonomics": -3,
+    "movement": -7,
+    "zones": [
+      "Thorax"
+    ],
+    "_id": "5f4a52549f319f4528ac3748",
+    "name": "Tactec",
+    "image": "Tactec.png",
+    "material": "Ultrahighweight polyethylene",
+    "class": "Chest Rig",
+    "internal": 18,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3749",
+        "trader": "Ragman",
+        "level": 2
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac374a",
+        "trader": "Ragman",
+        "level": 3
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac374b",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.17,
+    "resistance": 40,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 12.2,
+    "level": 4,
+    "hitpoints": 50,
+    "movement": -14,
+    "turn": -7,
+    "ergonomics": -12,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac374c",
+    "name": "6B5-15",
+    "image": "6B5-15.png",
+    "material": "Ceramic",
+    "class": "Chest Rig",
+    "internal": 10,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac374d",
+        "trader": "Ragman",
+        "level": 1
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.16,
+    "resistance": 30,
+    "destructibility": 0.55,
+    "description": "",
+    "weight": 7.1,
+    "level": 3,
+    "hitpoints": 80,
+    "movement": -9,
+    "turn": -5,
+    "ergonomics": -12,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac374e",
+    "name": "6B5-16",
+    "image": "6B5-16.png",
+    "material": "Titan",
+    "class": "Chest Rig",
+    "internal": 10,
+    "prices": [
+      {
+        "value": 44820,
+        "_id": "5f4a52549f319f4528ac374f",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 4
+    },
+    "blunt": 0.150,
+    "resistance": 40,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 8.3,
+    "level": 4,
+    "hitpoints": 65,
+    "movement": -10,
+    "turn": -5,
+    "ergonomics": -5,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac3750",
+    "name": "M1",
+    "image": "M1.png",
+    "material": "Armor steel",
+    "class": "Chest Rig",
+    "internal": 20,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3751",
+        "trader": "Ragman",
+        "level": 3
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 3
+    },
+    "blunt": 0.16,
+    "resistance": 40,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 10.3,
+    "level": 4,
+    "hitpoints": 85,
+    "movement": -8,
+    "turn": -4,
+    "ergonomics": -5,
+    "zones": [
+      "Thorax"
+    ],
+    "_id": "5f4a52549f319f4528ac3752",
+    "name": "TV-110",
+    "image": "TV-110.png",
+    "material": "Armor steel",
+    "class": "Chest Rig",
+    "internal": 23,
+    "prices": [
+      {
+        "value": 156090,
+        "_id": "5f4a52549f319f4528ac3753",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.13,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 8.2,
+    "level": 4,
+    "hitpoints": 80,
+    "movement": -7,
+    "turn": -4,
+    "ergonomics": -6,
+    "zones": [
+      "Thorax"
+    ],
+    "_id": "5f4a52549f319f4528ac3754",
+    "name": "A18",
+    "image": "A18.png",
+    "material": "Combined materials",
+    "class": "Chest Rig",
+    "internal": 25,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3755",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.11,
+    "resistance": 50,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 8.5,
+    "level": 5,
+    "hitpoints": 60,
+    "movement": -6,
+    "turn": -3,
+    "ergonomics": -5,
+    "zones": [
+      "Thorax"
+    ],
+    "_id": "5f4a52549f319f4528ac3756",
+    "name": "AACPC",
+    "image": "AACPC.png",
+    "material": "Ultrahighweight polyethylene",
+    "class": "Chest Rig",
+    "internal": 23,
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3757",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.35,
+    "resistance": 20,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 8,
+    "level": 2,
+    "hitpoints": 40,
+    "movement": -7,
+    "turn": -6,
+    "ergonomics": -4,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac3758",
+    "name": "3M",
+    "image": "3M.png",
+    "material": "Aramid",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3759",
+        "trader": "Ragman",
+        "level": 2
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.30,
+    "resistance": 20,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 7,
+    "level": 2,
+    "hitpoints": 50,
+    "movement": -6,
+    "turn": -5,
+    "ergonomics": -6,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac375a",
+    "name": "PACA",
+    "image": "PACA.png",
+    "material": "Aramid",
+    "class": "Body Armor",
+    "prices": [
+      {
+        "value": 28367,
+        "_id": "5f4a52549f319f4528ac375b",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac375c",
+        "trader": "Ragman",
+        "level": 1
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 4
+    },
+    "blunt": 0.25,
+    "resistance": 60,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 20,
+    "level": 6,
+    "hitpoints": 85,
+    "movement": -42,
+    "turn": -21,
+    "ergonomics": -27,
+    "zones": [
+      "Left Arm",
+      "Right Arm",
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac375d",
+    "name": "6B43 6A",
+    "image": "6B43_6A.png",
+    "material": "Combined materials",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac375e",
+        "trader": "Ragman",
+        "level": 4
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac375f",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.16,
+    "resistance": 20,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 1.9,
+    "level": 2,
+    "hitpoints": 25,
+    "movement": -2,
+    "turn": -10,
+    "ergonomics": -5,
+    "zones": [
+      "Top"
+    ],
+    "_id": "5f4a52549f319f4528ac3760",
+    "name": "Kolpak",
+    "image": "Kolpak.png",
+    "material": "Aramid",
+    "class": "Helmet",
+    "ricochet": "Low",
+    "prices": [
+      {
+        "value": 7917,
+        "_id": "5f4a52549f319f4528ac3761",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.150,
+    "resistance": 30,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 1.2,
+    "level": 3,
+    "hitpoints": 35,
+    "movement": -3,
+    "turn": -5,
+    "ergonomics": -1,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac3762",
+    "name": "Kiver-M",
+    "image": "Kiver-M.png",
+    "material": "Ultrahighweight polyethylene",
+    "class": "Helmet",
+    "ricochet": "Medium",
+    "prices": [
+      {
+        "value": 33614,
+        "_id": "5f4a52549f319f4528ac3763",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.14,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 0.9,
+    "level": 4,
+    "hitpoints": 40,
+    "movement": -1,
+    "turn": -7,
+    "ergonomics": 0,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac3764",
+    "name": "Fast MT",
+    "image": "Fast_MT.png",
+    "material": "Aramid",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 144090,
+        "_id": "5f4a52549f319f4528ac3765",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.17,
+    "resistance": 30,
+    "destructibility": 0.60,
+    "description": "",
+    "weight": 1.3,
+    "level": 3,
+    "hitpoints": 25,
+    "movement": -1,
+    "turn": -5,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac3766",
+    "name": "6B47",
+    "image": "6B47.png",
+    "material": "Aluminum",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 33030,
+        "_id": "5f4a52549f319f4528ac3767",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3768",
+        "trader": "Ragman",
+        "level": 1
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.17,
+    "resistance": 30,
+    "destructibility": 0.60,
+    "description": "",
+    "weight": 1.3,
+    "level": 3,
+    "hitpoints": 25,
+    "movement": -1,
+    "turn": -5,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac3769",
+    "name": "6B47 Camouflaged",
+    "image": "6B47_Camouflaged.png",
+    "material": "Aluminum",
+    "class": "Helmet",
+    "ricochet": "Medium",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac376a",
+        "trader": "Ragman",
+        "level": 2
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.14,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 0.9,
+    "level": 4,
+    "hitpoints": 40,
+    "movement": -1,
+    "turn": -7,
+    "ergonomics": 0,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac376b",
+    "name": "Fast MT Black",
+    "image": "Fast_MT_Black.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 1229,
+        "_id": "5f4a52549f319f4528ac376c",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.20,
+    "resistance": 30,
+    "destructibility": 0.60,
+    "description": "",
+    "weight": 11,
+    "level": 3,
+    "hitpoints": 50,
+    "movement": -18,
+    "turn": -6,
+    "ergonomics": -8,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac376d",
+    "name": "MF-UN",
+    "image": "MF-UN.png",
+    "material": "Aluminum",
+    "class": "Body Armor",
+    "prices": [
+      {
+        "value": 376,
+        "_id": "5f4a52549f319f4528ac376e",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac376f",
+        "trader": "Ragman",
+        "level": 2
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.18,
+    "resistance": 30,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 2.2,
+    "level": 3,
+    "hitpoints": 20,
+    "movement": -2,
+    "turn": -10,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac3770",
+    "name": "UNTAR",
+    "image": "UNTAR.png",
+    "material": "Aramid",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 201,
+        "_id": "5f4a52549f319f4528ac3771",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3772",
+        "trader": "Ragman",
+        "level": 2
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.150,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 3.7,
+    "level": 4,
+    "hitpoints": 30,
+    "movement": -3,
+    "turn": -8,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac3773",
+    "name": "ZSh-1-2M",
+    "image": "ZSh-1-2M.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "Medium",
+    "prices": [
+      {
+        "value": 63800,
+        "_id": "5f4a52549f319f4528ac3774",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [
+      {
+        "vital": false,
+        "attachments": [],
+        "_id": "5f4a52549f319f4528ac3775",
+        "name": "Faceshield"
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.150,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 3.7,
+    "level": 4,
+    "hitpoints": 30,
+    "movement": -3,
+    "turn": -8,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac3776",
+    "name": "ZSh-1-2M Black",
+    "image": "ZSh-1-2M_Black.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "Medium",
+    "prices": [
+      {
+        "value": 45430,
+        "_id": "5f4a52549f319f4528ac3777",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [
+      {
+        "vital": false,
+        "attachments": [],
+        "_id": "5f4a52549f319f4528ac3778",
+        "name": "Faceshield"
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.12,
+    "resistance": 50,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 8.9,
+    "level": 5,
+    "hitpoints": 65,
+    "movement": -10,
+    "turn": -3,
+    "ergonomics": -4,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac3779",
+    "name": "GZHEL-K",
+    "image": "GZHEL-K.png",
+    "material": "Ceramic",
+    "class": "Body Armor",
+    "prices": [
+      {
+        "value": 122936,
+        "_id": "5f4a52549f319f4528ac377a",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac377b",
+        "trader": "Ragman",
+        "level": 3
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.10,
+    "resistance": 30,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 3.5,
+    "level": 3,
+    "hitpoints": 100,
+    "movement": -2,
+    "turn": -10,
+    "ergonomics": -3,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac377c",
+    "name": "SFERA",
+    "image": "SFERA.png",
+    "material": "Armor steel",
+    "class": "Helmet",
+    "ricochet": "Medium",
+    "prices": [
+      {
+        "value": 69311,
+        "_id": "5f4a52549f319f4528ac377d",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.14,
+    "resistance": 50,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 4,
+    "level": 5,
+    "hitpoints": 45,
+    "movement": -7,
+    "turn": -17,
+    "ergonomics": -6,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac377e",
+    "name": "Altyn",
+    "image": "Altyn.png",
+    "material": "Armor steel",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac377f",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [
+      {
+        "vital": false,
+        "attachments": [],
+        "_id": "5f4a52549f319f4528ac3780",
+        "name": "Faceshield"
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.08,
+    "resistance": 50,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.4,
+    "level": 5,
+    "hitpoints": 50,
+    "movement": 0,
+    "turn": -8,
+    "ergonomics": -7,
+    "zones": [
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac3781",
+    "name": "Altyn Face Shield",
+    "image": "Altyn_FShield.png",
+    "material": "Combined materials",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3782",
+        "trader": "Ragman",
+        "level": 3
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3783",
+        "trader": "Ragman",
+        "level": 4
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3784",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.10,
+    "resistance": 30,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 1,
+    "level": 3,
+    "hitpoints": 50,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": -5,
+    "zones": [
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac3785",
+    "name": "ZSh-1-2M Face Shield",
+    "image": "ZSh-1-2M_FShield.png",
+    "material": "Glass",
+    "class": "Attachment",
+    "ricochet": "Medium",
+    "prices": [
+      {
+        "value": 18740,
+        "_id": "5f4a52549f319f4528ac3786",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3787",
+        "trader": "Ragman",
+        "level": 2
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.150,
+    "resistance": 30,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 1,
+    "level": 3,
+    "hitpoints": 40,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": 0,
+    "zones": [
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac3788",
+    "name": "Fast MT Face Shield",
+    "image": "Fast_MT_FShield.png",
+    "material": "Glass",
+    "class": "Attachment",
+    "ricochet": "Medium",
+    "prices": [
+      {
+        "value": 336,
+        "_id": "5f4a52549f319f4528ac3789",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.150,
+    "resistance": 20,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 1,
+    "level": 2,
+    "hitpoints": 20,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": 0,
+    "zones": [
+      "Eyes"
+    ],
+    "_id": "5f4a52549f319f4528ac378a",
+    "name": "Fast MT Face Visor",
+    "image": "Fast_MT_FVisor.png",
+    "material": "Glass",
+    "class": "Attachment",
+    "ricochet": "Low",
+    "prices": [
+      {
+        "value": 110,
+        "_id": "5f4a52549f319f4528ac378b",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      },
+      {
+        "value": 12650,
+        "_id": "5f4a52549f319f4528ac378c",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.20,
+    "resistance": 20,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 1.2,
+    "level": 2,
+    "hitpoints": 20,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": -6,
+    "zones": [
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac378d",
+    "name": "Fast MT Mandible",
+    "image": "Fast_MT_Mandible.png",
+    "material": "Aramid",
+    "class": "Attachment",
+    "ricochet": "Low",
+    "prices": [
+      {
+        "value": 200,
+        "_id": "5f4a52549f319f4528ac378e",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.150,
+    "resistance": 30,
+    "destructibility": 0.60,
+    "description": "",
+    "weight": 1.2,
+    "level": 3,
+    "hitpoints": 25,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": 0,
+    "zones": [
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac378f",
+    "name": "Fast MT Side Armor",
+    "image": "Fast_MT_SArmor.png",
+    "material": "Aluminum",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 322,
+        "_id": "5f4a52549f319f4528ac3790",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.10,
+    "resistance": 20,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 1,
+    "level": 2,
+    "hitpoints": 30,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": 0,
+    "zones": [
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac3791",
+    "name": "Kolpak Visor",
+    "image": "Kolpak_Visor.png",
+    "material": "Glass",
+    "class": "Attachment",
+    "ricochet": "Low",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3792",
+        "trader": "Ragman",
+        "level": 1
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.150,
+    "resistance": 30,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 1.2,
+    "level": 3,
+    "hitpoints": 40,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": -7,
+    "zones": [
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac3793",
+    "name": "Kiver Face Shield",
+    "image": "Kiver_FS.png",
+    "material": "Glass",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 27076,
+        "_id": "5f4a52549f319f4528ac3794",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.24,
+    "resistance": 30,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 4.1,
+    "level": 3,
+    "hitpoints": 70,
+    "movement": -8,
+    "turn": -5,
+    "ergonomics": -6,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac3795",
+    "name": "Kirisa",
+    "image": "Kirisa.png",
+    "material": "Combined materials",
+    "class": "Body Armor",
+    "prices": [
+      {
+        "value": 62809,
+        "_id": "5f4a52549f319f4528ac3796",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3797",
+        "trader": "Ragman",
+        "level": 2
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.150,
+    "resistance": 30,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 0.95,
+    "level": 3,
+    "hitpoints": 30,
+    "movement": -1,
+    "turn": -7,
+    "ergonomics": 0,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac3798",
+    "name": "LZSh",
+    "image": "LZSh.png",
+    "material": "Aramid",
+    "class": "Helmet",
+    "ricochet": "Low",
+    "prices": [
+      {
+        "value": 53711,
+        "_id": "5f4a52549f319f4528ac3799",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.13,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.5,
+    "level": 4,
+    "hitpoints": 30,
+    "movement": -2,
+    "turn": -7,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac379a",
+    "name": "ACHHC",
+    "image": "ACHHC.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 57200,
+        "_id": "5f4a52549f319f4528ac379b",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.13,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.5,
+    "level": 4,
+    "hitpoints": 30,
+    "movement": -2,
+    "turn": -7,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac379c",
+    "name": "ACHHC Black",
+    "image": "ACHHC_Black.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 60500,
+        "_id": "5f4a52549f319f4528ac379d",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.13,
+    "resistance": 40,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 1.9,
+    "level": 4,
+    "hitpoints": 38,
+    "movement": -2,
+    "turn": -10,
+    "ergonomics": -4,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac379e",
+    "name": "ULACH",
+    "image": "ULACH.png",
+    "material": "Glass",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 68442,
+        "_id": "5f4a52549f319f4528ac379f",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.13,
+    "resistance": 40,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 1.9,
+    "level": 4,
+    "hitpoints": 38,
+    "movement": -2,
+    "turn": -10,
+    "ergonomics": -4,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37a0",
+    "name": "ULACH Black",
+    "image": "ULACH_Black.png",
+    "material": "Ultrahighweight polyethylene",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 83160,
+        "_id": "5f4a52549f319f4528ac37a1",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.40,
+    "resistance": 30,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 1.6,
+    "level": 3,
+    "hitpoints": 60,
+    "movement": -5,
+    "turn": -10,
+    "ergonomics": -5,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears",
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac37a2",
+    "name": "Ronin",
+    "image": "Ronin.png",
+    "material": "Aramid",
+    "class": "Helmet",
+    "ricochet": "Low",
+    "prices": [
+      {
+        "value": 142484,
+        "_id": "5f4a52549f319f4528ac37a3",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 3
+    },
+    "blunt": 0.220,
+    "resistance": 50,
+    "destructibility": 0.55,
+    "description": "",
+    "weight": 15,
+    "level": 5,
+    "hitpoints": 75,
+    "movement": -20,
+    "turn": -14,
+    "ergonomics": -14,
+    "zones": [
+      "Thorax",
+      "Stomach",
+      "Left Arm",
+      "Right Arm"
+    ],
+    "_id": "5f4a52549f319f4528ac37a4",
+    "name": "Gen4 Assault",
+    "image": "Gen4_Assault.png",
+    "material": "Titan",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37a5",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.22,
+    "resistance": 50,
+    "destructibility": 0.55,
+    "description": "",
+    "weight": 13,
+    "level": 5,
+    "hitpoints": 65,
+    "movement": -11,
+    "turn": -17,
+    "ergonomics": -12,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac37a6",
+    "name": "Gen4 HMK",
+    "image": "Gen4_HMK.png",
+    "material": "Titan",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37a7",
+        "trader": "Ragman",
+        "level": 3
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 4
+    },
+    "blunt": 0.22,
+    "resistance": 50,
+    "destructibility": 0.55,
+    "description": "",
+    "weight": 17,
+    "level": 5,
+    "hitpoints": 95,
+    "movement": -33,
+    "turn": -19,
+    "ergonomics": -22,
+    "zones": [
+      "Thorax",
+      "Stomach",
+      "Left Arm",
+      "Right Arm"
+    ],
+    "_id": "5f4a52549f319f4528ac37a8",
+    "name": "Gen4 Full",
+    "image": "Gen4_Full.png",
+    "material": "Titan",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37a9",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.14,
+    "resistance": 40,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 2.6,
+    "level": 4,
+    "hitpoints": 60,
+    "movement": -3,
+    "turn": -6,
+    "ergonomics": -7,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37aa",
+    "name": "Maska 1Sch",
+    "image": "Maska_1Sch.png",
+    "material": "Armor steel",
+    "class": "Helmet",
+    "ricochet": "Medium",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37ab",
+        "trader": "Ragman",
+        "level": 3
+      }
+    ],
+    "fields": [
+      {
+        "vital": false,
+        "attachments": [],
+        "_id": "5f4a52549f319f4528ac37ac",
+        "name": "Faceshield"
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.14,
+    "resistance": 40,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 2.6,
+    "level": 4,
+    "hitpoints": 60,
+    "movement": -3,
+    "turn": -6,
+    "ergonomics": -7,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37ad",
+    "name": "Maska 1Sch Killa",
+    "image": "Maska_1Sch_Killa.png",
+    "material": "Armor steel",
+    "class": "Helmet",
+    "ricochet": "Medium",
+    "prices": [],
+    "tradeups": [],
+    "fields": [
+      {
+        "vital": false,
+        "attachments": [],
+        "_id": "5f4a52549f319f4528ac37ae",
+        "name": "Faceshield"
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.20,
+    "resistance": 30,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 1.5,
+    "level": 3,
+    "hitpoints": 30,
+    "movement": -2,
+    "turn": -8,
+    "ergonomics": -13,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac37af",
+    "name": "SSh-68",
+    "image": "SSh-68.png",
+    "material": "Armor steel",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 18700,
+        "_id": "5f4a52549f319f4528ac37b0",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.11,
+    "resistance": 60,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 4.5,
+    "level": 6,
+    "hitpoints": 55,
+    "movement": -7,
+    "turn": -33,
+    "ergonomics": -20,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37b1",
+    "name": "Vulkan-5",
+    "image": "Vulkan-5.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 400419,
+        "_id": "5f4a52549f319f4528ac37b2",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [
+      {
+        "vital": false,
+        "attachments": [],
+        "_id": "5f4a52549f319f4528ac37b3",
+        "name": "Faceshield"
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.18,
+    "resistance": 30,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 7.9,
+    "level": 3,
+    "hitpoints": 60,
+    "movement": -11,
+    "turn": -5,
+    "ergonomics": -9,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac37b4",
+    "name": "6B23-1",
+    "image": "6B23-1.png",
+    "material": "Armor steel",
+    "class": "Body Armor",
+    "prices": [
+      {
+        "value": 44330,
+        "_id": "5f4a52549f319f4528ac37b5",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.17,
+    "resistance": 40,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 7.2,
+    "level": 4,
+    "hitpoints": 55,
+    "movement": -11,
+    "turn": -3,
+    "ergonomics": -9,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac37b6",
+    "name": "6B23-2",
+    "image": "6B23-2.png",
+    "material": "Ceramic",
+    "class": "Body Armor",
+    "prices": [
+      {
+        "value": 73980,
+        "_id": "5f4a52549f319f4528ac37b7",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.17,
+    "resistance": 40,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 10.5,
+    "level": 4,
+    "hitpoints": 47,
+    "movement": -12,
+    "turn": -3,
+    "ergonomics": -5,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac37b8",
+    "name": "6B13",
+    "image": "6B13.png",
+    "material": "Ceramic",
+    "class": "Body Armor",
+    "prices": [
+      {
+        "value": 67210,
+        "_id": "5f4a52549f319f4528ac37b9",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.21,
+    "resistance": 60,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 9,
+    "level": 6,
+    "hitpoints": 75,
+    "movement": -13,
+    "turn": -5,
+    "ergonomics": -6,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac37ba",
+    "name": "Zhuk-6a",
+    "image": "Zhuk-6a.png",
+    "material": "Ceramic",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37bb",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.20,
+    "resistance": 50,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 13.5,
+    "level": 5,
+    "hitpoints": 60,
+    "movement": -13,
+    "turn": -12,
+    "ergonomics": -11,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac37bc",
+    "name": "Redut-M",
+    "image": "Redut-M.png",
+    "material": "Combined materials",
+    "class": "Body Armor",
+    "prices": [
+      {
+        "value": 223319,
+        "_id": "5f4a52549f319f4528ac37bd",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 4,
+      "y": 4
+    },
+    "blunt": 0.20,
+    "resistance": 50,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 16.5,
+    "level": 5,
+    "hitpoints": 100,
+    "movement": -37,
+    "turn": -15,
+    "ergonomics": -14,
+    "zones": [
+      "Left Arm",
+      "Right Arm",
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac37be",
+    "name": "Redut-T5",
+    "image": "Redut-T5.png",
+    "material": "Combined materials",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37bf",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.08,
+    "resistance": 60,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 1.1,
+    "level": 6,
+    "hitpoints": 50,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": -19,
+    "zones": [
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac37c0",
+    "name": "1Sch Face Shield",
+    "image": "1Sch_FShield.png",
+    "material": "Armor steel",
+    "class": "Attachment",
+    "ricochet": "Medium",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37c1",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.08,
+    "resistance": 60,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 1.1,
+    "level": 6,
+    "hitpoints": 50,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": -19,
+    "zones": [
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac37c2",
+    "name": "1Sch Face Shield Killa",
+    "image": "1Sch_FShield_Killa.png",
+    "material": "Armor steel",
+    "class": "Attachment",
+    "ricochet": "Medium",
+    "prices": [],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.08,
+    "resistance": 40,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 1.1,
+    "level": 4,
+    "hitpoints": 85,
+    "movement": 0,
+    "turn": -9,
+    "ergonomics": -10,
+    "zones": [
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac37c3",
+    "name": "Vulkan-5 Face Shield",
+    "image": "Vulkan-5_FShield.png",
+    "material": "Glass",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37c4",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.13,
+    "resistance": 30,
+    "destructibility": 0.60,
+    "description": "",
+    "weight": 0.172,
+    "level": 3,
+    "hitpoints": 30,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": 0,
+    "zones": [
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37c5",
+    "name": "TW Ears Black",
+    "image": "TW_Ears_Black.png",
+    "material": "Aluminum",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 366,
+        "_id": "5f4a52549f319f4528ac37c6",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.13,
+    "resistance": 30,
+    "destructibility": 0.60,
+    "description": "",
+    "weight": 0.172,
+    "level": 3,
+    "hitpoints": 30,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": 0,
+    "zones": [
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37c7",
+    "name": "TW Ears Coyote",
+    "image": "TW_Ears_Coyote.png",
+    "material": "Aluminum",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 366,
+        "_id": "5f4a52549f319f4528ac37c8",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.17,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.4,
+    "level": 4,
+    "hitpoints": 25,
+    "movement": -2,
+    "turn": -8,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac37c9",
+    "name": "TC-2001",
+    "image": "TC-2001.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 431,
+        "_id": "5f4a52549f319f4528ac37ca",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.17,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.45,
+    "level": 4,
+    "hitpoints": 27,
+    "movement": -2,
+    "turn": -8,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac37cb",
+    "name": "TC-2002",
+    "image": "TC-2002.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 458,
+        "_id": "5f4a52549f319f4528ac37cc",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.19,
+    "resistance": 20,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 1.5,
+    "level": 2,
+    "hitpoints": 40,
+    "movement": 0,
+    "turn": -12,
+    "ergonomics": -10,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37cd",
+    "name": "SHPM",
+    "image": "SHPM.png",
+    "material": "Aramid",
+    "class": "Helmet",
+    "ricochet": "Low",
+    "prices": [],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.19,
+    "resistance": 20,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 1.3,
+    "level": 2,
+    "hitpoints": 65,
+    "movement": 0,
+    "turn": -13,
+    "ergonomics": -14,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37ce",
+    "name": "PSH-97 Djeta",
+    "image": "PSH-97.png",
+    "material": "Aramid",
+    "class": "Helmet",
+    "ricochet": "Low",
+    "prices": [],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.19,
+    "resistance": 20,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 0.9,
+    "level": 1,
+    "hitpoints": 100,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": 0,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37cf",
+    "name": "TSH-4M-L",
+    "image": "TSH-4M-L.png",
+    "material": "Aramid",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+
+    "blunt": 0.16,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.18,
+    "level": 4,
+    "hitpoints": 45,
+    "movement": -1,
+    "turn": -6,
+    "ergonomics": -4,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac37d0",
+    "name": "EXFIL Black",
+    "image": "EXFIL_Black.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 1285,
+        "_id": "5f4a52549f319f4528ac37d1",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+
+    "blunt": 0.16,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.18,
+    "level": 4,
+    "hitpoints": 45,
+    "movement": -1,
+    "turn": -6,
+    "ergonomics": -4,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac37d2",
+    "name": "EXFIL Coyote",
+    "image": "EXFIL_Coyote.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 1224,
+        "_id": "5f4a52549f319f4528ac37d3",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.24,
+    "resistance": 20,
+    "destructibility": 0.55,
+    "description": "",
+    "weight": 4.5,
+    "level": 2,
+    "hitpoints": 80,
+    "movement": -6,
+    "turn": -3,
+    "ergonomics": -7,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac37d4",
+    "name": "6B2",
+    "image": "6B2.png",
+    "material": "Titan",
+    "class": "Body Armor",
+    "prices": [
+      {
+        "value": 27122,
+        "_id": "5f4a52549f319f4528ac37d5",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.12,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 3.4,
+    "level": 4,
+    "hitpoints": 55,
+    "movement": -3,
+    "turn": -15,
+    "ergonomics": -10,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37d6",
+    "name": "LSHZ-2DTM",
+    "image": "LSHZ-2DTM.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 158668,
+        "_id": "5f4a52549f319f4528ac37d7",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.07,
+    "resistance": 40,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 1,
+    "level": 4,
+    "hitpoints": 50,
+    "movement": 0,
+    "turn": -5,
+    "ergonomics": -10,
+    "zones": [
+      "Eyes",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac37d8",
+    "name": "LSHZ-2DTM FShield",
+    "image": "LSHZ-2DTM_FShield.png",
+    "material": "Glass",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 35018,
+        "_id": "5f4a52549f319f4528ac37d9",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37da",
+        "trader": "Ragman",
+        "level": 3
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 1,
+      "y": 1
+    },
+    "blunt": 0.04,
+    "resistance": 50,
+    "destructibility": 0.25,
+    "description": "",
+    "weight": 0.1,
+    "level": 0,
+    "hitpoints": 0,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": 0,
+    "zones": [],
+    "_id": "5f4a52549f319f4528ac37db",
+    "name": "LSHZ-2DTM Cover",
+    "image": "LSHZ-2DTM_Cover.png",
+    "material": "Aramid",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 1575,
+        "_id": "5f4a52549f319f4528ac37dc",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.04,
+    "resistance": 50,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.2,
+    "level": 5,
+    "hitpoints": 35,
+    "movement": 0,
+    "turn": -15,
+    "ergonomics": -8,
+    "zones": [
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac37dd",
+    "name": "LSHZ-2DTM Aventail",
+    "image": "LSHZ-2DTM_Aventail.png",
+    "material": "Combined materials",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 34860,
+        "_id": "5f4a52549f319f4528ac37de",
+        "trader": "Ragman",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.12,
+    "resistance": 30,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 0.252,
+    "level": 3,
+    "hitpoints": 45,
+    "movement": 0,
+    "turn": -10,
+    "ergonomics": -9,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37df",
+    "name": "EXFIL FShield Black",
+    "image": "EXFIL_FShield_Black.png",
+    "material": "Glass",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 294,
+        "_id": "5f4a52549f319f4528ac37e0",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.12,
+    "resistance": 30,
+    "destructibility": 0.80,
+    "description": "",
+    "weight": 0.252,
+    "level": 3,
+    "hitpoints": 45,
+    "movement": 0,
+    "turn": -10,
+    "ergonomics": -9,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37e1",
+    "name": "EXFIL FShield Coyote",
+    "image": "EXFIL_FShield_Coyote.png",
+    "material": "Glass",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 294,
+        "_id": "5f4a52549f319f4528ac37e2",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.19,
+    "resistance": 60,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 8.1,
+    "level": 6,
+    "hitpoints": 80,
+    "movement": -10,
+    "turn": -2,
+    "ergonomics": -1,
+    "zones": [
+      "Thorax"
+    ],
+    "_id": "5f4a52549f319f4528ac37e3",
+    "name": "Slick",
+    "image": "Slick.png",
+    "material": "Armor steel",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37e4",
+        "trader": "Ragman",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.20,
+    "resistance": 50,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 7.5,
+    "level": 5,
+    "hitpoints": 60,
+    "movement": -9,
+    "turn": -3,
+    "ergonomics": -5,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "5f4a52549f319f4528ac37e5",
+    "name": "6B13 M Tan",
+    "image": "6B13_M_Tan.png",
+    "material": "Ultrahighweight polyethylene",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.11,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 0.88,
+    "level": 4,
+    "hitpoints": 40,
+    "movement": 0,
+    "turn": -3,
+    "ergonomics": -3,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "5f4a52549f319f4528ac37e6",
+    "name": "Airframe Tan",
+    "image": "Airframe_Tan.png",
+    "material": "Combined materials",
+    "class": "Helmet",
+    "prices": [
+      {
+        "value": 1244,
+        "_id": "5f4a52549f319f4528ac37e7",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.15,
+    "resistance": 30,
+    "destructibility": 0.60,
+    "description": "",
+    "weight": 1.2,
+    "level": 3,
+    "hitpoints": 27,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": 0,
+    "zones": [
+      "Ears"
+    ],
+    "_id": "5f4a52549f319f4528ac37e8",
+    "name": "CP Ears",
+    "image": "CP_Ears.png",
+    "material": "Aluminum",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 338,
+        "_id": "5f4a52549f319f4528ac37e9",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.15,
+    "resistance": 30,
+    "destructibility": 0.60,
+    "description": "",
+    "weight": 1.45,
+    "level": 3,
+    "hitpoints": 30,
+    "movement": 0,
+    "turn": -1,
+    "ergonomics": -2,
+    "zones": [
+      "Ears",
+      "Jaws"
+    ],
+    "_id": "5f4a52549f319f4528ac37ea",
+    "name": "Chops",
+    "image": "Chops.png",
+    "material": "Aluminum",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac37eb",
+        "trader": "Peacekeeper",
+        "level": 4
+      }
+    ],
+    "fields": [],
+    "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 1
+    },
+    "blunt": 0.08,
+    "resistance": 50,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 1.3,
+    "level": 5,
+    "hitpoints": 27,
+    "movement": 0,
+    "turn": -8,
+    "ergonomics": -15,
+    "zones": [
+      "Top"
+    ],
+    "_id": "5f4a52549f319f4528ac37ec",
+    "name": "SLAAP",
+    "image": "SLAAP.png",
+    "material": "Ultrahighweight polyethylene",
+    "class": "Attachment",
+    "ricochet": "High",
+    "prices": [
+      {
+        "value": 833,
+        "_id": "5f4a52549f319f4528ac37ed",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "fields": [],
+    "__v": 0
+  }
+]
