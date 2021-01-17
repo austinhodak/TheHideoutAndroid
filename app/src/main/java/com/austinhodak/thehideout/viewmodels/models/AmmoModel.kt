@@ -1,12 +1,8 @@
 package com.austinhodak.thehideout.viewmodels.models
 
-import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.getCurrency
-import com.austinhodak.thehideout.getTraderLevel
-import kotlinx.serialization.Serializable
+import com.austinhodak.thehideout.*
 import java.text.DecimalFormat
 
-@Serializable
 data class AmmoModel (
     var description: String,
     var weight: Double,
@@ -25,11 +21,15 @@ data class AmmoModel (
     var caliber: String = "",
     val armor_damage: Int = 0,
     val bullets: Int = 1
-) {
+) : RecyclerItem {
+
     fun getAccuracy(): String {
         return "$accuracy%"
     }
 
+    fun getURL(): String {
+        return "https://www.eftdb.one/static/item/thumb/$image"
+    }
 
     fun getSubtitle(): String {
         return if (prices.isEmpty()) {
@@ -72,9 +72,20 @@ data class AmmoModel (
             else -> android.R.color.transparent
         }
     }
+
+    override val layoutId: Int
+        get() = R.layout.ammo_list_item
+
+    override val variableId: Int
+        get() = BR.ammo
+
+    override val dataToBind: Any
+        get() = this
+
+    override val id: String
+        get() = this._id
 }
 
-@Serializable
 data class AmmoPriceModel (
     var value: Double,
     var _id: String,
@@ -88,7 +99,6 @@ data class AmmoPriceModel (
     }
 }
 
-@Serializable
 data class AmmoTradeup (
     var _id: String,
     var trader: String,

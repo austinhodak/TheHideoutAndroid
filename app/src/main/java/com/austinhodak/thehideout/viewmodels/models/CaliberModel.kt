@@ -1,8 +1,5 @@
 package com.austinhodak.thehideout.viewmodels.models
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class CaliberModel (
     var description: String,
     var _id: String,

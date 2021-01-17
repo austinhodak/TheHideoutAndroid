@@ -1,19 +1,20 @@
 package com.austinhodak.thehideout.viewmodels
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.viewmodels.models.AmmoModel
-import com.austinhodak.thehideout.viewmodels.models.CaliberModel
 import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.miguelcatalan.materialsearchview.SuggestionModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.json.JSONArray
 import java.lang.reflect.Type
 
@@ -25,6 +26,20 @@ class WeaponViewModel(application: Application) : AndroidViewModel(application) 
     var weaponClasses = MutableLiveData<MutableList<String>>()
 
     private val context = getApplication<Application>().applicationContext
+
+    val data: LiveData<List<WeaponModel>> = liveData {
+        emit(loadWeapon())
+    }
+
+    private suspend fun loadWeapon(): List<WeaponModel> = withContext(Dispatchers.IO) {
+        val list: List<WeaponModel> = Json { ignoreUnknownKeys = true }.decodeFromString( context.resources.openRawResource(R.raw.weapons).bufferedReader().use { it.readText() } )
+        for (weapon in list) {
+            if (weaponClasses.value?.contains(weapon.`class`) == false) {
+                weaponClasses.value?.add(weapon.`class`)
+            }
+        }
+        list
+    }
 
     init {
         loadWeapons()
@@ -58,7 +73,7 @@ class WeaponViewModel(application: Application) : AndroidViewModel(application) 
     fun getAllWeaponSearch(): MutableList<SuggestionModel> {
         val ammoList: MutableList<WeaponModel> = ArrayList()
         val stringList: MutableList<SuggestionModel> = ArrayList()
-        for (item in list!!) {
+        for (item in data.value!!) {
             stringList.add(SuggestionModel("${item.name} ${AmmoHelper.getCaliberByID(context, item.calibre)?.long_name}", item))
         }
 

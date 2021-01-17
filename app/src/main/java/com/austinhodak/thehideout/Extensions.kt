@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +44,6 @@ fun Int.getPrice(currency: String): String {
     val format = NumberFormat.getCurrencyInstance()
     format.maximumFractionDigits = 0
     format.currency = Currency.getInstance(getCurrencyString(currency))
-    Log.d("CURRENCY", Currency.getAvailableCurrencies().map { it.symbol }.toString())
     if (currency == "₽") {
         return "${format.format(this).replace("RUB", "")}₽"
     } else {

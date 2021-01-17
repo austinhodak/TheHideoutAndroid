@@ -3,7 +3,6 @@ package com.austinhodak.thehideout
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -29,15 +28,12 @@ import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
 import com.mikepenz.materialdrawer.util.addItems
 import com.mikepenz.materialdrawer.util.setupWithNavController
-import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import net.idik.lib.slimadapter.SlimAdapter
 
 
@@ -53,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fleaViewModel: FleaViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_TheHideout_NoActionBar)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
@@ -64,6 +61,8 @@ class MainActivity : AppCompatActivity() {
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
+
+
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -248,7 +247,8 @@ class MainActivity : AppCompatActivity() {
                 AmmoHelper.getAllAmmoList(this)
             }
             R.id.WeaponFragment -> {
-                weaponViewModel.getAllWeaponSearch()
+                //weaponViewModel.getAllWeaponSearch()
+                mutableListOf()
             }
             R.id.keysListFragment -> {
                 mutableListOf()

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+
+    <item
+        android:drawable="@color/md_grey_900"/>
+
+    <item
+        android:height="150dp"
+        android:width="150dp"
+        android:gravity="center"
+        android:drawable="@drawable/hideout_shadow_1">
+
+    </item>
+
+   <!-- <item
+        android:gravity="fill_horizontal">
+        <bitmap
+            android:alpha="0.2"
+            android:gravity="bottom|fill_horizontal"
+            android:src="@drawable/splash_text_1"/>
+    </item>-->
+
+</layer-list>

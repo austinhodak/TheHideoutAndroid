@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsMultiChoice
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.RecyclerAdapter
+import com.austinhodak.thehideout.RecyclerItem
 import com.austinhodak.thehideout.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.viewmodels.models.Key
-import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -36,6 +36,10 @@ class KeysListFragment : Fragment() {
     private val sharedViewModel: KeysViewModel by activityViewModels()
     private var filterIndices = intArrayOf(0, 1, 2, 3, 4, 5)
 
+    private val mAdapter by lazy {
+        RecyclerAdapter(RecyclerItem.diffCallback<Key>(),R.layout.key_list_item)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -55,22 +59,40 @@ class KeysListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_keys_list, container, false)
     }
 
+    fun onLongClicked(key: Key) {
+        key.toggleHaveStatus()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val linearLayoutManager = LinearLayoutManager(requireActivity())
         val recyclerView = view.findViewById<RecyclerView>(R.id.ammo_list)
         recyclerView.layoutManager = linearLayoutManager
+        recyclerView.adapter = mAdapter
 
         sharedViewModel.keys.observe(viewLifecycleOwner) {
             filteredKeyList = it
-            adapter.updateData(it)
+            mAdapter.submitList(filteredKeyList)
         }
 
-        adapter = SlimAdapter.create().register<Key>(R.layout.key_list_item) { key, i ->
+        Firebase.database.getReference("users/${Firebase.auth.currentUser?.uid}/keys/have/").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { snap ->
+                    filteredKeyList?.find { it._id == snap.key }?.have = snap.value as Boolean
+                }
+
+                mAdapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+        /*adapter = SlimAdapter.create().register<Key>(R.layout.key_list_item) { key, i ->
             var need = false
 
-            i.text(R.id.keyName, key.name)
-            i.text(R.id.keySubtitle, key.map)
+            val binding: KeyListItemBinding = KeyListItemBinding.inflate(layoutInflater)
+            binding.key = key
 
             val useless = i.findViewById<ImageView>(R.id.keyUseless)
             val rubles = i.findViewById<ImageView>(R.id.keyRubles)
@@ -83,8 +105,8 @@ class KeysListFragment : Fragment() {
             rubles.visibility = if (key.details.contains("expensive")) View.VISIBLE else View.GONE
             quest.visibility = if (key.details.contains("quest")) View.VISIBLE else View.GONE
 
-            Glide.with(this).load(key.icon)
-                .into(i.findViewById(R.id.keyImage))
+            *//*Glide.with(this).load(key.icon)
+                .into(i.findViewById(R.id.keyImage))*//*
 
             i.longClicked(R.id.keyRoot) {
                 Firebase.database.getReference("users/${Firebase.auth.currentUser?.uid}/keys/have/${key._id}").setValue(!need)
@@ -102,14 +124,14 @@ class KeysListFragment : Fragment() {
                 }
             })
 
-        }.attachTo(recyclerView)
+        }.attachTo(recyclerView)*/
 
         sharedViewModel.searchKey.observe(requireActivity(), { string ->
             Log.d("KEYSEARCH", string)
             if (string.isNullOrEmpty()) {
-                adapter.updateData(filteredKeyList!!)
+                mAdapter.submitList(filteredKeyList)
             } else {
-                adapter.updateData(filteredKeyList!!.filter { it.name.contains(string, true) || it.map.contains(string, true) || it.getDetails().contains(string, true) })
+                mAdapter.submitList(filteredKeyList!!.filter { it.name.contains(string, true) || it.map.contains(string, true) || it.getDetailsList().contains(string, true) })
             }
 
         })
@@ -119,7 +141,7 @@ class KeysListFragment : Fragment() {
                 listItemsMultiChoice(R.array.keys_filter_list, initialSelection = filterIndices) { dialog, indices, items ->
                     filterIndices = indices
                     filteredKeyList = filteredKeyList!!.filter { items.contains(it.map) }
-                    adapter.updateData(filteredKeyList)
+                    mAdapter.submitList(filteredKeyList)
                 }
                 title(text = "Show Only")
                 positiveButton(text = "FILTER")

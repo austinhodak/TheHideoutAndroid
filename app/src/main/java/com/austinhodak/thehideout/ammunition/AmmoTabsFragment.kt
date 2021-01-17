@@ -5,8 +5,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.databinding.FragmentAmmoTabsBinding
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.models.CaliberModel
 import com.google.android.material.tabs.TabLayout
@@ -18,26 +18,28 @@ class AmmoTabsFragment : Fragment() {
     private lateinit var tabs: TabLayout
     private lateinit var calibers: List<CaliberModel>
     private var sortBy: Int = 0
-    internal val sharedViewModel: AmmoViewModel by activityViewModels()
+    private val sharedViewModel: AmmoViewModel by activityViewModels()
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+    private var _binding: FragmentAmmoTabsBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentAmmoTabsBinding.inflate(inflater, container, false)
+        val view = binding.root
+
         setHasOptionsMenu(true)
 
-        
         calibers = AmmoHelper.getCalibers(requireContext(), true)
 
-        return inflater.inflate(R.layout.fragment_ammo_tabs, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         collectionAdapter = CollectionAdapter(this, calibers.size)
-        val viewpager = view.findViewById<ViewPager2>(R.id.ammo_viewpager)
+        val viewpager = binding.ammoViewpager
         viewpager.adapter = collectionAdapter
-        tabs = view.findViewById(R.id.ammo_tabs)
+        tabs = binding.ammoTabs
         //viewpager.offscreenPageLimit = 3
         for (i in calibers) {
             tabs.addTab(tabs.newTab().setText(i.name))

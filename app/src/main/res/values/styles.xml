@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Theme.TheHideout.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
     <style name="TabsBenderLight" parent="TextAppearance.AppCompat.Body1">
         <item name="android:fontFamily">@font/bender_light</item>
     </style>

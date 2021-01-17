@@ -4,14 +4,16 @@ import android.content.Context
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.getCurrency
 import com.austinhodak.thehideout.getTraderLevel
+import kotlinx.serialization.Serializable
 import java.text.DecimalFormat
 
+@Serializable
 data class WeaponModel(
     var grid: WeaponGrid,
     var firemodes: WeaponFiremodes,
     var recoil: WeaponRecoil,
     var description: String,
-    var weight: Double,
+    var weight: Double?,
     var _id: String,
     var name: String,
     var `class`: String,
@@ -25,7 +27,7 @@ data class WeaponModel(
     var calibre: String,
     var __v: Int,
     var builds: List<WeaponBuilds>,
-    var wiki: String?
+    var wiki: String? = ""
 ) {
     fun getFireModes(): String {
         return if (firemodes.single) {
@@ -52,6 +54,7 @@ data class WeaponModel(
     }
 }
 
+@Serializable
 data class WeaponBuilds (
     var attachments: List<String>,
     var prices: List<WeaponPrices>,
@@ -61,6 +64,7 @@ data class WeaponBuilds (
     var _id: String
 ) {
 
+    @Serializable
     data class WeaponPrices(
         var value: Double,
         var _id: String,
@@ -74,6 +78,7 @@ data class WeaponBuilds (
         }
     }
 
+    @Serializable
     data class WeaponTradeups(
         var items: List<String>,
         var _id: String,
@@ -117,6 +122,7 @@ data class WeaponBuilds (
     }
 }
 
+@Serializable
 data class WeaponField(
     var vital: Boolean,
     var attachments: List<String>,
@@ -124,6 +130,7 @@ data class WeaponField(
     var name: String
 )
 
+@Serializable
 data class WeaponRecoil(
     var horizontal: Long,
     var vertical: Long
@@ -133,12 +140,14 @@ data class WeaponRecoil(
     }
 }
 
+@Serializable
 data class WeaponFiremodes(
     var single: Boolean,
     var burst: Boolean,
     var auto: Boolean
 )
 
+@Serializable
 data class WeaponGrid(
     var x: Int,
     var y: Int
