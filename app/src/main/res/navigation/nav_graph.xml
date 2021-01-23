@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.austinhodak.thehideout.ammunition.AmmoAllListFragment"
+        android:name="com.austinhodak.thehideout.ammunition.AmmoTabsFragment"
         android:label="@string/ammo_label"
-        tools:layout="@layout/fragment_ammo_tabs"/>
+        tools:layout="@layout/fragment_ammo_tabs" />
 
     <fragment
         android:id="@+id/WeaponFragment"

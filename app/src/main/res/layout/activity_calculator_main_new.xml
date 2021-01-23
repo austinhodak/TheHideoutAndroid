@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary">
@@ -186,6 +185,7 @@
             app:name="HEAD" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/calcArmorDurabliltyCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -206,19 +206,18 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bender_bold"
                     android:justificationMode="inter_word"
-                    android:text="Helmet: \nVisor: \nChest: "
+                    android:text="Helmet: \nChest: "
                     android:textColor="#FFF"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/calcDurabilitiesTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/bender"
                     android:gravity="center"
-                    android:text="30/30\n25/25\n90/90"
                     android:textColor="#FFF"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -231,26 +230,17 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
+        layout="@layout/calculator_bottom_sheet"
         android:id="@+id/bottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_sheet_bg"
-        android:backgroundTint="@color/md_grey_850"
+
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:text="TEST"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </include>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -263,7 +253,7 @@
         app:layout_anchorGravity="top|end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icons8_assault_rifle_100" />
+        app:srcCompat="@drawable/icons8_ammo_100" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

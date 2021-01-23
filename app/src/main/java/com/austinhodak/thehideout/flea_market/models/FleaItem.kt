@@ -3,7 +3,6 @@ package com.austinhodak.thehideout.flea_market.models
 import android.text.format.DateUtils
 import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.hideout.models.Input
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.google.firebase.database.IgnoreExtraProperties
 import java.text.SimpleDateFormat
 import java.util.*
@@ -64,11 +63,11 @@ data class FleaItem(
         return "Updated ${DateUtils.getRelativeTimeSpanString(sdf.parse(updated).time, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS)}"
     }
 
-    fun getTotalCostToCraft(input: List<Input>, vm: FleaViewModel): Int {
+    fun getTotalCostToCraft(input: List<Input>): Int {
         var total = 0.0
 
         for (i in input) {
-            val item = vm.getItemById(i.id)
+            val item = i.fleaItem
             val cost = item.price!! * i.qty
             total += cost
         }

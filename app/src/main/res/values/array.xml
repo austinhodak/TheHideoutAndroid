@@ -76,4 +76,12 @@
         <item>Price Per Slot</item>
     </string-array>
 
+    <string-array name="crafts_sort">
+        <item>Name</item>
+        <item>Profit (Low to High)</item>
+        <item>Profit (High to Low)</item>
+        <item>Profit/Hour (Low to High)</item>
+        <item>Profit/Hour (High to Low)</item>
+    </string-array>
+
 </resources>

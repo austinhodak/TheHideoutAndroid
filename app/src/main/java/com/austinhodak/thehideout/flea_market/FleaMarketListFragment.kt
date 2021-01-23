@@ -19,7 +19,6 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.bumptech.glide.Glide
-import jp.wasabeef.recyclerview.animators.FadeInAnimator
 import net.idik.lib.slimadapter.SlimAdapter
 
 class FleaMarketListFragment : Fragment() {
@@ -109,8 +108,12 @@ class FleaMarketListFragment : Fragment() {
             }
         }
 
-        viewModel.fleaItems.observe(viewLifecycleOwner) {
+        /*viewModel.fleaItems.observe(viewLifecycleOwner) {
             updateData(mList = it, searchKey = currentSearchKey)
+        }*/
+
+        viewModel.data.observe(viewLifecycleOwner) {
+            updateData(mList = it.toMutableList(), searchKey = currentSearchKey)
         }
 
         viewModel.searchKey.observe(viewLifecycleOwner) {

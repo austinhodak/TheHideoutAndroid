@@ -19,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.austinhodak.thehideout.ammunition.AmmoHelper
+import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.viewmodels.KeysViewModel
@@ -61,8 +62,6 @@ class MainActivity : AppCompatActivity() {
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
-
-
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -109,51 +108,62 @@ class MainActivity : AppCompatActivity() {
                     R.id.FirstFragment,
                     PrimaryDrawerItem().apply {
                         typeface = benderFont; isIconTinted = true; name =
-                        StringHolder("Ammunition"); iconRes = R.drawable.icons8_ammo_100;
+                        StringHolder("Ammunition"); iconRes = R.drawable.icons8_ammo_100
                     },
                     null,
                     getNavOptions()
                 ),
                 NavigationDrawerItem(R.id.armorTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Armor"); iconRes = R.drawable.icons8_bulletproof_vest_100;
+                    StringHolder("Armor"); iconRes = R.drawable.icons8_bulletproof_vest_100
                 }, null, null),
                 NavigationDrawerItem(R.id.backpackRigTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Backpacks & Rigs"); iconRes = R.drawable.icons8_rucksack_96;
+                    StringHolder("Backpacks & Rigs"); iconRes = R.drawable.icons8_rucksack_96
                 }),
                 NavigationDrawerItem(R.id.keysListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Keys"); iconRes = R.drawable.icons8_key_100;
+                    StringHolder("Keys"); iconRes = R.drawable.icons8_key_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.medicalTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Medical"); iconRes = R.drawable.icons8_syringe_100;
+                    StringHolder("Medical"); iconRes = R.drawable.icons8_syringe_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(
                     R.id.WeaponFragment,
                     PrimaryDrawerItem().apply {
-                        typeface = benderFont; isIconTinted = true;
-                        name = StringHolder("Weapons"); iconRes = R.drawable.icons8_assault_rifle_100;
+                        typeface = benderFont; isIconTinted = true
+                        name = StringHolder("Weapons"); iconRes = R.drawable.icons8_assault_rifle_100
                     },
                     null,
                     null
                 ),
                 DividerDrawerItem(),
+                PrimaryDrawerItem().apply {
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Damage Calculator")
+                    iconRes = R.drawable.icons8_ammo_100
+                    isSelectable = false
+                    onDrawerItemClickListener = { _, _, _ ->
+                        startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
+                        false
+                    }
+                },
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true;
-                    name = StringHolder("Flea Market"); iconRes = R.drawable.ic_baseline_shopping_cart_24;
+                    typeface = benderFont; isIconTinted = true
+                    name = StringHolder("Flea Market"); iconRes = R.drawable.ic_baseline_shopping_cart_24
                 }),
                 NavigationDrawerItem(R.id.hideoutMainFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true;
+                    typeface = benderFont; isIconTinted = true
                     name = StringHolder("Hideout"); iconRes = R.drawable.hideout_shadow_1
                 }),
                 NavigationDrawerItem(R.id.questMainFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true;
+                    typeface = benderFont; isIconTinted = true
                     name = StringHolder("Quests"); iconRes = R.drawable.ic_baseline_assignment_24
                 }),
                 PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true;
+                    typeface = benderFont; isIconTinted = true
                     name = StringHolder("Traders"); iconRes = R.drawable.ic_baseline_groups_24
                     isEnabled = false
                 },
@@ -280,6 +290,11 @@ class MainActivity : AppCompatActivity() {
             else -> false
         }
 
+        invalidateOptionsMenu()
+    }
+
+    fun isSearchHidden(boolean: Boolean) {
+        hideSearch = boolean
         invalidateOptionsMenu()
     }
 

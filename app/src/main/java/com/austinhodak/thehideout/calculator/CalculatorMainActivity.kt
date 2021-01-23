@@ -1,48 +1,49 @@
 package com.austinhodak.thehideout.calculator
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.TextView
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.ViewModelProvider
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.Body
-import com.austinhodak.thehideout.calculator.models.CAmmo
-import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.calculator.models.Part
-import com.austinhodak.thehideout.views.HealthBar
+import com.austinhodak.thehideout.clothing.armor.ArmorHelper
+import com.austinhodak.thehideout.databinding.ActivityCalculatorMainNewBinding
+import com.austinhodak.thehideout.databinding.CalculatorBottomSheetBinding
+import com.austinhodak.thehideout.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.viewmodels.models.AmmoModel
+import com.austinhodak.thehideout.viewmodels.models.Armor
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlin.math.max
-import kotlin.math.roundToInt
 
 class CalculatorMainActivity : AppCompatActivity() {
-    private lateinit var headBar: HealthBar
-    private lateinit var thoraxBar: HealthBar
-    private lateinit var stomachBar: HealthBar
-    private lateinit var leftArmBar: HealthBar
-    private lateinit var rightArmBar: HealthBar
-    private lateinit var leftLegBar: HealthBar
-    private lateinit var rightLegBar: HealthBar
-    private lateinit var totalHealthTV: TextView
-    private lateinit var currentHealthTV: TextView
+    private lateinit var binding: ActivityCalculatorMainNewBinding
+    private lateinit var bottomBinding: CalculatorBottomSheetBinding
     private var body = Body()
+
+    private lateinit var selectedAmmo: AmmoModel
+    private var selectedHelmet: Armor? = null
+    private var selectedChestArmor: Armor?  = null
+
+    private lateinit var ammoViewModel: AmmoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_calculator_main_new)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        binding = ActivityCalculatorMainNewBinding.inflate(layoutInflater).also {
+            setContentView(it.root)
+            bottomBinding = it.bottomSheet
+        }
 
-        totalHealthTV = findViewById(R.id.healthTotal)
-        currentHealthTV = findViewById(R.id.healthCurrentTV)
+        ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
+
+        setSupportActionBar(binding.toolbar)
 
         val bs = BottomSheetBehavior.from(findViewById<ConstraintLayout>(R.id.bottomSheet))
         bs.skipCollapsed = true
 
-        findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
+        binding.floatingActionButton.setOnClickListener {
             if (bs.state == BottomSheetBehavior.STATE_HIDDEN || bs.state == BottomSheetBehavior.STATE_COLLAPSED) {
                 bs.state = BottomSheetBehavior.STATE_EXPANDED
             } else {
@@ -50,111 +51,93 @@ class CalculatorMainActivity : AppCompatActivity() {
             }
         }
 
-        headBar = findViewById(R.id.healthHead)
-        thoraxBar = findViewById(R.id.healthThorax)
-        stomachBar = findViewById(R.id.healthStomach)
-        leftArmBar = findViewById(R.id.healthLArm)
-        rightArmBar = findViewById(R.id.healthRArm)
-        leftLegBar = findViewById(R.id.healthLLeg)
-        rightLegBar = findViewById(R.id.healthRLeg)
+        body.linkToHealthBar(Part.HEAD, binding.healthHead)
+        body.linkToHealthBar(Part.THORAX, binding.healthThorax)
+        body.linkToHealthBar(Part.STOMACH, binding.healthStomach)
+        body.linkToHealthBar(Part.LEFTARM, binding.healthLArm)
+        body.linkToHealthBar(Part.RIGHTARM, binding.healthRArm)
+        body.linkToHealthBar(Part.LEFTLEG, binding.healthLLeg)
+        body.linkToHealthBar(Part.RIGHTLEG, binding.healthRLeg)
 
-        body.linkToHealthBar(Part.HEAD, headBar)
-        body.linkToHealthBar(Part.THORAX, thoraxBar)
-        body.linkToHealthBar(Part.STOMACH, stomachBar)
-        body.linkToHealthBar(Part.LEFTARM, leftArmBar)
-        body.linkToHealthBar(Part.RIGHTARM, rightArmBar)
-        body.linkToHealthBar(Part.LEFTLEG, leftLegBar)
-        body.linkToHealthBar(Part.RIGHTLEG, rightLegBar)
-
-        val AP45 = CAmmo(
-            1,
-            50.0,
-            30.0,
-            0.37
-        )
-
-        val armor = CArmor(
-            95.0,
-            5,
-            0.220,
-            95.0,
-            95.0,
-            50.0,
-            0.550
-        )
-
-        headBar.setOnClickListener {
-            body.shoot(Part.HEAD, AP45)
+        ammoViewModel.allAmmoList.observe(this) {
+            selectedAmmo = it.find { it._id == "5f4a52549f319f4528ac3635" }!!
+            updateBottomSheet()
+            updateDurabilities()
         }
 
-        thoraxBar.setOnClickListener {
-            body.shoot(Part.THORAX, AP45, armor)
+        selectedHelmet = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac3760" }
+        selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac3750" }
+        updateDurabilities()
+        updateBottomSheet()
+
+        binding.healthHead.setOnClickListener {
+            body.shoot(Part.HEAD, selectedAmmo.getCAmmo(), selectedHelmet?.getArmor())
         }
 
-        stomachBar.setOnClickListener {
-            body.shoot(Part.STOMACH, AP45, armor)
+        binding.healthThorax.setOnClickListener {
+            body.shoot(Part.THORAX, selectedAmmo.getCAmmo(), selectedChestArmor?.getArmor())
         }
 
-        leftArmBar.setOnClickListener {
-            body.shoot(Part.LEFTARM, AP45)
+        binding.healthStomach.setOnClickListener {
+            body.shoot(Part.STOMACH, selectedAmmo.getCAmmo(), selectedChestArmor?.getArmor())
         }
 
-        rightArmBar.setOnClickListener {
-            body.shoot(Part.RIGHTARM, AP45)
+        binding.healthLArm.setOnClickListener {
+            body.shoot(Part.LEFTARM, selectedAmmo.getCAmmo())
         }
 
-        leftLegBar.setOnClickListener {
-            body.shoot(Part.LEFTLEG, AP45)
+        binding.healthRArm.setOnClickListener {
+            body.shoot(Part.RIGHTARM, selectedAmmo.getCAmmo())
         }
 
-        rightLegBar.setOnClickListener {
-            body.shoot(Part.RIGHTLEG, AP45)
+        binding.healthLLeg.setOnClickListener {
+            body.shoot(Part.LEFTLEG, selectedAmmo.getCAmmo())
         }
 
-        body.bindTotalTextView(totalHealthTV)
-        body.bindCurrentTextView(currentHealthTV)
-
-
-        /*headButton = findViewById(R.id.button)
-        thoraxButton = findViewById(R.id.button2)
-        stomachButton = findViewById(R.id.button3)
-        leftArmButton = findViewById(R.id.button4)
-        rightArmButton = findViewById(R.id.button5)
-        leftLegButton = findViewById(R.id.button6)
-        rightLegButton = findViewById(R.id.button7)
-        resetButton = findViewById(R.id.button8)
-
-
-
-        Log.d("AMMO", CalculatorHelper.shotsToKill(AP45, armor, 70.0, 250, 1.5).toString())
-
-        val body = Body()
-        update(body)
-
-        headButton.setOnClickListener {
-            update(body.shoot(Part.HEAD, AP45))
+        binding.healthRLeg.setOnClickListener {
+            body.shoot(Part.RIGHTLEG, selectedAmmo.getCAmmo())
         }
-        thoraxButton.setOnClickListener {
-            update(body.shoot(Part.THORAX, AP45, armor))
+
+        body.bindTotalTextView(binding.healthTotal)
+        body.bindCurrentTextView(binding.healthCurrentTV)
+
+        body.onShootListener = {
+            updateDurabilities()
         }
-        stomachButton.setOnClickListener {
-            update(body.shoot(Part.STOMACH, AP45, armor))
+    }
+
+    private fun updateDurabilities() {
+        binding.calcArmorDurabliltyCard.visibility = if (selectedHelmet == null && selectedChestArmor == null) View.GONE else View.VISIBLE
+
+        var text = ""
+        text += "${selectedHelmet?.getArmor()?.durability ?: 0}/${selectedHelmet?.getArmor()?.maxDurability ?: 0}"
+        text += "\n${selectedChestArmor?.getArmor()?.durability ?: 0}/${selectedChestArmor?.getArmor()?.maxDurability ?: 0}"
+        binding.calcDurabilitiesTV.text = text
+    }
+
+    private fun updateBottomSheet() {
+        if (selectedHelmet == null) {
+            bottomBinding.calcHelmetName.text = "No Helmet"
+            bottomBinding.calcHelmetSubtitle.text = "Select a Helmet."
+        } else {
+            bottomBinding.calcHelmetName.text = selectedHelmet?.name
+            bottomBinding.calcHelmetSubtitle.text = selectedHelmet?.zones?.joinToString(separator = ", ")
         }
-        leftArmButton.setOnClickListener {
-            update(body.shoot(Part.LEFTARM, AP45))
+
+        if (selectedChestArmor == null) {
+            bottomBinding.calcChestTitle.text = "No Chest Armor"
+            bottomBinding.calcChestSubtitle.text = "Select Chest Armor."
+        } else {
+            bottomBinding.calcChestTitle.text = selectedChestArmor?.name
+            bottomBinding.calcChestSubtitle.text = selectedChestArmor?.zones?.joinToString(separator = ", ")
         }
-        rightArmButton.setOnClickListener {
-            update(body.shoot(Part.RIGHTARM, AP45))
+
+        if (this::selectedAmmo.isInitialized) {
+            bottomBinding.calcAmmoTitle.text = selectedAmmo.name
+            ammoViewModel.data.observe(this) {
+                bottomBinding.calcAmmoSubtitle.text = it?.find { it.ammo.find { it._id == selectedAmmo._id } != null }?.long_name
+            }
         }
-        leftLegButton.setOnClickListener {
-            update(body.shoot(Part.LEFTLEG, AP45))
-        }
-        rightLegButton.setOnClickListener {
-            update(body.shoot(Part.RIGHTLEG, AP45))
-        }
-        resetButton.setOnClickListener {
-            update(body.reset())
-        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -166,21 +149,11 @@ class CalculatorMainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.reset -> {
                 body.reset()
+                selectedHelmet?.resetDurability()
+                selectedChestArmor?.resetDurability()
+                updateDurabilities()
             }
         }
         return super.onOptionsItemSelected(item)
     }
-
-    /*private fun update(body: Body) {
-        findViewById<TextView>(R.id.textView3).text = "${body.getTotalHealth()} / ${body.getTotalInitialHealth()}"
-        headButton.text = "Head ${body.head.health.roundToInt()} / ${body.head.initialHealth}"
-        thoraxButton.text = "Thorax ${body.thorax.health.roundToInt()} / ${body.thorax.initialHealth}"
-        stomachButton.text = "Stomach ${body.stomach.health.roundToInt()} / ${body.stomach.initialHealth}"
-        leftArmButton.text = "L. Arm ${body.leftArm.health.roundToInt()} / ${body.leftArm.initialHealth}"
-        rightArmButton.text = "R. Arm ${body.rightArm.health.roundToInt()} / ${body.rightArm.initialHealth}"
-        leftLegButton.text = "L. Leg ${body.leftLeg.health.roundToInt()} / ${body.leftLeg.initialHealth}"
-        rightLegButton.text = "R. Leg ${body.rightLeg.health.roundToInt()} / ${body.rightLeg.initialHealth}"
-
-
-    }*/
 }

@@ -3,14 +3,15 @@
 package com.austinhodak.thehideout.hideout
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.hideout.models.HideoutCraft
@@ -24,12 +25,15 @@ import kotlin.math.roundToInt
 
 class HideoutCraftsListFragment : Fragment() {
 
+    private lateinit var mList: List<HideoutCraft>
     private lateinit var mAdapter: SlimAdapter
     private lateinit var mRecyclerView: RecyclerView
     private val viewModel: HideoutViewModel by activityViewModels()
     private val fleaViewModel: FleaViewModel by activityViewModels()
+    private var sortBy = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_hideout_module_list, container, false)
     }
 
@@ -37,6 +41,8 @@ class HideoutCraftsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
         setupAdapter()
+
+        (activity as MainActivity).isSearchHidden(false)
     }
 
     private fun setupRecyclerView(view: View) {
@@ -55,19 +61,19 @@ class HideoutCraftsListFragment : Fragment() {
             requirementRV.layoutManager = LinearLayoutManager(requireContext())
 
             SlimAdapter.create().attachTo(requirementRV).register<Input>(R.layout.hideout_crafting_item_requirement) { inputItem, rI ->
-                val fleaItem = fleaViewModel.getItemById(inputItem.id)
+                val fleaItem = inputItem.fleaItem
                 val inputIcon = rI.findViewById<ImageView>(R.id.craftInputIcon)
                 Glide.with(this).load(fleaItem.getItemIcon()).into(inputIcon)
 
-                rI.text(R.id.craftInputName, "x${inputItem.qty} ${fleaItem.name}")
+                rI.text(R.id.craftInputName, "x${inputItem.qty.toInt()} ${fleaItem.name}")
                 rI.text(R.id.craftInputPrice, "${fleaItem.price?.times(inputItem.qty)?.roundToInt()?.getPrice("₽")}")
             }.updateData(craft.input)
             //Requirements
 
-            val fleaItem = fleaViewModel.getItemById(craft.output.first().id)
+            val fleaItem = craft.output.first().fleaItem
 
             viewModel.getHideoutByID(craft.facility) {
-                i.text(R.id.hideoutCraftItemModule, "INPUT • ${it.module.toUpperCase()} LVL ${it.level}")
+                i.text(R.id.hideoutCraftItemModule, "${it.module.toUpperCase()} LEVEL ${it.level}")
             }
 
             //Craft Image
@@ -80,34 +86,82 @@ class HideoutCraftsListFragment : Fragment() {
             i.text(R.id.craftTime, craft.getTimeToCraft())
 
             //Craft Output Name + Qty
-            i.text(R.id.craftOutputName, "${fleaItem.shortName} x${craft.output[0].qty}")
+            i.text(R.id.craftOutputName, craft.getOutputName())
 
             //Craft Output Price
-            i.text(R.id.craftOutputPrice, (fleaItem.price?.times(craft.output[0].qty)?.getPrice("₽")))
+            i.text(R.id.craftOutputPrice, craft.getOutputPrice())
 
             //Craft Total Cost of Input Items
-            val totalCostToCraft = fleaItem.getTotalCostToCraft(craft.input, fleaViewModel)
+            val totalCostToCraft = craft.getTotalCostToCraft()
 
             //Total Cost Text
             i.text(R.id.craftOutputCost, totalCostToCraft.getPrice("₽"))
 
             //(Price of item * qty) - cost of items
-            val profit = (fleaItem.price!! * craft.output[0].qty - totalCostToCraft)
+            val profit = craft.getProfit()
+
             i.text(R.id.craftOutputProfit, profit.getPrice("₽"))
+
             i.textColor(R.id.craftOutputProfit, if (profit <= 0) redTextColor else greenTextColor)
+
+            i.text(R.id.craftTotalProfit, craft.getTotalProfit().getPrice("₽"))
+            i.text(R.id.craftProfitHour, craft.getProfitPerHour().getPrice("₽"))
+
+            i.textColor(R.id.craftTotalProfit, if (craft.getTotalProfit() <= 0) redTextColor else greenTextColor)
+            i.textColor(R.id.craftProfitHour, if (craft.getProfitPerHour() <= 0) redTextColor else greenTextColor)
 
             fleaItem.calculateTax {
                 val tax = it * craft.output[0].qty
                 i.text(R.id.craftFleaFea, (-abs(tax)).getPrice("₽"))
-                i.text(R.id.craftTotalProfit, (fleaItem.price * craft.output[0].qty - totalCostToCraft - tax).getPrice("₽"))
-                i.text(R.id.craftProfitHour, ((fleaItem.price * craft.output[0].qty - totalCostToCraft - tax) / craft.time).roundToInt().getPrice("₽"))
-
-                i.textColor(R.id.craftTotalProfit, if ((fleaItem.price * craft.output[0].qty - totalCostToCraft - tax) <= 0) redTextColor else greenTextColor)
-                i.textColor(R.id.craftProfitHour, if (((fleaItem.price * craft.output[0].qty - totalCostToCraft - tax) / craft.time).roundToInt() <= 0) redTextColor else greenTextColor)
             }
+        }.attachTo(mRecyclerView)
 
+        updateData(mList = viewModel.craftsList.value?.map { craft ->
+            craft.output.first().fleaItem = fleaViewModel.getItemById(craft.output.first().id)
+            craft.input.map {
+                it.fleaItem = fleaViewModel.getItemById(it.id)
+            }
+            craft
+        })
 
+        fleaViewModel.searchKey.observe(viewLifecycleOwner) { string ->
+            updateData(searchKey = string)
+        }
+    }
 
-        }.attachTo(mRecyclerView).updateData(viewModel.craftsList.value)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.flea_market_main_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.flea_sort -> {
+                MaterialDialog(requireActivity()).show {
+                    listItemsSingleChoice(R.array.crafts_sort, initialSelection = sortBy) { _, index, text ->
+                        sortBy = index
+                        updateData()
+                    }
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun updateData(searchKey: String = "", mList: List<HideoutCraft>? = null) {
+        if (mList != null) this.mList = mList
+        var nList = mList
+
+        val filtered = this.mList.filter { it.getOutputItem().name?.contains(searchKey, true) == true || it.getOutputItem().shortName?.contains(searchKey, true) == true }
+
+        when (sortBy) {
+            0 -> nList = filtered.sortedBy { it.getOutputItem().name }.toMutableList()
+            1 -> nList = filtered.sortedBy { it.getTotalProfit() }.toMutableList()
+            2 -> nList = filtered.sortedByDescending { it.getTotalProfit() }.toMutableList()
+            3 -> nList = filtered.sortedBy { it.getProfitPerHour() }.toMutableList()
+            4 -> nList = filtered.sortedByDescending { it.getProfitPerHour() }.toMutableList()
+        }
+
+        mAdapter.updateData(nList)
     }
 }

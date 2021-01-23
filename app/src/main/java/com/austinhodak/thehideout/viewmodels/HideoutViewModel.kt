@@ -12,9 +12,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import java.lang.reflect.Type
 
@@ -39,10 +40,13 @@ class HideoutViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun getHideoutCrafts() {
-        val objectString = context.resources.openRawResource(R.raw.crafts).bufferedReader().use { it.readText() }
-        val map = JSONArray(objectString)
         val groupListType: Type = object : TypeToken<ArrayList<HideoutCraft?>?>() {}.type
-        craftsList.value = Gson().fromJson(map.toString(), groupListType)
+        craftsList.value = Gson().fromJson(context.resources.openRawResource(R.raw.crafts).bufferedReader().use { it.readText() }, groupListType)
+    }
+
+    private suspend fun getHideoutCraftsAsync(): List<HideoutCraft> =  withContext(Dispatchers.IO){
+        val groupListType: Type = object : TypeToken<ArrayList<HideoutCraft?>?>() {}.type
+        Gson().fromJson(context.resources.openRawResource(R.raw.crafts).bufferedReader().use { it.readText() }, groupListType)
     }
 
     fun getHideoutByID(id: Int, callback: (result: HideoutModule) -> Unit) {

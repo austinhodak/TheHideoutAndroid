@@ -1,14 +1,15 @@
 package com.austinhodak.thehideout.viewmodels.models
 
 import com.austinhodak.thehideout.*
+import com.austinhodak.thehideout.calculator.models.CAmmo
 import java.text.DecimalFormat
 
 data class AmmoModel (
     var description: String,
     var weight: Double,
     var velocity: Int,
-    var damage: Int,
-    var penetration: Int,
+    var damage: Int = 0,
+    var penetration: Int = 0,
     var recoil: Double,
     var accuracy: Double,
     var tracer: Boolean,
@@ -20,7 +21,7 @@ data class AmmoModel (
     var tradeups: List<AmmoTradeup>,
     var caliber: String = "",
     val armor_damage: Int = 0,
-    val bullets: Int = 1
+    val bullets: Int = 1,
 ) : RecyclerItem {
 
     fun getAccuracy(): String {
@@ -29,6 +30,13 @@ data class AmmoModel (
 
     fun getURL(): String {
         return "https://www.eftdb.one/static/item/thumb/$image"
+    }
+
+    fun getCAmmo(): CAmmo {
+        return CAmmo(bullets = bullets,
+        damage = damage.toDouble(),
+        penetration = penetration.toDouble(),
+        armorDamage = armor_damage.toDouble())
     }
 
     fun getSubtitle(): String {
@@ -74,7 +82,7 @@ data class AmmoModel (
     }
 
     override val layoutId: Int
-        get() = R.layout.ammo_list_item
+        get() = R.layout.ammo_list_item_small
 
     override val variableId: Int
         get() = BR.ammo

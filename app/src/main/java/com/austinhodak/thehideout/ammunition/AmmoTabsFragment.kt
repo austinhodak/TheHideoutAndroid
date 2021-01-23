@@ -28,19 +28,23 @@ class AmmoTabsFragment : Fragment() {
         val view = binding.root
 
         setHasOptionsMenu(true)
-
-        calibers = AmmoHelper.getCalibers(requireContext(), true)
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sharedViewModel.data.observe(viewLifecycleOwner) {
+            calibers = it
+            setupTabs()
+        }
+    }
+
+    private fun setupTabs() {
         collectionAdapter = CollectionAdapter(this, calibers.size)
         val viewpager = binding.ammoViewpager
         viewpager.adapter = collectionAdapter
         tabs = binding.ammoTabs
-        //viewpager.offscreenPageLimit = 3
         for (i in calibers) {
             tabs.addTab(tabs.newTab().setText(i.name))
         }

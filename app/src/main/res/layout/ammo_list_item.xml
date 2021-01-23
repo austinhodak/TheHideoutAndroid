@@ -288,7 +288,6 @@
                     app:layout_constraintStart_toEndOf="@+id/linearLayout"
                     app:layout_constraintTop_toTopOf="@+id/linearLayout">
 
-
                     <TextView
                         android:id="@+id/ammo_dmg"
                         android:layout_width="wrap_content"
@@ -305,6 +304,7 @@
                         android:text="DAMAGE"
                         android:textColor="@color/primaryText60"
                         android:textSize="10sp" />
+
                 </LinearLayout>
 
                 <LinearLayout

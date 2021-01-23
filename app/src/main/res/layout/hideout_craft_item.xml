@@ -38,11 +38,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/bender_bold"
                 android:text="LEDX Skin Transilluminator"
                 android:textColor="@color/primaryText87"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/craftTime"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/craftIcon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
@@ -57,6 +59,7 @@
                 android:textColor="@color/primaryText60"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout9"
+                app:layout_constraintEnd_toEndOf="@+id/craftName"
                 app:layout_constraintStart_toEndOf="@+id/craftIcon"
                 app:layout_constraintTop_toBottomOf="@+id/craftName" />
 
@@ -319,7 +322,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="11dp"
-                    android:fontFamily="@font/bender_light"
+                    android:fontFamily="@font/bender"
                     android:text="INPUT"
                     android:textColor="@color/primaryText60"
                     android:textSize="12sp"

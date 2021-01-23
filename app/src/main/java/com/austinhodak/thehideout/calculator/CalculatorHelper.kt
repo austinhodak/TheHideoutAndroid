@@ -11,7 +11,6 @@ object CalculatorHelper {
         var ammoDamage = ammo.damage
         var ammoPen = ammo.penetration
         var damageToArmor = 0.0
-        //var armorDurability = armor.durability
 
         var blocked = false
 
@@ -51,11 +50,11 @@ object CalculatorHelper {
 
     private fun simulateBlock(ammo: CAmmo, armor: CArmor): Boolean {
         if (armor.durability > 0.0) {
-            var num = (armor.durability / armor.maxDurability) * 100.0
+            val num = (armor.durability / armor.maxDurability) * 100.0
 
-            var num3 = (121.0 - 5000.0 / (45.0 + num * 2.0)) * armor.resistance * 0.01
+            val num3 = (121.0 - 5000.0 / (45.0 + num * 2.0)) * armor.resistance * 0.01
 
-            var num4 = if (num >= ammo.penetration + 15) {
+            val num4 = if (num >= ammo.penetration + 15) {
                 0.0
             } else {
                 if (!(num3 >= ammo.penetration)) {
@@ -103,7 +102,7 @@ object CalculatorHelper {
         return Double.POSITIVE_INFINITY
     }
 
-     fun shotsToKill(bullet: CAmmo, armor: CArmor, health: Double, simulations: Int, blowthrough: Double): Double {
+    fun shotsToKill(bullet: CAmmo, armor: CArmor, health: Double, simulations: Int, blowthrough: Double): Double {
         var avg = 0.0
 
         for (i in 1..simulations) {

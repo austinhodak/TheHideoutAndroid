@@ -42,6 +42,8 @@ class HideoutModuleListFragment : Fragment() {
         setupRecyclerView(view)
         setupAdapter()
 
+        (activity as MainActivity).isSearchHidden(true)
+
         viewModel.completedModules.observe(requireActivity()) {
             mCompletedModuleIDs.clear()
             mCompletedModules.clear()

@@ -1,6 +1,5 @@
 package com.austinhodak.thehideout.calculator.models
 
-import android.util.Log
 import android.widget.TextView
 import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.views.HealthBar
@@ -21,6 +20,7 @@ data class Body (
     private lateinit var currentHealthTV: TextView
     private var shotsFired = 0
     private var shotsFiredAfterDead = 0
+    var onShootListener: (() -> Unit?)? = null
 
     fun reset(): Body {
         head.health = 35.0
@@ -46,34 +46,42 @@ data class Body (
         return (head.initialHealth + thorax.initialHealth + stomach.initialHealth + leftArm.initialHealth + rightArm.initialHealth + leftLeg.initialHealth + rightLeg.initialHealth).coerceAtLeast(0.0).roundToInt()
     }
 
-    fun shoot (part: Part, ammo: CAmmo, armor: CArmor? = CArmor()): Body {
+
+
+    fun shoot (part: Part, ammo: CAmmo, cArmor: CArmor? = CArmor()): Body {
+        val armor = cArmor ?: CArmor()
+
         shotsFired ++
         when (part) {
             Part.HEAD -> {
-                head.health -= sim.simulateHit(ammo, armor!!)
+                head.health -= sim.simulateHit(ammo, armor)
             }
             Part.THORAX -> {
-                thorax.health -= sim.simulateHit(ammo, armor!!)
+                thorax.health -= sim.simulateHit(ammo, armor)
             }
             Part.STOMACH -> {
                 if (stomach.blacked()) doBlowthrough(stomach)
-                stomach.health -= sim.simulateHit(ammo, armor!!)
+                stomach.health -= sim.simulateHit(ammo, armor)
             }
             Part.LEFTARM -> {
+
+                leftArm.health -= sim.simulateHit(ammo, armor)
                 if (leftArm.blacked()) doBlowthrough(leftArm)
-                leftArm.health -= sim.simulateHit(ammo, armor!!)
             }
             Part.RIGHTARM -> {
+
+                rightArm.health -= sim.simulateHit(ammo, armor)
                 if (rightArm.blacked()) doBlowthrough(rightArm)
-                rightArm.health -= sim.simulateHit(ammo, armor!!)
             }
             Part.LEFTLEG -> {
+
+                leftLeg.health -= sim.simulateHit(ammo, armor)
                 if (leftLeg.blacked()) doBlowthrough(leftLeg)
-                leftLeg.health -= sim.simulateHit(ammo, armor!!)
             }
             Part.RIGHTLEG -> {
+
+                rightLeg.health -= sim.simulateHit(ammo, armor)
                 if (rightLeg.blacked()) doBlowthrough(rightLeg)
-                rightLeg.health -= sim.simulateHit(ammo, armor!!)
             }
         }
 
@@ -85,6 +93,7 @@ data class Body (
         }
 
         updateHealthBars()
+        onShootListener?.invoke()
 
         return this
     }

@@ -192,31 +192,6 @@
     "id": 8
   },
   {
-    "facility": 16,
-    "input": [
-      {
-        "id": "508d41f2-2cb2-413e-a278-2cfef4eaa9ac",
-        "qty": 1
-      },
-      {
-        "id": "fc401d47-8836-4a5d-a794-76f672442d66",
-        "qty": 1
-      },
-      {
-        "id": "f308b8d1-c1a0-4a9d-b930-cb5f0cca04b5",
-        "qty": 1
-      }
-    ],
-    "time": 53.33,
-    "output": [
-      {
-        "id": "aed566f6-dc68-4263-a933-061c645098fc",
-        "qty": 1
-      }
-    ],
-    "id": 9
-  },
-  {
     "facility": 19,
     "input": [
       {
@@ -249,7 +224,7 @@
     "facility": 19,
     "input": [
       {
-        "id": "e0723cd1-8eb0-4b6a-8ed0-72e3997754c9",
+        "id": "19af1418-5a96-40fa-909a-90d453074b9d",
         "qty": 2
       },
       {
@@ -606,7 +581,7 @@
     "facility": 19,
     "input": [
       {
-        "id": "5d43d553-8e3b-4ca6-8d6d-2b3ff3f3eeaa",
+        "id": "ab85c8c1-3bb9-432f-9641-03871757d35a",
         "qty": 2
       },
       {
@@ -783,11 +758,11 @@
     "input": [
       {
         "id": "512394c7-b133-4662-b68b-5271d30ed267",
-        "qty": 1
+        "qty": 3
       },
       {
         "id": "ced612bd-bb94-49ce-9748-c7ea6677121e",
-        "qty": 1
+        "qty": 2
       },
       {
         "id": "d360967f-ca12-4ed8-99b5-bdc0922be0ae",
