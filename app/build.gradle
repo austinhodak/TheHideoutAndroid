@@ -139,4 +139,13 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     implementation 'androidx.paging:paging-runtime:2.1.0'
+
+    implementation "androidx.room:room-runtime:${versions.room}"
+    kapt "androidx.room:room-compiler:${versions.room}"
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:${versions.room}"
+
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:${versions.room}"
 }

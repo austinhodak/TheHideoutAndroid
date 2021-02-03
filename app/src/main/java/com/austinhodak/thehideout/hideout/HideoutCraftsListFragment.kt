@@ -117,9 +117,9 @@ class HideoutCraftsListFragment : Fragment() {
         }.attachTo(mRecyclerView)
 
         updateData(mList = viewModel.craftsList.value?.map { craft ->
-            craft.output.first().fleaItem = fleaViewModel.getItemById(craft.output.first().id)
+            craft.output.first().fleaItem = fleaViewModel.getItemById(craft.output.first().id)!!
             craft.input.map {
-                it.fleaItem = fleaViewModel.getItemById(it.id)
+                it.fleaItem = fleaViewModel.getItemById(it.id)!!
             }
             craft
         })

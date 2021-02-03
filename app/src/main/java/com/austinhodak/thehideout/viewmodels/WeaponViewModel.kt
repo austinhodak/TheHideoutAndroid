@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -73,8 +72,9 @@ class WeaponViewModel(application: Application) : AndroidViewModel(application) 
     fun getAllWeaponSearch(): MutableList<SuggestionModel> {
         val ammoList: MutableList<WeaponModel> = ArrayList()
         val stringList: MutableList<SuggestionModel> = ArrayList()
-        for (item in data.value!!) {
-            stringList.add(SuggestionModel("${item.name} ${AmmoHelper.getCaliberByID(context, item.calibre)?.long_name}", item))
+        for (item in list!!) {
+            stringList.add(SuggestionModel(item = item))
+            //stringList.add(SuggestionModel("${item.name} ${AmmoHelper.getCaliberByID(context, item.calibre)?.long_name}", item))
         }
 
         return  stringList

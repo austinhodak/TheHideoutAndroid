@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.austinhodak.thehideout.ammunition.AmmoTabsFragment"
-        android:label="@string/ammo_label"
+        android:label="@string/ammunition"
         tools:layout="@layout/fragment_ammo_tabs" />
 
     <fragment
@@ -41,7 +41,7 @@
         tools:layout="@layout/fragment_quest_main" />
     <fragment
         android:id="@+id/fleaMarketListFragment"
-        android:name="com.austinhodak.thehideout.flea_market.FleaMarketListFragment"
+        android:name="com.austinhodak.thehideout.flea_market.FleaMarketNavHome"
         android:label="Flea Market" />
     <fragment
         android:id="@+id/hideoutMainFragment"

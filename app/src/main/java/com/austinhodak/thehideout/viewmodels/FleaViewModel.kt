@@ -4,9 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.austinhodak.thehideout.flea
 import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.austinhodak.thehideout.uid
+import com.austinhodak.thehideout.viewmodels.models.PriceAlert
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
@@ -19,9 +22,11 @@ class FleaViewModel : ViewModel() {
     var searchKey = MutableLiveData<String>()
 
     val data = MutableLiveData<List<FleaItem>>()
+    val priceAlerts = MutableLiveData<List<PriceAlert>>()
 
     init {
         getFunction()
+        loadPriceAlerts()
     }
 
     private fun getFunction() {
@@ -47,7 +52,25 @@ class FleaViewModel : ViewModel() {
         })
     }
 
-    fun getItemById(uid: String): FleaItem {
-        return data.value?.find { it.uid == uid }!!
+    fun getItemById(uid: String): FleaItem? {
+        return data.value?.find { it.uid == uid }
     }
+
+    private fun loadPriceAlerts() {
+        Firebase.database.getReference("priceAlerts").orderByChild("uid").equalTo(uid()).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = snapshot.children.map {
+                    val alert = it.getValue<PriceAlert>()!!
+                    alert.reference = it.ref
+                    alert
+                }.toMutableList()
+                priceAlerts.postValue(list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
 }

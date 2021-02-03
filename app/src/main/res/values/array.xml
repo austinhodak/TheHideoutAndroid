@@ -84,4 +84,9 @@
         <item>Profit/Hour (High to Low)</item>
     </string-array>
 
+    <string-array name="price_alert">
+        <item>If price drops below</item>
+        <item>If price rises above</item>
+    </string-array>
+
 </resources>

@@ -1,23 +1,21 @@
 package com.austinhodak.thehideout.weapons
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
-import android.widget.ImageView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.inflate
-import com.austinhodak.thehideout.viewmodels.models.AmmoModel
+import com.austinhodak.thehideout.log
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.bumptech.glide.Glide
+import com.google.firebase.analytics.FirebaseAnalytics
 import net.idik.lib.slimadapter.SlimAdapter
 
 private const val ARG_PARAM1 = "param1"
@@ -58,6 +56,8 @@ class WeaponListFragment : Fragment() {
                 startActivity(Intent(requireContext(), WeaponDetailActivity::class.java).apply {
                     putExtra("id", weapon._id)
                 })
+
+                log(FirebaseAnalytics.Event.SELECT_ITEM, weapon._id, weapon.name, "weapon")
             }
 
             i.text(R.id.weaponName, weapon.name)

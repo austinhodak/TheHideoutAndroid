@@ -3,8 +3,6 @@ package com.miguelcatalan.materialsearchview
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -178,7 +176,7 @@ class MaterialSearchView @JvmOverloads constructor(
             showSuggestions()
             return
         }
-        val mFilteredList = mList?.filter { it.s.contains(s, true) }?.sortedBy { it.s }
+        val mFilteredList = mList?.filter { it.s?.contains(s, true) == true }?.sortedBy { it.s }
         Log.d("SEARCH", mFilteredList?.size.toString())
         mNewAdapter?.updateData(mFilteredList?.map { it.item })
         showSuggestions()

@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentAmmoTabsBinding
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.models.CaliberModel
+import com.austinhodak.thehideout.viewmodels.models.firestore.FSCaliber
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -16,7 +16,7 @@ class AmmoTabsFragment : Fragment() {
 
     private lateinit var collectionAdapter: CollectionAdapter
     private lateinit var tabs: TabLayout
-    private lateinit var calibers: List<CaliberModel>
+    private lateinit var calibers: List<FSCaliber>
     private var sortBy: Int = 0
     private val sharedViewModel: AmmoViewModel by activityViewModels()
 
@@ -34,7 +34,7 @@ class AmmoTabsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.data.observe(viewLifecycleOwner) {
+        sharedViewModel.caliberList.observe(viewLifecycleOwner) {
             calibers = it
             setupTabs()
         }
@@ -81,7 +81,7 @@ class AmmoTabsFragment : Fragment() {
         override fun getItemCount(): Int = itemsCount
 
         override fun createFragment(position: Int): Fragment {
-            return AmmoListFragment.newInstance(calibers[position]._id, sortBy)
+            return AmmoListFragment.newInstance(calibers[position]._id!!, sortBy)
         }
     }
 }

@@ -19,17 +19,18 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
+import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
-import com.austinhodak.thehideout.viewmodels.models.AmmoModel
+import com.austinhodak.thehideout.viewmodels.models.FSAmmo
 import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import com.miguelcatalan.materialsearchview.SuggestionModel
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private var searchItem: MenuItem? = null
     private var hideSearch = false
     private lateinit var weaponViewModel: WeaponViewModel
+    private lateinit var ammoViewModel: AmmoViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var mSearchAdapter: SlimAdapter
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         weaponViewModel = ViewModelProvider(this).get(WeaponViewModel::class.java)
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
+        ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
 
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
@@ -139,7 +142,7 @@ class MainActivity : AppCompatActivity() {
                     null
                 ),
                 DividerDrawerItem(),
-                PrimaryDrawerItem().apply {
+                /*PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
                     name = StringHolder("Damage Calculator")
@@ -149,7 +152,7 @@ class MainActivity : AppCompatActivity() {
                         startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
                         false
                     }
-                },
+                },*/
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont; isIconTinted = true
                     name = StringHolder("Flea Market"); iconRes = R.drawable.ic_baseline_shopping_cart_24
@@ -252,22 +255,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSearch(currentDestination: NavDestination) {
-        val list = when (currentDestination.id) {
-            R.id.FirstFragment -> {
-                AmmoHelper.getAllAmmoList(this)
+        var list: MutableList<SuggestionModel>? = null
+
+        ammoViewModel.ammoList.observe(this) {
+            list = when (currentDestination.id) {
+                R.id.FirstFragment -> {
+                    ammoViewModel.ammoList.value?.map { ammo ->
+                        SuggestionModel("${ammoViewModel.caliberList.value?.find { it._id == ammo.caliber }?.name} ${ammo.name}", ammo)
+                    }?.toMutableList()
+                }
+                R.id.WeaponFragment -> {
+                    //TODO FIX THIS. ISSUE #7
+                    //weaponViewModel.getAllWeaponSearch()
+                    mutableListOf()
+                }
+                R.id.keysListFragment -> {
+                    mutableListOf()
+                }
+                else -> mutableListOf()
             }
-            R.id.WeaponFragment -> {
-                //weaponViewModel.getAllWeaponSearch()
-                mutableListOf()
-            }
-            R.id.keysListFragment -> {
-                mutableListOf()
-            }
-            else -> mutableListOf()
+
+            binding.searchView.setSuggestions(list!!)
         }
 
         binding.searchView.setAdapter(mSearchAdapter)
-        binding.searchView.setSuggestions(list)
+        if (list != null) {
+            binding.searchView.setSuggestions(list!!)
+        }
 
         binding.searchView.setHint("Search ${currentDestination.label}")
 
@@ -287,6 +301,7 @@ class MainActivity : AppCompatActivity() {
             R.id.medicalTabFragment,
             R.id.questMainFragment,
             R.id.hideoutMainFragment -> true
+            R.id.WeaponFragment -> true
             else -> false
         }
 
@@ -299,20 +314,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSearchAdapter() {
-        mSearchAdapter = SlimAdapter.create().register<AmmoModel>(R.layout.ammo_list_item_small_search) { data, injector ->
+        mSearchAdapter = SlimAdapter.create().register<FSAmmo>(R.layout.ammo_list_item_small_search) { data, injector ->
             injector.text(R.id.ammoSmallName, data.name)
             injector.text(R.id.textView2, data.getSubtitle())
             injector.text(R.id.ammoSmallDamage, data.damage.toString())
             injector.text(R.id.ammoSmallPen, data.penetration.toString())
-            injector.text(R.id.ammoSmallCal, data.caliber)
+            injector.text(R.id.ammoSmallCal, ammoViewModel.caliberList.value?.find { it._id == data.caliber }?.name)
 
             val subtitleTV = injector.findViewById<TextView>(R.id.textView2)
 
             if (data.getSubtitle().contains("\n")) {
-                if (data.prices.isEmpty()) {
-                    subtitleTV.maxLines = data.tradeups.size
+                if (data.prices?.isEmpty() == true) {
+                    subtitleTV.maxLines = data.tradeups?.size ?: 0
                 } else {
-                    subtitleTV.maxLines = data.prices.size
+                    subtitleTV.maxLines = data.prices?.size ?: 0
                 }
             } else {
                 subtitleTV.maxLines = 1
