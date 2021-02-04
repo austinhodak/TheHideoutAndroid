@@ -18,6 +18,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.araujo.jordan.excuseme.ExcuseMe
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
@@ -57,6 +58,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
+
+        /*ExcuseMe.couldYouGive(this).permissionFor(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+
+        }*/
+
         weaponViewModel = ViewModelProvider(this).get(WeaponViewModel::class.java)
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)

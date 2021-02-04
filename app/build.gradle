@@ -12,13 +12,13 @@ kapt {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.austinhodak.thehideout"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1001
         versionName "0.1.1 Beta"
 
@@ -150,5 +150,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:${versions.room}"
 
     implementation 'androidx.preference:preference-ktx:1.1.1'
+
+    implementation 'com.github.AraujoJordan:ExcuseMe:0.9.5'
 
 }
