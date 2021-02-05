@@ -6,7 +6,7 @@
     <data>
         <variable
             name="ammo"
-            type="com.austinhodak.thehideout.viewmodels.models.AmmoModel" />
+            type="com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +35,7 @@
                     android:id="@+id/armor_pen_layout"
                     android:layout_width="0dp"
                     android:layout_height="3dp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -249,7 +250,6 @@
                         android:autoSizeTextType="uniform"
                         android:fontFamily="@font/bender_bold"
                         android:maxLines="1"
-                        android:text="@{ammo.name}"
                         android:textColor="@color/primaryText87"
                         android:textSize="18sp"
                         tools:text="FMJ" />
@@ -270,7 +270,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    app:imageUrl="@{ammo.getURL}"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/linearLayout"
@@ -293,7 +293,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/bender_bold"
-                        android:text="@{Integer.valueOf(ammo.damage).toString()}"
+
                         android:textColor="@color/primaryText87"
                         android:textSize="20sp" />
 
@@ -360,7 +360,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/bender_bold"
-                        android:text="@{Integer.valueOf(ammo.penetration).toString()}"
+
                         android:textColor="@color/primaryText87"
                         android:textSize="20sp" />
 

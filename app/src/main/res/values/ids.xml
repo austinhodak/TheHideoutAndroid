@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="fast_adapter_id" type="id"></item>
+    <item name="fast_adapter_id" type="id"/>
+    <item name="fast_adapter_id_2" type="id"/>
 
 </resources>

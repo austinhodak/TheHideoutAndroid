@@ -18,15 +18,13 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.araujo.jordan.excuseme.ExcuseMe
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.viewmodels.KeysViewModel
-import com.austinhodak.thehideout.viewmodels.WeaponViewModel
-import com.austinhodak.thehideout.viewmodels.models.FSAmmo
 import com.austinhodak.thehideout.viewmodels.models.WeaponModel
+import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -44,7 +42,6 @@ class MainActivity : AppCompatActivity() {
 
     private var searchItem: MenuItem? = null
     private var hideSearch = false
-    private lateinit var weaponViewModel: WeaponViewModel
     private lateinit var ammoViewModel: AmmoViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
@@ -59,14 +56,10 @@ class MainActivity : AppCompatActivity() {
             setContentView(it.root)
         }
 
-        /*ExcuseMe.couldYouGive(this).permissionFor(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-
-        }*/
-
-        weaponViewModel = ViewModelProvider(this).get(WeaponViewModel::class.java)
+        ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
-        ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
+
 
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
@@ -267,7 +260,7 @@ class MainActivity : AppCompatActivity() {
             list = when (currentDestination.id) {
                 R.id.FirstFragment -> {
                     ammoViewModel.ammoList.value?.map { ammo ->
-                        SuggestionModel("${ammoViewModel.caliberList.value?.find { it._id == ammo.caliber }?.name} ${ammo.name}", ammo)
+                        SuggestionModel("${AmmoHelper.caliberList.find { it.key == ammo.caliber }?.name} ${ammo.name}", ammo)
                     }?.toMutableList()
                 }
                 R.id.WeaponFragment -> {
@@ -325,7 +318,7 @@ class MainActivity : AppCompatActivity() {
             injector.text(R.id.textView2, data.getSubtitle())
             injector.text(R.id.ammoSmallDamage, data.damage.toString())
             injector.text(R.id.ammoSmallPen, data.penetration.toString())
-            injector.text(R.id.ammoSmallCal, ammoViewModel.caliberList.value?.find { it._id == data.caliber }?.name)
+            injector.text(R.id.ammoSmallCal, AmmoHelper.caliberList.find { it.key == data.caliber }?.name)
 
             val subtitleTV = injector.findViewById<TextView>(R.id.textView2)
 
@@ -348,7 +341,7 @@ class MainActivity : AppCompatActivity() {
 
         }.register<WeaponModel>(R.layout.search_item_weapon) { weapon, i ->
             i.text(R.id.searchItemWeaponName, weapon.name)
-            i.text(R.id.searchItemWeaponSubtitle, AmmoHelper.getCaliberByID(this, weapon.calibre)?.long_name)
+            i.text(R.id.searchItemWeaponSubtitle, AmmoHelper.getCaliberByID(weapon.calibre)?.longName)
             i.clicked(R.id.searchItemWeaponRoot) {
                 startActivity(Intent(this, WeaponDetailActivity::class.java).apply {
                     putExtra("id", weapon._id)

@@ -1,14 +1,10 @@
 package com.austinhodak.thehideout.clothing.armor
 
 import android.content.Context
-import android.util.Log
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.AmmoModel
 import com.austinhodak.thehideout.viewmodels.models.Armor
-import com.austinhodak.thehideout.viewmodels.models.CaliberModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.miguelcatalan.materialsearchview.SuggestionModel
 import org.json.JSONArray
 import java.lang.reflect.Type
 

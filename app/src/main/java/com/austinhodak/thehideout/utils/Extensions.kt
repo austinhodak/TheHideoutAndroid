@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.browser.customtabs.CustomTabsIntent
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -18,7 +17,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import java.text.NumberFormat
 import java.util.*
 
@@ -90,19 +88,12 @@ fun flea(): DatabaseReference {
     return Firebase.database("https://hideout-flea-market.firebaseio.com/").reference
 }
 
-fun uid(): String {
-    return Firebase.auth.uid!!
+fun uid(): String? {
+    return Firebase.auth.uid
 }
 
-fun pushToken() {
-    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-        if (!task.isSuccessful) {
-            return@OnCompleteListener
-        }
-
-        val token = task.result
-        userRef().updateChildren(hashMapOf<String, Any>("token" to token))
-    })
+fun pushToken(token: String) {
+    userRef().updateChildren(hashMapOf<String, Any>("token" to token))
 }
 
 fun log(event: String, itemID: String, itemName: String, contentType: String) {

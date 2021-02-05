@@ -31,7 +31,7 @@ data class HideoutModule(
             }
         }
 
-        fun getSubtitle(fleaList: MutableList<FleaItem>?): String {
+        fun getSubtitle(fleaList: List<FleaItem>?): String {
             val item = fleaList?.find { it.name?.replace("#", "").equals(name, ignoreCase = true) }
             if (item != null) {
                 if (type != "module" && type != "currency") {

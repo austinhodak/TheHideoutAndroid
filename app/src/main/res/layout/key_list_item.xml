@@ -53,7 +53,7 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
                     android:adjustViewBounds="true"
-                    app:imageUrl="@{key.icon}"
+                    app:keyImageUrl="@{key.icon}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

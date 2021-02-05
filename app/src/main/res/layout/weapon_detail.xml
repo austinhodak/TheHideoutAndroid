@@ -335,7 +335,7 @@
                             android:autoSizeTextType="uniform"
                             android:fontFamily="@font/bender_bold"
                             android:maxLines="1"
-                            android:text="@{weapon.getCaliber(context).long_name}"
+                            android:text="@{weapon.getCaliber().longName}"
                             android:textColor="@color/primaryText87"
                             android:textSize="18sp"
                             tools:text="5.56x45" />

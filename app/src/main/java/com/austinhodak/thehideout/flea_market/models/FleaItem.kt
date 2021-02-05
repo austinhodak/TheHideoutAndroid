@@ -1,16 +1,21 @@
 package com.austinhodak.thehideout.flea_market.models
 
+import android.content.res.ColorStateList
 import android.text.format.DateUtils
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.databinding.FleaItem1Binding
 import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.hideout.models.Input
-import com.google.firebase.database.IgnoreExtraProperties
+import com.bumptech.glide.Glide
+import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
-@IgnoreExtraProperties
 data class FleaItem(
     val avg24hPrice: Int? = null,
     val avg7daysPrice: Int? = null,
@@ -34,7 +39,45 @@ data class FleaItem(
     val uid: String? = null,
     val updated: String? = null,
     val wikiLink: String? = null,
-) {
+) : AbstractBindingItem<FleaItem1Binding>() {
+
+    override val type: Int
+        get() = R.id.fast_adapter_id
+
+    override fun bindView(binding: FleaItem1Binding, payloads: List<Any>) {
+        Glide.with(binding.root.context).load(getItemIcon()).into(binding.fleaItemIcon)
+
+        binding.item = this
+
+        val resources = binding.root.resources
+        //Switch to binding?
+        when {
+            diff24h!! > 0.0 -> {
+                binding.fleaItemChange.setTextColor(resources.getColor(R.color.md_green_500))
+                binding.fleaItemChangeIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
+                binding.fleaItemChangeIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_green_500))
+            }
+            diff24h < 0.0 -> {
+                binding.fleaItemChange.setTextColor(resources.getColor(R.color.md_red_500))
+                binding.fleaItemChangeIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
+                binding.fleaItemChangeIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_red_500))
+            }
+            else -> {
+                binding.fleaItemChange.setTextColor(resources.getColor(R.color.primaryText60))
+                binding.fleaItemChangeIcon.setImageResource(R.drawable.icons8_horizontal_line_96)
+                binding.fleaItemChangeIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryText60))
+            }
+        }
+    }
+
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): FleaItem1Binding {
+        return FleaItem1Binding.inflate(inflater, parent, false)
+    }
+
+    fun get24Diff(): String {
+        return "$diff24h%"
+    }
+
     fun getCurrentPrice(): String {
         return price?.getPrice("₽")!!
     }
@@ -99,4 +142,6 @@ data class FleaItem(
         val tax = (mVO * mTi * mPO4 * mQ + mVR * mTr * mPR4 * mQ).roundToInt()
         callback.invoke(tax)
     }
+
+
 }

@@ -8,16 +8,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentAmmoTabsBinding
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.models.firestore.FSCaliber
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class AmmoTabsFragment : Fragment() {
 
-    private lateinit var collectionAdapter: CollectionAdapter
-    private lateinit var tabs: TabLayout
-    private lateinit var calibers: List<FSCaliber>
-    private var sortBy: Int = 0
+    private lateinit var calibers: List<AmmoHelper.Caliber>
     private val sharedViewModel: AmmoViewModel by activityViewModels()
 
     private var _binding: FragmentAmmoTabsBinding? = null
@@ -33,23 +28,18 @@ class AmmoTabsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        sharedViewModel.caliberList.observe(viewLifecycleOwner) {
-            calibers = it
-            setupTabs()
-        }
+        calibers = AmmoHelper.caliberList
+        setupTabs()
     }
 
     private fun setupTabs() {
-        collectionAdapter = CollectionAdapter(this, calibers.size)
-        val viewpager = binding.ammoViewpager
-        viewpager.adapter = collectionAdapter
-        tabs = binding.ammoTabs
+        binding.ammoViewpager.adapter = CollectionAdapter(this, calibers.size)
+
         for (i in calibers) {
-            tabs.addTab(tabs.newTab().setText(i.name))
+            binding.ammoTabs.addTab(binding.ammoTabs.newTab().setText(i.name))
         }
 
-        TabLayoutMediator(tabs, viewpager) { tab, position ->
+        TabLayoutMediator(binding.ammoTabs, binding.ammoViewpager) { tab, position ->
             tab.text = calibers[position].name
         }.attach()
     }
@@ -60,20 +50,15 @@ class AmmoTabsFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.sort_name -> {
-                sharedViewModel.setSortBy(0)
+        sharedViewModel.setSortBy(
+            when (item.itemId) {
+                R.id.sort_name -> 0
+                R.id.sort_damage -> 1
+                R.id.sort_pen -> 2
+                R.id.sort_armor -> 3
+                else -> return false
             }
-            R.id.sort_damage -> {
-                sharedViewModel.setSortBy(1)
-            }
-            R.id.sort_pen -> {
-                sharedViewModel.setSortBy(2)
-            }
-            R.id.sort_armor -> {
-                sharedViewModel.setSortBy(3)
-            }
-        }
+        )
         return super.onOptionsItemSelected(item)
     }
 
@@ -81,7 +66,7 @@ class AmmoTabsFragment : Fragment() {
         override fun getItemCount(): Int = itemsCount
 
         override fun createFragment(position: Int): Fragment {
-            return AmmoListFragment.newInstance(calibers[position]._id!!, sortBy)
+            return AmmoListFragment.newInstance(calibers[position].key)
         }
     }
 }

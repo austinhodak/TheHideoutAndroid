@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.databinding.WeaponDetailBinding
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.AmmoModel
@@ -42,7 +41,7 @@ class WeaponDetailActivity : AppCompatActivity() {
     private fun loadWeapon() {
         weapon = viewModel.getWeaponByID(intent.getStringExtra("id") ?: "")
         binding.weapon = weapon
-        ammoList = AmmoHelper.getCalibers(this).filter { it._id == weapon.calibre }[0].ammo.sortedBy { it.armor }.reversed()
+        //ammoList = AmmoHelper.getCalibers(this).filter { it._id == weapon.calibre }[0].ammo.sortedBy { it.armor }.reversed()
 
         Glide.with(this).load("https://www.eftdb.one/static/item/full/${weapon.image}")
             .into(findViewById(R.id.weaponImage2))

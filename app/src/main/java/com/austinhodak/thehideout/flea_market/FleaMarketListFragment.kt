@@ -1,12 +1,11 @@
 package com.austinhodak.thehideout.flea_market
 
-import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
-import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.browser.customtabs.CustomTabsIntent
@@ -25,12 +24,14 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.uid
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
-import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.itemanimators.SlideUpAlphaAnimator
 import net.idik.lib.slimadapter.SlimAdapter
 import java.text.DecimalFormat
 
@@ -43,6 +44,9 @@ class FleaMarketListFragment : Fragment() {
     private val viewModel: FleaViewModel by activityViewModels()
     private var sortBy = 1
 
+    lateinit var fastAdapter: FastAdapter<FleaItem>
+    lateinit var itemAdapter: ItemAdapter<FleaItem>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_flea_list, container, false)
     }
@@ -52,7 +56,7 @@ class FleaMarketListFragment : Fragment() {
         setupAdapter()
         setupRecyclerView(view)
         progressBar = view.findViewById(R.id.fleaPG)
-        progressBar.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
 
         (activity as MainActivity).isSearchHidden(false)
     }
@@ -63,6 +67,12 @@ class FleaMarketListFragment : Fragment() {
     }
 
     private fun setupAdapter() {
+
+        itemAdapter = ItemAdapter()
+        fastAdapter = FastAdapter.with(itemAdapter)
+
+
+
         val mDialogAdapter = SlimAdapter.create().register<String>(R.layout.dialog_list_item_1) { s, i ->
 
         }.register<Wiki>(R.layout.dialog_list_item_1) { wiki, i ->
@@ -147,57 +157,30 @@ class FleaMarketListFragment : Fragment() {
             }
         }
 
-        mAdapter = SlimAdapter.create().register<FleaItem>(R.layout.flea_item_1) { item, i ->
-            val icon = i.findViewById<ImageView>(R.id.fleaItemIcon)
-            Glide.with(this).load(item.getItemIcon()).into(icon)
-
-            i.text(R.id.fleaItemName, item.name)
-            i.text(R.id.fleaItemSubtitle, item.getUpdatedTime())
-            i.text(R.id.fleaItemPrice, item.getCurrentPrice())
-            i.text(R.id.fleaItemPriceSlot, item.getPricePerSlot())
-
-            i.text(R.id.fleaItemChange, "${item.diff24h}%")
-
-            val changeIcon = i.findViewById<ImageView>(R.id.fleaItemChangeIcon)
-            when {
-                item.diff24h!! > 0.0 -> {
-                    i.textColor(R.id.fleaItemChange, resources.getColor(R.color.md_green_500))
-                    i.image(R.id.fleaItemChangeIcon, R.drawable.ic_baseline_arrow_drop_up_24)
-                    changeIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_green_500))
-                }
-                item.diff24h < 0.0 -> {
-                    i.textColor(R.id.fleaItemChange, resources.getColor(R.color.md_red_500))
-                    i.image(R.id.fleaItemChangeIcon, R.drawable.ic_baseline_arrow_drop_down_24)
-                    changeIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_red_500))
-                }
-                else -> {
-                    i.textColor(R.id.fleaItemChange, resources.getColor(R.color.primaryText60))
-                    i.image(R.id.fleaItemChangeIcon, R.drawable.icons8_horizontal_line_96)
-                    changeIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryText60))
-                }
+        fastAdapter.onLongClickListener = { view, adapter, item, pos ->
+            val dialog = MaterialDialog(requireActivity()).show {
+                customListAdapter(mDialogAdapter)
             }
-
-            i.longClicked(R.id.itemCard) {
-                val dialog = MaterialDialog(requireActivity()).show {
-                    customListAdapter(mDialogAdapter)
-                }
-                mDialogAdapter.updateData(mutableListOf(PriceAlert(item, dialog), Wiki(item.wikiLink!!, dialog), item))
-                false
-            }
+            mDialogAdapter.updateData(mutableListOf(PriceAlert(item, dialog), Wiki(item.wikiLink!!, dialog), item))
+            false
         }
 
-        /*viewModel.fleaItems.observe(viewLifecycleOwner) {
-            updateData(mList = it, searchKey = currentSearchKey)
-        }*/
-
-        viewModel.data.observe(viewLifecycleOwner) {
-            updateData(mList = it.toMutableList(), searchKey = currentSearchKey)
+        viewModel.fleaItems.observe(viewLifecycleOwner) {
+            Handler().postDelayed({
+                updateData(mList = it.toMutableList(), searchKey = currentSearchKey)
+            }, 50)
         }
 
         viewModel.searchKey.observe(viewLifecycleOwner) {
             currentSearchKey = it
-            updateData(searchKey = it)
+            itemAdapter.filter(it)
+            //updateData(searchKey = it)
         }
+
+        itemAdapter.itemFilter.filterPredicate = { item: FleaItem, constraint: CharSequence? ->
+            item.name?.contains(constraint.toString(), ignoreCase = true) == true
+        }
+
     }
 
     private fun addPriceAlert(spinner: AppCompatSpinner?, editText: TextInputEditText?, dialog: MaterialDialog, item: FleaItem) {
@@ -239,14 +222,20 @@ class FleaMarketListFragment : Fragment() {
             2 -> nList = this.mList?.filter { it.name!!.contains(searchKey, true) }?.sortedByDescending { (it.price!! / it.slots!!) }?.toMutableList()
         }
 
-        mAdapter.updateData(nList?.filterNot { it.icon!!.isEmpty() && it.img!!.isEmpty() })
+        itemAdapter.clear()
+        if (nList != mList)
+        itemAdapter.set(nList?.filterNot { it.icon!!.isEmpty() && it.img!!.isEmpty() } ?: emptyList())
         progressBar.visibility = View.GONE
     }
 
     private fun setupRecyclerView(view: View) {
         val mRecyclerView = view.findViewById<RecyclerView>(R.id.flea_list)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
-        mAdapter.attachTo(mRecyclerView)
+        mRecyclerView.itemAnimator = SlideUpAlphaAnimator().apply {
+            addDuration = 200
+            removeDuration = 100
+        }
+        mRecyclerView.adapter = fastAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

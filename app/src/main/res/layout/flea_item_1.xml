@@ -1,126 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/itemCard"
+    <data>
+        <variable
+            name="item"
+            type="com.austinhodak.thehideout.flea_market.models.FleaItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
-        app:cardBackgroundColor="@color/cardBottomBackgroundColor"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/cardStroke"
-        app:strokeWidth="1dp">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/itemCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            app:cardBackgroundColor="@color/cardBottomBackgroundColor"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-            <ImageView
-                android:id="@+id/fleaItemIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/red_keycard" />
+                <ImageView
+                    android:id="@+id/fleaItemIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/red_keycard" />
 
-            <TextView
-                android:id="@+id/fleaItemName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="@font/bender_bold"
-                android:text="Lab. Red keycard"
-                android:textColor="@color/primaryText87"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/fleaItemSubtitle"
-                app:layout_constraintEnd_toStartOf="@+id/fleaItemPrice"
-                app:layout_constraintStart_toEndOf="@+id/fleaItemIcon"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                <TextView
+                    android:id="@+id/fleaItemName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/bender_bold"
+                    android:text="@{item.name}"
+                    android:textColor="@color/primaryText87"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/fleaItemSubtitle"
+                    app:layout_constraintEnd_toStartOf="@+id/fleaItemPrice"
+                    app:layout_constraintStart_toEndOf="@+id/fleaItemIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-            <TextView
-                android:id="@+id/fleaItemSubtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/bender_light"
-                android:text="Updated 36 minutes ago"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/fleaItemName"
-                app:layout_constraintStart_toEndOf="@+id/fleaItemIcon"
-                app:layout_constraintTop_toBottomOf="@+id/fleaItemName" />
+                <TextView
+                    android:id="@+id/fleaItemSubtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/bender_light"
+                    android:text="@{item.updatedTime}"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/fleaItemName"
+                    app:layout_constraintStart_toEndOf="@+id/fleaItemIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/fleaItemName" />
 
-            <TextView
-                android:id="@+id/fleaItemPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="@font/bender_bold"
-                android:text="₽45,300,300"
-                android:textColor="@color/primaryText87"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/fleaItemPriceSlot"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                <TextView
+                    android:id="@+id/fleaItemPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/bender_bold"
+                    android:text="@{item.currentPrice}"
+                    android:textColor="@color/primaryText87"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/fleaItemPriceSlot"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-            <TextView
-                android:id="@+id/fleaItemPriceSlot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="@font/bender"
-                android:text="₽45,300,300/slot"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toTopOf="@+id/fleaItemChange"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fleaItemPrice" />
+                <TextView
+                    android:id="@+id/fleaItemPriceSlot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/bender"
+                    android:text="@{item.pricePerSlot}"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toTopOf="@+id/fleaItemChange"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fleaItemPrice" />
 
-            <TextView
-                android:id="@+id/fleaItemChange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/bender"
-                android:text="-5.29%"
-                android:textColor="@color/md_red_500"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/fleaItemChangeIcon"
-                app:layout_constraintTop_toBottomOf="@+id/fleaItemPriceSlot" />
+                <TextView
+                    android:id="@+id/fleaItemChange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bender"
+                    android:text="@{item.get24Diff}"
+                    android:textColor="@color/md_red_500"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/fleaItemChangeIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/fleaItemPriceSlot" />
 
-            <ImageView
-                android:id="@+id/fleaItemChangeIcon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginEnd="16dp"
-                android:tint="@color/md_red_500"
-                app:layout_constraintBottom_toBottomOf="@+id/fleaItemChange"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/fleaItemChange"
-                app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24" />
+                <ImageView
+                    android:id="@+id/fleaItemChangeIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/md_red_500"
+                    app:layout_constraintBottom_toBottomOf="@+id/fleaItemChange"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/fleaItemChange"
+                    app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

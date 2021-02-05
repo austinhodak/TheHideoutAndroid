@@ -63,7 +63,7 @@ class WeaponListFragment : Fragment() {
             i.text(R.id.weaponName, weapon.name)
             i.text(
                 R.id.weaponAmmo,
-                AmmoHelper.getCaliberByID(requireContext(), weapon.calibre)?.long_name
+                AmmoHelper.getCaliberByID(weapon.calibre)?.longName
             )
             i.text(R.id.weaponRange, "${weapon.range}m")
             i.text(R.id.weaponRPM, weapon.rpm.toString())

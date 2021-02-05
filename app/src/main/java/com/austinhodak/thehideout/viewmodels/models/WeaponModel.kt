@@ -1,6 +1,5 @@
 package com.austinhodak.thehideout.viewmodels.models
 
-import android.content.Context
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.getCurrency
 import com.austinhodak.thehideout.getTraderLevel
@@ -49,8 +48,8 @@ data class WeaponModel(
         }
     }
 
-    fun getCaliber(context: Context): CaliberModel {
-        return AmmoHelper.getCaliberByID(context, calibre)!!
+    fun getCaliber(): AmmoHelper.Caliber {
+        return AmmoHelper.getCaliberByID(calibre)!!
     }
 }
 

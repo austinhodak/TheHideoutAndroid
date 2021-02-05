@@ -1,59 +1,32 @@
 package com.austinhodak.thehideout.ammunition
 
-import android.content.Context
-import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.AmmoModel
-import com.austinhodak.thehideout.viewmodels.models.CaliberModel
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.miguelcatalan.materialsearchview.SuggestionModel
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import org.json.JSONArray
+import org.json.JSONObject
 import java.lang.reflect.Type
 
 object AmmoHelper {
-    private var objectString: String? = null
-    private var list: List<CaliberModel>? = null
 
+    /**
+     * Gets caliber list from remote config and parses to a List of Caliber objects.
+     */
 
-    fun getCalibers(context: Context): List<CaliberModel> {
-        if (objectString == null) {
-            objectString = context.resources.openRawResource(R.raw.ammo).bufferedReader().use { it.readText() }
-        }
-        val map = JSONArray(objectString)
-        val groupListType: Type = object : TypeToken<ArrayList<CaliberModel?>?>() {}.type
-        if (list == null) {
-            list = Gson().fromJson(map.toString(), groupListType)
-        }
-        return list!!.sortedBy { it.name }
+    val caliberList: List<Caliber> by lazy {
+        val ammoCalibers = JSONObject(Firebase.remoteConfig.getValue("ammoCalibers").asString())
+        val groupListType: Type = object : TypeToken<ArrayList<Caliber?>?>() {}.type
+        val list: ArrayList<Caliber> = Gson().fromJson(ammoCalibers.getJSONArray("calibers").toString(), groupListType)
+        list.sortedBy { it.name }
     }
 
-    fun getCalibers(context: Context, moshi: Boolean): List<CaliberModel> {
-        if (list != null) return list!!.sortedBy { it.name }
-        val calibers = Json { ignoreUnknownKeys = true }.decodeFromString<List<CaliberModel>>( context.resources.openRawResource(R.raw.ammo).bufferedReader().use { it.readText() } )
-        list = calibers
-        return list!!.sortedBy { it.name }
+    fun getCaliberByID(id: String): Caliber? {
+        return caliberList.find { it.key == id }
     }
 
-    fun getAmmoListByID(context: Context, id: String): List<AmmoModel>? {
-        return list!!.find { it._id == id }?.ammo
-    }
-
-    fun getCaliberByID(context: Context, id: String): CaliberModel? {
-        return getCalibers(context).find { it._id == id }
-    }
-
-    fun getAllAmmoList(context: Context): MutableList<SuggestionModel> {
-        val ammoList: MutableList<AmmoModel> = ArrayList()
-        val stringList: MutableList<SuggestionModel> = ArrayList()
-        for (item in getCalibers(context)) {
-            for (ammo in item.ammo) {
-                ammo.caliber = item.name
-                stringList.add(SuggestionModel("${item.name} ${ammo.name}", ammo))
-            }
-        }
-
-        return  stringList
-    }
+    data class Caliber (
+        var name: String,
+        var longName: String,
+        var key: String
+    )
 }

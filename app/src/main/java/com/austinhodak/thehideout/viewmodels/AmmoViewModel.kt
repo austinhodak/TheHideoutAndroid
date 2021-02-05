@@ -7,21 +7,19 @@ import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import androidx.preference.PreferenceManager
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.AmmoModel
 import com.austinhodak.thehideout.viewmodels.models.CaliberModel
-import com.austinhodak.thehideout.viewmodels.models.FSAmmo
-import com.austinhodak.thehideout.viewmodels.models.firestore.FSCaliber
-import com.google.firebase.firestore.Source
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
+import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileInputStream
 import java.lang.reflect.Type
 
 class AmmoViewModel(application: Application) : AndroidViewModel(application){
@@ -32,39 +30,67 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
     val sortBy : LiveData<Int> get() = _sortBy
     private val _sortBy = MutableLiveData<Int>()
 
-    val caliberList = MutableLiveData<List<FSCaliber>>()
     val ammoList = MutableLiveData<List<FSAmmo>>()
-
-    val data: LiveData<List<CaliberModel>> = liveData {
-        emit(loadAmmo())
-    }
-
-    val allAmmoList: LiveData<List<AmmoModel>> = liveData {
-        val list = loadAmmo()
-        emit(list.flatMap { it.ammo })
-    }
 
     init {
         setSortBy(0)
 
-        val hours_4 = 1000 * 60 * 60 * 4
+        val timeout = Firebase.remoteConfig.getLong("cacheTimeout")
 
-        if ((System.currentTimeMillis() - prefs.getLong("lastLoad", 0)) > hours_4) {
+        if ((System.currentTimeMillis() - prefs.getLong("lastAmmoLoad", 0)) > timeout) {
             //Loaded over 4 hours ago.
 
-            loadCalibersFirestore(Source.CACHE)
-            loadAmmoFirestore(Source.CACHE)
+            val fleaRef = Firebase.storage.reference.child("ammoData.json")
 
-            loadCalibersFirestore(Source.DEFAULT)
-            loadAmmoFirestore(Source.DEFAULT)
+            val storagePath = File(context.filesDir, "the_hideout")
+            if (!storagePath.exists()) {
+                storagePath.mkdirs()
+            }
 
-            prefs.edit {
-                putLong("lastLoad", System.currentTimeMillis())
+            val myFile = File(storagePath, "ammoData.json")
+
+            if (!myFile.exists()) {
+                ammoList.value = loadInitialAmmo()
+            }
+
+            fleaRef.getFile(myFile).addOnSuccessListener {
+                // Local temp file has been created
+                ammoList.value = loadAmmoFromFile()
+
+                prefs.edit {
+                    putLong("lastAmmoLoad", System.currentTimeMillis())
+                }
+            }.addOnFailureListener {
+                // Handle any errors
+                Log.e("AMMO", it.toString())
             }
         } else {
-            loadCalibersFirestore(Source.CACHE)
-            loadAmmoFirestore(Source.CACHE)
+            ammoList.value = loadAmmoFromFile()
         }
+    }
+
+    private fun loadAmmoFromFile(): List<FSAmmo> {
+        val storagePath = File(context.filesDir, "the_hideout")
+        if (!storagePath.exists()) {
+            storagePath.mkdirs()
+        }
+
+        val myFile = File(storagePath, "ammoData.json")
+
+        if (!myFile.exists()) {
+            return loadInitialAmmo()
+        }
+
+        val objectString = FileInputStream(myFile).bufferedReader().use { it.readText() }
+        val groupListType: Type = object : TypeToken<ArrayList<FSAmmo?>?>() {}.type
+        val list: List<FSAmmo> = Gson().fromJson(objectString, groupListType)
+        Log.d("AMMO", "${list.toString()}")
+        return list
+    }
+
+    private fun loadInitialAmmo(): List<FSAmmo> {
+        val groupListType: Type = object : TypeToken<ArrayList<FSAmmo?>?>() {}.type
+        return Gson().fromJson(context.resources.openRawResource(R.raw.ammo_data).bufferedReader().use { it.readText() }, groupListType)
     }
 
     fun setSortBy(int: Int) {
@@ -75,52 +101,5 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
         val groupListType: Type = object : TypeToken<ArrayList<CaliberModel?>?>() {}.type
         Gson().fromJson(context.resources.openRawResource(R.raw.ammo).bufferedReader().use { it.readText() }, groupListType)
     }
-
-    suspend fun getAmmoList(id: String): List<AmmoModel>? = withContext(Dispatchers.IO) {
-        data.value?.find { it._id == id }?.ammo
-    }
-
-    private fun loadCalibersFirestore(source: Source) {
-        Firebase.firestore.collection("calibers").get(source).addOnSuccessListener { docs ->
-            Log.d("AMMO", "CALIBERS LOADED")
-
-            val list: MutableList<FSCaliber> = ArrayList()
-
-            for (doc in docs) {
-                val caliber = doc.toObject<FSCaliber>()
-                caliber._id = doc.id
-                list.add(caliber)
-            }
-
-            caliberList.postValue(list)
-        }
-    }
-
-    private fun loadAmmoFirestore(source: Source) {
-        Firebase.firestore.collectionGroup("ammo").get(source).addOnSuccessListener { docs ->
-            Log.d("AMMO", "AMMO LOADED")
-
-            val list: MutableList<FSAmmo> = ArrayList()
-
-            for (doc in docs) {
-                val ammo = doc.toObject<FSAmmo>()
-                ammo._id = doc.id
-                list.add(ammo)
-            }
-
-            ammoList.postValue(list)
-        }
-    }
-
-    fun getAmmoByCaliber(caliberID: String): List<FSAmmo>? {
-        return ammoList.value?.filter { it.caliber == caliberID }
-    }
-
-    /*fun getAmmoList(id: String) {
-        viewModelScope.launch {
-            sortedAmmoList.value = data.value?.find { it._id == id }?.ammo
-        }
-    }*/
-
 
 }

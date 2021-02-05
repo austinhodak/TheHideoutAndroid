@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.getPrice
+import com.austinhodak.thehideout.pushToken
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -64,5 +65,9 @@ class MessagingService : FirebaseMessagingService() {
             // Register the channel with the system
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    override fun onNewToken(token: String) {
+        pushToken(token)
     }
 }

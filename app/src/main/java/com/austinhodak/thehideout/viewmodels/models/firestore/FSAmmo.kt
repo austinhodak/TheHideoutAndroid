@@ -1,8 +1,18 @@
-package com.austinhodak.thehideout.viewmodels.models
+package com.austinhodak.thehideout.viewmodels.models.firestore
 
-import com.austinhodak.thehideout.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CAmmo
+import com.austinhodak.thehideout.databinding.TestSimpleItem1Binding
+import com.austinhodak.thehideout.getCurrency
+import com.austinhodak.thehideout.getTraderLevel
+import com.bumptech.glide.Glide
 import com.google.firebase.firestore.IgnoreExtraProperties
+import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import java.text.DecimalFormat
 
 @IgnoreExtraProperties
@@ -24,7 +34,18 @@ data class FSAmmo (
     var caliber: String = "",
     val armor_damage: Int = 0,
     val bullets: Int = 1
-) : RecyclerItem {
+) : AbstractBindingItem<TestSimpleItem1Binding>() {
+
+    override fun bindView(binding: TestSimpleItem1Binding, payloads: List<Any>) {
+        binding.ammo = this
+    }
+
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): TestSimpleItem1Binding {
+        return TestSimpleItem1Binding.inflate(inflater, parent, false)
+    }
+
+    override val type: Int
+        get() = R.id.fast_adapter_id
 
     fun getAccuracyString(): String {
         return "$accuracy%"
@@ -69,6 +90,10 @@ data class FSAmmo (
         }
     }
 
+    fun isArmorEmpty(): Boolean {
+        return armor == "------"
+    }
+
     fun getColor(armorClass: Int): Int {
         if (armor == "------") { return android.R.color.transparent }
         return when (armor!![armorClass - 1].toString()) {
@@ -83,18 +108,7 @@ data class FSAmmo (
         }
     }
 
-    override val layoutId: Int
-        get() = R.layout.ammo_list_item_small
-
-    override val variableId: Int
-        get() = BR.ammo
-
-    override val dataToBind: Any
-        get() = this
-
-    override val id: String
-        get() = this._id!!
-
+    @IgnoreExtraProperties
     data class AmmoPriceModel (
         var value: Double? = null,
         var _id: String? = null,
@@ -108,6 +122,7 @@ data class FSAmmo (
         }
     }
 
+    @IgnoreExtraProperties
     data class AmmoTradeup (
         var _id: String? = null,
         var trader: String? = null,
@@ -116,6 +131,18 @@ data class FSAmmo (
         override fun toString(): String {
             val format = DecimalFormat("###.##")
             return "${level?.getTraderLevel()} $trader Tradeup"
+        }
+    }
+
+    companion object {
+        @JvmStatic @BindingAdapter("imageUrl")
+        fun loadImage(view: ImageView, url: String) {
+            Glide.with(view.context).load(url).placeholder(R.drawable.icons8_ammo_100).into(view)
+        }
+
+        @JvmStatic @BindingAdapter("armorColor")
+        fun setColor(view: View, int: Int) {
+            view.setBackgroundResource(int)
         }
     }
 }

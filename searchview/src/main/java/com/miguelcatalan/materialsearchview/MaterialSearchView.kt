@@ -261,8 +261,8 @@ class MaterialSearchView @JvmOverloads constructor(
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1 && view!!.hasFocus()) {
             view.clearFocus()
         }
-        view!!.requestFocus()
-        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        view?.requestFocus()
+        val imm = view?.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(view, 0)
     }
 
@@ -479,7 +479,7 @@ class MaterialSearchView @JvmOverloads constructor(
 
         //Request Focus
         mSearchSrcTextView?.text = null
-        mSearchSrcTextView!!.requestFocus()
+        mSearchSrcTextView?.requestFocus()
         if (animate) {
             setVisibleWithAnimation()
         } else {
@@ -573,10 +573,10 @@ class MaterialSearchView @JvmOverloads constructor(
         // Don't accept focus if in the middle of clearing focus
         if (mClearingFocus) return false
         // Check if SearchView is focusable.
-        return if (!isFocusable) false else mSearchSrcTextView!!.requestFocus(
+        return if (!isFocusable) false else mSearchSrcTextView?.requestFocus(
             direction,
             previouslyFocusedRect
-        )
+        ) ?: false
     }
 
     override fun clearFocus() {

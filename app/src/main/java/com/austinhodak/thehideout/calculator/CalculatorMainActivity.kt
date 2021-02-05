@@ -14,8 +14,8 @@ import com.austinhodak.thehideout.clothing.armor.ArmorHelper
 import com.austinhodak.thehideout.databinding.ActivityCalculatorMainNewBinding
 import com.austinhodak.thehideout.databinding.CalculatorBottomSheetBinding
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.models.AmmoModel
 import com.austinhodak.thehideout.viewmodels.models.Armor
+import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class CalculatorMainActivity : AppCompatActivity() {
@@ -23,7 +23,7 @@ class CalculatorMainActivity : AppCompatActivity() {
     private lateinit var bottomBinding: CalculatorBottomSheetBinding
     private var body = Body()
 
-    private lateinit var selectedAmmo: AmmoModel
+    private lateinit var selectedAmmo: FSAmmo
     private var selectedHelmet: Armor? = null
     private var selectedChestArmor: Armor?  = null
 
@@ -59,7 +59,7 @@ class CalculatorMainActivity : AppCompatActivity() {
         body.linkToHealthBar(Part.LEFTLEG, binding.healthLLeg)
         body.linkToHealthBar(Part.RIGHTLEG, binding.healthRLeg)
 
-        ammoViewModel.allAmmoList.observe(this) {
+        ammoViewModel.ammoList.observe(this) {
             selectedAmmo = it.find { it._id == "5f4a52549f319f4528ac3635" }!!
             updateBottomSheet()
             updateDurabilities()
@@ -134,9 +134,9 @@ class CalculatorMainActivity : AppCompatActivity() {
 
         if (this::selectedAmmo.isInitialized) {
             bottomBinding.calcAmmoTitle.text = selectedAmmo.name
-            ammoViewModel.data.observe(this) {
+           /* ammoViewModel.data.observe(this) {
                 bottomBinding.calcAmmoSubtitle.text = it?.find { it.ammo.find { it._id == selectedAmmo._id } != null }?.long_name
-            }
+            }*/
         }
     }
 

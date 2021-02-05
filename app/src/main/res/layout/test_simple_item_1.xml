@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="ammo"
+            type="com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            app:cardBackgroundColor="@color/cardBottomBackgroundColor"
+            app:cardElevation="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/view13"
+                    armorColor="@{ammo.getColor(1)}"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/view14"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view14"
+                    armorColor="@{ammo.getColor(2)}"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/view15"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/view13"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view15"
+                    armorColor="@{ammo.getColor(3)}"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/view16"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/view14"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view16"
+                    armorColor="@{ammo.getColor(4)}"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/view17"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/view15"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view17"
+                    armorColor="@{ammo.getColor(5)}"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    app:layout_constraintEnd_toStartOf="@+id/view18"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/view16"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view18"
+                    armorColor="@{ammo.getColor(6)}"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/view17"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group"
+                    android:visibility="@{ ammo.isArmorEmpty ? View.GONE : View.VISIBLE }"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="view13,view14,view15,view16,view17,view18" />
+
+                <ImageView
+                    android:id="@+id/ammo_image"
+                    imageUrl="@{ammo.URL}"
+                    android:layout_width="38dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/fmj" />
+
+                <TextView
+                    android:id="@+id/ammo_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:autoSizeMaxTextSize="18sp"
+                    android:autoSizeTextType="uniform"
+                    android:fontFamily="@font/bender_bold"
+                    android:maxLines="1"
+                    android:text="@{ammo.name}"
+                    android:textColor="@color/primaryText87"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/ammo_subtitle"
+                    app:layout_constraintEnd_toStartOf="@+id/ammo_dmg"
+                    app:layout_constraintStart_toEndOf="@+id/ammo_image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="FMJ" />
+
+                <TextView
+                    android:id="@+id/ammo_subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/bender"
+                    android:text="@{ammo.subtitle}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ammo_name"
+                    app:layout_constraintStart_toEndOf="@+id/ammo_image"
+                    app:layout_constraintTop_toBottomOf="@+id/ammo_name"
+                    tools:text="Test" />
+
+                <TextView
+                    android:id="@+id/ammo_dmg"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/bender_bold"
+                    android:gravity="center_horizontal"
+                    android:text="@{Integer.toString(ammo.damage)}"
+                    android:textColor="@color/primaryText87"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView13"
+                    app:layout_constraintEnd_toStartOf="@+id/ammo_pen"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="100" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bender_light"
+                    android:text="DAMAGE"
+                    android:textColor="@color/primaryText60"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ammo_dmg"
+                    app:layout_constraintStart_toStartOf="@+id/ammo_dmg"
+                    app:layout_constraintTop_toBottomOf="@+id/ammo_dmg" />
+
+                <TextView
+                    android:id="@+id/ammo_pen"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/bender_bold"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/primaryText87"
+                    android:textSize="20sp"
+                    android:text="@{Integer.toString(ammo.penetration)}"
+                    app:layout_constraintBottom_toTopOf="@+id/textView11"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="100" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bender_light"
+                    android:gravity="center_horizontal"
+                    android:text="PEN"
+                    android:textColor="@color/primaryText60"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ammo_pen"
+                    app:layout_constraintStart_toStartOf="@+id/ammo_pen"
+                    app:layout_constraintTop_toBottomOf="@+id/ammo_pen" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
