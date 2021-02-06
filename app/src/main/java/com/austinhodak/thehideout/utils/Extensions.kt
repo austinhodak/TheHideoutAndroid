@@ -93,7 +93,7 @@ fun uid(): String? {
 }
 
 fun pushToken(token: String) {
-    userRef().updateChildren(hashMapOf<String, Any>("token" to token))
+    Firebase.database.getReference("users/${Firebase.auth.uid}/").updateChildren(hashMapOf<String, Any>("token" to token))
 }
 
 fun log(event: String, itemID: String, itemName: String, contentType: String) {
