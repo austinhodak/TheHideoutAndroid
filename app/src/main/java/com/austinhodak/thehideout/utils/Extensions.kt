@@ -1,10 +1,7 @@
 package com.austinhodak.thehideout
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,10 +44,10 @@ fun Int.getPrice(currency: String): String {
     val format = NumberFormat.getCurrencyInstance()
     format.maximumFractionDigits = 0
     format.currency = Currency.getInstance(getCurrencyString(currency))
-    if (currency == "₽") {
-        return "${format.format(this).replace("RUB", "")}₽"
+    return if (currency == "₽") {
+        "${format.format(this).replace("RUB", "")}₽"
     } else {
-        return format.format(this)
+        format.format(this)
     }
 
 }
@@ -70,22 +67,8 @@ fun getCurrencyString(string: String): String {
     }
 }
 
-inline fun <reified T : Activity> Context.startActivity(block: Intent.() -> Unit = {}) {
-    startActivity(Intent(this, T::class.java).apply(block))
-}
-
-fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
-    val intent = Intent(this, it)
-    intent.putExtras(Bundle().apply(extras))
-    startActivity(intent)
-}
-
 fun userRef(ref: String? = null): DatabaseReference {
     return Firebase.database.getReference("users/${Firebase.auth.uid}/$ref/")
-}
-
-fun flea(): DatabaseReference {
-    return Firebase.database("https://hideout-flea-market.firebaseio.com/").reference
 }
 
 fun uid(): String? {
@@ -93,6 +76,7 @@ fun uid(): String? {
 }
 
 fun pushToken(token: String) {
+    if (Firebase.auth.currentUser != null)
     Firebase.database.getReference("users/${Firebase.auth.uid}/").updateChildren(hashMapOf<String, Any>("token" to token))
 }
 
