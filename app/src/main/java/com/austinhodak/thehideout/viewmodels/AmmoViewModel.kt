@@ -2,22 +2,19 @@ package com.austinhodak.thehideout.viewmodels
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.CaliberModel
 import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 import java.lang.reflect.Type
@@ -34,7 +31,10 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
 
     init {
         setSortBy(0)
+        loadAmmo()
+    }
 
+    private fun loadAmmo() {
         val timeout = Firebase.remoteConfig.getLong("cacheTimeout")
 
         if ((System.currentTimeMillis() - prefs.getLong("lastAmmoLoad", 0)) > timeout) {
@@ -54,15 +54,13 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
             }
 
             fleaRef.getFile(myFile).addOnSuccessListener {
-                // Local temp file has been created
                 ammoList.value = loadAmmoFromFile()
 
                 prefs.edit {
                     putLong("lastAmmoLoad", System.currentTimeMillis())
                 }
             }.addOnFailureListener {
-                // Handle any errors
-                Log.e("AMMO", it.toString())
+                Timber.e(it)
             }
         } else {
             ammoList.value = loadAmmoFromFile()
@@ -84,7 +82,7 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
         val objectString = FileInputStream(myFile).bufferedReader().use { it.readText() }
         val groupListType: Type = object : TypeToken<ArrayList<FSAmmo?>?>() {}.type
         val list: List<FSAmmo> = Gson().fromJson(objectString, groupListType)
-        Log.d("AMMO", "${list.toString()}")
+        Timber.d("$list")
         return list
     }
 
@@ -95,11 +93,6 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
 
     fun setSortBy(int: Int) {
         _sortBy.value = int
-    }
-
-    private suspend fun loadAmmo(): List<CaliberModel> = withContext(Dispatchers.IO) {
-        val groupListType: Type = object : TypeToken<ArrayList<CaliberModel?>?>() {}.type
-        Gson().fromJson(context.resources.openRawResource(R.raw.ammo).bufferedReader().use { it.readText() }, groupListType)
     }
 
 }

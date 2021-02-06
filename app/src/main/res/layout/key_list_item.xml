@@ -5,9 +5,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable
-            name="presenter"
-            type="com.austinhodak.thehideout.keys.KeysListFragment" />
+
         <variable
             name="key"
             type="com.austinhodak.thehideout.viewmodels.models.Key" />
@@ -18,7 +16,6 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
-            android:onClick="@{() -> key.toggleHaveStatus()}"
             android:id="@+id/keyRoot"
             android:layout_width="match_parent"
             android:layout_height="72dp"
@@ -87,7 +84,7 @@
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/bender_light"
                     android:gravity="center_vertical"
-                    android:text="@{key.location}"
+                    android:text="@{key.map}"
                     tools:text="Customs"
                     android:textColor="@color/primaryText60"
                     app:layout_constraintBottom_toBottomOf="parent"

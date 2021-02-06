@@ -1,9 +1,11 @@
 package com.austinhodak.thehideout.viewmodels.models
 
-import com.austinhodak.thehideout.BR
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.RecyclerItem
+import com.austinhodak.thehideout.databinding.KeyListItemBinding
 import com.austinhodak.thehideout.userRef
+import com.mikepenz.fastadapter.binding.AbstractBindingItem
 
 data class Key(
     val icon: String,
@@ -15,7 +17,18 @@ data class Key(
     val details: List<String>,
     val _id: String,
     var have: Boolean
-) : RecyclerItem {
+) :  AbstractBindingItem<KeyListItemBinding>() {
+
+    override val type: Int
+        get() = R.id.fast_adapter_key_id
+
+    override fun bindView(binding: KeyListItemBinding, payloads: List<Any>) {
+        binding.key = this
+    }
+
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): KeyListItemBinding {
+        return KeyListItemBinding.inflate(inflater, parent, false)
+    }
 
     fun getDetailsList(): String {
         return details.joinToString(" ")
@@ -25,17 +38,5 @@ data class Key(
         userRef("keys/have/$_id").setValue(!have)
         have = !have
     }
-
-    override val layoutId: Int
-        get() = R.layout.key_list_item
-
-    override val variableId: Int
-        get() = BR.key
-
-    override val dataToBind: Any
-        get() = this
-
-    override val id: String
-        get() = this._id
 }
 

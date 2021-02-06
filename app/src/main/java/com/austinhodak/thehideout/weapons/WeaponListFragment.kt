@@ -1,84 +1,90 @@
 package com.austinhodak.thehideout.weapons
 
-import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.log
+import com.austinhodak.thehideout.databinding.FragmentWeaponListBinding
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
-import com.austinhodak.thehideout.viewmodels.models.WeaponModel
-import com.bumptech.glide.Glide
-import com.google.firebase.analytics.FirebaseAnalytics
-import net.idik.lib.slimadapter.SlimAdapter
+import com.austinhodak.thehideout.viewmodels.models.Weapon
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.itemanimators.AlphaInAnimator
 
 private const val ARG_PARAM1 = "param1"
 
 class WeaponListFragment : Fragment() {
 
-    private var param1: String = ""
-    private var weaponList: List<WeaponModel>? = null
-    private val sharedViewModel: WeaponViewModel by activityViewModels()
+    private var weaponClass: String = ""
+    private val model: WeaponViewModel by activityViewModels()
+
+    private var _binding: FragmentWeaponListBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var fastAdapter: FastAdapter<Weapon>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1).toString()
+            weaponClass = it.getString(ARG_PARAM1).toString()
         }
-
-        weaponList = sharedViewModel.list
-
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ammo_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentWeaponListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val linearLayoutManager = LinearLayoutManager(requireActivity())
-        val recyclerView = view.findViewById<RecyclerView>(R.id.ammo_list)
-        recyclerView.layoutManager = linearLayoutManager
+        binding.weaponList.layoutManager = linearLayoutManager
+        binding.weaponList.itemAnimator = AlphaInAnimator()
 
-        SlimAdapter.create().register<WeaponModel>(R.layout.weapon_list_item) { weapon, i ->
-            i.clicked(R.id.weaponListItemCard) {
-                startActivity(Intent(requireContext(), WeaponDetailActivity::class.java).apply {
-                    putExtra("id", weapon._id)
-                })
+        val itemAdapter = ItemAdapter<Weapon>()
+        fastAdapter = FastAdapter.with(itemAdapter)
+        binding.weaponList.adapter = fastAdapter
 
-                log(FirebaseAnalytics.Event.SELECT_ITEM, weapon._id, weapon.name, "weapon")
-            }
+        //TODO Add on weapon click.
 
-            i.text(R.id.weaponName, weapon.name)
-            i.text(
-                R.id.weaponAmmo,
-                AmmoHelper.getCaliberByID(weapon.calibre)?.longName
-            )
-            i.text(R.id.weaponRange, "${weapon.range}m")
-            i.text(R.id.weaponRPM, weapon.rpm.toString())
-            i.text(R.id.weaponVRecoil, weapon.recoil.toString())
-            i.text(R.id.weaponErgo, weapon.ergonomics.toString())
-
-            Glide.with(this).load("https://www.eftdb.one/static/item/full/${weapon.image}")
-                .into(i.findViewById(R.id.weaponImage))
-        }.attachTo(recyclerView)
-            .updateData(weaponList!!.filter { it.`class` == param1 }.sortedBy { it.name })
+        model.weaponsList.observe(viewLifecycleOwner) { list ->
+            Handler().postDelayed({
+                val newList = list.map {
+                    Weapon(
+                        it.grid,
+                        it.firemodes,
+                        it.recoil,
+                        it.description,
+                        it.weight,
+                        it._id,
+                        it.name,
+                        it.`class`,
+                        it.image,
+                        it.rpm,
+                        it.range,
+                        it.ergonomics,
+                        it.accuracy,
+                        it.velocity,
+                        it.fields,
+                        it.calibre,
+                        it.__v,
+                        it.builds,
+                        it.wiki
+                    )
+                }
+                itemAdapter.set(newList.filter { it.`class` == weaponClass }.sortedBy { it.name })
+            }, 50)
+        }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: Int) =
+        fun newInstance(param1: String) =
             WeaponListFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)

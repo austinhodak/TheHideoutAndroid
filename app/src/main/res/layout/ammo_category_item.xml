@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-        <variable
-            name="caliber"
-            type="com.austinhodak.thehideout.viewmodels.models.CaliberModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -38,7 +32,6 @@
                     android:fontFamily="@font/bender_bold"
                     android:textColor="@color/primaryText87"
                     android:textSize="18sp"
-                    android:text="@{caliber.long_name}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="5.56x45mm NATO" />
@@ -49,7 +42,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/bender"
-                    android:text="@{caliber.totalAmmo}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 

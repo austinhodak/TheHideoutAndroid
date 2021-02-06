@@ -15,7 +15,6 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import java.text.DecimalFormat
 
-@IgnoreExtraProperties
 data class FSAmmo (
     var description: String? = null,
     var weight: Double? = null,

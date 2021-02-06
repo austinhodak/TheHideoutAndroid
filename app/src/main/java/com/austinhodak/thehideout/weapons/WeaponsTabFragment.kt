@@ -31,10 +31,6 @@ class WeaponsTabFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        //setHasOptionsMenu(true)
-
-        //weaponViewModel.loadWeapons()
-        // Inflate the layout for this fragment
         classes = resources.getStringArray(R.array.weapon_classes_ids)
         classesNames = resources.getStringArray(R.array.weapon_classes_names)
 
@@ -56,12 +52,7 @@ class WeaponsTabFragment : Fragment() {
             tab.text = classesNames[position]
         }.attach()
     }
-
-    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.weapon_list_menu, menu)
-    }*/
-
+    
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.sort_name -> {
@@ -92,7 +83,7 @@ class WeaponsTabFragment : Fragment() {
         override fun getItemCount(): Int = itemsCount
 
         override fun createFragment(position: Int): Fragment {
-            return WeaponListFragment.newInstance(classes[position], sortBy)
+            return WeaponListFragment.newInstance(classes[position])
         }
     }
 }

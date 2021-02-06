@@ -2,7 +2,6 @@ package com.austinhodak.thehideout.viewmodels
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -19,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
 import java.lang.reflect.Type
@@ -52,16 +52,13 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
             val myFile = File(storagePath, "fleaItems.json")
 
             fleaRef.getFile(myFile).addOnSuccessListener {
-                // Local temp file has been created
                 fleaItems.postValue(loadFleaDataFromFile())
-                Log.d("FLEA", "LOADED")
 
                 prefs.edit {
                     putLong("lastFleaMarketLoad", System.currentTimeMillis())
                 }
             }.addOnFailureListener {
-                // Handle any errors
-                Log.e("FLEA", it.toString())
+                Timber.e(it)
             }
         } else {
             fleaItems.postValue(loadFleaDataFromFile())

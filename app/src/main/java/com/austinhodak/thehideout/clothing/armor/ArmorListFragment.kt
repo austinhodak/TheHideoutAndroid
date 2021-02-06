@@ -1,21 +1,15 @@
 package com.austinhodak.thehideout.clothing.armor
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.inflate
-import com.austinhodak.thehideout.viewmodels.models.AmmoModel
-import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.Armor
-import com.austinhodak.thehideout.viewmodels.models.WeaponModel
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
 

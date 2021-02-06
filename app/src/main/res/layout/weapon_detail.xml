@@ -6,7 +6,7 @@
     <data>
         <variable
             name="weapon"
-            type="com.austinhodak.thehideout.viewmodels.models.WeaponModel" />
+            type="com.austinhodak.thehideout.viewmodels.models.Weapon" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

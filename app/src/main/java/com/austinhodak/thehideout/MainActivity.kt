@@ -23,7 +23,7 @@ import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.viewmodels.KeysViewModel
-import com.austinhodak.thehideout.viewmodels.models.WeaponModel
+import com.austinhodak.thehideout.viewmodels.models.Weapon
 import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.google.android.material.chip.Chip
@@ -339,7 +339,7 @@ class MainActivity : AppCompatActivity() {
             injector.background(R.id.ammoSmallDMG5, data.getColor(5))
             injector.background(R.id.ammoSmallDMG6, data.getColor(6))
 
-        }.register<WeaponModel>(R.layout.search_item_weapon) { weapon, i ->
+        }.register<Weapon>(R.layout.search_item_weapon) { weapon, i ->
             i.text(R.id.searchItemWeaponName, weapon.name)
             i.text(R.id.searchItemWeaponSubtitle, AmmoHelper.getCaliberByID(weapon.calibre)?.longName)
             i.clicked(R.id.searchItemWeaponRoot) {

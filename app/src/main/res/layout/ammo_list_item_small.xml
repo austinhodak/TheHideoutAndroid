@@ -5,7 +5,7 @@
     <data>
         <variable
             name="ammo"
-            type="com.austinhodak.thehideout.viewmodels.models.AmmoModel" />
+            type="com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
