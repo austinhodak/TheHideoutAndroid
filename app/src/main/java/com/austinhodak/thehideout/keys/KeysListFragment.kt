@@ -19,6 +19,10 @@ import com.google.firebase.ktx.Firebase
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private const val ARG_PARAM1 = "param1"
 
@@ -78,7 +82,13 @@ class KeysListFragment : Fragment() {
                 )
             }
             filteredKeyList = list
-            itemAdapter.set(list)
+
+            //Needed for initial animation.
+            GlobalScope.launch(Dispatchers.Main) {
+                delay(25)
+                itemAdapter.set(list)
+            }
+
             updateListener()
         }
 
@@ -113,8 +123,6 @@ class KeysListFragment : Fragment() {
                 }
 
                 fastAdapter.notifyAdapterDataSetChanged()
-
-               // itemAdapter.set(filteredKeyList ?: emptyList())
             }
 
             override fun onCancelled(error: DatabaseError) {
