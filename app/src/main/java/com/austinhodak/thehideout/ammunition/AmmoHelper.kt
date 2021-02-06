@@ -12,7 +12,6 @@ object AmmoHelper {
     /**
      * Gets caliber list from remote config and parses to a List of Caliber objects.
      */
-
     val caliberList: List<Caliber> by lazy {
         val ammoCalibers = JSONObject(Firebase.remoteConfig.getValue("ammoCalibers").asString())
         val groupListType: Type = object : TypeToken<ArrayList<Caliber?>?>() {}.type

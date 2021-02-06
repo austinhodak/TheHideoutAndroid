@@ -19,7 +19,8 @@ android {
         applicationId "com.austinhodak.thehideout"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1001
+        // { Major }.{ Minor }.{ Bug Fixes }
+        versionCode 1002
         versionName "0.1.1 Beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

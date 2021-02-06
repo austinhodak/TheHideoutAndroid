@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.weapons
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -51,6 +52,12 @@ class WeaponListFragment : Fragment() {
         binding.weaponList.adapter = fastAdapter
 
         //TODO Add on weapon click.
+        fastAdapter.onClickListener = { view, adapter, weapon, pos ->
+            startActivity(Intent(requireContext(), WeaponDetailActivity::class.java).apply {
+                putExtra("id", weapon._id)
+            })
+            false
+        }
 
         model.weaponsList.observe(viewLifecycleOwner) { list ->
             Handler().postDelayed({

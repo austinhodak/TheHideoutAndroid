@@ -43,8 +43,9 @@
                 android:paddingBottom="8dp">
 
                 <pl.hypeapp.materialtimelineview.MaterialTimelineView
-                    app:timeline_top_radio_color="@color/primaryText60"
-                    app:timeline_bottom_radio_color="@color/primaryText60"
+                    android:backgroundTint="@color/md_grey_900"
+                    app:timeline_top_radio_color="@color/white"
+                    app:timeline_bottom_radio_color="@color/white"
                     app:timeline_margin_start="42dp"
                     android:id="@+id/timeline_top_card"
                     android:layout_width="match_parent"
@@ -55,7 +56,6 @@
                     android:background="@drawable/timeline_round"
                     android:clickable="true"
                     android:clipChildren="true"
-                    android:foreground="?attr/selectableItemBackground"
                     android:orientation="vertical"
                     app:timeline_position="first"
                     app:timeline_radio_outline_radius="23"
@@ -362,9 +362,9 @@
                     android:layout_marginRight="8dp"
                     app:timeline_position="middle"
                     app:timeline_radio_outline_radius="23"
-                    app:timeline_line_color="@color/primaryText60"
-                    app:timeline_top_radio_color="@color/primaryText60"
-                    app:timeline_bottom_radio_color="@color/primaryText60"
+                    app:timeline_line_color="@color/white"
+                    app:timeline_top_radio_color="@color/white"
+                    app:timeline_bottom_radio_color="@color/white"
                     app:timeline_radio_radius="15"
                     app:timeline_type="line">
 
@@ -391,10 +391,11 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@drawable/timeline_round"
+                    android:backgroundTint="@color/md_grey_900"
                     app:timeline_position="middle"
                     app:timeline_radio_outline_radius="23"
-                    app:timeline_top_radio_color="@color/primaryText60"
-                    app:timeline_bottom_radio_color="@color/primaryText60"
+                    app:timeline_top_radio_color="@color/white"
+                    app:timeline_bottom_radio_color="@color/white"
                     app:timeline_radio_radius="15"
                     app:timeline_type="item">
 
@@ -431,9 +432,9 @@
                     android:layout_marginRight="8dp"
                     app:timeline_position="middle"
                     app:timeline_radio_outline_radius="23"
-                    app:timeline_line_color="@color/primaryText60"
-                    app:timeline_top_radio_color="@color/primaryText60"
-                    app:timeline_bottom_radio_color="@color/primaryText60"
+                    app:timeline_line_color="@color/white"
+                    app:timeline_top_radio_color="@color/white"
+                    app:timeline_bottom_radio_color="@color/white"
                     app:timeline_radio_radius="15"
                     app:timeline_type="line">
 
@@ -454,19 +455,19 @@
                 </pl.hypeapp.materialtimelineview.MaterialTimelineView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:backgroundTint="@color/md_grey_900"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     app:cardCornerRadius="5dp"
+                    android:background="@drawable/timeline_round"
                     app:cardElevation="0dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/cardStroke"
                     app:cardPreventCornerOverlap="true">
 
                     <pl.hypeapp.materialtimelineview.MaterialTimelineView
-                        app:timeline_top_radio_color="@color/primaryText60"
-                        app:timeline_bottom_radio_color="@color/primaryText60"
+                        app:timeline_top_radio_color="@color/white"
+                        app:timeline_bottom_radio_color="@color/white"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:timeline_margin_start="42dp"

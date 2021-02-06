@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.WeaponDetailBinding
+import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.austinhodak.thehideout.viewmodels.models.Weapon
 import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
@@ -21,6 +22,7 @@ import net.idik.lib.slimadapter.SlimAdapter
 
 class WeaponDetailActivity : AppCompatActivity() {
     lateinit var viewModel: WeaponViewModel
+    lateinit var ammoViewModel: AmmoViewModel
     lateinit var weapon: Weapon
     private var sortByIndex = 5
     lateinit var ammoAdapter: SlimAdapter
@@ -32,18 +34,28 @@ class WeaponDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.weapon_detail)
         viewModel = ViewModelProvider(this).get(WeaponViewModel::class.java)
+        ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
         setupToolbar()
         loadWeapon()
         setupAdapters()
     }
 
     private fun loadWeapon() {
+        weapon = viewModel.weaponsList.value?.find { it._id == intent.getStringExtra("id") ?: "" } ?: return
         //weapon = viewModel.getWeaponByID(intent.getStringExtra("id") ?: "")
         binding.weapon = weapon
-        //ammoList = AmmoHelper.getCalibers(this).filter { it._id == weapon.calibre }[0].ammo.sortedBy { it.armor }.reversed()
+
+        ammoViewModel.ammoList.observe(this) { list ->
+            ammoList = list.filter { it.caliber == weapon.calibre }.sortedBy { it.armor }.reversed()
+            ammoLoaded()
+        }
 
         Glide.with(this).load("https://www.eftdb.one/static/item/full/${weapon.image}")
             .into(findViewById(R.id.weaponImage2))
+    }
+
+    private fun ammoLoaded() {
+        ammoAdapter.updateData(ammoList)
     }
 
     private fun setupAdapters() {
@@ -136,7 +148,7 @@ class WeaponDetailActivity : AppCompatActivity() {
                     }
                     true
                 }
-            }.attachTo(ammoRV).updateData(ammoList)
+            }.attachTo(ammoRV)
 
         loadoutAdapter = SlimAdapter.create().attachTo(loadoutRV)
             .register<Weapon.WeaponBuilds>(R.layout.weapon_loadout_item) { build, i ->
