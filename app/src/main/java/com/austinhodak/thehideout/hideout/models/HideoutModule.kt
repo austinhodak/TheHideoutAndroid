@@ -3,6 +3,7 @@ package com.austinhodak.thehideout.hideout.models
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.getPrice
+import com.austinhodak.thehideout.log
 import com.austinhodak.thehideout.userRef
 
 data class HideoutModule(
@@ -82,10 +83,12 @@ data class HideoutModule(
     }
 
     fun buildModule() {
+        log("module_build", id.toString(), module, "hideout_module")
         userRef("/hideout/completed/\"$id\"").setValue(true)
     }
 
     fun downgradeModule() {
+        log("module_downgrade", id.toString(), module, "hideout_module")
         userRef("/hideout/completed/\"$id\"").removeValue()
     }
 }

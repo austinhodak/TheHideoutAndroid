@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.austinhodak.thehideout.databinding.FragmentKeysListBinding
+import com.austinhodak.thehideout.logScreen
 import com.austinhodak.thehideout.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.viewmodels.models.Key
 import com.google.firebase.auth.ktx.auth
@@ -42,6 +43,7 @@ class KeysListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        logScreen("KeysFragment")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -134,4 +136,5 @@ class KeysListFragment : Fragment() {
         @JvmStatic
         fun newInstance() = KeysListFragment()
     }
+
 }

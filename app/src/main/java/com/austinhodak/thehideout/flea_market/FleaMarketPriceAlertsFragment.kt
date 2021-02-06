@@ -14,6 +14,7 @@ import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaPriceAlertBinding
 import com.austinhodak.thehideout.getPrice
+import com.austinhodak.thehideout.logScreen
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.viewmodels.models.PriceAlert
 import com.bumptech.glide.Glide
@@ -37,6 +38,11 @@ class FleaMarketPriceAlertsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdapter()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        logScreen("FleaMarketPriceAlertsFragment")
     }
 
     private fun setupAdapter() {
@@ -80,4 +86,5 @@ class FleaMarketPriceAlertsFragment : Fragment() {
 
         (activity as MainActivity).isSearchHidden(true)
     }
+
 }

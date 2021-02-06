@@ -104,6 +104,13 @@ fun log(event: String, itemID: String, itemName: String, contentType: String) {
     }
 }
 
+fun logScreen(name: String) {
+    Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+        param(FirebaseAnalytics.Param.SCREEN_NAME, name)
+        param(FirebaseAnalytics.Param.SCREEN_CLASS, name)
+    }
+}
+
 fun isDebug(): Boolean {
     return BuildConfig.DEBUG
 }

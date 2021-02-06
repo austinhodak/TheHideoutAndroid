@@ -411,6 +411,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setQuestChipVisibility(visible: Boolean) {
+        if (this::binding.isInitialized)
         binding.questSelectorScrollbar.visibility = if (visible) View.VISIBLE else View.GONE
     }
 

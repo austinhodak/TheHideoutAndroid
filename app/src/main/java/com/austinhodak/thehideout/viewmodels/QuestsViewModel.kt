@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.austinhodak.thehideout.firebase.UserFB
+import com.austinhodak.thehideout.log
 import com.austinhodak.thehideout.quests.models.Quest
 import com.austinhodak.thehideout.userRef
 import com.google.firebase.auth.ktx.auth
@@ -71,14 +72,17 @@ class QuestsViewModel : ViewModel() {
     }
 
     fun markObjectiveComplete(objectiveID: Int, value: Int) {
+        log("objective_complete", objectiveID.toString(), objectiveID.toString(), "quest_objective")
         userRef("questObjectives/progress/\"$objectiveID\"").setValue(value)
     }
 
     fun unMarkObjectiveComplete(objectiveID: Int) {
+        log("objective_un_complete", objectiveID.toString(), objectiveID.toString(), "quest_objective")
         userRef("questObjectives/progress/\"$objectiveID\"").removeValue()
     }
 
     fun markQuestCompleted(quest: Quest) {
+        log("quest_completed", quest.id.toString(), quest.title, "quest")
         //Mark quest objectives completed
         for (obj in quest.objectives) {
             markObjectiveComplete(obj.id, obj.number)
@@ -92,6 +96,8 @@ class QuestsViewModel : ViewModel() {
     }
 
     fun undoQuest(quest: Quest) {
+        log("quest_undo", quest.id.toString(), quest.title, "quest")
+
         for (obj in quest.objectives) {
             unMarkObjectiveComplete(obj.id)
         }

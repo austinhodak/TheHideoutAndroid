@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.logScreen
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -16,7 +17,7 @@ class QuestMainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        logScreen("QuestsFragment")
         QuestsHelper.getQuests(requireContext())
     }
 
@@ -66,4 +67,5 @@ class QuestMainFragment : Fragment() {
         fun newInstance() =
             QuestMainFragment()
     }
+
 }

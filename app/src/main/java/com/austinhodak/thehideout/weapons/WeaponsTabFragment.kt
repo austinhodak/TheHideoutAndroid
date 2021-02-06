@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.logScreen
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.WeaponViewModel
 import com.google.android.material.tabs.TabLayout
@@ -85,5 +86,10 @@ class WeaponsTabFragment : Fragment() {
         override fun createFragment(position: Int): Fragment {
             return WeaponListFragment.newInstance(classes[position])
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        logScreen("WeaponsFragment")
     }
 }

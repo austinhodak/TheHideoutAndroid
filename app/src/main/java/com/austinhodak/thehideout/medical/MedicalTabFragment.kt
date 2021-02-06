@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.logScreen
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -48,5 +49,10 @@ class MedicalTabFragment : Fragment() {
                 else -> StimsListFragment.newInstance(position, sortBy)
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        logScreen("MedicalFragment")
     }
 }

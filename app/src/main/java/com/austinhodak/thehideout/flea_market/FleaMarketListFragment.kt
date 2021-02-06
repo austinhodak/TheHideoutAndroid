@@ -19,13 +19,12 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.list.customListAdapter
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
-import com.austinhodak.thehideout.MainActivity
-import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.flea_market.models.FleaItem
-import com.austinhodak.thehideout.uid
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
@@ -64,6 +63,7 @@ class FleaMarketListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        logScreen("FleaMarketListFragment")
     }
 
     private fun setupAdapter() {
@@ -80,6 +80,7 @@ class FleaMarketListFragment : Fragment() {
             i.image(R.id.itemIcon, R.drawable.icons8_website_96)
 
             i.clicked(R.id.itemTop) {
+                log(FirebaseAnalytics.Event.SELECT_ITEM, wiki.url, wiki.item.name ?: "", "wiki")
                 wiki.dialog.dismiss()
                 val builder = CustomTabsIntent.Builder()
                 val customTabsIntent = builder.build()
@@ -97,6 +98,8 @@ class FleaMarketListFragment : Fragment() {
             i.image(R.id.itemIcon, R.drawable.ic_baseline_add_alert_24)
 
             i.clicked(R.id.itemTop) {
+                log("alert_add_click", price.item.uid ?: "", price.item.name ?: "", "flea_item")
+
                 price.dialog.dismiss()
 
                 val alertDialog = MaterialDialog(requireActivity()).show {
@@ -161,7 +164,7 @@ class FleaMarketListFragment : Fragment() {
             val dialog = MaterialDialog(requireActivity()).show {
                 customListAdapter(mDialogAdapter)
             }
-            mDialogAdapter.updateData(mutableListOf(PriceAlert(item, dialog), Wiki(item.wikiLink!!, dialog), item))
+            mDialogAdapter.updateData(mutableListOf(PriceAlert(item, dialog), Wiki(item.wikiLink!!, dialog, item), item))
             false
         }
 
@@ -259,7 +262,8 @@ class FleaMarketListFragment : Fragment() {
 
     data class Wiki(
         var url: String,
-        val dialog: MaterialDialog
+        val dialog: MaterialDialog,
+        var item: FleaItem
     )
 
     data class Favorite(

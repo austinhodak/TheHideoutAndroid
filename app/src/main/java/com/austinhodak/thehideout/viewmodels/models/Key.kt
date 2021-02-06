@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.KeyListItemBinding
+import com.austinhodak.thehideout.log
 import com.austinhodak.thehideout.userRef
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 
@@ -35,6 +36,7 @@ data class Key(
     }
 
     fun toggleHaveStatus() {
+        log("toggle_key", _id, name, "key")
         userRef("keys/have/$_id").setValue(!have)
         have = !have
     }

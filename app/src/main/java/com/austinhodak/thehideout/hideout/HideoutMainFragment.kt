@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.logScreen
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HideoutMainFragment : Fragment() {
@@ -38,5 +39,10 @@ class HideoutMainFragment : Fragment() {
             true
         }
         bottomNav.selectedItemId = R.id.menuModules
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        logScreen("HideoutFragment")
     }
 }
