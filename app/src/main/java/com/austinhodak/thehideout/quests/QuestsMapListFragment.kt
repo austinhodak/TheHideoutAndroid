@@ -1,7 +1,9 @@
 package com.austinhodak.thehideout.quests
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -12,7 +14,6 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.quests.models.Maps
 import com.austinhodak.thehideout.quests.models.Quest
-import com.austinhodak.thehideout.quests.models.Traders
 import com.austinhodak.thehideout.viewmodels.QuestsViewModel
 import com.austinhodak.thehideout.views.QuestObjective
 import net.idik.lib.slimadapter.SlimAdapter
@@ -96,7 +97,7 @@ class QuestsMapListFragment : Fragment() {
 
         }.attachTo(recyclerView)
 
-        viewModel.quests.observe(requireActivity(), { quests ->
+        viewModel.completedQuests.observe(requireActivity(), { quests ->
             if (quests != null) {
                 questList = quests
                 chipSelected()
@@ -106,7 +107,7 @@ class QuestsMapListFragment : Fragment() {
             }
         })
 
-        viewModel.objectives.observe(requireActivity(), { obj ->
+        viewModel.completedObjectives.observe(requireActivity(), { obj ->
             if (obj != null) {
                 objectivesList = obj
                 chipSelected()

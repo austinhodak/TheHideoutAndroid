@@ -52,6 +52,18 @@ fun Int.getPrice(currency: String): String {
 
 }
 
+fun Long.getPrice(currency: String): String {
+    val format = NumberFormat.getCurrencyInstance()
+    format.maximumFractionDigits = 0
+    format.currency = Currency.getInstance(getCurrencyString(currency))
+    return if (currency == "₽") {
+        "${format.format(this).replace("RUB", "")}₽"
+    } else {
+        format.format(this)
+    }
+
+}
+
 fun String.openWithCustomTab(context: Context) {
     val builder = CustomTabsIntent.Builder()
     val customTabsIntent = builder.build()
@@ -97,4 +109,8 @@ fun logScreen(name: String) {
 
 fun isDebug(): Boolean {
     return BuildConfig.DEBUG
+}
+
+fun Int.addQuotes(): String {
+    return "\"$this\""
 }

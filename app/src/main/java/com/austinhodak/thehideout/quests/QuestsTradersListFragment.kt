@@ -1,7 +1,9 @@
 package com.austinhodak.thehideout.quests
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -97,7 +99,7 @@ class QuestsTradersListFragment : Fragment() {
 
         }.attachTo(recyclerView)
 
-        viewModel.quests.observe(requireActivity(), { quests ->
+        viewModel.completedQuests.observe(requireActivity(), { quests ->
             if (quests != null) {
                 questList = quests
                 chipSelected()
@@ -107,7 +109,7 @@ class QuestsTradersListFragment : Fragment() {
             }
         })
 
-        viewModel.objectives.observe(requireActivity(), { obj ->
+        viewModel.completedObjectives.observe(requireActivity(), { obj ->
             if (obj != null) {
                 objectivesList = obj
                 chipSelected()

@@ -19,11 +19,7 @@ class QuestsOverviewFragment : Fragment() {
 
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mAdapter: SlimAdapter
-    private val sharedViewModel: QuestsViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val questsViewModel: QuestsViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -104,7 +100,7 @@ class QuestsOverviewFragment : Fragment() {
             )
         )
 
-        sharedViewModel.quests.observe(requireActivity()) {
+        questsViewModel.completedQuests.observe(requireActivity()) {
             if (it == null) return@observe
 
             data[0].updateCount(QuestsHelper.getAllCompletedQuests(it).size)
@@ -113,7 +109,7 @@ class QuestsOverviewFragment : Fragment() {
                 mAdapter.updateData(data)
         }
 
-        sharedViewModel.objectives.observe(requireActivity()) {
+        questsViewModel.completedObjectives.observe(requireActivity()) {
             if (it == null) return@observe
             data[1].updateCount(QuestsHelper.getTotalPMCEliminations(it))
             data[2].updateCount(QuestsHelper.getTotalScavEliminations(it))

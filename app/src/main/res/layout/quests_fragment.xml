@@ -46,6 +46,16 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_play_arrow_24"
         android:tooltipText="Start Raid"
+        app:elevation="4dp"
         app:layout_anchor="@+id/questBottomAppBar" />
+
+    <include
+        layout="@layout/quest_in_raid_bottom_sheet"
+        android:id="@+id/bottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

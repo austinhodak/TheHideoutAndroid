@@ -2,7 +2,9 @@ package com.austinhodak.thehideout.quests
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,7 +69,7 @@ class QuestsItemListFragment : Fragment() {
 
         }.attachTo(recyclerView)
 
-        viewModel.objectives.observe(requireActivity(), { obj ->
+        viewModel.completedObjectives.observe(requireActivity(), { obj ->
             objectivesList = obj ?: UserFB.UserFBQuestObjectives()
             adapter.notifyDataSetChanged()
         })

@@ -89,4 +89,8 @@
         <item>If price rises above</item>
     </string-array>
 
+    <string-array name="flea_market_display_options">
+        <item>Show Trader Prices</item>
+    </string-array>
+
 </resources>

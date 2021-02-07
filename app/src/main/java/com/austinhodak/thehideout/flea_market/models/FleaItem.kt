@@ -90,6 +90,14 @@ data class FleaItem(
         return "${(price!!/slots!!).getPrice("₽")}/slot"
     }
 
+    fun get24hPrice(): String {
+        return avg24hPrice?.getPrice("₽")!!
+    }
+
+    fun getAvg7dPrice(): String {
+        return avg7daysPrice?.getPrice("₽")!!
+    }
+
     fun getItemIcon(): String {
         return if (icon.isNullOrEmpty() && img.isNullOrEmpty()) {
             ""
@@ -118,7 +126,7 @@ data class FleaItem(
         return total.roundToInt()
     }
 
-    fun calculateTax(salePrice: Int = price ?: 0, callback: (result: Int) -> Unit) {
+    fun calculateTax(salePrice: Long = price?.toLong() ?: (0).toLong(), callback: (result: Int) -> Unit) {
         val mVO = basePrice!!.toDouble()
         val mVR = salePrice.toDouble()
         val mTi = 0.05

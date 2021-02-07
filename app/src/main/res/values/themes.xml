@@ -24,12 +24,21 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.TheHideout.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.TheHideout.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:fontFamily">@font/bender</item>
+
+    </style>
 
     <style name="Theme.TheHideout.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="actionOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/white</item>
+    </style>
+
     <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.Dark">
         <item name="android:fontFamily">@font/bender_bold</item>
+        <item name="popupTheme">@style/Theme.TheHideout.AppBarOverlay</item>
+        <item name="actionOverflowButtonStyle">@style/actionOverflowButtonStyle</item>
     </style>
 
     <style name="MaterialSearchViewStyle">

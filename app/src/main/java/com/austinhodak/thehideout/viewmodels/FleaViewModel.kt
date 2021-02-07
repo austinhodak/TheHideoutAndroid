@@ -2,19 +2,24 @@ package com.austinhodak.thehideout.viewmodels
 
 import android.app.Application
 import android.content.SharedPreferences
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.uid
 import com.austinhodak.thehideout.viewmodels.models.PriceAlert
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -93,6 +98,34 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
 
             override fun onCancelled(error: DatabaseError) {
 
+            }
+        })
+    }
+
+    fun addPriceAlert(spinner: AppCompatSpinner?, editText: TextInputEditText?, dialog: MaterialDialog, item: FleaItem) {
+        val selected = when (spinner?.selectedItemPosition) {
+            0 -> "below"
+            else -> "above"
+        }
+        val price = editText?.text.toString().replace(",", "").toInt()
+
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+
+                return@OnCompleteListener
+            }
+
+            val token = task.result
+            val push = Firebase.database.getReference("priceAlerts").push().key
+            Firebase.database.getReference("priceAlerts").child(push!!).setValue(mutableMapOf(
+                "itemID" to item.uid,
+                "price" to price,
+                "token" to token,
+                "uid" to uid(),
+                "when" to selected
+            )).addOnCompleteListener {
+                dialog.dismiss()
             }
         })
     }

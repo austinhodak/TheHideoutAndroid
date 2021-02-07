@@ -60,10 +60,13 @@ class MainActivity : AppCompatActivity() {
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
 
-
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
+
+        /*onlyOnce("introIGN") {
+
+        }*/
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -412,7 +415,7 @@ class MainActivity : AppCompatActivity() {
 
     fun setQuestChipVisibility(visible: Boolean) {
         if (this::binding.isInitialized)
-        binding.questSelectorScrollbar.visibility = if (visible) View.VISIBLE else View.GONE
+            binding.questSelectorScrollbar.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     fun getQuestChips(): ChipGroup {

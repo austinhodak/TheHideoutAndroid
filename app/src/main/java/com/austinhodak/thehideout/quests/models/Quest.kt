@@ -161,5 +161,5 @@ enum class Maps (var id: String) {
     SHORELINE   ("Shoreline"),
     INTERCHANGE ("Interchange"),
     RESERVE     ("Reserve"),
-    LABS        ("Labs")
+    THELAB        ("Labs")
 }

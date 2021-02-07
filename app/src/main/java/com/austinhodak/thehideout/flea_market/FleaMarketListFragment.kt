@@ -1,5 +1,7 @@
 package com.austinhodak.thehideout.flea_market
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -10,24 +12,26 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.list.customListAdapter
+import com.afollestad.materialdialogs.list.listItemsMultiChoice
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
-import com.austinhodak.thehideout.*
+import com.austinhodak.thehideout.MainActivity
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.austinhodak.thehideout.log
+import com.austinhodak.thehideout.logScreen
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator
@@ -46,12 +50,15 @@ class FleaMarketListFragment : Fragment() {
     lateinit var fastAdapter: FastAdapter<FleaItem>
     lateinit var itemAdapter: ItemAdapter<FleaItem>
 
+    lateinit var prefs: SharedPreferences
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_flea_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prefs = PreferenceManager.getDefaultSharedPreferences(context)
         setupAdapter()
         setupRecyclerView(view)
         progressBar = view.findViewById(R.id.fleaPG)
@@ -67,11 +74,8 @@ class FleaMarketListFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-
         itemAdapter = ItemAdapter()
         fastAdapter = FastAdapter.with(itemAdapter)
-
-
 
         val mDialogAdapter = SlimAdapter.create().register<String>(R.layout.dialog_list_item_1) { s, i ->
 
@@ -114,7 +118,7 @@ class FleaMarketListFragment : Fragment() {
                             editText.error = "Cannot be empty."
                         } else {
                             editText.error = null
-                            addPriceAlert(spinner, editText, dialog, price.item)
+                            viewModel.addPriceAlert(spinner, editText, dialog, price.item)
                         }
                     }
                     negativeButton(text = "CANCEL") {
@@ -168,6 +172,14 @@ class FleaMarketListFragment : Fragment() {
             false
         }
 
+        fastAdapter.onClickListener = { view, adapter, item, pos ->
+            log(FirebaseAnalytics.Event.SELECT_ITEM, item.uid ?: "", item.name ?: "", "flea_item")
+            startActivity(Intent(requireContext(), FleaItemDetailActivity::class.java).apply {
+                putExtra("id", item.uid)
+            })
+            false
+        }
+
         viewModel.fleaItems.observe(viewLifecycleOwner) {
             Handler().postDelayed({
                 updateData(mList = it.toMutableList(), searchKey = currentSearchKey)
@@ -177,41 +189,11 @@ class FleaMarketListFragment : Fragment() {
         viewModel.searchKey.observe(viewLifecycleOwner) {
             currentSearchKey = it
             itemAdapter.filter(it)
-            //updateData(searchKey = it)
         }
 
         itemAdapter.itemFilter.filterPredicate = { item: FleaItem, constraint: CharSequence? ->
             item.name?.contains(constraint.toString(), ignoreCase = true) == true
         }
-
-    }
-
-    private fun addPriceAlert(spinner: AppCompatSpinner?, editText: TextInputEditText?, dialog: MaterialDialog, item: FleaItem) {
-        val selected = when (spinner?.selectedItemPosition) {
-            0 -> "below"
-            else -> "above"
-        }
-        val price = editText?.text.toString().replace(",", "").toInt()
-
-
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-
-                return@OnCompleteListener
-            }
-
-            val token = task.result
-            val push = Firebase.database.getReference("priceAlerts").push().key
-            Firebase.database.getReference("priceAlerts").child(push!!).setValue(mutableMapOf(
-                "itemID" to item.uid,
-                "price" to price,
-                "token" to token,
-                "uid" to uid(),
-                "when" to selected
-            )).addOnCompleteListener {
-                dialog.dismiss()
-            }
-        })
     }
 
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -256,8 +238,53 @@ class FleaMarketListFragment : Fragment() {
                     }
                 }
             }
+            R.id.flea_display_options -> {
+                var array: IntArray? = null
+                try {
+                    array = prefs
+                        .getString("fleaMarketDisplayOptions", "[]")
+                        ?.removeSurrounding("[", "]")
+                        ?.split(",")
+                        ?.map { it.toInt() }
+                        ?.toIntArray()
+                } catch (e: Exception) {
+
+                }
+
+                MaterialDialog(requireActivity()).show {
+                    listItemsMultiChoice(R.array.flea_market_display_options, initialSelection = array ?: intArrayOf(), allowEmptySelection = true) { _, indices, text ->
+                        prefs.edit {
+                            putString("fleaMarketDisplayOptions", indices.joinToString(prefix = "[", separator = ",", postfix = "]"))
+                        }
+                        updateDisplayOptions()
+                    }
+                    title(text = "Display Options")
+                    positiveButton(text = "DONE")
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun updateDisplayOptions() {
+        var array: IntArray? = intArrayOf()
+        try {
+            array = prefs
+                .getString("fleaMarketDisplayOptions", "[]")
+                ?.removeSurrounding("[", "]")
+                ?.split(",")
+                ?.map { it.toInt() }
+                ?.toIntArray()
+        } catch (e: Exception) {
+
+        }
+
+        if (array?.contains(0) == true) {
+            //Show traders is selected
+
+        } else {
+
+        }
     }
 
     data class Wiki(

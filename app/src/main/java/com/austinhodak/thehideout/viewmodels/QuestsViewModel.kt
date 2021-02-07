@@ -1,8 +1,11 @@
 package com.austinhodak.thehideout.viewmodels
 
-import android.util.Log
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.log
 import com.austinhodak.thehideout.quests.models.Quest
@@ -14,31 +17,26 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.lang.reflect.Type
 
-class QuestsViewModel : ViewModel() {
-    val user = MutableLiveData<UserFB>()
-    val quests = MutableLiveData<UserFB.UserFBQuests>()
-    val objectives = MutableLiveData<UserFB.UserFBQuestObjectives>()
+class QuestsViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val context = getApplication<Application>().applicationContext
+
+    val completedQuests = MutableLiveData<UserFB.UserFBQuests>()
+    val completedObjectives = MutableLiveData<UserFB.UserFBQuestObjectives>()
+
+    val quests: LiveData<List<Quest>> = liveData {
+        emit(loadInitialQuests())
+    }
 
     init {
         loadUserQuests()
-        Log.d("QUESTS", "INIT VIEW MODEL")
         loadUserQuestsObjectives()
-    }
-
-    fun loadUserData() {
-        val UID = Firebase.auth.uid
-        Firebase.database.getReference("users/$UID/").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val u = snapshot.getValue<UserFB>()
-                user.value = u
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-        })
     }
 
     private fun loadUserQuests() {
@@ -46,7 +44,7 @@ class QuestsViewModel : ViewModel() {
         Firebase.database.getReference("users/$UID/quests/").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val u = snapshot.getValue<UserFB.UserFBQuests>()
-                quests.value = u
+                completedQuests.value = u
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -61,7 +59,7 @@ class QuestsViewModel : ViewModel() {
         Firebase.database.getReference("users/$UID/questObjectives/").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val u = snapshot.getValue<UserFB.UserFBQuestObjectives>()
-                objectives.value = u
+                completedObjectives.value = u
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -103,6 +101,11 @@ class QuestsViewModel : ViewModel() {
         }
 
         userRef("quests/completed/\"${quest.id}\"").removeValue()
+    }
+
+    private suspend fun loadInitialQuests(): List<Quest> = withContext(Dispatchers.IO) {
+        val groupListType: Type = object : TypeToken<ArrayList<Quest?>?>() {}.type
+        Gson().fromJson(context.resources.openRawResource(R.raw.ammo_data).bufferedReader().use { it.readText() }, groupListType)
     }
 
 }

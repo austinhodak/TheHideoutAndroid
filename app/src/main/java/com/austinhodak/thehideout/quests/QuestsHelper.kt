@@ -1,7 +1,6 @@
 package com.austinhodak.thehideout.quests
 
 import android.content.Context
-import android.util.Log
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.quests.models.Maps
@@ -28,8 +27,6 @@ object QuestsHelper {
         }
         return list
     }
-
-
 
     fun getTotalPMCEliminations(objectives: UserFB.UserFBQuestObjectives): Int {
         var total = 0
@@ -208,17 +205,22 @@ object QuestsHelper {
         return filteredList
     }
 
-    fun getActiveQuests(trader: Traders? = null, quests: UserFB.UserFBQuests, map: Maps? = null): List<Quest> {
+    fun getActiveQuests(trader: Traders? = null, quests: UserFB.UserFBQuests, map: Maps? = null, any: Boolean? = false): List<Quest> {
         val filteredList: MutableList<Quest> = ArrayList()
         val completedQuestString = quests.completed?.map { q ->
             list.find { "\"${it.id}\"" == q.key }?.title
         }
-        Log.d("QUESTS", completedQuestString.toString())
+
         for (quest in list.filter {
             if (map == null) {
                 it.giver == trader?.id
             } else {
-                it.getLocation().contains(map.id)
+                if (any == true) {
+                    it.getLocation().contains(map.id) || it.getLocation().contains("Any")
+                } else {
+                    it.getLocation().contains(map.id)
+                }
+
             }
         }) {
             if (quests.completed?.containsKey("\"${quest.id}\"") == true) continue
