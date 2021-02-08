@@ -302,12 +302,19 @@ class MainActivity : AppCompatActivity() {
         hideSearch = when (currentDestination.id) {
             R.id.medicalTabFragment,
             R.id.questMainFragment,
-            R.id.hideoutMainFragment -> true
+            R.id.backpackRigTabFragment,
+            R.id.hideoutMainFragment,
+            R.id.armorTabFragment,
             R.id.WeaponFragment -> true
             else -> false
         }
 
         invalidateOptionsMenu()
+
+        val a = arrayOf(10, 30)
+        val b = listOf(10,20)
+        val cl = b
+
     }
 
     fun isSearchHidden(boolean: Boolean) {

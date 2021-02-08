@@ -62,8 +62,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="All"
-                        app:chipBackgroundColor="@color/chip_orange"
-                        android:textAppearance="@style/TabsBender" />
+                        android:textAppearance="@style/TabsBender"
+                        app:chipBackgroundColor="@color/chip_orange"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_active"

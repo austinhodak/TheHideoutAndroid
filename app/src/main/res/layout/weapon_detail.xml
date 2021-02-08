@@ -346,7 +346,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
                             android:fontFamily="@font/bender"
-                            android:text="@{weapon.builds.get(0).basePurchase}"
+                            android:text="@{weapon.buildsText}"
                             tools:text="II Skier ₽49\nII Skier ₽49" />
 
                     </LinearLayout>

@@ -3,7 +3,6 @@ package com.miguelcatalan.materialsearchview
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Parcel
@@ -569,7 +568,7 @@ class MaterialSearchView @JvmOverloads constructor(
         }
     }
 
-    override fun requestFocus(direction: Int, previouslyFocusedRect: Rect): Boolean {
+    /*override fun requestFocus(direction: Int, previouslyFocusedRect: Rect): Boolean {
         // Don't accept focus if in the middle of clearing focus
         if (mClearingFocus) return false
         // Check if SearchView is focusable.
@@ -577,7 +576,7 @@ class MaterialSearchView @JvmOverloads constructor(
             direction,
             previouslyFocusedRect
         ) ?: false
-    }
+    }*/
 
     override fun clearFocus() {
         mClearingFocus = true

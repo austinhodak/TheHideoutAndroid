@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,8 @@ class QuestMainFragment : Fragment() {
 
     private var _binding: QuestsFragmentBinding? = null
     private val binding get() = _binding!!
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +61,13 @@ class QuestMainFragment : Fragment() {
         })
 
         fab.setOnClickListener {
-            if (bs.state == BottomSheetBehavior.STATE_HIDDEN || bs.state == BottomSheetBehavior.STATE_COLLAPSED) {
+            /*if (bs.state == BottomSheetBehavior.STATE_HIDDEN || bs.state == BottomSheetBehavior.STATE_COLLAPSED) {
                 bs.state = BottomSheetBehavior.STATE_EXPANDED
                 fab.hide()
             } else {
                 bs.state = BottomSheetBehavior.STATE_HIDDEN
-            }
+            }*/
+            Toast.makeText(requireContext(), "Coming Soon.", Toast.LENGTH_SHORT).show()
         }
 
         (requireActivity() as MainActivity).updateChips(arrayListOf("All", "Available", "Locked", "Completed"))

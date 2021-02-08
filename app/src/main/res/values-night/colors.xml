@@ -17,5 +17,5 @@
     <color name="cardBottomBackgroundColor2">@color/timelineBG</color>
     <color name="cardStroke">@color/md_grey_850</color>
 
-    <color name="chipSelectedBackgroundColor">?attr/colorSecondary</color>
+    <color name="chipSelectedBackgroundColor">@color/md_red_400</color>
 </resources>

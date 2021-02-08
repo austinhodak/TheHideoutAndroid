@@ -50,6 +50,10 @@ data class Weapon (
         return "https://www.eftdb.one/static/item/full/${image}"
     }
 
+    fun getBuildsText(): String {
+        return if (builds.isNotEmpty()) builds.first().getBasePurchase() else ""
+    }
+
     fun getFireModes(): String {
         return if (firemodes.single) {
             "S"
