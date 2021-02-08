@@ -333,7 +333,7 @@
                                 android:id="@+id/fleaDetailSalePriceET"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
+                                android:inputType="numberSigned"
                                 android:maxLength="15" />
 
                         </com.google.android.material.textfield.TextInputLayout>
