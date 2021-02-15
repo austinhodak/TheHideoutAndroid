@@ -1,7 +1,9 @@
 package com.austinhodak.thehideout
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
@@ -18,7 +21,9 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.austinhodak.thehideout.ammunition.AmmoHelper
+import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
@@ -28,6 +33,7 @@ import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.miguelcatalan.materialsearchview.SuggestionModel
 import com.mikepenz.materialdrawer.holder.StringHolder
@@ -35,9 +41,10 @@ import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
 import com.mikepenz.materialdrawer.util.addItems
 import com.mikepenz.materialdrawer.util.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import net.idik.lib.slimadapter.SlimAdapter
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var searchItem: MenuItem? = null
@@ -48,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mSearchAdapter: SlimAdapter
     private lateinit var keysViewModel: KeysViewModel
     private lateinit var fleaViewModel: FleaViewModel
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_TheHideout_NoActionBar)
@@ -55,6 +63,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
         ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
@@ -109,67 +119,78 @@ class MainActivity : AppCompatActivity() {
 
         binding.slider.apply {
             addItems(
-                NavigationDrawerItem(
-                    R.id.FirstFragment,
-                    PrimaryDrawerItem().apply {
-                        typeface = benderFont; isIconTinted = true; name =
-                        StringHolder("Ammunition"); iconRes = R.drawable.icons8_ammo_100
-                    },
-                    null,
-                    getNavOptions()
-                ),
-                NavigationDrawerItem(R.id.armorTabFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Armor"); iconRes = R.drawable.icons8_bulletproof_vest_100
-                }, null, null),
-                NavigationDrawerItem(R.id.backpackRigTabFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Backpacks & Rigs"); iconRes = R.drawable.icons8_rucksack_96
-                }),
-                NavigationDrawerItem(R.id.keysListFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Keys"); iconRes = R.drawable.icons8_key_100
-                }, options = getNavOptions()),
-                NavigationDrawerItem(R.id.medicalTabFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true; name =
-                    StringHolder("Medical"); iconRes = R.drawable.icons8_syringe_100
-                }, options = getNavOptions()),
-                NavigationDrawerItem(
-                    R.id.WeaponFragment,
-                    PrimaryDrawerItem().apply {
-                        typeface = benderFont; isIconTinted = true
-                        name = StringHolder("Weapons"); iconRes = R.drawable.icons8_assault_rifle_100
-                    },
-                    null,
-                    null
-                ),
-                DividerDrawerItem(),
-                /*PrimaryDrawerItem().apply {
+                NavigationDrawerItem(R.id.FirstFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Damage Calculator")
+                    name = StringHolder("Ammunition")
+                    iconRes = R.drawable.icons8_ammo_100
+                }, options = getNavOptions()),
+                NavigationDrawerItem(R.id.armorTabFragment, PrimaryDrawerItem().apply {
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Armor")
+                    iconRes = R.drawable.icons8_bulletproof_vest_100
+                }, options = getNavOptions()),
+                NavigationDrawerItem(R.id.backpackRigTabFragment, PrimaryDrawerItem().apply {
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Backpacks & Rigs")
+                    iconRes = R.drawable.icons8_rucksack_96
+                }, options = getNavOptions()),
+                NavigationDrawerItem(R.id.keysListFragment, PrimaryDrawerItem().apply {
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Keys")
+                    iconRes = R.drawable.icons8_key_100
+                }, options = getNavOptions()),
+                NavigationDrawerItem(R.id.medicalTabFragment, PrimaryDrawerItem().apply {
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Medical")
+                    iconRes = R.drawable.icons8_syringe_100
+                }, options = getNavOptions()),
+                NavigationDrawerItem(R.id.WeaponFragment, PrimaryDrawerItem().apply {
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Weapons")
+                    iconRes = R.drawable.icons8_assault_rifle_100
+                }, options = getNavOptions()),
+                DividerDrawerItem(),
+                PrimaryDrawerItem().apply {
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Tarkov'd Simulator")
                     iconRes = R.drawable.icons8_ammo_100
                     isSelectable = false
+                    isEnabled = false
                     onDrawerItemClickListener = { _, _, _ ->
                         startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
                         false
                     }
-                },*/
+                },
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true
-                    name = StringHolder("Flea Market"); iconRes = R.drawable.ic_baseline_shopping_cart_24
-                }),
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Flea Market")
+                    iconRes = R.drawable.ic_baseline_shopping_cart_24
+                }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.hideoutMainFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true
-                    name = StringHolder("Hideout"); iconRes = R.drawable.hideout_shadow_1
-                }),
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Hideout")
+                    iconRes = R.drawable.hideout_shadow_1
+                }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.questMainFragment, PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true
-                    name = StringHolder("Quests"); iconRes = R.drawable.ic_baseline_assignment_24
-                }),
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Quests")
+                    iconRes = R.drawable.ic_baseline_assignment_24
+                }, options = getNavOptions()),
                 PrimaryDrawerItem().apply {
-                    typeface = benderFont; isIconTinted = true
-                    name = StringHolder("Traders"); iconRes = R.drawable.ic_baseline_groups_24
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Traders")
+                    iconRes = R.drawable.ic_baseline_groups_24
                     isEnabled = false
                 },
                 SectionDrawerItem().apply {
@@ -195,6 +216,19 @@ class MainActivity : AppCompatActivity() {
             headerView = View.inflate(this@MainActivity, R.layout.main_drawer_header, null)
             headerDivider = true
             setSavedInstance(savedInstanceState)
+            onDrawerItemLongClickListener = { view, item, index ->
+                if (item is NavigationDrawerItem) {
+                    prefs.edit {
+                        putInt("defaultOpeningFragment", item.resId)
+                    }
+                    Snackbar.make(binding.root, "Opening screen set!", Snackbar.LENGTH_SHORT).apply {
+                        this.setBackgroundTint(resources.getColor(R.color.md_green_500))
+                        this.setTextColor(Color.WHITE)
+                    }.show()
+                    //Toast.makeText(this@MainActivity, "Set as opening screen.", Toast.LENGTH_SHORT).show()
+                }
+                false
+            }
         }
 
         binding.slider.recyclerView.isVerticalScrollBarEnabled = false
@@ -233,12 +267,16 @@ class MainActivity : AppCompatActivity() {
         binding.root.addDrawerListener(actionBarDrawerToggle)
         binding.slider.setupWithNavController(navController)
 
-        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
             setupSearch(destination)
             setToolbarElevation(destination)
             supportActionBar?.title = ""
             binding.toolbarTitle.text = destination.label
             setQuestChipVisibility(false)
+        }
+
+        prefs.getInt("defaultOpeningFragment", R.id.FirstFragment).also {
+            navController.navigate(it, null, NavOptions.Builder().setPopUpTo(it, true).build())
         }
     }
 
@@ -310,11 +348,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         invalidateOptionsMenu()
-
-        val a = arrayOf(10, 30)
-        val b = listOf(10,20)
-        val cl = b
-
     }
 
     fun isSearchHidden(boolean: Boolean) {
