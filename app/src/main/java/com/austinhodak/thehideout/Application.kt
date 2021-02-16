@@ -11,10 +11,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.skydoves.only.Only
+import dagger.hilt.android.HiltAndroidApp
 import org.json.JSONObject
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
+@HiltAndroidApp
 class Application : Application() {
     private val TAG = "APPLICATION: onCREATE"
 
