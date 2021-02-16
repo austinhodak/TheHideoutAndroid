@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="openFleaMarket"
+        android:enabled="true"
+        android:icon="@drawable/shortcut_flea"
+        android:shortcutShortLabel="@string/shortcut_flea"
+        android:shortcutLongLabel="@string/shortcut_flea"
+        android:shortcutDisabledMessage="@string/shortcut_flea">
+        <intent
+            android:action="shortcut.flea"
+            android:targetPackage="com.austinhodak.thehideout"
+            android:targetClass="com.austinhodak.thehideout.MainActivity" />
+    </shortcut>
+</shortcuts>

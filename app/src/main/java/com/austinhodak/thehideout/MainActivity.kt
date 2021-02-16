@@ -275,9 +275,14 @@ class MainActivity : AppCompatActivity() {
             setQuestChipVisibility(false)
         }
 
-        prefs.getInt("defaultOpeningFragment", R.id.FirstFragment).also {
-            navController.navigate(it, null, NavOptions.Builder().setPopUpTo(it, true).build())
+        if (intent?.action != null && intent?.action == "shortcut.flea") {
+            navController.navigate(R.id.fleaMarketListFragment, null, NavOptions.Builder().setPopUpTo(R.id.fleaMarketListFragment, true).build())
+        } else {
+            prefs.getInt("defaultOpeningFragment", R.id.FirstFragment).also {
+                navController.navigate(it, null, NavOptions.Builder().setPopUpTo(it, true).build())
+            }
         }
+
     }
 
     private fun setToolbarElevation(destination: NavDestination) {
