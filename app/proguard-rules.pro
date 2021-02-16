@@ -19,3 +19,13 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keepattributes Signature
+
+-keep class com.austinhodak.thehideout.viewmodels.models.** { *; }
+-keep class com.austinhodak.thehideout.quests.models.** { *; }
+-keep class com.austinhodak.thehideout.quests.inraid.models.** { *; }
+-keep class com.austinhodak.thehideout.hideout.models.** { *; }
+-keep class com.austinhodak.thehideout.flea_market.models.** { *; }
+-keep class com.austinhodak.thehideout.firebase.UserFB { *; }
+-keep class com.austinhodak.thehideout.calculator.models.** { *; }
+-keep class com.austinhodak.thehideout.ammunition.** { *; }

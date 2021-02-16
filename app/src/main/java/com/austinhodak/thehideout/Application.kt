@@ -1,8 +1,10 @@
 package com.austinhodak.thehideout
 
 import android.app.Application
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
@@ -18,13 +20,21 @@ import timber.log.Timber.DebugTree
 
 @HiltAndroidApp
 class Application : Application() {
-    private val TAG = "APPLICATION: onCREATE"
 
     override fun onCreate() {
         super.onCreate()
+
+        //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
+        if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
+            Firebase.analytics.setAnalyticsCollectionEnabled(false)
+        }
+
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
-        if (BuildConfig.DEBUG) Timber.plant(DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+            Timber.d("Firebase UID: %s", uid())
+        }
 
         Firebase.database.setPersistenceEnabled(true)
 

@@ -16,26 +16,9 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
-    defaultConfig {
-        applicationId "com.austinhodak.thehideout"
-        minSdkVersion 21
-        targetSdkVersion 30
-        // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 10060
-        versionName "0.1.6 Beta"
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-
-        //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        viewBinding true
-        dataBinding true
-    }
-
     signingConfigs {
         release {
-            storeFile file(RELEASE_STORE_FILE)
+            storeFile file('C:\\Development\\Keys\\TheHideoutKeystore.jks')
             storePassword RELEASE_STORE_PASSWORD
             keyAlias RELEASE_KEY_ALIAS
             keyPassword RELEASE_KEY_PASSWORD
@@ -48,12 +31,29 @@ android {
         }
     }
 
+    defaultConfig {
+        applicationId "com.austinhodak.thehideout"
+        minSdkVersion 21
+        targetSdkVersion 30
+        // { Major }.{ Minor }.{ Bug Fixes }
+        versionCode 10060
+        versionName "0.1.6 Beta"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
     buildTypes {
         release {
-            //signingConfigs signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //signingConfigs signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -115,7 +115,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
     implementation "androidx.viewpager2:viewpager2:1.1.0-alpha01"
-    implementation "androidx.fragment:fragment-ktx:1.3.0-rc02"
+    implementation "androidx.fragment:fragment-ktx:1.3.0"
     //END AndroidX
 
     //Firebase
@@ -160,13 +160,6 @@ dependencies {
     implementation 'pl.hypeapp:materialtimelineview:1.1'
     implementation 'net.idik:slimadapter:2.1.2'
 
-    /* implementation "com.airbnb.android:epoxy:${versions.epoxy}"
-    // Add the annotation processor if you are using Epoxy's annotations (recommended)
-    annotationProcessor "com.airbnb.android:epoxy-processor:${versions.epoxy}"
-    implementation "com.airbnb.android:epoxy-databinding:${versions.epoxy}"*/
-
-    implementation 'com.github.kittinunf.fuel:fuel:2.2.3'
-
     implementation "androidx.browser:browser:1.3.0"
     implementation "com.mikepenz:itemanimators:1.1.0"
 
@@ -174,10 +167,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
 
-    implementation("com.squareup.moshi:moshi:1.11.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
-
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
@@ -193,8 +183,6 @@ dependencies {
     testImplementation "androidx.room:room-testing:${versions.room}"
 
     implementation 'androidx.preference:preference-ktx:1.1.1'
-
-    implementation 'com.github.AraujoJordan:ExcuseMe:0.9.5'
 
     implementation 'com.airbnb.android:lottie:3.6.0'
 

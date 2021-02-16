@@ -82,7 +82,6 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
         val objectString = FileInputStream(myFile).bufferedReader().use { it.readText() }
         val groupListType: Type = object : TypeToken<ArrayList<FSAmmo?>?>() {}.type
         val list: List<FSAmmo> = Gson().fromJson(objectString, groupListType)
-        Timber.d("$list")
         return list
     }
 
