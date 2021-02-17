@@ -4,6 +4,8 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.lifecycle.ViewModelProvider
@@ -15,9 +17,13 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.ActivityFleaItemDetailBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.getPrice
+import com.austinhodak.thehideout.userRef
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.viewmodels.models.PriceAlertSmall
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import java.text.DecimalFormat
@@ -28,6 +34,8 @@ class FleaItemDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFleaItemDetailBinding
     private var fleaItem: FleaItem? = null
     private lateinit var fleaViewModel: FleaViewModel
+    private lateinit var menu: Menu
+    private var isFavorite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +50,8 @@ class FleaItemDetailActivity : AppCompatActivity() {
             fleaItem = list.find { it.uid == intent.getStringExtra("id")!! }
             updateItem(fleaItem)
         }
+
+
     }
 
     private fun updateItem(fleaItem: FleaItem?) {
@@ -127,6 +137,37 @@ class FleaItemDetailActivity : AppCompatActivity() {
         }
 
         setupPriceAlertList()
+        setupFavorite()
+    }
+
+    private fun setupFavorite() {
+        fleaItem?.uid?.let {
+            userRef("flea").child("favorites").child(it).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists() && snapshot.value == true) {
+                        //Item is favorite
+                        if (this@FleaItemDetailActivity::menu.isInitialized) {
+                            menu.let { menu ->
+                                menu.findItem(R.id.fleaDetailFavorite).setIcon(R.drawable.ic_baseline_favorite_24_colored)
+                            }
+                        }
+                        isFavorite = true
+                    } else {
+                        //Item is not favorite
+                        if (this@FleaItemDetailActivity::menu.isInitialized) {
+                            menu.let { menu ->
+                                menu.findItem(R.id.fleaDetailFavorite).setIcon(R.drawable.ic_baseline_favorite_border_24)
+                            }
+                        }
+                        isFavorite = false
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+        }
     }
 
     private fun setupPriceAlertList() {
@@ -208,5 +249,29 @@ class FleaItemDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.md_nav_back)
         binding.weaponDetailToolbar.setNavigationOnClickListener { super.onBackPressed() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.flea_detail_menu, menu).also {
+            menu?.let {
+                this.menu = it
+            }
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.fleaDetailFavorite -> {
+                fleaItem?.uid?.let {
+                    if (!isFavorite) {
+                        userRef("flea").child("favorites").child(it).setValue(!isFavorite)
+                    } else {
+                        userRef("flea").child("favorites").child(it).removeValue()
+                    }
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

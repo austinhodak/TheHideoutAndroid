@@ -43,6 +43,7 @@ import com.mikepenz.materialdrawer.util.addItems
 import com.mikepenz.materialdrawer.util.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import net.idik.lib.slimadapter.SlimAdapter
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -279,7 +280,11 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.fleaMarketListFragment, null, NavOptions.Builder().setPopUpTo(R.id.fleaMarketListFragment, true).build())
         } else {
             prefs.getInt("defaultOpeningFragment", R.id.FirstFragment).also {
-                navController.navigate(it, null, NavOptions.Builder().setPopUpTo(it, true).build())
+                try {
+                    navController.navigate(it, null, NavOptions.Builder().setPopUpTo(it, true).build())
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
             }
         }
 

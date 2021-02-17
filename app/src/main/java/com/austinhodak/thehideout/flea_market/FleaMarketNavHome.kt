@@ -25,6 +25,7 @@ class FleaMarketNavHome : Fragment() {
             val fragment = when (it.itemId) {
                 R.id.fleaItems -> FleaMarketListFragment()
                 R.id.fleaPriceAlerts -> FleaMarketPriceAlertsFragment()
+                R.id.fleaFavorites -> FleaMarketFavoritesFragment()
                 else -> FleaMarketListFragment()
             }
 

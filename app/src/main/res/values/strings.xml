@@ -5,6 +5,7 @@
 
     <string name="meter">%sm</string>
     <string name="flea_alert_empty">No alerts set, long press on a flea market item to add one!</string>
+    <string name="flea_favorites_empty">No favorites set!</string>
 
     <string name="shortcut_flea">Flea Market</string>
 

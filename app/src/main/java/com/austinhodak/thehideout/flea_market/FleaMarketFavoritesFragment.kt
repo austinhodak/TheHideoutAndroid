@@ -22,21 +22,22 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.list.customListAdapter
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
-import com.austinhodak.thehideout.MainActivity
-import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.*
+import com.austinhodak.thehideout.databinding.FragmentFleaFavoritesListBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
-import com.austinhodak.thehideout.log
-import com.austinhodak.thehideout.logScreen
 import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator
 import net.idik.lib.slimadapter.SlimAdapter
 import java.text.DecimalFormat
 
-class FleaMarketListFragment : Fragment() {
+class FleaMarketFavoritesFragment : Fragment() {
 
     private lateinit var progressBar: ProgressBar
     private var currentSearchKey: String = ""
@@ -48,10 +49,16 @@ class FleaMarketListFragment : Fragment() {
     lateinit var fastAdapter: FastAdapter<FleaItem>
     lateinit var itemAdapter: ItemAdapter<FleaItem>
 
+    var favoriteItems: MutableMap<String, Boolean> = HashMap()
+
+    private var _binding: FragmentFleaFavoritesListBinding? = null
+    private val binding get() = _binding!!
+
     lateinit var prefs: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_flea_list, container, false)
+        _binding = FragmentFleaFavoritesListBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,6 +70,21 @@ class FleaMarketListFragment : Fragment() {
         progressBar.visibility = View.GONE
 
         (activity as MainActivity).isSearchHidden(false)
+
+
+        userRef("flea").child("favorites").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                favoriteItems.clear()
+                snapshot.children.forEach {
+                    favoriteItems[it.key.toString()] = it.value as Boolean
+                }
+                binding.fleaFavoritesEmptyLayout.visibility = if (favoriteItems.isEmpty()) View.VISIBLE else View.GONE
+                updateData(currentSearchKey)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -207,7 +229,7 @@ class FleaMarketListFragment : Fragment() {
 
         itemAdapter.clear()
         if (nList != mList)
-        itemAdapter.set(nList?.filterNot { it.icon!!.isEmpty() && it.img!!.isEmpty() } ?: emptyList())
+        itemAdapter.set(nList?.filterNot { it.icon!!.isEmpty() && it.img!!.isEmpty() }?.filter { favoriteItems.getOrDefault(it.uid, false) } ?: emptyList())
         progressBar.visibility = View.GONE
     }
 
