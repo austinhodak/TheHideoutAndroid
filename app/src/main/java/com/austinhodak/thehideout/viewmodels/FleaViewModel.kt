@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.viewmodels
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
@@ -107,12 +108,15 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
             0 -> "below"
             else -> "above"
         }
-        val price = editText?.text.toString().replace(",", "").toInt()
+        val price = editText?.text.toString().replace(",", "").toIntOrNull()
 
+        if (price == null) {
+            Toast.makeText(editText?.context, "Price must be whole number.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-
                 return@OnCompleteListener
             }
 
