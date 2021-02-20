@@ -4,11 +4,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
-import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -24,6 +21,7 @@ import com.afollestad.materialdialogs.list.customListAdapter
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.databinding.FragmentFleaListBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.log
 import com.austinhodak.thehideout.logScreen
@@ -33,15 +31,22 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.idik.lib.slimadapter.SlimAdapter
 import java.text.DecimalFormat
 
+@AndroidEntryPoint
 class FleaMarketListFragment : Fragment() {
 
-    private lateinit var progressBar: ProgressBar
     private var currentSearchKey: String = ""
     private var mList: MutableList<FleaItem>? = null
     lateinit var mAdapter: SlimAdapter
+
+
     private val viewModel: FleaViewModel by activityViewModels()
     private var sortBy = 1
 
@@ -50,17 +55,19 @@ class FleaMarketListFragment : Fragment() {
 
     lateinit var prefs: SharedPreferences
 
+    private var _binding: FragmentFleaListBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_flea_list, container, false)
+        _binding = FragmentFleaListBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
         setupAdapter()
-        setupRecyclerView(view)
-        progressBar = view.findViewById(R.id.fleaPG)
-        progressBar.visibility = View.GONE
+        setupRecyclerView()
 
         (activity as MainActivity).isSearchHidden(false)
     }
@@ -179,9 +186,10 @@ class FleaMarketListFragment : Fragment() {
         }
 
         viewModel.fleaItems.observe(viewLifecycleOwner) {
-            Handler().postDelayed({
+            GlobalScope.launch(Dispatchers.Main) {
+                delay(25)
                 updateData(mList = it.toMutableList(), searchKey = currentSearchKey)
-            }, 50)
+            }
         }
 
         viewModel.searchKey.observe(viewLifecycleOwner) {
@@ -208,14 +216,13 @@ class FleaMarketListFragment : Fragment() {
         itemAdapter.clear()
         if (nList != mList)
         itemAdapter.set(nList?.filterNot { it.icon!!.isEmpty() && it.img!!.isEmpty() } ?: emptyList())
-        progressBar.visibility = View.GONE
     }
 
-    private fun setupRecyclerView(view: View) {
-        val mRecyclerView = view.findViewById<RecyclerView>(R.id.flea_list)
+    private fun setupRecyclerView() {
+        val mRecyclerView = binding.fleaList
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.itemAnimator = SlideUpAlphaAnimator().apply {
-            addDuration = 200
+            addDuration = 150
             removeDuration = 100
         }
         mRecyclerView.adapter = fastAdapter
@@ -230,59 +237,15 @@ class FleaMarketListFragment : Fragment() {
         when (item.itemId) {
             R.id.flea_sort -> {
                 MaterialDialog(requireActivity()).show {
+                    title(text = "Sort By")
                     listItemsSingleChoice(R.array.flea_sort, initialSelection = sortBy) { _, index, text ->
                         sortBy = index
                         updateData()
                     }
                 }
             }
-            /*R.id.flea_display_options -> {
-                var array: IntArray? = null
-                try {
-                    array = prefs
-                        .getString("fleaMarketDisplayOptions", "[]")
-                        ?.removeSurrounding("[", "]")
-                        ?.split(",")
-                        ?.map { it.toInt() }
-                        ?.toIntArray()
-                } catch (e: Exception) {
-
-                }
-
-                MaterialDialog(requireActivity()).show {
-                    listItemsMultiChoice(R.array.flea_market_display_options, initialSelection = array ?: intArrayOf(), allowEmptySelection = true) { _, indices, text ->
-                        prefs.edit {
-                            putString("fleaMarketDisplayOptions", indices.joinToString(prefix = "[", separator = ",", postfix = "]"))
-                        }
-                        updateDisplayOptions()
-                    }
-                    title(text = "Display Options")
-                    positiveButton(text = "DONE")
-                }
-            }*/
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun updateDisplayOptions() {
-        var array: IntArray? = intArrayOf()
-        try {
-            array = prefs
-                .getString("fleaMarketDisplayOptions", "[]")
-                ?.removeSurrounding("[", "]")
-                ?.split(",")
-                ?.map { it.toInt() }
-                ?.toIntArray()
-        } catch (e: Exception) {
-
-        }
-
-        if (array?.contains(0) == true) {
-            //Show traders is selected
-
-        } else {
-
-        }
     }
 
     data class Wiki(

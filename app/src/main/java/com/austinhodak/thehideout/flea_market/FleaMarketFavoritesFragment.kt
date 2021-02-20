@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
@@ -34,9 +33,15 @@ import com.google.firebase.database.ValueEventListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.idik.lib.slimadapter.SlimAdapter
 import java.text.DecimalFormat
 
+@AndroidEntryPoint
 class FleaMarketFavoritesFragment : Fragment() {
 
     private lateinit var progressBar: ProgressBar
@@ -201,9 +206,10 @@ class FleaMarketFavoritesFragment : Fragment() {
         }
 
         viewModel.fleaItems.observe(viewLifecycleOwner) {
-            Handler().postDelayed({
+            GlobalScope.launch(Dispatchers.Main) {
+                delay(25)
                 updateData(mList = it.toMutableList(), searchKey = currentSearchKey)
-            }, 50)
+            }
         }
 
         viewModel.searchKey.observe(viewLifecycleOwner) {
@@ -237,7 +243,7 @@ class FleaMarketFavoritesFragment : Fragment() {
         val mRecyclerView = view.findViewById<RecyclerView>(R.id.flea_list)
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.itemAnimator = SlideUpAlphaAnimator().apply {
-            addDuration = 200
+            addDuration = 150
             removeDuration = 100
         }
         mRecyclerView.adapter = fastAdapter
@@ -252,59 +258,15 @@ class FleaMarketFavoritesFragment : Fragment() {
         when (item.itemId) {
             R.id.flea_sort -> {
                 MaterialDialog(requireActivity()).show {
+                    title(text = "Sort By")
                     listItemsSingleChoice(R.array.flea_sort, initialSelection = sortBy) { _, index, text ->
                         sortBy = index
                         updateData()
                     }
                 }
             }
-            /*R.id.flea_display_options -> {
-                var array: IntArray? = null
-                try {
-                    array = prefs
-                        .getString("fleaMarketDisplayOptions", "[]")
-                        ?.removeSurrounding("[", "]")
-                        ?.split(",")
-                        ?.map { it.toInt() }
-                        ?.toIntArray()
-                } catch (e: Exception) {
-
-                }
-
-                MaterialDialog(requireActivity()).show {
-                    listItemsMultiChoice(R.array.flea_market_display_options, initialSelection = array ?: intArrayOf(), allowEmptySelection = true) { _, indices, text ->
-                        prefs.edit {
-                            putString("fleaMarketDisplayOptions", indices.joinToString(prefix = "[", separator = ",", postfix = "]"))
-                        }
-                        updateDisplayOptions()
-                    }
-                    title(text = "Display Options")
-                    positiveButton(text = "DONE")
-                }
-            }*/
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun updateDisplayOptions() {
-        var array: IntArray? = intArrayOf()
-        try {
-            array = prefs
-                .getString("fleaMarketDisplayOptions", "[]")
-                ?.removeSurrounding("[", "]")
-                ?.split(",")
-                ?.map { it.toInt() }
-                ?.toIntArray()
-        } catch (e: Exception) {
-
-        }
-
-        if (array?.contains(0) == true) {
-            //Show traders is selected
-
-        } else {
-
-        }
     }
 
     data class Wiki(

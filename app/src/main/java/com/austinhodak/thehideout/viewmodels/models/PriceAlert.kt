@@ -1,6 +1,14 @@
 package com.austinhodak.thehideout.viewmodels.models
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.databinding.FleaMarketAlertItemBinding
+import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.austinhodak.thehideout.getPrice
+import com.bumptech.glide.Glide
 import com.google.firebase.database.DatabaseReference
+import com.mikepenz.fastadapter.binding.AbstractBindingItem
 
 /**
  * @param price The alert price
@@ -16,13 +24,31 @@ data class PriceAlert (
     val itemID: String? = null,
     val `when`: String? = null,
     val token: String? = null,
-    var reference: DatabaseReference? = null
-) {
+    var reference: DatabaseReference? = null,
+    var fleaItem: FleaItem? = null
+) : AbstractBindingItem<FleaMarketAlertItemBinding>() {
+
     fun getWhenText(): String {
         return when(`when`) {
             "above" -> "Alert when price rises above"
             "below" -> "Alert when price drops below"
             else -> ""
         }
+    }
+
+    fun getPriceString(): String {
+        return price?.getPrice("₽")!!
+    }
+
+    override val type: Int
+        get() = R.id.fastadapter_item
+
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): FleaMarketAlertItemBinding {
+        return FleaMarketAlertItemBinding.inflate(inflater, parent, false)
+    }
+
+    override fun bindView(binding: FleaMarketAlertItemBinding, payloads: List<Any>) {
+        binding.alert = this
+        Glide.with(binding.root.context).load(fleaItem?.getItemIcon()).into(binding.fleaItemIcon)
     }
 }

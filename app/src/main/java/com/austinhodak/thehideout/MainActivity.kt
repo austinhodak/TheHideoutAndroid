@@ -160,14 +160,9 @@ class MainActivity : AppCompatActivity() {
                 PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Tarkov'd Simulator")
-                    iconRes = R.drawable.icons8_ammo_100
-                    isSelectable = false
+                    name = StringHolder("Dealers")
+                    iconRes = R.drawable.ic_baseline_groups_24
                     isEnabled = false
-                    onDrawerItemClickListener = { _, _, _ ->
-                        startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
-                        false
-                    }
                 },
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
@@ -190,9 +185,14 @@ class MainActivity : AppCompatActivity() {
                 PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Traders")
-                    iconRes = R.drawable.ic_baseline_groups_24
+                    name = StringHolder("Tarkov'd Simulator")
+                    iconRes = R.drawable.icons8_ammo_100
+                    isSelectable = false
                     isEnabled = false
+                    onDrawerItemClickListener = { _, _, _ ->
+                        startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
+                        false
+                    }
                 },
                 SectionDrawerItem().apply {
                     nameText = "Join us on"
