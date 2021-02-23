@@ -1,9 +1,11 @@
 package com.austinhodak.thehideout.calculator
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +13,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.calculator.models.Body
 import com.austinhodak.thehideout.calculator.models.Part
+import com.austinhodak.thehideout.calculator.pickers.CalculatorPickerActivity
 import com.austinhodak.thehideout.clothing.armor.ArmorHelper
 import com.austinhodak.thehideout.databinding.ActivityCalculatorMainNewBinding
 import com.austinhodak.thehideout.databinding.CalculatorBottomSheetBinding
@@ -30,6 +33,17 @@ class CalculatorMainActivity : AppCompatActivity() {
 
     private lateinit var ammoViewModel: AmmoViewModel
 
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK && result.data != null) {
+            if (result.data?.hasExtra("ammoID") == true) {
+                selectedAmmo = ammoViewModel.ammoList.value?.find { it.prices?.firstOrNull { it._id == result.data?.getStringExtra("ammoID") } != null }!!
+                selectedHelmet = null
+                selectedChestArmor = null
+                updateBottomSheet()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCalculatorMainNewBinding.inflate(layoutInflater).also {
@@ -37,9 +51,9 @@ class CalculatorMainActivity : AppCompatActivity() {
             bottomBinding = it.bottomSheet
         }
 
-        ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
+        setupToolbar()
 
-        setSupportActionBar(binding.toolbar)
+        ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
 
         val bs = BottomSheetBehavior.from(findViewById<ConstraintLayout>(R.id.bottomSheet))
         bs.skipCollapsed = true
@@ -61,13 +75,16 @@ class CalculatorMainActivity : AppCompatActivity() {
         body.linkToHealthBar(Part.RIGHTLEG, binding.healthRLeg)
 
         ammoViewModel.ammoList.observe(this) {
-            selectedAmmo = it.find { it.prices?.firstOrNull { it._id == "5f4a52549f319f4528ac3655" } != null }!!
+            selectedAmmo = it.find { it.prices?.firstOrNull { it._id == "5f4a52549f319f4528ac3646" } != null }!!
             updateBottomSheet()
             updateDurabilities()
         }
 
         selectedHelmet = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac3760" }
         selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac3758" }
+
+        selectedHelmet = null
+        selectedChestArmor = null
         updateDurabilities()
         updateBottomSheet()
 
@@ -105,6 +122,30 @@ class CalculatorMainActivity : AppCompatActivity() {
         body.onShootListener = {
             updateDurabilities()
         }
+
+        binding.bottomSheet.calcAmmoCard.setOnClickListener {
+            launchPicker(CalculatorPickerActivity.ItemType.AMMO)
+        }
+        binding.bottomSheet.calcHelmetCard.setOnClickListener {
+            launchPicker(CalculatorPickerActivity.ItemType.HELMET)
+        }
+        binding.bottomSheet.calcChestCard.setOnClickListener {
+            launchPicker(CalculatorPickerActivity.ItemType.CHEST)
+        }
+    }
+
+    private fun launchPicker(itemType: CalculatorPickerActivity.ItemType) {
+        val intent = Intent(this, CalculatorPickerActivity::class.java)
+        intent.putExtra("itemType", itemType)
+        resultLauncher.launch(intent)
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.md_nav_back)
+        binding.toolbar.setNavigationOnClickListener { finish() }
     }
 
     private fun updateDurabilities() {

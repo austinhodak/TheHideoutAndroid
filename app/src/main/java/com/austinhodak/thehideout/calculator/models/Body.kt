@@ -60,28 +60,28 @@ data class Body (
                 thorax.health -= sim.simulateHit(ammo, armor)
             }
             Part.STOMACH -> {
-                if (stomach.blacked()) doBlowthrough(stomach)
+                if (stomach.blacked()) doBlowthrough(stomach, ammo)
                 stomach.health -= sim.simulateHit(ammo, armor)
             }
             Part.LEFTARM -> {
 
                 leftArm.health -= sim.simulateHit(ammo, armor)
-                if (leftArm.blacked()) doBlowthrough(leftArm)
+                if (leftArm.blacked()) doBlowthrough(leftArm, ammo)
             }
             Part.RIGHTARM -> {
 
                 rightArm.health -= sim.simulateHit(ammo, armor)
-                if (rightArm.blacked()) doBlowthrough(rightArm)
+                if (rightArm.blacked()) doBlowthrough(rightArm, ammo)
             }
             Part.LEFTLEG -> {
 
                 leftLeg.health -= sim.simulateHit(ammo, armor)
-                if (leftLeg.blacked()) doBlowthrough(leftLeg)
+                if (leftLeg.blacked()) doBlowthrough(leftLeg, ammo)
             }
             Part.RIGHTLEG -> {
 
                 rightLeg.health -= sim.simulateHit(ammo, armor)
-                if (rightLeg.blacked()) doBlowthrough(rightLeg)
+                if (rightLeg.blacked()) doBlowthrough(rightLeg, ammo)
             }
         }
 
@@ -98,7 +98,7 @@ data class Body (
         return this
     }
 
-    private fun doBlowthrough(bodyPart: BodyPart) {
+    private fun doBlowthrough(bodyPart: BodyPart, ammo: CAmmo) {
         head.health -= (head.initialHealth * bodyPart.blowthrough * (1/6.0))
         thorax.health -= (thorax.initialHealth * bodyPart.blowthrough * (1/6.0))
         stomach.health -= (stomach.initialHealth * bodyPart.blowthrough * (1/6.0))
@@ -107,6 +107,14 @@ data class Body (
         leftLeg.health -= (leftLeg.initialHealth * bodyPart.blowthrough * (1/6.0))
         rightLeg.health -= (rightLeg.initialHealth * bodyPart.blowthrough * (1/6.0))
     }
+
+    //Battle Buddy
+    //Head 10,16
+    //Leg 19, 30
+
+    //Mine
+    //Head 6, 6
+    //Leg 11, 11
 
     private fun round() {
         head.health.roundToInt()

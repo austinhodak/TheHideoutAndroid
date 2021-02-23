@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
-        <activity android:name=".calculator.pickers.CalculatorPickerActivity"></activity>
+        <activity
+            android:name=".calculator.pickers.CalculatorPickerActivity"
+            android:theme="@style/Theme.TheHideout.NoActionBar"/>
         <activity
             android:name=".quests.inraid.QuestInRaidActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
