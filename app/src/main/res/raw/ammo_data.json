@@ -1,2874 +1,3280 @@
-[{
-  "armor_damage": 41,
-  "weight": 0.006,
-  "velocity": 716,
-  "damage": 58,
-  "penetration": 33,
-  "recoil": 0,
-  "accuracy": -4,
-  "tracer": true,
-  "armor": "666322",
-  "prices": [{
-    "value": 1.38,
-    "_id": "5f4a52549f319f4528ac3625",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "L191",
-  "image": "5.7x28/L191.png",
-  "caliber": "5f4a52549f319f4528ac3623"
-}, {
-  "armor_damage": 7,
-  "weight": 0.006,
-  "velocity": 729,
-  "damage": 98,
-  "penetration": 8,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "400000",
-  "prices": [{
-    "value": 231,
-    "_id": "5f4a52549f319f4528ac3627",
-    "trader": "Mechanic",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "R37.F",
-  "image": "5.7x28/R37F.png",
-  "caliber": "5f4a52549f319f4528ac3623"
-}, {
-  "armor_damage": 14,
-  "weight": 0.006,
-  "velocity": 724,
-  "damage": 81,
-  "penetration": 11,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "610000",
-  "prices": [{
-    "value": 200,
-    "_id": "5f4a52549f319f4528ac3629",
-    "trader": "Mechanic",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "R37.X",
-  "image": "5.7x28/R37X.png",
-  "caliber": "5f4a52549f319f4528ac3623"
-}, {
-  "armor_damage": 37,
-  "weight": 0.007,
-  "velocity": 305,
-  "damage": 54,
-  "penetration": 35,
-  "recoil": -20,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666432",
-  "prices": [{
-    "value": 1.96,
-    "_id": "5f4a52549f319f4528ac362b",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "SB193",
-  "image": "5.7x28/SB193.png",
-  "caliber": "5f4a52549f319f4528ac3623"
-}, {
-  "armor_damage": 43,
-  "weight": 0.006,
-  "velocity": 716,
-  "damage": 49,
-  "penetration": 37,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666543",
-  "prices": [{
-    "value": 2.64,
-    "_id": "5f4a52549f319f4528ac362d",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "SS190",
-  "image": "5.7x28/SS190.png",
-  "caliber": "5f4a52549f319f4528ac3623"
-}, {
-  "armor_damage": 22,
-  "weight": 0.007,
-  "velocity": 594,
-  "damage": 62,
-  "penetration": 20,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "662000",
-  "prices": [{
-    "value": 1.04,
-    "_id": "5f4a52549f319f4528ac362f",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "SS197SR",
-  "image": "5.7x28/SS197SR.png",
-  "caliber": "5f4a52549f319f4528ac3623"
-}, {
-  "armor_damage": 15,
-  "weight": 0.006,
-  "velocity": 792,
-  "damage": 74,
-  "penetration": 10,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "610000",
-  "prices": [{
-    "value": 1.27,
-    "_id": "5f4a52549f319f4528ac3631",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "SS198LF",
-  "image": "5.7x28/SS198LF.png",
-  "caliber": "5f4a52549f319f4528ac3623"
-}, {
-  "armor_damage": 36,
-  "weight": 0.015,
-  "velocity": 285,
-  "damage": 72,
-  "penetration": 19,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "651000",
-  "prices": [{
-    "value": 0.79,
-    "_id": "5f4a52549f319f4528ac3634",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "FMJ",
-  "image": "45/FMJ.png",
-  "caliber": "5f4a52549f319f4528ac3632"
-}, {
-  "armor_damage": 12,
-  "weight": 0.019,
-  "velocity": 293,
-  "damage": 127,
-  "penetration": 3,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "100000",
-  "prices": [{
-    "value": 430,
-    "_id": "5f4a52549f319f4528ac3636",
-    "trader": "Mechanic",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "RIP",
-  "image": "45/RIP.png",
-  "caliber": "5f4a52549f319f4528ac3632"
-}, {
-  "armor_damage": 30,
-  "weight": 0.017,
-  "velocity": 274,
-  "damage": 95,
-  "penetration": 13,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "630000",
-  "prices": [{
-    "value": 1.04,
-    "_id": "5f4a52549f319f4528ac3638",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "HS",
-  "image": "45/HS.png",
-  "caliber": "5f4a52549f319f4528ac3632"
-}, {
-  "armor_damage": 37,
-  "weight": 0.015,
-  "velocity": 290,
-  "damage": 74,
-  "penetration": 18,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": true,
-  "armor": "651000",
-  "prices": [{
-    "value": 0.83,
-    "_id": "5f4a52549f319f4528ac363a",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "LM",
-  "image": "45/LM.png",
-  "caliber": "5f4a52549f319f4528ac3632"
-}, {
-  "armor_damage": 43,
-  "weight": 0.015,
-  "velocity": 299,
-  "damage": 70,
-  "penetration": 36,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666532",
-  "prices": [{
-    "value": 2.06,
-    "_id": "5f4a52549f319f4528ac363c",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "AP",
-  "image": "45/LM.png",
-  "caliber": "5f4a52549f319f4528ac3632"
-}, {
-  "armor_damage": 60,
-  "weight": 0.07,
-  "velocity": 285,
-  "damage": 115,
-  "penetration": 28,
-  "recoil": 0,
-  "accuracy": -10,
-  "tracer": false,
-  "armor": "665210",
-  "prices": [{
-    "value": 361,
-    "_id": "5f4a52549f319f4528ac363f",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "PS12",
-  "image": "12.7x55/PS12.png",
-  "caliber": "5f4a52549f319f4528ac363d"
-}, {
-  "armor_damage": 22,
-  "weight": 0.044,
-  "velocity": 285,
-  "damage": 165,
-  "penetration": 10,
-  "recoil": -12,
-  "accuracy": -15,
-  "tracer": false,
-  "armor": "600000",
-  "prices": [{
-    "value": 342,
-    "_id": "5f4a52549f319f4528ac3641",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "PS12A",
-  "image": "12.7x55/PS12A.png",
-  "caliber": "5f4a52549f319f4528ac363d"
-}, {
-  "armor_damage": 57,
-  "weight": 0.055,
-  "velocity": 300,
-  "damage": 102,
-  "penetration": 46,
-  "recoil": 15,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666654",
-  "prices": [{
-    "value": 603,
-    "_id": "5f4a52549f319f4528ac3643",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "PS12B",
-  "image": "12.7x55/PS12B.png",
-  "caliber": "5f4a52549f319f4528ac363d"
-}, {
-  "weight": 0.23,
-  "velocity": 76,
-  "damage": 199,
-  "penetration": 1,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "------",
-  "prices": [{
-    "value": 49,
-    "_id": "5f4a52549f319f4528ac3646",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 2
-  }, {
-    "value": 71,
-    "_id": "5f4a52549f319f4528ac3647",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "M381",
-  "image": "40x46/M381.png",
-  "caliber": "5f4a52549f319f4528ac3644"
-}, {
-  "weight": 0.23,
-  "velocity": 76,
-  "damage": 199,
-  "penetration": 1,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "------",
-  "prices": [{
-    "value": 49,
-    "_id": "5f4a52549f319f4528ac3649",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 2
-  }, {
-    "value": 85,
-    "_id": "5f4a52549f319f4528ac364a",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "M386",
-  "image": "40x46/M386.png",
-  "caliber": "5f4a52549f319f4528ac3644"
-}, {
-  "weight": 0.23,
-  "velocity": 76,
-  "damage": 199,
-  "penetration": 1,
-  "recoil": -10,
-  "accuracy": 15,
-  "tracer": false,
-  "armor": "------",
-  "prices": [],
-  "tradeups": [],
-  "name": "M406",
-  "image": "40x46/M406.png",
-  "caliber": "5f4a52549f319f4528ac3644"
-}, {
-  "weight": 0.23,
-  "velocity": 76,
-  "damage": 199,
-  "penetration": 1,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "------",
-  "prices": [],
-  "tradeups": [],
-  "name": "M441",
-  "image": "40x46/M441.png",
-  "caliber": "5f4a52549f319f4528ac3644"
-}, {
-  "weight": 0.23,
-  "velocity": 269,
-  "damage": 160,
-  "penetration": 5,
-  "recoil": 0,
-  "accuracy": 100,
-  "tracer": false,
-  "armor": "------",
-  "prices": [{
-    "value": 49,
-    "_id": "5f4a52549f319f4528ac364e",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 2
-  }, {
-    "value": 85,
-    "_id": "5f4a52549f319f4528ac364f",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "M576",
-  "image": "40x46/M576.png",
-  "caliber": "5f4a52549f319f4528ac3644"
-}, {
-  "armor_damage": 48,
-  "weight": 0.016,
-  "velocity": 580,
-  "damage": 98,
-  "penetration": 23,
-  "recoil": 10,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "664100",
-  "prices": [{
-    "value": 49,
-    "_id": "5f4a52549f319f4528ac3652",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 2
-  }, {
-    "value": 43,
-    "_id": "5f4a52549f319f4528ac3653",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "FMJ",
-  "image": "366/FMJ.png",
-  "caliber": "5f4a52549f319f4528ac3650"
-}, {
-  "armor_damage": 40,
-  "weight": 0.01,
-  "velocity": 770,
-  "damage": 73,
-  "penetration": 30,
-  "recoil": -15,
-  "accuracy": -10,
-  "tracer": false,
-  "armor": "666310",
-  "prices": [{
-    "value": 67,
-    "_id": "5f4a52549f319f4528ac3655",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "EKO",
-  "image": "366/EKO.png",
-  "caliber": "5f4a52549f319f4528ac3650"
-}, {
-  "armor_damage": 38,
-  "weight": 0.016,
-  "velocity": 550,
-  "damage": 110,
-  "penetration": 14,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "630000",
-  "prices": [{
-    "value": 59,
-    "_id": "5f4a52549f319f4528ac3657",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "Geksa",
-  "image": "366/Geksa.png",
-  "caliber": "5f4a52549f319f4528ac3650"
-}, {
-  "armor_damage": 60,
-  "weight": 0.019,
-  "velocity": 602,
-  "damage": 90,
-  "penetration": 42,
-  "recoil": 35,
-  "accuracy": -28,
-  "tracer": false,
-  "armor": "666654",
-  "prices": [{
-    "value": 238,
-    "_id": "5f4a52549f319f4528ac3659",
-    "trader": "Mechanic",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "AP",
-  "image": "366/AP.png",
-  "caliber": "5f4a52549f319f4528ac3650"
-}, {
-  "armor_damage": 40,
-  "bullets": 1,
-  "weight": 0.044,
-  "velocity": 410,
-  "damage": 140,
-  "penetration": 17,
-  "recoil": -15,
-  "accuracy": 110,
-  "tracer": false,
-  "armor": "651000",
-  "prices": [{
-    "value": 53,
-    "_id": "5f4a52549f319f4528ac365c",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "Poleva-3 Slug",
-  "image": "12x70/Poleva-3_Slug.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 50,
-  "bullets": 1,
-  "weight": 0.048,
-  "velocity": 430,
-  "damage": 150,
-  "penetration": 20,
-  "recoil": -10,
-  "accuracy": 115,
-  "tracer": false,
-  "armor": "662000",
-  "prices": [{
-    "value": 70,
-    "_id": "5f4a52549f319f4528ac365e",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "Poleva-6u Slug",
-  "image": "12x70/Poleva-6u_Slug.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 15,
-  "bullets": 8,
-  "weight": 0.044,
-  "velocity": 320,
-  "damage": 37,
-  "penetration": 1,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "333333",
-  "prices": [{
-    "value": 36,
-    "_id": "5f4a52549f319f4528ac3660",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "5.25mm Buckshot",
-  "image": "12x70/525_Buckshot.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 26,
-  "bullets": 8,
-  "weight": 0.059,
-  "velocity": 330,
-  "damage": 50,
-  "penetration": 2,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "333333",
-  "prices": [{
-    "value": 51,
-    "_id": "5f4a52549f319f4528ac3662",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "8.5mm Magnum Buckshot",
-  "image": "12x70/85_Magnum_Buckshot.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 65,
-  "bullets": 1,
-  "weight": 0.05,
-  "velocity": 510,
-  "damage": 164,
-  "penetration": 37,
-  "recoil": 50,
-  "accuracy": 125,
-  "tracer": false,
-  "armor": "666543",
-  "prices": [{
-    "value": 196,
-    "_id": "5f4a52549f319f4528ac3664",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "AP-20 Slug",
-  "image": "12x70/AP-20_Slug.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 65,
-  "bullets": 2,
-  "weight": 0.05,
-  "velocity": 415,
-  "damage": 85,
-  "penetration": 17,
-  "recoil": 15,
-  "accuracy": 100,
-  "tracer": false,
-  "armor": "652000",
-  "prices": [{
-    "value": 70,
-    "_id": "5f4a52549f319f4528ac3666",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "Dual Sabot Slug",
-  "image": "12x70/Dual_Sabot_Slug.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 50,
-  "bullets": 1,
-  "weight": 0.026,
-  "velocity": 480,
-  "damage": 183,
-  "penetration": 20,
-  "recoil": 0,
-  "accuracy": 135,
-  "tracer": false,
-  "armor": "662000",
-  "prices": [{
-    "value": 73,
-    "_id": "5f4a52549f319f4528ac3668",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "FTX Custom LIte Slug",
-  "image": "12x70/FTX_Custom_LIte_Slug.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 26,
-  "bullets": 8,
-  "weight": 0.04,
-  "velocity": 320,
-  "damage": 25,
-  "penetration": 31,
-  "recoil": 0,
-  "accuracy": -25,
-  "tracer": false,
-  "armor": "666555",
-  "prices": [{
-    "value": 77,
-    "_id": "5f4a52549f319f4528ac366a",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "Flechette",
-  "image": "12x70/Flechette.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 48,
-  "bullets": 1,
-  "weight": 0.055,
-  "velocity": 390,
-  "damage": 190,
-  "penetration": 12,
-  "recoil": 20,
-  "accuracy": 80,
-  "tracer": false,
-  "armor": "620000",
-  "prices": [{
-    "value": 68,
-    "_id": "5f4a52549f319f4528ac366c",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "Grizzly Slug",
-  "image": "12x70/Grizzly_Slug.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 12,
-  "bullets": 1,
-  "weight": 0.034,
-  "velocity": 594,
-  "damage": 220,
-  "penetration": 2,
-  "recoil": -15,
-  "accuracy": 170,
-  "tracer": false,
-  "armor": "000000",
-  "prices": [{
-    "value": 196,
-    "_id": "5f4a52549f319f4528ac366e",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "HP Slug SuperFormance",
-  "image": "12x70/HP_Slug_SuperFormance.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 46,
-  "bullets": 1,
-  "weight": 0.043,
-  "velocity": 442,
-  "damage": 206,
-  "penetration": 14,
-  "recoil": 10,
-  "accuracy": 150,
-  "tracer": false,
-  "armor": "631000",
-  "prices": [{
-    "value": 84,
-    "_id": "5f4a52549f319f4528ac3670",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "HP Slug Copper Sabot Premier",
-  "image": "12x70/HP_Slug_Copper_Sabot_Premier.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 26,
-  "bullets": 9,
-  "weight": 0.048,
-  "velocity": 430,
-  "damage": 35,
-  "penetration": 3,
-  "recoil": 0,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "333333",
-  "prices": [{
-    "value": 40,
-    "_id": "5f4a52549f319f4528ac3672",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "6.5mm Express Buckshot",
-  "image": "12x70/6.5mm_Express_Buckshot.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 26,
-  "bullets": 8,
-  "weight": 0.05,
-  "velocity": 430,
-  "damage": 39,
-  "penetration": 3,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "333333",
-  "prices": [{
-    "value": 31,
-    "_id": "5f4a52549f319f4528ac3674",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }, {
-    "value": 32,
-    "_id": "5f4a52549f319f4528ac3675",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }, {
-    "value": 34,
-    "_id": "5f4a52549f319f4528ac3676",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "7mm Buckshot",
-  "image": "12x70/7mm_Buckshot.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 55,
-  "bullets": 1,
-  "weight": 0.05,
-  "velocity": 370,
-  "damage": 167,
-  "penetration": 15,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "641000",
-  "prices": [{
-    "value": 60,
-    "_id": "5f4a52549f319f4528ac3678",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }, {
-    "value": 63,
-    "_id": "5f4a52549f319f4528ac3679",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 1
-  }, {
-    "value": 58,
-    "_id": "5f4a52549f319f4528ac367a",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }, {
-    "value": 0.53,
-    "_id": "5f4a52549f319f4528ac367b",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "Led Slug",
-  "image": "12x70/Led_Slug.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 57,
-  "bullets": 1,
-  "weight": 0.055,
-  "velocity": 430,
-  "damage": 197,
-  "penetration": 26,
-  "recoil": 25,
-  "accuracy": 90,
-  "tracer": true,
-  "armor": "665310",
-  "prices": [{
-    "value": 127,
-    "_id": "5f4a52549f319f4528ac367d",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "Shell with .50 BMG bullet",
-  "image": "12x70/50_BMG_bullet.png",
-  "caliber": "5f4a52549f319f4528ac365a"
-}, {
-  "armor_damage": 12,
-  "bullets": 8,
-  "weight": 0.028,
-  "velocity": 340,
-  "damage": 26,
-  "penetration": 1,
-  "recoil": 10,
-  "accuracy": -10,
-  "tracer": false,
-  "armor": "333333",
-  "prices": [{
-    "value": 21,
-    "_id": "5f4a52549f319f4528ac3680",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "5.6mm Buckshot",
-  "image": "20x70/56_Buckshot.png",
-  "caliber": "5f4a52549f319f4528ac367e"
-}, {
-  "armor_damage": 13,
-  "bullets": 8,
-  "weight": 0.032,
-  "velocity": 410,
-  "damage": 22,
-  "penetration": 2,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "333333",
-  "prices": [{
-    "value": 31,
-    "_id": "5f4a52549f319f4528ac3682",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "6.2mm Buckshot",
-  "image": "20x70/62_Buckshot.png",
-  "caliber": "5f4a52549f319f4528ac367e"
-}, {
-  "armor_damage": 13,
-  "bullets": 9,
-  "weight": 0.032,
-  "velocity": 475,
-  "damage": 23,
-  "penetration": 3,
-  "recoil": 15,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "333333",
-  "prices": [{
-    "value": 39,
-    "_id": "5f4a52549f319f4528ac3684",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "7.3mm Buckshot",
-  "image": "20x70/73_Buckshot.png",
-  "caliber": "5f4a52549f319f4528ac367e"
-}, {
-  "armor_damage": 13,
-  "bullets": 1,
-  "weight": 0.029,
-  "velocity": 405,
-  "damage": 198,
-  "penetration": 5,
-  "recoil": 30,
-  "accuracy": 125,
-  "tracer": false,
-  "armor": "100000",
-  "prices": [{
-    "value": 184,
-    "_id": "5f4a52549f319f4528ac3686",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "Devastator Slug",
-  "image": "20x70/Devastator_Slug.png",
-  "caliber": "5f4a52549f319f4528ac367e"
-}, {
-  "armor_damage": 35,
-  "bullets": 1,
-  "weight": 0.029,
-  "velocity": 425,
-  "damage": 120,
-  "penetration": 14,
-  "recoil": -15,
-  "accuracy": 110,
-  "tracer": false,
-  "armor": "620000",
-  "prices": [{
-    "value": 49,
-    "_id": "5f4a52549f319f4528ac3688",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "Slug Poleva-3",
-  "image": "20x70/Slug_Poleva-3.png",
-  "caliber": "5f4a52549f319f4528ac367e"
-}, {
-  "armor_damage": 40,
-  "bullets": 1,
-  "weight": 0.032,
-  "velocity": 445,
-  "damage": 135,
-  "penetration": 17,
-  "recoil": -10,
-  "accuracy": 110,
-  "tracer": false,
-  "armor": "651000",
-  "prices": [{
-    "value": 67,
-    "_id": "5f4a52549f319f4528ac368a",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "Slug Poleva-6u",
-  "image": "20x70/Slug_Poleva-6u.png",
-  "caliber": "5f4a52549f319f4528ac367e"
-}, {
-  "armor_damage": 42,
-  "bullets": 1,
-  "weight": 0.032,
-  "velocity": 445,
-  "damage": 154,
-  "penetration": 16,
-  "recoil": 5,
-  "accuracy": 130,
-  "tracer": false,
-  "armor": "651000",
-  "prices": [{
-    "value": 83,
-    "_id": "5f4a52549f319f4528ac368c",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "Star Slug",
-  "image": "20x70/Star_Slug.png",
-  "caliber": "5f4a52549f319f4528ac367e"
-}, {
-  "armor_damage": 14,
-  "bullets": 8,
-  "weight": 0.04,
-  "velocity": 430,
-  "damage": 25,
-  "penetration": 3,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "333333",
-  "prices": [{
-    "value": 25,
-    "_id": "5f4a52549f319f4528ac368e",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }, {
-    "value": 27,
-    "_id": "5f4a52549f319f4528ac368f",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "7.5mm Buckshot",
-  "image": "20x70/75_Buckshot.png",
-  "caliber": "5f4a52549f319f4528ac367e"
-}, {
-  "armor_damage": 39,
-  "weight": 0.007,
-  "velocity": 690,
-  "damage": 65,
-  "penetration": 13,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "621000",
-  "prices": [{
-    "value": 105,
-    "_id": "5f4a52549f319f4528ac3692",
-    "trader": "Mechanic",
-    "currency": "R",
-    "level": 1
-  }, {
-    "value": 0.93,
-    "_id": "5f4a52549f319f4528ac3693",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "Action SX",
-  "image": "4.6x30/Action_SX.png",
-  "caliber": "5f4a52549f319f4528ac3690"
-}, {
-  "armor_damage": 41,
-  "weight": 0.007,
-  "velocity": 620,
-  "damage": 43,
-  "penetration": 40,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666643",
-  "prices": [{
-    "value": 2,
-    "_id": "5f4a52549f319f4528ac3695",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "FMJ SX",
-  "image": "4.6x30/FMJ_SX.png",
-  "caliber": "5f4a52549f319f4528ac3690"
-}, {
-  "armor_damage": 46,
-  "weight": 0.007,
-  "velocity": 680,
-  "damage": 35,
-  "penetration": 53,
-  "recoil": 10,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666665",
-  "prices": [{
-    "value": 751,
-    "_id": "5f4a52549f319f4528ac3697",
-    "trader": "Mechanic",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "AP SX",
-  "image": "4.6x30/AP_SX.png",
-  "caliber": "5f4a52549f319f4528ac3690"
-}, {
-  "armor_damage": 46,
-  "weight": 0.01,
-  "velocity": 680,
-  "damage": 45,
-  "penetration": 36,
-  "recoil": -22,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "666532",
-  "prices": [{
-    "value": 269,
-    "_id": "5f4a52549f319f4528ac3699",
-    "trader": "Mechanic",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "Subsonic SX",
-  "image": "4.6x30/AP_SX.png",
-  "caliber": "5f4a52549f319f4528ac3690"
-}, {
-  "armor_damage": 35,
-  "weight": 0.01,
-  "velocity": 890,
-  "damage": 50,
-  "penetration": 25,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "664100",
-  "prices": [{
-    "value": 79,
-    "_id": "5f4a52549f319f4528ac369c",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "PS",
-  "image": "5.45x39/PS.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 38,
-  "weight": 0.01,
-  "velocity": 883,
-  "damage": 57,
-  "penetration": 20,
-  "recoil": -5,
-  "accuracy": 5,
-  "tracer": true,
-  "armor": "661000",
-  "prices": [{
-    "value": 43,
-    "_id": "5f4a52549f319f4528ac369e",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "T",
-  "image": "5.45x39/T.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 28,
-  "weight": 0.01,
-  "velocity": 890,
-  "damage": 60,
-  "penetration": 14,
-  "recoil": -5,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "620000",
-  "prices": [{
-    "value": 49,
-    "_id": "5f4a52549f319f4528ac36a0",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "PRS",
-  "image": "5.45x39/PRS.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 32,
-  "weight": 0.01,
-  "velocity": 890,
-  "damage": 46,
-  "penetration": 30,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666320",
-  "prices": [{
-    "value": 155,
-    "_id": "5f4a52549f319f4528ac36a2",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "PP",
-  "image": "5.45x39/PP.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 20,
-  "weight": 0.01,
-  "velocity": 884,
-  "damage": 74,
-  "penetration": 11,
-  "recoil": 5,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "610000",
-  "prices": [{
-    "value": 70,
-    "_id": "5f4a52549f319f4528ac36a4",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "HP",
-  "image": "5.45x39/HP.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 34,
-  "weight": 0.01,
-  "velocity": 873,
-  "damage": 68,
-  "penetration": 11,
-  "recoil": -15,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "610000",
-  "prices": [{
-    "value": 62,
-    "_id": "5f4a52549f319f4528ac36a6",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "SP",
-  "image": "5.45x39/SP.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 30,
-  "weight": 0.01,
-  "velocity": 884,
-  "damage": 54,
-  "penetration": 20,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "651000",
-  "prices": [{
-    "value": 37,
-    "_id": "5f4a52549f319f4528ac36a8",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "FMJ",
-  "image": "5.45x39/FMJ.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 34,
-  "weight": 0.01,
-  "velocity": 303,
-  "damage": 65,
-  "penetration": 15,
-  "recoil": -25,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "630000",
-  "prices": [{
-    "value": 84,
-    "_id": "5f4a52549f319f4528ac36aa",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "US",
-  "image": "5.45x39/US.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 41,
-  "weight": 0.01,
-  "velocity": 890,
-  "damage": 48,
-  "penetration": 32,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666431",
-  "prices": [{
-    "value": 349,
-    "_id": "5f4a52549f319f4528ac36ac",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [{
-    "items": [],
-    "_id": "5f4a52549f319f4528ac36ad",
-    "trader": "Prapor",
-    "level": 1
-  }],
-  "name": "BP",
-  "image": "5.45x39/BP.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 57,
-  "weight": 0.01,
-  "velocity": 830,
-  "damage": 40,
-  "penetration": 51,
-  "recoil": 10,
-  "accuracy": -3,
-  "tracer": false,
-  "armor": "666665",
-  "prices": [{
-    "value": 36,
-    "_id": "5f4a52549f319f4528ac36af",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [{
-    "items": [],
-    "_id": "5f4a52549f319f4528ac36b0",
-    "trader": "Prapor",
-    "level": 3
-  }],
-  "name": "BS",
-  "image": "5.45x39/BS.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 49,
-  "weight": 0.01,
-  "velocity": 880,
-  "damage": 44,
-  "penetration": 37,
-  "recoil": 3,
-  "accuracy": -2,
-  "tracer": true,
-  "armor": "666543",
-  "prices": [{
-    "value": 509,
-    "_id": "5f4a52549f319f4528ac36b2",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [{
-    "items": [],
-    "_id": "5f4a52549f319f4528ac36b3",
-    "trader": "Prapor",
-    "level": 1
-  }, {
-    "items": [],
-    "_id": "5f4a52549f319f4528ac36b4",
-    "trader": "Prapor",
-    "level": 2
-  }],
-  "name": "BT",
-  "image": "5.45x39/BT.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 60,
-  "weight": 0.011,
-  "velocity": 905,
-  "damage": 37,
-  "penetration": 62,
-  "recoil": 15,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666666",
-  "prices": [],
-  "tradeups": [],
-  "name": "7N39",
-  "image": "5.45x39/7N39.png",
-  "caliber": "5f4a52549f319f4528ac369a"
-}, {
-  "armor_damage": 37,
-  "weight": 0.012,
-  "velocity": 922,
-  "damage": 50,
-  "penetration": 30,
-  "recoil": 0,
-  "accuracy": -5,
-  "tracer": false,
-  "armor": "666320",
-  "prices": [{
-    "value": 1.51,
-    "_id": "5f4a52549f319f4528ac36b8",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "M855",
-  "image": "5.56x45/M855.png",
-  "caliber": "5f4a52549f319f4528ac36b6"
-}, {
-  "armor_damage": 52,
-  "weight": 0.012,
-  "velocity": 945,
-  "damage": 45,
-  "penetration": 43,
-  "recoil": 0,
-  "accuracy": -10,
-  "tracer": false,
-  "armor": "666654",
-  "prices": [{
-    "value": 300,
-    "_id": "5f4a52549f319f4528ac36ba",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 4
-  }, {
-    "value": 2.09,
-    "_id": "5f4a52549f319f4528ac36bb",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "M855A1",
-  "image": "5.56x45/M855A1.png",
-  "caliber": "5f4a52549f319f4528ac36b6"
-}, {
-  "armor_damage": 33,
-  "weight": 0.012,
-  "velocity": 957,
-  "damage": 52,
-  "penetration": 24,
-  "recoil": -5,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "664100",
-  "prices": [{
-    "value": 65,
-    "_id": "5f4a52549f319f4528ac36bd",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "55 FMJ",
-  "image": "5.56x45/55FMJ.png",
-  "caliber": "5f4a52549f319f4528ac36b6"
-}, {
-  "armor_damage": 22,
-  "weight": 0.012,
-  "velocity": 947,
-  "damage": 75,
-  "penetration": 9,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "500000",
-  "prices": [{
-    "value": 60,
-    "_id": "5f4a52549f319f4528ac36bf",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "55 HP",
-  "image": "5.56x45/55HP.png",
-  "caliber": "5f4a52549f319f4528ac36b6"
-}, {
-  "armor_damage": 52,
-  "weight": 0.012,
-  "velocity": 874,
-  "damage": 55,
-  "penetration": 23,
-  "recoil": -2,
-  "accuracy": -5,
-  "tracer": true,
-  "armor": "663100",
-  "prices": [{
-    "value": 1.21,
-    "_id": "5f4a52549f319f4528ac36c1",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "M856",
-  "image": "5.56x45/M856.png",
-  "caliber": "5f4a52549f319f4528ac36b6"
-}, {
-  "armor_damage": 52,
-  "weight": 0.012,
-  "velocity": 940,
-  "damage": 51,
-  "penetration": 37,
-  "recoil": 4,
-  "accuracy": -2,
-  "tracer": true,
-  "armor": "666543",
-  "prices": [{
-    "value": 1.07,
-    "_id": "5f4a52549f319f4528ac36c3",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "M856A1",
-  "image": "5.56x45/M856A1.png",
-  "caliber": "5f4a52549f319f4528ac36b6"
-}, {
-  "armor_damage": 32,
-  "weight": 0.012,
-  "velocity": 936,
-  "damage": 60,
-  "penetration": 17,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "641000",
-  "prices": [{
-    "value": 1.28,
-    "_id": "5f4a52549f319f4528ac36c5",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "MK255",
-  "image": "5.56x45/MK255.png",
-  "caliber": "5f4a52549f319f4528ac36b6"
-}, {
-  "armor_damage": 14,
-  "weight": 0.011,
-  "velocity": 910,
-  "damage": 85,
-  "penetration": 3,
-  "recoil": 10,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "100000",
-  "prices": [],
-  "tradeups": [{
-    "items": [],
-    "_id": "5f4a52549f319f4528ac36c7",
-    "trader": "Peacekeeper",
-    "level": 3
-  }, {
-    "items": [],
-    "_id": "5f4a52549f319f4528ac36c8",
-    "trader": "Jaeger",
-    "level": 4
-  }],
-  "name": "Warmage",
-  "image": "5.56x45/Warmage.png",
-  "caliber": "5f4a52549f319f4528ac36b6"
-}, {
-  "armor_damage": 58,
-  "weight": 0.012,
-  "velocity": 1013,
-  "damage": 40,
-  "penetration": 53,
-  "recoil": 8,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666665",
-  "prices": [{
-    "value": 12.32,
-    "_id": "5f4a52549f319f4528ac36ca",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "M995",
-  "image": "5.56x45/M995.png",
-  "caliber": "5f4a52549f319f4528ac36b6"
-}, {
-  "armor_damage": 32,
-  "weight": 0.01,
-  "velocity": 430,
-  "damage": 58,
-  "penetration": 10,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "630000",
-  "prices": [{
-    "value": 56,
-    "_id": "5f4a52549f319f4528ac36cd",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "P",
-  "image": "7.62x25/P.png",
-  "caliber": "5f4a52549f319f4528ac36cb"
-}, {
-  "armor_damage": 32,
-  "weight": 0.01,
-  "velocity": 425,
-  "damage": 58,
-  "penetration": 9,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "620000",
-  "prices": [{
-    "value": 52,
-    "_id": "5f4a52549f319f4528ac36cf",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "AKBS",
-  "image": "7.62x25/AKBS.png",
-  "caliber": "5f4a52549f319f4528ac36cb"
-}, {
-  "armor_damage": 29,
-  "weight": 0.01,
-  "velocity": 427,
-  "damage": 60,
-  "penetration": 8,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "610000",
-  "prices": [{
-    "value": 53,
-    "_id": "5f4a52549f319f4528ac36d1",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "FMJ43",
-  "image": "7.62x25/FMJ43.png",
-  "caliber": "5f4a52549f319f4528ac36cb"
-}, {
-  "armor_damage": 27,
-  "weight": 0.01,
-  "velocity": 385,
-  "damage": 66,
-  "penetration": 5,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "500000",
-  "prices": [{
-    "value": 70,
-    "_id": "5f4a52549f319f4528ac36d3",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "LRNPC",
-  "image": "7.62x25/LRNPC.png",
-  "caliber": "5f4a52549f319f4528ac36cb"
-}, {
-  "armor_damage": 28,
-  "weight": 0.01,
-  "velocity": 375,
-  "damage": 64,
-  "penetration": 6,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "500000",
-  "prices": [{
-    "value": 49,
-    "_id": "5f4a52549f319f4528ac36d5",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "LRN",
-  "image": "7.62x25/LRN.png",
-  "caliber": "5f4a52549f319f4528ac36cb"
-}, {
-  "armor_damage": 36,
-  "weight": 0.01,
-  "velocity": 430,
-  "damage": 50,
-  "penetration": 24,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "664100",
-  "prices": [{
-    "value": 75,
-    "_id": "5f4a52549f319f4528ac36d7",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "PST",
-  "image": "7.62x25/PST.png",
-  "caliber": "5f4a52549f319f4528ac36cb"
-}, {
-  "armor_damage": 34,
-  "weight": 0.01,
-  "velocity": 415,
-  "damage": 60,
-  "penetration": 12,
-  "recoil": 0,
-  "accuracy": -5,
-  "tracer": true,
-  "armor": "630000",
-  "prices": [{
-    "value": 67,
-    "_id": "5f4a52549f319f4528ac36d9",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "PT",
-  "image": "7.62x25/PT.png",
-  "caliber": "5f4a52549f319f4528ac36cb"
-}, {
-  "armor_damage": 52,
-  "weight": 0.016,
-  "velocity": 700,
-  "damage": 57,
-  "penetration": 32,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666432",
-  "prices": [{
-    "value": 88,
-    "_id": "5f4a52549f319f4528ac36dc",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "PS",
-  "image": "7.62x39/PS.png",
-  "caliber": "5f4a52549f319f4528ac36da"
-}, {
-  "armor_damage": 35,
-  "weight": 0.016,
-  "velocity": 754,
-  "damage": 87,
-  "penetration": 15,
-  "recoil": 0,
-  "accuracy": -5,
-  "tracer": false,
-  "armor": "641000",
-  "prices": [{
-    "value": 62,
-    "_id": "5f4a52549f319f4528ac36de",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "HP",
-  "image": "7.62x39/HP.png",
-  "caliber": "5f4a52549f319f4528ac36da"
-}, {
-  "armor_damage": 42,
-  "weight": 0.01,
-  "velocity": 300,
-  "damage": 56,
-  "penetration": 29,
-  "recoil": -30,
-  "accuracy": 5,
-  "tracer": false,
-  "armor": "665310",
-  "prices": [{
-    "value": 157,
-    "_id": "5f4a52549f319f4528ac36e0",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "US",
-  "image": "7.62x39/US.png",
-  "caliber": "5f4a52549f319f4528ac36da"
-}, {
-  "armor_damage": 46,
-  "weight": 0.01,
-  "velocity": 720,
-  "damage": 62,
-  "penetration": 30,
-  "recoil": -6,
-  "accuracy": -4,
-  "tracer": true,
-  "armor": "666310",
-  "prices": [{
-    "value": 71,
-    "_id": "5f4a52549f319f4528ac36e2",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "T45M",
-  "image": "7.62x39/T45M.png",
-  "caliber": "5f4a52549f319f4528ac36da"
-}, {
-  "armor_damage": 63,
-  "weight": 0.01,
-  "velocity": 730,
-  "damage": 58,
-  "penetration": 47,
-  "recoil": 5,
-  "accuracy": -3,
-  "tracer": false,
-  "armor": "666654",
-  "prices": [{
-    "value": 745,
-    "_id": "5f4a52549f319f4528ac36e4",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "BP",
-  "image": "7.62x39/BP.png",
-  "caliber": "5f4a52549f319f4528ac36da"
-}, {
-  "armor_damage": 33,
-  "weight": 0.022,
-  "velocity": 833,
-  "damage": 88,
-  "penetration": 31,
-  "recoil": -3,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666200",
-  "prices": [{
-    "value": 153,
-    "_id": "5f4a52549f319f4528ac36e7",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "BZP FMJ",
-  "image": "7.62x51/BZP_FMJ.png",
-  "caliber": "5f4a52549f319f4528ac36e5"
-}, {
-  "armor_damage": 66,
-  "weight": 0.024,
-  "velocity": 833,
-  "damage": 80,
-  "penetration": 41,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666654",
-  "prices": [{
-    "value": 1.69,
-    "_id": "5f4a52549f319f4528ac36e9",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "M80",
-  "image": "7.62x51/M80.png",
-  "caliber": "5f4a52549f319f4528ac36e5"
-}, {
-  "armor_damage": 83,
-  "weight": 0.024,
-  "velocity": 849,
-  "damage": 70,
-  "penetration": 68,
-  "recoil": 10,
-  "accuracy": 3,
-  "tracer": false,
-  "armor": "666666",
-  "prices": [{
-    "value": 8.98,
-    "_id": "5f4a52549f319f4528ac36eb",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "M61",
-  "image": "7.62x51/M61.png",
-  "caliber": "5f4a52549f319f4528ac36e5"
-}, {
-  "armor_damage": 75,
-  "weight": 0.024,
-  "velocity": 816,
-  "damage": 79,
-  "penetration": 54,
-  "recoil": -5,
-  "accuracy": -6,
-  "tracer": true,
-  "armor": "666655",
-  "prices": [{
-    "value": 3.97,
-    "_id": "5f4a52549f319f4528ac36ed",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "M62",
-  "image": "7.62x51/M62.png",
-  "caliber": "5f4a52549f319f4528ac36e5"
-}, {
-  "armor_damage": 40,
-  "weight": 0.023,
-  "velocity": 808,
-  "damage": 60,
-  "penetration": 36,
-  "recoil": -5,
-  "accuracy": -8,
-  "tracer": false,
-  "armor": "666520",
-  "prices": [{
-    "value": 113,
-    "_id": "5f4a52549f319f4528ac36ef",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "TPZ SP",
-  "image": "7.62x51/TPZ_SP.png",
-  "caliber": "5f4a52549f319f4528ac36e5"
-}, {
-  "armor_damage": 20,
-  "weight": 0.021,
-  "velocity": 822,
-  "damage": 102,
-  "penetration": 15,
-  "recoil": -5,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "640000",
-  "prices": [{
-    "value": 327,
-    "_id": "5f4a52549f319f4528ac36f1",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "Ultra Nosler",
-  "image": "7.62x51/Ultra_Nosler.png",
-  "caliber": "5f4a52549f319f4528ac36e5"
-}, {
-  "armor_damage": 85,
-  "weight": 0.024,
-  "velocity": 910,
-  "damage": 67,
-  "penetration": 70,
-  "recoil": 8,
-  "accuracy": 5,
-  "tracer": false,
-  "armor": "666666",
-  "prices": [],
-  "tradeups": [],
-  "name": "M993",
-  "image": "7.62x51/M993.png",
-  "caliber": "5f4a52549f319f4528ac36e5"
-}, {
-  "armor_damage": 84,
-  "weight": 0.024,
-  "velocity": 875,
-  "damage": 86,
-  "penetration": 45,
-  "recoil": 8,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "666655",
-  "prices": [{
-    "value": 228,
-    "_id": "5f4a52549f319f4528ac36f5",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "7N1",
-  "image": "7.62x54R/7N1.png",
-  "caliber": "5f4a52549f319f4528ac36f3"
-}, {
-  "armor_damage": 87,
-  "weight": 0.024,
-  "velocity": 820,
-  "damage": 78,
-  "penetration": 59,
-  "recoil": -4,
-  "accuracy": -2,
-  "tracer": true,
-  "armor": "666666",
-  "prices": [{
-    "value": 579,
-    "_id": "5f4a52549f319f4528ac36f7",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "7BT1",
-  "image": "7.62x54R/7BT1.png",
-  "caliber": "5f4a52549f319f4528ac36f3"
-}, {
-  "armor_damage": 88,
-  "weight": 0.025,
-  "velocity": 820,
-  "damage": 72,
-  "penetration": 70,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666666",
-  "prices": [{
-    "value": 974,
-    "_id": "5f4a52549f319f4528ac36f9",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "7N37",
-  "image": "7.62x54R/7N37.png",
-  "caliber": "5f4a52549f319f4528ac36f3"
-}, {
-  "armor_damage": 78,
-  "weight": 0.024,
-  "velocity": 865,
-  "damage": 81,
-  "penetration": 42,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666643",
-  "prices": [{
-    "value": 447,
-    "_id": "5f4a52549f319f4528ac36fb",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "LPS",
-  "image": "7.62x54R/LPS.png",
-  "caliber": "5f4a52549f319f4528ac36f3"
-}, {
-  "armor_damage": 87,
-  "weight": 0.024,
-  "velocity": 875,
-  "damage": 75,
-  "penetration": 62,
-  "recoil": 10,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666666",
-  "prices": [{
-    "value": 517,
-    "_id": "5f4a52549f319f4528ac36fd",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "SNB",
-  "image": "7.62x54R/SNB.png",
-  "caliber": "5f4a52549f319f4528ac36f3"
-}, {
-  "armor_damage": 83,
-  "weight": 0.025,
-  "velocity": 875,
-  "damage": 82,
-  "penetration": 41,
-  "recoil": -5,
-  "accuracy": -1,
-  "tracer": true,
-  "armor": "666643",
-  "prices": [{
-    "value": 251,
-    "_id": "5f4a52549f319f4528ac36ff",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "T-46M",
-  "image": "7.62x54R/T-46M.png",
-  "caliber": "5f4a52549f319f4528ac36f3"
-}, {
-  "armor_damage": 16,
-  "weight": 0.011,
-  "velocity": 302,
-  "damage": 50,
-  "penetration": 5,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "200000",
-  "prices": [{
-    "value": 13,
-    "_id": "5f4a52549f319f4528ac3702",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "9P",
-  "image": "9x18/9P.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 16,
-  "weight": 0.01,
-  "velocity": 330,
-  "damage": 55,
-  "penetration": 6,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "300000",
-  "prices": [{
-    "value": 31,
-    "_id": "5f4a52549f319f4528ac3704",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "PPO",
-  "image": "9x18/PPO.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 26,
-  "weight": 0.01,
-  "velocity": 298,
-  "damage": 50,
-  "penetration": 12,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "610000",
-  "prices": [{
-    "value": 48,
-    "_id": "5f4a52549f319f4528ac3706",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "PST",
-  "image": "9x18/PST.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 13,
-  "weight": 0.008,
-  "velocity": 315,
-  "damage": 54,
-  "penetration": 5,
-  "recoil": 0,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "200000",
-  "prices": [{
-    "value": 24,
-    "_id": "5f4a52549f319f4528ac3708",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "PSO",
-  "image": "9x18/PSO.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 22,
-  "weight": 0.01,
-  "velocity": 301,
-  "damage": 59,
-  "penetration": 8,
-  "recoil": -7,
-  "accuracy": -5,
-  "tracer": true,
-  "armor": "510000",
-  "prices": [{
-    "value": 46,
-    "_id": "5f4a52549f319f4528ac370a",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "PPT",
-  "image": "9x18/PPT.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 28,
-  "weight": 0.01,
-  "velocity": 325,
-  "damage": 53,
-  "penetration": 18,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "651000",
-  "prices": [{
-    "value": 69,
-    "_id": "5f4a52549f319f4528ac370c",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "BZT",
-  "image": "9x18/BZT.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 15,
-  "weight": 0.009,
-  "velocity": 297,
-  "damage": 61,
-  "penetration": 7,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "400000",
-  "prices": [{
-    "value": 55,
-    "_id": "5f4a52549f319f4528ac370e",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "PPe",
-  "image": "9x18/PPe.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 16,
-  "weight": 0.011,
-  "velocity": 302,
-  "damage": 58,
-  "penetration": 6,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "300000",
-  "prices": [{
-    "value": 42,
-    "_id": "5f4a52549f319f4528ac3710",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "PRS",
-  "image": "9x18/PRS.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 5,
-  "weight": 0.012,
-  "velocity": 280,
-  "damage": 69,
-  "penetration": 3,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "000000",
-  "prices": [{
-    "value": 71,
-    "_id": "5f4a52549f319f4528ac3712",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "PSV",
-  "image": "9x18/PSV.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 30,
-  "weight": 0.007,
-  "velocity": 519,
-  "damage": 40,
-  "penetration": 28,
-  "recoil": 4,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "665100",
-  "prices": [{
-    "value": 118,
-    "_id": "5f4a52549f319f4528ac3714",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "PBM",
-  "image": "9x18/PBM.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 33,
-  "weight": 0.009,
-  "velocity": 420,
-  "damage": 58,
-  "penetration": 24,
-  "recoil": 5,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "664000",
-  "prices": [{
-    "value": 147,
-    "_id": "5f4a52549f319f4528ac3716",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "PMM",
-  "image": "9x18/PMM.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 5,
-  "weight": 0.011,
-  "velocity": 420,
-  "damage": 77,
-  "penetration": 2,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "000000",
-  "prices": [{
-    "value": 161,
-    "_id": "5f4a52549f319f4528ac3718",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "SP7",
-  "image": "9x18/SP7.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 2,
-  "weight": 0.009,
-  "velocity": 250,
-  "damage": 67,
-  "penetration": 1,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "000000",
-  "prices": [{
-    "value": 67,
-    "_id": "5f4a52549f319f4528ac371a",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "SP8",
-  "image": "9x18/SP8.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 26,
-  "weight": 0.011,
-  "velocity": 330,
-  "damage": 65,
-  "penetration": 13,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "620000",
-  "prices": [{
-    "value": 83,
-    "_id": "5f4a52549f319f4528ac371c",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "RG028",
-  "image": "9x18/RG028.png",
-  "caliber": "5f4a52549f319f4528ac3700"
-}, {
-  "armor_damage": 33,
-  "weight": 0.005,
-  "velocity": 457,
-  "damage": 54,
-  "penetration": 20,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "662000",
-  "prices": [{
-    "value": 66,
-    "_id": "5f4a52549f319f4528ac371f",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }, {
-    "value": 0.59,
-    "_id": "5f4a52549f319f4528ac3720",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 2
-  }, {
-    "value": 67,
-    "_id": "5f4a52549f319f4528ac3721",
-    "trader": "Mechanic",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "PST",
-  "image": "9x19/PST.png",
-  "caliber": "5f4a52549f319f4528ac371d"
-}, {
-  "armor_damage": 32,
-  "weight": 0.005,
-  "velocity": 340,
-  "damage": 59,
-  "penetration": 10,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "620000",
-  "prices": [{
-    "value": 52,
-    "_id": "5f4a52549f319f4528ac3723",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 1
-  }, {
-    "value": 50,
-    "_id": "5f4a52549f319f4528ac3724",
-    "trader": "Jaeger",
-    "currency": "R",
-    "level": 1
-  }],
-  "tradeups": [],
-  "name": "PSO",
-  "image": "9x19/PSO.png",
-  "caliber": "5f4a52549f319f4528ac371d"
-}, {
-  "armor_damage": 38,
-  "weight": 0.015,
-  "velocity": 420,
-  "damage": 70,
-  "penetration": 10,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "620000",
-  "prices": [{
-    "value": 360,
-    "_id": "5f4a52549f319f4528ac3726",
-    "trader": "Skier",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "Luger CCI",
-  "image": "9x19/CCI.png",
-  "caliber": "5f4a52549f319f4528ac371d"
-}, {
-  "armor_damage": 48,
-  "weight": 0.009,
-  "velocity": 392,
-  "damage": 52,
-  "penetration": 30,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666421",
-  "prices": [{
-    "value": 2.76,
-    "_id": "5f4a52549f319f4528ac3728",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "AP 6.3",
-  "image": "9x19/AP_63.png",
-  "caliber": "5f4a52549f319f4528ac371d"
-}, {
-  "armor_damage": 33,
-  "weight": 0.006,
-  "velocity": 365,
-  "damage": 58,
-  "penetration": 14,
-  "recoil": -6,
-  "accuracy": -5,
-  "tracer": true,
-  "armor": "631000",
-  "prices": [{
-    "value": 70,
-    "_id": "5f4a52549f319f4528ac372a",
-    "trader": "Mechanic",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "Green Tracer",
-  "image": "9x19/Green_Tracer.png",
-  "caliber": "5f4a52549f319f4528ac371d"
-}, {
-  "armor_damage": 11,
-  "weight": 0.006,
-  "velocity": 381,
-  "damage": 102,
-  "penetration": 2,
-  "recoil": 20,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "000000",
-  "prices": [],
-  "tradeups": [{
-    "items": [],
-    "_id": "5f4a52549f319f4528ac372c",
-    "trader": "Jaeger",
-    "level": 4
-  }, {
-    "items": [],
-    "_id": "5f4a52549f319f4528ac372d",
-    "trader": "Skier",
-    "level": 4
-  }],
-  "name": "RIP",
-  "image": "9x19/RIP.png",
-  "caliber": "5f4a52549f319f4528ac371d"
-}, {
-  "armor_damage": 53,
-  "weight": 0.006,
-  "velocity": 381,
-  "damage": 52,
-  "penetration": 39,
-  "recoil": 20,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666543",
-  "prices": [{
-    "value": 435,
-    "_id": "5f4a52549f319f4528ac372f",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "7N31",
-  "image": "9x19/7N31.png",
-  "caliber": "5f4a52549f319f4528ac371d"
-}, {
-  "armor_damage": 22,
-  "weight": 0.013,
-  "velocity": 290,
-  "damage": 85,
-  "penetration": 8,
-  "recoil": 20,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "610000",
-  "prices": [{
-    "value": 1.46,
-    "_id": "5f4a52549f319f4528ac3731",
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "QuakeMaker",
-  "image": "9x19/QuakeMaker.png",
-  "caliber": "5f4a52549f319f4528ac371d"
-}, {
-  "armor_damage": 46,
-  "weight": 0.023,
-  "velocity": 410,
-  "damage": 49,
-  "penetration": 35,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666432",
-  "prices": [{
-    "value": 149,
-    "_id": "5f4a52549f319f4528ac3734",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "SP10",
-  "image": "9x21/SP10.png",
-  "caliber": "5f4a52549f319f4528ac3732"
-}, {
-  "armor_damage": 44,
-  "weight": 0.023,
-  "velocity": 413,
-  "damage": 65,
-  "penetration": 18,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "630000",
-  "prices": [{
-    "value": 159,
-    "_id": "5f4a52549f319f4528ac3736",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "SP11",
-  "image": "9x21/SP11.png",
-  "caliber": "5f4a52549f319f4528ac3732"
-}, {
-  "armor_damage": 63,
-  "weight": 0.023,
-  "velocity": 415,
-  "damage": 80,
-  "penetration": 15,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "620000",
-  "prices": [{
-    "value": 209,
-    "_id": "5f4a52549f319f4528ac3738",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "SP12",
-  "image": "9x21/SP12.png",
-  "caliber": "5f4a52549f319f4528ac3732"
-}, {
-  "armor_damage": 47,
-  "weight": 0.023,
-  "velocity": 397,
-  "damage": 63,
-  "penetration": 39,
-  "recoil": -4,
-  "accuracy": -4,
-  "tracer": true,
-  "armor": "666543",
-  "prices": [{
-    "value": 282,
-    "_id": "5f4a52549f319f4528ac373a",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [],
-  "name": "SP13",
-  "image": "9x21/SP13.png",
-  "caliber": "5f4a52549f319f4528ac3732"
-}, {
-  "armor_damage": 52,
-  "weight": 0.023,
-  "velocity": 290,
-  "damage": 68,
-  "penetration": 35,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666532",
-  "prices": [{
-    "value": 229,
-    "_id": "5f4a52549f319f4528ac373d",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 2
-  }],
-  "tradeups": [],
-  "name": "SP-5",
-  "image": "9x39/SP-5.png",
-  "caliber": "5f4a52549f319f4528ac373b"
-}, {
-  "armor_damage": 60,
-  "weight": 0.023,
-  "velocity": 305,
-  "damage": 58,
-  "penetration": 43,
-  "recoil": 10,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666654",
-  "prices": [{
-    "value": 764,
-    "_id": "5f4a52549f319f4528ac373f",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 3
-  }],
-  "tradeups": [],
-  "name": "SP-6",
-  "image": "9x39/SP-6.png",
-  "caliber": "5f4a52549f319f4528ac373b"
-}, {
-  "armor_damage": 56,
-  "weight": 0.023,
-  "velocity": 310,
-  "damage": 64,
-  "penetration": 45,
-  "recoil": 20,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "------",
-  "prices": [{
-    "value": 1180,
-    "_id": "5f4a52549f319f4528ac3741",
-    "trader": "Prapor",
-    "currency": "R",
-    "level": 4
-  }],
-  "tradeups": [{
-    "items": [],
-    "_id": "5f4a52549f319f4528ac3742",
-    "trader": "Prapor",
-    "level": 3
-  }],
-  "name": "7N9",
-  "image": "9x39/7N9.png",
-  "caliber": "5f4a52549f319f4528ac373b"
-}, {
-  "armor_damage": 68,
-  "weight": 0.023,
-  "velocity": 295,
-  "damage": 60,
-  "penetration": 48,
-  "recoil": 22,
-  "accuracy": 10,
-  "tracer": false,
-  "prices": [],
-  "armor": "------",
-  "tradeups": [{
-    "items": [],
-    "_id": "5f4a52549f319f4528ac3744",
-    "trader": "Prapor",
-    "level": 4
-  }],
-  "name": "7N12",
-  "image": "9x39/7N12.png",
-  "caliber": "5f4a52549f319f4528ac373b"
-}, {
-  "armor_damage": 60,
-  "weight": 0.014,
-  "velocity": 720,
-  "damage": 55,
-  "penetration": 44,
-  "recoil": 5,
-  "accuracy": 5,
-  "tracer": false,
-  "armor": "666654",
-  "prices": [],
-  "tradeups": [],
-  "name": "AAC Blackout AP",
-  "image": "",
-  "caliber": "300blackout"
-}, {
-  "armor_damage": 36,
-  "weight": 0.015,
-  "velocity": 605,
-  "damage": 60,
-  "penetration": 28,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "665320",
-  "prices": [],
-  "tradeups": [],
-  "name": "BPZ AAC Blackout",
-  "image": "",
-  "caliber": "300blackout"
-}, {
-  "armor_damage": 89,
-  "weight": 0.014,
-  "velocity": 849,
-  "damage": 115,
-  "penetration": 79,
-  "recoil": -10,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666666",
-  "prices": [],
-  "tradeups": [],
-  "name": "Lapua Magnum AP",
-  "image": "",
-  "caliber": "338lapua"
-}, {
-  "armor_damage": 83,
-  "weight": 0.014,
-  "velocity": 900,
-  "damage": 122,
-  "penetration": 47,
-  "recoil": 0,
-  "accuracy": 0,
-  "tracer": false,
-  "armor": "666655",
-  "prices": [],
-  "tradeups": [],
-  "name": "Lapua Magnum FMJ",
-  "image": "",
-  "caliber": "338lapua"
-}, {
-  "armor_damage": 55,
-  "weight": 0.014,
-  "velocity": 880,
-  "damage": 196,
-  "penetration": 18,
-  "recoil": 5,
-  "accuracy": 10,
-  "tracer": false,
-  "armor": "653100",
-  "prices": [],
-  "tradeups": [],
-  "name": "Lapua Magnum TAC-X",
-  "image": "",
-  "caliber": "338lapua"
-}, {
-  "armor_damage": 70,
-  "weight": 0.014,
-  "velocity": 849,
-  "damage": 142,
-  "penetration": 32,
-  "recoil": 0,
-  "accuracy": -5,
-  "tracer": false,
-  "armor": "666542",
-  "prices": [],
-  "tradeups": [],
-  "name": "UPZ Lapua Magnum",
-  "image": "",
-  "caliber": "338lapua"
-}]
+[
+  {
+    "armor_damage": 41,
+    "weight": 0.006,
+    "velocity": 716,
+    "damage": 58,
+    "penetration": 33,
+    "recoil": 0,
+    "accuracy": -4,
+    "tracer": true,
+    "armor": "666322",
+    "prices": [
+      {
+        "value": 1.38,
+        "_id": "5f4a52549f319f4528ac3625",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "L191",
+    "image": "5.7x28/L191.png",
+    "caliber": "5f4a52549f319f4528ac3623"
+  },
+  {
+    "armor_damage": 7,
+    "weight": 0.006,
+    "velocity": 729,
+    "damage": 98,
+    "penetration": 8,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "400000",
+    "prices": [
+      {
+        "value": 231,
+        "_id": "5f4a52549f319f4528ac3627",
+        "trader": "Mechanic",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "R37.F",
+    "image": "5.7x28/R37F.png",
+    "caliber": "5f4a52549f319f4528ac3623"
+  },
+  {
+    "armor_damage": 14,
+    "weight": 0.006,
+    "velocity": 724,
+    "damage": 81,
+    "penetration": 11,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "610000",
+    "prices": [
+      {
+        "value": 200,
+        "_id": "5f4a52549f319f4528ac3629",
+        "trader": "Mechanic",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "R37.X",
+    "image": "5.7x28/R37X.png",
+    "caliber": "5f4a52549f319f4528ac3623"
+  },
+  {
+    "armor_damage": 37,
+    "weight": 0.007,
+    "velocity": 305,
+    "damage": 54,
+    "penetration": 35,
+    "recoil": -20,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666432",
+    "prices": [
+      {
+        "value": 1.96,
+        "_id": "5f4a52549f319f4528ac362b",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "SB193",
+    "image": "5.7x28/SB193.png",
+    "caliber": "5f4a52549f319f4528ac3623"
+  },
+  {
+    "armor_damage": 43,
+    "weight": 0.006,
+    "velocity": 716,
+    "damage": 49,
+    "penetration": 37,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666543",
+    "prices": [
+      {
+        "value": 2.64,
+        "_id": "5f4a52549f319f4528ac362d",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "SS190",
+    "image": "5.7x28/SS190.png",
+    "caliber": "5f4a52549f319f4528ac3623"
+  },
+  {
+    "armor_damage": 22,
+    "weight": 0.007,
+    "velocity": 594,
+    "damage": 62,
+    "penetration": 20,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "662000",
+    "prices": [
+      {
+        "value": 1.04,
+        "_id": "5f4a52549f319f4528ac362f",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "SS197SR",
+    "image": "5.7x28/SS197SR.png",
+    "caliber": "5f4a52549f319f4528ac3623"
+  },
+  {
+    "armor_damage": 15,
+    "weight": 0.006,
+    "velocity": 792,
+    "damage": 74,
+    "penetration": 10,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "610000",
+    "prices": [
+      {
+        "value": 1.27,
+        "_id": "5f4a52549f319f4528ac3631",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "SS198LF",
+    "image": "5.7x28/SS198LF.png",
+    "caliber": "5f4a52549f319f4528ac3623"
+  },
+  {
+    "armor_damage": 36,
+    "weight": 0.015,
+    "velocity": 285,
+    "damage": 72,
+    "penetration": 19,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "651000",
+    "prices": [
+      {
+        "value": 0.79,
+        "_id": "5f4a52549f319f4528ac3634",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "FMJ",
+    "image": "45/FMJ.png",
+    "caliber": "5f4a52549f319f4528ac3632"
+  },
+  {
+    "armor_damage": 12,
+    "weight": 0.019,
+    "velocity": 293,
+    "damage": 127,
+    "penetration": 3,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "100000",
+    "prices": [
+      {
+        "value": 430,
+        "_id": "5f4a52549f319f4528ac3636",
+        "trader": "Mechanic",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "RIP",
+    "image": "45/RIP.png",
+    "caliber": "5f4a52549f319f4528ac3632"
+  },
+  {
+    "armor_damage": 30,
+    "weight": 0.017,
+    "velocity": 274,
+    "damage": 95,
+    "penetration": 13,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "630000",
+    "prices": [
+      {
+        "value": 1.04,
+        "_id": "5f4a52549f319f4528ac3638",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "HS",
+    "image": "45/HS.png",
+    "caliber": "5f4a52549f319f4528ac3632"
+  },
+  {
+    "armor_damage": 37,
+    "weight": 0.015,
+    "velocity": 290,
+    "damage": 74,
+    "penetration": 18,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": true,
+    "armor": "651000",
+    "prices": [
+      {
+        "value": 0.83,
+        "_id": "5f4a52549f319f4528ac363a",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "LM",
+    "image": "45/LM.png",
+    "caliber": "5f4a52549f319f4528ac3632"
+  },
+  {
+    "armor_damage": 43,
+    "weight": 0.015,
+    "velocity": 299,
+    "damage": 70,
+    "penetration": 36,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666532",
+    "prices": [
+      {
+        "value": 2.06,
+        "_id": "5f4a52549f319f4528ac363c",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "AP",
+    "image": "45/LM.png",
+    "caliber": "5f4a52549f319f4528ac3632"
+  },
+  {
+    "armor_damage": 60,
+    "weight": 0.07,
+    "velocity": 285,
+    "damage": 115,
+    "penetration": 28,
+    "recoil": 0,
+    "accuracy": -10,
+    "tracer": false,
+    "armor": "665210",
+    "prices": [
+      {
+        "value": 361,
+        "_id": "5f4a52549f319f4528ac363f",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "PS12",
+    "image": "12.7x55/PS12.png",
+    "caliber": "5f4a52549f319f4528ac363d"
+  },
+  {
+    "armor_damage": 22,
+    "weight": 0.044,
+    "velocity": 285,
+    "damage": 165,
+    "penetration": 10,
+    "recoil": -12,
+    "accuracy": -15,
+    "tracer": false,
+    "armor": "600000",
+    "prices": [
+      {
+        "value": 342,
+        "_id": "5f4a52549f319f4528ac3641",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "PS12A",
+    "image": "12.7x55/PS12A.png",
+    "caliber": "5f4a52549f319f4528ac363d"
+  },
+  {
+    "armor_damage": 57,
+    "weight": 0.055,
+    "velocity": 300,
+    "damage": 102,
+    "penetration": 46,
+    "recoil": 15,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666654",
+    "prices": [
+      {
+        "value": 603,
+        "_id": "5f4a52549f319f4528ac3643",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "PS12B",
+    "image": "12.7x55/PS12B.png",
+    "caliber": "5f4a52549f319f4528ac363d"
+  },
+  {
+    "weight": 0.23,
+    "velocity": 76,
+    "damage": 199,
+    "penetration": 1,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "------",
+    "prices": [
+      {
+        "value": 49,
+        "_id": "5f4a52549f319f4528ac3646",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 2
+      },
+      {
+        "value": 71,
+        "_id": "5f4a52549f319f4528ac3647",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "M381",
+    "image": "40x46/M381.png",
+    "caliber": "5f4a52549f319f4528ac3644"
+  },
+  {
+    "weight": 0.23,
+    "velocity": 76,
+    "damage": 199,
+    "penetration": 1,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "------",
+    "prices": [
+      {
+        "value": 49,
+        "_id": "5f4a52549f319f4528ac3649",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 2
+      },
+      {
+        "value": 85,
+        "_id": "5f4a52549f319f4528ac364a",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "M386",
+    "image": "40x46/M386.png",
+    "caliber": "5f4a52549f319f4528ac3644"
+  },
+  {
+    "weight": 0.23,
+    "velocity": 76,
+    "damage": 199,
+    "penetration": 1,
+    "recoil": -10,
+    "accuracy": 15,
+    "tracer": false,
+    "armor": "------",
+    "prices": [],
+    "tradeups": [],
+    "name": "M406",
+    "image": "40x46/M406.png",
+    "caliber": "5f4a52549f319f4528ac3644"
+  },
+  {
+    "weight": 0.23,
+    "velocity": 76,
+    "damage": 199,
+    "penetration": 1,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "------",
+    "prices": [],
+    "tradeups": [],
+    "name": "M441",
+    "image": "40x46/M441.png",
+    "caliber": "5f4a52549f319f4528ac3644"
+  },
+  {
+    "weight": 0.23,
+    "velocity": 269,
+    "damage": 160,
+    "penetration": 5,
+    "recoil": 0,
+    "accuracy": 100,
+    "tracer": false,
+    "armor": "------",
+    "prices": [
+      {
+        "value": 49,
+        "_id": "5f4a52549f319f4528ac364e",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 2
+      },
+      {
+        "value": 85,
+        "_id": "5f4a52549f319f4528ac364f",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "M576",
+    "image": "40x46/M576.png",
+    "caliber": "5f4a52549f319f4528ac3644"
+  },
+  {
+    "armor_damage": 48,
+    "weight": 0.016,
+    "velocity": 580,
+    "damage": 98,
+    "penetration": 23,
+    "recoil": 10,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "664100",
+    "prices": [
+      {
+        "value": 49,
+        "_id": "5f4a52549f319f4528ac3652",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 2
+      },
+      {
+        "value": 43,
+        "_id": "5f4a52549f319f4528ac3653",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "FMJ",
+    "image": "366/FMJ.png",
+    "caliber": "5f4a52549f319f4528ac3650"
+  },
+  {
+    "armor_damage": 40,
+    "weight": 0.01,
+    "velocity": 770,
+    "damage": 73,
+    "penetration": 30,
+    "recoil": -15,
+    "accuracy": -10,
+    "tracer": false,
+    "armor": "666310",
+    "prices": [
+      {
+        "value": 67,
+        "_id": "5f4a52549f319f4528ac3655",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "EKO",
+    "image": "366/EKO.png",
+    "caliber": "5f4a52549f319f4528ac3650"
+  },
+  {
+    "armor_damage": 38,
+    "weight": 0.016,
+    "velocity": 550,
+    "damage": 110,
+    "penetration": 14,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "630000",
+    "prices": [
+      {
+        "value": 59,
+        "_id": "5f4a52549f319f4528ac3657",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "Geksa",
+    "image": "366/Geksa.png",
+    "caliber": "5f4a52549f319f4528ac3650"
+  },
+  {
+    "armor_damage": 60,
+    "weight": 0.019,
+    "velocity": 602,
+    "damage": 90,
+    "penetration": 42,
+    "recoil": 35,
+    "accuracy": -28,
+    "tracer": false,
+    "armor": "666654",
+    "prices": [
+      {
+        "value": 238,
+        "_id": "5f4a52549f319f4528ac3659",
+        "trader": "Mechanic",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "AP",
+    "image": "366/AP.png",
+    "caliber": "5f4a52549f319f4528ac3650"
+  },
+  {
+    "armor_damage": 40,
+    "bullets": 1,
+    "weight": 0.044,
+    "velocity": 410,
+    "damage": 140,
+    "penetration": 17,
+    "recoil": -15,
+    "accuracy": 110,
+    "tracer": false,
+    "armor": "651000",
+    "prices": [
+      {
+        "value": 53,
+        "_id": "5f4a52549f319f4528ac365c",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "Poleva-3 Slug",
+    "image": "12x70/Poleva-3_Slug.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 50,
+    "bullets": 1,
+    "weight": 0.048,
+    "velocity": 430,
+    "damage": 150,
+    "penetration": 20,
+    "recoil": -10,
+    "accuracy": 115,
+    "tracer": false,
+    "armor": "662000",
+    "prices": [
+      {
+        "value": 70,
+        "_id": "5f4a52549f319f4528ac365e",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "Poleva-6u Slug",
+    "image": "12x70/Poleva-6u_Slug.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 15,
+    "bullets": 8,
+    "weight": 0.044,
+    "velocity": 320,
+    "damage": 37,
+    "penetration": 1,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "333333",
+    "prices": [
+      {
+        "value": 36,
+        "_id": "5f4a52549f319f4528ac3660",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "5.25mm Buckshot",
+    "image": "12x70/525_Buckshot.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 26,
+    "bullets": 8,
+    "weight": 0.059,
+    "velocity": 330,
+    "damage": 50,
+    "penetration": 2,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "333333",
+    "prices": [
+      {
+        "value": 51,
+        "_id": "5f4a52549f319f4528ac3662",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "8.5mm Magnum Buckshot",
+    "image": "12x70/85_Magnum_Buckshot.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 65,
+    "bullets": 1,
+    "weight": 0.05,
+    "velocity": 510,
+    "damage": 164,
+    "penetration": 37,
+    "recoil": 50,
+    "accuracy": 125,
+    "tracer": false,
+    "armor": "666543",
+    "prices": [
+      {
+        "value": 196,
+        "_id": "5f4a52549f319f4528ac3664",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "AP-20 Slug",
+    "image": "12x70/AP-20_Slug.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 65,
+    "bullets": 2,
+    "weight": 0.05,
+    "velocity": 415,
+    "damage": 85,
+    "penetration": 17,
+    "recoil": 15,
+    "accuracy": 100,
+    "tracer": false,
+    "armor": "652000",
+    "prices": [
+      {
+        "value": 70,
+        "_id": "5f4a52549f319f4528ac3666",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "Dual Sabot Slug",
+    "image": "12x70/Dual_Sabot_Slug.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 50,
+    "bullets": 1,
+    "weight": 0.026,
+    "velocity": 480,
+    "damage": 183,
+    "penetration": 20,
+    "recoil": 0,
+    "accuracy": 135,
+    "tracer": false,
+    "armor": "662000",
+    "prices": [
+      {
+        "value": 73,
+        "_id": "5f4a52549f319f4528ac3668",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "FTX Custom LIte Slug",
+    "image": "12x70/FTX_Custom_LIte_Slug.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 26,
+    "bullets": 8,
+    "weight": 0.04,
+    "velocity": 320,
+    "damage": 25,
+    "penetration": 31,
+    "recoil": 0,
+    "accuracy": -25,
+    "tracer": false,
+    "armor": "666555",
+    "prices": [
+      {
+        "value": 77,
+        "_id": "5f4a52549f319f4528ac366a",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "Flechette",
+    "image": "12x70/Flechette.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 48,
+    "bullets": 1,
+    "weight": 0.055,
+    "velocity": 390,
+    "damage": 190,
+    "penetration": 12,
+    "recoil": 20,
+    "accuracy": 80,
+    "tracer": false,
+    "armor": "620000",
+    "prices": [
+      {
+        "value": 68,
+        "_id": "5f4a52549f319f4528ac366c",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "Grizzly Slug",
+    "image": "12x70/Grizzly_Slug.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 12,
+    "bullets": 1,
+    "weight": 0.034,
+    "velocity": 594,
+    "damage": 220,
+    "penetration": 2,
+    "recoil": -15,
+    "accuracy": 170,
+    "tracer": false,
+    "armor": "000000",
+    "prices": [
+      {
+        "value": 196,
+        "_id": "5f4a52549f319f4528ac366e",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "HP Slug SuperFormance",
+    "image": "12x70/HP_Slug_SuperFormance.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 46,
+    "bullets": 1,
+    "weight": 0.043,
+    "velocity": 442,
+    "damage": 206,
+    "penetration": 14,
+    "recoil": 10,
+    "accuracy": 150,
+    "tracer": false,
+    "armor": "631000",
+    "prices": [
+      {
+        "value": 84,
+        "_id": "5f4a52549f319f4528ac3670",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "HP Slug Copper Sabot Premier",
+    "image": "12x70/HP_Slug_Copper_Sabot_Premier.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 26,
+    "bullets": 9,
+    "weight": 0.048,
+    "velocity": 430,
+    "damage": 35,
+    "penetration": 3,
+    "recoil": 0,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "333333",
+    "prices": [
+      {
+        "value": 40,
+        "_id": "5f4a52549f319f4528ac3672",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "6.5mm Express Buckshot",
+    "image": "12x70/6.5mm_Express_Buckshot.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 26,
+    "bullets": 8,
+    "weight": 0.05,
+    "velocity": 430,
+    "damage": 39,
+    "penetration": 3,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "333333",
+    "prices": [
+      {
+        "value": 31,
+        "_id": "5f4a52549f319f4528ac3674",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      },
+      {
+        "value": 32,
+        "_id": "5f4a52549f319f4528ac3675",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      },
+      {
+        "value": 34,
+        "_id": "5f4a52549f319f4528ac3676",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "7mm Buckshot",
+    "image": "12x70/7mm_Buckshot.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 55,
+    "bullets": 1,
+    "weight": 0.05,
+    "velocity": 370,
+    "damage": 167,
+    "penetration": 15,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "641000",
+    "prices": [
+      {
+        "value": 60,
+        "_id": "5f4a52549f319f4528ac3678",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      },
+      {
+        "value": 63,
+        "_id": "5f4a52549f319f4528ac3679",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 1
+      },
+      {
+        "value": 58,
+        "_id": "5f4a52549f319f4528ac367a",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      },
+      {
+        "value": 0.53,
+        "_id": "5f4a52549f319f4528ac367b",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "Led Slug",
+    "image": "12x70/Led_Slug.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 57,
+    "bullets": 1,
+    "weight": 0.055,
+    "velocity": 430,
+    "damage": 197,
+    "penetration": 26,
+    "recoil": 25,
+    "accuracy": 90,
+    "tracer": true,
+    "armor": "665310",
+    "prices": [
+      {
+        "value": 127,
+        "_id": "5f4a52549f319f4528ac367d",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "Shell with .50 BMG bullet",
+    "image": "12x70/50_BMG_bullet.png",
+    "caliber": "5f4a52549f319f4528ac365a"
+  },
+  {
+    "armor_damage": 12,
+    "bullets": 8,
+    "weight": 0.028,
+    "velocity": 340,
+    "damage": 26,
+    "penetration": 1,
+    "recoil": 10,
+    "accuracy": -10,
+    "tracer": false,
+    "armor": "333333",
+    "prices": [
+      {
+        "value": 21,
+        "_id": "5f4a52549f319f4528ac3680",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "5.6mm Buckshot",
+    "image": "20x70/56_Buckshot.png",
+    "caliber": "5f4a52549f319f4528ac367e"
+  },
+  {
+    "armor_damage": 13,
+    "bullets": 8,
+    "weight": 0.032,
+    "velocity": 410,
+    "damage": 22,
+    "penetration": 2,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "333333",
+    "prices": [
+      {
+        "value": 31,
+        "_id": "5f4a52549f319f4528ac3682",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "6.2mm Buckshot",
+    "image": "20x70/62_Buckshot.png",
+    "caliber": "5f4a52549f319f4528ac367e"
+  },
+  {
+    "armor_damage": 13,
+    "bullets": 9,
+    "weight": 0.032,
+    "velocity": 475,
+    "damage": 23,
+    "penetration": 3,
+    "recoil": 15,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "333333",
+    "prices": [
+      {
+        "value": 39,
+        "_id": "5f4a52549f319f4528ac3684",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "7.3mm Buckshot",
+    "image": "20x70/73_Buckshot.png",
+    "caliber": "5f4a52549f319f4528ac367e"
+  },
+  {
+    "armor_damage": 13,
+    "bullets": 1,
+    "weight": 0.029,
+    "velocity": 405,
+    "damage": 198,
+    "penetration": 5,
+    "recoil": 30,
+    "accuracy": 125,
+    "tracer": false,
+    "armor": "100000",
+    "prices": [
+      {
+        "value": 184,
+        "_id": "5f4a52549f319f4528ac3686",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "Devastator Slug",
+    "image": "20x70/Devastator_Slug.png",
+    "caliber": "5f4a52549f319f4528ac367e"
+  },
+  {
+    "armor_damage": 35,
+    "bullets": 1,
+    "weight": 0.029,
+    "velocity": 425,
+    "damage": 120,
+    "penetration": 14,
+    "recoil": -15,
+    "accuracy": 110,
+    "tracer": false,
+    "armor": "620000",
+    "prices": [
+      {
+        "value": 49,
+        "_id": "5f4a52549f319f4528ac3688",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "Slug Poleva-3",
+    "image": "20x70/Slug_Poleva-3.png",
+    "caliber": "5f4a52549f319f4528ac367e"
+  },
+  {
+    "armor_damage": 40,
+    "bullets": 1,
+    "weight": 0.032,
+    "velocity": 445,
+    "damage": 135,
+    "penetration": 17,
+    "recoil": -10,
+    "accuracy": 110,
+    "tracer": false,
+    "armor": "651000",
+    "prices": [
+      {
+        "value": 67,
+        "_id": "5f4a52549f319f4528ac368a",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "Slug Poleva-6u",
+    "image": "20x70/Slug_Poleva-6u.png",
+    "caliber": "5f4a52549f319f4528ac367e"
+  },
+  {
+    "armor_damage": 42,
+    "bullets": 1,
+    "weight": 0.032,
+    "velocity": 445,
+    "damage": 154,
+    "penetration": 16,
+    "recoil": 5,
+    "accuracy": 130,
+    "tracer": false,
+    "armor": "651000",
+    "prices": [
+      {
+        "value": 83,
+        "_id": "5f4a52549f319f4528ac368c",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "Star Slug",
+    "image": "20x70/Star_Slug.png",
+    "caliber": "5f4a52549f319f4528ac367e"
+  },
+  {
+    "armor_damage": 14,
+    "bullets": 8,
+    "weight": 0.04,
+    "velocity": 430,
+    "damage": 25,
+    "penetration": 3,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "333333",
+    "prices": [
+      {
+        "value": 25,
+        "_id": "5f4a52549f319f4528ac368e",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      },
+      {
+        "value": 27,
+        "_id": "5f4a52549f319f4528ac368f",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "7.5mm Buckshot",
+    "image": "20x70/75_Buckshot.png",
+    "caliber": "5f4a52549f319f4528ac367e"
+  },
+  {
+    "armor_damage": 39,
+    "weight": 0.007,
+    "velocity": 690,
+    "damage": 65,
+    "penetration": 13,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "621000",
+    "prices": [
+      {
+        "value": 105,
+        "_id": "5f4a52549f319f4528ac3692",
+        "trader": "Mechanic",
+        "currency": "R",
+        "level": 1
+      },
+      {
+        "value": 0.93,
+        "_id": "5f4a52549f319f4528ac3693",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "Action SX",
+    "image": "4.6x30/Action_SX.png",
+    "caliber": "5f4a52549f319f4528ac3690"
+  },
+  {
+    "armor_damage": 41,
+    "weight": 0.007,
+    "velocity": 620,
+    "damage": 43,
+    "penetration": 40,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666643",
+    "prices": [
+      {
+        "value": 2,
+        "_id": "5f4a52549f319f4528ac3695",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "FMJ SX",
+    "image": "4.6x30/FMJ_SX.png",
+    "caliber": "5f4a52549f319f4528ac3690"
+  },
+  {
+    "armor_damage": 46,
+    "weight": 0.007,
+    "velocity": 680,
+    "damage": 35,
+    "penetration": 53,
+    "recoil": 10,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666665",
+    "prices": [
+      {
+        "value": 751,
+        "_id": "5f4a52549f319f4528ac3697",
+        "trader": "Mechanic",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "AP SX",
+    "image": "4.6x30/AP_SX.png",
+    "caliber": "5f4a52549f319f4528ac3690"
+  },
+  {
+    "armor_damage": 46,
+    "weight": 0.01,
+    "velocity": 680,
+    "damage": 45,
+    "penetration": 36,
+    "recoil": -22,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "666532",
+    "prices": [
+      {
+        "value": 269,
+        "_id": "5f4a52549f319f4528ac3699",
+        "trader": "Mechanic",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "Subsonic SX",
+    "image": "4.6x30/AP_SX.png",
+    "caliber": "5f4a52549f319f4528ac3690"
+  },
+  {
+    "armor_damage": 35,
+    "weight": 0.01,
+    "velocity": 890,
+    "damage": 50,
+    "penetration": 25,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "664100",
+    "prices": [
+      {
+        "value": 79,
+        "_id": "5f4a52549f319f4528ac369c",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "PS",
+    "image": "5.45x39/PS.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 38,
+    "weight": 0.01,
+    "velocity": 883,
+    "damage": 57,
+    "penetration": 20,
+    "recoil": -5,
+    "accuracy": 5,
+    "tracer": true,
+    "armor": "661000",
+    "prices": [
+      {
+        "value": 43,
+        "_id": "5f4a52549f319f4528ac369e",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "T",
+    "image": "5.45x39/T.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 28,
+    "weight": 0.01,
+    "velocity": 890,
+    "damage": 60,
+    "penetration": 14,
+    "recoil": -5,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "620000",
+    "prices": [
+      {
+        "value": 49,
+        "_id": "5f4a52549f319f4528ac36a0",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "PRS",
+    "image": "5.45x39/PRS.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 32,
+    "weight": 0.01,
+    "velocity": 890,
+    "damage": 46,
+    "penetration": 30,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666320",
+    "prices": [
+      {
+        "value": 155,
+        "_id": "5f4a52549f319f4528ac36a2",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "PP",
+    "image": "5.45x39/PP.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 20,
+    "weight": 0.01,
+    "velocity": 884,
+    "damage": 74,
+    "penetration": 11,
+    "recoil": 5,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "610000",
+    "prices": [
+      {
+        "value": 70,
+        "_id": "5f4a52549f319f4528ac36a4",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "HP",
+    "image": "5.45x39/HP.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 34,
+    "weight": 0.01,
+    "velocity": 873,
+    "damage": 68,
+    "penetration": 11,
+    "recoil": -15,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "610000",
+    "prices": [
+      {
+        "value": 62,
+        "_id": "5f4a52549f319f4528ac36a6",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "SP",
+    "image": "5.45x39/SP.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 30,
+    "weight": 0.01,
+    "velocity": 884,
+    "damage": 54,
+    "penetration": 20,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "651000",
+    "prices": [
+      {
+        "value": 37,
+        "_id": "5f4a52549f319f4528ac36a8",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "FMJ",
+    "image": "5.45x39/FMJ.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 34,
+    "weight": 0.01,
+    "velocity": 303,
+    "damage": 65,
+    "penetration": 15,
+    "recoil": -25,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "630000",
+    "prices": [
+      {
+        "value": 84,
+        "_id": "5f4a52549f319f4528ac36aa",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "US",
+    "image": "5.45x39/US.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 41,
+    "weight": 0.01,
+    "velocity": 890,
+    "damage": 48,
+    "penetration": 32,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666431",
+    "prices": [
+      {
+        "value": 349,
+        "_id": "5f4a52549f319f4528ac36ac",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac36ad",
+        "trader": "Prapor",
+        "level": 1
+      }
+    ],
+    "name": "BP",
+    "image": "5.45x39/BP.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 57,
+    "weight": 0.01,
+    "velocity": 830,
+    "damage": 40,
+    "penetration": 51,
+    "recoil": 10,
+    "accuracy": -3,
+    "tracer": false,
+    "armor": "666665",
+    "prices": [
+      {
+        "value": 36,
+        "_id": "5f4a52549f319f4528ac36af",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac36b0",
+        "trader": "Prapor",
+        "level": 3
+      }
+    ],
+    "name": "BS",
+    "image": "5.45x39/BS.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 49,
+    "weight": 0.01,
+    "velocity": 880,
+    "damage": 44,
+    "penetration": 37,
+    "recoil": 3,
+    "accuracy": -2,
+    "tracer": true,
+    "armor": "666543",
+    "prices": [
+      {
+        "value": 509,
+        "_id": "5f4a52549f319f4528ac36b2",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac36b3",
+        "trader": "Prapor",
+        "level": 1
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac36b4",
+        "trader": "Prapor",
+        "level": 2
+      }
+    ],
+    "name": "BT",
+    "image": "5.45x39/BT.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 60,
+    "weight": 0.011,
+    "velocity": 905,
+    "damage": 37,
+    "penetration": 62,
+    "recoil": 15,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666666",
+    "prices": [],
+    "tradeups": [],
+    "name": "7N39",
+    "image": "5.45x39/7N39.png",
+    "caliber": "5f4a52549f319f4528ac369a"
+  },
+  {
+    "armor_damage": 37,
+    "weight": 0.012,
+    "velocity": 922,
+    "damage": 50,
+    "penetration": 30,
+    "recoil": 0,
+    "accuracy": -5,
+    "tracer": false,
+    "armor": "666320",
+    "prices": [
+      {
+        "value": 1.51,
+        "_id": "5f4a52549f319f4528ac36b8",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "M855",
+    "image": "5.56x45/M855.png",
+    "caliber": "5f4a52549f319f4528ac36b6"
+  },
+  {
+    "armor_damage": 52,
+    "weight": 0.012,
+    "velocity": 945,
+    "damage": 45,
+    "penetration": 43,
+    "recoil": 0,
+    "accuracy": -10,
+    "tracer": false,
+    "armor": "666654",
+    "prices": [
+      {
+        "value": 300,
+        "_id": "5f4a52549f319f4528ac36ba",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 4
+      },
+      {
+        "value": 2.09,
+        "_id": "5f4a52549f319f4528ac36bb",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "M855A1",
+    "image": "5.56x45/M855A1.png",
+    "caliber": "5f4a52549f319f4528ac36b6"
+  },
+  {
+    "armor_damage": 33,
+    "weight": 0.012,
+    "velocity": 957,
+    "damage": 52,
+    "penetration": 24,
+    "recoil": -5,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "664100",
+    "prices": [
+      {
+        "value": 65,
+        "_id": "5f4a52549f319f4528ac36bd",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "55 FMJ",
+    "image": "5.56x45/55FMJ.png",
+    "caliber": "5f4a52549f319f4528ac36b6"
+  },
+  {
+    "armor_damage": 22,
+    "weight": 0.012,
+    "velocity": 947,
+    "damage": 75,
+    "penetration": 9,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "500000",
+    "prices": [
+      {
+        "value": 60,
+        "_id": "5f4a52549f319f4528ac36bf",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "55 HP",
+    "image": "5.56x45/55HP.png",
+    "caliber": "5f4a52549f319f4528ac36b6"
+  },
+  {
+    "armor_damage": 52,
+    "weight": 0.012,
+    "velocity": 874,
+    "damage": 55,
+    "penetration": 23,
+    "recoil": -2,
+    "accuracy": -5,
+    "tracer": true,
+    "armor": "663100",
+    "prices": [
+      {
+        "value": 1.21,
+        "_id": "5f4a52549f319f4528ac36c1",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "M856",
+    "image": "5.56x45/M856.png",
+    "caliber": "5f4a52549f319f4528ac36b6"
+  },
+  {
+    "armor_damage": 52,
+    "weight": 0.012,
+    "velocity": 940,
+    "damage": 51,
+    "penetration": 37,
+    "recoil": 4,
+    "accuracy": -2,
+    "tracer": true,
+    "armor": "666543",
+    "prices": [
+      {
+        "value": 1.07,
+        "_id": "5f4a52549f319f4528ac36c3",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "M856A1",
+    "image": "5.56x45/M856A1.png",
+    "caliber": "5f4a52549f319f4528ac36b6"
+  },
+  {
+    "armor_damage": 32,
+    "weight": 0.012,
+    "velocity": 936,
+    "damage": 60,
+    "penetration": 17,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "641000",
+    "prices": [
+      {
+        "value": 1.28,
+        "_id": "5f4a52549f319f4528ac36c5",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "MK255",
+    "image": "5.56x45/MK255.png",
+    "caliber": "5f4a52549f319f4528ac36b6"
+  },
+  {
+    "armor_damage": 14,
+    "weight": 0.011,
+    "velocity": 910,
+    "damage": 85,
+    "penetration": 3,
+    "recoil": 10,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "100000",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac36c7",
+        "trader": "Peacekeeper",
+        "level": 3
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac36c8",
+        "trader": "Jaeger",
+        "level": 4
+      }
+    ],
+    "name": "Warmage",
+    "image": "5.56x45/Warmage.png",
+    "caliber": "5f4a52549f319f4528ac36b6"
+  },
+  {
+    "armor_damage": 58,
+    "weight": 0.012,
+    "velocity": 1013,
+    "damage": 40,
+    "penetration": 53,
+    "recoil": 8,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666665",
+    "prices": [
+      {
+        "value": 12.32,
+        "_id": "5f4a52549f319f4528ac36ca",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "M995",
+    "image": "5.56x45/M995.png",
+    "caliber": "5f4a52549f319f4528ac36b6"
+  },
+  {
+    "armor_damage": 32,
+    "weight": 0.01,
+    "velocity": 430,
+    "damage": 58,
+    "penetration": 10,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "630000",
+    "prices": [
+      {
+        "value": 56,
+        "_id": "5f4a52549f319f4528ac36cd",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "P",
+    "image": "7.62x25/P.png",
+    "caliber": "5f4a52549f319f4528ac36cb"
+  },
+  {
+    "armor_damage": 32,
+    "weight": 0.01,
+    "velocity": 425,
+    "damage": 58,
+    "penetration": 9,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "620000",
+    "prices": [
+      {
+        "value": 52,
+        "_id": "5f4a52549f319f4528ac36cf",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "AKBS",
+    "image": "7.62x25/AKBS.png",
+    "caliber": "5f4a52549f319f4528ac36cb"
+  },
+  {
+    "armor_damage": 29,
+    "weight": 0.01,
+    "velocity": 427,
+    "damage": 60,
+    "penetration": 8,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "610000",
+    "prices": [
+      {
+        "value": 53,
+        "_id": "5f4a52549f319f4528ac36d1",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "FMJ43",
+    "image": "7.62x25/FMJ43.png",
+    "caliber": "5f4a52549f319f4528ac36cb"
+  },
+  {
+    "armor_damage": 27,
+    "weight": 0.01,
+    "velocity": 385,
+    "damage": 66,
+    "penetration": 5,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "500000",
+    "prices": [
+      {
+        "value": 70,
+        "_id": "5f4a52549f319f4528ac36d3",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "LRNPC",
+    "image": "7.62x25/LRNPC.png",
+    "caliber": "5f4a52549f319f4528ac36cb"
+  },
+  {
+    "armor_damage": 28,
+    "weight": 0.01,
+    "velocity": 375,
+    "damage": 64,
+    "penetration": 6,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "500000",
+    "prices": [
+      {
+        "value": 49,
+        "_id": "5f4a52549f319f4528ac36d5",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "LRN",
+    "image": "7.62x25/LRN.png",
+    "caliber": "5f4a52549f319f4528ac36cb"
+  },
+  {
+    "armor_damage": 36,
+    "weight": 0.01,
+    "velocity": 430,
+    "damage": 50,
+    "penetration": 24,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "664100",
+    "prices": [
+      {
+        "value": 75,
+        "_id": "5f4a52549f319f4528ac36d7",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "PST",
+    "image": "7.62x25/PST.png",
+    "caliber": "5f4a52549f319f4528ac36cb"
+  },
+  {
+    "armor_damage": 34,
+    "weight": 0.01,
+    "velocity": 415,
+    "damage": 60,
+    "penetration": 12,
+    "recoil": 0,
+    "accuracy": -5,
+    "tracer": true,
+    "armor": "630000",
+    "prices": [
+      {
+        "value": 67,
+        "_id": "5f4a52549f319f4528ac36d9",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "PT",
+    "image": "7.62x25/PT.png",
+    "caliber": "5f4a52549f319f4528ac36cb"
+  },
+  {
+    "armor_damage": 52,
+    "weight": 0.016,
+    "velocity": 700,
+    "damage": 57,
+    "penetration": 32,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666432",
+    "prices": [
+      {
+        "value": 88,
+        "_id": "5f4a52549f319f4528ac36dc",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "PS",
+    "image": "7.62x39/PS.png",
+    "caliber": "5f4a52549f319f4528ac36da"
+  },
+  {
+    "armor_damage": 35,
+    "weight": 0.016,
+    "velocity": 754,
+    "damage": 87,
+    "penetration": 15,
+    "recoil": 0,
+    "accuracy": -5,
+    "tracer": false,
+    "armor": "641000",
+    "prices": [
+      {
+        "value": 62,
+        "_id": "5f4a52549f319f4528ac36de",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "HP",
+    "image": "7.62x39/HP.png",
+    "caliber": "5f4a52549f319f4528ac36da"
+  },
+  {
+    "armor_damage": 42,
+    "weight": 0.01,
+    "velocity": 300,
+    "damage": 56,
+    "penetration": 29,
+    "recoil": -30,
+    "accuracy": 5,
+    "tracer": false,
+    "armor": "665310",
+    "prices": [
+      {
+        "value": 157,
+        "_id": "5f4a52549f319f4528ac36e0",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "US",
+    "image": "7.62x39/US.png",
+    "caliber": "5f4a52549f319f4528ac36da"
+  },
+  {
+    "armor_damage": 46,
+    "weight": 0.01,
+    "velocity": 720,
+    "damage": 62,
+    "penetration": 30,
+    "recoil": -6,
+    "accuracy": -4,
+    "tracer": true,
+    "armor": "666310",
+    "prices": [
+      {
+        "value": 71,
+        "_id": "5f4a52549f319f4528ac36e2",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "T45M",
+    "image": "7.62x39/T45M.png",
+    "caliber": "5f4a52549f319f4528ac36da"
+  },
+  {
+    "armor_damage": 63,
+    "weight": 0.01,
+    "velocity": 730,
+    "damage": 58,
+    "penetration": 47,
+    "recoil": 5,
+    "accuracy": -3,
+    "tracer": false,
+    "armor": "666654",
+    "prices": [
+      {
+        "value": 745,
+        "_id": "5f4a52549f319f4528ac36e4",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "BP",
+    "image": "7.62x39/BP.png",
+    "caliber": "5f4a52549f319f4528ac36da"
+  },
+  {
+    "armor_damage": 33,
+    "weight": 0.022,
+    "velocity": 833,
+    "damage": 88,
+    "penetration": 31,
+    "recoil": -3,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666200",
+    "prices": [
+      {
+        "value": 153,
+        "_id": "5f4a52549f319f4528ac36e7",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "BZP FMJ",
+    "image": "7.62x51/BZP_FMJ.png",
+    "caliber": "5f4a52549f319f4528ac36e5"
+  },
+  {
+    "armor_damage": 66,
+    "weight": 0.024,
+    "velocity": 833,
+    "damage": 80,
+    "penetration": 41,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666654",
+    "prices": [
+      {
+        "value": 1.69,
+        "_id": "5f4a52549f319f4528ac36e9",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "M80",
+    "image": "7.62x51/M80.png",
+    "caliber": "5f4a52549f319f4528ac36e5"
+  },
+  {
+    "armor_damage": 83,
+    "weight": 0.024,
+    "velocity": 849,
+    "damage": 70,
+    "penetration": 68,
+    "recoil": 10,
+    "accuracy": 3,
+    "tracer": false,
+    "armor": "666666",
+    "prices": [
+      {
+        "value": 8.98,
+        "_id": "5f4a52549f319f4528ac36eb",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "M61",
+    "image": "7.62x51/M61.png",
+    "caliber": "5f4a52549f319f4528ac36e5"
+  },
+  {
+    "armor_damage": 75,
+    "weight": 0.024,
+    "velocity": 816,
+    "damage": 79,
+    "penetration": 54,
+    "recoil": -5,
+    "accuracy": -6,
+    "tracer": true,
+    "armor": "666655",
+    "prices": [
+      {
+        "value": 3.97,
+        "_id": "5f4a52549f319f4528ac36ed",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "M62",
+    "image": "7.62x51/M62.png",
+    "caliber": "5f4a52549f319f4528ac36e5"
+  },
+  {
+    "armor_damage": 40,
+    "weight": 0.023,
+    "velocity": 808,
+    "damage": 60,
+    "penetration": 36,
+    "recoil": -5,
+    "accuracy": -8,
+    "tracer": false,
+    "armor": "666520",
+    "prices": [
+      {
+        "value": 113,
+        "_id": "5f4a52549f319f4528ac36ef",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "TPZ SP",
+    "image": "7.62x51/TPZ_SP.png",
+    "caliber": "5f4a52549f319f4528ac36e5"
+  },
+  {
+    "armor_damage": 20,
+    "weight": 0.021,
+    "velocity": 822,
+    "damage": 102,
+    "penetration": 15,
+    "recoil": -5,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "640000",
+    "prices": [
+      {
+        "value": 327,
+        "_id": "5f4a52549f319f4528ac36f1",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "Ultra Nosler",
+    "image": "7.62x51/Ultra_Nosler.png",
+    "caliber": "5f4a52549f319f4528ac36e5"
+  },
+  {
+    "armor_damage": 85,
+    "weight": 0.024,
+    "velocity": 910,
+    "damage": 67,
+    "penetration": 70,
+    "recoil": 8,
+    "accuracy": 5,
+    "tracer": false,
+    "armor": "666666",
+    "prices": [],
+    "tradeups": [],
+    "name": "M993",
+    "image": "7.62x51/M993.png",
+    "caliber": "5f4a52549f319f4528ac36e5"
+  },
+  {
+    "armor_damage": 84,
+    "weight": 0.024,
+    "velocity": 875,
+    "damage": 86,
+    "penetration": 45,
+    "recoil": 8,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "666655",
+    "prices": [
+      {
+        "value": 228,
+        "_id": "5f4a52549f319f4528ac36f5",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "7N1",
+    "image": "7.62x54R/7N1.png",
+    "caliber": "5f4a52549f319f4528ac36f3"
+  },
+  {
+    "armor_damage": 87,
+    "weight": 0.024,
+    "velocity": 820,
+    "damage": 78,
+    "penetration": 59,
+    "recoil": -4,
+    "accuracy": -2,
+    "tracer": true,
+    "armor": "666666",
+    "prices": [
+      {
+        "value": 579,
+        "_id": "5f4a52549f319f4528ac36f7",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "7BT1",
+    "image": "7.62x54R/7BT1.png",
+    "caliber": "5f4a52549f319f4528ac36f3"
+  },
+  {
+    "armor_damage": 88,
+    "weight": 0.025,
+    "velocity": 820,
+    "damage": 72,
+    "penetration": 70,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666666",
+    "prices": [
+      {
+        "value": 974,
+        "_id": "5f4a52549f319f4528ac36f9",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "7N37",
+    "image": "7.62x54R/7N37.png",
+    "caliber": "5f4a52549f319f4528ac36f3"
+  },
+  {
+    "armor_damage": 78,
+    "weight": 0.024,
+    "velocity": 865,
+    "damage": 81,
+    "penetration": 42,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666643",
+    "prices": [
+      {
+        "value": 447,
+        "_id": "5f4a52549f319f4528ac36fb",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "LPS",
+    "image": "7.62x54R/LPS.png",
+    "caliber": "5f4a52549f319f4528ac36f3"
+  },
+  {
+    "armor_damage": 87,
+    "weight": 0.024,
+    "velocity": 875,
+    "damage": 75,
+    "penetration": 62,
+    "recoil": 10,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666666",
+    "prices": [
+      {
+        "value": 517,
+        "_id": "5f4a52549f319f4528ac36fd",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "SNB",
+    "image": "7.62x54R/SNB.png",
+    "caliber": "5f4a52549f319f4528ac36f3"
+  },
+  {
+    "armor_damage": 83,
+    "weight": 0.025,
+    "velocity": 875,
+    "damage": 82,
+    "penetration": 41,
+    "recoil": -5,
+    "accuracy": -1,
+    "tracer": true,
+    "armor": "666643",
+    "prices": [
+      {
+        "value": 251,
+        "_id": "5f4a52549f319f4528ac36ff",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "T-46M",
+    "image": "7.62x54R/T-46M.png",
+    "caliber": "5f4a52549f319f4528ac36f3"
+  },
+  {
+    "armor_damage": 16,
+    "weight": 0.011,
+    "velocity": 302,
+    "damage": 50,
+    "penetration": 5,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "200000",
+    "prices": [
+      {
+        "value": 13,
+        "_id": "5f4a52549f319f4528ac3702",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "9P",
+    "image": "9x18/9P.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 16,
+    "weight": 0.01,
+    "velocity": 330,
+    "damage": 55,
+    "penetration": 6,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "300000",
+    "prices": [
+      {
+        "value": 31,
+        "_id": "5f4a52549f319f4528ac3704",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "PPO",
+    "image": "9x18/PPO.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 26,
+    "weight": 0.01,
+    "velocity": 298,
+    "damage": 50,
+    "penetration": 12,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "610000",
+    "prices": [
+      {
+        "value": 48,
+        "_id": "5f4a52549f319f4528ac3706",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "PST",
+    "image": "9x18/PST.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 13,
+    "weight": 0.008,
+    "velocity": 315,
+    "damage": 54,
+    "penetration": 5,
+    "recoil": 0,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "200000",
+    "prices": [
+      {
+        "value": 24,
+        "_id": "5f4a52549f319f4528ac3708",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "PSO",
+    "image": "9x18/PSO.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 22,
+    "weight": 0.01,
+    "velocity": 301,
+    "damage": 59,
+    "penetration": 8,
+    "recoil": -7,
+    "accuracy": -5,
+    "tracer": true,
+    "armor": "510000",
+    "prices": [
+      {
+        "value": 46,
+        "_id": "5f4a52549f319f4528ac370a",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "PPT",
+    "image": "9x18/PPT.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 28,
+    "weight": 0.01,
+    "velocity": 325,
+    "damage": 53,
+    "penetration": 18,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "651000",
+    "prices": [
+      {
+        "value": 69,
+        "_id": "5f4a52549f319f4528ac370c",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "BZT",
+    "image": "9x18/BZT.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 15,
+    "weight": 0.009,
+    "velocity": 297,
+    "damage": 61,
+    "penetration": 7,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "400000",
+    "prices": [
+      {
+        "value": 55,
+        "_id": "5f4a52549f319f4528ac370e",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "PPe",
+    "image": "9x18/PPe.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 16,
+    "weight": 0.011,
+    "velocity": 302,
+    "damage": 58,
+    "penetration": 6,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "300000",
+    "prices": [
+      {
+        "value": 42,
+        "_id": "5f4a52549f319f4528ac3710",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "PRS",
+    "image": "9x18/PRS.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 5,
+    "weight": 0.012,
+    "velocity": 280,
+    "damage": 69,
+    "penetration": 3,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "000000",
+    "prices": [
+      {
+        "value": 71,
+        "_id": "5f4a52549f319f4528ac3712",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "PSV",
+    "image": "9x18/PSV.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 30,
+    "weight": 0.007,
+    "velocity": 519,
+    "damage": 40,
+    "penetration": 28,
+    "recoil": 4,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "665100",
+    "prices": [
+      {
+        "value": 118,
+        "_id": "5f4a52549f319f4528ac3714",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "PBM",
+    "image": "9x18/PBM.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 33,
+    "weight": 0.009,
+    "velocity": 420,
+    "damage": 58,
+    "penetration": 24,
+    "recoil": 5,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "664000",
+    "prices": [
+      {
+        "value": 147,
+        "_id": "5f4a52549f319f4528ac3716",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "PMM",
+    "image": "9x18/PMM.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 5,
+    "weight": 0.011,
+    "velocity": 420,
+    "damage": 77,
+    "penetration": 2,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "000000",
+    "prices": [
+      {
+        "value": 161,
+        "_id": "5f4a52549f319f4528ac3718",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "SP7",
+    "image": "9x18/SP7.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 2,
+    "weight": 0.009,
+    "velocity": 250,
+    "damage": 67,
+    "penetration": 1,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "000000",
+    "prices": [
+      {
+        "value": 67,
+        "_id": "5f4a52549f319f4528ac371a",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "SP8",
+    "image": "9x18/SP8.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 26,
+    "weight": 0.011,
+    "velocity": 330,
+    "damage": 65,
+    "penetration": 13,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "620000",
+    "prices": [
+      {
+        "value": 83,
+        "_id": "5f4a52549f319f4528ac371c",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "RG028",
+    "image": "9x18/RG028.png",
+    "caliber": "5f4a52549f319f4528ac3700"
+  },
+  {
+    "armor_damage": 33,
+    "weight": 0.005,
+    "velocity": 457,
+    "damage": 54,
+    "penetration": 20,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "662000",
+    "prices": [
+      {
+        "value": 66,
+        "_id": "5f4a52549f319f4528ac371f",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      },
+      {
+        "value": 0.59,
+        "_id": "5f4a52549f319f4528ac3720",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      },
+      {
+        "value": 67,
+        "_id": "5f4a52549f319f4528ac3721",
+        "trader": "Mechanic",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "PST",
+    "image": "9x19/PST.png",
+    "caliber": "5f4a52549f319f4528ac371d"
+  },
+  {
+    "armor_damage": 32,
+    "weight": 0.005,
+    "velocity": 340,
+    "damage": 59,
+    "penetration": 10,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "620000",
+    "prices": [
+      {
+        "value": 52,
+        "_id": "5f4a52549f319f4528ac3723",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 1
+      },
+      {
+        "value": 50,
+        "_id": "5f4a52549f319f4528ac3724",
+        "trader": "Jaeger",
+        "currency": "R",
+        "level": 1
+      }
+    ],
+    "tradeups": [],
+    "name": "PSO",
+    "image": "9x19/PSO.png",
+    "caliber": "5f4a52549f319f4528ac371d"
+  },
+  {
+    "armor_damage": 38,
+    "weight": 0.015,
+    "velocity": 420,
+    "damage": 70,
+    "penetration": 10,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "620000",
+    "prices": [
+      {
+        "value": 360,
+        "_id": "5f4a52549f319f4528ac3726",
+        "trader": "Skier",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "Luger CCI",
+    "image": "9x19/CCI.png",
+    "caliber": "5f4a52549f319f4528ac371d"
+  },
+  {
+    "armor_damage": 48,
+    "weight": 0.009,
+    "velocity": 392,
+    "damage": 52,
+    "penetration": 30,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666421",
+    "prices": [
+      {
+        "value": 2.76,
+        "_id": "5f4a52549f319f4528ac3728",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "AP 6.3",
+    "image": "9x19/AP_63.png",
+    "caliber": "5f4a52549f319f4528ac371d"
+  },
+  {
+    "armor_damage": 33,
+    "weight": 0.006,
+    "velocity": 365,
+    "damage": 58,
+    "penetration": 14,
+    "recoil": -6,
+    "accuracy": -5,
+    "tracer": true,
+    "armor": "631000",
+    "prices": [
+      {
+        "value": 70,
+        "_id": "5f4a52549f319f4528ac372a",
+        "trader": "Mechanic",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "Green Tracer",
+    "image": "9x19/Green_Tracer.png",
+    "caliber": "5f4a52549f319f4528ac371d"
+  },
+  {
+    "armor_damage": 11,
+    "weight": 0.006,
+    "velocity": 381,
+    "damage": 102,
+    "penetration": 2,
+    "recoil": 20,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "000000",
+    "prices": [],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac372c",
+        "trader": "Jaeger",
+        "level": 4
+      },
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac372d",
+        "trader": "Skier",
+        "level": 4
+      }
+    ],
+    "name": "RIP",
+    "image": "9x19/RIP.png",
+    "caliber": "5f4a52549f319f4528ac371d"
+  },
+  {
+    "armor_damage": 53,
+    "weight": 0.006,
+    "velocity": 381,
+    "damage": 52,
+    "penetration": 39,
+    "recoil": 20,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666543",
+    "prices": [
+      {
+        "value": 435,
+        "_id": "5f4a52549f319f4528ac372f",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "7N31",
+    "image": "9x19/7N31.png",
+    "caliber": "5f4a52549f319f4528ac371d"
+  },
+  {
+    "armor_damage": 22,
+    "weight": 0.013,
+    "velocity": 290,
+    "damage": 85,
+    "penetration": 8,
+    "recoil": 20,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "610000",
+    "prices": [
+      {
+        "value": 1.46,
+        "_id": "5f4a52549f319f4528ac3731",
+        "trader": "Peacekeeper",
+        "currency": "D",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "QuakeMaker",
+    "image": "9x19/QuakeMaker.png",
+    "caliber": "5f4a52549f319f4528ac371d"
+  },
+  {
+    "armor_damage": 46,
+    "weight": 0.023,
+    "velocity": 410,
+    "damage": 49,
+    "penetration": 35,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666432",
+    "prices": [
+      {
+        "value": 149,
+        "_id": "5f4a52549f319f4528ac3734",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "SP10",
+    "image": "9x21/SP10.png",
+    "caliber": "5f4a52549f319f4528ac3732"
+  },
+  {
+    "armor_damage": 44,
+    "weight": 0.023,
+    "velocity": 413,
+    "damage": 65,
+    "penetration": 18,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "630000",
+    "prices": [
+      {
+        "value": 159,
+        "_id": "5f4a52549f319f4528ac3736",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "SP11",
+    "image": "9x21/SP11.png",
+    "caliber": "5f4a52549f319f4528ac3732"
+  },
+  {
+    "armor_damage": 63,
+    "weight": 0.023,
+    "velocity": 415,
+    "damage": 80,
+    "penetration": 15,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "620000",
+    "prices": [
+      {
+        "value": 209,
+        "_id": "5f4a52549f319f4528ac3738",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "SP12",
+    "image": "9x21/SP12.png",
+    "caliber": "5f4a52549f319f4528ac3732"
+  },
+  {
+    "armor_damage": 47,
+    "weight": 0.023,
+    "velocity": 397,
+    "damage": 63,
+    "penetration": 39,
+    "recoil": -4,
+    "accuracy": -4,
+    "tracer": true,
+    "armor": "666543",
+    "prices": [
+      {
+        "value": 282,
+        "_id": "5f4a52549f319f4528ac373a",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [],
+    "name": "SP13",
+    "image": "9x21/SP13.png",
+    "caliber": "5f4a52549f319f4528ac3732"
+  },
+  {
+    "armor_damage": 52,
+    "weight": 0.023,
+    "velocity": 290,
+    "damage": 68,
+    "penetration": 35,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666532",
+    "prices": [
+      {
+        "value": 229,
+        "_id": "5f4a52549f319f4528ac373d",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 2
+      }
+    ],
+    "tradeups": [],
+    "name": "SP-5",
+    "image": "9x39/SP-5.png",
+    "caliber": "5f4a52549f319f4528ac373b"
+  },
+  {
+    "armor_damage": 60,
+    "weight": 0.023,
+    "velocity": 305,
+    "damage": 58,
+    "penetration": 43,
+    "recoil": 10,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666654",
+    "prices": [
+      {
+        "value": 764,
+        "_id": "5f4a52549f319f4528ac373f",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 3
+      }
+    ],
+    "tradeups": [],
+    "name": "SP-6",
+    "image": "9x39/SP-6.png",
+    "caliber": "5f4a52549f319f4528ac373b"
+  },
+  {
+    "armor_damage": 56,
+    "weight": 0.023,
+    "velocity": 310,
+    "damage": 64,
+    "penetration": 45,
+    "recoil": 20,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "------",
+    "prices": [
+      {
+        "value": 1180,
+        "_id": "5f4a52549f319f4528ac3741",
+        "trader": "Prapor",
+        "currency": "R",
+        "level": 4
+      }
+    ],
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3742",
+        "trader": "Prapor",
+        "level": 3
+      }
+    ],
+    "name": "7N9",
+    "image": "9x39/7N9.png",
+    "caliber": "5f4a52549f319f4528ac373b"
+  },
+  {
+    "armor_damage": 68,
+    "weight": 0.023,
+    "velocity": 295,
+    "damage": 60,
+    "penetration": 48,
+    "recoil": 22,
+    "accuracy": 10,
+    "tracer": false,
+    "prices": [],
+    "armor": "------",
+    "tradeups": [
+      {
+        "items": [],
+        "_id": "5f4a52549f319f4528ac3744",
+        "trader": "Prapor",
+        "level": 4
+      }
+    ],
+    "name": "7N12",
+    "image": "9x39/7N12.png",
+    "caliber": "5f4a52549f319f4528ac373b"
+  },
+  {
+    "armor_damage": 60,
+    "weight": 0.014,
+    "velocity": 720,
+    "damage": 55,
+    "penetration": 44,
+    "recoil": 5,
+    "accuracy": 5,
+    "tracer": false,
+    "armor": "666654",
+    "prices": [],
+    "tradeups": [],
+    "name": "AAC Blackout AP",
+    "image": "",
+    "caliber": "300blackout"
+  },
+  {
+    "armor_damage": 36,
+    "weight": 0.015,
+    "velocity": 605,
+    "damage": 60,
+    "penetration": 28,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "665320",
+    "prices": [],
+    "tradeups": [],
+    "name": "BPZ AAC Blackout",
+    "image": "",
+    "caliber": "300blackout"
+  },
+  {
+    "armor_damage": 89,
+    "weight": 0.014,
+    "velocity": 849,
+    "damage": 115,
+    "penetration": 79,
+    "recoil": -10,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666666",
+    "prices": [],
+    "tradeups": [],
+    "name": "Lapua Magnum AP",
+    "image": "",
+    "caliber": "338lapua"
+  },
+  {
+    "armor_damage": 83,
+    "weight": 0.014,
+    "velocity": 900,
+    "damage": 122,
+    "penetration": 47,
+    "recoil": 0,
+    "accuracy": 0,
+    "tracer": false,
+    "armor": "666655",
+    "prices": [],
+    "tradeups": [],
+    "name": "Lapua Magnum FMJ",
+    "image": "",
+    "caliber": "338lapua"
+  },
+  {
+    "armor_damage": 55,
+    "weight": 0.014,
+    "velocity": 880,
+    "damage": 196,
+    "penetration": 18,
+    "recoil": 5,
+    "accuracy": 10,
+    "tracer": false,
+    "armor": "653100",
+    "prices": [],
+    "tradeups": [],
+    "name": "Lapua Magnum TAC-X",
+    "image": "",
+    "caliber": "338lapua"
+  },
+  {
+    "armor_damage": 70,
+    "weight": 0.014,
+    "velocity": 849,
+    "damage": 142,
+    "penetration": 32,
+    "recoil": 0,
+    "accuracy": -5,
+    "tracer": false,
+    "armor": "666542",
+    "prices": [],
+    "tradeups": [],
+    "name": "UPZ Lapua Magnum",
+    "image": "",
+    "caliber": "338lapua"
+  }
+]

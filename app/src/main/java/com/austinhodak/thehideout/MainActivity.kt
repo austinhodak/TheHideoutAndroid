@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity() {
                     name = StringHolder("Tarkov'd Simulator")
                     iconRes = R.drawable.icons8_ammo_100
                     isSelectable = false
-                    isEnabled = false
+                    isEnabled = BuildConfig.DEBUG
                     onDrawerItemClickListener = { _, _, _ ->
                         startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
                         false

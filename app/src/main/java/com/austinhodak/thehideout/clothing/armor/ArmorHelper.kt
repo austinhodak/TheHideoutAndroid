@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken
 import org.json.JSONArray
 import java.lang.reflect.Type
 
+
 object ArmorHelper {
     private var objectString: String? = null
     private var list: List<Armor>? = null

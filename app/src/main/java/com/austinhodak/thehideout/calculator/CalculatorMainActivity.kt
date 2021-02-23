@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.calculator.models.Body
 import com.austinhodak.thehideout.calculator.models.Part
 import com.austinhodak.thehideout.clothing.armor.ArmorHelper
@@ -60,13 +61,13 @@ class CalculatorMainActivity : AppCompatActivity() {
         body.linkToHealthBar(Part.RIGHTLEG, binding.healthRLeg)
 
         ammoViewModel.ammoList.observe(this) {
-            selectedAmmo = it.find { it._id == "5f4a52549f319f4528ac3635" }!!
+            selectedAmmo = it.find { it.prices?.firstOrNull { it._id == "5f4a52549f319f4528ac3655" } != null }!!
             updateBottomSheet()
             updateDurabilities()
         }
 
         selectedHelmet = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac3760" }
-        selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac3750" }
+        selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac3758" }
         updateDurabilities()
         updateBottomSheet()
 
@@ -113,6 +114,8 @@ class CalculatorMainActivity : AppCompatActivity() {
         text += "${selectedHelmet?.getArmor()?.durability ?: 0}/${selectedHelmet?.getArmor()?.maxDurability ?: 0}"
         text += "\n${selectedChestArmor?.getArmor()?.durability ?: 0}/${selectedChestArmor?.getArmor()?.maxDurability ?: 0}"
         binding.calcDurabilitiesTV.text = text
+
+        binding.calcDurabilitiesArmorNamesTV.text = "${selectedHelmet?.name ?: "Helmet"}: \n${selectedChestArmor?.name ?: "Chest"}: "
     }
 
     private fun updateBottomSheet() {
@@ -120,7 +123,7 @@ class CalculatorMainActivity : AppCompatActivity() {
             bottomBinding.calcHelmetName.text = "No Helmet"
             bottomBinding.calcHelmetSubtitle.text = "Select a Helmet."
         } else {
-            bottomBinding.calcHelmetName.text = selectedHelmet?.name
+            bottomBinding.calcHelmetName.text = "${selectedHelmet?.name} • Class ${selectedHelmet?.level}"
             bottomBinding.calcHelmetSubtitle.text = selectedHelmet?.zones?.joinToString(separator = ", ")
         }
 
@@ -128,15 +131,14 @@ class CalculatorMainActivity : AppCompatActivity() {
             bottomBinding.calcChestTitle.text = "No Chest Armor"
             bottomBinding.calcChestSubtitle.text = "Select Chest Armor."
         } else {
-            bottomBinding.calcChestTitle.text = selectedChestArmor?.name
+            bottomBinding.calcChestTitle.text = "${selectedChestArmor?.name} • Class ${selectedChestArmor?.level}"
             bottomBinding.calcChestSubtitle.text = selectedChestArmor?.zones?.joinToString(separator = ", ")
         }
 
         if (this::selectedAmmo.isInitialized) {
-            bottomBinding.calcAmmoTitle.text = selectedAmmo.name
-           /* ammoViewModel.data.observe(this) {
-                bottomBinding.calcAmmoSubtitle.text = it?.find { it.ammo.find { it._id == selectedAmmo._id } != null }?.long_name
-            }*/
+            val caliber = AmmoHelper.getCaliberByID(selectedAmmo.caliber)
+            bottomBinding.calcAmmoTitle.text = "${selectedAmmo.name} • ${caliber?.longName}"
+            bottomBinding.calcAmmoSubtitle.text = "Damage: ${selectedAmmo.damage} • Armor Damage: ${selectedAmmo.armor_damage} • Penetration: ${selectedAmmo.penetration}"
         }
     }
 
