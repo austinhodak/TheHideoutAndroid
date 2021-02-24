@@ -37,8 +37,14 @@ class CalculatorMainActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK && result.data != null) {
             if (result.data?.hasExtra("ammoID") == true) {
                 selectedAmmo = ammoViewModel.ammoList.value?.find { it.prices?.firstOrNull { it._id == result.data?.getStringExtra("ammoID") } != null }!!
-                selectedHelmet = null
-                selectedChestArmor = null
+                updateBottomSheet()
+            }
+            if (result.data?.hasExtra("helmetID") == true) {
+                selectedHelmet = ArmorHelper.getArmors(this).find { it._id == result.data?.getStringExtra("helmetID") }
+                updateBottomSheet()
+            }
+            if (result.data?.hasExtra("chestID") == true) {
+                selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == result.data?.getStringExtra("chestID") }
                 updateBottomSheet()
             }
         }

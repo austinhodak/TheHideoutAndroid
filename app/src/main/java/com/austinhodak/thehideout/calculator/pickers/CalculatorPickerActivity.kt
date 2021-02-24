@@ -10,12 +10,11 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.clothing.armor.ArmorHelper
 import com.austinhodak.thehideout.databinding.ActivityCalculatorPickerBinding
 import com.austinhodak.thehideout.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.viewmodels.models.Armor
 import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
-import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CalculatorPickerActivity : AppCompatActivity() {
@@ -24,8 +23,8 @@ class CalculatorPickerActivity : AppCompatActivity() {
 
     private lateinit var adapter: FastAdapter<*>
     private lateinit var ammoAdapter: ItemAdapter<FSAmmo>
-    private lateinit var helmetAdapter: ItemAdapter<FSAmmo>
-    private lateinit var chestAdapter: ItemAdapter<FSAmmo>
+    private lateinit var helmetAdapter: ItemAdapter<Armor>
+    private lateinit var chestAdapter: ItemAdapter<Armor>
 
     private lateinit var itemType: ItemType
 
@@ -54,10 +53,18 @@ class CalculatorPickerActivity : AppCompatActivity() {
         binding.calculatorPickerRV.adapter = adapter
 
         adapter.onClickListener = { view, adapter, item, pos ->
+            Toast.makeText(this, "Selected: $pos", Toast.LENGTH_SHORT).show()
             val intent = Intent()
             when(item) {
                 is FSAmmo -> {
                     intent.putExtra("ammoID", item.prices?.first()?._id)
+                }
+                is Armor -> {
+                    if (item.`class` == "Helmet") {
+                        intent.putExtra("helmetID", item._id)
+                    } else {
+                        intent.putExtra("chestID", item._id)
+                    }
                 }
             }
             setResult(RESULT_OK, intent)
@@ -73,10 +80,11 @@ class CalculatorPickerActivity : AppCompatActivity() {
                 ammoAdapter.add(ammoViewModel.ammoList.value?.sortedBy { it.name } ?: emptyList())
             }
             ItemType.HELMET -> {
-
+                helmetAdapter.add(armorHelper.getArmors(this))
+                //helmetAdapter.add(armorHelper.getArmors(this).filter { it.`class` == "Helmet" }.sortedWith(compareBy({ it.level }, { it.name })))
             }
             ItemType.CHEST -> {
-
+                chestAdapter.add(armorHelper.getArmors(this).filter { it.`class` == "Chest Rig" || it.`class` == "Body Armor" }.sortedWith(compareBy({ it.level }, { it.name })))
             }
         }
     }

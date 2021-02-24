@@ -1,6 +1,11 @@
 package com.austinhodak.thehideout.viewmodels.models
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.austinhodak.thehideout.calculator.models.CArmor
+import com.austinhodak.thehideout.databinding.CalculatorListItemArmorBinding
+import com.bumptech.glide.Glide
+import com.mikepenz.fastadapter.binding.AbstractBindingItem
 
 data class Armor(
     var description: String,
@@ -26,7 +31,20 @@ data class Armor(
     var resistance: Double,
     var destructibility: Double,
     var cArmor: CArmor? = null
-) {
+) : AbstractBindingItem<CalculatorListItemArmorBinding>() {
+
+    override val type: Int
+        get() = internal
+
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): CalculatorListItemArmorBinding {
+        return CalculatorListItemArmorBinding.inflate(inflater, parent, false)
+    }
+
+    override fun bindView(binding: CalculatorListItemArmorBinding, payloads: List<Any>) {
+        Glide.with(binding.root.context).load("https://eftdb.one/static/item/thumb/$image").into(binding.imageView5)
+        binding.item = this
+    }
+
     data class Field(
         var vital: Boolean,
         var _id: String,
@@ -70,5 +88,9 @@ data class Armor(
         }
 
         return string.trim()
+    }
+
+    fun getPickerSubtitle(): String {
+        return "Class $level • $material"
     }
 }
