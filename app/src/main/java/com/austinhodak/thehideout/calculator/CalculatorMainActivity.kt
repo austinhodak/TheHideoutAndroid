@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.ammunition.AmmoHelper
+import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.models.Body
 import com.austinhodak.thehideout.calculator.models.Part
 import com.austinhodak.thehideout.calculator.pickers.CalculatorPickerActivity

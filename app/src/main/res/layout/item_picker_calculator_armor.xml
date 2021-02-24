@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.austinhodak.thehideout.viewmodels.models.Armor" />
+            type="com.austinhodak.thehideout.clothing.models.Armor" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

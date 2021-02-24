@@ -7,11 +7,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.clothing.armor.ArmorHelper
+import com.austinhodak.thehideout.clothing.models.Armor
 import com.austinhodak.thehideout.databinding.ActivityCalculatorPickerBinding
-import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.models.Armor
-import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +22,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCalculatorPickerBinding
 
     private lateinit var adapter: FastAdapter<*>
-    private lateinit var ammoAdapter: ItemAdapter<FSAmmo>
+    private lateinit var ammoAdapter: ItemAdapter<Ammo>
     private lateinit var helmetAdapter: ItemAdapter<Armor>
     private lateinit var chestAdapter: ItemAdapter<Armor>
 
@@ -56,7 +56,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
             Toast.makeText(this, "Selected: $pos", Toast.LENGTH_SHORT).show()
             val intent = Intent()
             when(item) {
-                is FSAmmo -> {
+                is Ammo -> {
                     intent.putExtra("ammoID", item.prices?.first()?._id)
                 }
                 is Armor -> {
