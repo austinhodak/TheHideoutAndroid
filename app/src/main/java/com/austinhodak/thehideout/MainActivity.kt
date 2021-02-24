@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         val benderFont = ResourcesCompat.getFont(this, R.font.bender)
         val discord = PrimaryDrawerItem().apply {
             typeface = benderFont
-            nameText = "Discord"
+            nameText = getString(R.string.discord)
             iconRes = R.drawable.icons8_discord_96
             isIconTinted = true
             isSelectable = false
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         val twitch = PrimaryDrawerItem().apply {
             typeface = benderFont
-            nameText = "Twitch"
+            nameText = getString(R.string.twitch)
             iconRes = R.drawable.icons8_twitch_96
             isIconTinted = true
             isSelectable = false
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
         val twitter = PrimaryDrawerItem().apply {
             typeface = benderFont
-            nameText = "Twitter"
+            nameText = getString(R.string.twitter)
             iconRes = R.drawable.icons8_twitter_squared_96
             isIconTinted = true
             isSelectable = false
@@ -123,69 +123,69 @@ class MainActivity : AppCompatActivity() {
                 NavigationDrawerItem(R.id.FirstFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Ammunition")
+                    name = StringHolder(context.getString(R.string.ammunition))
                     iconRes = R.drawable.icons8_ammo_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.armorTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Armor")
+                    name = StringHolder(context.getString(R.string.armor))
                     iconRes = R.drawable.icons8_bulletproof_vest_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.backpackRigTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Backpacks & Rigs")
+                    name = StringHolder(context.getString(R.string.backpacks_rigs))
                     iconRes = R.drawable.icons8_rucksack_96
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.keysListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Keys")
+                    name = StringHolder(context.getString(R.string.keys))
                     iconRes = R.drawable.icons8_key_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.medicalTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Medical")
+                    name = StringHolder(context.getString(R.string.medical))
                     iconRes = R.drawable.icons8_syringe_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.WeaponFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Weapons")
+                    name = StringHolder(context.getString(R.string.weapons))
                     iconRes = R.drawable.icons8_assault_rifle_100
                 }, options = getNavOptions()),
                 DividerDrawerItem(),
                 PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Dealers")
+                    name = StringHolder(context.getString(R.string.dealers))
                     iconRes = R.drawable.ic_baseline_groups_24
                     isEnabled = false
                 },
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Flea Market")
+                    name = StringHolder(context.getString(R.string.flea_market))
                     iconRes = R.drawable.ic_baseline_shopping_cart_24
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.hideoutMainFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Hideout")
+                    name = StringHolder(context.getString(R.string.hideout))
                     iconRes = R.drawable.hideout_shadow_1
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.questMainFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Quests")
+                    name = StringHolder(context.getString(R.string.quests))
                     iconRes = R.drawable.ic_baseline_assignment_24
                 }, options = getNavOptions()),
                 PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Tarkov'd Simulator")
+                    name = StringHolder(context.getString(R.string.simulator))
                     iconRes = R.drawable.icons8_ammo_100
                     isSelectable = false
                     isEnabled = false
@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 },
                 SectionDrawerItem().apply {
-                    nameText = "Join us on"
+                    nameText = context.getString(R.string.join_us)
                 },
                 discord,
                 twitch,
@@ -222,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                     prefs.edit {
                         putInt("defaultOpeningFragment", item.resId)
                     }
-                    Snackbar.make(binding.root, "Opening screen set!", Snackbar.LENGTH_SHORT).apply {
+                    Snackbar.make(binding.root, context.getString(R.string.set_opening_screen), Snackbar.LENGTH_SHORT).apply {
                         this.setBackgroundTint(resources.getColor(R.color.md_green_500))
                         this.setTextColor(Color.WHITE)
                     }.show()

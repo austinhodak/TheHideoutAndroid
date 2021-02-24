@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.models.PriceAlert
 import com.austinhodak.thehideout.uid
@@ -111,7 +112,7 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
         val price = editText?.text.toString().replace(",", "").toIntOrNull()
 
         if (price == null) {
-            Toast.makeText(editText?.context, "Price must be whole number.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(editText?.context, context.getString(R.string.error_whole_number), Toast.LENGTH_SHORT).show()
             return
         }
 

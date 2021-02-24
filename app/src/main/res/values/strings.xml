@@ -1,12 +1,43 @@
 <resources>
     <string name="app_name">The Hideout</string>
 
-    <string name="ammunition">Ammunition</string>
-
     <string name="meter">%sm</string>
     <string name="flea_alert_empty">No alerts set, long press on a flea market item to add one!</string>
     <string name="flea_favorites_empty">No favorites set!</string>
 
     <string name="shortcut_flea">Flea Market</string>
+    <string name="helmet_none">No Helmet</string>
+    <string name="helmet_select">Select a Helmet.</string>
+    <string name="armor_chest_none">No Chest Armor</string>
+    <string name="armor_chest_select">Select Chest Armor.</string>
+    <string name="price_alert_add">Add Price Alert</string>
+    <string name="add">ADD</string>
+    <string name="error_empty">Cannot be empty.</string>
+    <string name="cancel">CANCEL</string>
+    <string name="wiki_goto">Go to Wiki Page</string>
+    <string name="sort_by">Sort By</string>
+    <string name="delete">Delete</string>
+    <string name="error_whole_number">Price must be whole number.</string>
+    <string name="all">All</string>
+    <string name="current">Current</string>
+    <string name="available">Available</string>
+    <string name="locked">Locked</string>
+    <string name="discord">Discord</string>
+    <string name="twitch">Twitch</string>
+    <string name="twitter">Twitter</string>
+    <string name="ammunition">Ammunition</string>
+    <string name="armor">Armor</string>
+    <string name="backpacks_rigs"><![CDATA[Backpacks & Rigs]]></string>
+    <string name="keys">Keys</string>
+    <string name="medical">Medical</string>
+    <string name="weapons">Weapons</string>
+    <string name="dealers">Dealers</string>
+    <string name="flea_market">Flea Market</string>
+    <string name="hideout">Hideout</string>
+    <string name="quests">Quests</string>
+    <string name="simulator">Tarkov\'d Simulator</string>
+    <string name="join_us">Join us on</string>
+    <string name="set_opening_screen">Opening screen set!</string>
+    <string name="notification_channel_flea_alert">Flea Market Alerts</string>
 
 </resources>

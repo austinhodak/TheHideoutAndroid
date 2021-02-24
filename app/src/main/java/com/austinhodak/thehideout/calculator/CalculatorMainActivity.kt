@@ -117,16 +117,16 @@ class CalculatorMainActivity : AppCompatActivity() {
 
     private fun updateBottomSheet() {
         if (selectedHelmet == null) {
-            bottomBinding.calcHelmetName.text = "No Helmet"
-            bottomBinding.calcHelmetSubtitle.text = "Select a Helmet."
+            bottomBinding.calcHelmetName.text = getString(R.string.helmet_none)
+            bottomBinding.calcHelmetSubtitle.text = getString(R.string.helmet_select)
         } else {
             bottomBinding.calcHelmetName.text = selectedHelmet?.name
             bottomBinding.calcHelmetSubtitle.text = selectedHelmet?.zones?.joinToString(separator = ", ")
         }
 
         if (selectedChestArmor == null) {
-            bottomBinding.calcChestTitle.text = "No Chest Armor"
-            bottomBinding.calcChestSubtitle.text = "Select Chest Armor."
+            bottomBinding.calcChestTitle.text = getString(R.string.armor_chest_none)
+            bottomBinding.calcChestSubtitle.text = getString(R.string.armor_chest_select)
         } else {
             bottomBinding.calcChestTitle.text = selectedChestArmor?.name
             bottomBinding.calcChestSubtitle.text = selectedChestArmor?.zones?.joinToString(separator = ", ")

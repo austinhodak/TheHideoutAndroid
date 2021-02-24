@@ -53,7 +53,7 @@ class FleaMarketPriceAlertsFragment : Fragment() {
 
     private fun setupAdapter() {
         val dialogAdapter = SlimAdapter.create().register<PriceAlert>(R.layout.item_dialog_simple) { alert, i ->
-            i.text(R.id.itemText, "Delete")
+            i.text(R.id.itemText, R.string.delete)
             i.image(R.id.itemIcon, R.drawable.ic_baseline_delete_24)
 
             i.clicked(R.id.itemTop) {

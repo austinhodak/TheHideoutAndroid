@@ -60,7 +60,8 @@ class HideoutModuleListFragment : Fragment() {
         }
 
         val chips = (requireActivity() as MainActivity).getQuestChips()
-        (requireActivity() as MainActivity).updateChips(arrayListOf("All", "Current", "Available", "Locked"))
+        (requireActivity() as MainActivity).updateChips(arrayListOf(getString(R.string.all), getString(R.string.current), getString(R.string.available), getString(
+                    R.string.locked)))
         chipSelected = chips.checkedChipId
         chipSelected()
         chips.setOnCheckedChangeListener { _, checkedId ->
