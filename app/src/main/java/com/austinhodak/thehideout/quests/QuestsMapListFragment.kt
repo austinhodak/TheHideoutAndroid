@@ -14,8 +14,8 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.quests.models.Maps
 import com.austinhodak.thehideout.quests.models.Quest
-import com.austinhodak.thehideout.viewmodels.QuestsViewModel
-import com.austinhodak.thehideout.views.QuestObjective
+import com.austinhodak.thehideout.quests.viewmodels.QuestsViewModel
+import com.austinhodak.thehideout.quests.views.QuestObjective
 import net.idik.lib.slimadapter.SlimAdapter
 
 private const val ARG_PARAM1 = "param1"
@@ -46,11 +46,11 @@ class QuestsMapListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.trader_rv)
         recyclerView.layoutManager = linearLayoutManager
 
-        adapter = SlimAdapter.create().register<Quest>(R.layout.quest_list_item_1) { quest, i ->
+        adapter = SlimAdapter.create().register<Quest>(R.layout.item_quest) { quest, i ->
             val taskRV = i.findViewById<RecyclerView>(R.id.questTaskListRV)
             taskRV.layoutManager = LinearLayoutManager(requireActivity())
 
-            SlimAdapter.create().register<Quest.QuestObjectives>(R.layout.quest_task_item_1) { objective, i ->
+            SlimAdapter.create().register<Quest.QuestObjectives>(R.layout.item_quest_task) { objective, i ->
                 val objectiveView = i.findViewById<QuestObjective>(R.id.questOb)
                 objectiveView.setObjective(objective, objectivesList)
 

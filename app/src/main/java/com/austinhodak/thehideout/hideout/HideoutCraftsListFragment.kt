@@ -12,11 +12,11 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.hideout.models.HideoutCraft
 import com.austinhodak.thehideout.hideout.models.Input
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.viewmodels.HideoutViewModel
+import com.austinhodak.thehideout.hideout.viewmodels.HideoutViewModel
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
 import kotlin.math.abs
@@ -53,13 +53,13 @@ class HideoutCraftsListFragment : Fragment() {
         val greenTextColor = resources.getColor(R.color.md_green_400)
         val redTextColor = resources.getColor(R.color.md_red_400)
 
-        mAdapter = SlimAdapter.create().register<HideoutCraft>(R.layout.hideout_craft_item) { craft, i ->
+        mAdapter = SlimAdapter.create().register<HideoutCraft>(R.layout.item_hideout_craft) { craft, i ->
 
             //Requirements
             val requirementRV = i.findViewById<RecyclerView>(R.id.craftInputRV)
             requirementRV.layoutManager = LinearLayoutManager(requireContext())
 
-            SlimAdapter.create().attachTo(requirementRV).register<Input>(R.layout.hideout_crafting_item_requirement) { inputItem, rI ->
+            SlimAdapter.create().attachTo(requirementRV).register<Input>(R.layout.item_hideout_crafting_requirement) { inputItem, rI ->
                 val fleaItem = inputItem.fleaItem
                 val inputIcon = rI.findViewById<ImageView>(R.id.craftInputIcon)
                 Glide.with(this).load(fleaItem.getItemIcon()).into(inputIcon)

@@ -16,10 +16,10 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.ActivityFleaItemDetailBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.austinhodak.thehideout.flea_market.models.PriceAlertSmall
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.userRef
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.viewmodels.models.PriceAlertSmall
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.databinding.QuestsFragmentBinding
+import com.austinhodak.thehideout.databinding.FragmentQuestsMainBinding
 import com.austinhodak.thehideout.logScreen
 import com.austinhodak.thehideout.quests.inraid.QuestInRaidActivity
 import com.austinhodak.thehideout.quests.inraid.models.Map
@@ -22,10 +22,8 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter
 
 class QuestMainFragment : Fragment() {
 
-    private var _binding: QuestsFragmentBinding? = null
+    private var _binding: FragmentQuestsMainBinding? = null
     private val binding get() = _binding!!
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +35,7 @@ class QuestMainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = QuestsFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentQuestsMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 

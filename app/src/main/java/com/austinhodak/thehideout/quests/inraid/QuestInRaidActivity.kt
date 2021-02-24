@@ -11,8 +11,8 @@ import com.austinhodak.thehideout.databinding.ActivityQuestInRaidBinding
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.quests.QuestsHelper
 import com.austinhodak.thehideout.quests.models.Maps
+import com.austinhodak.thehideout.quests.viewmodels.QuestsViewModel
 import com.austinhodak.thehideout.utils.Map
-import com.austinhodak.thehideout.viewmodels.QuestsViewModel
 
 class QuestInRaidActivity : AppCompatActivity() {
 

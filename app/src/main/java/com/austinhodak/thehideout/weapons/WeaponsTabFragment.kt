@@ -12,9 +12,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.logScreen
-import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.WeaponViewModel
+import com.austinhodak.thehideout.weapons.viewmodels.WeaponViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

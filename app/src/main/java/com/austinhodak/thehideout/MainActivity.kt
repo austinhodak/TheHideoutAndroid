@@ -23,14 +23,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.austinhodak.thehideout.ammunition.AmmoHelper
+import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
-import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.viewmodels.KeysViewModel
-import com.austinhodak.thehideout.viewmodels.models.Weapon
-import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
+import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
+import com.austinhodak.thehideout.weapons.models.Weapon
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
@@ -214,7 +214,7 @@ class MainActivity : AppCompatActivity() {
                 },*/
             )
 
-            headerView = View.inflate(this@MainActivity, R.layout.main_drawer_header, null)
+            headerView = View.inflate(this@MainActivity, R.layout.layout_drawer_header, null)
             headerDivider = true
             setSavedInstance(savedInstanceState)
             onDrawerItemLongClickListener = { view, item, index ->
@@ -366,7 +366,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSearchAdapter() {
-        mSearchAdapter = SlimAdapter.create().register<FSAmmo>(R.layout.ammo_list_item_small_search) { data, injector ->
+        mSearchAdapter = SlimAdapter.create().register<Ammo>(R.layout.item_ammo_search) { data, injector ->
             injector.text(R.id.ammoSmallName, data.name)
             injector.text(R.id.textView2, data.getSubtitle())
             injector.text(R.id.ammoSmallDamage, data.damage.toString())
@@ -392,7 +392,7 @@ class MainActivity : AppCompatActivity() {
             injector.background(R.id.ammoSmallDMG5, data.getColor(5))
             injector.background(R.id.ammoSmallDMG6, data.getColor(6))
 
-        }.register<Weapon>(R.layout.search_item_weapon) { weapon, i ->
+        }.register<Weapon>(R.layout.item_weapon_search) { weapon, i ->
             i.text(R.id.searchItemWeaponName, weapon.name)
             i.text(R.id.searchItemWeaponSubtitle, AmmoHelper.getCaliberByID(weapon.calibre)?.longName)
             i.clicked(R.id.searchItemWeaponRoot) {
@@ -400,7 +400,7 @@ class MainActivity : AppCompatActivity() {
                     putExtra("id", weapon._id)
                 })
             }
-        }.registerDefault(R.layout.empty_layout) { default, i -> }.attachTo(binding.searchView.getRV())
+        }.registerDefault(R.layout.layout_empty) { default, i -> }.attachTo(binding.searchView.getRV())
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

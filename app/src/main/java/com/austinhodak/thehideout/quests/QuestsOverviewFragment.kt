@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.quests.models.QuestOverviewItem
-import com.austinhodak.thehideout.viewmodels.QuestsViewModel
+import com.austinhodak.thehideout.quests.viewmodels.QuestsViewModel
 import net.idik.lib.slimadapter.SlimAdapter
 
 class QuestsOverviewFragment : Fragment() {
@@ -23,7 +23,7 @@ class QuestsOverviewFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.quests_overview_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_quest_overview, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -123,7 +123,7 @@ class QuestsOverviewFragment : Fragment() {
                 mAdapter.updateData(data)
         }
 
-        mAdapter = SlimAdapter.create().attachTo(mRecyclerView).register<QuestOverviewItem>(R.layout.quest_overview_list_item) { item, i ->
+        mAdapter = SlimAdapter.create().attachTo(mRecyclerView).register<QuestOverviewItem>(R.layout.item_quest_overview) { item, i ->
             i.text(R.id.questOverviewItemTitle, item.title)
             i.text(R.id.questOverviewItemSubtitle, item.subtitle)
             i.text(R.id.questOverviewItemCount, item.count)

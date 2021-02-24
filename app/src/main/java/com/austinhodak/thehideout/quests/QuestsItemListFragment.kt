@@ -13,7 +13,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.quests.models.Maps
 import com.austinhodak.thehideout.quests.models.Quest
-import com.austinhodak.thehideout.viewmodels.QuestsViewModel
+import com.austinhodak.thehideout.quests.viewmodels.QuestsViewModel
 import com.google.android.material.card.MaterialCardView
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -45,7 +45,7 @@ class QuestsItemListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.trader_rv)
         recyclerView.layoutManager = linearLayoutManager
 
-        adapter = SlimAdapter.create().register<Objective>(R.layout.quest_list_item_2) { item, i ->
+        adapter = SlimAdapter.create().register<Objective>(R.layout.item_quest_items) { item, i ->
             i.text(R.id.itemName, item.objective.target)
             i.text(R.id.itemSubtitle, "${item.quest.giver} (${item.quest.title})")
 

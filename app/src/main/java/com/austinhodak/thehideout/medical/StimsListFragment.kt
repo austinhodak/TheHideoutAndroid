@@ -1,14 +1,15 @@
 package com.austinhodak.thehideout.medical
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.Backpack
-import com.austinhodak.thehideout.viewmodels.models.Stim
+import com.austinhodak.thehideout.medical.models.Stim
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -38,7 +39,7 @@ class StimsListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.ammo_list)
         recyclerView.layoutManager = linearLayoutManager
 
-        SlimAdapter.create().register<Stim>(R.layout.stim_list_item) { stim, i ->
+        SlimAdapter.create().register<Stim>(R.layout.item_stim) { stim, i ->
             i.text(R.id.stimName, stim.name)
             i.text(R.id.stimSubtitle, stim.type)
 

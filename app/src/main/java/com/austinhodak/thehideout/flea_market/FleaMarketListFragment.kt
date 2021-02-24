@@ -23,9 +23,9 @@ import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaListBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.log
 import com.austinhodak.thehideout.logScreen
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mikepenz.fastadapter.FastAdapter
@@ -82,9 +82,9 @@ class FleaMarketListFragment : Fragment() {
         itemAdapter = ItemAdapter()
         fastAdapter = FastAdapter.with(itemAdapter)
 
-        val mDialogAdapter = SlimAdapter.create().register<String>(R.layout.dialog_list_item_1) { s, i ->
+        val mDialogAdapter = SlimAdapter.create().register<String>(R.layout.item_dialog_simple) { s, i ->
 
-        }.register<Wiki>(R.layout.dialog_list_item_1) { wiki, i ->
+        }.register<Wiki>(R.layout.item_dialog_simple) { wiki, i ->
             i.text(R.id.itemText, "Go to Wiki Page")
             i.image(R.id.itemIcon, R.drawable.icons8_website_96)
 
@@ -95,14 +95,14 @@ class FleaMarketListFragment : Fragment() {
                 val customTabsIntent = builder.build()
                 customTabsIntent.launchUrl(requireContext(), Uri.parse(wiki.url))
             }
-        }.register<FleaItem>(R.layout.dialog_list_item_2) { item, i ->
+        }.register<FleaItem>(R.layout.item_dialog_subtitle) { item, i ->
             val top = i.findViewById<ConstraintLayout>(R.id.itemTop)
             top.isClickable = false
 
             i.text(R.id.itemText, item.traderName)
             i.text(R.id.itemRightText, item.getCurrentTraderPrice())
             i.image(R.id.itemIcon, R.drawable.ic_baseline_groups_24)
-        }.register<PriceAlert>(R.layout.dialog_list_item_1) { price, i ->
+        }.register<PriceAlert>(R.layout.item_dialog_simple) { price, i ->
             i.text(R.id.itemText, "Add Price Alert")
             i.image(R.id.itemIcon, R.drawable.ic_baseline_add_alert_24)
 

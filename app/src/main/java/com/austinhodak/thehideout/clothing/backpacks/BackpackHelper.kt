@@ -2,8 +2,7 @@ package com.austinhodak.thehideout.clothing.backpacks
 
 import android.content.Context
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.Backpack
-import com.austinhodak.thehideout.viewmodels.models.Rig
+import com.austinhodak.thehideout.clothing.models.Backpack
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONArray

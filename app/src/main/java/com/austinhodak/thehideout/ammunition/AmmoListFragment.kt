@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.databinding.FragmentAmmoListBinding
-import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.itemanimators.AlphaInAnimator
@@ -19,13 +19,13 @@ private const val ARG_CALIBER_ID = "param1"
 class AmmoListFragment : Fragment() {
 
     private var caliberID: String = ""
-    private var ammoList: List<FSAmmo>?= null
+    private var ammoList: List<Ammo>?= null
     internal val sharedViewModel: AmmoViewModel by activityViewModels()
 
     private var _binding: FragmentAmmoListBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var fastAdapter: FastAdapter<FSAmmo>
+    lateinit var fastAdapter: FastAdapter<Ammo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class AmmoListFragment : Fragment() {
         binding.ammoList.layoutManager = linearLayoutManager
         binding.ammoList.itemAnimator = AlphaInAnimator()
 
-        val itemAdapter = ItemAdapter<FSAmmo>()
+        val itemAdapter = ItemAdapter<Ammo>()
         fastAdapter = FastAdapter.with(itemAdapter)
 
         binding.ammoList.adapter = fastAdapter
@@ -67,7 +67,7 @@ class AmmoListFragment : Fragment() {
     }
 
     //TODO Fix double call on start.
-    private fun updateList(itemAdapter: ItemAdapter<FSAmmo>) {
+    private fun updateList(itemAdapter: ItemAdapter<Ammo>) {
         val oldList = ammoList
 
         when (sharedViewModel.sortBy.value) {

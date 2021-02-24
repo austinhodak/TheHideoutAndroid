@@ -18,6 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="5"
-        tools:listitem="@layout/ammo_list_item" />
+        tools:listitem="@layout/item_ammo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

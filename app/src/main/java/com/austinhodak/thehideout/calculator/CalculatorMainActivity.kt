@@ -8,22 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.models.Body
 import com.austinhodak.thehideout.calculator.models.Part
 import com.austinhodak.thehideout.clothing.armor.ArmorHelper
-import com.austinhodak.thehideout.databinding.ActivityCalculatorMainNewBinding
-import com.austinhodak.thehideout.databinding.CalculatorBottomSheetBinding
-import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.models.Armor
-import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
+import com.austinhodak.thehideout.clothing.models.Armor
+import com.austinhodak.thehideout.databinding.ActivityCalculatorMainBinding
+import com.austinhodak.thehideout.databinding.BottomSheetCalculatorMainBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class CalculatorMainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCalculatorMainNewBinding
-    private lateinit var bottomBinding: CalculatorBottomSheetBinding
+    private lateinit var binding: ActivityCalculatorMainBinding
+    private lateinit var bottomBinding: BottomSheetCalculatorMainBinding
     private var body = Body()
 
-    private lateinit var selectedAmmo: FSAmmo
+    private lateinit var selectedAmmo: Ammo
     private var selectedHelmet: Armor? = null
     private var selectedChestArmor: Armor?  = null
 
@@ -31,7 +31,7 @@ class CalculatorMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCalculatorMainNewBinding.inflate(layoutInflater).also {
+        binding = ActivityCalculatorMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
             bottomBinding = it.bottomSheet
         }

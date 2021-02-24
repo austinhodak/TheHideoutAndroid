@@ -2,7 +2,7 @@ package com.austinhodak.thehideout.keys
 
 import android.content.Context
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.Key
+import com.austinhodak.thehideout.keys.models.Key
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.decodeFromString

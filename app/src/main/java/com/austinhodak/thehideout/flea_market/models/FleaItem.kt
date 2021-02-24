@@ -5,7 +5,7 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.databinding.FleaItem1Binding
+import com.austinhodak.thehideout.databinding.ItemFleaBinding
 import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.hideout.models.Input
 import com.bumptech.glide.Glide
@@ -39,12 +39,12 @@ data class FleaItem(
     val uid: String? = null,
     val updated: String? = null,
     val wikiLink: String? = null,
-) : AbstractBindingItem<FleaItem1Binding>() {
+) : AbstractBindingItem<ItemFleaBinding>() {
 
     override val type: Int
         get() = R.id.fast_adapter_id
 
-    override fun bindView(binding: FleaItem1Binding, payloads: List<Any>) {
+    override fun bindView(binding: ItemFleaBinding, payloads: List<Any>) {
         Glide.with(binding.root.context).load(getItemIcon()).into(binding.fleaItemIcon)
 
         binding.item = this
@@ -70,8 +70,8 @@ data class FleaItem(
         }
     }
 
-    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): FleaItem1Binding {
-        return FleaItem1Binding.inflate(inflater, parent, false)
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): ItemFleaBinding {
+        return ItemFleaBinding.inflate(inflater, parent, false)
     }
 
     fun get24Diff(): String {

@@ -2,7 +2,7 @@ package com.austinhodak.thehideout.clothing.armor
 
 import android.content.Context
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.Armor
+import com.austinhodak.thehideout.clothing.models.Armor
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONArray
