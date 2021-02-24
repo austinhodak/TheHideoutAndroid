@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.Armor
+import com.austinhodak.thehideout.clothing.models.Armor
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -45,7 +45,7 @@ class ArmorListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.ammo_list)
         recyclerView.layoutManager = linearLayoutManager
 
-        SlimAdapter.create().register<Armor>(R.layout.armor_list_item) { armor, i ->
+        SlimAdapter.create().register<Armor>(R.layout.item_armor) { armor, i ->
             i.text(R.id.armorName, armor.name)
             i.text(R.id.armorSubtitle, armor.getSubtitle())
             i.text(R.id.armorClass, armor.level.toString())

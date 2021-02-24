@@ -1,14 +1,15 @@
 package com.austinhodak.thehideout.clothing.rigs
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.Armor
-import com.austinhodak.thehideout.viewmodels.models.Rig
+import com.austinhodak.thehideout.clothing.models.Rig
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -38,7 +39,7 @@ class RigsListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.ammo_list)
         recyclerView.layoutManager = linearLayoutManager
 
-        SlimAdapter.create().register<Rig>(R.layout.rig_list_item) { rig, i ->
+        SlimAdapter.create().register<Rig>(R.layout.item_rig) { rig, i ->
             i.text(R.id.armorName, rig.name)
             i.text(R.id.armorSubtitle, rig.getSubtitle())
             i.text(R.id.armorSize, rig.internal.toString())

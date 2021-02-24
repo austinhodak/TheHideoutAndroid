@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/questOverview"
+        android:icon="@drawable/ic_baseline_dashboard_24"
+        android:title="Overview" />
+
+    <item
+        android:id="@+id/questTraders"
+        android:icon="@drawable/ic_baseline_groups_24"
+        android:title="Traders" />
+
+    <item
+        android:enabled="false"
+        android:title=""/>
+
+    <item
+        android:id="@+id/questItems"
+        android:icon="@drawable/ic_baseline_assignment_24"
+        android:title="Items" />
+
+    <item
+        android:id="@+id/questMaps"
+        android:icon="@drawable/ic_baseline_map_24"
+        android:title="Maps" />
+
+
+</menu>

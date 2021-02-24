@@ -1,14 +1,15 @@
 package com.austinhodak.thehideout.medical
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.Backpack
-import com.austinhodak.thehideout.viewmodels.models.Med
+import com.austinhodak.thehideout.medical.models.Med
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -38,7 +39,7 @@ class MedsListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.ammo_list)
         recyclerView.layoutManager = linearLayoutManager
 
-        SlimAdapter.create().register<Med>(R.layout.med_list_item) { med, i ->
+        SlimAdapter.create().register<Med>(R.layout.item_med) { med, i ->
             i.text(R.id.medName, med.name)
             i.text(R.id.medSubtitle, med.type)
 

@@ -1,15 +1,15 @@
 package com.austinhodak.thehideout.clothing.backpacks
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.Armor
-import com.austinhodak.thehideout.viewmodels.models.Backpack
-import com.austinhodak.thehideout.viewmodels.models.Rig
+import com.austinhodak.thehideout.clothing.models.Backpack
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -39,7 +39,7 @@ class BackpackListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.ammo_list)
         recyclerView.layoutManager = linearLayoutManager
 
-        SlimAdapter.create().register<Backpack>(R.layout.backpack_list_item) { bp, i ->
+        SlimAdapter.create().register<Backpack>(R.layout.item_backpack) { bp, i ->
             i.text(R.id.backpackName, bp.name)
             i.text(R.id.backpackSubtitle, bp.getSubtitle())
             i.text(R.id.backpackWeight, "${bp.weight}kg")

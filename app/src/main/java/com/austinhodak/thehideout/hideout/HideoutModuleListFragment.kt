@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.hideout.models.HideoutModule
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.viewmodels.HideoutViewModel
+import com.austinhodak.thehideout.hideout.viewmodels.HideoutViewModel
 import net.idik.lib.slimadapter.SlimAdapter
 
 class HideoutModuleListFragment : Fragment() {
@@ -60,7 +60,8 @@ class HideoutModuleListFragment : Fragment() {
         }
 
         val chips = (requireActivity() as MainActivity).getQuestChips()
-        (requireActivity() as MainActivity).updateChips(arrayListOf("All", "Current", "Available", "Locked"))
+        (requireActivity() as MainActivity).updateChips(arrayListOf(getString(R.string.all), getString(R.string.current), getString(R.string.available), getString(
+                    R.string.locked)))
         chipSelected = chips.checkedChipId
         chipSelected()
         chips.setOnCheckedChangeListener { _, checkedId ->
@@ -75,12 +76,12 @@ class HideoutModuleListFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        mAdapter = SlimAdapter.create().register<HideoutModule>(R.layout.hideout_tracker_item_1) { module, i ->
+        mAdapter = SlimAdapter.create().register<HideoutModule>(R.layout.item_hideout_tracker) { module, i ->
             val requirementRV = i.findViewById<RecyclerView>(R.id.hideoutModuleRequiresRV)
             requirementRV.layoutManager = LinearLayoutManager(requireContext())
 
             SlimAdapter.create().attachTo(requirementRV)
-                .register<HideoutModule.ModuleRequire>(R.layout.hideout_requirement_item_1) { requirement, rI ->
+                .register<HideoutModule.ModuleRequire>(R.layout.item_hideout_requirement) { requirement, rI ->
                     rI.text(R.id.requirementName, "• $requirement")
 
                     //TODO Fix stuttering from this statement

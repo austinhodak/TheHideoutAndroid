@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class FleaMarketNavHome : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.flea_market_home, container, false)
+        return inflater.inflate(R.layout.fragment_flea_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

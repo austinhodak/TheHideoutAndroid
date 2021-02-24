@@ -16,10 +16,10 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.ActivityFleaItemDetailBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.austinhodak.thehideout.flea_market.models.PriceAlertSmall
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.userRef
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.viewmodels.models.PriceAlertSmall
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -186,21 +186,21 @@ class FleaItemDetailActivity : AppCompatActivity() {
 
         binding.fleaDetailPriceAlertFAB.setOnClickListener {
             val alertDialog = MaterialDialog(this).show {
-                title(text = "Add Price Alert")
+                title(text = getString(R.string.price_alert_add))
                 customView(R.layout.dialog_add_price_alert)
-                positiveButton(text = "ADD") { dialog ->
+                positiveButton(text = getString(R.string.add)) { dialog ->
                     val alertAddView = dialog.getCustomView()
                     val spinner = alertAddView.findViewById<AppCompatSpinner>(R.id.addAlertSpinner)
                     val editText = alertAddView.findViewById<TextInputEditText>(R.id.addAlertTextField)
 
                     if (editText.text.toString().isEmpty()) {
-                        editText.error = "Cannot be empty."
+                        editText.error = getString(R.string.error_empty)
                     } else {
                         editText.error = null
                         fleaViewModel.addPriceAlert(spinner, editText, dialog, fleaItem!!)
                     }
                 }
-                negativeButton(text = "CANCEL") {
+                negativeButton(text = getString(R.string.cancel)) {
                     dismiss()
                 }
                 noAutoDismiss()
@@ -252,7 +252,7 @@ class FleaItemDetailActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.flea_detail_menu, menu).also {
+        menuInflater.inflate(R.menu.activity_flea_detail, menu).also {
             menu?.let {
                 this.menu = it
             }

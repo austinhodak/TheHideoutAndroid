@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="5"
-        tools:listitem="@layout/flea_market_alert_item"/>
+        tools:listitem="@layout/item_flea_price_alert"/>
 
     <LinearLayout
         android:id="@+id/priceAlertsEmptyLayout"

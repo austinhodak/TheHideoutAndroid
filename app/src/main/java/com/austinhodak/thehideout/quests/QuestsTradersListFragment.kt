@@ -14,8 +14,8 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.quests.models.Quest
 import com.austinhodak.thehideout.quests.models.Traders
-import com.austinhodak.thehideout.viewmodels.QuestsViewModel
-import com.austinhodak.thehideout.views.QuestObjective
+import com.austinhodak.thehideout.quests.viewmodels.QuestsViewModel
+import com.austinhodak.thehideout.quests.views.QuestObjective
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import net.idik.lib.slimadapter.SlimAdapter
@@ -48,11 +48,11 @@ class QuestsTradersListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.trader_rv)
         recyclerView.layoutManager = linearLayoutManager
 
-        adapter = SlimAdapter.create().register<Quest>(R.layout.quest_list_item_1) { quest, i ->
+        adapter = SlimAdapter.create().register<Quest>(R.layout.item_quest) { quest, i ->
             val taskRV = i.findViewById<RecyclerView>(R.id.questTaskListRV)
             taskRV.layoutManager = LinearLayoutManager(requireActivity())
 
-            SlimAdapter.create().register<Quest.QuestObjectives>(R.layout.quest_task_item_1) { objective, i ->
+            SlimAdapter.create().register<Quest.QuestObjectives>(R.layout.item_quest_task) { objective, i ->
                 val objectiveView = i.findViewById<QuestObjective>(R.id.questOb)
                 objectiveView.setObjective(objective, objectivesList)
 
@@ -171,7 +171,7 @@ class QuestsTradersListFragment : Fragment() {
             get() = R.id.fast_adapter_id
 
         override val layoutRes: Int
-            get() = R.layout.quest_list_item_1
+            get() = R.layout.item_quest
 
         override fun getViewHolder(v: View): QuestItem.ViewHolder {
             return ViewHolder(v)

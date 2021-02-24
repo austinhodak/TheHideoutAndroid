@@ -2,7 +2,7 @@ package com.austinhodak.thehideout.calculator.models
 
 import android.widget.TextView
 import com.austinhodak.thehideout.calculator.CalculatorHelper
-import com.austinhodak.thehideout.views.HealthBar
+import com.austinhodak.thehideout.calculator.views.HealthBar
 import kotlin.math.roundToInt
 
 data class Body (

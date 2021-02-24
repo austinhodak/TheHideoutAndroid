@@ -11,9 +11,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaPriceAlertBinding
+import com.austinhodak.thehideout.flea_market.models.PriceAlert
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.logScreen
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.viewmodels.models.PriceAlert
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator
@@ -52,8 +52,8 @@ class FleaMarketPriceAlertsFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        val dialogAdapter = SlimAdapter.create().register<PriceAlert>(R.layout.dialog_list_item_1) { alert, i ->
-            i.text(R.id.itemText, "Delete")
+        val dialogAdapter = SlimAdapter.create().register<PriceAlert>(R.layout.item_dialog_simple) { alert, i ->
+            i.text(R.id.itemText, R.string.delete)
             i.image(R.id.itemIcon, R.drawable.ic_baseline_delete_24)
 
             i.clicked(R.id.itemTop) {

@@ -447,7 +447,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView8"
                             tools:itemCount="5"
-                            tools:listitem="@layout/flea_detail_price_alert_item" />
+                            tools:listitem="@layout/item_flea_detail_price_alert" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

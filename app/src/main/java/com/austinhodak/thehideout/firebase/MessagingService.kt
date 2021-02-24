@@ -59,7 +59,7 @@ class MessagingService : FirebaseMessagingService() {
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Flea Market Alerts"
+            val name = getString(R.string.notification_channel_flea_alert)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("FLEA_ALERTS", name, importance)
             // Register the channel with the system

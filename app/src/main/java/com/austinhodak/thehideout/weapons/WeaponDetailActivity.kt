@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.databinding.WeaponDetailBinding
-import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.WeaponViewModel
-import com.austinhodak.thehideout.viewmodels.models.Weapon
-import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
+import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.databinding.ActivityWeaponDetailBinding
+import com.austinhodak.thehideout.weapons.models.Weapon
+import com.austinhodak.thehideout.weapons.viewmodels.WeaponViewModel
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
 
@@ -27,12 +27,12 @@ class WeaponDetailActivity : AppCompatActivity() {
     private var sortByIndex = 5
     lateinit var ammoAdapter: SlimAdapter
     lateinit var loadoutAdapter: SlimAdapter
-    lateinit var ammoList: List<FSAmmo>
-    lateinit var binding: WeaponDetailBinding
+    lateinit var ammoList: List<Ammo>
+    lateinit var binding: ActivityWeaponDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.weapon_detail)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_weapon_detail)
         viewModel = ViewModelProvider(this).get(WeaponViewModel::class.java)
         ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
         setupToolbar()
@@ -66,7 +66,7 @@ class WeaponDetailActivity : AppCompatActivity() {
         loadoutRV.layoutManager = LinearLayoutManager(this)
 
         ammoAdapter = SlimAdapter.create()
-            .register<FSAmmo>(R.layout.ammo_list_item_small) { data, injector ->
+            .register<Ammo>(R.layout.item_ammo_small) { data, injector ->
                 injector.text(R.id.ammoSmallName, data.name)
                 injector.text(R.id.textView2, data.getSubtitle())
                 injector.text(R.id.ammoSmallDamage, data.damage.toString())
@@ -151,7 +151,7 @@ class WeaponDetailActivity : AppCompatActivity() {
             }.attachTo(ammoRV)
 
         loadoutAdapter = SlimAdapter.create().attachTo(loadoutRV)
-            .register<Weapon.WeaponBuilds>(R.layout.weapon_loadout_item) { build, i ->
+            .register<Weapon.WeaponBuilds>(R.layout.item_weapon_loadout) { build, i ->
                 Glide.with(this).load("https://www.eftdb.one/static/item/thumb/${build.image}")
                     .into(i.findViewById(R.id.weaponLoadoutImage))
                 i.text(R.id.weaponLoadoutName, build.name)
@@ -179,7 +179,7 @@ class WeaponDetailActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.weapon_detail_menu, menu)
+        menuInflater.inflate(R.menu.activity_weapon_detail, menu)
         if (weapon.wiki == null) {
             menu.findItem(R.id.weapon_wiki).isVisible = false
         }

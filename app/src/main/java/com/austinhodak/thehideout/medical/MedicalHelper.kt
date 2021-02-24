@@ -2,9 +2,8 @@ package com.austinhodak.thehideout.medical
 
 import android.content.Context
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.viewmodels.models.Backpack
-import com.austinhodak.thehideout.viewmodels.models.Med
-import com.austinhodak.thehideout.viewmodels.models.Stim
+import com.austinhodak.thehideout.medical.models.Med
+import com.austinhodak.thehideout.medical.models.Stim
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONArray

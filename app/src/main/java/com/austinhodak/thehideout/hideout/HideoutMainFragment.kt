@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class HideoutMainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.hideout_main_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_hideout_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

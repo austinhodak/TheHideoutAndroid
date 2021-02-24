@@ -23,9 +23,9 @@ import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaListBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.log
 import com.austinhodak.thehideout.logScreen
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mikepenz.fastadapter.FastAdapter
@@ -82,10 +82,10 @@ class FleaMarketListFragment : Fragment() {
         itemAdapter = ItemAdapter()
         fastAdapter = FastAdapter.with(itemAdapter)
 
-        val mDialogAdapter = SlimAdapter.create().register<String>(R.layout.dialog_list_item_1) { s, i ->
+        val mDialogAdapter = SlimAdapter.create().register<String>(R.layout.item_dialog_simple) { s, i ->
 
-        }.register<Wiki>(R.layout.dialog_list_item_1) { wiki, i ->
-            i.text(R.id.itemText, "Go to Wiki Page")
+        }.register<Wiki>(R.layout.item_dialog_simple) { wiki, i ->
+            i.text(R.id.itemText, R.string.wiki_goto)
             i.image(R.id.itemIcon, R.drawable.icons8_website_96)
 
             i.clicked(R.id.itemTop) {
@@ -95,15 +95,15 @@ class FleaMarketListFragment : Fragment() {
                 val customTabsIntent = builder.build()
                 customTabsIntent.launchUrl(requireContext(), Uri.parse(wiki.url))
             }
-        }.register<FleaItem>(R.layout.dialog_list_item_2) { item, i ->
+        }.register<FleaItem>(R.layout.item_dialog_subtitle) { item, i ->
             val top = i.findViewById<ConstraintLayout>(R.id.itemTop)
             top.isClickable = false
 
             i.text(R.id.itemText, item.traderName)
             i.text(R.id.itemRightText, item.getCurrentTraderPrice())
             i.image(R.id.itemIcon, R.drawable.ic_baseline_groups_24)
-        }.register<PriceAlert>(R.layout.dialog_list_item_1) { price, i ->
-            i.text(R.id.itemText, "Add Price Alert")
+        }.register<PriceAlert>(R.layout.item_dialog_simple) { price, i ->
+            i.text(R.id.itemText, R.string.price_alert_add)
             i.image(R.id.itemIcon, R.drawable.ic_baseline_add_alert_24)
 
             i.clicked(R.id.itemTop) {
@@ -112,21 +112,21 @@ class FleaMarketListFragment : Fragment() {
                 price.dialog.dismiss()
 
                 val alertDialog = MaterialDialog(requireActivity()).show {
-                    title(text = "Add Price Alert")
+                    title(res = R.string.price_alert_add)
                     customView(R.layout.dialog_add_price_alert)
-                    positiveButton(text = "ADD") { dialog ->
+                    positiveButton(res = R.string.add) { dialog ->
                         val alertAddView = dialog.getCustomView()
                         val spinner = alertAddView.findViewById<AppCompatSpinner>(R.id.addAlertSpinner)
                         val editText = alertAddView.findViewById<TextInputEditText>(R.id.addAlertTextField)
 
                         if (editText.text.toString().isEmpty()) {
-                            editText.error = "Cannot be empty."
+                            editText.error = getString(R.string.error_empty)
                         } else {
                             editText.error = null
                             viewModel.addPriceAlert(spinner, editText, dialog, price.item)
                         }
                     }
-                    negativeButton(text = "CANCEL") {
+                    negativeButton(res = R.string.cancel) {
                         dismiss()
                     }
                     noAutoDismiss()
@@ -230,14 +230,14 @@ class FleaMarketListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.flea_market_main_menu, menu)
+        inflater.inflate(R.menu.fragment_flea_main, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.flea_sort -> {
                 MaterialDialog(requireActivity()).show {
-                    title(text = "Sort By")
+                    title(res = R.string.sort_by)
                     listItemsSingleChoice(R.array.flea_sort, initialSelection = sortBy) { _, index, text ->
                         sortBy = index
                         updateData()

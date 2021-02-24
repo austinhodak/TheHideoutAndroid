@@ -23,14 +23,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.austinhodak.thehideout.ammunition.AmmoHelper
+import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
-import com.austinhodak.thehideout.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.viewmodels.KeysViewModel
-import com.austinhodak.thehideout.viewmodels.models.Weapon
-import com.austinhodak.thehideout.viewmodels.models.firestore.FSAmmo
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
+import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
+import com.austinhodak.thehideout.weapons.models.Weapon
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         val benderFont = ResourcesCompat.getFont(this, R.font.bender)
         val discord = PrimaryDrawerItem().apply {
             typeface = benderFont
-            nameText = "Discord"
+            nameText = getString(R.string.discord)
             iconRes = R.drawable.icons8_discord_96
             isIconTinted = true
             isSelectable = false
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         val twitch = PrimaryDrawerItem().apply {
             typeface = benderFont
-            nameText = "Twitch"
+            nameText = getString(R.string.twitch)
             iconRes = R.drawable.icons8_twitch_96
             isIconTinted = true
             isSelectable = false
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
         val twitter = PrimaryDrawerItem().apply {
             typeface = benderFont
-            nameText = "Twitter"
+            nameText = getString(R.string.twitter)
             iconRes = R.drawable.icons8_twitter_squared_96
             isIconTinted = true
             isSelectable = false
@@ -123,69 +123,69 @@ class MainActivity : AppCompatActivity() {
                 NavigationDrawerItem(R.id.FirstFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Ammunition")
+                    name = StringHolder(context.getString(R.string.ammunition))
                     iconRes = R.drawable.icons8_ammo_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.armorTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Armor")
+                    name = StringHolder(context.getString(R.string.armor))
                     iconRes = R.drawable.icons8_bulletproof_vest_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.backpackRigTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Backpacks & Rigs")
+                    name = StringHolder(context.getString(R.string.backpacks_rigs))
                     iconRes = R.drawable.icons8_rucksack_96
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.keysListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Keys")
+                    name = StringHolder(context.getString(R.string.keys))
                     iconRes = R.drawable.icons8_key_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.medicalTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Medical")
+                    name = StringHolder(context.getString(R.string.medical))
                     iconRes = R.drawable.icons8_syringe_100
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.WeaponFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Weapons")
+                    name = StringHolder(context.getString(R.string.weapons))
                     iconRes = R.drawable.icons8_assault_rifle_100
                 }, options = getNavOptions()),
                 DividerDrawerItem(),
                 PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Dealers")
+                    name = StringHolder(context.getString(R.string.dealers))
                     iconRes = R.drawable.ic_baseline_groups_24
                     isEnabled = false
                 },
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Flea Market")
+                    name = StringHolder(context.getString(R.string.flea_market))
                     iconRes = R.drawable.ic_baseline_shopping_cart_24
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.hideoutMainFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Hideout")
+                    name = StringHolder(context.getString(R.string.hideout))
                     iconRes = R.drawable.hideout_shadow_1
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.questMainFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Quests")
+                    name = StringHolder(context.getString(R.string.quests))
                     iconRes = R.drawable.ic_baseline_assignment_24
                 }, options = getNavOptions()),
                 PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder("Tarkov'd Simulator")
+                    name = StringHolder(context.getString(R.string.simulator))
                     iconRes = R.drawable.icons8_ammo_100
                     isSelectable = false
                     isEnabled = BuildConfig.DEBUG
@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 },
                 SectionDrawerItem().apply {
-                    nameText = "Join us on"
+                    nameText = context.getString(R.string.join_us)
                 },
                 discord,
                 twitch,
@@ -214,7 +214,7 @@ class MainActivity : AppCompatActivity() {
                 },*/
             )
 
-            headerView = View.inflate(this@MainActivity, R.layout.main_drawer_header, null)
+            headerView = View.inflate(this@MainActivity, R.layout.layout_drawer_header, null)
             headerDivider = true
             setSavedInstance(savedInstanceState)
             onDrawerItemLongClickListener = { view, item, index ->
@@ -222,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                     prefs.edit {
                         putInt("defaultOpeningFragment", item.resId)
                     }
-                    Snackbar.make(binding.root, "Opening screen set!", Snackbar.LENGTH_SHORT).apply {
+                    Snackbar.make(binding.root, context.getString(R.string.set_opening_screen), Snackbar.LENGTH_SHORT).apply {
                         this.setBackgroundTint(resources.getColor(R.color.md_green_500))
                         this.setTextColor(Color.WHITE)
                     }.show()
@@ -366,7 +366,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSearchAdapter() {
-        mSearchAdapter = SlimAdapter.create().register<FSAmmo>(R.layout.ammo_list_item_small_search) { data, injector ->
+        mSearchAdapter = SlimAdapter.create().register<Ammo>(R.layout.item_ammo_search) { data, injector ->
             injector.text(R.id.ammoSmallName, data.name)
             injector.text(R.id.textView2, data.getSubtitle())
             injector.text(R.id.ammoSmallDamage, data.damage.toString())
@@ -392,7 +392,7 @@ class MainActivity : AppCompatActivity() {
             injector.background(R.id.ammoSmallDMG5, data.getColor(5))
             injector.background(R.id.ammoSmallDMG6, data.getColor(6))
 
-        }.register<Weapon>(R.layout.search_item_weapon) { weapon, i ->
+        }.register<Weapon>(R.layout.item_weapon_search) { weapon, i ->
             i.text(R.id.searchItemWeaponName, weapon.name)
             i.text(R.id.searchItemWeaponSubtitle, AmmoHelper.getCaliberByID(weapon.calibre)?.longName)
             i.clicked(R.id.searchItemWeaponRoot) {
@@ -400,7 +400,7 @@ class MainActivity : AppCompatActivity() {
                     putExtra("id", weapon._id)
                 })
             }
-        }.registerDefault(R.layout.empty_layout) { default, i -> }.attachTo(binding.searchView.getRV())
+        }.registerDefault(R.layout.layout_empty) { default, i -> }.attachTo(binding.searchView.getRV())
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -410,7 +410,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.activity_main, menu)
         searchItem = menu.findItem(R.id.main_search)
         binding.searchView.setMenuItem(searchItem)
         searchItem?.isVisible = !hideSearch

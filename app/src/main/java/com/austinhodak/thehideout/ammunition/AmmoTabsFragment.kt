@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.databinding.FragmentAmmoTabsBinding
 import com.austinhodak.thehideout.logScreen
-import com.austinhodak.thehideout.viewmodels.AmmoViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
 class AmmoTabsFragment : Fragment() {
@@ -47,7 +47,7 @@ class AmmoTabsFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.ammo_list_menu, menu)
+        inflater.inflate(R.menu.fragment_ammo_list, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
