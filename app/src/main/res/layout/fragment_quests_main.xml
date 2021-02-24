@@ -36,7 +36,7 @@
             android:paddingRight="8dp"
             app:itemTextColor="@color/primaryText87"
             app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/quest_bottom_menu" />
+            app:menu="@menu/fragment_quests_bottom_nav" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

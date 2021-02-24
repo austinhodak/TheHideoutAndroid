@@ -130,7 +130,7 @@ class HideoutCraftsListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.flea_market_main_menu, menu)
+        inflater.inflate(R.menu.fragment_flea_main, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

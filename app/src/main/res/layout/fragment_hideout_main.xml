@@ -37,7 +37,7 @@
             app:itemTextColor="@drawable/bottom_nav_selector_text"
             app:itemHorizontalTranslationEnabled="true"
             app:labelVisibilityMode="auto"
-            app:menu="@menu/hideout_bottom_nav" />
+            app:menu="@menu/fragment_hideout_bottom_nav" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

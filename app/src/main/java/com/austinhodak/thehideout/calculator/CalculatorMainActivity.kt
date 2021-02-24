@@ -141,7 +141,7 @@ class CalculatorMainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.damage_calculator_main, menu)
+        menuInflater.inflate(R.menu.activity_damage_calculator, menu)
         return super.onCreateOptionsMenu(menu)
     }
 

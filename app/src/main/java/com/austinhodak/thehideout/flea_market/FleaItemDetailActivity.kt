@@ -252,7 +252,7 @@ class FleaItemDetailActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.flea_detail_menu, menu).also {
+        menuInflater.inflate(R.menu.activity_flea_detail, menu).also {
             menu?.let {
                 this.menu = it
             }

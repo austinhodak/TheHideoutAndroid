@@ -410,7 +410,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.activity_main, menu)
         searchItem = menu.findItem(R.id.main_search)
         binding.searchView.setMenuItem(searchItem)
         searchItem?.isVisible = !hideSearch

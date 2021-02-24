@@ -179,7 +179,7 @@ class WeaponDetailActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.weapon_detail_menu, menu)
+        menuInflater.inflate(R.menu.activity_weapon_detail, menu)
         if (weapon.wiki == null) {
             menu.findItem(R.id.weapon_wiki).isVisible = false
         }

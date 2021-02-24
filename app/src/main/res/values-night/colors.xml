@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Text -->
     <color name="primaryText">#FFFFFF</color>
     <color name="primaryText87">#DEFFFFFF</color>
     <color name="primaryText60">#99FFFFFF</color>

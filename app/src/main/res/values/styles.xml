@@ -5,10 +5,6 @@
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
-    <style name="TabsBenderLight" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/bender_light</item>
-    </style>
-
     <style name="TabsBender" parent="TextAppearance.AppCompat.Body1">
         <item name="android:fontFamily">@font/bender_bold</item>
     </style>
@@ -35,11 +31,41 @@
     </style>
 
     <style name="ChipStyle" parent="@style/Widget.MaterialComponents.Chip.Choice">
-<!--        <item name="chipBackgroundColor">@color/chip_orange</item>-->
+
     </style>
 
     <style name="Widget.MaterialDrawerStyleLight" parent="Widget.MaterialDrawerStyle">
         <item name="materialDrawerDividerColor">@color/md_grey_200</item>
     </style>
+
+    <style name="MaterialSearchViewStyle">
+        <item name="searchBackground">@color/md_red_500</item>
+        <item name="searchBackIcon">@drawable/ic_baseline_arrow_back_24</item>
+        <item name="android:textColor">@color/md_white_1000</item>
+        <item name="searchSuggestionBackground">@drawable/timeline_round_bottom_only_large</item>
+        <item name="searchSuggestionIcon">@null</item>
+        <item name="searchCloseIcon">@drawable/ic_action_navigation_close_inverted</item>
+    </style>
+
+    <style name="actionOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:fontFamily">@font/bender_bold</item>
+        <item name="popupTheme">@style/Theme.TheHideout.AppBarOverlay</item>
+        <item name="actionOverflowButtonStyle">@style/actionOverflowButtonStyle</item>
+    </style>
+
+    <style name="Theme.TheHideout.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.TheHideout.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:fontFamily">@font/bender</item>
+    </style>
+
+    <style name="Theme.TheHideout.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

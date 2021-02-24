@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <color name="ic_launcher_background">#1C1400</color>
+
+    <!-- Pastels -->
     <color name="pastel_red">#FFA19F</color>
     <color name="pastel_orange">#FFBE9E</color>
     <color name="pastel_amber">#FFDB9D</color>
@@ -19,8 +20,6 @@
 
     <color name="appbarBackground">#1F1F1F</color>
     <color name="searchBackground">#FEFEFE</color>
-
-    <color name="hintText">#DEDEDE</color>
 
     <color name="bottomNavBackground">@color/md_red_400</color>
 
@@ -39,10 +38,13 @@
     <color name="chipSelectedBackgroundColor">#FFFFFF</color>
     <color name="chipSelectedBackgroundColor2">#FAFAFA</color>
 
+    <!-- Text -->
     <color name="primaryText">#000000</color>
     <color name="primaryText87">#DE000000</color>
     <color name="primaryText60">#99000000</color>
     <color name="textDisabled">#61000000</color>
+    <color name="hintText">#DEDEDE</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="md_amber_100">#FFECB3</color>

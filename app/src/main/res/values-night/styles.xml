@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.MaterialDrawerStyleCustom" parent="Widget.MaterialDrawerStyle">
+        <!-- MaterialDrawer specific values -->
+        <item name="materialDrawerSelectedBackgroundColor">?colorPrimaryVariant</item>
+        <item name="materialDrawerDividerColor">@color/md_divider_dark_theme</item>
+        <item name="materialDrawerBackground">?attr/colorPrimary</item>
+    </style>
+
+    <style name="MaterialSearchViewStyle">
+        <item name="searchBackground">@color/appbarBackground</item>
+        <item name="searchBackIcon">@drawable/ic_baseline_arrow_back_24</item>
+        <item name="android:textColor">@color/primaryText87</item>
+        <item name="searchSuggestionBackground">@drawable/timeline_round_bottom_only_large</item>
+        <item name="searchSuggestionIcon">@null</item>
+        <item name="searchCloseIcon">@drawable/ic_action_navigation_close_inverted</item>
+    </style>
+
+</resources>

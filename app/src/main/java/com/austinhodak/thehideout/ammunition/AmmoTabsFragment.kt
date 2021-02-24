@@ -47,7 +47,7 @@ class AmmoTabsFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.ammo_list_menu, menu)
+        inflater.inflate(R.menu.fragment_ammo_list, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
