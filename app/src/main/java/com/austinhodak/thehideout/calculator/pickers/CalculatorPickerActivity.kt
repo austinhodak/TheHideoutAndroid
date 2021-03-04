@@ -80,11 +80,62 @@ class CalculatorPickerActivity : AppCompatActivity() {
                 ammoAdapter.add(ammoViewModel.ammoList.value?.sortedBy { it.name } ?: emptyList())
             }
             ItemType.HELMET -> {
-                helmetAdapter.add(armorHelper.getArmors(this))
-                //helmetAdapter.add(armorHelper.getArmors(this).filter { it.`class` == "Helmet" }.sortedWith(compareBy({ it.level }, { it.name })))
+                helmetAdapter.setNewList(armorHelper.getArmors(this).filter { it.`class` == "Helmet" }.sortedWith(compareBy({ it.level }, { it.name })).map {
+                    Armor(
+                        it.description,
+                        it.weight,
+                        it.level,
+                        it.hitpoints,
+                        it.movement,
+                        it.turn,
+                        it.ergonomics,
+                        it.zones,
+                        it._id,
+                        it.name,
+                        it.image,
+                        it.material,
+                        it.`class`,
+                        it.ricochet,
+                        it.grid,
+                        it.prices,
+                        it.tradeups,
+                        it.fields,
+                        it.internal,
+                        it.blunt,
+                        it.resistance,
+                        it.destructibility,
+                        it.cArmor
+                    )
+                })
             }
             ItemType.CHEST -> {
-                chestAdapter.add(armorHelper.getArmors(this).filter { it.`class` == "Chest Rig" || it.`class` == "Body Armor" }.sortedWith(compareBy({ it.level }, { it.name })))
+                chestAdapter.add(armorHelper.getArmors(this).filter { it.`class` == "Chest Rig" || it.`class` == "Body Armor" }.sortedWith(compareBy({ it.level }, { it.name })).map {
+                    Armor(
+                        it.description,
+                        it.weight,
+                        it.level,
+                        it.hitpoints,
+                        it.movement,
+                        it.turn,
+                        it.ergonomics,
+                        it.zones,
+                        it._id,
+                        it.name,
+                        it.image,
+                        it.material,
+                        it.`class`,
+                        it.ricochet,
+                        it.grid,
+                        it.prices,
+                        it.tradeups,
+                        it.fields,
+                        it.internal,
+                        it.blunt,
+                        it.resistance,
+                        it.destructibility,
+                        it.cArmor
+                    )
+                })
             }
         }
     }

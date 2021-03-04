@@ -44,7 +44,7 @@ data class Ammo (
     }
 
     override val type: Int
-        get() = R.id.fast_adapter_id
+        get() = R.id.fast_adapter_calc_ammo
 
     fun getAccuracyString(): String {
         return "$accuracy%"

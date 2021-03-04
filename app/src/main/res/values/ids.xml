@@ -4,5 +4,7 @@
     <item name="fast_adapter_id_2" type="id"/>
     <item name="fast_adapter_weapon_id" type="id"/>
     <item name="fast_adapter_key_id" type="id"/>
+    <item name="fast_adapter_calc_ammo" type="id"/>
+    <item name="fast_adapter_calc_armor" type="id"/>
 
 </resources>

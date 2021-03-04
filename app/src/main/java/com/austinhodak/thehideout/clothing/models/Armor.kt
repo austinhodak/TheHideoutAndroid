@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.clothing.models
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.databinding.ItemPickerCalculatorArmorBinding
 import com.bumptech.glide.Glide
@@ -21,7 +22,7 @@ data class Armor(
     var image: String,
     var material: String,
     var `class`: String,
-    var ricochet: String,
+    var ricochet: String?,
     var grid: Grid,
     var prices: List<Price>,
     var tradeups: List<Tradeup>,
@@ -34,7 +35,7 @@ data class Armor(
 ) : AbstractBindingItem<ItemPickerCalculatorArmorBinding>() {
 
     override val type: Int
-        get() = internal
+        get() = R.id.fast_adapter_calc_armor
 
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): ItemPickerCalculatorArmorBinding {
         return ItemPickerCalculatorArmorBinding.inflate(inflater, parent, false)
