@@ -53,11 +53,11 @@ class CalculatorPickerActivity : AppCompatActivity() {
         binding.calculatorPickerRV.adapter = adapter
 
         adapter.onClickListener = { view, adapter, item, pos ->
-            Toast.makeText(this, "Selected: $pos", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Selected: $pos", Toast.LENGTH_SHORT).show()
             val intent = Intent()
             when(item) {
                 is Ammo -> {
-                    intent.putExtra("ammoID", item.prices?.first()?._id)
+                    intent.putExtra("ammoID", item._id)
                 }
                 is Armor -> {
                     if (item.`class` == "Helmet") {

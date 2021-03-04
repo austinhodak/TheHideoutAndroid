@@ -36,7 +36,7 @@ class CalculatorMainActivity : AppCompatActivity() {
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK && result.data != null) {
             if (result.data?.hasExtra("ammoID") == true) {
-                selectedAmmo = ammoViewModel.ammoList.value?.find { it.prices?.firstOrNull { it._id == result.data?.getStringExtra("ammoID") } != null }!!
+                selectedAmmo = ammoViewModel.ammoList.value?.find { it._id == result.data?.getStringExtra("ammoID") }!!
                 updateBottomSheet()
             }
             if (result.data?.hasExtra("helmetID") == true) {
@@ -47,6 +47,7 @@ class CalculatorMainActivity : AppCompatActivity() {
                 selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == result.data?.getStringExtra("chestID") }
                 updateBottomSheet()
             }
+            updateDurabilities()
         }
     }
 
@@ -81,7 +82,7 @@ class CalculatorMainActivity : AppCompatActivity() {
         body.linkToHealthBar(Part.RIGHTLEG, binding.healthRLeg)
 
         ammoViewModel.ammoList.observe(this) {
-            selectedAmmo = it.find { it.prices?.firstOrNull { it._id == "5f4a52549f319f4528ac3646" } != null }!!
+            selectedAmmo = it.first()
             updateBottomSheet()
             updateDurabilities()
         }
