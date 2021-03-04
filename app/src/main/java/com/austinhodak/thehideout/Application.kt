@@ -2,8 +2,6 @@ package com.austinhodak.thehideout
 
 import android.app.Application
 import android.provider.Settings
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -29,7 +27,7 @@ class Application : Application() {
             Firebase.analytics.setAnalyticsCollectionEnabled(false)
         }
 
-        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+        //AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
