@@ -105,7 +105,7 @@ class QuestsViewModel(application: Application) : AndroidViewModel(application) 
 
     private suspend fun loadInitialQuests(): List<Quest> = withContext(Dispatchers.IO) {
         val groupListType: Type = object : TypeToken<ArrayList<Quest?>?>() {}.type
-        Gson().fromJson(context.resources.openRawResource(R.raw.ammo_data).bufferedReader().use { it.readText() }, groupListType)
+        Gson().fromJson(context.resources.openRawResource(R.raw.quests).bufferedReader().use { it.readText() }, groupListType)
     }
 
 }
