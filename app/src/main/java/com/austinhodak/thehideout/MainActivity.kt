@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity() {
                     name = StringHolder(context.getString(R.string.simulator))
                     iconRes = R.drawable.icons8_ammo_100
                     isSelectable = false
-                    isEnabled = BuildConfig.DEBUG
+                    isEnabled = isDebug()
                     onDrawerItemClickListener = { _, _, _ ->
                         startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
                         false

@@ -96,8 +96,6 @@
 
             </HorizontalScrollView>
 
-
-
         </androidx.appcompat.widget.Toolbar>
 
         <fragment

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.browser.customtabs.CustomTabsIntent
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -113,4 +114,22 @@ fun isDebug(): Boolean {
 
 fun Int.addQuotes(): String {
     return "\"$this\""
+}
+
+@DrawableRes
+fun String.getObjectiveIcon(): Int {
+    return when (this.toLowerCase()) {
+        "kill" -> R.drawable.icons8_sniper_96
+        "collect" -> R.drawable.ic_baseline_swap_horizontal_circle_24
+        "pickup" -> R.drawable.icons8_upward_arrow_96
+        "key" -> R.drawable.icons8_key_100
+        "place" -> R.drawable.icons8_low_importance_96
+        "mark" -> R.drawable.icons8_low_importance_96
+        "locate" -> R.drawable.ic_baseline_location_searching_24
+        "find" -> R.drawable.ic_baseline_location_searching_24
+        "reputation" -> R.drawable.ic_baseline_thumb_up_24
+        "warning" -> R.drawable.ic_baseline_warning_24
+        "skill" -> R.drawable.ic_baseline_fitness_center_24
+        else -> R.drawable.icons8_sniper_96
+    }
 }

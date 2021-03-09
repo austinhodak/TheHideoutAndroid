@@ -35,7 +35,9 @@ data class Quest(
         var number: Int,
         var location: String,
         var id: Int,
-        var with: List<String>
+        var with: List<String>,
+        var tool: String?,
+        var hint: String?
     ) {
 
         fun isCompleted(objectives: UserFB.UserFBQuestObjectives?): Boolean {
@@ -93,6 +95,10 @@ data class Quest(
             }
         }
 
+        fun getNumberString(): String {
+            return if (number <= 1) "" else "${number}x "
+        }
+
         private fun getNumber(): String {
             return if (number <= 1) "" else "$number "
         }
@@ -117,9 +123,11 @@ data class Quest(
     fun getLocation(): String {
         val string: ArrayList<String> = ArrayList()
 
-        for (objective in objectives) {
-            if (!string.contains(objective.location)) {
-                string.add(objective.location)
+        if (!objectives.isNullOrEmpty()) {
+            for (objective in objectives) {
+                if (!string.contains(objective.location)) {
+                    string.add(objective.location)
+                }
             }
         }
 
