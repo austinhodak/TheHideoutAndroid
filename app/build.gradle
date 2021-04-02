@@ -36,8 +36,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 10060
-        versionName "0.1.6 Beta"
+        versionCode 10070
+        versionName "0.1.7 Beta"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
