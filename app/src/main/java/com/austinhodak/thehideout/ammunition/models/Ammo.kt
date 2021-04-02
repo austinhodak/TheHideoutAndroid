@@ -51,6 +51,8 @@ data class Ammo (
     }
 
     fun getURL(): String {
+        //If image URL is whole URL return that, otherwise return appended URL.
+        if (image?.contains("https://") == true) return image as String
         return "https://www.eftdb.one/static/item/thumb/$image"
     }
 

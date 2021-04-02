@@ -310,10 +310,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setToolbarElevation(destination: NavDestination) {
         binding.toolbar.elevation = when (destination.id) {
-            R.id.FirstFragment,
-            R.id.WeaponFragment,
-            R.id.armorTabFragment,
-            R.id.medicalTabFragment,
             R.id.keysListFragment,
             R.id.fleaMarketListFragment -> 15f
             else -> 0f
