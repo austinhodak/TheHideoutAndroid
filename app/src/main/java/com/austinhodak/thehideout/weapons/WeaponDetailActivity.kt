@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.weapons
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.databinding.ActivityWeaponDetailBinding
@@ -147,6 +149,12 @@ class WeaponDetailActivity : AppCompatActivity() {
                         title(text = "Sort Ammo By")
                     }
                     true
+                }
+
+                injector.clicked(R.id.ammoSmallTop) {
+                    startActivity(Intent(this, AmmoDetailActivity::class.java).apply {
+                        putExtra("id", data._id)
+                    })
                 }
             }.attachTo(ammoRV)
 

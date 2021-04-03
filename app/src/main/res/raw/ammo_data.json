@@ -532,7 +532,8 @@
   "_id": "5f4a52549f319f4528ac3658",
   "name": "AP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d6/366APIcon.png/revision/latest/scale-to-width-down/64?cb=20200727151112",
-  "caliber": "5f4a52549f319f4528ac3650"
+  "caliber": "5f4a52549f319f4528ac3650",
+  "flea_uid": "a1eed532-c720-4cfc-b4ce-f3178613c1b7"
 }, {
   "armor_damage": 40,
   "bullets": 1,
@@ -1705,12 +1706,18 @@
   "accuracy": 0,
   "tracer": false,
   "armor": "662000",
-  "prices": [],
+  "prices": [{
+    "value": 0.00,
+    "trader": "Peacekeeper",
+    "currency": "D",
+    "level": 3
+  }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36c9SOST",
   "name": "Mk 318 Mod 0 (SOST)",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/0c/Mk318SOSTICON.png/revision/latest/scale-to-width-down/64?cb=20210330153129",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "d2084fcd-f8c6-409d-b129-d62f3f76638f"
 }, {
   "armor_damage": 64,
   "weight": 0.012,
@@ -3069,4 +3076,70 @@
   "name": "UPZ Lapua Magnum",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ea/338_upz_icon.png/revision/latest/scale-to-width-down/64?cb=20201224200457",
   "caliber": "338lapua"
+}, {
+  "armor_damage": 75,
+  "weight": 0.014,
+  "velocity": 849,
+  "damage": 192,
+  "penetration": 39,
+  "recoil": 25,
+  "accuracy": -5,
+  "tracer": false,
+  "armor": "666644",
+  "prices": [],
+  "tradeups": [],
+  "_id": "23x75_barricade",
+  "name": "Barricade",
+  "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f5/23x75_Barricade_icon.png/revision/latest/scale-to-width-down/64?cb=20201020041011",
+  "caliber": "23x75"
+}, {
+  "armor_damage": 0,
+  "weight": 0.014,
+  "velocity": 849,
+  "damage": 0,
+  "penetration": 0,
+  "recoil": 20,
+  "accuracy": 0,
+  "tracer": false,
+  "armor": "000000",
+  "prices": [],
+  "tradeups": [],
+  "_id": "23x75_star",
+  "name": "Star",
+  "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/ff/23x75_Star_icon.png/revision/latest/scale-to-width-down/64?cb=20201019173016",
+  "caliber": "23x75"
+}, {
+  "armor_damage": 20,
+  "weight": 0.014,
+  "velocity": 849,
+  "damage": 85,
+  "bullets": 8,
+  "penetration": 11,
+  "recoil": 0,
+  "accuracy": 0,
+  "tracer": false,
+  "armor": "643333",
+  "prices": [],
+  "tradeups": [],
+  "_id": "23x75_shrap_10",
+  "name": "Shrapnel 10",
+  "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/63/23x75_Shrap-10_icon.png/revision/latest/scale-to-width-down/64?cb=20201020041020",
+  "caliber": "23x75"
+}, {
+  "armor_damage": 20,
+  "weight": 0.014,
+  "velocity": 849,
+  "damage": 78,
+  "bullets": 8,
+  "penetration": 10,
+  "recoil": 10,
+  "accuracy": 20,
+  "tracer": false,
+  "armor": "643333",
+  "prices": [],
+  "tradeups": [],
+  "_id": "23x75_shrap_25",
+  "name": "Shrapnel 25",
+  "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/a1/Shr25icon.png/revision/latest/scale-to-width-down/64?cb=20201019175250",
+  "caliber": "23x75"
 }]

@@ -1,0 +1,13 @@
+[{
+  "date": "March 30th, 2021",
+  "version": "0.12.10.0.11565",
+  "changes" : [
+    {
+      "title": "Added",
+      "changes": "New voices for scav bosses (Reshala, Sanitar and Gluhar)\nNew actions and conditions of Scavs and sounds for them\nNew clothing for USEC, BEAR and Scavs"
+    }, {
+      "title": "New equipment",
+      "changes": "Chest rig Azimuth SS Zhuk (SURPAT)\nChest rig Azimuth SS Zhuk (Black)\nTactical sling Hazard4 Takedown (multicam)\nTactical sling Hazard4 Takedown\nHunting vest Umka М33-SET1\nChest rig CSA\nLBT 6094A Slick Plate Carrier (olive)\nLBT 6094A Slick Plate Carrier (tan)\nBackpack Eberlestock G2 Gunslinger II (dry earth)\nBallistic glasses NPP Condor (with additional armor protection for eyes)\nActive headset Opsmen Earmor M32\nGP-7 gas mask\nArmy cap in several variations of colors and camouflage"
+    }
+  ]
+}]

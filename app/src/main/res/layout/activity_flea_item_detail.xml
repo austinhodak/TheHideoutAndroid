@@ -238,7 +238,6 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="16dp">
 
-
                         <TextView
                             android:id="@+id/textView19"
                             android:layout_width="wrap_content"
@@ -277,7 +276,8 @@
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView19"
-                            tools:text="Terapist" />
+                            tools:text="Therapist" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </com.google.android.material.card.MaterialCardView>
