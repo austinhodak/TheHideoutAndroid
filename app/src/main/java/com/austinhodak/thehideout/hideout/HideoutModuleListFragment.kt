@@ -27,7 +27,7 @@ class HideoutModuleListFragment : Fragment() {
     private lateinit var mRecyclerView: RecyclerView
     private val viewModel: HideoutViewModel by activityViewModels()
     private val fleaViewModel: FleaViewModel by activityViewModels()
-    private var chipSelected = R.id.chip_active
+    private var chipSelected: Int? = R.id.chip_active
 
     private var mCompletedModuleIDs: ArrayList<Int> = ArrayList()
     private var mCompletedModules: MutableList<HideoutModule> = ArrayList()
@@ -62,9 +62,9 @@ class HideoutModuleListFragment : Fragment() {
         val chips = (requireActivity() as MainActivity).getQuestChips()
         (requireActivity() as MainActivity).updateChips(arrayListOf(getString(R.string.all), getString(R.string.current), getString(R.string.available), getString(
                     R.string.locked)))
-        chipSelected = chips.checkedChipId
+        chipSelected = chips?.checkedChipId
         chipSelected()
-        chips.setOnCheckedChangeListener { _, checkedId ->
+        chips?.setOnCheckedChangeListener { _, checkedId ->
             chipSelected = checkedId
             chipSelected()
         }

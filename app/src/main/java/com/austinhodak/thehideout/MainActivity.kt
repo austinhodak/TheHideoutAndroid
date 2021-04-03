@@ -438,8 +438,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState.getString("title").let {
-            binding.toolbarTitle.text = it
+        try {
+            savedInstanceState.getString("title").let {
+                binding.toolbarTitle.text = it
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -469,7 +473,8 @@ class MainActivity : AppCompatActivity() {
             binding.questSelectorScrollbar.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
-    fun getQuestChips(): ChipGroup {
+    fun getQuestChips(): ChipGroup? {
+        if (!this::binding.isInitialized) return null
         return binding.chipGroup2
     }
 
