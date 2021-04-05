@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.quests
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
+import com.austinhodak.thehideout.flea_market.FleaItemDetailActivity
 import com.austinhodak.thehideout.quests.models.Quest
 import com.austinhodak.thehideout.quests.models.Traders
 import com.austinhodak.thehideout.quests.viewmodels.QuestsViewModel
@@ -29,7 +31,7 @@ class QuestsTradersListFragment : Fragment() {
     private var questList: UserFB.UserFBQuests = UserFB.UserFBQuests()
     private val viewModel: QuestsViewModel by activityViewModels()
     private var objectivesList: UserFB.UserFBQuestObjectives = UserFB.UserFBQuestObjectives()
-    private var chipSelected = R.id.chip_active
+    private var chipSelected: Int? = R.id.chip_active
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +53,12 @@ class QuestsTradersListFragment : Fragment() {
         adapter = SlimAdapter.create().register<Quest>(R.layout.item_quest) { quest, i ->
             val taskRV = i.findViewById<RecyclerView>(R.id.questTaskListRV)
             taskRV.layoutManager = LinearLayoutManager(requireActivity())
+
+            i.clicked(R.id.questCard) {
+                startActivity(Intent(requireContext(), QuestDetailActivity::class.java).apply {
+                    putExtra("questID", quest.id)
+                })
+            }
 
             SlimAdapter.create().register<Quest.QuestObjectives>(R.layout.item_quest_task) { objective, i ->
                 val objectiveView = i.findViewById<QuestObjective>(R.id.questOb)
@@ -120,9 +128,9 @@ class QuestsTradersListFragment : Fragment() {
         })
 
         val chips = (requireActivity() as MainActivity).getQuestChips()
-        chipSelected = chips.checkedChipId
+        chipSelected = chips?.checkedChipId
         chipSelected()
-        chips.setOnCheckedChangeListener { group, checkedId ->
+        chips?.setOnCheckedChangeListener { group, checkedId ->
             chipSelected = checkedId
             chipSelected()
         }

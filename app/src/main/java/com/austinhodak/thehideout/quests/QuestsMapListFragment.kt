@@ -27,7 +27,7 @@ class QuestsMapListFragment : Fragment() {
     private var questList: UserFB.UserFBQuests = UserFB.UserFBQuests()
     private val viewModel: QuestsViewModel by activityViewModels()
     private var objectivesList: UserFB.UserFBQuestObjectives = UserFB.UserFBQuestObjectives()
-    private var chipSelected = R.id.chip_active
+    private var chipSelected: Int? = R.id.chip_active
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,9 +118,9 @@ class QuestsMapListFragment : Fragment() {
         })
 
         val chips = (requireActivity() as MainActivity).getQuestChips()
-        chipSelected = chips.checkedChipId
+        chipSelected = chips?.checkedChipId
         chipSelected()
-        chips.setOnCheckedChangeListener { group, checkedId ->
+        chips?.setOnCheckedChangeListener { group, checkedId ->
             chipSelected = checkedId
             chipSelected()
         }
