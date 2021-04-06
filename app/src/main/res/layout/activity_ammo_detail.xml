@@ -349,7 +349,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="16dp">
+                        android:paddingBottom="8dp">
 
                         <TextView
                             android:id="@+id/textView20"
@@ -492,6 +492,20 @@
 
                             </LinearLayout>
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginEnd="16dp"
+                                android:fontFamily="@font/bender_light"
+                                android:text="@{fleaItem.updatedTime}"
+                                tools:text="Updated 1 hour ago"
+                                android:textSize="8sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
                         </LinearLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -499,6 +513,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ammoDetailArmorCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -543,6 +558,7 @@
                                     armorColor="@{ammo.getColor(1)}"
                                     android:layout_width="3dp"
                                     android:layout_height="0dp"
+                                    tools:background="@color/md_green_500"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
@@ -554,6 +570,7 @@
                                     android:layout_marginTop="8dp"
                                     android:layout_marginBottom="8dp"
                                     android:fontFamily="@font/bender"
+                                    tools:text="Level 1 • Basically Ignores • 1 Shots"
                                     android:text="@{`Level 1` + ammo.getArmorChartText(1)}"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -671,6 +688,7 @@
 
                                 <View
                                     armorColor="@{ammo.getColor(6)}"
+                                    tools:background="@color/md_red_500"
                                     android:layout_width="3dp"
                                     android:layout_height="0dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
@@ -684,6 +702,7 @@
                                     android:layout_marginTop="8dp"
                                     android:layout_marginBottom="8dp"
                                     android:fontFamily="@font/bender"
+                                    tools:text="Level 6"
                                     android:text="@{`Level 6` + ammo.getArmorChartText(6)}"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"

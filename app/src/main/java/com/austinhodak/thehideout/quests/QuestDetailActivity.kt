@@ -70,7 +70,8 @@ class QuestDetailActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.activity_quest_detail, menu)
+        //TODO Add switching between quests.
+        //menuInflater.inflate(R.menu.activity_quest_detail, menu)
         return super.onCreateOptionsMenu(menu)
     }
 }

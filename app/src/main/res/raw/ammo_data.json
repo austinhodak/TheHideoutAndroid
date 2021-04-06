@@ -3241,7 +3241,12 @@
   "accuracy": -5,
   "tracer": false,
   "armor": "666644",
-  "prices": [],
+  "prices": [{
+    "value": 280,
+    "trader": "Prapor",
+    "currency": "R",
+    "level": 4
+  }],
   "tradeups": [],
   "_id": "23x75_barricade",
   "name": "Barricade",
@@ -3258,7 +3263,12 @@
   "accuracy": 0,
   "tracer": false,
   "armor": "000000",
-  "prices": [],
+  "prices": [{
+    "value": 2618,
+    "trader": "Prapor",
+    "currency": "R",
+    "level": 3
+  }],
   "tradeups": [],
   "_id": "23x75_star",
   "name": "Star",
@@ -3276,7 +3286,12 @@
   "accuracy": 0,
   "tracer": false,
   "armor": "643333",
-  "prices": [],
+  "prices": [{
+    "value": 86,
+    "trader": "Prapor",
+    "currency": "R",
+    "level": 2
+  }],
   "tradeups": [],
   "_id": "23x75_shrap_10",
   "name": "Shrapnel 10",
@@ -3294,7 +3309,12 @@
   "accuracy": 20,
   "tracer": false,
   "armor": "643333",
-  "prices": [],
+  "prices": [{
+    "value": 105,
+    "trader": "Prapor",
+    "currency": "R",
+    "level": 3
+  }],
   "tradeups": [],
   "_id": "23x75_shrap_25",
   "name": "Shrapnel 25",

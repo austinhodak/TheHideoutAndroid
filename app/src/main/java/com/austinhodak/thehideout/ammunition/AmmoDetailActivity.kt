@@ -7,6 +7,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
@@ -40,6 +42,14 @@ class AmmoDetailActivity : AppCompatActivity() {
         }
 
         setupToolbar()
+
+        binding.ammoDetailArmorCard.setOnClickListener {
+            MaterialDialog(this).show {
+                title(text = "Armor Chart Legend")
+                customView(R.layout.dialog_ammo_armor_chart)
+                positiveButton(text = "Okay")
+            }
+        }
     }
 
     private fun updateData() {

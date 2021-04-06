@@ -222,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                     isEnabled = false
                     typeface = benderFont
                     isIconTinted = true
-                    nameText = BuildConfig.VERSION_NAME
+                    nameText = "${BuildConfig.VERSION_NAME} Beta"
                     iconRes = R.drawable.ic_baseline_info_24
                 }
                 /*PrimaryDrawerItem().apply {
