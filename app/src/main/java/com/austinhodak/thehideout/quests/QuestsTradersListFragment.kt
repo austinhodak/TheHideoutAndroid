@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
-import com.austinhodak.thehideout.flea_market.FleaItemDetailActivity
 import com.austinhodak.thehideout.quests.models.Quest
 import com.austinhodak.thehideout.quests.models.Traders
 import com.austinhodak.thehideout.quests.viewmodels.QuestsViewModel
@@ -54,10 +54,12 @@ class QuestsTradersListFragment : Fragment() {
             val taskRV = i.findViewById<RecyclerView>(R.id.questTaskListRV)
             taskRV.layoutManager = LinearLayoutManager(requireActivity())
 
-            i.clicked(R.id.questCard) {
-                startActivity(Intent(requireContext(), QuestDetailActivity::class.java).apply {
-                    putExtra("questID", quest.id)
-                })
+            if (BuildConfig.DEBUG) {
+                i.clicked(R.id.questCard) {
+                    startActivity(Intent(requireContext(), QuestDetailActivity::class.java).apply {
+                        putExtra("questID", quest.id)
+                    })
+                }
             }
 
             SlimAdapter.create().register<Quest.QuestObjectives>(R.layout.item_quest_task) { objective, i ->

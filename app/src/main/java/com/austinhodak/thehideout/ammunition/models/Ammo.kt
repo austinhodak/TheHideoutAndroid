@@ -9,7 +9,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.databinding.ItemAmmoBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
-import com.austinhodak.thehideout.getCurrency
+import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.getTraderLevel
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.IgnoreExtraProperties
@@ -123,7 +123,7 @@ data class Ammo (
             "2" -> " • Magdump Only • 9 to 13 Shots"
             "3" -> " • Slightly Effective • 5 to 9 Shots"
             "4" -> " • Effective • 3 to 5 Shots"
-            "5" -> " • Very Effictive • 1 to 3 Shots"
+            "5" -> " • Very Effective • 1 to 3 Shots"
             "6" -> " • Basically Ignores • <1 Shot"
             else -> ""
         }
@@ -139,7 +139,16 @@ data class Ammo (
     ) {
         override fun toString(): String {
             val format = DecimalFormat("###.##")
-            return "$trader ${level?.getTraderLevel()} ${format.format(value)}${currency?.getCurrency()}"
+            return if (value!! > 0)  {
+                "$trader ${level?.getTraderLevel()} ${value?.getPrice(currency ?: "₽")}"
+            } else {
+                "\"$trader ${level?.getTraderLevel()} ???"
+            }
+            /*return if (currency?.getCurrency() == "$") {
+                "$trader ${level?.getTraderLevel()} ${currency?.getCurrency()}${format.format(value)}"
+            } else {
+                "$trader ${level?.getTraderLevel()} ${format.format(value)}${currency?.getCurrency()}"
+            }*/
         }
 
         fun getTraderString(): String {
@@ -148,8 +157,7 @@ data class Ammo (
 
         fun getPrice(): String {
             if (value == null || value == 0.00) return "???"
-            val format = DecimalFormat("###.##")
-            return "${format.format(value)}${currency?.getCurrency()}"
+            return value!!.getPrice(currency ?: "₽")
         }
     }
 

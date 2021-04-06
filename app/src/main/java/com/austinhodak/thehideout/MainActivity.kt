@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_TheHideout_NoActionBar)
+        setTheme(R.style.Theme_TheHideout)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)

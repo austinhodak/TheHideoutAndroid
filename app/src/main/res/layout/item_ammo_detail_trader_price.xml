@@ -20,7 +20,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ammoDetailTraderPriceTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textView19"
         tools:text="1,600₽" />
 
     <TextView
@@ -30,7 +29,6 @@
         android:layout_marginStart="16dp"
         android:fontFamily="@font/bender"
         android:text="@{item.traderName}"
-        android:textColor="@color/primaryText87"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

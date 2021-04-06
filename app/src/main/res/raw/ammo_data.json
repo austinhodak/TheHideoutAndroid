@@ -19,7 +19,8 @@
   "_id": "5f4a52549f319f4528ac3624",
   "name": "L191",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f4/57x28mmL191Icon.png/revision/latest/scale-to-width-down/64?cb=20191031140821",
-  "caliber": "5f4a52549f319f4528ac3623"
+  "caliber": "5f4a52549f319f4528ac3623",
+  "flea_uid": "b850f3ec-3fc5-4c64-9a1a-e02148b3ff3e"
 }, {
   "armor_damage": 7,
   "weight": 0.006,
@@ -41,7 +42,8 @@
   "_id": "5f4a52549f319f4528ac3626",
   "name": "R37.F",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/6f/R37F_icon.png/revision/latest/scale-to-width-down/64?cb=20191109212009",
-  "caliber": "5f4a52549f319f4528ac3623"
+  "caliber": "5f4a52549f319f4528ac3623",
+  "flea_uid": "3010f542-a38e-45e4-b5b0-fff361580684"
 }, {
   "armor_damage": 14,
   "weight": 0.006,
@@ -63,7 +65,8 @@
   "_id": "5f4a52549f319f4528ac3628",
   "name": "R37.X",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2e/R37X_icon.png/revision/latest/scale-to-width-down/64?cb=20191109212042",
-  "caliber": "5f4a52549f319f4528ac3623"
+  "caliber": "5f4a52549f319f4528ac3623",
+  "flea_uid": "2286bcd2-12ac-424c-b719-a84bc0ae893f"
 }, {
   "armor_damage": 37,
   "weight": 0.007,
@@ -85,7 +88,8 @@
   "_id": "5f4a52549f319f4528ac362a",
   "name": "SB193",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e5/57x28mmSB193Icon.png/revision/latest/scale-to-width-down/64?cb=20191031140924",
-  "caliber": "5f4a52549f319f4528ac3623"
+  "caliber": "5f4a52549f319f4528ac3623",
+  "flea_uid": "294d5827-a218-4141-978c-cedbca5ade10"
 }, {
   "armor_damage": 43,
   "weight": 0.006,
@@ -107,7 +111,8 @@
   "_id": "5f4a52549f319f4528ac362c",
   "name": "SS190",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/62/57x28mmSS190Icon.png/revision/latest/scale-to-width-down/64?cb=20191031141019",
-  "caliber": "5f4a52549f319f4528ac3623"
+  "caliber": "5f4a52549f319f4528ac3623",
+  "flea_uid": "6a9deda3-27e3-474d-a089-d56121a80ffa"
 }, {
   "armor_damage": 22,
   "weight": 0.007,
@@ -129,7 +134,8 @@
   "_id": "5f4a52549f319f4528ac362e",
   "name": "SS197SR",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/a3/57x28mmSS197SRIcon.png/revision/latest/scale-to-width-down/64?cb=20191031141116",
-  "caliber": "5f4a52549f319f4528ac3623"
+  "caliber": "5f4a52549f319f4528ac3623",
+  "flea_uid": "0f8d03d4-ffc0-4bc1-b476-d534c409a0a8"
 }, {
   "armor_damage": 15,
   "weight": 0.006,
@@ -151,7 +157,8 @@
   "_id": "5f4a52549f319f4528ac3630",
   "name": "SS198LF",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/14/57x28mmSS198LFIcon.png/revision/latest/scale-to-width-down/64?cb=20191031141222",
-  "caliber": "5f4a52549f319f4528ac3623"
+  "caliber": "5f4a52549f319f4528ac3623",
+  "flea_uid": "2b1eb517-d665-4e98-b533-254cf0a13bc8"
 }, {
   "armor_damage": 36,
   "weight": 0.015,
@@ -173,7 +180,8 @@
   "_id": "5f4a52549f319f4528ac3633",
   "name": "ACP FMJ",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/0f/.45_FMJ_Icon.png/revision/latest/scale-to-width-down/64?cb=20200508230152",
-  "caliber": "5f4a52549f319f4528ac3632"
+  "caliber": "5f4a52549f319f4528ac3632",
+  "flea_uid": "4439eb1e-043c-410e-a98c-31a7954199c0"
 }, {
   "armor_damage": 12,
   "weight": 0.019,
@@ -195,7 +203,8 @@
   "_id": "5f4a52549f319f4528ac3635",
   "name": "RIP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/4f/.45_RIP_Icon.png/revision/latest/scale-to-width-down/64?cb=20200508230154",
-  "caliber": "5f4a52549f319f4528ac3632"
+  "caliber": "5f4a52549f319f4528ac3632",
+  "flea_uid": "4285652d-3db1-4068-8b2e-79e229dc9ff7"
 }, {
   "armor_damage": 30,
   "weight": 0.017,
@@ -217,7 +226,8 @@
   "_id": "5f4a52549f319f4528ac3637",
   "name": "ACP Hydra-Shok",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e9/45HSIcon.png/revision/latest/scale-to-width-down/64?cb=20200727151111",
-  "caliber": "5f4a52549f319f4528ac3632"
+  "caliber": "5f4a52549f319f4528ac3632",
+  "flea_uid": "dc0718bf-1e87-4c57-8b02-54c467111ce3"
 }, {
   "armor_damage": 37,
   "weight": 0.015,
@@ -239,7 +249,8 @@
   "_id": "5f4a52549f319f4528ac3639",
   "name": "ACP Lasermatch FMJ",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/db/45LMIcon.png/revision/latest/scale-to-width-down/64?cb=20200727151111",
-  "caliber": "5f4a52549f319f4528ac3632"
+  "caliber": "5f4a52549f319f4528ac3632",
+  "flea_uid": "a4cf9dff-d568-4452-a1b7-ab8a703397a6"
 }, {
   "armor_damage": 43,
   "weight": 0.015,
@@ -261,7 +272,8 @@
   "_id": "5f4a52549f319f4528ac363b",
   "name": "ACP AP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b0/45APIcon.png/revision/latest/scale-to-width-down/64?cb=20210401044538",
-  "caliber": "5f4a52549f319f4528ac3632"
+  "caliber": "5f4a52549f319f4528ac3632",
+  "flea_uid": "fef6edbd-db9e-4e60-bf1b-58b94476a042"
 }, {
   "armor_damage": 60,
   "weight": 0.07,
@@ -283,7 +295,8 @@
   "_id": "5f4a52549f319f4528ac363e",
   "name": "PS12",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/68/12.7x55_PS12_icon.png/revision/latest/scale-to-width-down/64?cb=20191109223155",
-  "caliber": "5f4a52549f319f4528ac363d"
+  "caliber": "5f4a52549f319f4528ac363d",
+  "flea_uid": "47c91930-9ab1-419e-b9aa-479801efbd9f"
 }, {
   "armor_damage": 22,
   "weight": 0.044,
@@ -305,7 +318,8 @@
   "_id": "5f4a52549f319f4528ac3640",
   "name": "PS12A",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/7a/12.7x55_PS12A_icon.png/revision/latest/scale-to-width-down/64?cb=20191109223503",
-  "caliber": "5f4a52549f319f4528ac363d"
+  "caliber": "5f4a52549f319f4528ac363d",
+  "flea_uid": "0f8383c4-47b0-488a-bc64-0643bd35c2d4"
 }, {
   "armor_damage": 57,
   "weight": 0.055,
@@ -327,7 +341,8 @@
   "_id": "5f4a52549f319f4528ac3642",
   "name": "PS12B",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fb/12.7x55_PS12B_icon.png/revision/latest/scale-to-width-down/64?cb=20191109223542",
-  "caliber": "5f4a52549f319f4528ac363d"
+  "caliber": "5f4a52549f319f4528ac363d",
+  "flea_uid": "6f71a6f7-66db-4405-89ee-491658a8a3ff"
 }, {
   "weight": 0.23,
   "velocity": 76,
@@ -354,7 +369,8 @@
   "_id": "5f4a52549f319f4528ac3645",
   "name": "M381",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/28/M381Icon.png/revision/latest/scale-to-width-down/64?cb=20200727151117",
-  "caliber": "5f4a52549f319f4528ac3644"
+  "caliber": "5f4a52549f319f4528ac3644",
+  "flea_uid": "00ceb78a-4c8a-450b-9fb6-6ced76f45c19"
 }, {
   "weight": 0.23,
   "velocity": 76,
@@ -381,7 +397,8 @@
   "_id": "5f4a52549f319f4528ac3648",
   "name": "M386",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/17/M386Icon.png/revision/latest/scale-to-width-down/64?cb=20200727151119",
-  "caliber": "5f4a52549f319f4528ac3644"
+  "caliber": "5f4a52549f319f4528ac3644",
+  "flea_uid": "458b3d49-0f6b-4226-9095-2ba2c20f93f9"
 }, {
   "weight": 0.23,
   "velocity": 76,
@@ -394,9 +411,10 @@
   "prices": [],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac364b",
-  "name": "M406",
+  "name": "M406 ",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/20/M406Icon.png/revision/latest/scale-to-width-down/64?cb=20200727175937",
-  "caliber": "5f4a52549f319f4528ac3644"
+  "caliber": "5f4a52549f319f4528ac3644",
+  "flea_uid": "7c7cd46e-0b50-4d2b-bc0b-b7c8e41ca028"
 }, {
   "weight": 0.23,
   "velocity": 76,
@@ -411,7 +429,8 @@
   "_id": "5f4a52549f319f4528ac364c",
   "name": "M441",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/a9/M441Icon.png/revision/latest/scale-to-width-down/64?cb=20200727175938",
-  "caliber": "5f4a52549f319f4528ac3644"
+  "caliber": "5f4a52549f319f4528ac3644",
+  "flea_uid": "8ad92dc8-920c-4eba-bcc7-f4584612f0b5"
 }, {
   "weight": 0.23,
   "velocity": 269,
@@ -438,7 +457,8 @@
   "_id": "5f4a52549f319f4528ac364d",
   "name": "M576",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/9f/M576Icon.png/revision/latest/scale-to-width-down/64?cb=20200727175939",
-  "caliber": "5f4a52549f319f4528ac3644"
+  "caliber": "5f4a52549f319f4528ac3644",
+  "flea_uid": "9f7030ac-07e9-4767-8006-6d8cfc4a0cdb"
 }, {
   "armor_damage": 48,
   "weight": 0.016,
@@ -464,9 +484,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3651",
-  "name": "FMJ",
+  "name": "TKM FMJ",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d6/TKFMJICON.png/revision/latest/scale-to-width-down/64?cb=20190518222030",
-  "caliber": "5f4a52549f319f4528ac3650"
+  "caliber": "5f4a52549f319f4528ac3650",
+  "flea_uid": "e5300f0e-9636-4262-bc0f-11f8fd4ea044"
 }, {
   "armor_damage": 40,
   "weight": 0.01,
@@ -486,9 +507,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3654",
-  "name": "EKO",
+  "name": "TKM EKO",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/95/EKOICON.png/revision/latest/scale-to-width-down/64?cb=20190518222010",
-  "caliber": "5f4a52549f319f4528ac3650"
+  "caliber": "5f4a52549f319f4528ac3650",
+  "flea_uid": "397a190e-af23-426f-9eec-019e8ef0fd0e"
 }, {
   "armor_damage": 38,
   "weight": 0.016,
@@ -508,9 +530,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3656",
-  "name": "Geksa",
+  "name": "TKM Geksa",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e9/GEKSAICON.png/revision/latest/scale-to-width-down/64?cb=20190518222046",
-  "caliber": "5f4a52549f319f4528ac3650"
+  "caliber": "5f4a52549f319f4528ac3650",
+  "flea_uid": "9b2c44b7-7ef4-4f55-a545-374e62732ec6"
 }, {
   "armor_damage": 60,
   "weight": 0.019,
@@ -554,9 +577,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac365b",
-  "name": "Poleva-3 Slug",
+  "name": "\"Poleva-3\" Slug",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/a0/Poleva3_Icon.png/revision/latest/scale-to-width-down/64?cb=20191029204201",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "272986e4-ec21-4934-a1e0-5ebf62aac6b7"
 }, {
   "armor_damage": 50,
   "bullets": 1,
@@ -577,9 +601,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac365d",
-  "name": "Poleva-6u Slug",
+  "name": "\"Poleva-6u\" Slug",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c2/1270Poleva6SlugIcon.png/revision/latest/scale-to-width-down/64?cb=20191031132854",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "8cd875f0-1fe2-4f83-915e-42be843a21d1"
 }, {
   "armor_damage": 15,
   "bullets": 8,
@@ -602,7 +627,8 @@
   "_id": "5f4a52549f319f4528ac365f",
   "name": "5.25mm Buckshot",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/4e/1270525BuckshotIcon.png/revision/latest/scale-to-width-down/64?cb=20191031133847",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "92eb900d-4a41-429c-b062-db19dcb3012c"
 }, {
   "armor_damage": 26,
   "bullets": 8,
@@ -623,9 +649,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3661",
-  "name": "8.5mm Magnum Buckshot",
+  "name": "8.5 mm \"Magnum\" Buckshot",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/6d/127065ExpressMagnumIcon.png/revision/latest/scale-to-width-down/64?cb=20191031133629",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "c57ecdf8-2041-456f-96bc-c9369f1c83da"
 }, {
   "armor_damage": 65,
   "bullets": 1,
@@ -648,7 +675,8 @@
   "_id": "5f4a52549f319f4528ac3663",
   "name": "AP-20 Slug",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3e/12-70_AP-20_icon.png/revision/latest/scale-to-width-down/64?cb=20191109230243",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "b1f346ba-dcc2-4a61-91da-36deed4880da"
 }, {
   "armor_damage": 65,
   "bullets": 2,
@@ -671,7 +699,8 @@
   "_id": "5f4a52549f319f4528ac3665",
   "name": "Dual Sabot Slug",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/cf/12-70_Dual_Sabot_icon.png/revision/latest/scale-to-width-down/64?cb=20191109225941",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "35ada920-dc47-4c0a-aacd-fa762cfdf40b"
 }, {
   "armor_damage": 50,
   "bullets": 1,
@@ -694,7 +723,8 @@
   "_id": "5f4a52549f319f4528ac3667",
   "name": "FTX Custom LIte Slug",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/97/FTX_Slug_Icon.png/revision/latest/scale-to-width-down/64?cb=20191029185252",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "649b5938-380b-4676-af1b-395f95ce3c57"
 }, {
   "armor_damage": 26,
   "bullets": 8,
@@ -717,7 +747,8 @@
   "_id": "5f4a52549f319f4528ac3669",
   "name": "Flechette",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b0/12-70_Flechette_icon.png/revision/latest/scale-to-width-down/64?cb=20191109230123",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "c8bfb76a-bc25-4e59-b287-dc69a072f6c8"
 }, {
   "armor_damage": 48,
   "bullets": 1,
@@ -738,9 +769,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac366b",
-  "name": "Grizzly Slug",
+  "name": "Grizzly 40 Slug",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/00/1270Grizzly40SlugIcon.png/revision/latest/scale-to-width-down/64?cb=20191031133206",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "d42dd6ef-cbf9-4f9f-9b0a-c6e8bd24ca68"
 }, {
   "armor_damage": 12,
   "bullets": 1,
@@ -761,9 +793,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac366d",
-  "name": "HP Slug SuperFormance",
+  "name": "HP Slug \"SuperFormance\"",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/4e/12-70_HP_SF_icon.png/revision/latest/scale-to-width-down/64?cb=20191109230350",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "1a4bd865-1d5f-4f61-8f99-94aae5de3ad5"
 }, {
   "armor_damage": 46,
   "bullets": 1,
@@ -786,7 +819,8 @@
   "_id": "5f4a52549f319f4528ac366f",
   "name": "HP Slug Copper Sabot Premier",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b9/12x70SLUG_CSP-icon.png/revision/latest/scale-to-width-down/64?cb=20191031182320",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "a0dc2dae-01ee-467e-84a4-cb7c289a6642"
 }, {
   "armor_damage": 26,
   "bullets": 9,
@@ -807,9 +841,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3671",
-  "name": "6.5mm Express Buckshot",
+  "name": "6.5 mm \"Express\" Buckshot",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/bf/127065ExpressBuckshotIcon.png/revision/latest/scale-to-width-down/64?cb=20191031133515",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "54492edd-0933-463b-b34a-c76785eb933b"
 }, {
   "armor_damage": 26,
   "bullets": 8,
@@ -844,7 +879,8 @@
   "_id": "5f4a52549f319f4528ac3673",
   "name": "7mm Buckshot",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d7/12x70BUCKSHOT.png/revision/latest/scale-to-width-down/64?cb=20191109234707",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "1366b31e-61ce-45c2-b155-fdc367b35a1c"
 }, {
   "armor_damage": 55,
   "bullets": 1,
@@ -885,7 +921,8 @@
   "_id": "5f4a52549f319f4528ac3677",
   "name": "Led Slug",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/83/12x70SLUG.png/revision/latest/scale-to-width-down/64?cb=20190518222203",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "1ebf2e8c-a787-4cd1-a34e-19833087a92a"
 }, {
   "armor_damage": 57,
   "bullets": 1,
@@ -908,25 +945,27 @@
   "_id": "5f4a52549f319f4528ac367c",
   "name": "Shell with .50 BMG bullet",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/0b/12-70_.50_BMG_icon.png/revision/latest/scale-to-width-down/64?cb=20191109230148",
-  "caliber": "5f4a52549f319f4528ac365a"
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "cc1478db-f015-45d4-b97c-f4a70fb54fb7"
 }, {
-    "armor_damage": 11,
-    "bullets": 1,
-    "weight": 0.055,
-    "velocity": 430,
-    "damage": 265,
-    "penetration": 2,
-    "recoil": 25,
-    "accuracy": 80,
-    "tracer": false,
-    "armor": "000000",
-    "prices": [],
-    "tradeups": [],
-    "_id": "5f4a52549f319f4528ac367cRIP",
-    "name": "RIP",
-    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/8a/12x70ripicon.png/revision/latest/scale-to-width-down/64?cb=20190518222146",
-    "caliber": "5f4a52549f319f4528ac365a"
-},{
+  "armor_damage": 11,
+  "bullets": 1,
+  "weight": 0.055,
+  "velocity": 430,
+  "damage": 265,
+  "penetration": 2,
+  "recoil": 25,
+  "accuracy": 80,
+  "tracer": false,
+  "armor": "000000",
+  "prices": [],
+  "tradeups": [],
+  "_id": "5f4a52549f319f4528ac367cRIP",
+  "name": "RIP",
+  "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/8a/12x70ripicon.png/revision/latest/scale-to-width-down/64?cb=20190518222146",
+  "caliber": "5f4a52549f319f4528ac365a",
+  "flea_uid": "e867a0df-c4a1-4d8d-a94c-97e421d54dfa"
+}, {
   "armor_damage": 12,
   "bullets": 8,
   "weight": 0.028,
@@ -948,7 +987,8 @@
   "_id": "5f4a52549f319f4528ac367f",
   "name": "5.6mm Buckshot",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3e/20x70BUCKSHOT_56.png/revision/latest/scale-to-width-down/64?cb=20191030152620",
-  "caliber": "5f4a52549f319f4528ac367e"
+  "caliber": "5f4a52549f319f4528ac367e",
+  "flea_uid": "6fcef76c-73b3-47f4-943f-f15e7c75e31b"
 }, {
   "armor_damage": 13,
   "bullets": 8,
@@ -971,7 +1011,8 @@
   "_id": "5f4a52549f319f4528ac3681",
   "name": "6.2mm Buckshot",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1c/207062mmBuckshotIcon.png/revision/latest/scale-to-width-down/64?cb=20191031134200",
-  "caliber": "5f4a52549f319f4528ac367e"
+  "caliber": "5f4a52549f319f4528ac367e",
+  "flea_uid": "5ea8fd10-10f9-4490-a2a0-1680ab247dc2"
 }, {
   "armor_damage": 13,
   "bullets": 9,
@@ -994,7 +1035,8 @@
   "_id": "5f4a52549f319f4528ac3683",
   "name": "7.3mm Buckshot",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/86/20x70BUCKSHOT_73.png/revision/latest/scale-to-width-down/64?cb=20191031144939",
-  "caliber": "5f4a52549f319f4528ac367e"
+  "caliber": "5f4a52549f319f4528ac367e",
+  "flea_uid": "8d45126a-23d1-4485-b7d9-7ccfb9d4e9ca"
 }, {
   "armor_damage": 13,
   "bullets": 1,
@@ -1017,7 +1059,8 @@
   "_id": "5f4a52549f319f4528ac3685",
   "name": "Devastator Slug",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e1/2070DevastatorSlugIcon.png/revision/latest/scale-to-width-down/64?cb=20191031134640",
-  "caliber": "5f4a52549f319f4528ac367e"
+  "caliber": "5f4a52549f319f4528ac367e",
+  "flea_uid": "161f3f0a-19c1-4e2a-befe-f9023e3376f5"
 }, {
   "armor_damage": 35,
   "bullets": 1,
@@ -1038,9 +1081,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3687",
-  "name": "Slug Poleva-3",
+  "name": "Slug \"Poleva-3\"",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2a/70x20SLUG_poleva3-icon.png/revision/latest/scale-to-width-down/64?cb=20191030153352",
-  "caliber": "5f4a52549f319f4528ac367e"
+  "caliber": "5f4a52549f319f4528ac367e",
+  "flea_uid": "920a976c-2046-48e9-b76b-53c759840c6c"
 }, {
   "armor_damage": 40,
   "bullets": 1,
@@ -1061,9 +1105,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3689",
-  "name": "Slug Poleva-6u",
+  "name": "Slug \"Poleva-6u\"",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/67/70x20SLUG_poleva6u-icon.png/revision/latest/scale-to-width-down/64?cb=20191030153553",
-  "caliber": "5f4a52549f319f4528ac367e"
+  "caliber": "5f4a52549f319f4528ac367e",
+  "flea_uid": "f5748768-ed60-4c14-a9c0-9d4f71ed12e5"
 }, {
   "armor_damage": 42,
   "bullets": 1,
@@ -1086,7 +1131,8 @@
   "_id": "5f4a52549f319f4528ac368b",
   "name": "Star Slug",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/61/20-70_Star_Slug_icon.png/revision/latest/scale-to-width-down/64?cb=20191109232917",
-  "caliber": "5f4a52549f319f4528ac367e"
+  "caliber": "5f4a52549f319f4528ac367e",
+  "flea_uid": "43b6c415-516f-4f95-8a8c-f8c016cbb2c8"
 }, {
   "armor_damage": 14,
   "bullets": 8,
@@ -1115,7 +1161,8 @@
   "_id": "5f4a52549f319f4528ac368d",
   "name": "7.5mm Buckshot",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/ab/20x70BUCKSHOT.png/revision/latest/scale-to-width-down/64?cb=20191109233602",
-  "caliber": "5f4a52549f319f4528ac367e"
+  "caliber": "5f4a52549f319f4528ac367e",
+  "flea_uid": "1a5aa298-376f-4397-9ef0-0feaae68ee6a"
 }, {
   "armor_damage": 39,
   "weight": 0.007,
@@ -1143,7 +1190,8 @@
   "_id": "5f4a52549f319f4528ac3691",
   "name": "Action SX",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/58/4.6x30ActionIcon.png/revision/latest/scale-to-width-down/64?cb=20190518235804",
-  "caliber": "5f4a52549f319f4528ac3690"
+  "caliber": "5f4a52549f319f4528ac3690",
+  "flea_uid": "d96118f4-b44c-4322-a6c2-3980414856c6"
 }, {
   "armor_damage": 41,
   "weight": 0.007,
@@ -1165,7 +1213,8 @@
   "_id": "5f4a52549f319f4528ac3694",
   "name": "FMJ SX",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c8/4.6x30FMJIcon.png/revision/latest/scale-to-width-down/64?cb=20190518235844",
-  "caliber": "5f4a52549f319f4528ac3690"
+  "caliber": "5f4a52549f319f4528ac3690",
+  "flea_uid": "cb60715a-8671-4c8f-b90b-ef2b0db677e8"
 }, {
   "armor_damage": 46,
   "weight": 0.007,
@@ -1187,7 +1236,8 @@
   "_id": "5f4a52549f319f4528ac3696",
   "name": "AP SX",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/cf/4.6x30APenIcon.png/revision/latest/scale-to-width-down/64?cb=20190518235824",
-  "caliber": "5f4a52549f319f4528ac3690"
+  "caliber": "5f4a52549f319f4528ac3690",
+  "flea_uid": "f2a6b0b5-ff5c-49ea-b966-dd8c80bd6ee2"
 }, {
   "armor_damage": 46,
   "weight": 0.01,
@@ -1209,7 +1259,8 @@
   "_id": "5f4a52549f319f4528ac3698",
   "name": "Subsonic SX",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3c/4.6x30SubsonicIcon.png/revision/latest/scale-to-width-down/64?cb=20190518235900",
-  "caliber": "5f4a52549f319f4528ac3690"
+  "caliber": "5f4a52549f319f4528ac3690",
+  "flea_uid": "46adadb1-7303-4eca-ab04-d740cdd53a2d"
 }, {
   "armor_damage": 35,
   "weight": 0.01,
@@ -1231,7 +1282,8 @@
   "_id": "5f4a52549f319f4528ac369b",
   "name": "PS",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e3/74PSICON.png/revision/latest/scale-to-width-down/64?cb=20190519005532",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "3d2e0874-58fc-4c86-8192-f454fd8e0e4a"
 }, {
   "armor_damage": 38,
   "weight": 0.01,
@@ -1253,7 +1305,8 @@
   "_id": "5f4a52549f319f4528ac369d",
   "name": "T",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/db/74TICON.png/revision/latest/scale-to-width-down/64?cb=20190519005615",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "135f37c4-db0c-484d-8527-9d50ec50edf2"
 }, {
   "armor_damage": 28,
   "weight": 0.01,
@@ -1275,7 +1328,8 @@
   "_id": "5f4a52549f319f4528ac369f",
   "name": "PRS",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/73/74PRSICON.png/revision/latest/scale-to-width-down/64?cb=20190519005512",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "896954c0-1a01-44a8-b817-18d39173d933"
 }, {
   "armor_damage": 32,
   "weight": 0.01,
@@ -1297,7 +1351,8 @@
   "_id": "5f4a52549f319f4528ac36a1",
   "name": "PP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5d/74PPICON.png/revision/latest/scale-to-width-down/64?cb=20190519005452",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "8807502b-36b8-43af-bf3e-c60b73a99fbe"
 }, {
   "armor_damage": 20,
   "weight": 0.01,
@@ -1319,7 +1374,8 @@
   "_id": "5f4a52549f319f4528ac36a3",
   "name": "HP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fe/74HPICON.png/revision/latest/scale-to-width-down/64?cb=20190519005434",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "a7a5a5df-4f49-4223-acc8-e5f622fe62ff"
 }, {
   "armor_damage": 34,
   "weight": 0.01,
@@ -1341,7 +1397,8 @@
   "_id": "5f4a52549f319f4528ac36a5",
   "name": "SP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/04/74SPICON.png/revision/latest/scale-to-width-down/64?cb=20190519005551",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "6c43dd7a-bccd-4ea6-8a78-907da429b3a0"
 }, {
   "armor_damage": 30,
   "weight": 0.01,
@@ -1363,7 +1420,8 @@
   "_id": "5f4a52549f319f4528ac36a7",
   "name": "FMJ",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/81/74FMJICON.png/revision/latest/scale-to-width-down/64?cb=20190519005417",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "0ebb1efe-e4a9-46cf-95f7-18bd73fb5e97"
 }, {
   "armor_damage": 34,
   "weight": 0.01,
@@ -1385,7 +1443,8 @@
   "_id": "5f4a52549f319f4528ac36a9",
   "name": "US",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/4b/74USICON.png/revision/latest/scale-to-width-down/64?cb=20190519005629",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "2ae28fc4-e29e-40f2-96d9-42997b957d4b"
 }, {
   "armor_damage": 41,
   "weight": 0.01,
@@ -1412,7 +1471,8 @@
   "_id": "5f4a52549f319f4528ac36ab",
   "name": "BP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2e/74BPICON.png/revision/latest/scale-to-width-down/64?cb=20190519005323",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "5abfc01b-68c5-4183-9cc1-c98c53836d6f"
 }, {
   "armor_damage": 57,
   "weight": 0.01,
@@ -1439,7 +1499,8 @@
   "_id": "5f4a52549f319f4528ac36ae",
   "name": "BS",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/17/74BSICON.png/revision/latest/scale-to-width-down/64?cb=20190519005339",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "a5a1ea7d-d04e-46a0-961d-5f863fcc5c10"
 }, {
   "armor_damage": 49,
   "weight": 0.01,
@@ -1471,7 +1532,8 @@
   "_id": "5f4a52549f319f4528ac36b1",
   "name": "BT",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c7/74BTICON.png/revision/latest/scale-to-width-down/64?cb=20200706231159",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "180f4fa5-db47-4b7b-abd2-201ca410abfc"
 }, {
   "armor_damage": 60,
   "weight": 0.011,
@@ -1485,9 +1547,10 @@
   "prices": [],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36b5",
-  "name": "7N39",
+  "name": "7N39 \"Igolnik\"",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/64/7n39icon.png/revision/latest/scale-to-width-down/64?cb=20190519005952",
-  "caliber": "5f4a52549f319f4528ac369a"
+  "caliber": "5f4a52549f319f4528ac369a",
+  "flea_uid": "df4eca2e-79fa-4780-afe9-78e9b226fb07"
 }, {
   "armor_damage": 37,
   "weight": 0.012,
@@ -1509,7 +1572,8 @@
   "_id": "5f4a52549f319f4528ac36b7",
   "name": "M855",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/55/M855ICON.png/revision/latest/scale-to-width-down/64?cb=20210330184919",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "8b190ab8-d8ec-4f87-b5bf-a25c9f97ef10"
 }, {
   "armor_damage": 52,
   "weight": 0.012,
@@ -1537,7 +1601,8 @@
   "_id": "5f4a52549f319f4528ac36b9",
   "name": "M855A1",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5f/M855A1ICON.png/revision/latest/scale-to-width-down/64?cb=20210330133256",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "6116ff23-0ce6-4ce3-8baa-98f3535b7ffd"
 }, {
   "armor_damage": 33,
   "weight": 0.012,
@@ -1559,7 +1624,8 @@
   "_id": "5f4a52549f319f4528ac36bc",
   "name": "55 FMJ",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/33/55FMJICON.png/revision/latest/scale-to-width-down/64?cb=20210330184737",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "b46ebbff-c9fc-43b8-809e-37893d004960"
 }, {
   "armor_damage": 22,
   "weight": 0.012,
@@ -1581,7 +1647,8 @@
   "_id": "5f4a52549f319f4528ac36be",
   "name": "55 HP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/53/55HPICON.png/revision/latest/scale-to-width-down/64?cb=20210330184831",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "0c7cd2a9-45cf-40ea-a328-581a8e18749d"
 }, {
   "armor_damage": 52,
   "weight": 0.012,
@@ -1603,7 +1670,8 @@
   "_id": "5f4a52549f319f4528ac36c0",
   "name": "M856",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/09/M856ICON.png/revision/latest/scale-to-width-down/64?cb=20210330184655",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "e91baad5-1ce4-41e5-a5ab-6824d6af6319"
 }, {
   "armor_damage": 52,
   "weight": 0.012,
@@ -1625,7 +1693,8 @@
   "_id": "5f4a52549f319f4528ac36c2",
   "name": "M856A1",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f1/M856A1ICON.png/revision/latest/scale-to-width-down/64?cb=20210330185004",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "02882c19-a33d-4b48-b00a-2bf390ea8606"
 }, {
   "armor_damage": 32,
   "weight": 0.012,
@@ -1645,9 +1714,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36c4",
-  "name": "MK255",
+  "name": "Mk 255 Mod 0",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/19/MK255ICON.png/revision/latest/scale-to-width-down/64?cb=20210330155804",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "16f48139-ba69-4bd3-b605-03127bde55ec"
 }, {
   "armor_damage": 14,
   "weight": 0.011,
@@ -1673,7 +1743,8 @@
   "_id": "5f4a52549f319f4528ac36c6",
   "name": "Warmage",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/39/556warmageicon.png/revision/latest/scale-to-width-down/64?cb=20190519002909",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "cdec0187-d523-4792-9e56-df7797dddf29"
 }, {
   "armor_damage": 58,
   "weight": 0.012,
@@ -1695,7 +1766,8 @@
   "_id": "5f4a52549f319f4528ac36c9",
   "name": "M995",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b6/M995ICON.png/revision/latest/scale-to-width-down/64?cb=20210330133432",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "79da7191-3bd2-4b6d-a02c-607ed02c2aff"
 }, {
   "armor_damage": 35,
   "weight": 0.012,
@@ -1706,12 +1778,7 @@
   "accuracy": 0,
   "tracer": false,
   "armor": "662000",
-  "prices": [{
-    "value": 0.00,
-    "trader": "Peacekeeper",
-    "currency": "D",
-    "level": 3
-  }],
+  "prices": [],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36c9SOST",
   "name": "Mk 318 Mod 0 (SOST)",
@@ -1733,7 +1800,8 @@
   "_id": "5f4a52549f319f4528ac36c9SSA",
   "name": "SSA AP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fd/SSA_AP64px.png/revision/latest/scale-to-width-down/64?cb=20210330144054",
-  "caliber": "5f4a52549f319f4528ac36b6"
+  "caliber": "5f4a52549f319f4528ac36b6",
+  "flea_uid": "1dc7d29d-bc76-4f05-ac71-7b905b238909"
 }, {
   "armor_damage": 32,
   "weight": 0.01,
@@ -1753,9 +1821,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36cc",
-  "name": "P",
+  "name": "P gl",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/40/TTPGL.png/revision/latest/scale-to-width-down/64?cb=20190519002020",
-  "caliber": "5f4a52549f319f4528ac36cb"
+  "caliber": "5f4a52549f319f4528ac36cb",
+  "flea_uid": "4a948b93-85c5-4094-99ba-3ca62c956c7e"
 }, {
   "armor_damage": 32,
   "weight": 0.01,
@@ -1775,9 +1844,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36ce",
-  "name": "AKBS",
+  "name": "TT AKBS",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/61/TTAKBS.png/revision/latest/scale-to-width-down/64?cb=20190519001904",
-  "caliber": "5f4a52549f319f4528ac36cb"
+  "caliber": "5f4a52549f319f4528ac36cb",
+  "flea_uid": "6c3dfc4c-6941-4343-9bbc-ff8d44aaab15"
 }, {
   "armor_damage": 29,
   "weight": 0.01,
@@ -1797,9 +1867,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36d0",
-  "name": "FMJ43",
+  "name": "TT FMJ43",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/73/TTFMJ43.png/revision/latest/scale-to-width-down/64?cb=20190519001920",
-  "caliber": "5f4a52549f319f4528ac36cb"
+  "caliber": "5f4a52549f319f4528ac36cb",
+  "flea_uid": "c94b8d76-8cb3-46f4-8395-f902f348ad6e"
 }, {
   "armor_damage": 27,
   "weight": 0.01,
@@ -1819,9 +1890,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36d2",
-  "name": "LRNPC",
+  "name": "TT LRNPC",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/TTLRNPC.png/revision/latest/scale-to-width-down/64?cb=20190519001956",
-  "caliber": "5f4a52549f319f4528ac36cb"
+  "caliber": "5f4a52549f319f4528ac36cb",
+  "flea_uid": "837caebd-53b9-4c44-81ff-7cd8509c5c96"
 }, {
   "armor_damage": 28,
   "weight": 0.01,
@@ -1841,9 +1913,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36d4",
-  "name": "LRN",
+  "name": "TT LRN",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e8/TTLRN.png/revision/latest/scale-to-width-down/64?cb=20190519001939",
-  "caliber": "5f4a52549f319f4528ac36cb"
+  "caliber": "5f4a52549f319f4528ac36cb",
+  "flea_uid": "66edb382-473b-477d-afa8-db797e221e34"
 }, {
   "armor_damage": 36,
   "weight": 0.01,
@@ -1863,9 +1936,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36d6",
-  "name": "PST",
+  "name": "TT Pst gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/24/TTPSTGZH.png/revision/latest/scale-to-width-down/64?cb=20190519002041",
-  "caliber": "5f4a52549f319f4528ac36cb"
+  "caliber": "5f4a52549f319f4528ac36cb",
+  "flea_uid": "065a03c5-7034-4e5b-984b-41416cebea18"
 }, {
   "armor_damage": 34,
   "weight": 0.01,
@@ -1885,9 +1959,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36d8",
-  "name": "PT",
+  "name": "TT PT gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b1/TTPTGZH.png/revision/latest/scale-to-width-down/64?cb=20190519002059",
-  "caliber": "5f4a52549f319f4528ac36cb"
+  "caliber": "5f4a52549f319f4528ac36cb",
+  "flea_uid": "7a635fbe-8c1d-488c-8752-1fdc31ca466f"
 }, {
   "armor_damage": 52,
   "weight": 0.016,
@@ -1909,7 +1984,8 @@
   "_id": "5f4a52549f319f4528ac36db",
   "name": "PS",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/7a/7.62x39PS.png/revision/latest/scale-to-width-down/64?cb=20191227221218",
-  "caliber": "5f4a52549f319f4528ac36da"
+  "caliber": "5f4a52549f319f4528ac36da",
+  "flea_uid": "4920e92a-53d9-4757-b364-b3df0f884f68"
 }, {
   "armor_damage": 35,
   "weight": 0.016,
@@ -1931,7 +2007,8 @@
   "_id": "5f4a52549f319f4528ac36dd",
   "name": "HP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d8/7.62x39HP.png/revision/latest/scale-to-width-down/64?cb=20191228195103",
-  "caliber": "5f4a52549f319f4528ac36da"
+  "caliber": "5f4a52549f319f4528ac36da",
+  "flea_uid": "cb889ca9-bbca-435d-b571-119476c2c910"
 }, {
   "armor_damage": 42,
   "weight": 0.01,
@@ -1953,7 +2030,8 @@
   "_id": "5f4a52549f319f4528ac36df",
   "name": "US",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/6d/7.62x39US.png/revision/latest/scale-to-width-down/64?cb=20191227221345",
-  "caliber": "5f4a52549f319f4528ac36da"
+  "caliber": "5f4a52549f319f4528ac36da",
+  "flea_uid": "c291daa0-0abb-4b29-b523-5296fb862f9d"
 }, {
   "armor_damage": 46,
   "weight": 0.01,
@@ -1975,7 +2053,8 @@
   "_id": "5f4a52549f319f4528ac36e1",
   "name": "T45M",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fd/7.62x39T45M.png/revision/latest/scale-to-width-down/64?cb=20191227221444",
-  "caliber": "5f4a52549f319f4528ac36da"
+  "caliber": "5f4a52549f319f4528ac36da",
+  "flea_uid": "dd308623-c86d-4472-a9e2-0d0114358e6f"
 }, {
   "armor_damage": 63,
   "weight": 0.01,
@@ -1997,7 +2076,8 @@
   "_id": "5f4a52549f319f4528ac36e3",
   "name": "BP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/4a/7.62x39BP.png/revision/latest/scale-to-width-down/64?cb=20191228195130",
-  "caliber": "5f4a52549f319f4528ac36da"
+  "caliber": "5f4a52549f319f4528ac36da",
+  "flea_uid": "b626bcf8-c73c-467e-8882-1b61908d9939"
 }, {
   "armor_damage": 76,
   "weight": 0.01,
@@ -2013,7 +2093,8 @@
   "_id": "5f4a52549f319f4528ac36e3MAI",
   "name": "MAI AP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d2/7.62x39_MAI_AP_icon.png/revision/latest/scale-to-width-down/64?cb=20210330145244",
-  "caliber": "5f4a52549f319f4528ac36da"
+  "caliber": "5f4a52549f319f4528ac36da",
+  "flea_uid": "eee4f05d-04fe-40ea-9da2-8745df43847c"
 }, {
   "armor_damage": 33,
   "weight": 0.022,
@@ -2033,9 +2114,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36e6",
-  "name": "BZP FMJ",
+  "name": "BPZ FMJ",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5b/BPZ_FMJ_icon.png/revision/latest/scale-to-width-down/64?cb=20200805172505",
-  "caliber": "5f4a52549f319f4528ac36e5"
+  "caliber": "5f4a52549f319f4528ac36e5",
+  "flea_uid": "2bb84c1c-a28e-4980-b32f-862b5df38cb5"
 }, {
   "armor_damage": 66,
   "weight": 0.024,
@@ -2057,7 +2139,8 @@
   "_id": "5f4a52549f319f4528ac36e8",
   "name": "M80",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/94/M80ICON.png/revision/latest/scale-to-width-down/64?cb=20200805172429",
-  "caliber": "5f4a52549f319f4528ac36e5"
+  "caliber": "5f4a52549f319f4528ac36e5",
+  "flea_uid": "0e451870-886d-4749-91cd-c953cbd2e510"
 }, {
   "armor_damage": 83,
   "weight": 0.024,
@@ -2079,7 +2162,8 @@
   "_id": "5f4a52549f319f4528ac36ea",
   "name": "M61",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e3/M61ICON.png/revision/latest/scale-to-width-down/64?cb=20200805172409",
-  "caliber": "5f4a52549f319f4528ac36e5"
+  "caliber": "5f4a52549f319f4528ac36e5",
+  "flea_uid": "b797a65d-5a99-454c-97e5-ba9e9bfd6d01"
 }, {
   "armor_damage": 75,
   "weight": 0.024,
@@ -2101,7 +2185,8 @@
   "_id": "5f4a52549f319f4528ac36ec",
   "name": "M62",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d8/M62ICON.png/revision/latest/scale-to-width-down/64?cb=20200805172420",
-  "caliber": "5f4a52549f319f4528ac36e5"
+  "caliber": "5f4a52549f319f4528ac36e5",
+  "flea_uid": "87f08cea-421c-4bed-8dfc-0f90c4b63f69"
 }, {
   "armor_damage": 40,
   "weight": 0.023,
@@ -2123,7 +2208,8 @@
   "_id": "5f4a52549f319f4528ac36ee",
   "name": "TPZ SP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/19/TPZ_SP_icon.png/revision/latest/scale-to-width-down/64?cb=20200805172456",
-  "caliber": "5f4a52549f319f4528ac36e5"
+  "caliber": "5f4a52549f319f4528ac36e5",
+  "flea_uid": "3e5822b6-dd77-4423-a30a-ea395a5dbf06"
 }, {
   "armor_damage": 20,
   "weight": 0.021,
@@ -2145,7 +2231,8 @@
   "_id": "5f4a52549f319f4528ac36f0",
   "name": "Ultra Nosler",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b8/Ultra_Nosler_icon.png/revision/latest/scale-to-width-down/64?cb=20191227224912",
-  "caliber": "5f4a52549f319f4528ac36e5"
+  "caliber": "5f4a52549f319f4528ac36e5",
+  "flea_uid": "a46e4688-63e7-4b7e-984c-f53b38e09dec"
 }, {
   "armor_damage": 85,
   "weight": 0.024,
@@ -2161,7 +2248,8 @@
   "_id": "5f4a52549f319f4528ac36f2",
   "name": "M993",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/cb/7.62x51M933icon.png/revision/latest/scale-to-width-down/64?cb=20200727171828",
-  "caliber": "5f4a52549f319f4528ac36e5"
+  "caliber": "5f4a52549f319f4528ac36e5",
+  "flea_uid": "f7ad2a63-a996-483d-96c8-1d6e5ffa027f"
 }, {
   "armor_damage": 84,
   "weight": 0.024,
@@ -2183,7 +2271,8 @@
   "_id": "5f4a52549f319f4528ac36f4",
   "name": "7N1",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/33/7N1ICON.png/revision/latest/scale-to-width-down/64?cb=20191227215917",
-  "caliber": "5f4a52549f319f4528ac36f3"
+  "caliber": "5f4a52549f319f4528ac36f3",
+  "flea_uid": "97a7aad3-e64b-44b5-a5ee-c25caf1f1b09"
 }, {
   "armor_damage": 87,
   "weight": 0.024,
@@ -2205,7 +2294,8 @@
   "_id": "5f4a52549f319f4528ac36f6",
   "name": "7BT1",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fc/7bt1_icon.png/revision/latest/scale-to-width-down/64?cb=20191228003734",
-  "caliber": "5f4a52549f319f4528ac36f3"
+  "caliber": "5f4a52549f319f4528ac36f3",
+  "flea_uid": "7015721d-4991-42b0-9ccd-8d325571221b"
 }, {
   "armor_damage": 88,
   "weight": 0.025,
@@ -2227,7 +2317,8 @@
   "_id": "5f4a52549f319f4528ac36f8",
   "name": "7N37",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d0/7N37_ICON.png/revision/latest/scale-to-width-down/64?cb=20191227220313",
-  "caliber": "5f4a52549f319f4528ac36f3"
+  "caliber": "5f4a52549f319f4528ac36f3",
+  "flea_uid": "5bc99b0c-6b7a-488b-b47b-11ad96985bc1"
 }, {
   "armor_damage": 78,
   "weight": 0.024,
@@ -2247,9 +2338,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac36fa",
-  "name": "LPS",
+  "name": "LPS Gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/88/LPSGZHICON.png/revision/latest/scale-to-width-down/64?cb=20191227215848",
-  "caliber": "5f4a52549f319f4528ac36f3"
+  "caliber": "5f4a52549f319f4528ac36f3",
+  "flea_uid": "4ff67a6a-2d3f-4b0c-8f68-9b048835105d"
 }, {
   "armor_damage": 87,
   "weight": 0.024,
@@ -2271,7 +2363,8 @@
   "_id": "5f4a52549f319f4528ac36fc",
   "name": "SNB",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e1/SNBICON.png/revision/latest/scale-to-width-down/64?cb=20191227215832",
-  "caliber": "5f4a52549f319f4528ac36f3"
+  "caliber": "5f4a52549f319f4528ac36f3",
+  "flea_uid": "f8359819-445b-4230-8e6c-3e736edbc507"
 }, {
   "armor_damage": 83,
   "weight": 0.025,
@@ -2293,7 +2386,8 @@
   "_id": "5f4a52549f319f4528ac36fe",
   "name": "T-46M",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/23/T46M_AMMO.png/revision/latest/scale-to-width-down/64?cb=20191227213342",
-  "caliber": "5f4a52549f319f4528ac36f3"
+  "caliber": "5f4a52549f319f4528ac36f3",
+  "flea_uid": "ad8ea03b-860d-443e-a835-fa0bc8231a57"
 }, {
   "armor_damage": 16,
   "weight": 0.011,
@@ -2313,9 +2407,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3701",
-  "name": "9P",
+  "name": "9 P gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/55/9x189PGZH.png/revision/latest/scale-to-width-down/64?cb=20190519004159",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "2699e8a4-934a-4128-914d-c8c92d5c66d4"
 }, {
   "armor_damage": 16,
   "weight": 0.01,
@@ -2335,9 +2430,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3703",
-  "name": "PPO",
+  "name": "PS gs PPO",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/8b/9x18PSGSPPO.png/revision/latest/scale-to-width-down/64?cb=20190519004255",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "88908e3f-717d-4664-a48f-5e8e8cbb979e"
 }, {
   "armor_damage": 26,
   "weight": 0.01,
@@ -2357,9 +2453,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3705",
-  "name": "PST",
+  "name": "Pst gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/7a/9x18PSTGZH.png/revision/latest/scale-to-width-down/64?cb=20190519004314",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "d8232a14-51b1-410b-bb0d-ce67d6f21c80"
 }, {
   "armor_damage": 13,
   "weight": 0.008,
@@ -2379,9 +2476,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3707",
-  "name": "PSO",
+  "name": "PSO gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3e/9x18PSOGZH.png/revision/latest/scale-to-width-down/64?cb=20190519004304",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "eacfe24b-fbe9-4276-a0f5-1e2f72c34933"
 }, {
   "armor_damage": 22,
   "weight": 0.01,
@@ -2401,9 +2499,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3709",
-  "name": "PPT",
+  "name": "PPT gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e1/9x18PPTGZH.png/revision/latest/scale-to-width-down/64?cb=20190519004238",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "4c5b7a16-ac9e-43ea-944a-5378e01a9b52"
 }, {
   "armor_damage": 28,
   "weight": 0.01,
@@ -2423,9 +2522,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac370b",
-  "name": "BZT",
+  "name": "9 BZT gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/60/9x189BZTGZH.png/revision/latest/scale-to-width-down/64?cb=20190519004143",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "fc5c23aa-2df7-4764-8d80-695b2f727f44"
 }, {
   "armor_damage": 15,
   "weight": 0.009,
@@ -2445,9 +2545,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac370d",
-  "name": "PPe",
+  "name": "PPe gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/28/9x18PPEGZH.png/revision/latest/scale-to-width-down/64?cb=20190519004227",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "ed805cec-0b53-48fa-ab06-fc39b7a0734e"
 }, {
   "armor_damage": 16,
   "weight": 0.011,
@@ -2467,9 +2568,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac370f",
-  "name": "PRS",
+  "name": "PRS gs",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/9x18PRSGS.png/revision/latest/scale-to-width-down/65?cb=20190519004246",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "803b938d-4f40-42d9-856d-4211e242ffed"
 }, {
   "armor_damage": 5,
   "weight": 0.012,
@@ -2491,7 +2593,8 @@
   "_id": "5f4a52549f319f4528ac3711",
   "name": "PSV",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e9/9x18PSV.png/revision/latest/scale-to-width-down/64?cb=20190519004322",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "d07a2621-d090-40f9-96b8-f67323db695d"
 }, {
   "armor_damage": 30,
   "weight": 0.007,
@@ -2513,7 +2616,8 @@
   "_id": "5f4a52549f319f4528ac3713",
   "name": "PBM",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5d/9x18PBM.png/revision/latest/scale-to-width-down/64?cb=20190519004209",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "a98d65ad-f27f-4422-9add-203529e27898"
 }, {
   "armor_damage": 33,
   "weight": 0.009,
@@ -2535,7 +2639,8 @@
   "_id": "5f4a52549f319f4528ac3715",
   "name": "PMM",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1c/9x18PMM.png/revision/latest/scale-to-width-down/64?cb=20190519004217",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "505178db-612a-4faa-9977-7d11f49c9217"
 }, {
   "armor_damage": 5,
   "weight": 0.011,
@@ -2555,9 +2660,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3717",
-  "name": "SP7",
+  "name": "SP7 gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/59/9x18SP7GZH.png/revision/latest/scale-to-width-down/64?cb=20190519004340",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "196889de-43fb-4ad7-8477-587c7b58799d"
 }, {
   "armor_damage": 2,
   "weight": 0.009,
@@ -2577,9 +2683,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3719",
-  "name": "SP8",
+  "name": "SP8 gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/28/9x18SP8GZH.png/revision/latest/scale-to-width-down/64?cb=20190519004347",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "a66ebf54-6bcc-45e6-b3ee-438f072b624c"
 }, {
   "armor_damage": 26,
   "weight": 0.011,
@@ -2599,9 +2706,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac371b",
-  "name": "RG028",
+  "name": "RG028 gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/57/9x18RG028GZH.png/revision/latest/scale-to-width-down/64?cb=20190519004332",
-  "caliber": "5f4a52549f319f4528ac3700"
+  "caliber": "5f4a52549f319f4528ac3700",
+  "flea_uid": "118d636b-5407-4e14-9c49-bc276e303eb5"
 }, {
   "armor_damage": 33,
   "weight": 0.005,
@@ -2633,9 +2741,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac371e",
-  "name": "PST",
+  "name": "Pst gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/df/9x19pst.png/revision/latest/scale-to-width-down/64?cb=20190518234156",
-  "caliber": "5f4a52549f319f4528ac371d"
+  "caliber": "5f4a52549f319f4528ac371d",
+  "flea_uid": "01da8d00-23b9-459e-81ed-c932bfbe4406"
 }, {
   "armor_damage": 32,
   "weight": 0.005,
@@ -2661,9 +2770,10 @@
   }],
   "tradeups": [],
   "_id": "5f4a52549f319f4528ac3722",
-  "name": "PSO",
+  "name": "PSO gzh",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/23/9x19pso.png/revision/latest/scale-to-width-down/64?cb=20190518234148",
-  "caliber": "5f4a52549f319f4528ac371d"
+  "caliber": "5f4a52549f319f4528ac371d",
+  "flea_uid": "611e8ad3-f3bf-4fcd-9064-f9a95e181dfb"
 }, {
   "armor_damage": 38,
   "weight": 0.015,
@@ -2685,7 +2795,8 @@
   "_id": "5f4a52549f319f4528ac3725",
   "name": "Luger CCI",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/40/9x19cgi.png/revision/latest/scale-to-width-down/64?cb=20190518234127",
-  "caliber": "5f4a52549f319f4528ac371d"
+  "caliber": "5f4a52549f319f4528ac371d",
+  "flea_uid": "c0fc26e0-fc8f-4218-83f6-77fe47c70a70"
 }, {
   "armor_damage": 48,
   "weight": 0.009,
@@ -2707,7 +2818,8 @@
   "_id": "5f4a52549f319f4528ac3727",
   "name": "AP 6.3",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c6/9x19ap.png/revision/latest/scale-to-width-down/64?cb=20190518234059",
-  "caliber": "5f4a52549f319f4528ac371d"
+  "caliber": "5f4a52549f319f4528ac371d",
+  "flea_uid": "b1d92626-7252-4c20-ab45-831e8c25ea46"
 }, {
   "armor_damage": 33,
   "weight": 0.006,
@@ -2729,7 +2841,8 @@
   "_id": "5f4a52549f319f4528ac3729",
   "name": "Green Tracer",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c2/9x19_mm_Green_Tracer_Icon.png/revision/latest/scale-to-width-down/64?cb=20190518234111",
-  "caliber": "5f4a52549f319f4528ac371d"
+  "caliber": "5f4a52549f319f4528ac371d",
+  "flea_uid": "ee9c5402-4bd0-46ba-b912-db47158f152b"
 }, {
   "armor_damage": 11,
   "weight": 0.006,
@@ -2755,7 +2868,8 @@
   "_id": "5f4a52549f319f4528ac372b",
   "name": "RIP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/97/9x19ripicon.png/revision/latest/scale-to-width-down/64?cb=20190518234208",
-  "caliber": "5f4a52549f319f4528ac371d"
+  "caliber": "5f4a52549f319f4528ac371d",
+  "flea_uid": "ba864652-d13e-4f9e-b1a0-6060352d3b56"
 }, {
   "armor_damage": 53,
   "weight": 0.006,
@@ -2777,7 +2891,8 @@
   "_id": "5f4a52549f319f4528ac372e",
   "name": "7N31",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/eb/7N31Icon.png/revision/latest/scale-to-width-down/64?cb=20210401044432",
-  "caliber": "5f4a52549f319f4528ac371d"
+  "caliber": "5f4a52549f319f4528ac371d",
+  "flea_uid": "c71b3b3b-858c-46f7-9093-630140d4ee07"
 }, {
   "armor_damage": 22,
   "weight": 0.013,
@@ -2799,7 +2914,8 @@
   "_id": "5f4a52549f319f4528ac3730",
   "name": "QuakeMaker",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1e/QuakerMakerIcon.png/revision/latest/scale-to-width-down/64?cb=20200727151122",
-  "caliber": "5f4a52549f319f4528ac371d"
+  "caliber": "5f4a52549f319f4528ac371d",
+  "flea_uid": "a47b7bf7-f2dc-4934-800a-32d1f7733b8e"
 }, {
   "armor_damage": 46,
   "weight": 0.023,
@@ -2821,7 +2937,8 @@
   "_id": "5f4a52549f319f4528ac3733",
   "name": "SP10",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/0b/9x21sp10.png/revision/latest/scale-to-width-down/64?cb=20190518232528",
-  "caliber": "5f4a52549f319f4528ac3732"
+  "caliber": "5f4a52549f319f4528ac3732",
+  "flea_uid": "46158766-c7e5-46dc-9e6a-0ccdedbcb1df"
 }, {
   "armor_damage": 44,
   "weight": 0.023,
@@ -2843,7 +2960,8 @@
   "_id": "5f4a52549f319f4528ac3735",
   "name": "SP11",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/08/9x21sp11.png/revision/latest/scale-to-width-down/64?cb=20190518232546",
-  "caliber": "5f4a52549f319f4528ac3732"
+  "caliber": "5f4a52549f319f4528ac3732",
+  "flea_uid": "70b8f6b0-426c-48dd-9287-26aa1c192326"
 }, {
   "armor_damage": 63,
   "weight": 0.023,
@@ -2865,7 +2983,8 @@
   "_id": "5f4a52549f319f4528ac3737",
   "name": "SP12",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1c/9x21sp12.png/revision/latest/scale-to-width-down/64?cb=20190518232648",
-  "caliber": "5f4a52549f319f4528ac3732"
+  "caliber": "5f4a52549f319f4528ac3732",
+  "flea_uid": "70b0c8e8-091d-4ea7-a13d-723a395ea07a"
 }, {
   "armor_damage": 47,
   "weight": 0.023,
@@ -2887,7 +3006,8 @@
   "_id": "5f4a52549f319f4528ac3739",
   "name": "SP13",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/79/9x21sp13.png/revision/latest/scale-to-width-down/64?cb=20190518232741",
-  "caliber": "5f4a52549f319f4528ac3732"
+  "caliber": "5f4a52549f319f4528ac3732",
+  "flea_uid": "1b752abe-6da5-4248-8836-2941d17a40bb"
 }, {
   "armor_damage": 52,
   "weight": 0.023,
@@ -2909,7 +3029,8 @@
   "_id": "5f4a52549f319f4528ac373c",
   "name": "SP-5",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b8/SP5ICON.png/revision/latest/scale-to-width-down/64?cb=20190518224003",
-  "caliber": "5f4a52549f319f4528ac373b"
+  "caliber": "5f4a52549f319f4528ac373b",
+  "flea_uid": "d35f28aa-6d78-416a-a42e-480e8633def4"
 }, {
   "armor_damage": 60,
   "weight": 0.023,
@@ -2931,7 +3052,8 @@
   "_id": "5f4a52549f319f4528ac373e",
   "name": "SP-6",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ef/SP6ICON.png/revision/latest/scale-to-width-down/64?cb=20190518224138",
-  "caliber": "5f4a52549f319f4528ac373b"
+  "caliber": "5f4a52549f319f4528ac373b",
+  "flea_uid": "b610ec3c-55f4-43e1-a462-7229596b4185"
 }, {
   "armor_damage": 56,
   "weight": 0.023,
@@ -2941,7 +3063,7 @@
   "recoil": 20,
   "accuracy": 10,
   "tracer": false,
-  "armor": "------",
+  "armor": "666665",
   "prices": [{
     "value": 1180,
     "_id": "5f4a52549f319f4528ac3741",
@@ -2956,9 +3078,10 @@
     "level": 3
   }],
   "_id": "5f4a52549f319f4528ac3740",
-  "name": "7N9",
+  "name": "7N9 SPP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/73/7n9icon.png/revision/latest/scale-to-width-down/64?cb=20190518224216",
-  "caliber": "5f4a52549f319f4528ac373b"
+  "caliber": "5f4a52549f319f4528ac373b",
+  "flea_uid": "af52ec74-b423-429e-9bcd-b157a697239c"
 }, {
   "armor_damage": 68,
   "weight": 0.023,
@@ -2969,7 +3092,7 @@
   "accuracy": 10,
   "tracer": false,
   "prices": [],
-  "armor": "------",
+  "armor": "666665",
   "tradeups": [{
     "items": [],
     "_id": "5f4a52549f319f4528ac3744",
@@ -2977,9 +3100,10 @@
     "level": 4
   }],
   "_id": "5f4a52549f319f4528ac3743",
-  "name": "7N12",
+  "name": "7N12 BP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/76/7n12icon.png/revision/latest/scale-to-width-down/64?cb=20190518224237",
-  "caliber": "5f4a52549f319f4528ac373b"
+  "caliber": "5f4a52549f319f4528ac373b",
+  "flea_uid": "9609f8dd-3869-4d92-a62d-2cbf3a5e33fc"
 }, {
   "armor_damage": 60,
   "weight": 0.014,
@@ -2990,12 +3114,18 @@
   "accuracy": 5,
   "tracer": false,
   "armor": "666654",
-  "prices": [],
+  "prices": [{
+    "value": 6,
+    "trader": "Peacekeeper",
+    "currency": "D",
+    "level": 3
+  }],
   "tradeups": [],
   "_id": "300_aac_blackout_ap",
   "name": "AAC Blackout AP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/40/BlackoutAP_Icon_.png/revision/latest/scale-to-width-down/64?cb=20210106213739",
-  "caliber": "300blackout"
+  "caliber": "300blackout",
+  "flea_uid": "f2365425-5ef1-4096-8068-f7c7d128f8cd"
 }, {
   "armor_damage": 36,
   "weight": 0.015,
@@ -3006,12 +3136,18 @@
   "accuracy": 0,
   "tracer": false,
   "armor": "665320",
-  "prices": [],
+  "prices": [{
+    "value": 91,
+    "trader": "Skier",
+    "currency": "R",
+    "level": 3
+  }],
   "tradeups": [],
   "_id": "300_aac_blackout_bpz",
   "name": "BPZ AAC Blackout",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/46/BlackoutBPZ_Icon.png/revision/latest/scale-to-width-down/64?cb=20201224172821",
-  "caliber": "300blackout"
+  "caliber": "300blackout",
+  "flea_uid": "2d53997a-61c2-4048-b994-537cf1d1f25b"
 }, {
   "armor_damage": 89,
   "weight": 0.014,
@@ -3027,7 +3163,8 @@
   "_id": "338_lapua_ap",
   "name": "Lapua Magnum AP",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/86/338_ap.png/revision/latest/scale-to-width-down/64?cb=20201224214939",
-  "caliber": "338lapua"
+  "caliber": "338lapua",
+  "flea_uid": "6466ca83-9856-412c-9474-0b8de0b70425"
 }, {
   "armor_damage": 83,
   "weight": 0.014,
@@ -3038,12 +3175,18 @@
   "accuracy": 0,
   "tracer": false,
   "armor": "666655",
-  "prices": [],
+  "prices": [{
+    "value": 17,
+    "trader": "Peacekeeper",
+    "currency": "D",
+    "level": 4
+  }],
   "tradeups": [],
   "_id": "338_lapua_fmj",
   "name": "Lapua Magnum FMJ",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c7/338_fmj.png/revision/latest/scale-to-width-down/64?cb=20201224214940",
-  "caliber": "338lapua"
+  "caliber": "338lapua",
+  "flea_uid": "13e00fe4-4dce-4a9f-b78d-10c29580cc7c"
 }, {
   "armor_damage": 55,
   "weight": 0.014,
@@ -3054,12 +3197,18 @@
   "accuracy": 10,
   "tracer": false,
   "armor": "653100",
-  "prices": [],
+  "prices": [{
+    "value": 1417,
+    "trader": "Mechanic",
+    "currency": "R",
+    "level": 4
+  }],
   "tradeups": [],
   "_id": "338_lapua_tacx",
   "name": "Lapua Magnum TAC-X",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/71/338_tacx.png/revision/latest/scale-to-width-down/64?cb=20201224214938",
-  "caliber": "338lapua"
+  "caliber": "338lapua",
+  "flea_uid": "3a86ab4f-62d7-4841-a9f7-0e428b8e09cf"
 }, {
   "armor_damage": 70,
   "weight": 0.014,
@@ -3070,12 +3219,18 @@
   "accuracy": -5,
   "tracer": false,
   "armor": "666542",
-  "prices": [],
+  "prices": [{
+    "value": 788,
+    "trader": "Jaeger",
+    "currency": "R",
+    "level": 4
+  }],
   "tradeups": [],
   "_id": "338_lapua_upz",
   "name": "UPZ Lapua Magnum",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ea/338_upz_icon.png/revision/latest/scale-to-width-down/64?cb=20201224200457",
-  "caliber": "338lapua"
+  "caliber": "338lapua",
+  "flea_uid": "94db639f-e56c-4889-9550-ca31c8a6757f"
 }, {
   "armor_damage": 75,
   "weight": 0.014,
@@ -3091,7 +3246,8 @@
   "_id": "23x75_barricade",
   "name": "Barricade",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f5/23x75_Barricade_icon.png/revision/latest/scale-to-width-down/64?cb=20201020041011",
-  "caliber": "23x75"
+  "caliber": "23x75",
+  "flea_uid": "1a87ba4e-5cac-49f0-b9c4-6a80a4d1fb70"
 }, {
   "armor_damage": 0,
   "weight": 0.014,
@@ -3107,7 +3263,8 @@
   "_id": "23x75_star",
   "name": "Star",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/ff/23x75_Star_icon.png/revision/latest/scale-to-width-down/64?cb=20201019173016",
-  "caliber": "23x75"
+  "caliber": "23x75",
+  "flea_uid": "694dc9fe-ee5b-48e3-955d-a9649d4b81b9"
 }, {
   "armor_damage": 20,
   "weight": 0.014,
@@ -3124,7 +3281,8 @@
   "_id": "23x75_shrap_10",
   "name": "Shrapnel 10",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/63/23x75_Shrap-10_icon.png/revision/latest/scale-to-width-down/64?cb=20201020041020",
-  "caliber": "23x75"
+  "caliber": "23x75",
+  "flea_uid": "ffa41ecc-3aec-47e0-b77f-34678e557ccc"
 }, {
   "armor_damage": 20,
   "weight": 0.014,
@@ -3141,5 +3299,6 @@
   "_id": "23x75_shrap_25",
   "name": "Shrapnel 25",
   "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/a1/Shr25icon.png/revision/latest/scale-to-width-down/64?cb=20201019175250",
-  "caliber": "23x75"
+  "caliber": "23x75",
+  "flea_uid": "168ed338-8692-4dc6-b9c9-dab64308c15a"
 }]

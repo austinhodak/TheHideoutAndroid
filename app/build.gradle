@@ -36,8 +36,10 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 10080
-        versionName "0.1.8 Beta"
+        //versionCode 10080
+        versionCode 10200
+        // [1]-[0].[2].[0].[0]
+        versionName "0.2.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
