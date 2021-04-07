@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.ammunition
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -64,6 +65,13 @@ class AmmoListFragment : Fragment() {
         sharedViewModel.sortBy.observe(requireActivity(), { sort ->
             updateList(itemAdapter)
         })
+
+        fastAdapter.onClickListener = { view, adapter, ammo, pos ->
+            startActivity(Intent(requireContext(), AmmoDetailActivity::class.java).apply {
+                putExtra("id", ammo._id)
+            })
+            false
+        }
     }
 
     //TODO Fix double call on start.

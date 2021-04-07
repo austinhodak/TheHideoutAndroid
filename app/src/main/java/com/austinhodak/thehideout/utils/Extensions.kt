@@ -41,7 +41,8 @@ fun Int.getTraderLevel(): String {
     }
 }
 
-fun Int.getPrice(currency: String): String {
+fun Int.getPrice(c: String): String {
+    val currency = c.replace("R", "₽").replace("D", "$").replace("E", "€")
     val format = NumberFormat.getCurrencyInstance()
     format.maximumFractionDigits = 0
     format.currency = Currency.getInstance(getCurrencyString(currency))
@@ -53,7 +54,21 @@ fun Int.getPrice(currency: String): String {
 
 }
 
-fun Long.getPrice(currency: String): String {
+fun Double.getPrice(c: String): String {
+    val currency = c.replace("R", "₽").replace("D", "$").replace("E", "€")
+    val format = NumberFormat.getCurrencyInstance()
+    format.maximumFractionDigits = 0
+    format.currency = Currency.getInstance(getCurrencyString(currency))
+    return if (currency == "₽") {
+        "${format.format(this).replace("RUB", "")}₽"
+    } else {
+        format.format(this)
+    }
+
+}
+
+fun Long.getPrice(c: String): String {
+    val currency = c.replace("R", "₽").replace("D", "$").replace("E", "€")
     val format = NumberFormat.getCurrencyInstance()
     format.maximumFractionDigits = 0
     format.currency = Currency.getInstance(getCurrencyString(currency))

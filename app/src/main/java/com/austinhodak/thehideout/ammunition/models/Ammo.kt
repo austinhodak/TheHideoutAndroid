@@ -8,7 +8,8 @@ import androidx.databinding.BindingAdapter
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.databinding.ItemAmmoBinding
-import com.austinhodak.thehideout.getCurrency
+import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.getTraderLevel
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.IgnoreExtraProperties
@@ -32,7 +33,8 @@ data class Ammo (
     var tradeups: List<AmmoTradeup>? = null,
     var caliber: String = "",
     val armor_damage: Int = 0,
-    val bullets: Int = 1
+    val bullets: Int = 1,
+    val flea_uid: String? = null
 ) : AbstractBindingItem<ItemAmmoBinding>() {
 
     override fun bindView(binding: ItemAmmoBinding, payloads: List<Any>) {
@@ -50,7 +52,13 @@ data class Ammo (
         return "$accuracy%"
     }
 
+    fun getFleaMarketItem(value: List<FleaItem>?): FleaItem? {
+        return value?.find { it.uid == flea_uid }
+    }
+
     fun getURL(): String {
+        //If image URL is whole URL return that, otherwise return appended URL.
+        if (image?.contains("https://") == true) return image as String
         return "https://www.eftdb.one/static/item/thumb/$image"
     }
 
@@ -96,14 +104,28 @@ data class Ammo (
     fun getColor(armorClass: Int): Int {
         if (armor == "------") { return android.R.color.transparent }
         return when (armor!![armorClass - 1].toString()) {
-            "0" -> R.color.md_red_A200
-            "1" -> R.color.md_deep_orange_A200
-            "2" -> R.color.md_orange_A200
-            "3" -> R.color.md_amber_A200
-            "4" -> R.color.md_yellow_A200
-            "5" -> R.color.md_light_green_A200
-            "6" -> R.color.md_green_A200
+            "0" -> R.color.ammoChart0 //CE0B04
+            "1" -> R.color.ammoChart1 //DC3B07
+            "2" -> R.color.ammoChart2 //EA6C0A
+            "3" -> R.color.ammoChart3 //F99D0E
+            "4" -> R.color.ammoChart4 //C0B825
+            "5" -> R.color.ammoChart5 //86D43D
+            "6" -> R.color.ammoChart6 //4BF056
             else -> android.R.color.transparent
+        }
+    }
+
+    fun getArmorChartText(armorClass: Int): String {
+        if (armor == "------") { return "" }
+        return when (armor!![armorClass - 1].toString()) {
+            "0" -> " • Pointless • 20+ Shots"
+            "1" -> " • It's Possible • 13 to 20 Shots"
+            "2" -> " • Magdump Only • 9 to 13 Shots"
+            "3" -> " • Slightly Effective • 5 to 9 Shots"
+            "4" -> " • Effective • 3 to 5 Shots"
+            "5" -> " • Very Effective • 1 to 3 Shots"
+            "6" -> " • Basically Ignores • <1 Shot"
+            else -> ""
         }
     }
 
@@ -117,7 +139,25 @@ data class Ammo (
     ) {
         override fun toString(): String {
             val format = DecimalFormat("###.##")
-            return "${level?.getTraderLevel()} $trader ${currency?.getCurrency()}${format.format(value)}"
+            return if (value!! > 0)  {
+                "$trader ${level?.getTraderLevel()} ${value?.getPrice(currency ?: "₽")}"
+            } else {
+                "\"$trader ${level?.getTraderLevel()} ???"
+            }
+            /*return if (currency?.getCurrency() == "$") {
+                "$trader ${level?.getTraderLevel()} ${currency?.getCurrency()}${format.format(value)}"
+            } else {
+                "$trader ${level?.getTraderLevel()} ${format.format(value)}${currency?.getCurrency()}"
+            }*/
+        }
+
+        fun getTraderString(): String {
+            return "$trader ${level?.getTraderLevel()} "
+        }
+
+        fun getPrice(): String {
+            if (value == null || value == 0.00) return "???"
+            return value!!.getPrice(currency ?: "₽")
         }
     }
 

@@ -46,7 +46,7 @@ class KeysListFragment : Fragment() {
         logScreen("KeysFragment")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentKeysListBinding.inflate(inflater, container, false)
         return binding.root
     }

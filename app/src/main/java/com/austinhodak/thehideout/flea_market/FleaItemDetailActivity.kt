@@ -50,8 +50,6 @@ class FleaItemDetailActivity : AppCompatActivity() {
             fleaItem = list.find { it.uid == intent.getStringExtra("id")!! }
             updateItem(fleaItem)
         }
-
-
     }
 
     private fun updateItem(fleaItem: FleaItem?) {

@@ -29,20 +29,25 @@ import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
+import com.austinhodak.thehideout.views.OutdatedDrawerItem
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.models.Weapon
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.miguelcatalan.materialsearchview.SuggestionModel
 import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.*
 import com.mikepenz.materialdrawer.util.addItems
+import com.mikepenz.materialdrawer.util.addStickyFooterItem
 import com.mikepenz.materialdrawer.util.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import net.idik.lib.slimadapter.SlimAdapter
+import org.json.JSONObject
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -59,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_TheHideout_NoActionBar)
+        setTheme(R.style.Theme_TheHideout)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
@@ -74,10 +79,6 @@ class MainActivity : AppCompatActivity() {
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
-
-        /*onlyOnce("introIGN") {
-
-        }*/
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -119,6 +120,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.slider.apply {
+            if (Firebase.remoteConfig.getBoolean("drawer_announcement_enabled")) {
+                val announcementObject = JSONObject(Firebase.remoteConfig.getString("drawer_announcement"))
+                if (Firebase.remoteConfig.getString("drawer_announcement").isEmpty()) return@apply
+                addStickyFooterItem(
+                    OutdatedDrawerItem().apply {
+                        typeface = benderFont
+                        iconRes = R.drawable.icons8_megaphone_96
+                        nameText = announcementObject.getString("title")
+                        descriptionText = announcementObject.getString("subtitle")
+                        isSelectable = false
+                        isSelected = true
+                        isClickable = false
+                    },
+                )
+            }
+
             addItems(
                 NavigationDrawerItem(R.id.FirstFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
@@ -205,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                     isEnabled = false
                     typeface = benderFont
                     isIconTinted = true
-                    nameText = BuildConfig.VERSION_NAME
+                    nameText = "${BuildConfig.VERSION_NAME} Beta"
                     iconRes = R.drawable.ic_baseline_info_24
                 }
                 /*PrimaryDrawerItem().apply {
@@ -216,7 +233,6 @@ class MainActivity : AppCompatActivity() {
 
             headerView = View.inflate(this@MainActivity, R.layout.layout_drawer_header, null)
             headerDivider = true
-            setSavedInstance(savedInstanceState)
             onDrawerItemLongClickListener = { view, item, index ->
                 if (item is NavigationDrawerItem) {
                     prefs.edit {
@@ -226,10 +242,10 @@ class MainActivity : AppCompatActivity() {
                         this.setBackgroundTint(resources.getColor(R.color.md_green_500))
                         this.setTextColor(Color.WHITE)
                     }.show()
-                    //Toast.makeText(this@MainActivity, "Set as opening screen.", Toast.LENGTH_SHORT).show()
                 }
                 false
             }
+            setSavedInstance(savedInstanceState)
         }
 
         binding.slider.recyclerView.isVerticalScrollBarEnabled = false
@@ -276,6 +292,7 @@ class MainActivity : AppCompatActivity() {
             setQuestChipVisibility(false)
         }
 
+        //Handle launcher long press shortcut.
         if (intent?.action != null && intent?.action == "shortcut.flea") {
             navController.navigate(R.id.fleaMarketListFragment, null, NavOptions.Builder().setPopUpTo(R.id.fleaMarketListFragment, true).build())
         } else {
@@ -290,14 +307,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     private fun setToolbarElevation(destination: NavDestination) {
         binding.toolbar.elevation = when (destination.id) {
-            R.id.FirstFragment,
-            R.id.WeaponFragment,
-            R.id.armorTabFragment,
-            R.id.medicalTabFragment,
-            R.id.backpackRigTabFragment -> 0f
-
             R.id.keysListFragment,
             R.id.fleaMarketListFragment -> 15f
             else -> 0f
@@ -409,23 +421,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.activity_main, menu)
         searchItem = menu.findItem(R.id.main_search)
         binding.searchView.setMenuItem(searchItem)
         searchItem?.isVisible = !hideSearch
         return true
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
 
     override fun onSaveInstanceState(_outState: Bundle) {
         var outState = _outState
@@ -437,8 +438,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState.getString("title").let {
-            binding.toolbarTitle.text = it
+        try {
+            savedInstanceState.getString("title").let {
+                binding.toolbarTitle.text = it
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -468,7 +473,8 @@ class MainActivity : AppCompatActivity() {
             binding.questSelectorScrollbar.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
-    fun getQuestChips(): ChipGroup {
+    fun getQuestChips(): ChipGroup? {
+        if (!this::binding.isInitialized) return null
         return binding.chipGroup2
     }
 

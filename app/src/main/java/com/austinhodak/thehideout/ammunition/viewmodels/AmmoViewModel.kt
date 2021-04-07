@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
+import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.google.firebase.ktx.Firebase
@@ -75,7 +76,7 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
 
         val myFile = File(storagePath, "ammoData.json")
 
-        if (!myFile.exists()) {
+        if (!myFile.exists() || BuildConfig.DEBUG) {
             return loadInitialAmmo()
         }
 

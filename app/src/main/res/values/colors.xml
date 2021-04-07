@@ -324,4 +324,12 @@
     <color name="md_yellow_A200">#FFFF00</color>
     <color name="md_yellow_A400">#FFEA00</color>
     <color name="md_yellow_A700">#FFD600</color>
+
+    <color name="ammoChart0">#CE0B04</color>
+    <color name="ammoChart1">#DC3B07</color>
+    <color name="ammoChart2">#EA6C0A</color>
+    <color name="ammoChart3">#F99D0E</color>
+    <color name="ammoChart4">#C0B825</color>
+    <color name="ammoChart5">#86D43D</color>
+    <color name="ammoChart6">#4BF056</color>
 </resources>
