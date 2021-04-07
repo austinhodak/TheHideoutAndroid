@@ -1,6 +1,5 @@
 package com.austinhodak.thehideout.calculator
 
-import android.util.Log
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
 import kotlin.math.max
@@ -14,25 +13,23 @@ object CalculatorHelper {
 
         var blocked = false
 
-        Log.d("DURABILITY", armor.durability.toString())
-
         if (armor.durability > 0.0) {
             val num = (armor.durability / armor.maxDurability) * 100.0
             val num3 = (121.0 - 5000.0 / (45.0 + num * 2.0)) * armor.resistance * 0.01
 
             if (simulateBlock(ammo, armor)) {
-                val num00 = (ammo.penetration / armor.resistance).coerceIn(0.6, 1.1)
-                damageToArmor = ammo.penetration * ammo.armorDamage * num00 * armor.destructibility
-                ammoDamage *= armor.bluntThroughput * (1.0 - 0.03 * (num3 - ammo.penetration).coerceIn(0.2, 1.0))
+                damageToArmor = ammo.penetration * ammo.armorDamage * clamp(ammo.penetration / armor.resistance, 0.6, 1.1) * armor.destructibility
+                ammoDamage *= armor.bluntThroughput * clamp(1.0 - 0.03 * (num3 - ammo.penetration),0.2, 1.0)
                 blocked = true
             } else {
-                damageToArmor = ammoPen * ammo.armorDamage * (ammoPen / armor.resistance).coerceIn(0.5, 0.9) * armor.destructibility
-                val num4 = (ammoPen / (num3 + 12.0).coerceIn(0.6, 1.0))
+                damageToArmor = ammoPen * ammo.armorDamage * clamp(ammoPen / armor.resistance, 0.5, 0.9) * armor.destructibility
+                val num4 = clamp(ammoPen / (num3 + 12.0), 0.6, 1.0)
                 ammoDamage *= num4
                 ammoPen *= num4
             }
 
             damageToArmor = max(1.0, damageToArmor)
+
             armor.durability -= damageToArmor
             if (armor.durability < 0.0) {
                 armor.durability = 0.0
@@ -54,7 +51,7 @@ object CalculatorHelper {
 
             val num3 = (121.0 - 5000.0 / (45.0 + num * 2.0)) * armor.resistance * 0.01
 
-            val num4 = if (num >= ammo.penetration + 15) {
+            val num4 = if (num3 >= ammo.penetration + 15.0) {
                 0.0
             } else {
                 if (!(num3 >= ammo.penetration)) {
@@ -65,13 +62,15 @@ object CalculatorHelper {
             }
 
             if (num4 - Math.random() * 100.0 < 0.0) {
+                //Timber.d("Blocked!")
                 return true
             }
         }
+        //Timber.d("Not Blocked!")
         return false
     }
 
-    private fun _shotsToKill(bullet: CAmmo, armor: CArmor, health: Double, blowthrough: Double): Double {
+    /*private fun _shotsToKill(bullet: CAmmo, armor: CArmor, health: Double, blowthrough: Double): Double {
         var h = health
         var headHealth = 35.0
         var shotCount = 0.0
@@ -100,9 +99,9 @@ object CalculatorHelper {
         }
 
         return Double.POSITIVE_INFINITY
-    }
+    }*/
 
-    fun shotsToKill(bullet: CAmmo, armor: CArmor, health: Double, simulations: Int, blowthrough: Double): Double {
+    /*fun shotsToKill(bullet: CAmmo, armor: CArmor, health: Double, simulations: Int, blowthrough: Double): Double {
         var avg = 0.0
 
         for (i in 1..simulations) {
@@ -123,5 +122,9 @@ object CalculatorHelper {
         }
 
         return avg/simulations
+    }*/
+
+    fun clamp(num: Double, a: Double, b: Double): Double {
+        return Math.max(a, Math.min(b, num))
     }
 }

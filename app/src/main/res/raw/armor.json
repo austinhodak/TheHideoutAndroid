@@ -20,7 +20,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3745",
     "name": "M2",
-    "image": "M2.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/0f/M2Inventory.PNG/revision/latest/scale-to-width-down/250?cb=20201102231418",
     "material": "Titan",
     "class": "Chest Rig",
     "internal": 18,
@@ -62,7 +62,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3748",
     "name": "Tactec",
-    "image": "Tactec.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e9/TactecIcon.png/revision/latest/scale-to-width-down/250?cb=20200422225205",
     "material": "Ultrahighweight polyethylene",
     "class": "Chest Rig",
     "internal": 18,
@@ -111,7 +111,7 @@
     ],
     "_id": "5f4a52549f319f4528ac374c",
     "name": "6B5-15",
-    "image": "6B5-15.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/8e/6B5-15icon.png/revision/latest/scale-to-width-down/190?cb=20200422225144",
     "material": "Ceramic",
     "class": "Chest Rig",
     "internal": 10,
@@ -148,7 +148,7 @@
     ],
     "_id": "5f4a52549f319f4528ac374e",
     "name": "6B5-16",
-    "image": "6B5-16.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c7/6B5-16_armored_rig_icon.png/revision/latest/scale-to-width-down/190?cb=20200422225151",
     "material": "Titan",
     "class": "Chest Rig",
     "internal": 10,
@@ -186,7 +186,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3750",
     "name": "M1",
-    "image": "M1.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3c/ANA_Tactical_M1_icon.png/revision/latest/scale-to-width-down/250?cb=20200422225159",
     "material": "Armor steel",
     "class": "Chest Rig",
     "internal": 20,
@@ -222,7 +222,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3752",
     "name": "TV-110",
-    "image": "TV-110.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ee/Wartech_TV-110_plate_carrier_icon.png/revision/latest/scale-to-width-down/250?cb=20191227004802",
     "material": "Armor steel",
     "class": "Chest Rig",
     "internal": 23,
@@ -259,7 +259,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3754",
     "name": "A18",
-    "image": "A18.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f8/A18_Icon.png/revision/latest/scale-to-width-down/250?cb=20191214005138",
     "material": "Combined materials",
     "class": "Chest Rig",
     "internal": 25,
@@ -295,7 +295,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3756",
     "name": "AACPC",
-    "image": "AACPC.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/7c/AACPC_icon.png/revision/latest/scale-to-width-down/250?cb=20200501235928",
     "material": "Ultrahighweight polyethylene",
     "class": "Chest Rig",
     "internal": 23,
@@ -332,7 +332,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3758",
     "name": "3M",
-    "image": "3M.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f8/3M_icon.png/revision/latest/scale-to-width-down/190?cb=20190519124804",
     "material": "Aramid",
     "class": "Body Armor",
     "prices": [],
@@ -368,7 +368,7 @@
     ],
     "_id": "5f4a52549f319f4528ac375a",
     "name": "PACA",
-    "image": "PACA.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/91/PACA_icon.png/revision/latest/scale-to-width-down/190?cb=20181225213000",
     "material": "Aramid",
     "class": "Body Armor",
     "prices": [
@@ -414,7 +414,7 @@
     ],
     "_id": "5f4a52549f319f4528ac375d",
     "name": "6B43 6A",
-    "image": "6B43_6A.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/90/FORT_armor_icon.png/revision/latest/scale-to-width-down/250?cb=20200318200430",
     "material": "Combined materials",
     "class": "Body Armor",
     "prices": [],
@@ -455,7 +455,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3760",
     "name": "Kolpak",
-    "image": "Kolpak.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c3/Kolpak-1S_Icon.png/revision/latest/scale-to-width-down/127?cb=20180426010933",
     "material": "Aramid",
     "class": "Helmet",
     "ricochet": "Low",
@@ -494,7 +494,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3762",
     "name": "Kiver-M",
-    "image": "Kiver-M.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1c/Kiver-M_Helmet_icon.png/revision/latest/scale-to-width-down/127?cb=20191227210553",
     "material": "Ultrahighweight polyethylene",
     "class": "Helmet",
     "ricochet": "Medium",
@@ -532,7 +532,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3764",
     "name": "Fast MT",
-    "image": "Fast_MT.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ed/FASTMT_Icon.gif/revision/latest/scale-to-width-down/127?cb=20180805220154",
     "material": "Aramid",
     "class": "Helmet",
     "ricochet": "High",
@@ -571,7 +571,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3766",
     "name": "6B47",
-    "image": "6B47.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1e/6B47_Icon.gif/revision/latest/scale-to-width-down/127?cb=20180806190854",
     "material": "Aluminum",
     "class": "Helmet",
     "ricochet": "High",
@@ -597,82 +597,6 @@
   },
   {
     "grid": {
-      "x": 2,
-      "y": 2
-    },
-    "blunt": 0.17,
-    "resistance": 30,
-    "destructibility": 0.60,
-    "description": "",
-    "weight": 1.3,
-    "level": 3,
-    "hitpoints": 25,
-    "movement": -1,
-    "turn": -5,
-    "ergonomics": -2,
-    "zones": [
-      "Top",
-      "Nape",
-      "Ears"
-    ],
-    "_id": "5f4a52549f319f4528ac3769",
-    "name": "6B47 Camouflaged",
-    "image": "6B47_Camouflaged.png",
-    "material": "Aluminum",
-    "class": "Helmet",
-    "ricochet": "Medium",
-    "prices": [],
-    "tradeups": [
-      {
-        "items": [],
-        "_id": "5f4a52549f319f4528ac376a",
-        "trader": "Ragman",
-        "level": 2
-      }
-    ],
-    "fields": [],
-    "__v": 0
-  },
-  {
-    "grid": {
-      "x": 2,
-      "y": 2
-    },
-    "blunt": 0.14,
-    "resistance": 40,
-    "destructibility": 0.50,
-    "description": "",
-    "weight": 0.9,
-    "level": 4,
-    "hitpoints": 40,
-    "movement": -1,
-    "turn": -7,
-    "ergonomics": 0,
-    "zones": [
-      "Top",
-      "Nape"
-    ],
-    "_id": "5f4a52549f319f4528ac376b",
-    "name": "Fast MT Black",
-    "image": "Fast_MT_Black.png",
-    "material": "Combined materials",
-    "class": "Helmet",
-    "ricochet": "High",
-    "prices": [
-      {
-        "value": 1229,
-        "_id": "5f4a52549f319f4528ac376c",
-        "trader": "Peacekeeper",
-        "currency": "D",
-        "level": 3
-      }
-    ],
-    "tradeups": [],
-    "fields": [],
-    "__v": 0
-  },
-  {
-    "grid": {
       "x": 3,
       "y": 3
     },
@@ -691,8 +615,8 @@
       "Stomach"
     ],
     "_id": "5f4a52549f319f4528ac376d",
-    "name": "MF-UN",
-    "image": "MF-UN.png",
+    "name": "MF-UNTAR",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/62/UNTARArmorIcon.png/revision/latest/scale-to-width-down/190?cb=20210109181147",
     "material": "Aluminum",
     "class": "Body Armor",
     "prices": [
@@ -737,7 +661,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3770",
     "name": "UNTAR",
-    "image": "UNTAR.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e3/UNTARHelmetIcon.png/revision/latest/scale-to-width-down/127?cb=20190112203847",
     "material": "Aramid",
     "class": "Helmet",
     "ricochet": "High",
@@ -783,7 +707,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3773",
     "name": "ZSh-1-2M",
-    "image": "ZSh-1-2M.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/0d/ZSH-1-2M_Icon.gif/revision/latest/scale-to-width-down/127?cb=20180809202110",
     "material": "Combined materials",
     "class": "Helmet",
     "ricochet": "Medium",
@@ -802,52 +726,6 @@
         "vital": false,
         "attachments": [],
         "_id": "5f4a52549f319f4528ac3775",
-        "name": "Faceshield"
-      }
-    ],
-    "__v": 0
-  },
-  {
-    "grid": {
-      "x": 2,
-      "y": 2
-    },
-    "blunt": 0.150,
-    "resistance": 40,
-    "destructibility": 0.50,
-    "description": "",
-    "weight": 3.7,
-    "level": 4,
-    "hitpoints": 30,
-    "movement": -3,
-    "turn": -8,
-    "ergonomics": -2,
-    "zones": [
-      "Top",
-      "Nape",
-      "Ears"
-    ],
-    "_id": "5f4a52549f319f4528ac3776",
-    "name": "ZSh-1-2M Black",
-    "image": "ZSh-1-2M_Black.png",
-    "material": "Combined materials",
-    "class": "Helmet",
-    "ricochet": "Medium",
-    "prices": [
-      {
-        "value": 45430,
-        "_id": "5f4a52549f319f4528ac3777",
-        "trader": "Ragman",
-        "currency": "R",
-        "level": 3
-      }
-    ],
-    "tradeups": [],
-    "fields": [
-      {
-        "vital": false,
-        "attachments": [],
-        "_id": "5f4a52549f319f4528ac3778",
         "name": "Faceshield"
       }
     ],
@@ -874,7 +752,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3779",
     "name": "GZHEL-K",
-    "image": "GZHEL-K.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/a1/GZHELKArmorIcon.png/revision/latest/scale-to-width-down/190?cb=20200209203059",
     "material": "Ceramic",
     "class": "Body Armor",
     "prices": [
@@ -919,7 +797,7 @@
     ],
     "_id": "5f4a52549f319f4528ac377c",
     "name": "SFERA",
-    "image": "SFERA.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b0/SFERAHelmetIcon.png/revision/latest/scale-to-width-down/127?cb=20190119182649",
     "material": "Armor steel",
     "class": "Helmet",
     "ricochet": "Medium",
@@ -958,7 +836,7 @@
     ],
     "_id": "5f4a52549f319f4528ac377e",
     "name": "Altyn",
-    "image": "Altyn.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2d/AltynHelmetIcon.png/revision/latest/scale-to-width-down/127?cb=20180517203714",
     "material": "Armor steel",
     "class": "Helmet",
     "ricochet": "High",
@@ -1326,8 +1204,8 @@
       "Stomach"
     ],
     "_id": "5f4a52549f319f4528ac3795",
-    "name": "Kirisa",
-    "image": "Kirisa.png",
+    "name": "Kirasa",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b6/BNTIKirasaNarmorIcon.png/revision/latest/scale-to-width-down/190?cb=20200710212404",
     "material": "Combined materials",
     "class": "Body Armor",
     "prices": [
@@ -1371,7 +1249,7 @@
     ],
     "_id": "5f4a52549f319f4528ac3798",
     "name": "LZSh",
-    "image": "LZSh.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/68/LZSh_light_helmet_icon.png/revision/latest/scale-to-width-down/127?cb=20180729193601",
     "material": "Aramid",
     "class": "Helmet",
     "ricochet": "Low",
@@ -1409,7 +1287,7 @@
     ],
     "_id": "5f4a52549f319f4528ac379a",
     "name": "ACHHC",
-    "image": "ACHHC.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e1/ACHHC_Icon.gif/revision/latest/scale-to-width-down/127?cb=20180805175453",
     "material": "Combined materials",
     "class": "Helmet",
     "ricochet": "High",
@@ -1417,44 +1295,6 @@
       {
         "value": 57200,
         "_id": "5f4a52549f319f4528ac379b",
-        "trader": "Ragman",
-        "currency": "R",
-        "level": 3
-      }
-    ],
-    "tradeups": [],
-    "fields": [],
-    "__v": 0
-  },
-  {
-    "grid": {
-      "x": 2,
-      "y": 2
-    },
-    "blunt": 0.13,
-    "resistance": 40,
-    "destructibility": 0.50,
-    "description": "",
-    "weight": 1.5,
-    "level": 4,
-    "hitpoints": 30,
-    "movement": -2,
-    "turn": -7,
-    "ergonomics": -2,
-    "zones": [
-      "Top",
-      "Nape"
-    ],
-    "_id": "5f4a52549f319f4528ac379c",
-    "name": "ACHHC Black",
-    "image": "ACHHC_Black.png",
-    "material": "Combined materials",
-    "class": "Helmet",
-    "ricochet": "High",
-    "prices": [
-      {
-        "value": 60500,
-        "_id": "5f4a52549f319f4528ac379d",
         "trader": "Ragman",
         "currency": "R",
         "level": 3
@@ -1485,7 +1325,7 @@
     ],
     "_id": "5f4a52549f319f4528ac379e",
     "name": "ULACH",
-    "image": "ULACH.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/bb/ULACH_Icon.gif/revision/latest/scale-to-width-down/127?cb=20180806205056",
     "material": "Glass",
     "class": "Helmet",
     "ricochet": "High",
@@ -1493,45 +1333,6 @@
       {
         "value": 68442,
         "_id": "5f4a52549f319f4528ac379f",
-        "trader": "Ragman",
-        "currency": "R",
-        "level": 4
-      }
-    ],
-    "tradeups": [],
-    "fields": [],
-    "__v": 0
-  },
-  {
-    "grid": {
-      "x": 2,
-      "y": 2
-    },
-    "blunt": 0.13,
-    "resistance": 40,
-    "destructibility": 0.45,
-    "description": "",
-    "weight": 1.9,
-    "level": 4,
-    "hitpoints": 38,
-    "movement": -2,
-    "turn": -10,
-    "ergonomics": -4,
-    "zones": [
-      "Top",
-      "Nape",
-      "Ears"
-    ],
-    "_id": "5f4a52549f319f4528ac37a0",
-    "name": "ULACH Black",
-    "image": "ULACH_Black.png",
-    "material": "Ultrahighweight polyethylene",
-    "class": "Helmet",
-    "ricochet": "High",
-    "prices": [
-      {
-        "value": 83160,
-        "_id": "5f4a52549f319f4528ac37a1",
         "trader": "Ragman",
         "currency": "R",
         "level": 4
@@ -1565,7 +1366,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37a2",
     "name": "Ronin",
-    "image": "Ronin.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/97/DEVTAC_Ronin_ballistic_helmet_Icon.png/revision/latest/scale-to-width-down/127?cb=20190614231710",
     "material": "Aramid",
     "class": "Helmet",
     "ricochet": "Low",
@@ -1605,7 +1406,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37a4",
     "name": "Gen4 Assault",
-    "image": "Gen4_Assault.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/05/Gen4assault.png/revision/latest/scale-to-width-down/250?cb=20200318200452",
     "material": "Titan",
     "class": "Body Armor",
     "prices": [],
@@ -1641,7 +1442,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37a6",
     "name": "Gen4 HMK",
-    "image": "Gen4_HMK.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/26/Gen4hmk.png/revision/latest/scale-to-width-down/190?cb=20200318200459",
     "material": "Titan",
     "class": "Body Armor",
     "prices": [],
@@ -1679,7 +1480,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37a8",
     "name": "Gen4 Full",
-    "image": "Gen4_Full.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/52/IOTVfullIcon.png/revision/latest/scale-to-width-down/250?cb=20200318200506",
     "material": "Titan",
     "class": "Body Armor",
     "prices": [],
@@ -1716,7 +1517,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37aa",
     "name": "Maska 1Sch",
-    "image": "Maska_1Sch.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/02/Maska_1Sch_helmet_icon.gif/revision/latest/scale-to-width-down/127?cb=20190101110609",
     "material": "Armor steel",
     "class": "Helmet",
     "ricochet": "Medium",
@@ -1744,44 +1545,6 @@
       "x": 2,
       "y": 2
     },
-    "blunt": 0.14,
-    "resistance": 40,
-    "destructibility": 0.70,
-    "description": "",
-    "weight": 2.6,
-    "level": 4,
-    "hitpoints": 60,
-    "movement": -3,
-    "turn": -6,
-    "ergonomics": -7,
-    "zones": [
-      "Top",
-      "Nape",
-      "Ears"
-    ],
-    "_id": "5f4a52549f319f4528ac37ad",
-    "name": "Maska 1Sch Killa",
-    "image": "Maska_1Sch_Killa.png",
-    "material": "Armor steel",
-    "class": "Helmet",
-    "ricochet": "Medium",
-    "prices": [],
-    "tradeups": [],
-    "fields": [
-      {
-        "vital": false,
-        "attachments": [],
-        "_id": "5f4a52549f319f4528ac37ae",
-        "name": "Faceshield"
-      }
-    ],
-    "__v": 0
-  },
-  {
-    "grid": {
-      "x": 2,
-      "y": 2
-    },
     "blunt": 0.20,
     "resistance": 30,
     "destructibility": 0.70,
@@ -1798,7 +1561,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37af",
     "name": "SSh-68",
-    "image": "SSh-68.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/aa/SSH-68Icon.png/revision/latest/scale-to-width-down/127?cb=20181226233101",
     "material": "Armor steel",
     "class": "Helmet",
     "ricochet": "High",
@@ -1837,7 +1600,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37b1",
     "name": "Vulkan-5",
-    "image": "Vulkan-5.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/30/Vulkan-5_%28LShZ-5%29_heavy_helmet_icon.png/revision/latest/scale-to-width-down/127?cb=20190411084254",
     "material": "Combined materials",
     "class": "Helmet",
     "ricochet": "High",
@@ -1882,7 +1645,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37b4",
     "name": "6B23-1",
-    "image": "6B23-1.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/61/6B23-1icon.png/revision/latest/scale-to-width-down/190?cb=20190101212542",
     "material": "Armor steel",
     "class": "Body Armor",
     "prices": [
@@ -1919,7 +1682,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37b6",
     "name": "6B23-2",
-    "image": "6B23-2.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/79/6B23-2_armorIcon.png/revision/latest/scale-to-width-down/190?cb=20200318194650",
     "material": "Ceramic",
     "class": "Body Armor",
     "prices": [
@@ -1956,7 +1719,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37b8",
     "name": "6B13",
-    "image": "6B13.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2b/6B13_assault_armor_icon.gif/revision/latest/scale-to-width-down/190?cb=20190101213918",
     "material": "Ceramic",
     "class": "Body Armor",
     "prices": [
@@ -1993,7 +1756,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37ba",
     "name": "Zhuk-6a",
-    "image": "Zhuk-6a.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5c/Zhuk-6a_heavy_armor_icon.png/revision/latest/scale-to-width-down/190?cb=20190110121834",
     "material": "Ceramic",
     "class": "Body Armor",
     "prices": [],
@@ -2029,7 +1792,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37bc",
     "name": "Redut-M",
-    "image": "Redut-M.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e9/FORT_Redut-M_body_armor_icon.png/revision/latest/scale-to-width-down/190?cb=20200318200437",
     "material": "Combined materials",
     "class": "Body Armor",
     "prices": [
@@ -2068,7 +1831,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37be",
     "name": "Redut-T5",
-    "image": "Redut-T5.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/23/FORT_Redut-T5_body_armor_icon.png/revision/latest/scale-to-width-down/250?cb=20200318200444",
     "material": "Combined materials",
     "class": "Body Armor",
     "prices": [],
@@ -2282,7 +2045,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37c9",
     "name": "TC-2001",
-    "image": "TC-2001.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/cb/MICH_Icon.PNG/revision/latest/scale-to-width-down/127?cb=20191213025908",
     "material": "Combined materials",
     "class": "Helmet",
     "ricochet": "High",
@@ -2320,7 +2083,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37cb",
     "name": "TC-2002",
-    "image": "TC-2002.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/83/MICH_Icon_2002.PNG/revision/latest/scale-to-width-down/127?cb=20210124003917",
     "material": "Combined materials",
     "class": "Helmet",
     "ricochet": "High",
@@ -2359,7 +2122,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37cd",
     "name": "SHPM",
-    "image": "SHPM.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3b/SHPM_Firefighter%27s_helmet_icon.png/revision/latest/scale-to-width-down/127?cb=20190110180222",
     "material": "Aramid",
     "class": "Helmet",
     "ricochet": "Low",
@@ -2390,7 +2153,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37ce",
     "name": "PSH-97 Djeta",
-    "image": "PSH-97.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/ba/PSH-97_-Jeta-_helmet_Icon.png/revision/latest/scale-to-width-down/127?cb=20190110174515",
     "material": "Aramid",
     "class": "Helmet",
     "ricochet": "Low",
@@ -2421,7 +2184,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37cf",
     "name": "TSH-4M-L",
-    "image": "TSH-4M-L.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/20/TankHelm2.png/revision/latest/scale-to-width-down/127?cb=20191229160330",
     "material": "Aramid",
     "class": "Helmet",
     "ricochet": "High",
@@ -2452,7 +2215,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37d0",
     "name": "EXFIL Black",
-    "image": "EXFIL_Black.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/89/Team_Wendy_EXFIL_Ballistic_Helmet_icon.gif/revision/latest/scale-to-width-down/127?cb=20191229154600",
     "material": "Combined materials",
     "class": "Helmet",
     "ricochet": "High",
@@ -2491,7 +2254,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37d2",
     "name": "EXFIL Coyote",
-    "image": "EXFIL_Coyote.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/89/Team_Wendy_EXFIL_Ballistic_Helmet_icon.gif/revision/latest/scale-to-width-down/127?cb=20191229154600",
     "material": "Combined materials",
     "class": "Helmet",
     "ricochet": "High",
@@ -2529,7 +2292,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37d4",
     "name": "6B2",
-    "image": "6B2.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/ca/6B2_Icon.png/revision/latest/scale-to-width-down/190?cb=20191227220308",
     "material": "Titan",
     "class": "Body Armor",
     "prices": [
@@ -2567,7 +2330,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37d6",
     "name": "LSHZ-2DTM",
-    "image": "LSHZ-2DTM.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/50/LZHZ-2DTMIcon.png/revision/latest/scale-to-width-down/127?cb=20191030044453",
     "material": "Combined materials",
     "class": "Helmet",
     "ricochet": "High",
@@ -2799,7 +2562,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37e3",
     "name": "Slick",
-    "image": "Slick.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c6/Slick.gif/revision/latest/scale-to-width-down/180?cb=20210401231720",
     "material": "Armor steel",
     "class": "Body Armor",
     "prices": [],
@@ -2835,7 +2598,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37e5",
     "name": "6B13 M Tan",
-    "image": "6B13_M_Tan.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d9/6B13_M_icon.png/revision/latest/scale-to-width-down/190?cb=20181226000642",
     "material": "Ultrahighweight polyethylene",
     "class": "Body Armor",
     "prices": [],
@@ -2864,7 +2627,7 @@
     ],
     "_id": "5f4a52549f319f4528ac37e6",
     "name": "Airframe Tan",
-    "image": "Airframe_Tan.png",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e1/Crye_Precision_Airframe_Tan_Icon.png/revision/latest/scale-to-width-down/127?cb=20190102011853",
     "material": "Combined materials",
     "class": "Helmet",
     "prices": [
@@ -2990,5 +2753,379 @@
     "tradeups": [],
     "fields": [],
     "__v": 0
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.19,
+    "resistance": 20,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 0.45,
+    "level": 1,
+    "hitpoints": 40,
+    "movement": 0,
+    "turn": 0,
+    "ergonomics": -1,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "tackek_fast_mt",
+    "name": "Tac-Kek Fast MT",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c0/TK_FAST_Icon.png/revision/latest/scale-to-width-down/127?cb=20200607112137",
+    "material": "Combined Materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.15,
+    "resistance": 20,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 1.2,
+    "level": 2,
+    "hitpoints": 40,
+    "movement": -3,
+    "turn": -5,
+    "ergonomics": 0,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears",
+      "Eyes",
+      "Jaw"
+    ],
+    "_id": "jack_o_lantern",
+    "name": "Jack-o'-lantern",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/eb/PumpkinHelmetIcon.png/revision/latest/scale-to-width-down/127?cb=20181025203601",
+    "material": "Ultrahighweight polyethylene",
+    "class": "Helmet",
+    "ricochet": "None",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.16,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.17,
+    "level": 4,
+    "hitpoints": 30,
+    "movement": -2,
+    "turn": -8,
+    "ergonomics": -1,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "msa_tc_800",
+    "name": "MSA Gallet TC 800",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/67/MSA_TC_800_Icon.png/revision/latest/scale-to-width-down/127?cb=20200314230815",
+    "material": "Combined Materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.11,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 0.96,
+    "level": 4,
+    "hitpoints": 40,
+    "movement": -1,
+    "turn": -7,
+    "ergonomics": -2,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "bastion",
+    "name": "Diamond Age Bastion",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5c/Bastion_Icon.png/revision/latest/scale-to-width-down/127?cb=20200606092904",
+    "material": "Combined Materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.12,
+    "resistance": 40,
+    "destructibility": 0.50,
+    "description": "",
+    "weight": 1.12,
+    "level": 4,
+    "hitpoints": 50,
+    "movement": -2,
+    "turn": -8,
+    "ergonomics": -1,
+    "zones": [
+      "Top",
+      "Nape"
+    ],
+    "_id": "caiman",
+    "name": "Galvion Caiman",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/ff/Caiman_icon.png/revision/latest/scale-to-width-down/127?cb=20201019155531",
+    "material": "Combined Materials",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 2,
+      "y": 2
+    },
+    "blunt": 0.12,
+    "resistance": 50,
+    "destructibility": 0.55,
+    "description": "",
+    "weight": 2.5,
+    "level": 5,
+    "hitpoints": 50,
+    "movement": -3,
+    "turn": -8,
+    "ergonomics": -4,
+    "zones": [
+      "Top",
+      "Nape",
+      "Ears"
+    ],
+    "_id": "rys_t",
+    "name": "Rys-T",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e2/RystIcon.png/revision/latest/scale-to-width-down/127?cb=20201020092927",
+    "material": "Titan",
+    "class": "Helmet",
+    "ricochet": "High",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.2,
+    "resistance": 30,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 5.2,
+    "level": 3,
+    "hitpoints": 50,
+    "movement": -10,
+    "turn": -4,
+    "ergonomics": -5,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "zhuk3",
+    "name": "Zhuk-3",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5c/Zhuk-6a_heavy_armor_icon.png/revision/latest/scale-to-width-down/190?cb=20190110121834",
+    "material": "Ultrahighweight polyethylene",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.18,
+    "resistance": 40,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 5.0,
+    "level": 4,
+    "hitpoints": 85,
+    "movement": -9,
+    "turn": -2,
+    "ergonomics": -3,
+    "zones": [
+      "Thorax"
+    ],
+    "_id": "trooper",
+    "name": "Highcom Tropper",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/bb/Highcom_Trooper_TFO_armor_%28multicam%29_icon.png/revision/latest/scale-to-width-down/190?cb=20200314230803",
+    "material": "Ultrahighweight polyethylene",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.18,
+    "resistance": 40,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 9.8,
+    "level": 5,
+    "hitpoints": 45,
+    "movement": -18,
+    "turn": -9,
+    "ergonomics": -10,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "korund",
+    "name": "BNTI Korund-VM",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/96/KORUNDIcon.png/revision/latest/scale-to-width-down/190?cb=20201019171750",
+    "material": "Armor Steel",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.2,
+    "resistance": 50,
+    "destructibility": 0.70,
+    "description": "",
+    "weight": 11.5,
+    "level": 5,
+    "hitpoints": 70,
+    "movement": -9,
+    "turn": -12,
+    "ergonomics": -7,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "defender2",
+    "name": "FORT Defender-2",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/52/Defender-2_Icon.png/revision/latest/scale-to-width-down/190?cb=20200606094109",
+    "material": "Armor Steel",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 3
+    },
+    "blunt": 0.2,
+    "resistance": 50,
+    "destructibility": 0.45,
+    "description": "",
+    "weight": 6.2,
+    "level": 6,
+    "hitpoints": 50,
+    "movement": -8,
+    "turn": -2,
+    "ergonomics": -1,
+    "zones": [
+      "Thorax"
+    ],
+    "_id": "hexgrid",
+    "name": "5.11 Hexgrid",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d5/5.11_Hexgrid_plate_carrier.png/revision/latest/scale-to-width-down/180?cb=20210129120630",
+    "material": "UHMWPE",
+    "class": "Body Armor",
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.24,
+    "resistance": 40,
+    "destructibility": 0.55,
+    "description": "",
+    "weight": 9.2,
+    "level": 4,
+    "hitpoints": 40,
+    "movement": -10,
+    "turn": -5,
+    "ergonomics": -15,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "6b3tm_01m",
+    "name": "6B3TM-01M",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/79/6B3TM-01M_Icon.png/revision/latest/scale-to-width-down/190?cb=20200326122406",
+    "material": "Titan",
+    "class": "Chest Rig",
+    "internal": 12,
+    "prices": [],
+    "tradeups": [],
+    "fields": []
+  },
+  {
+    "grid": {
+      "x": 3,
+      "y": 4
+    },
+    "blunt": 0.15,
+    "resistance": 40,
+    "destructibility": 0.5,
+    "description": "",
+    "weight": 8.7,
+    "level": 4,
+    "hitpoints": 70,
+    "movement": -10,
+    "turn": -2,
+    "ergonomics": -2,
+    "zones": [
+      "Thorax",
+      "Stomach"
+    ],
+    "_id": "avs",
+    "name": "Crye Precision AVS",
+    "image": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/ae/AVS_icon.png/revision/latest/scale-to-width-down/190?cb=20191226173848",
+    "material": "Combined Materials",
+    "class": "Chest Rig",
+    "internal": 23,
+    "prices": [],
+    "tradeups": [],
+    "fields": []
   }
 ]

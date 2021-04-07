@@ -20,6 +20,7 @@ import com.austinhodak.thehideout.clothing.armor.ArmorHelper
 import com.austinhodak.thehideout.clothing.models.Armor
 import com.austinhodak.thehideout.databinding.ActivityCalculatorMainBinding
 import com.austinhodak.thehideout.databinding.BottomSheetCalculatorMainBinding
+import com.austinhodak.thehideout.round
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class CalculatorMainActivity : AppCompatActivity() {
@@ -82,13 +83,13 @@ class CalculatorMainActivity : AppCompatActivity() {
         body.linkToHealthBar(Part.RIGHTLEG, binding.healthRLeg)
 
         ammoViewModel.ammoList.observe(this) {
-            selectedAmmo = it.first()
+            selectedAmmo = it.find { it._id == "5f4a52549f319f4528ac363b" }!!
             updateBottomSheet()
             updateDurabilities()
         }
 
-        selectedHelmet = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac3760" }
-        selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac3758" }
+        selectedHelmet = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac377e" }
+        selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac37e3" }
 
         selectedHelmet = null
         selectedChestArmor = null
@@ -108,11 +109,11 @@ class CalculatorMainActivity : AppCompatActivity() {
         }
 
         binding.healthLArm.setOnClickListener {
-            body.shoot(Part.LEFTARM, selectedAmmo.getCAmmo())
+            body.shoot(Part.LEFTARM, selectedAmmo.getCAmmo(), selectedChestArmor?.getArmor())
         }
 
         binding.healthRArm.setOnClickListener {
-            body.shoot(Part.RIGHTARM, selectedAmmo.getCAmmo())
+            body.shoot(Part.RIGHTARM, selectedAmmo.getCAmmo(), selectedChestArmor?.getArmor())
         }
 
         binding.healthLLeg.setOnClickListener {
@@ -159,8 +160,8 @@ class CalculatorMainActivity : AppCompatActivity() {
         binding.calcArmorDurabliltyCard.visibility = if (selectedHelmet == null && selectedChestArmor == null) View.GONE else View.VISIBLE
 
         var text = ""
-        text += "${selectedHelmet?.getArmor()?.durability ?: 0}/${selectedHelmet?.getArmor()?.maxDurability ?: 0}"
-        text += "\n${selectedChestArmor?.getArmor()?.durability ?: 0}/${selectedChestArmor?.getArmor()?.maxDurability ?: 0}"
+        text += "${selectedHelmet?.getArmor()?.durability?.round(2) ?: 0}/${selectedHelmet?.getArmor()?.maxDurability ?: 0}"
+        text += "\n${selectedChestArmor?.getArmor()?.durability?.round(2) ?: 0}/${selectedChestArmor?.getArmor()?.maxDurability ?: 0}"
         binding.calcDurabilitiesTV.text = text
 
         binding.calcDurabilitiesArmorNamesTV.text = "${selectedHelmet?.name ?: "Helmet"}: \n${selectedChestArmor?.name ?: "Chest"}: "

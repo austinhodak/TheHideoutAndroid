@@ -188,5 +188,25 @@
     "uses": 3,
     "hp_pool": 0,
     "max_hp_heal": 0
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f4/AFAK_first_aid.png/revision/latest/scale-to-width-down/64?cb=20210330151231",
+    "name": "AFAK",
+    "type": "Medkit",
+    "effect": "Remove:",
+    "use_time": 3,
+    "uses": 3,
+    "hp_pool": 400,
+    "max_hp_heal": 60
+  },
+  {
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/89/Hemostatic_tourniquet_CAT.png/revision/latest/scale-to-width-down/64?cb=20210331132645",
+    "name": "CAT tourniquet",
+    "type": "Injury treatment",
+    "effect": "Remove:",
+    "use_time": 3,
+    "uses": null,
+    "hp_pool": 0,
+    "max_hp_heal": 0
   }
 ]

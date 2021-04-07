@@ -7,5 +7,6 @@ data class CArmor(
     var durability: Double = 0.0,
     val maxDurability: Double = 0.0,
     val resistance: Double = 0.0,
-    val destructibility: Double = 0.0
+    val destructibility: Double = 0.0,
+    val zones: List<String> = ArrayList()
 )

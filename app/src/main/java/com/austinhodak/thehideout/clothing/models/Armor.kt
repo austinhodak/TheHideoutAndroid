@@ -42,7 +42,7 @@ data class Armor(
     }
 
     override fun bindView(binding: ItemPickerCalculatorArmorBinding, payloads: List<Any>) {
-        Glide.with(binding.root.context).load("https://eftdb.one/static/item/thumb/$image").into(binding.imageView5)
+        Glide.with(binding.root.context).load(getImageURL()).into(binding.imageView5)
         binding.item = this
     }
 
@@ -52,6 +52,10 @@ data class Armor(
         var name: String
     )
 
+    fun getImageURL(): String {
+        return if (image.contains("https")) return image else "https://eftdb.one/static/item/thumb/$image"
+    }
+
     fun resetDurability() {
         cArmor = CArmor(
             `class` = level,
@@ -59,7 +63,8 @@ data class Armor(
             durability = hitpoints.toDouble(),
             maxDurability = hitpoints.toDouble(),
             resistance = resistance,
-            destructibility = destructibility
+            destructibility = destructibility,
+            zones = zones
         )
     }
 
@@ -71,7 +76,8 @@ data class Armor(
                 durability = hitpoints.toDouble(),
                 maxDurability = hitpoints.toDouble(),
                 resistance = resistance,
-                destructibility = destructibility
+                destructibility = destructibility,
+                zones = zones
             )
         }
 

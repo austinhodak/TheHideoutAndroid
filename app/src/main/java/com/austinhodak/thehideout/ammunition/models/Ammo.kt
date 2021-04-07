@@ -33,7 +33,7 @@ data class Ammo (
     var tradeups: List<AmmoTradeup>? = null,
     var caliber: String = "",
     val armor_damage: Int = 0,
-    val bullets: Int = 1,
+    val bullets: Int? = null,
     val flea_uid: String? = null
 ) : AbstractBindingItem<ItemAmmoBinding>() {
 
@@ -63,10 +63,13 @@ data class Ammo (
     }
 
     fun getCAmmo(): CAmmo {
-        return CAmmo(bullets = bullets,
-            damage = damage.toDouble(),
+        val b = bullets ?: 1
+        return CAmmo(
+            bullets = b,
+            damage = damage.toDouble() * b,
             penetration = penetration.toDouble(),
-            armorDamage = armor_damage.toDouble())
+            armorDamage = armor_damage.toDouble() * b / 100
+        )
     }
 
     fun getSubtitle(): String {

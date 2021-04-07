@@ -27,4 +27,8 @@ data class Rig(
     fun getArmored(): String {
         return if (armored) "YES" else "NO"
     }
+
+    fun getImageURL(): String {
+        return if (image.contains("https")) return image else "https://eftdb.one/static/item/thumb/$image"
+    }
 }

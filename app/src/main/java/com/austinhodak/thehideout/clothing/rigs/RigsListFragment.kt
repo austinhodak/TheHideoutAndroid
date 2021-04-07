@@ -47,7 +47,7 @@ class RigsListFragment : Fragment() {
             i.text(R.id.armorClass, "${rig.weight}kg")
 
             val image = i.findViewById<ImageView>(R.id.armorImage)
-            Glide.with(this).load("https://eftdb.one/static/item/thumb/${rig.image}").into(image)
+            Glide.with(this).load(rig.getImageURL()).into(image)
         }.attachTo(recyclerView).updateData(rigList)
     }
 

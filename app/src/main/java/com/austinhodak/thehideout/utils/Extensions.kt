@@ -17,6 +17,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.text.NumberFormat
 import java.util.*
+import kotlin.math.round
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
@@ -78,6 +79,12 @@ fun Long.getPrice(c: String): String {
         format.format(this)
     }
 
+}
+
+fun Double.round(decimals: Int): Double {
+    var multiplier = 1.0
+    repeat(decimals) { multiplier *= 10 }
+    return round(this * multiplier) / multiplier
 }
 
 fun String.openWithCustomTab(context: Context) {

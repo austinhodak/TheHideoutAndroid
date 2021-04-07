@@ -54,7 +54,7 @@
     },
     "description": "",
     "weight": 8.7,
-    "armored": false,
+    "armored": true,
     "_id": "5f4a52549f319f4528ac3813",
     "name": "AVS",
     "image": "AVS.png",

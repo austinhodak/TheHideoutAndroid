@@ -23,4 +23,8 @@ data class Backpack(
 
         return string.trim()
     }
+
+    fun getImageURL(): String {
+        return if (image.contains("https")) return image else "https://eftdb.one/static/item/thumb/$image"
+    }
 }

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
+            android:name=".calculator.pickers.CalculatorPickerActivity"
+            android:theme="@style/Theme.TheHideout.NoActionBar" />
+        <activity
             android:name=".ammunition.AmmoDetailActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity

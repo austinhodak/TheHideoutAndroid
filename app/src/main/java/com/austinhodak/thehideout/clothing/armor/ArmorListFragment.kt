@@ -52,8 +52,14 @@ class ArmorListFragment : Fragment() {
             i.text(R.id.armorSize, armor.internal.toString())
             i.text(R.id.armorHitpoints, armor.hitpoints.toString())
 
+            if (armor.internal == 0) {
+                i.gone(R.id.weaponLL4)
+            } else {
+                i.visible(R.id.weaponLL4)
+            }
+
             var image = i.findViewById<ImageView>(R.id.armorImage)
-            Glide.with(this).load("https://eftdb.one/static/item/thumb/${armor.image}").into(image)
+            Glide.with(this).load(armor.getImageURL()).into(image)
         }.attachTo(recyclerView).updateData(armorList)
     }
 

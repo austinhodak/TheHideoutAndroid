@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentQuestsMainBinding
@@ -60,15 +58,11 @@ class QuestMainFragment : Fragment() {
         })
 
         fab.setOnClickListener {
-            if (BuildConfig.DEBUG) {
-                if (bs.state == BottomSheetBehavior.STATE_HIDDEN || bs.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                    bs.state = BottomSheetBehavior.STATE_EXPANDED
-                    fab.hide()
-                } else {
-                    bs.state = BottomSheetBehavior.STATE_HIDDEN
-                }
+            if (bs.state == BottomSheetBehavior.STATE_HIDDEN || bs.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                bs.state = BottomSheetBehavior.STATE_EXPANDED
+                fab.hide()
             } else {
-                Toast.makeText(requireContext(), "Coming Soon.", Toast.LENGTH_SHORT).show()
+                bs.state = BottomSheetBehavior.STATE_HIDDEN
             }
         }
 

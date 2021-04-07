@@ -46,7 +46,7 @@ class BackpackListFragment : Fragment() {
             i.text(R.id.backpackSize, bp.internal.toString())
 
             val image = i.findViewById<ImageView>(R.id.backpackImage)
-            Glide.with(this).load("https://eftdb.one/static/item/thumb/${bp.image}").into(image)
+            Glide.with(this).load(bp.getImageURL()).into(image)
         }.attachTo(recyclerView).updateData(rigList)
     }
 
