@@ -231,11 +231,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        layout="@layout/bottom_sheet_calculator_main"
         android:id="@+id/bottomSheet"
+        layout="@layout/bottom_sheet_calculator_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">

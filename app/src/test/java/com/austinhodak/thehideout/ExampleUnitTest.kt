@@ -18,7 +18,7 @@ class ExampleUnitTest {
     @Test
     fun test() {
         val body = Body()
-        body.reset()
+        body.reset(selectedCharacter)
         assertEquals(35, body.head.health)
     }
 }

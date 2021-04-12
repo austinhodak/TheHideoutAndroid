@@ -211,6 +211,10 @@ class FleaMarketListFragment : Fragment() {
             0 -> nList = this.mList?.filter { it.name!!.contains(searchKey, true) }?.sortedBy { it.name }?.toMutableList()
             1 -> nList = this.mList?.filter { it.name!!.contains(searchKey, true) }?.sortedByDescending { it.price }?.toMutableList()
             2 -> nList = this.mList?.filter { it.name!!.contains(searchKey, true) }?.sortedByDescending { (it.price!! / it.slots!!) }?.toMutableList()
+            4 -> nList = this.mList?.filter { it.name!!.contains(searchKey, true) }?.sortedBy { it.diff24h }?.toMutableList()
+            3 -> nList = this.mList?.filter { it.name!!.contains(searchKey, true) }?.sortedByDescending { it.diff24h }?.toMutableList()
+            6 -> nList = this.mList?.filter { it.name!!.contains(searchKey, true) }?.sortedBy { it.diff7days }?.toMutableList()
+            5 -> nList = this.mList?.filter { it.name!!.contains(searchKey, true) }?.sortedByDescending { it.diff7days }?.toMutableList()
         }
 
         itemAdapter.clear()

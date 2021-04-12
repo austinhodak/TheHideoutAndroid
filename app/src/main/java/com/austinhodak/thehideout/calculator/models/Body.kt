@@ -13,8 +13,7 @@ data class Body(
     var rightArm: BodyPart = BodyPart(60.0, 0.7),
     var leftLeg: BodyPart = BodyPart(65.0, 1.000000000000001),
     var rightLeg: BodyPart = BodyPart(65.0, 1.000000000000001),
-
-    ) {
+) {
     private val sim = CalculatorHelper
     private lateinit var totalHealthTV: TextView
     private lateinit var currentHealthTV: TextView
@@ -22,14 +21,23 @@ data class Body(
     private var shotsFiredAfterDead = 0
     var onShootListener: (() -> Unit?)? = null
 
-    fun reset(): Body {
-        head.health = 35.0
-        thorax.health = 85.0
-        stomach.health = 70.0
-        leftArm.health = 60.0
-        rightArm.health = 60.0
-        leftLeg.health = 65.0
-        rightLeg.health = 65.0
+    fun reset(selectedCharacter: Character): Body {
+        val characterHealth = selectedCharacter.health
+        head.health = characterHealth.head.toDouble()
+        thorax.health = characterHealth.thorax.toDouble()
+        stomach.health = characterHealth.stomach.toDouble()
+        leftArm.health = characterHealth.arms.toDouble()
+        rightArm.health = characterHealth.arms.toDouble()
+        leftLeg.health = characterHealth.legs.toDouble()
+        rightLeg.health = characterHealth.legs.toDouble()
+
+        head.reset()
+        thorax.reset()
+        stomach.reset()
+        leftArm.reset()
+        rightArm.reset()
+        leftLeg.reset()
+        rightLeg.reset()
 
         shotsFired = 0
         shotsFiredAfterDead = 0
@@ -38,18 +46,20 @@ data class Body(
         return this
     }
 
-    fun getTotalHealth(): Int {
+    private fun getTotalHealth(): Int {
         return (head.health + thorax.health + stomach.health + leftArm.health + rightArm.health + leftLeg.health + rightLeg.health).coerceAtLeast(0.0)
             .roundToInt()
     }
 
-    fun getTotalInitialHealth(): Int {
+    private fun getTotalInitialHealth(): Int {
         return (head.initialHealth + thorax.initialHealth + stomach.initialHealth + leftArm.initialHealth + rightArm.initialHealth + leftLeg.initialHealth + rightLeg.initialHealth).coerceAtLeast(
             0.0
         ).roundToInt()
     }
 
     fun shoot(part: Part, ammo: CAmmo, cArmor: CArmor? = CArmor()): Body {
+        if (getTotalHealth() <= 0) return this
+
         var armor = cArmor ?: CArmor()
 
         if (armor.zones.find { it.replace(" ", "").equals(part.name, ignoreCase = true) }.isNullOrEmpty()) {
@@ -65,29 +75,36 @@ data class Body(
         when (part) {
             Part.HEAD -> {
                 head.health -= sim.simulateHit(ammo, armor)
+                head.shot()
             }
             Part.THORAX -> {
                 thorax.health -= sim.simulateHit(ammo, armor)
+                thorax.shot()
             }
             Part.STOMACH -> {
                 stomach.health -= sim.simulateHit(ammo, armor)
                 if (stomach.blacked()) doBlowthrough(stomach, ammo)
+                stomach.shot()
             }
             Part.LEFTARM -> {
                 leftArm.health -= sim.simulateHit(ammo, armor)
                 if (leftArm.blacked()) doBlowthrough(leftArm, ammo)
+                leftArm.shot()
             }
             Part.RIGHTARM -> {
                 rightArm.health -= sim.simulateHit(ammo, armor)
                 if (rightArm.blacked()) doBlowthrough(rightArm, ammo)
+                rightArm.shot()
             }
             Part.LEFTLEG -> {
                 leftLeg.health -= sim.simulateHit(ammo, armor)
                 if (leftLeg.blacked()) doBlowthrough(leftLeg, ammo)
+                leftLeg.shot()
             }
             Part.RIGHTLEG -> {
                 rightLeg.health -= sim.simulateHit(ammo, armor)
                 if (rightLeg.blacked()) doBlowthrough(rightLeg, ammo)
+                rightLeg.shot()
             }
         }
 
@@ -113,14 +130,6 @@ data class Body(
         leftLeg.health -= (ammo.damage * bodyPart.blowthrough * (1 / 6.0))
         rightLeg.health -= (ammo.damage * bodyPart.blowthrough * (1 / 6.0))
     }
-
-    //Battle Buddy
-    //Head 10,16
-    //Leg 19, 30
-
-    //Mine
-    //Head 6, 6
-    //Leg 11, 11
 
     private fun round() {
         head.health.roundToInt()
@@ -172,7 +181,11 @@ data class Body(
         rightArm.healthBar?.updateHealth(rightArm.toHB())
         leftLeg.healthBar?.updateHealth(leftLeg.toHB())
         rightLeg.healthBar?.updateHealth(rightLeg.toHB())
+
+        if (this::currentHealthTV.isInitialized)
         currentHealthTV.text = "${getTotalHealth()}"
+
+        if (this::totalHealthTV.isInitialized)
         totalHealthTV.text = "/${getTotalInitialHealth()}"
 
         /*if (shotsFiredAfterDead >= 5) {
@@ -193,7 +206,8 @@ data class BodyPart(
     var health: Double,
     var blowthrough: Double,
     var initialHealth: Double = health,
-    var healthBar: HealthBar? = null
+    var healthBar: HealthBar? = null,
+    var shotCount: Int = 0
 ) {
     fun blacked(): Boolean {
         return health <= 0.0
@@ -201,6 +215,17 @@ data class BodyPart(
 
     fun toHB(): HealthBar.Health {
         return HealthBar.Health(health, initialHealth)
+    }
+
+    fun reset() {
+        initialHealth = health
+        shotCount = 0
+        healthBar?.updateShotCount(shotCount)
+    }
+
+    fun shot() {
+        shotCount ++
+        healthBar?.updateShotCount(shotCount)
     }
 }
 

@@ -74,6 +74,10 @@
         <item>Name</item>
         <item>Price</item>
         <item>Price Per Slot</item>
+        <item>24h Change (Ascending)</item>
+        <item>24h Change (Descending)</item>
+        <item>7d Change (Ascending)</item>
+        <item>7d Change (Descending)</item>
     </string-array>
 
     <string-array name="crafts_sort">

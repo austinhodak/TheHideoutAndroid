@@ -22,7 +22,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/cardBottomBackgroundColor2"
+            app:cardBackgroundColor="@color/cardBottomBackgroundColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

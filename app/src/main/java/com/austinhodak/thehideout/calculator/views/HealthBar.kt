@@ -30,6 +30,7 @@ class HealthBar @JvmOverloads constructor(
     private var pg: ProgressBar
     private var healthTV: TextView
     private var blackedTV: TextView
+    private var shotCountTV: TextView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_health_bar, this, true)
@@ -37,6 +38,7 @@ class HealthBar @JvmOverloads constructor(
         val title = findViewById<TextView>(R.id.healthBarTV)
         healthTV = findViewById(R.id.healthBarHPTV)
         blackedTV = findViewById(R.id.healthBarX)
+        shotCountTV = findViewById(R.id.shotCountTV)
 
         context.withStyledAttributes(attr, R.styleable.HealthBar) {
             title.text = getString(R.styleable.HealthBar_name)
@@ -50,8 +52,20 @@ class HealthBar @JvmOverloads constructor(
     }
 
     fun updateHealth(newHealth: Health) {
+        pg.max = newHealth.max.toInt()
         updateBackground(currentHealth, newHealth)
         currentHealth = newHealth
+    }
+
+    fun reset(health: Health) {
+        pg.max = health.max.toInt()
+        updateBackground(currentHealth, health)
+        currentHealth = health
+    }
+
+    fun updateShotCount(count: Int) {
+        shotCountTV.visibility = if (count == 0) View.GONE else View.VISIBLE
+        shotCountTV.text = count.toString()
     }
 
     private fun updateBackground(health: Health, newHealth: Health? = null) {
@@ -78,12 +92,16 @@ class HealthBar @JvmOverloads constructor(
             val valueAnimator = ValueAnimator.ofFloat(health.current.toFloat(), newHealth.current.toFloat())
             valueAnimator.duration = 300
             valueAnimator.addUpdateListener {
-                val progressPercentage = it.animatedValue as Float / health.max
+                val progressPercentage =if (health.max != newHealth.max) {
+                    it.animatedValue as Float / newHealth.max
+                } else {
+                    it.animatedValue as Float / health.max
+                }
                 healthTV.text = "${(it.animatedValue as Float).roundToInt()}/${newHealth.max.roundToInt()}"
                 pg.progressTintList = ColorStateList.valueOf(
                     Color.rgb(
-                        (255 - (255 * progressPercentage)).roundToInt(),
-                        (185 * progressPercentage).roundToInt(),
+                        (255 - (255 * progressPercentage)).roundToInt().coerceIn(0, 255),
+                        (185 * progressPercentage).roundToInt().coerceIn(0, 255),
                         0
                     )
                 )

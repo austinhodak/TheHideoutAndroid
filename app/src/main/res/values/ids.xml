@@ -6,5 +6,7 @@
     <item name="fast_adapter_key_id" type="id"/>
     <item name="fast_adapter_calc_ammo" type="id"/>
     <item name="fast_adapter_calc_armor" type="id"/>
+    <item name="fast_adapter_calc_character" type="id"/>
+
 
 </resources>
