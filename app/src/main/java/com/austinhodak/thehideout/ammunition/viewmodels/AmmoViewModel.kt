@@ -39,6 +39,7 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
         val timeout = Firebase.remoteConfig.getLong("cacheTimeout")
 
         if ((System.currentTimeMillis() - prefs.getLong("lastAmmoLoad", 0)) > timeout) {
+            ammoList.value = loadInitialAmmo()
             //Loaded over 4 hours ago.
 
             val fleaRef = Firebase.storage.reference.child("ammoData.json")

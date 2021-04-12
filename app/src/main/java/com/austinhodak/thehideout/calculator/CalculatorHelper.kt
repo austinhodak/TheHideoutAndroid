@@ -1,10 +1,21 @@
 package com.austinhodak.thehideout.calculator
 
+import android.content.Context
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
+import com.austinhodak.thehideout.calculator.models.Character
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 import kotlin.math.max
 
 object CalculatorHelper {
+
+    fun getCharacters(context: Context): List<Character> {
+        val groupListType: Type = object : TypeToken<ArrayList<Character?>?>() {}.type
+        return Gson().fromJson(context.resources.openRawResource(R.raw.calc_characters).bufferedReader().use { it.readText() }, groupListType)
+    }
 
     fun simulateHit(ammo: CAmmo, armor: CArmor): Double {
         var ammoDamage = ammo.damage
@@ -127,4 +138,5 @@ object CalculatorHelper {
     fun clamp(num: Double, a: Double, b: Double): Double {
         return Math.max(a, Math.min(b, num))
     }
+
 }

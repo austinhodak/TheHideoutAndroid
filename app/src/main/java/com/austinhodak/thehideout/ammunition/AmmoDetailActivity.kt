@@ -12,6 +12,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityAmmoDetailBinding
 import com.austinhodak.thehideout.flea_market.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
@@ -49,6 +50,12 @@ class AmmoDetailActivity : AppCompatActivity() {
                 customView(R.layout.dialog_ammo_armor_chart)
                 positiveButton(text = "Okay")
             }
+        }
+
+        binding.ammoDetailCalcFAB.setOnClickListener {
+            startActivity(Intent(this, CalculatorMainActivity::class.java).apply {
+                putExtra("ammoID", ammo?._id)
+            })
         }
     }
 

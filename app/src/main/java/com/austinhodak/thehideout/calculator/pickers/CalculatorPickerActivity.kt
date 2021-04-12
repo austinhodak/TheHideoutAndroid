@@ -2,6 +2,8 @@ package com.austinhodak.thehideout.calculator.pickers
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,22 +11,30 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.calculator.CalculatorHelper
+import com.austinhodak.thehideout.calculator.models.Character
 import com.austinhodak.thehideout.clothing.armor.ArmorHelper
 import com.austinhodak.thehideout.clothing.models.Armor
 import com.austinhodak.thehideout.databinding.ActivityCalculatorPickerBinding
+import com.miguelcatalan.materialsearchview.MaterialSearchView
+import com.miguelcatalan.materialsearchview.SuggestionModel
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import net.idik.lib.slimadapter.SlimAdapter
 
 @AndroidEntryPoint
 class CalculatorPickerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCalculatorPickerBinding
-
+    private var searchItem: MenuItem? = null
     private lateinit var adapter: FastAdapter<*>
     private lateinit var ammoAdapter: ItemAdapter<Ammo>
     private lateinit var helmetAdapter: ItemAdapter<Armor>
     private lateinit var chestAdapter: ItemAdapter<Armor>
+    private lateinit var characterAdapter: ItemAdapter<Character>
+
+    private lateinit var mSearchAdapter: SlimAdapter
 
     private lateinit var itemType: ItemType
 
@@ -38,7 +48,6 @@ class CalculatorPickerActivity : AppCompatActivity() {
         }
 
         setupToolbar()
-
         setupAdapter()
         handleIntent()
     }
@@ -47,7 +56,8 @@ class CalculatorPickerActivity : AppCompatActivity() {
         ammoAdapter = ItemAdapter()
         helmetAdapter = ItemAdapter()
         chestAdapter = ItemAdapter()
-        adapter = FastAdapter.with(listOf(ammoAdapter, helmetAdapter, chestAdapter))
+        characterAdapter = ItemAdapter()
+        adapter = FastAdapter.with(listOf(ammoAdapter, helmetAdapter, chestAdapter, characterAdapter))
 
         binding.calculatorPickerRV.layoutManager = LinearLayoutManager(this)
         binding.calculatorPickerRV.adapter = adapter
@@ -66,11 +76,56 @@ class CalculatorPickerActivity : AppCompatActivity() {
                         intent.putExtra("chestID", item._id)
                     }
                 }
+                is Character -> {
+                    intent.putExtra("character", item.name)
+                }
             }
             setResult(RESULT_OK, intent)
             finish()
             false
         }
+
+        mSearchAdapter = SlimAdapter.create()
+        binding.searchView.setAdapter(mSearchAdapter)
+
+        val list: MutableList<SuggestionModel> = ArrayList()
+        binding.searchView.setSuggestions(list)
+
+        binding.searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                ammoAdapter.filter(newText)
+                ammoAdapter.itemFilter.filterPredicate = { ammo: Ammo, constraint: CharSequence? ->
+                    ammo.name?.contains(constraint ?: "", true) ?: false
+                }
+
+                helmetAdapter.filter(newText)
+                helmetAdapter.itemFilter.filterPredicate = { item: Armor, constraint: CharSequence? ->
+                    item.name.contains(constraint ?: "", true)
+                }
+
+                chestAdapter.filter(newText)
+                chestAdapter.itemFilter.filterPredicate = { item: Armor, constraint: CharSequence? ->
+                    item.name.contains(constraint ?: "", true)
+                }
+
+                characterAdapter.filter(newText)
+                characterAdapter.itemFilter.filterPredicate = { item: Character, constraint: CharSequence? ->
+                    item.name.contains(constraint ?: "", true)
+                }
+                return true
+            }
+        })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.activity_main, menu)
+        searchItem = menu.findItem(R.id.main_search)
+        binding.searchView.setMenuItem(searchItem)
+        return true
     }
 
     private fun loadData(itemType: ItemType) {
@@ -137,6 +192,17 @@ class CalculatorPickerActivity : AppCompatActivity() {
                     )
                 })
             }
+            ItemType.CHARACTER -> {
+                characterAdapter.add(CalculatorHelper.getCharacters(this).map {
+                    Character(
+                        it.name,
+                        it.health,
+                        it.image,
+                        it.c_type,
+                        it.spawn_chance
+                    )
+                })
+            }
         }
     }
 
@@ -162,6 +228,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
                 ItemType.AMMO -> "Select Ammo"
                 ItemType.HELMET -> "Select Helmet"
                 ItemType.CHEST -> "Select Chest Armor"
+                ItemType.CHARACTER -> "Select Character"
             }
         }
     }
@@ -169,6 +236,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
     enum class ItemType {
         AMMO,
         HELMET,
-        CHEST
+        CHEST,
+        CHARACTER
     }
 }

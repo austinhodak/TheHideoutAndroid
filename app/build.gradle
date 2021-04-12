@@ -37,9 +37,9 @@ android {
         targetSdkVersion 30
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 10080
-        versionCode 10210
+        versionCode 10220
         // [1]-[0].[2].[0].[0]
-        versionName "0.2.1"
+        versionName "0.2.2"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
@@ -187,5 +187,9 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
     implementation 'com.airbnb.android:lottie:3.6.1'
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.1.1")
 
 }

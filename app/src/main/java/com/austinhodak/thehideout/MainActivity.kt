@@ -29,6 +29,7 @@ import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
+import com.austinhodak.thehideout.utils.Time
 import com.austinhodak.thehideout.views.OutdatedDrawerItem
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.models.Weapon
@@ -46,9 +47,14 @@ import com.mikepenz.materialdrawer.util.addItems
 import com.mikepenz.materialdrawer.util.addStickyFooterItem
 import com.mikepenz.materialdrawer.util.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.idik.lib.slimadapter.SlimAdapter
 import org.json.JSONObject
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -231,7 +237,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             headerView = View.inflate(this@MainActivity, R.layout.layout_drawer_header, null)
-            headerDivider = true
+            headerDivider = false
             onDrawerItemLongClickListener = { view, item, index ->
                 if (item is NavigationDrawerItem) {
                     prefs.edit {
@@ -248,6 +254,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.slider.recyclerView.isVerticalScrollBarEnabled = false
+
+        setupTimes(binding.slider.headerView)
+    }
+
+    private fun setupTimes(headerView: View?) {
+        val time1 = headerView?.findViewById<TextView>(R.id.header_time_1)
+        val time2 = headerView?.findViewById<TextView>(R.id.header_time_2)
+        val formatter = SimpleDateFormat("HH:mm:ss")
+        formatter.timeZone = TimeZone.getTimeZone("UTC")
+        GlobalScope.launch {
+            while (true) {
+                runOnUiThread {
+                    time1?.text = formatter.format(Time.realTimeToTarkovTime(true))
+                    time2?.text = formatter.format(Time.realTimeToTarkovTime(false))
+                }
+                delay(1000 / 7)
+            }
+        }
     }
 
     private fun setupNavigation() {

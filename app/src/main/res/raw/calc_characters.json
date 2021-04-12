@@ -1,0 +1,200 @@
+[
+  {
+    "name": "PMC",
+    "health": {
+      "head": 35,
+      "thorax": 85,
+      "stomach": 70,
+      "arms": 60,
+      "legs": 65
+    },
+    "image": "",
+    "c_type": "player"
+  },
+  {
+    "name": "Scav",
+    "health": {
+      "head": 35,
+      "thorax": 85,
+      "stomach": 70,
+      "arms": 60,
+      "legs": 65
+    },
+    "image": "",
+    "c_type": "scav"
+  },
+  {
+    "name": "Raider",
+    "health": {
+      "head": 35,
+      "thorax": 150,
+      "stomach": 120,
+      "arms": 100,
+      "legs": 110
+    },
+    "image": "",
+    "c_type": "raider"
+  },
+  {
+    "name": "Reshala",
+    "health": {
+      "head": 62,
+      "thorax": 145,
+      "stomach": 125,
+      "arms": 100,
+      "legs": 110
+    },
+    "image": "",
+    "c_type": "boss",
+    "spawn_chance": 38
+  },
+  {
+    "name": "Reshala Guard",
+    "health": {
+      "head": 50,
+      "thorax": 140,
+      "stomach": 110,
+      "arms": 80,
+      "legs": 85
+    },
+    "image": "",
+    "c_type": "guard"
+  },
+  {
+    "name": "Killa",
+    "health": {
+      "head": 70,
+      "thorax": 210,
+      "stomach": 170,
+      "arms": 100,
+      "legs": 110
+    },
+    "image": "",
+    "c_type": "boss",
+    "spawn_chance": 38
+  },
+  {
+    "name": "Shturman",
+    "health": {
+      "head": 62,
+      "thorax": 180,
+      "stomach": 150,
+      "arms": 100,
+      "legs": 110
+    },
+    "image": "",
+    "c_type": "boss",
+    "spawn_chance": 41
+  },
+  {
+    "name": "Shturman Follower",
+    "health": {
+      "head": 62,
+      "thorax": 138,
+      "stomach": 120,
+      "arms": 100,
+      "legs": 110
+    },
+    "image": "",
+    "c_type": "guard"
+  },
+  {
+    "name": "Glukhar",
+    "health": {
+      "head": 70,
+      "thorax": 220,
+      "stomach": 140,
+      "arms": 145,
+      "legs": 145
+    },
+    "image": "",
+    "c_type": "boss",
+    "spawn_chance": 43
+  },
+  {
+    "name": "Glukhar Assault Guard",
+    "health": {
+      "head": 45,
+      "thorax": 150,
+      "stomach": 125,
+      "arms": 100,
+      "legs": 120
+    },
+    "image": "",
+    "c_type": "guard"
+  },
+  {
+    "name": "Glukhar Scout Guard",
+    "health": {
+      "head": 40,
+      "thorax": 140,
+      "stomach": 100,
+      "arms": 70,
+      "legs": 80
+    },
+    "image": "",
+    "c_type": "guard"
+  },
+  {
+    "name": "Glukhar Security Guard",
+    "health": {
+      "head": 40,
+      "thorax": 180,
+      "stomach": 125,
+      "arms": 115,
+      "legs": 115
+    },
+    "image": "",
+    "c_type": "guard"
+  },
+  {
+    "name": "Sanitar",
+    "health": {
+      "head": 70,
+      "thorax": 360,
+      "stomach": 140,
+      "arms": 120,
+      "legs": 230
+    },
+    "image": "",
+    "c_type": "boss",
+    "spawn_chance": 35
+  },
+  {
+    "name": "Sanitar Guard",
+    "health": {
+      "head": 55,
+      "thorax": 200,
+      "stomach": 180,
+      "arms": 140,
+      "legs": 140
+    },
+    "image": "",
+    "c_type": "guard"
+  },
+  {
+    "name": "Cultist Priest",
+    "health": {
+      "head": 50,
+      "thorax": 200,
+      "stomach": 200,
+      "arms": 100,
+      "legs": 100
+    },
+    "image": "",
+    "c_type": "boss",
+    "spawn_chance": 28
+  },
+  {
+    "name": "Cultist Warrior",
+    "health": {
+      "head": 50,
+      "thorax": 220,
+      "stomach": 180,
+      "arms": 100,
+      "legs": 100
+    },
+    "image": "",
+    "c_type": "guard"
+  }
+]

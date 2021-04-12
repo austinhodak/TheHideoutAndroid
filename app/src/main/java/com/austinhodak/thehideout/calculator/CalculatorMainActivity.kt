@@ -14,6 +14,7 @@ import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.models.Body
+import com.austinhodak.thehideout.calculator.models.Character
 import com.austinhodak.thehideout.calculator.models.Part
 import com.austinhodak.thehideout.calculator.pickers.CalculatorPickerActivity
 import com.austinhodak.thehideout.clothing.armor.ArmorHelper
@@ -31,6 +32,7 @@ class CalculatorMainActivity : AppCompatActivity() {
     private lateinit var selectedAmmo: Ammo
     private var selectedHelmet: Armor? = null
     private var selectedChestArmor: Armor?  = null
+    private lateinit var selectedCharacter: Character
 
     private lateinit var ammoViewModel: AmmoViewModel
 
@@ -46,6 +48,11 @@ class CalculatorMainActivity : AppCompatActivity() {
             }
             if (result.data?.hasExtra("chestID") == true) {
                 selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == result.data?.getStringExtra("chestID") }
+                updateBottomSheet()
+            }
+            if (result.data?.hasExtra("character") == true) {
+                selectedCharacter = CalculatorHelper.getCharacters(this).find { it.name == result.data?.getStringExtra("character") }!!
+                body.reset(selectedCharacter)
                 updateBottomSheet()
             }
             updateDurabilities()
@@ -84,15 +91,29 @@ class CalculatorMainActivity : AppCompatActivity() {
 
         ammoViewModel.ammoList.observe(this) {
             selectedAmmo = it.find { it._id == "5f4a52549f319f4528ac363b" }!!
+
+            if (intent.hasExtra("ammoID")) {
+                selectedAmmo = it.find { it._id == intent.getStringExtra("ammoID") }!!
+            }
+
             updateBottomSheet()
             updateDurabilities()
         }
 
-        selectedHelmet = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac377e" }
-        selectedChestArmor = ArmorHelper.getArmors(this).find { it._id == "5f4a52549f319f4528ac37e3" }
+        selectedHelmet = if (intent.hasExtra("helmetID")) {
+            ArmorHelper.getArmors(this).find { it._id == intent.getStringExtra("helmetID") }
+        } else {
+            null
+        }
 
-        selectedHelmet = null
-        selectedChestArmor = null
+        selectedChestArmor = if (intent.hasExtra("chestID")) {
+            ArmorHelper.getArmors(this).find { it._id == intent.getStringExtra("chestID") }
+        } else {
+            null
+        }
+
+        selectedCharacter = CalculatorHelper.getCharacters(this).first()
+
         updateDurabilities()
         updateBottomSheet()
 
@@ -139,6 +160,9 @@ class CalculatorMainActivity : AppCompatActivity() {
         }
         binding.bottomSheet.calcChestCard.setOnClickListener {
             launchPicker(CalculatorPickerActivity.ItemType.CHEST)
+        }
+        binding.bottomSheet.calcPlayerCard.setOnClickListener {
+            launchPicker(CalculatorPickerActivity.ItemType.CHARACTER)
         }
     }
 
@@ -189,6 +213,11 @@ class CalculatorMainActivity : AppCompatActivity() {
             bottomBinding.calcAmmoTitle.text = "${selectedAmmo.name} • ${caliber?.longName}"
             bottomBinding.calcAmmoSubtitle.text = "Damage: ${selectedAmmo.damage} • Armor Damage: ${selectedAmmo.armor_damage} • Penetration: ${selectedAmmo.penetration}"
         }
+
+        if (this::selectedCharacter.isInitialized) {
+            bottomBinding.calcPlayerTitle.text = selectedCharacter.name
+            bottomBinding.calcPlayerSubtitle.text = "${selectedCharacter.health} Health"
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -199,7 +228,7 @@ class CalculatorMainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.reset -> {
-                body.reset()
+                body.reset(selectedCharacter)
                 selectedHelmet?.resetDurability()
                 selectedChestArmor?.resetDurability()
                 updateDurabilities()
