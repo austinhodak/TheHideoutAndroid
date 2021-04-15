@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.austinhodak.thehideout.databinding.FragmentWeaponListBinding
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.weapons.models.Weapon
 import com.austinhodak.thehideout.weapons.viewmodels.WeaponViewModel
 import com.mikepenz.fastadapter.FastAdapter
@@ -22,6 +23,7 @@ class WeaponListFragment : Fragment() {
 
     private var weaponClass: String = ""
     private val model: WeaponViewModel by activityViewModels()
+    private val fleaViewModel: FleaViewModel by activityViewModels()
 
     private var _binding: FragmentWeaponListBinding? = null
     private val binding get() = _binding!!

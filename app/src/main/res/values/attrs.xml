@@ -5,4 +5,14 @@
         <attr name="health" format="integer"/>
         <attr name="maxHealth" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="LoadoutProgressBar">
+        <attr name="lname" format="string" />
+        <attr name="licon" format="reference" />
+        <attr name="lprogress" format="integer" />
+        <attr name="lsecondaryProgress" format="integer" />
+        <attr name="lmax" format="integer" />
+        <attr name="lprogressDrawable" format="reference" />
+        <attr name="lendText" format="string" />
+    </declare-styleable>
 </resources>

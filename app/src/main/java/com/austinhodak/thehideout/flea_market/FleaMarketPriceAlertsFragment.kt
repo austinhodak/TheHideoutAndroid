@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.customListAdapter
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaPriceAlertBinding
@@ -92,6 +93,15 @@ class FleaMarketPriceAlertsFragment : Fragment() {
         binding.fleaList.itemAnimator = SlideUpAlphaAnimator().apply {
             addDuration = 150
             removeDuration = 100
+        }
+
+        fastAdapter.onLongClickListener = { v, a, item, p ->
+            MaterialDialog(requireActivity()).show {
+                customListAdapter(dialogAdapter)
+                mShowingDialog = this
+            }
+            dialogAdapter.updateData(mutableListOf(item))
+            false
         }
 
         viewModel.priceAlerts.observe(viewLifecycleOwner) {

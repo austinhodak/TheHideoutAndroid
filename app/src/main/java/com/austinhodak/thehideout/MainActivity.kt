@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
     private var searchItem: MenuItem? = null
     private var hideSearch = false
     private lateinit var ammoViewModel: AmmoViewModel
+    //private lateinit var bsgViewModel: BSGViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var mSearchAdapter: SlimAdapter
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
+        //bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
 
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
@@ -216,6 +218,17 @@ class MainActivity : AppCompatActivity() {
                         false
                     }
                 },
+                /*PrimaryDrawerItem().apply {
+                    typeface = benderFont
+                    isIconTinted = true
+                    nameText = "Loadout Creator"
+                    iconRes = R.drawable.icons8_ammo_100
+                    isSelectable = false
+                    onDrawerItemClickListener = { _, _, _ ->
+                        startActivity(Intent(this@MainActivity, CreatorMainActivity::class.java))
+                        false
+                    }
+                },*/
                 SectionDrawerItem().apply {
                     nameText = context.getString(R.string.join_us)
                 },

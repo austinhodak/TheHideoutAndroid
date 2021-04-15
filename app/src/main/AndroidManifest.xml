@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
+        <activity android:name=".bsg.CreatorMainActivity"></activity>
         <activity
             android:name=".calculator.pickers.CalculatorPickerActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
@@ -22,7 +23,7 @@
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
             android:name=".quests.inraid.QuestInRaidActivity"
-            android:theme="@style/Theme.TheHideout.NoActionBar"/>
+            android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
             android:name=".flea_market.FleaItemDetailActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
@@ -40,8 +41,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <meta-data
