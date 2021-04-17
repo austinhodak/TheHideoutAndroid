@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.logScreen
+import com.austinhodak.thehideout.utils.logScreen
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HideoutMainFragment : Fragment() {

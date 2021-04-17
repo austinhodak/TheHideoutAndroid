@@ -2,9 +2,9 @@ package com.austinhodak.thehideout.hideout.models
 
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
-import com.austinhodak.thehideout.getPrice
-import com.austinhodak.thehideout.log
-import com.austinhodak.thehideout.userRef
+import com.austinhodak.thehideout.utils.getPrice
+import com.austinhodak.thehideout.utils.log
+import com.austinhodak.thehideout.utils.userRef
 
 data class HideoutModule(
     var module: String,

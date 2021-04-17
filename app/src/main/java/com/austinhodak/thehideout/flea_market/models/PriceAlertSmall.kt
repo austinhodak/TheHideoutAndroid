@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.ItemFleaDetailPriceAlertBinding
-import com.austinhodak.thehideout.getPrice
+import com.austinhodak.thehideout.utils.getPrice
 import com.google.firebase.database.DatabaseReference
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 

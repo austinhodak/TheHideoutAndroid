@@ -5,7 +5,7 @@ import androidx.annotation.DrawableRes
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.quests.QuestsHelper
-import com.austinhodak.thehideout.userRef
+import com.austinhodak.thehideout.utils.userRef
 
 data class Quest(
     var id: Int,

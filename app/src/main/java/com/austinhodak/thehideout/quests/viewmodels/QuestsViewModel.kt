@@ -7,9 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
-import com.austinhodak.thehideout.log
 import com.austinhodak.thehideout.quests.models.Quest
-import com.austinhodak.thehideout.userRef
+import com.austinhodak.thehideout.utils.log
+import com.austinhodak.thehideout.utils.userRef
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

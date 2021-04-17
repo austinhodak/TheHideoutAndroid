@@ -21,7 +21,7 @@ import com.austinhodak.thehideout.clothing.armor.ArmorHelper
 import com.austinhodak.thehideout.clothing.models.Armor
 import com.austinhodak.thehideout.databinding.ActivityCalculatorMainBinding
 import com.austinhodak.thehideout.databinding.BottomSheetCalculatorMainBinding
-import com.austinhodak.thehideout.round
+import com.austinhodak.thehideout.utils.round
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class CalculatorMainActivity : AppCompatActivity() {

@@ -9,8 +9,8 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.databinding.ItemAmmoBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
-import com.austinhodak.thehideout.getPrice
-import com.austinhodak.thehideout.getTraderLevel
+import com.austinhodak.thehideout.utils.getPrice
+import com.austinhodak.thehideout.utils.getTraderLevel
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.IgnoreExtraProperties
 import com.mikepenz.fastadapter.binding.AbstractBindingItem

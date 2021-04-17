@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.databinding.ItemWeaponBinding
-import com.austinhodak.thehideout.getCurrency
-import com.austinhodak.thehideout.getTraderLevel
+import com.austinhodak.thehideout.utils.getCurrency
+import com.austinhodak.thehideout.utils.getTraderLevel
 import com.bumptech.glide.Glide
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import java.text.DecimalFormat
@@ -36,14 +35,14 @@ data class Weapon (
 ) : AbstractBindingItem<ItemWeaponBinding>() {
 
     override val type: Int
-        get() = R.id.fast_adapter_weapon_id
+        get() = Math.random().toInt()
 
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): ItemWeaponBinding {
         return ItemWeaponBinding.inflate(inflater, parent, false)
     }
 
     override fun bindView(binding: ItemWeaponBinding, payloads: List<Any>) {
-        binding.weapon = this
+        //binding.weapon = this
     }
 
     fun getImageURL(): String {
@@ -172,7 +171,7 @@ data class Weapon (
 
     companion object {
         @JvmStatic @BindingAdapter("weaponImageURL")
-        fun loadImage(view: ImageView, url: String) {
+        fun loadImage(view: ImageView, url: String?) {
             Glide.with(view.context).load(url).into(view)
         }
     }

@@ -12,7 +12,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.models.PriceAlert
-import com.austinhodak.thehideout.uid
+import com.austinhodak.thehideout.utils.uid
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DataSnapshot
@@ -85,6 +85,10 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getItemById(uid: String): FleaItem? {
         return fleaItems.value?.find { it.uid == uid }
+    }
+
+    fun getItemByBsgId(uid: String): FleaItem? {
+        return fleaItems.value?.findLast { it.bsgId == uid }
     }
 
     private fun loadPriceAlerts() {

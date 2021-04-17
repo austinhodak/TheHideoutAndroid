@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentQuestsMainBinding
-import com.austinhodak.thehideout.logScreen
 import com.austinhodak.thehideout.quests.inraid.QuestInRaidActivity
 import com.austinhodak.thehideout.quests.inraid.models.Map
+import com.austinhodak.thehideout.utils.logScreen
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mikepenz.fastadapter.FastAdapter

@@ -2,16 +2,17 @@ package com.austinhodak.thehideout.weapons
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon
+import com.austinhodak.thehideout.bsg.models.weapon.WeaponClass
+import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.databinding.FragmentWeaponListBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.weapons.models.Weapon
 import com.austinhodak.thehideout.weapons.viewmodels.WeaponViewModel
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
@@ -21,20 +22,21 @@ private const val ARG_PARAM1 = "param1"
 
 class WeaponListFragment : Fragment() {
 
-    private var weaponClass: String = ""
+    private lateinit var weaponClass: WeaponClass
     private val model: WeaponViewModel by activityViewModels()
     private val fleaViewModel: FleaViewModel by activityViewModels()
+    private val bsgViewModel: BSGViewModel by activityViewModels()
 
     private var _binding: FragmentWeaponListBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var fastAdapter: FastAdapter<Weapon>
+    private lateinit var fastAdapter: FastAdapter<BsgWeapon>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let {
-            weaponClass = it.getString(ARG_PARAM1).toString()
+            weaponClass = it.getSerializable(ARG_PARAM1) as WeaponClass
         }
     }
 
@@ -49,19 +51,35 @@ class WeaponListFragment : Fragment() {
         binding.weaponList.layoutManager = linearLayoutManager
         binding.weaponList.itemAnimator = AlphaInAnimator()
 
-        val itemAdapter = ItemAdapter<Weapon>()
+        val itemAdapter = ItemAdapter<BsgWeapon>()
         fastAdapter = FastAdapter.with(itemAdapter)
         binding.weaponList.adapter = fastAdapter
 
         //TODO Add on weapon click.
         fastAdapter.onClickListener = { view, adapter, weapon, pos ->
             startActivity(Intent(requireContext(), WeaponDetailActivity::class.java).apply {
-                putExtra("id", weapon._id)
+                putExtra("weapon", weapon)
             })
             false
         }
 
-        model.weaponsList.observe(viewLifecycleOwner) { list ->
+        bsgViewModel.getWeapons().observe(requireActivity()) {
+            val list = it.filter { weapon -> weapon._parent == weaponClass.id }.sortedBy { weapon -> weapon._props.ShortName }
+            val list2 = list.map { weapon ->
+                BsgWeapon(
+                    weapon._id,
+                    weapon._name,
+                    weapon._parent,
+                    weapon._props,
+                    null,
+                    weapon._type,
+                    fleaViewModel.getItemByBsgId(weapon._id)
+                )
+            }
+            itemAdapter.set(list2)
+        }
+
+        /*model.weaponsList.observe(viewLifecycleOwner) { list ->
             Handler().postDelayed({
                 val newList = list.map {
                     Weapon(
@@ -88,15 +106,17 @@ class WeaponListFragment : Fragment() {
                 }
                 itemAdapter.set(newList.filter { it.`class` == weaponClass }.sortedBy { it.name })
             }, 50)
-        }
+        }*/
+
+
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(param1: WeaponClass) =
             WeaponListFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
+                    putSerializable(ARG_PARAM1, param1)
                 }
             }
     }

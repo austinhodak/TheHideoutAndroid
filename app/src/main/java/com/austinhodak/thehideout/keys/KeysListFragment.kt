@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.austinhodak.thehideout.databinding.FragmentKeysListBinding
 import com.austinhodak.thehideout.keys.models.Key
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
-import com.austinhodak.thehideout.logScreen
+import com.austinhodak.thehideout.utils.logScreen
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

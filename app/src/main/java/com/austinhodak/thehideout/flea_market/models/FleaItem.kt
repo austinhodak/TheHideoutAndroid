@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.ItemFleaBinding
-import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.hideout.models.Input
+import com.austinhodak.thehideout.utils.getPrice
 import com.bumptech.glide.Glide
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log10
@@ -39,7 +40,7 @@ data class FleaItem(
     val uid: String? = null,
     val updated: String? = null,
     val wikiLink: String? = null,
-) : AbstractBindingItem<ItemFleaBinding>() {
+) : Serializable, AbstractBindingItem<ItemFleaBinding>() {
 
     override val type: Int
         get() = R.id.fast_adapter_id

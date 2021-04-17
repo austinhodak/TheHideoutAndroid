@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.weapons
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
@@ -16,44 +17,47 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon
+import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.databinding.ActivityWeaponDetailBinding
-import com.austinhodak.thehideout.weapons.models.Weapon
+import com.austinhodak.thehideout.flea_market.FleaItemDetailActivity
+import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.austinhodak.thehideout.utils.getCaliberImage
+import com.austinhodak.thehideout.utils.log
 import com.austinhodak.thehideout.weapons.viewmodels.WeaponViewModel
 import com.bumptech.glide.Glide
+import com.google.firebase.analytics.FirebaseAnalytics
 import net.idik.lib.slimadapter.SlimAdapter
 
 class WeaponDetailActivity : AppCompatActivity() {
     lateinit var viewModel: WeaponViewModel
     lateinit var ammoViewModel: AmmoViewModel
-    lateinit var weapon: Weapon
+    lateinit var weapon: BsgWeapon
     private var sortByIndex = 5
     lateinit var ammoAdapter: SlimAdapter
     lateinit var loadoutAdapter: SlimAdapter
     lateinit var ammoList: List<Ammo>
     lateinit var binding: ActivityWeaponDetailBinding
+    private lateinit var bsgViewModel: BSGViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_weapon_detail)
         viewModel = ViewModelProvider(this).get(WeaponViewModel::class.java)
         ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
+        //bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
         setupToolbar()
         loadWeapon()
         setupAdapters()
     }
 
     private fun loadWeapon() {
-        weapon = viewModel.weaponsList.value?.find { it._id == intent.getStringExtra("id") ?: "" } ?: return
-        //weapon = viewModel.getWeaponByID(intent.getStringExtra("id") ?: "")
+        weapon = intent.getSerializableExtra("weapon") as BsgWeapon
         binding.weapon = weapon
-
-        ammoViewModel.ammoList.observe(this) { list ->
-            ammoList = list.filter { it.caliber == weapon.calibre }.sortedBy { it.armor }.reversed()
-            ammoLoaded()
-        }
-
-        Glide.with(this).load("https://www.eftdb.one/static/item/full/${weapon.image}")
-            .into(findViewById(R.id.weaponImage2))
+        binding.fleaItem = weapon.fleaItem
+        setupFleaData(weapon.fleaItem!!)
+        Glide.with(this).load(weapon.fleaItem?.imgBig).into(binding.weaponDetailImageLarge)
+        Glide.with(this).load(getCaliberImage(weapon._props.ammoCaliber)).into(binding.weaponDetailAmmoIcon)
     }
 
     private fun ammoLoaded() {
@@ -63,9 +67,6 @@ class WeaponDetailActivity : AppCompatActivity() {
     private fun setupAdapters() {
         val ammoRV = findViewById<RecyclerView>(R.id.weaponDetailAmmoList)
         ammoRV.layoutManager = LinearLayoutManager(this)
-
-        val loadoutRV = findViewById<RecyclerView>(R.id.weaponLoadoutRV)
-        loadoutRV.layoutManager = LinearLayoutManager(this)
 
         ammoAdapter = SlimAdapter.create()
             .register<Ammo>(R.layout.item_ammo_small) { data, injector ->
@@ -157,14 +158,51 @@ class WeaponDetailActivity : AppCompatActivity() {
                     })
                 }
             }.attachTo(ammoRV)
+    }
 
-        loadoutAdapter = SlimAdapter.create().attachTo(loadoutRV)
-            .register<Weapon.WeaponBuilds>(R.layout.item_weapon_loadout) { build, i ->
-                Glide.with(this).load("https://www.eftdb.one/static/item/thumb/${build.image}")
-                    .into(i.findViewById(R.id.weaponLoadoutImage))
-                i.text(R.id.weaponLoadoutName, build.name)
-                i.text(R.id.weaponLoadoutSubtitle, build.toString())
-            }.updateData(weapon.builds)
+    private fun setupFleaData(item: FleaItem) {
+        binding.ammoDetailFleaCard.setOnClickListener {
+            log(FirebaseAnalytics.Event.SELECT_ITEM, item.uid ?: "", item.name ?: "", "flea_item")
+            startActivity(Intent(this, FleaItemDetailActivity::class.java).apply {
+                putExtra("id", item.uid)
+            })
+        }
+
+        when {
+            item.diff24h!! > 0.0 -> {
+                binding.fleaDetail24HTV.setTextColor(resources.getColor(R.color.md_green_500))
+                binding.fleaDetail24HIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
+                binding.fleaDetail24HIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_green_500))
+            }
+            item.diff24h < 0.0 -> {
+                binding.fleaDetail24HTV.setTextColor(resources.getColor(R.color.md_red_500))
+                binding.fleaDetail24HIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
+                binding.fleaDetail24HIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_red_500))
+            }
+            else -> {
+                binding.fleaDetail24HTV.setTextColor(resources.getColor(R.color.primaryText60))
+                binding.fleaDetail24HIcon.setImageResource(R.drawable.icons8_horizontal_line_96)
+                binding.fleaDetail24HIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryText60))
+            }
+        }
+
+        when {
+            item.diff7days!! > 0.0 -> {
+                binding.fleaDetail7DTV.setTextColor(resources.getColor(R.color.md_green_500))
+                binding.fleaDetail7DIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
+                binding.fleaDetail7DIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_green_500))
+            }
+            item.diff7days < 0.0 -> {
+                binding.fleaDetail7DTV.setTextColor(resources.getColor(R.color.md_red_500))
+                binding.fleaDetail7DIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
+                binding.fleaDetail7DIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_red_500))
+            }
+            else -> {
+                binding.fleaDetail7DTV.setTextColor(resources.getColor(R.color.primaryText60))
+                binding.fleaDetail7DIcon.setImageResource(R.drawable.icons8_horizontal_line_96)
+                binding.fleaDetail7DIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryText60))
+            }
+        }
     }
 
     private fun sortUpdated() {
@@ -188,7 +226,8 @@ class WeaponDetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_weapon_detail, menu)
-        if (weapon.wiki == null) {
+        menu.findItem(R.id.weapon_wiki).isVisible = false
+        if (weapon.fleaItem?.wikiLink == null) {
             menu.findItem(R.id.weapon_wiki).isVisible = false
         }
         return true

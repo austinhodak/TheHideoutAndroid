@@ -1,5 +1,11 @@
 package com.austinhodak.thehideout.bsg.models.weapon
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.databinding.ItemWeaponBinding
+import com.austinhodak.thehideout.flea_market.models.FleaItem
+import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import java.io.Serializable
 
 data class BsgWeapon(
@@ -7,9 +13,24 @@ data class BsgWeapon(
     val _name: String,
     val _parent: String,
     val _props: Props,
-    val _proto: String,
-    val _type: String
-) : Serializable {
+    val _proto: String?,
+    val _type: String,
+    val fleaItem: FleaItem?,
+
+) : Serializable, AbstractBindingItem<ItemWeaponBinding>() {
+
+    override val type: Int
+        get() = R.id.fast_adapter_weapon_id
+
+
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): ItemWeaponBinding {
+        return ItemWeaponBinding.inflate(inflater, parent, false)
+    }
+
+    override fun bindView(binding: ItemWeaponBinding, payloads: List<Any>) {
+        binding.weapon = this
+    }
+
     data class Props(
         val AdjustCollimatorsToTrajectory: Boolean,
         val AimPlane: Double,
@@ -123,7 +144,7 @@ data class BsgWeapon(
         val weapClass: String,
         val weapFireType: List<String>,
         val weapUseType: String
-    ) {
+    ) : Serializable {
         data class Chamber(
             val _id: String,
             val _mergeSlotWithChildren: Boolean,
@@ -132,38 +153,38 @@ data class BsgWeapon(
             val _props: Props,
             val _proto: String,
             val _required: Boolean
-        ) {
+        ) : Serializable {
             data class Props(
                 val filters: List<Filter>
-            ) {
+            ) : Serializable {
                 data class Filter(
                     val Filter: List<String>
-                )
+                ) : Serializable
             }
         }
 
         data class _Prefab(
             val path: String,
             val rcid: String
-        )
+        ) : Serializable
 
         data class _RecoilCenter(
             val x: Int,
             val y: Double,
             val z: Double
-        )
+        ) : Serializable
 
         data class _RotationCenter(
             val x: Int,
             val y: Double,
             val z: Double
-        )
+        ) : Serializable
 
         data class _RotationCenterNoStock(
             val x: Int,
             val y: Double,
             val z: Double
-        )
+        ) : Serializable
 
         data class Slot(
             val _id: String,
@@ -173,15 +194,15 @@ data class BsgWeapon(
             val _props: Props,
             val _proto: String,
             val _required: Boolean
-        ) {
+        ) : Serializable {
             data class Props(
                 val filters: List<Filter>
-            ) {
+            ) : Serializable {
                 data class Filter(
                     val AnimationIndex: Int,
                     val Filter: List<String>,
                     val Shift: Int
-                )
+                ) : Serializable
             }
         }
 
@@ -189,11 +210,13 @@ data class BsgWeapon(
             val x: Double,
             val y: Double,
             val z: Double
-        )
+        ) : Serializable
 
         data class _UsePrefab(
             val path: String,
             val rcid: String
-        )
+        ) : Serializable
     }
+
+    fun getCaliberName(): String = com.austinhodak.thehideout.utils.getCaliberName(_props.ammoCaliber)
 }

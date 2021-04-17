@@ -1,7 +1,7 @@
 package com.austinhodak.thehideout.hideout.models
 
 import com.austinhodak.thehideout.flea_market.models.FleaItem
-import com.austinhodak.thehideout.getPrice
+import com.austinhodak.thehideout.utils.getPrice
 import kotlin.math.roundToInt
 
 data class HideoutCraft (

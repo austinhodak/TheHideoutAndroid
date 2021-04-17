@@ -24,8 +24,8 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaListBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.log
-import com.austinhodak.thehideout.logScreen
+import com.austinhodak.thehideout.utils.log
+import com.austinhodak.thehideout.utils.logScreen
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.mikepenz.fastadapter.FastAdapter

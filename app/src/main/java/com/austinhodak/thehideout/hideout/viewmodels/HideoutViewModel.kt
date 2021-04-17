@@ -7,7 +7,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
 import com.austinhodak.thehideout.hideout.models.HideoutCraft
 import com.austinhodak.thehideout.hideout.models.HideoutModule
-import com.austinhodak.thehideout.userRef
+import com.austinhodak.thehideout.utils.userRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

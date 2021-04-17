@@ -13,7 +13,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.logScreen
+import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
+import com.austinhodak.thehideout.utils.logScreen
 import com.austinhodak.thehideout.weapons.viewmodels.WeaponViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,6 +27,7 @@ class WeaponsTabFragment : Fragment() {
     private lateinit var classesNames: Array<String>
     private var sortBy: Int = 0
     internal val sharedViewModel: AmmoViewModel by activityViewModels()
+    internal val bsgViewModel: BSGViewModel by activityViewModels()
     val weaponViewModel: WeaponViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -40,17 +42,23 @@ class WeaponsTabFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        collectionAdapter = CollectionAdapter(this, classes.size)
+
+        collectionAdapter = CollectionAdapter(this, bsgViewModel.weaponClasses().size)
+
         val viewpager = view.findViewById<ViewPager2>(R.id.ammo_viewpager)
+
         viewpager.adapter = collectionAdapter
+
         tabs = view.findViewById(R.id.ammo_tabs)
+
         viewpager.offscreenPageLimit = 3
-        for (i in classes) {
-            tabs.addTab(tabs.newTab().setText(classesNames[classes.indexOf(i)]))
+
+        for (i in bsgViewModel.weaponClasses()) {
+            tabs.addTab(tabs.newTab().setText(i.name))
         }
 
         TabLayoutMediator(tabs, viewpager) { tab, position ->
-            tab.text = classesNames[position]
+            tab.text = bsgViewModel.weaponClasses().elementAt(position).name
         }.attach()
     }
     
@@ -84,7 +92,7 @@ class WeaponsTabFragment : Fragment() {
         override fun getItemCount(): Int = itemsCount
 
         override fun createFragment(position: Int): Fragment {
-            return WeaponListFragment.newInstance(classes[position])
+            return WeaponListFragment.newInstance(bsgViewModel.weaponClasses().elementAt(position))
         }
     }
 

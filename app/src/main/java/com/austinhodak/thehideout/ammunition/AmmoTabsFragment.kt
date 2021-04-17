@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.databinding.FragmentAmmoTabsBinding
-import com.austinhodak.thehideout.logScreen
+import com.austinhodak.thehideout.utils.logScreen
 import com.google.android.material.tabs.TabLayoutMediator
 
 class AmmoTabsFragment : Fragment() {

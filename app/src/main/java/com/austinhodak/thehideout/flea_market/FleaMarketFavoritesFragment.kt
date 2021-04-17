@@ -21,10 +21,14 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.list.customListAdapter
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
-import com.austinhodak.thehideout.*
+import com.austinhodak.thehideout.MainActivity
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaFavoritesListBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
+import com.austinhodak.thehideout.utils.log
+import com.austinhodak.thehideout.utils.logScreen
+import com.austinhodak.thehideout.utils.userRef
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.database.DataSnapshot

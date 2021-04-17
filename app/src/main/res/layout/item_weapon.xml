@@ -7,7 +7,8 @@
 
         <variable
             name="weapon"
-            type="com.austinhodak.thehideout.weapons.models.Weapon" />
+            type="com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +25,7 @@
             android:layout_marginBottom="4dp"
             android:foreground="?attr/selectableItemBackground"
             app:cardElevation="3dp"
+            app:cardPreventCornerOverlap="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,23 +35,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/weaponImage"
+                    weaponImageURL="@{weapon.fleaItem.icon}"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:adjustViewBounds="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/red_keycard" />
+
                 <TextView
                     android:id="@+id/weaponName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:autoSizeMaxTextSize="22sp"
-                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/bender_bold"
                     android:maxLines="1"
-                    android:text="@{weapon.name}"
+                    android:text="@{weapon._props.shortName}"
                     android:textColor="@color/primaryText87"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/weaponAmmo"
-                    app:layout_constraintEnd_toStartOf="@+id/weaponImage"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/weaponImage"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
                     tools:text="VPO-209" />
 
                 <TextView
@@ -58,23 +69,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/bender"
-                    android:text="@{weapon.caliber.longName}"
-                    app:layout_constraintEnd_toStartOf="@+id/weaponImage"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@{weapon.getCaliberName()}"
+                    app:layout_constraintBottom_toTopOf="@+id/constraintLayout16"
+                    app:layout_constraintStart_toEndOf="@+id/weaponImage"
                     app:layout_constraintTop_toBottomOf="@+id/weaponName"
                     tools:text="7.62x39mm" />
-
-                <ImageView
-                    android:id="@+id/weaponImage"
-                    weaponImageURL="@{weapon.imageURL}"
-                    android:layout_width="140dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="16dp"
-                    android:adjustViewBounds="true"
-                    app:layout_constraintBottom_toBottomOf="@+id/weaponAmmo"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/weaponName"
-                    app:srcCompat="@drawable/vpo_209" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout16"
@@ -85,7 +84,7 @@
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/weaponAmmo">
+                    app:layout_constraintTop_toBottomOf="@+id/weaponImage">
 
                     <LinearLayout
                         android:id="@+id/weaponLL3"
@@ -103,9 +102,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/bender_bold"
-                            android:text="@{weapon.recoil.toString()}"
                             android:textColor="@color/primaryText87"
                             android:textSize="20sp"
+                            android:text="@{String.valueOf(Math.addExact(weapon._props.RecoilForceUp, weapon._props.RecoilForceBack))}"
                             tools:text="290" />
 
                         <TextView
@@ -134,7 +133,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/bender_bold"
-                            android:text="@{Long.toString(weapon.rpm)}"
+                            android:text="@{Integer.toString(weapon._props.bFirerate)}"
                             android:textColor="@color/primaryText87"
                             android:textSize="20sp"
                             tools:text="600" />
@@ -167,7 +166,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/bender_bold"
-                            android:text="@{weapon.range + `m`}"
+                            android:text="@{String.valueOf(weapon._props.bEffDist) + `m`}"
                             android:textColor="@color/primaryText87"
                             android:textSize="20sp"
                             tools:text="400m" />
@@ -179,37 +178,7 @@
                             android:text="RANGE"
                             android:textColor="@color/primaryText60"
                             android:textSize="10sp" />
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/weaponLL5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintTop_toTopOf="parent">
-
-
-                        <TextView
-                            android:id="@+id/weaponErgo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/bender_bold"
-                            android:text="@{weapon.accuracy + ` MOA`}"
-                            android:textColor="@color/primaryText87"
-                            android:textSize="20sp"
-                            tools:text="2.23 MOA" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/bender_light"
-                            android:text="ACCURACY"
-                            android:textColor="@color/primaryText60"
-                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <androidx.constraintlayout.helper.widget.Flow
@@ -217,7 +186,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        app:constraint_referenced_ids="weaponLL1,weaponLL4,weaponLL3,weaponLL5"
+                        app:constraint_referenced_ids="weaponLL1,weaponLL4,weaponLL3"
                         app:flow_horizontalGap="8dp"
                         app:flow_maxElementsWrap="5"
                         app:flow_verticalGap="8dp"
@@ -229,13 +198,14 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
+                    android:id="@+id/view2"
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/material_drawer_shadow_bottom"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/weaponAmmo" />
+                    app:layout_constraintTop_toBottomOf="@+id/weaponImage" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

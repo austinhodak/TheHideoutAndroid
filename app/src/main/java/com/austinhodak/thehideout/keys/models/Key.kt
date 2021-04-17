@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.ItemKeyBinding
-import com.austinhodak.thehideout.log
-import com.austinhodak.thehideout.userRef
+import com.austinhodak.thehideout.utils.log
+import com.austinhodak.thehideout.utils.userRef
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 
 data class Key(

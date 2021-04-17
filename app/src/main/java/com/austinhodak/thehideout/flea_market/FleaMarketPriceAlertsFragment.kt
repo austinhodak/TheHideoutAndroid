@@ -14,7 +14,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaPriceAlertBinding
 import com.austinhodak.thehideout.flea_market.models.PriceAlert
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.logScreen
+import com.austinhodak.thehideout.utils.logScreen
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.itemanimators.SlideUpAlphaAnimator

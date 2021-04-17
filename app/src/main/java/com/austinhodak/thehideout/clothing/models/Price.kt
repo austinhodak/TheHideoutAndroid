@@ -1,7 +1,7 @@
 package com.austinhodak.thehideout.clothing.models
 
-import com.austinhodak.thehideout.getCurrency
-import com.austinhodak.thehideout.getTraderLevel
+import com.austinhodak.thehideout.utils.getCurrency
+import com.austinhodak.thehideout.utils.getTraderLevel
 import java.text.DecimalFormat
 
 data class Price (

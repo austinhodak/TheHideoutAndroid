@@ -7,13 +7,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.addQuotes
 import com.austinhodak.thehideout.databinding.ActivityQuestInRaidBinding
-import com.austinhodak.thehideout.getObjectiveIcon
 import com.austinhodak.thehideout.quests.inraid.models.Category
 import com.austinhodak.thehideout.quests.models.Quest
 import com.austinhodak.thehideout.quests.viewmodels.QuestsViewModel
 import com.austinhodak.thehideout.utils.Map
+import com.austinhodak.thehideout.utils.addQuotes
+import com.austinhodak.thehideout.utils.getObjectiveIcon
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import dagger.hilt.android.AndroidEntryPoint

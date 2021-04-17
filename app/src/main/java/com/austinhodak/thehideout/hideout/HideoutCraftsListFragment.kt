@@ -13,10 +13,10 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.getPrice
 import com.austinhodak.thehideout.hideout.models.HideoutCraft
 import com.austinhodak.thehideout.hideout.models.Input
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutViewModel
+import com.austinhodak.thehideout.utils.getPrice
 import com.bumptech.glide.Glide
 import net.idik.lib.slimadapter.SlimAdapter
 import kotlin.math.abs

@@ -9,7 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.clothing.rigs.RigsListFragment
-import com.austinhodak.thehideout.logScreen
+import com.austinhodak.thehideout.utils.logScreen
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

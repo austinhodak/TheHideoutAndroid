@@ -16,7 +16,7 @@ import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityAmmoDetailBinding
 import com.austinhodak.thehideout.flea_market.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.log
+import com.austinhodak.thehideout.utils.log
 import com.google.firebase.analytics.FirebaseAnalytics
 import net.idik.lib.slimadapter.SlimAdapter
 

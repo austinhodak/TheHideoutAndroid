@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.keys.models.Key
-import com.austinhodak.thehideout.userRef
+import com.austinhodak.thehideout.utils.userRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

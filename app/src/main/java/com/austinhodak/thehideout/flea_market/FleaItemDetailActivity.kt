@@ -18,8 +18,9 @@ import com.austinhodak.thehideout.databinding.ActivityFleaItemDetailBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.models.PriceAlertSmall
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.getPrice
-import com.austinhodak.thehideout.userRef
+import com.austinhodak.thehideout.utils.getPrice
+import com.austinhodak.thehideout.utils.openWithCustomTab
+import com.austinhodak.thehideout.utils.userRef
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -268,6 +269,9 @@ class FleaItemDetailActivity : AppCompatActivity() {
                         userRef("flea").child("favorites").child(it).removeValue()
                     }
                 }
+            }
+            R.id.fleaDetailTM -> {
+                fleaItem?.link?.openWithCustomTab(this)
             }
         }
         return super.onOptionsItemSelected(item)

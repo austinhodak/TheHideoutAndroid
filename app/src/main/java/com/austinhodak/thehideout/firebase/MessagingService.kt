@@ -7,8 +7,8 @@ import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.getPrice
-import com.austinhodak.thehideout.pushToken
+import com.austinhodak.thehideout.utils.getPrice
+import com.austinhodak.thehideout.utils.pushToken
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition

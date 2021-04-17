@@ -25,11 +25,13 @@ import androidx.preference.PreferenceManager
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.utils.Time
+import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.OutdatedDrawerItem
 import com.austinhodak.thehideout.weapons.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.models.Weapon
@@ -62,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     private var searchItem: MenuItem? = null
     private var hideSearch = false
     private lateinit var ammoViewModel: AmmoViewModel
-    //private lateinit var bsgViewModel: BSGViewModel
+    private lateinit var bsgViewModel: BSGViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var mSearchAdapter: SlimAdapter
@@ -82,7 +84,12 @@ class MainActivity : AppCompatActivity() {
         ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
-        //bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
+        bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
+        bsgViewModel.allData().observe(this) {
+
+        }
+
+        //bsgViewModel.allData()
 
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
