@@ -19,6 +19,7 @@ import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.models.PriceAlertSmall
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.getPrice
+import com.austinhodak.thehideout.openWithCustomTab
 import com.austinhodak.thehideout.userRef
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DataSnapshot
@@ -68,9 +69,9 @@ class FleaItemDetailActivity : AppCompatActivity() {
                     binding.fleaDetailListingFeeTV.text = "0₽"
                     binding.fleaDetailProfitTV.text = "0₽"
                 } else {
-                    fleaItem?.calculateTax(s.toString().replace(",", "").toLong()) {
+                    fleaItem?.calculateTax(s.toString().replace(",", "").replace(" ", "").toLong()) {
                         binding.fleaDetailListingFeeTV.text = it.getPrice("₽")
-                        binding.fleaDetailProfitTV.text = (s.toString().replace(",", "").toLong() - it).getPrice("₽")
+                        binding.fleaDetailProfitTV.text = (s.toString().replace(",", "").replace(" ", "").toLong() - it).getPrice("₽")
                     }
                 }
 
@@ -80,7 +81,7 @@ class FleaItemDetailActivity : AppCompatActivity() {
                     var givenstring = s.toString()
                     val longval: Long
                     if (givenstring.contains(",")) {
-                        givenstring = givenstring.replace(",".toRegex(), "")
+                        givenstring = givenstring.replace(",".toRegex(), "").replace(" ", "")
                     }
                     longval = givenstring.toLong()
                     val formatter = DecimalFormat("#,###,###")
@@ -268,6 +269,9 @@ class FleaItemDetailActivity : AppCompatActivity() {
                         userRef("flea").child("favorites").child(it).removeValue()
                     }
                 }
+            }
+            R.id.fleaDetailTM -> {
+                fleaItem?.link?.openWithCustomTab(this)
             }
         }
         return super.onOptionsItemSelected(item)

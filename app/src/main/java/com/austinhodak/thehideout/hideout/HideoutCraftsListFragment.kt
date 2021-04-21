@@ -24,7 +24,7 @@ import kotlin.math.roundToInt
 
 class HideoutCraftsListFragment : Fragment() {
 
-    private lateinit var mList: List<HideoutCraft>
+    private var mList: List<HideoutCraft>? = null
     private lateinit var mAdapter: SlimAdapter
     private lateinit var mRecyclerView: RecyclerView
     private val viewModel: HideoutViewModel by activityViewModels()
@@ -151,14 +151,14 @@ class HideoutCraftsListFragment : Fragment() {
         if (mList != null) this.mList = mList
         var nList = mList
 
-        val filtered = this.mList.filter { it.getOutputItem().name?.contains(searchKey, true) == true || it.getOutputItem().shortName?.contains(searchKey, true) == true }
+        val filtered = this.mList?.filter { it.getOutputItem().name?.contains(searchKey, true) == true || it.getOutputItem().shortName?.contains(searchKey, true) == true }
 
         when (sortBy) {
-            0 -> nList = filtered.sortedBy { it.getOutputItem().name }.toMutableList()
-            1 -> nList = filtered.sortedBy { it.getTotalProfit() }.toMutableList()
-            2 -> nList = filtered.sortedByDescending { it.getTotalProfit() }.toMutableList()
-            3 -> nList = filtered.sortedBy { it.getProfitPerHour() }.toMutableList()
-            4 -> nList = filtered.sortedByDescending { it.getProfitPerHour() }.toMutableList()
+            0 -> nList = filtered?.sortedBy { it.getOutputItem().name }?.toMutableList()
+            1 -> nList = filtered?.sortedBy { it.getTotalProfit() }?.toMutableList()
+            2 -> nList = filtered?.sortedByDescending { it.getTotalProfit() }?.toMutableList()
+            3 -> nList = filtered?.sortedBy { it.getProfitPerHour() }?.toMutableList()
+            4 -> nList = filtered?.sortedByDescending { it.getProfitPerHour() }?.toMutableList()
         }
 
         mAdapter.updateData(nList)

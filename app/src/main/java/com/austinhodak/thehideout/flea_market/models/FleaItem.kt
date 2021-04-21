@@ -17,9 +17,9 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 
 data class FleaItem(
-    val avg24hPrice: Int? = null,
-    val avg7daysPrice: Int? = null,
-    val basePrice: Int? = null,
+    val avg24hPrice: Long? = null,
+    val avg7daysPrice: Long? = null,
+    val basePrice: Long? = null,
     val bsgId: String? = null,
     val diff24h: Double? = null,
     val diff7days: Double? = null,
@@ -29,7 +29,7 @@ data class FleaItem(
     val isFunctional: Boolean? = null,
     val link: String? = null,
     val name: String? = null,
-    val price: Int? = null,
+    val price: Long? = null,
     val reference: String? = null,
     val shortName: String? = null,
     val slots: Int? = 1,
@@ -126,7 +126,7 @@ data class FleaItem(
         return total.roundToInt()
     }
 
-    fun calculateTax(salePrice: Long = price?.toLong() ?: (0).toLong(), callback: (result: Int) -> Unit) {
+    fun calculateTax(salePrice: Long = price ?: (0).toLong(), callback: (result: Int) -> Unit) {
         val mVO = basePrice!!.toDouble()
         val mVR = salePrice.toDouble()
         val mTi = 0.05

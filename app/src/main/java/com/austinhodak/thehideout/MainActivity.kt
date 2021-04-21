@@ -515,6 +515,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateChips(list: ArrayList<String>) {
+        if (!this::binding.isInitialized) return
         for (i in list) {
             val chip = binding.chipGroup2[list.indexOf(i)] as Chip
             chip.text = i
