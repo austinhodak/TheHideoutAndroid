@@ -182,13 +182,13 @@ class MainActivity : AppCompatActivity() {
                     iconRes = R.drawable.icons8_assault_rifle_100
                 }, options = getNavOptions()),
                 DividerDrawerItem(),
-                PrimaryDrawerItem().apply {
+                NavigationDrawerItem(R.id.dealersTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
                     name = StringHolder(context.getString(R.string.dealers))
                     iconRes = R.drawable.ic_baseline_groups_24
-                    isEnabled = false
-                },
+                    isEnabled = isDebug()
+                }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
@@ -305,7 +305,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.backpackRigTabFragment,
                 R.id.keysListFragment,
                 R.id.medicalTabFragment,
-                R.id.questMainFragment
+                R.id.questMainFragment,
+                R.id.dealersTabFragment
             ), binding.root
         )
         toolbar.setupWithNavController(navController, appBarConfiguration)
@@ -401,6 +402,7 @@ class MainActivity : AppCompatActivity() {
             R.id.backpackRigTabFragment,
             R.id.hideoutMainFragment,
             R.id.armorTabFragment,
+            R.id.dealersTabFragment,
             R.id.WeaponFragment -> true
             else -> false
         }

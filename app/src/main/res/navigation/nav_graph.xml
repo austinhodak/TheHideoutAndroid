@@ -47,5 +47,9 @@
         android:id="@+id/hideoutMainFragment"
         android:name="com.austinhodak.thehideout.hideout.HideoutMainFragment"
         android:label="Hideout" />
+    <fragment
+        android:id="@+id/dealersTabFragment"
+        android:name="com.austinhodak.thehideout.dealers.DealersTabFragment"
+        android:label="Dealers" />
 
 </navigation>
