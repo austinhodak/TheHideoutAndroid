@@ -1,54 +1,58 @@
-package com.austinhodak.thehideout.flea_market
+package com.austinhodak.thehideout.flea_market.detail
 
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatSpinner
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.databinding.ActivityFleaItemDetailBinding
+import com.austinhodak.thehideout.databinding.FragmentFleaItemDetailBinding
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.models.PriceAlertSmall
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.getPrice
-import com.austinhodak.thehideout.openWithCustomTab
-import com.austinhodak.thehideout.userRef
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import java.text.DecimalFormat
 
+private const val ARG_PARAM1 = "id"
 
-class FleaItemDetailActivity : AppCompatActivity() {
+class FleaItemDetailFragment : Fragment() {
 
-    private lateinit var binding: ActivityFleaItemDetailBinding
+    private var _binding: FragmentFleaItemDetailBinding? = null
+    private val binding get() = _binding!!
+
+    private val fleaViewModel: FleaViewModel by activityViewModels()
     private var fleaItem: FleaItem? = null
-    private lateinit var fleaViewModel: FleaViewModel
-    private lateinit var menu: Menu
-    private var isFavorite = false
+    private var itemID: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFleaItemDetailBinding.inflate(layoutInflater).also {
-            setContentView(it.root)
+        arguments?.let {
+            itemID = it.getString(ARG_PARAM1)
         }
-        setupToolbar()
+    }
 
-        fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
-        fleaViewModel.fleaItems.observe(this) { list ->
-            if (intent.getStringExtra("id").isNullOrEmpty()) return@observe
-            fleaItem = list.find { it.uid == intent.getStringExtra("id")!! }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentFleaItemDetailBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fleaViewModel.fleaItems.observe(viewLifecycleOwner) { list ->
+            fleaItem = list.find { it.uid == itemID }
             updateItem(fleaItem)
         }
     }
@@ -79,11 +83,10 @@ class FleaItemDetailActivity : AppCompatActivity() {
 
                 try {
                     var givenstring = s.toString()
-                    val longval: Long
                     if (givenstring.contains(",")) {
                         givenstring = givenstring.replace(",".toRegex(), "").replace(" ", "")
                     }
-                    longval = givenstring.toLong()
+                    val longval: Long = givenstring.toLong()
                     val formatter = DecimalFormat("#,###,###")
                     val formattedString: String = formatter.format(longval)
                     binding.fleaDetailSalePriceET.setText(formattedString)
@@ -98,6 +101,8 @@ class FleaItemDetailActivity : AppCompatActivity() {
                 binding.fleaDetailSalePriceET.addTextChangedListener(this)
             }
         })
+
+        //binding.fleaDetailSalePriceET.setText(fleaItem?.price.toString())
 
         when {
             fleaItem?.diff24h!! > 0.0 -> {
@@ -136,47 +141,17 @@ class FleaItemDetailActivity : AppCompatActivity() {
         }
 
         setupPriceAlertList()
-        setupFavorite()
-    }
 
-    private fun setupFavorite() {
-        fleaItem?.uid?.let {
-            userRef("flea").child("favorites").child(it).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists() && snapshot.value == true) {
-                        //Item is favorite
-                        if (this@FleaItemDetailActivity::menu.isInitialized) {
-                            menu.let { menu ->
-                                menu.findItem(R.id.fleaDetailFavorite).setIcon(R.drawable.ic_baseline_favorite_24_colored)
-                            }
-                        }
-                        isFavorite = true
-                    } else {
-                        //Item is not favorite
-                        if (this@FleaItemDetailActivity::menu.isInitialized) {
-                            menu.let { menu ->
-                                menu.findItem(R.id.fleaDetailFavorite).setIcon(R.drawable.ic_baseline_favorite_border_24)
-                            }
-                        }
-                        isFavorite = false
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
-        }
     }
 
     private fun setupPriceAlertList() {
-        binding.fleaDetailPriceAlertRV.layoutManager = LinearLayoutManager(this)
+        binding.fleaDetailPriceAlertRV.layoutManager = LinearLayoutManager(requireContext())
 
         val itemAdapter = ItemAdapter<PriceAlertSmall>()
         val fastAdapter = FastAdapter.with(itemAdapter)
         binding.fleaDetailPriceAlertRV.adapter = fastAdapter
 
-        fleaViewModel.priceAlerts.observe(this) { list ->
+        fleaViewModel.priceAlerts.observe(viewLifecycleOwner) { list ->
             val alerts = list.filter { it.itemID == fleaItem?.uid }.map {
                 PriceAlertSmall(it.price, it.uid, it.itemID, it.`when`, it.token, it.reference)
             }
@@ -184,7 +159,7 @@ class FleaItemDetailActivity : AppCompatActivity() {
         }
 
         binding.fleaDetailPriceAlertFAB.setOnClickListener {
-            val alertDialog = MaterialDialog(this).show {
+            val alertDialog = MaterialDialog(requireContext()).show {
                 title(text = getString(R.string.price_alert_add))
                 customView(R.layout.dialog_add_price_alert)
                 positiveButton(text = getString(R.string.add)) { dialog ->
@@ -242,38 +217,13 @@ class FleaItemDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupToolbar() {
-        setSupportActionBar(binding.weaponDetailToolbar)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.md_nav_back)
-        binding.weaponDetailToolbar.setNavigationOnClickListener { super.onBackPressed() }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.activity_flea_detail, menu).also {
-            menu?.let {
-                this.menu = it
-            }
-        }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.fleaDetailFavorite -> {
-                fleaItem?.uid?.let {
-                    if (!isFavorite) {
-                        userRef("flea").child("favorites").child(it).setValue(!isFavorite)
-                    } else {
-                        userRef("flea").child("favorites").child(it).removeValue()
-                    }
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String) =
+            FleaItemDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
                 }
             }
-            R.id.fleaDetailTM -> {
-                fleaItem?.link?.openWithCustomTab(this)
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 }

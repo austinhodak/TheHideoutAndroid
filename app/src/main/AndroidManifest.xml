@@ -25,7 +25,7 @@
             android:name=".quests.inraid.QuestInRaidActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
-            android:name=".flea_market.FleaItemDetailActivity"
+            android:name=".flea_market.detail.FleaItemDetailActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
             android:name=".calculator.CalculatorMainActivity"

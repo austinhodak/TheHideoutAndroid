@@ -17,33 +17,7 @@
         android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".flea_market.FleaItemDetailActivity">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/weaponDetailToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:theme="@style/Toolbar"
-                app:title="@{item.name}" />
-
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/fleaDetailPG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="@{item == null ? View.VISIBLE : View.GONE}"
-                app:indicatorColor="#ef5350" />
-
-        </com.google.android.material.appbar.AppBarLayout>
+        tools:context=".flea_market.detail.FleaItemDetailActivity">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -51,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -212,9 +186,9 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/bender_bold"
                                 android:gravity="right"
+                                android:text="@{item.avg7dPrice}"
                                 android:textColor="@color/primaryText87"
-                                tools:text="48,440,854₽"
-                                android:text="@{item.avg7dPrice}" />
+                                tools:text="48,440,854₽" />
 
                         </LinearLayout>
 
@@ -258,11 +232,11 @@
                             android:layout_marginEnd="16dp"
                             android:fontFamily="@font/bender_bold"
                             android:text="@{item.currentTraderPrice}"
-                            tools:text="1,320,000₽"
                             android:textColor="@color/primaryText87"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView19"
+                            tools:text="1,320,000₽" />
 
                         <TextView
                             android:id="@+id/fleaDetailTraderName"
@@ -334,7 +308,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="numberSigned"
-                                android:maxLength="15" />
+                                android:fontFamily="@font/bender"
+                                android:maxLength="15"
+                                android:text="@{item.price.toString()}" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 

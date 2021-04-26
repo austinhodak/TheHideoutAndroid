@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_detail_graph"
+    app:startDestination="@id/itemDetailFlea">
+
+    <fragment
+        android:id="@+id/itemDetailFlea"
+        android:name="com.austinhodak.thehideout.flea_market.detail.FleaItemDetailFragment"
+        android:label="FleaItemDetailFragment" />
+
+    <fragment
+        android:id="@+id/itemDetailBarters"
+        android:name="com.austinhodak.thehideout.flea_market.detail.FleaItemBartersFragment"
+        android:label="FleaItemBartersFragment" />
+
+</navigation>
