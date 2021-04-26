@@ -73,9 +73,9 @@ class FleaItemDetailFragment : Fragment() {
                     binding.fleaDetailListingFeeTV.text = "0₽"
                     binding.fleaDetailProfitTV.text = "0₽"
                 } else {
-                    fleaItem?.calculateTax(s.toString().replace(",", "").replace(" ", "").toLong()) {
+                    fleaItem?.calculateTax(s.toString().replace("[^0-9]".toRegex(), "").toLong()) {
                         binding.fleaDetailListingFeeTV.text = it.getPrice("₽")
-                        binding.fleaDetailProfitTV.text = (s.toString().replace(",", "").replace(" ", "").toLong() - it).getPrice("₽")
+                        binding.fleaDetailProfitTV.text = (s.toString().replace("[^0-9]".toRegex(), "").toLong() - it).getPrice("₽")
                     }
                 }
 
@@ -84,7 +84,7 @@ class FleaItemDetailFragment : Fragment() {
                 try {
                     var givenstring = s.toString()
                     if (givenstring.contains(",")) {
-                        givenstring = givenstring.replace(",".toRegex(), "").replace(" ", "")
+                        givenstring = givenstring.replace("[^0-9]".toRegex(), "")
                     }
                     val longval: Long = givenstring.toLong()
                     val formatter = DecimalFormat("#,###,###")

@@ -67,6 +67,7 @@
                 tools:text="Need 3" />
 
             <ImageView
+                android:tooltipText="Find in raid."
                 android:id="@+id/itemQuestFIRIcon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"

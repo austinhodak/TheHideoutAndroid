@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="DuplicateIds"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/itemDetailFlea"
@@ -16,4 +18,9 @@
         android:icon="@drawable/ic_baseline_assignment_24"
         android:title="Quests" />
 
+    <!--<item
+        android:id="@+id/itemDetailCrafts"
+        android:icon="@drawable/ic_baseline_handyman_24"
+        android:title="Crafts" />
+-->
 </menu>

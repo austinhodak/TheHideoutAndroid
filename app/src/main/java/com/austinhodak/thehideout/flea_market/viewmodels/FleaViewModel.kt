@@ -47,6 +47,12 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
     private fun loadData() {
         val minutes15 = 1000 * 60 * 15
 
+        /*try {
+            fleaItems.postValue(loadFleaDataFromFile())
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+*/
         if ((System.currentTimeMillis() - prefs.getLong("lastFleaMarketLoad", 0)) > minutes15) {
             //Loaded over 15 minutes ago.
             val fleaRef = Firebase.storage.reference.child("fleaItems.json")
