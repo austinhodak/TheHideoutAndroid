@@ -114,6 +114,9 @@ data class FleaItem(
         return "Updated ${DateUtils.getRelativeTimeSpanString(sdf.parse(updated).time, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS)}"
     }
 
+    fun total(count: Int): String? = (price?.times(count))?.getPrice("₽")
+    fun totalNumber(count: Int): Long? = (price?.times(count))
+
     fun getTotalCostToCraft(input: List<Input>): Int {
         var total = 0.0
 

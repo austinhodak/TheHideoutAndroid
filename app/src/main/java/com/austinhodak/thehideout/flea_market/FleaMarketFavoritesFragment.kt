@@ -23,6 +23,7 @@ import com.afollestad.materialdialogs.list.customListAdapter
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.databinding.FragmentFleaFavoritesListBinding
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.google.android.material.textfield.TextInputEditText

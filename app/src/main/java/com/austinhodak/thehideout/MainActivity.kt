@@ -25,7 +25,10 @@ import androidx.preference.PreferenceManager
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
+import com.austinhodak.thehideout.calculator.models.CAmmo
+import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
@@ -87,6 +90,25 @@ class MainActivity : AppCompatActivity() {
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
+
+        Timber.d(CalculatorHelper.penChance(
+            CAmmo(
+                1,
+                98.0,
+                23.0,
+                48.0
+            ),
+            CArmor(
+                50.0,
+                4,
+                0.120,
+                34.0,
+                50.0,
+                40.0,
+                0.50,
+                arrayListOf("Head")
+            )
+        ).toString())
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -185,8 +207,8 @@ class MainActivity : AppCompatActivity() {
                 NavigationDrawerItem(R.id.dealersTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder(context.getString(R.string.dealers))
-                    iconRes = R.drawable.ic_baseline_groups_24
+                    name = StringHolder(context.getString(R.string.barters))
+                    iconRes = R.drawable.icons8_available_updates_96
                     isEnabled = isDebug()
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {

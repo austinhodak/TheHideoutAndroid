@@ -32,6 +32,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
     private lateinit var ammoAdapter: ItemAdapter<Ammo>
     private lateinit var helmetAdapter: ItemAdapter<Armor>
     private lateinit var chestAdapter: ItemAdapter<Armor>
+    private lateinit var armorAdapter: ItemAdapter<Armor>
     private lateinit var characterAdapter: ItemAdapter<Character>
 
     private lateinit var mSearchAdapter: SlimAdapter
@@ -57,7 +58,8 @@ class CalculatorPickerActivity : AppCompatActivity() {
         helmetAdapter = ItemAdapter()
         chestAdapter = ItemAdapter()
         characterAdapter = ItemAdapter()
-        adapter = FastAdapter.with(listOf(ammoAdapter, helmetAdapter, chestAdapter, characterAdapter))
+        armorAdapter = ItemAdapter()
+        adapter = FastAdapter.with(listOf(ammoAdapter, helmetAdapter, chestAdapter, characterAdapter, armorAdapter))
 
         binding.calculatorPickerRV.layoutManager = LinearLayoutManager(this)
         binding.calculatorPickerRV.adapter = adapter
@@ -74,6 +76,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
                         intent.putExtra("helmetID", item._id)
                     } else {
                         intent.putExtra("chestID", item._id)
+                        intent.putExtra("armorID", item._id)
                     }
                 }
                 is Character -> {
@@ -109,6 +112,11 @@ class CalculatorPickerActivity : AppCompatActivity() {
 
                 chestAdapter.filter(newText)
                 chestAdapter.itemFilter.filterPredicate = { item: Armor, constraint: CharSequence? ->
+                    item.name.contains(constraint ?: "", true)
+                }
+
+                armorAdapter.filter(newText)
+                armorAdapter.itemFilter.filterPredicate = { item: Armor, constraint: CharSequence? ->
                     item.name.contains(constraint ?: "", true)
                 }
 
@@ -203,6 +211,35 @@ class CalculatorPickerActivity : AppCompatActivity() {
                     )
                 })
             }
+            ItemType.ARMOR -> {
+                armorAdapter.add(armorHelper.getArmors(this).filterNot { it.hitpoints <= 0 }.sortedWith(compareBy({ it.level }, { it.name })).map {
+                    Armor(
+                        it.description,
+                        it.weight,
+                        it.level,
+                        it.hitpoints,
+                        it.movement,
+                        it.turn,
+                        it.ergonomics,
+                        it.zones,
+                        it._id,
+                        it.name,
+                        it.image,
+                        it.material,
+                        it.`class`,
+                        it.ricochet,
+                        it.grid,
+                        it.prices,
+                        it.tradeups,
+                        it.fields,
+                        it.internal,
+                        it.blunt,
+                        it.resistance,
+                        it.destructibility,
+                        it.cArmor
+                    )
+                })
+            }
         }
     }
 
@@ -229,6 +266,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
                 ItemType.HELMET -> "Select Helmet"
                 ItemType.CHEST -> "Select Chest Armor"
                 ItemType.CHARACTER -> "Select Character"
+                ItemType.ARMOR -> "Select Armor"
             }
         }
     }
@@ -237,6 +275,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
         AMMO,
         HELMET,
         CHEST,
-        CHARACTER
+        CHARACTER,
+        ARMOR
     }
 }

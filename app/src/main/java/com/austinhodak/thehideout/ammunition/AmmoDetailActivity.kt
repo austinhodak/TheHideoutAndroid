@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,13 +13,18 @@ import com.afollestad.materialdialogs.customview.customView
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
+import com.austinhodak.thehideout.calculator.pickers.CalculatorPickerActivity
+import com.austinhodak.thehideout.clothing.armor.ArmorHelper
+import com.austinhodak.thehideout.clothing.models.Armor
 import com.austinhodak.thehideout.databinding.ActivityAmmoDetailBinding
-import com.austinhodak.thehideout.flea_market.FleaItemDetailActivity
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.log
 import com.google.firebase.analytics.FirebaseAnalytics
 import net.idik.lib.slimadapter.SlimAdapter
+import timber.log.Timber
 
 class AmmoDetailActivity : AppCompatActivity() {
 
@@ -26,6 +32,18 @@ class AmmoDetailActivity : AppCompatActivity() {
     private lateinit var fleaViewModel: FleaViewModel
     private lateinit var ammoViewModel: AmmoViewModel
     private var ammo: Ammo? = null
+
+    private var selectedArmor: Armor?  = null
+
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK && result.data != null) {
+            if (result.data?.hasExtra("armorID") == true) {
+                selectedArmor = ArmorHelper.getArmors(this).find { it._id == result.data?.getStringExtra("armorID") }
+                armorSelected()
+                updatePenChance()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +75,39 @@ class AmmoDetailActivity : AppCompatActivity() {
                 putExtra("ammoID", ammo?._id)
             })
         }
+
+        binding.ammoDetailScollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY > oldScrollY + 12 && binding.ammoDetailCalcFAB.isShown) {
+                binding.ammoDetailCalcFAB.hide()
+            }
+
+            if (scrollY < oldScrollY - 12 && !binding.ammoDetailCalcFAB.isShown) {
+                binding.ammoDetailCalcFAB.show()
+            }
+        }
+
+        selectedArmor = ArmorHelper.getArmors(this).find { it.name == "Galvion Caiman" }
+        armorSelected()
+    }
+
+    private fun armorSelected() {
+        binding.calcChestTitle.text = "${selectedArmor?.name} • Class ${selectedArmor?.level}"
+        binding.calcChestSubtitle.text = selectedArmor?.zones?.joinToString(separator = ", ")
+        binding.textView24.text = selectedArmor?.hitpoints.toString()
+
+        binding.ammoDetailArmorPenSeekbar.valueTo = selectedArmor?.hitpoints?.toFloat() ?: 0.0f
+        binding.ammoDetailArmorPenSeekbar.value = selectedArmor?.hitpoints?.toFloat() ?: 0.0f
+    }
+
+    private fun updatePenChance(durability: Float? = null) {
+        val chance = CalculatorHelper.penChance(
+            ammo?.getCAmmo()!!,
+            selectedArmor?.getCArmor(durability?.toDouble())!!
+        )
+
+        Timber.d(chance.toString())
+
+        binding.textView23.text = "${String.format("%.2f", chance)}%"
     }
 
     private fun updateData() {
@@ -74,6 +125,17 @@ class AmmoDetailActivity : AppCompatActivity() {
         }
 
         getFleaItemData()
+
+        binding.ammoDetailArmorPenSeekbar.addOnChangeListener { slider, value, fromUser ->
+            binding.ammoDetailPenChanceCurrentDurability.text = String.format("%.2f", value)
+            updatePenChance(value)
+        }
+
+        updatePenChance()
+
+        binding.calcChestCard.setOnClickListener {
+            launchPicker(CalculatorPickerActivity.ItemType.ARMOR)
+        }
     }
 
     private fun getCaliberData() {
@@ -137,5 +199,11 @@ class AmmoDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.md_nav_back)
         binding.ammoDetailToolbar.setNavigationOnClickListener { super.onBackPressed() }
+    }
+
+    private fun launchPicker(itemType: CalculatorPickerActivity.ItemType) {
+        val intent = Intent(this, CalculatorPickerActivity::class.java)
+        intent.putExtra("itemType", itemType)
+        resultLauncher.launch(intent)
     }
 }

@@ -4,14 +4,17 @@
 
     <item
         android:id="@+id/fleaDetailFavorite"
-        android:icon="@drawable/ic_baseline_favorite_24_colored"
+        android:icon="@drawable/ic_baseline_favorite_border_24"
         android:title="Favorite"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/fleaDetailTM"
         android:icon="@drawable/_37ca1aa3998d8193c098d1748b5280e_t"
-        android:title="Tarkov Market"
-        app:showAsAction="always" />
+        android:title="Tarkov Market" />
+
+    <item
+        android:id="@+id/fleaDetailWiki"
+        android:title="Wiki" />
 
 </menu>

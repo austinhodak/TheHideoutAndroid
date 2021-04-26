@@ -50,6 +50,6 @@
     <fragment
         android:id="@+id/dealersTabFragment"
         android:name="com.austinhodak.thehideout.dealers.DealersTabFragment"
-        android:label="Dealers" />
+        android:label="Barters" />
 
 </navigation>
