@@ -10,6 +10,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.skydoves.only.Only
@@ -44,6 +45,10 @@ class Application : Application() {
 
         Firebase.firestore.firestoreSettings = firestoreSettings {
             isPersistenceEnabled = true
+        }
+
+        Firebase.messaging.token.addOnSuccessListener {
+            Timber.d("Firebase Messaging Token: %s", it)
         }
 
         setupRemoteConfig()
