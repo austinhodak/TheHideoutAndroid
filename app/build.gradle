@@ -43,6 +43,17 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
+    flavorDimensions "version"
+    productFlavors {
+        beta {
+            dimension "version"
+            versionNameSuffix " Beta"
+        }
+        full {
+            dimension "version"
+        }
+    }
+
     buildFeatures {
         viewBinding true
         dataBinding true
