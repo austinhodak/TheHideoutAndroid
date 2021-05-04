@@ -62,7 +62,7 @@ class FleaMarketFavoritesFragment : Fragment() {
 
     lateinit var prefs: SharedPreferences
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFleaFavoritesListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
