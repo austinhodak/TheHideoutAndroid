@@ -189,13 +189,13 @@ class MainActivity : AppCompatActivity() {
                     iconRes = R.drawable.icons8_assault_rifle_100
                 }, options = getNavOptions()),
                 DividerDrawerItem(),
-                PrimaryDrawerItem().apply {
+                /*NavigationDrawerItem(R.id.dealersTabFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
-                    name = StringHolder(context.getString(R.string.dealers))
-                    iconRes = R.drawable.ic_baseline_groups_24
-                    isEnabled = false
-                },
+                    name = StringHolder(context.getString(R.string.barters))
+                    iconRes = R.drawable.icons8_available_updates_96
+                    isEnabled = isDebug()
+                }, options = getNavOptions()),*/
                 NavigationDrawerItem(R.id.fleaMarketListFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
@@ -312,7 +312,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.backpackRigTabFragment,
                 R.id.keysListFragment,
                 R.id.medicalTabFragment,
-                R.id.questMainFragment
+                R.id.questMainFragment,
+                R.id.dealersTabFragment
             ), binding.root
         )
         toolbar.setupWithNavController(navController, appBarConfiguration)
@@ -408,6 +409,7 @@ class MainActivity : AppCompatActivity() {
             R.id.backpackRigTabFragment,
             R.id.hideoutMainFragment,
             R.id.armorTabFragment,
+            R.id.dealersTabFragment,
             R.id.WeaponFragment -> true
             else -> false
         }
@@ -480,8 +482,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
         try {
+            super.onRestoreInstanceState(savedInstanceState)
             savedInstanceState.getString("title").let {
                 binding.toolbarTitle.text = it
             }
@@ -522,6 +524,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateChips(list: ArrayList<String>) {
+        if (!this::binding.isInitialized) return
         for (i in list) {
             val chip = binding.chipGroup2[list.indexOf(i)] as Chip
             chip.text = i

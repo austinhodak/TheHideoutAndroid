@@ -32,6 +32,7 @@
     <string name="medical">Medical</string>
     <string name="weapons">Weapons</string>
     <string name="dealers">Dealers</string>
+    <string name="barters">Barters</string>
     <string name="flea_market">Flea Market</string>
     <string name="hideout">Hideout</string>
     <string name="quests">Quests</string>
@@ -39,5 +40,7 @@
     <string name="join_us">Join us on</string>
     <string name="set_opening_screen">Opening screen set!</string>
     <string name="notification_channel_flea_alert">Flea Market Alerts</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

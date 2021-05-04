@@ -3,6 +3,7 @@ package com.austinhodak.thehideout.hideout.models
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.utils.getPrice
 import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 data class HideoutCraft (
     val facility: Int,
@@ -15,7 +16,7 @@ data class HideoutCraft (
         return output[0].fleaItem
     }
 
-    fun getTotalCostToCraft(): Int {
+    fun getTotalCostToCraft(): Long {
         var total = 0.0
 
         for (i in input) {
@@ -24,7 +25,7 @@ data class HideoutCraft (
             total += cost
         }
 
-        return total.roundToInt()
+        return total.roundToLong()
     }
 
     fun getTimeToCraft(): String {
@@ -41,12 +42,12 @@ data class HideoutCraft (
         return (getOutputItem().price?.times(output[0].qty)?.getPrice("₽"))
     }
 
-    fun getProfit(): Int {
-        return (getOutputItem().price!! * output[0].qty - getTotalCostToCraft())
+    fun getProfit(): Long {
+        return getOutputItem().price!! * output[0].qty - getTotalCostToCraft()
     }
 
-    fun getTotalProfit(): Int {
-        var profit = 0
+    fun getTotalProfit(): Long {
+        var profit: Long = 0
         getOutputItem().calculateTax {
             val tax = it * output[0].qty
             profit = (getOutputItem().price!! * output[0].qty - getTotalCostToCraft() - tax)

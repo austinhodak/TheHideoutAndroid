@@ -24,6 +24,7 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaFavoritesListBinding
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.utils.log
@@ -65,7 +66,7 @@ class FleaMarketFavoritesFragment : Fragment() {
 
     lateinit var prefs: SharedPreferences
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFleaFavoritesListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }

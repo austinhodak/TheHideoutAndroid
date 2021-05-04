@@ -68,12 +68,12 @@ data class Armor(
         )
     }
 
-    fun getArmor(): CArmor {
+    fun getArmor(durability: Double? = null): CArmor {
         if (cArmor == null) {
             cArmor = CArmor(
                 `class` = level,
                 bluntThroughput = blunt,
-                durability = hitpoints.toDouble(),
+                durability = durability ?: hitpoints.toDouble(),
                 maxDurability = hitpoints.toDouble(),
                 resistance = resistance,
                 destructibility = destructibility,
@@ -82,6 +82,18 @@ data class Armor(
         }
 
         return cArmor as CArmor
+    }
+
+    fun getCArmor(durability: Double? = null): CArmor {
+        return CArmor(
+            `class` = level,
+            bluntThroughput = blunt,
+            durability = durability ?: hitpoints.toDouble(),
+            maxDurability = hitpoints.toDouble(),
+            resistance = resistance,
+            destructibility = destructibility,
+            zones = zones
+        )
     }
 
     fun getSubtitle(): String {

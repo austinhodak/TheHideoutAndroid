@@ -21,7 +21,7 @@ data class HideoutModule(
         var name: String,
         var quantity: Int,
         var id: Int,
-        var fleaPrice: Int = 0
+        var fleaPrice: Long = 0
     ) {
         override fun toString(): String {
             return when (type) {
@@ -45,7 +45,7 @@ data class HideoutModule(
     }
 
     fun getTotalBuildCost(): String {
-        var total: Int = 0
+        var total: Long = 0
         for (requirement in require) {
             total += requirement.fleaPrice
         }

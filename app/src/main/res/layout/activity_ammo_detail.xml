@@ -39,6 +39,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
+            android:id="@+id/ammoDetailScollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
@@ -500,11 +501,11 @@
                                 android:layout_marginEnd="16dp"
                                 android:fontFamily="@font/bender_light"
                                 android:text="@{fleaItem.updatedTime}"
-                                tools:text="Updated 1 hour ago"
                                 android:textSize="8sp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                                tools:text="Updated 1 hour ago" />
 
                         </LinearLayout>
 
@@ -558,10 +559,10 @@
                                     armorColor="@{ammo.getColor(1)}"
                                     android:layout_width="3dp"
                                     android:layout_height="0dp"
-                                    tools:background="@color/md_green_500"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:background="@color/md_green_500" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -570,11 +571,11 @@
                                     android:layout_marginTop="8dp"
                                     android:layout_marginBottom="8dp"
                                     android:fontFamily="@font/bender"
-                                    tools:text="Level 1 • Basically Ignores • 1 Shots"
                                     android:text="@{`Level 1` + ammo.getArmorChartText(1)}"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="Level 1 • Basically Ignores • 1 Shots" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -688,12 +689,12 @@
 
                                 <View
                                     armorColor="@{ammo.getColor(6)}"
-                                    tools:background="@color/md_red_500"
                                     android:layout_width="3dp"
                                     android:layout_height="0dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:background="@color/md_red_500" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -702,11 +703,11 @@
                                     android:layout_marginTop="8dp"
                                     android:layout_marginBottom="8dp"
                                     android:fontFamily="@font/bender"
-                                    tools:text="Level 6"
                                     android:text="@{`Level 6` + ammo.getArmorChartText(6)}"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="Level 6" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -724,6 +725,190 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ammoDetailPenChance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv100"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/bender_light"
+                            android:text="ARMOR PENETRATION CHANCE"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/view20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@color/md_light_dividers"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/calcChestCard" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/ammoDetailArmorPenSeekbar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:value="30.0"
+                            android:valueFrom="0.0"
+                            android:valueTo="50.0"
+                            app:layout_constraintEnd_toStartOf="@+id/ammoDetailPenChanceCurrentDurability"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv101"
+                            app:thumbColor="@color/md_red_400"
+                            app:trackColorActive="@color/md_red_400"
+                            app:trackColorInactive="@color/md_grey_850" />
+
+                        <TextView
+                            android:id="@+id/tv101"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/bender_light"
+                            android:text="DURABILITY"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/view20" />
+
+                        <View
+                            android:id="@+id/view21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="1dp"
+                            android:background="@color/md_light_dividers"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ammoDetailArmorPenSeekbar" />
+
+                        <TextView
+                            android:id="@+id/tv102"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:fontFamily="@font/bender_light"
+                            android:text="CHANCE TO PENETRATE ARMOR"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/view21" />
+
+                        <TextView
+                            android:id="@+id/ammoDetailPenChanceCurrentDurability"
+                            android:layout_width="76dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="@font/bender_bold"
+                            android:gravity="right"
+                            android:text="100.00"
+                            android:textColor="#FFF"
+                            android:textSize="24sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/ammoDetailArmorPenSeekbar"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/ammoDetailArmorPenSeekbar" />
+
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:fontFamily="@font/bender_bold"
+                            android:text="100%"
+                            android:textColor="#FFF"
+                            android:textSize="24sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/view21" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/calcChestCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:clickable="true"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv100">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/calcChestTitle"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="16dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:fontFamily="@font/bender_bold"
+                                    android:text="5.11 Hexgrid"
+                                    android:textColor="@color/primaryText87"
+                                    android:textSize="16sp"
+                                    app:layout_constraintBottom_toTopOf="@+id/calcChestSubtitle"
+                                    app:layout_constraintEnd_toStartOf="@+id/textView24"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintVertical_chainStyle="packed" />
+
+                                <TextView
+                                    android:id="@+id/calcChestSubtitle"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginBottom="16dp"
+                                    android:fontFamily="@font/bender_light"
+                                    android:text="Thorax, Stomach"
+                                    android:textSize="10sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="@+id/calcChestTitle"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/calcChestTitle" />
+
+                                <TextView
+                                    android:id="@+id/textView24"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="16dp"
+                                    android:fontFamily="@font/bender_bold"
+                                    android:text="50.0"
+                                    android:textColor="#FFF"
+                                    android:textSize="24sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

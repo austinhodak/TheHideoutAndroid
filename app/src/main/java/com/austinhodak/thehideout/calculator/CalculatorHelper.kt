@@ -81,6 +81,18 @@ object CalculatorHelper {
         return false
     }
 
+    fun penChance(ammo: CAmmo, armor: CArmor): Double {
+        var timesPenned = 0
+
+        for (i in 1..10000) {
+            if (!simulateBlock(ammo, armor)) {
+                timesPenned++
+            }
+        }
+
+        return timesPenned.toDouble() / 100
+    }
+
     /*private fun _shotsToKill(bullet: CAmmo, armor: CArmor, health: Double, blowthrough: Double): Double {
         var h = health
         var headHealth = 35.0
