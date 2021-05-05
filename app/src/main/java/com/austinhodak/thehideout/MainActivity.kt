@@ -199,7 +199,7 @@ class MainActivity : AppCompatActivity() {
                     typeface = benderFont
                     isIconTinted = true
                     name = StringHolder(context.getString(R.string.hideout))
-                    iconRes = R.drawable.hideout_shadow_1
+                    iconRes = R.drawable.icons8_tent_96
                 }, options = getNavOptions()),
                 NavigationDrawerItem(R.id.questMainFragment, PrimaryDrawerItem().apply {
                     typeface = benderFont
@@ -211,7 +211,7 @@ class MainActivity : AppCompatActivity() {
                     typeface = benderFont
                     isIconTinted = true
                     name = StringHolder(context.getString(R.string.simulator))
-                    iconRes = R.drawable.icons8_ammo_100
+                    iconRes = R.drawable.icons8_dog_tag_96
                     isSelectable = false
                     onDrawerItemClickListener = { _, _, _ ->
                         startActivity(Intent(this@MainActivity, CalculatorMainActivity::class.java))
