@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/flea_tm"
         android:icon="@drawable/_37ca1aa3998d8193c098d1748b5280e_t"
-        android:title="Tarkov Market"
-        app:showAsAction="always" />
+        android:title="Tarkov Market" />
 
     <!-- TODO FINISH THIS. -->
    <!-- <item

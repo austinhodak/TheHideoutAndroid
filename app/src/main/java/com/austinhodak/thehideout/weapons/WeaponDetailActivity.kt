@@ -39,7 +39,6 @@ class WeaponDetailActivity : AppCompatActivity() {
         ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
         setupToolbar()
         loadWeapon()
-        setupAdapters()
     }
 
     private fun loadWeapon() {
@@ -54,6 +53,8 @@ class WeaponDetailActivity : AppCompatActivity() {
 
         Glide.with(this).load("https://www.eftdb.one/static/item/full/${weapon.image}")
             .into(findViewById(R.id.weaponImage2))
+
+        setupAdapters()
     }
 
     private fun ammoLoaded() {
