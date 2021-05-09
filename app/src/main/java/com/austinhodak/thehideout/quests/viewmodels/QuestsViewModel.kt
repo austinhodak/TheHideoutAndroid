@@ -44,7 +44,7 @@ class QuestsViewModel(application: Application) : AndroidViewModel(application) 
         Firebase.database.getReference("users/$UID/quests/").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val u = snapshot.getValue<UserFB.UserFBQuests>()
-                completedQuests.value = u
+                completedQuests.value = u ?: UserFB.UserFBQuests()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -59,7 +59,7 @@ class QuestsViewModel(application: Application) : AndroidViewModel(application) 
         Firebase.database.getReference("users/$UID/questObjectives/").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val u = snapshot.getValue<UserFB.UserFBQuestObjectives>()
-                completedObjectives.value = u
+                completedObjectives.value = u ?: UserFB.UserFBQuestObjectives()
             }
 
             override fun onCancelled(error: DatabaseError) {

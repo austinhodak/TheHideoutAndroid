@@ -12,6 +12,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.models.PriceAlert
+import com.austinhodak.thehideout.hasInternet
 import com.austinhodak.thehideout.uid
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
@@ -54,6 +55,12 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
         }
 */
         if ((System.currentTimeMillis() - prefs.getLong("lastFleaMarketLoad", 0)) > minutes15) {
+            if (!hasInternet(context)) {
+                Timber.d("No internet, loading flea from file.")
+                fleaItems.postValue(loadFleaDataFromFile())
+            }
+
+            Timber.d("Loading flea from network, expired.")
             //Loaded over 15 minutes ago.
             val fleaRef = Firebase.storage.reference.child("fleaItems.json")
 
@@ -71,9 +78,11 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
                     putLong("lastFleaMarketLoad", System.currentTimeMillis())
                 }
             }.addOnFailureListener {
+                fleaItems.postValue(loadFleaDataFromFile())
                 Timber.e(it)
             }
         } else {
+            Timber.d("Loading flea from file.")
             fleaItems.postValue(loadFleaDataFromFile())
         }
     }

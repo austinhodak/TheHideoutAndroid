@@ -22,6 +22,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
@@ -46,6 +47,8 @@ import com.mikepenz.materialdrawer.model.interfaces.*
 import com.mikepenz.materialdrawer.util.addItems
 import com.mikepenz.materialdrawer.util.addStickyFooterItem
 import com.mikepenz.materialdrawer.util.setupWithNavController
+import com.skydoves.only.Only
+import com.skydoves.only.onlyOnce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -87,6 +90,10 @@ class MainActivity : AppCompatActivity() {
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
+
+        if (isDebug()) {
+            Only.clearOnly("mapGenie")
+        }
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -229,6 +236,35 @@ class MainActivity : AppCompatActivity() {
                         false
                     }
                 },*/
+                DividerDrawerItem(),
+                PrimaryDrawerItem().apply {
+                    typeface = benderFont
+                    isIconTinted = true
+                    nameText = "Map Genie"
+                    iconRes = R.drawable.ic_baseline_map_24
+
+                    isSelectable = false
+                    onDrawerItemClickListener = { _, _, _ ->
+                        onlyOnce("mapGenie") {
+                            onDo {
+                                MaterialDialog(this@MainActivity).show {
+                                    title(text = "Warning")
+                                    message(text = "We are not affiliated with Map Genie, anything you do on their site will not link back to this app.")
+                                    positiveButton(text = "GOT IT") { dialog ->
+                                        openMapGenie()
+                                    }
+                                    negativeButton(text = "NEVERMIND") { dialog ->
+                                        Only.clearOnly("mapGenie")
+                                    }
+                                }
+                            }
+                            onDone {
+                                openMapGenie()
+                            }
+                        }
+                        false
+                    }
+                },
                 SectionDrawerItem().apply {
                     nameText = context.getString(R.string.join_us)
                 },
@@ -242,11 +278,18 @@ class MainActivity : AppCompatActivity() {
                     isIconTinted = true
                     nameText = "${BuildConfig.VERSION_NAME}"
                     iconRes = R.drawable.ic_baseline_info_24
-                }
+                },
                 /*PrimaryDrawerItem().apply {
-                    identifier = 10; typeface = benderFont; isIconTinted = true;
-                    name = StringHolder("Settings"); iconRes = R.drawable.ic_baseline_settings_24;
-                },*/
+                    typeface = benderFont
+                    isIconTinted = true
+                    name = StringHolder("Settings")
+                    isSelectable = false
+                    iconRes = R.drawable.ic_baseline_settings_24
+                    onDrawerItemClickListener = { _, _, _ ->
+                        startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                        false
+                    }
+                }*/
             )
 
             headerView = View.inflate(this@MainActivity, R.layout.layout_drawer_header, null)
@@ -269,6 +312,10 @@ class MainActivity : AppCompatActivity() {
         binding.slider.recyclerView.isVerticalScrollBarEnabled = false
 
         setupTimes(binding.slider.headerView)
+    }
+
+    private fun openMapGenie() {
+        "https://mapgenie.io/tarkov/maps/customs".openWithCustomTab(this@MainActivity)
     }
 
     private fun setupTimes(headerView: View?) {
