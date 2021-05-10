@@ -153,12 +153,12 @@ data class Quest(
 enum class Traders (var id: String) {
     PRAPOR      ("Prapor"),
     THERAPIST   ("Therapist"),
+    FENCE       ("Fence"),
     SKIER       ("Skier"),
     PEACEKEEPER ("Peacekeeper"),
     MECHANIC    ("Mechanic"),
     RAGMAN      ("Ragman"),
     JAEGER      ("Jaeger"),
-    FENCE       ("Fence"),
 }
 
 enum class Maps (var id: String) {

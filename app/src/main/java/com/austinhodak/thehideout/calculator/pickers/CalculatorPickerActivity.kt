@@ -74,6 +74,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
                 is Armor -> {
                     if (item.`class` == "Helmet") {
                         intent.putExtra("helmetID", item._id)
+                        intent.putExtra("armorID", item._id)
                     } else {
                         intent.putExtra("chestID", item._id)
                         intent.putExtra("armorID", item._id)

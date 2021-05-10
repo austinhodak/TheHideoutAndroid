@@ -1,4 +1,4 @@
-package com.austinhodak.thehideout.utils
+package com.austinhodak.thehideout
 
 import android.content.Context
 import android.net.Uri
@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.browser.customtabs.CustomTabsIntent
-import com.austinhodak.thehideout.BuildConfig
-import com.austinhodak.thehideout.R
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -210,4 +208,25 @@ fun String.getObjectiveIcon(): Int {
         "skill" -> R.drawable.ic_baseline_fitness_center_24
         else -> R.drawable.icons8_sniper_96
     }
+}
+
+@DrawableRes
+fun getTraderIcon(trader: Traders): Int {
+    return when (trader.id) {
+        "Prapor" -> R.drawable.prapor_portrait
+        "Therapist" -> R.drawable.therapist_portrait
+        "Fence" -> R.drawable.fence_portrait
+        "Skier" -> R.drawable.skier_portrait
+        "Peacekeeper" -> R.drawable.peacekeeper_portrait
+        "Mechanic" -> R.drawable.mechanic_portrait
+        "Ragman" -> R.drawable.ragman_portrait
+        "Jaeger" -> R.drawable.jaeger_portrait
+        else -> R.drawable.jaeger_portrait
+    }
+}
+
+fun hasInternet(context: Context): Boolean {
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+    return activeNetwork?.isConnectedOrConnecting == true
 }
