@@ -13,10 +13,12 @@ import com.austinhodak.thehideout.bsg.models.weapon.WeaponClass
 import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.databinding.FragmentWeaponListBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
+import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.viewmodels.WeaponViewModel
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.itemanimators.AlphaInAnimator
+import timber.log.Timber
 
 private const val ARG_PARAM1 = "param1"
 
@@ -63,9 +65,10 @@ class WeaponListFragment : Fragment() {
             false
         }
 
-        bsgViewModel.getWeapons().observe(requireActivity()) {
+        bsgViewModel.getWeapons().observe(viewLifecycleOwner) {
             val list = it.filter { weapon -> weapon._parent == weaponClass.id }.sortedBy { weapon -> weapon._props.ShortName }
             val list2 = list.map { weapon ->
+                Timber.d(weapon.toString())
                 BsgWeapon(
                     weapon._id,
                     weapon._name,

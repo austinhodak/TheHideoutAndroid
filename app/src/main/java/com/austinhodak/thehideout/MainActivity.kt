@@ -26,15 +26,17 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.bsg.CreatorMainActivity
 import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.utils.Time
+import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.OutdatedDrawerItem
-import com.austinhodak.thehideout.weapons.WeaponDetailActivity
+import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.models.Weapon
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -232,7 +234,7 @@ class MainActivity : AppCompatActivity() {
                         false
                     }
                 },
-                /*PrimaryDrawerItem().apply {
+                PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
                     nameText = "Loadout Creator"
@@ -242,7 +244,7 @@ class MainActivity : AppCompatActivity() {
                         startActivity(Intent(this@MainActivity, CreatorMainActivity::class.java))
                         false
                     }
-                },*/
+                },
                 DividerDrawerItem(),
                 PrimaryDrawerItem().apply {
                     typeface = benderFont

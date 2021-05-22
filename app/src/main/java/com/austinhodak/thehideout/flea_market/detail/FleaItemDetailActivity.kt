@@ -14,9 +14,9 @@ import com.austinhodak.thehideout.databinding.ActivityFleaDetailBinding
 import com.austinhodak.thehideout.flea_market.models.Barter
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.openWithCustomTab
 import com.austinhodak.thehideout.quests.models.QuestNew
-import com.austinhodak.thehideout.userRef
+import com.austinhodak.thehideout.utils.openWithCustomTab
+import com.austinhodak.thehideout.utils.userRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

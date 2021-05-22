@@ -1,6 +1,8 @@
-package com.austinhodak.thehideout
+package com.austinhodak.thehideout.utils
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,9 @@ import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.browser.customtabs.CustomTabsIntent
+import com.austinhodak.thehideout.BuildConfig
+import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.quests.models.Traders
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent

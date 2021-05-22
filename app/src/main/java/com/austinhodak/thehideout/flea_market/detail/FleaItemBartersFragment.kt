@@ -16,7 +16,7 @@ import com.austinhodak.thehideout.databinding.FragmentFleaItemBartersBinding
 import com.austinhodak.thehideout.flea_market.models.Barter
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.getPrice
+import com.austinhodak.thehideout.utils.getPrice
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="fleaItem"
+            type="com.austinhodak.thehideout.flea_market.models.FleaItem" />
+
+        <variable
+            name="weapon"
+            type="com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon" />
+
+        <import type="kotlin.collections.CollectionsKt" />
+
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:id="@+id/statsFragList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="8dp"
+                    app:timeline_bottom_radio_color="@color/white"
+                    app:timeline_margin_start="42dp"
+                    app:timeline_position="middle"
+                    app:timeline_radio_outline_radius="23"
+                    app:timeline_radio_radius="15"
+                    app:timeline_top_radio_color="@color/white"
+                    app:timeline_type="item">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/weaponDetailAmmoListLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/bender_light"
+                            android:text="AMMUNITION"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/weaponDetailAmmoIcon"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/red_keycard"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+                        <TextView
+                            android:id="@+id/weaponAmmoTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:fontFamily="@font/bender_bold"
+                            android:maxLines="1"
+                            android:text="@{weapon.getCaliberName()}"
+                            android:textColor="@color/primaryText87"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/weaponDetailAmmoIcon"
+                            app:layout_constraintStart_toEndOf="@+id/weaponDetailAmmoIcon"
+                            app:layout_constraintTop_toTopOf="@+id/weaponDetailAmmoIcon"
+                            tools:text="5.56x45" />
+
+                        <View
+                            android:id="@+id/view19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@color/md_light_dividers"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/weaponDetailAmmoIcon" />
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout9"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/view19">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:fontFamily="@font/bender"
+                                android:text="Highest Damage"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/weaponDetailAmmoDamage"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/bender_bold"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/primaryText87"
+                                tools:text="WARMAGE" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout10"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:fontFamily="@font/bender"
+                                android:text="Highest Pen"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/weaponDetailAmmoPen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/bender_bold"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/primaryText87"
+                                tools:text="SSA AP" />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ammoDetailFleaCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="@{fleaItem != null ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp">
+
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/bender_light"
+                            android:text="FLEA MARKET"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintTop_toBottomOf="@+id/textView20">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/view19">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:fontFamily="@font/bender"
+                                    android:text="CURRENT PRICE"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/bender_bold"
+                                    android:gravity="right"
+                                    android:text="@{fleaItem.currentPrice}"
+                                    android:textColor="@color/primaryText87"
+                                    tools:text="48,440,854₽" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/view19">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:fontFamily="@font/bender"
+                                    android:text="AVG. 24H PRICE"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/fleaDetail24HTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:fontFamily="@font/bender_light"
+                                    android:text="@{fleaItem.diff24h + `%`}"
+                                    android:textSize="12sp" />
+
+                                <ImageView
+                                    android:id="@+id/fleaDetail24HIcon"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    app:tint="@color/md_green_600" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/bender_bold"
+                                    android:gravity="right"
+                                    android:text="@{fleaItem.get24hPrice()}"
+                                    android:textColor="@color/primaryText87"
+                                    tools:text="48,440,854₽" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="16dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:fontFamily="@font/bender"
+                                    android:text="AVG. 7 DAY PRICE"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/fleaDetail7DTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:fontFamily="@font/bender_light"
+                                    android:text="@{fleaItem.diff7days + `%`}"
+                                    android:textSize="12sp" />
+
+                                <ImageView
+                                    android:id="@+id/fleaDetail7DIcon"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    app:tint="@color/md_green_600" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/bender_bold"
+                                    android:gravity="right"
+                                    android:text="@{fleaItem.avg7dPrice}"
+                                    android:textColor="@color/primaryText87"
+                                    tools:text="48,440,854₽" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginEnd="16dp"
+                                android:fontFamily="@font/bender_light"
+                                android:text="@{fleaItem.updatedTime}"
+                                tools:text="Updated 1 hour ago"
+                                android:textSize="8sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

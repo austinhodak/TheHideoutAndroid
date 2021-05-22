@@ -11,9 +11,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import javax.inject.Inject
 
-class BSGRepository @Inject constructor(@ApplicationContext context: Context) {
+object BSGRepository {
 
     val weaponClasses = mutableSetOf(
         WeaponClass("5447b5fc4bdc2d87278b4567", "Assault Carbine"),
@@ -27,13 +26,15 @@ class BSGRepository @Inject constructor(@ApplicationContext context: Context) {
         WeaponClass("5447bed64bdc2d97278b4568", "Machine Gun"),
     ).sortedBy { it.name }.toMutableSet()
 
-
+    var d: List<Any>? = null
 
     suspend fun getRawData(@ApplicationContext context: Context): JSONObject = withContext(Dispatchers.IO) {
         JSONObject(context.resources.openRawResource(R.raw.bsg_items).bufferedReader().use { it.readText() })
     }
 
     suspend fun processRawData(@ApplicationContext context: Context, raw: JSONObject? = null): List<Any> = withContext(Dispatchers.IO) {
+        //Timber.d("List: $d")
+        if (d != null) d
         val data = raw ?: getRawData(context)
         val list: MutableList<Any> = ArrayList()
         for (i in data.keys()) {
@@ -57,6 +58,7 @@ class BSGRepository @Inject constructor(@ApplicationContext context: Context) {
                 list.add(Gson().fromJson(item.toString(), BsgAmmo::class.java))
             }
         }
+        d = list
         list
     }
 }

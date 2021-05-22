@@ -34,7 +34,7 @@
             android:name=".calculator.CalculatorMainActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
-            android:name=".weapons.WeaponDetailActivity"
+            android:name=".weapons.detail.WeaponDetailActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
             android:name=".MainActivity"
