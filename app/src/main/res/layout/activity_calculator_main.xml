@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coord"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary">
@@ -230,6 +231,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:translationY="-16dp"
+        android:clickable="true"
+        android:src="@drawable/icons8_ammo_100"
+        android:layout_gravity="bottom|end"/>
+
     <include
         android:id="@+id/bottomSheet"
         layout="@layout/bottom_sheet_calculator_main"
@@ -240,19 +251,5 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     </include>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        app:layout_anchor="@id/bottomSheet"
-        app:layout_anchorGravity="top|end"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icons8_ammo_100" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

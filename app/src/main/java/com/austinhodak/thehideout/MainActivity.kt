@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         if (isDebug()) {
             Only.clearOnly("mapGenie")
+            Only.clearOnly("damageSim")
         }
     }
 

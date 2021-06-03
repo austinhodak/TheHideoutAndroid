@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.calculator
 
+import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -75,11 +76,44 @@ class CalculatorMainActivity : AppCompatActivity() {
 
         binding.floatingActionButton.setOnClickListener {
             if (bs.state == BottomSheetBehavior.STATE_HIDDEN || bs.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                bs.state = BottomSheetBehavior.STATE_EXPANDED
+                binding.floatingActionButton.hide()
             } else {
                 bs.state = BottomSheetBehavior.STATE_HIDDEN
             }
         }
+
+        binding.floatingActionButton.addOnHideAnimationListener(object : Animator.AnimatorListener {
+
+            override fun onAnimationStart(animation: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                bs.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+
+            }
+        })
+
+        bs.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (bs.state == BottomSheetBehavior.STATE_HIDDEN || bs.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                    binding.floatingActionButton.show()
+                } else {
+                    binding.floatingActionButton.hide()
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
 
         body.linkToHealthBar(Part.HEAD, binding.healthHead)
         body.linkToHealthBar(Part.THORAX, binding.healthThorax)
@@ -163,6 +197,13 @@ class CalculatorMainActivity : AppCompatActivity() {
         }
         binding.bottomSheet.calcPlayerCard.setOnClickListener {
             launchPicker(CalculatorPickerActivity.ItemType.CHARACTER)
+        }
+
+        binding.bottomSheet.calcResetHealthCard.setOnClickListener {
+            body.reset(selectedCharacter)
+            selectedHelmet?.resetDurability()
+            selectedChestArmor?.resetDurability()
+            updateDurabilities()
         }
     }
 
