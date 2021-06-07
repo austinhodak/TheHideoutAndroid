@@ -1,0 +1,129 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+}
+
+type Barter {
+    requiredItems: [TaskItem]!
+    rewardItems: [TaskItem]!
+    source: String!
+}
+
+type Craft {
+    duration: Int!
+    requiredItems: [TaskItem]!
+    rewardItems: [TaskItem]!
+    source: String!
+}
+
+type GameProperty {
+    arrayValue: [String]
+    key: String!
+    numericValue: Float
+    objectValue: String
+    stringValue: String
+}
+
+type Item {
+    accuracyModifier: Float
+    avg24hPrice: Int
+    basePrice: Int!
+    blocksHeadphones: Boolean
+    changeLast48h: Float
+    ergonomicsModifier: Float
+    gridImageLink: String
+    hasGrid: Boolean
+    height: Int!
+    high24hPrice: Int
+    iconLink: String
+    id: ID!
+    imageLink: String
+    lastLowPrice: Int
+    link: String
+    low24hPrice: Int
+    name: String
+    normalizedName: String
+    recoilModifier: Float
+    shortName: String
+    traderPrices: [TraderPrice]!
+    types: [ItemType]!
+    updated: String
+    width: Int!
+    wikiLink: String
+}
+
+type Query {
+    barters: [Barter]
+    crafts: [Craft]
+    item(id: ID!): Item
+    itemsByName(name: String!): [Item]!
+    itemsByType(type: ItemType!): [Item]!
+    quests: [Quest]
+}
+
+type Quest {
+    exp: Int!
+    giver: Trader!
+    id: String!
+    objectives: [QuestObjective]!
+    reputation: [QuestRewardReputation!]
+    requirements: QuestRequirement
+    title: String!
+    turnin: Trader!
+    unlocks: [String]!
+    wikiLink: String!
+}
+
+type QuestObjective {
+    id: String
+    location: String
+    number: Int
+    target: String!
+    targetItem: Item
+    type: String!
+}
+
+type QuestRequirement {
+    level: Int
+    quests: [String]!
+}
+
+type QuestRewardReputation {
+    amount: Float!
+    trader: Trader!
+}
+
+type TaskItem {
+    count: Float!
+    item: Item!
+}
+
+type Trader {
+    id: String!
+    name: String!
+}
+
+type TraderPrice {
+    price: Int!
+    trader: Trader!
+}
+
+enum ItemType {
+    ammo
+    any
+    armor
+    backpack
+    barter
+    glasses
+    grenade
+    gun
+    helmet
+    keys
+    markedOnly
+    mods
+    noFlea
+    provisions
+    unLootable
+    wearable
+}

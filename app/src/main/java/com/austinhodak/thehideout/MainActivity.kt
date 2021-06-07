@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -23,6 +24,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.austinhodak.tarkovapi.view.ViewState
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
@@ -30,6 +32,7 @@ import com.austinhodak.thehideout.bsg.CreatorMainActivity
 import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.utils.Time
@@ -77,6 +80,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fleaViewModel: FleaViewModel
     private lateinit var prefs: SharedPreferences
 
+    private val fleaVM: FleaVM by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_TheHideout)
         super.onCreate(savedInstanceState)
@@ -90,9 +95,6 @@ class MainActivity : AppCompatActivity() {
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
         bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
-        bsgViewModel.allData().observe(this) {
-
-        }
 
         //bsgViewModel.allData()
 
@@ -102,6 +104,23 @@ class MainActivity : AppCompatActivity() {
 
         if (isDebug()) {
             Only.clearOnly("mapGenie")
+        }
+
+        fleaVM.itemsList.observe(this) { response ->
+            when (response) {
+                is ViewState.Loading -> {
+                    Timber.d("Loading")
+                }
+
+                is ViewState.Success -> {
+                    val items = response.value?.data?.itemsByType
+                    Timber.d("Loaded with ${items?.size} items.")
+                }
+
+                is ViewState.Error -> {
+                    Timber.d("Error Loading")
+                }
+            }
         }
     }
 

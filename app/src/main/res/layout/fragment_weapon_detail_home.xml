@@ -39,14 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginRight="8dp"
-                    app:timeline_bottom_radio_color="@color/white"
-                    app:timeline_margin_start="42dp"
-                    app:timeline_position="middle"
-                    app:timeline_radio_outline_radius="23"
-                    app:timeline_radio_radius="15"
-                    app:timeline_top_radio_color="@color/white"
-                    app:timeline_type="item">
+                    android:layout_marginRight="8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/weaponDetailAmmoListLayout"

@@ -1,3 +1,4 @@
 include ':searchview'
 include ':app'
 rootProject.name = "The Hideout"
+include ':tarkovapi'

@@ -177,9 +177,9 @@ class FleaItemDetailActivity : AppCompatActivity() {
             R.id.fleaDetailTM -> {
                 fleaItem?.link?.openWithCustomTab(this)
             }
-            R.id.fleaDetailWiki -> {
+            /*R.id.fleaDetailWiki -> {
                 fleaItem?.wikiLink?.openWithCustomTab(this)
-            }
+            }*/
         }
         return super.onOptionsItemSelected(item)
     }

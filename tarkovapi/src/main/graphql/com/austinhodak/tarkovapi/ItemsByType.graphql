@@ -1,0 +1,17 @@
+query ItemsByType {
+    itemsByType(type: any) {
+        id
+        name
+        shortName
+        iconLink
+        imageLink
+        gridImageLink
+        basePrice
+        lastLowPrice
+        avg24hPrice
+        low24hPrice
+        high24hPrice
+        changeLast48h
+        updated
+    }
+}

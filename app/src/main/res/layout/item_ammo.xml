@@ -109,7 +109,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/fmj" />
+                    app:srcCompat="@drawable/ammo7_n39icon" />
 
                 <TextView
                     android:id="@+id/ammo_name"
