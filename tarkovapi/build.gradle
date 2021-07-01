@@ -68,4 +68,13 @@ dependencies {
     implementation("com.apollographql.apollo:apollo-http-cache:2.5.9")
     implementation("com.apollographql.apollo:apollo-normalized-cache-sqlite:2.5.9")
 
+    implementation("androidx.room:room-runtime:${versions.room}")
+    kapt "androidx.room:room-compiler:${versions.room}"
+
+    implementation("androidx.room:room-ktx:${versions.room}")
+
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
 }
