@@ -1,0 +1,17 @@
+query Barters {
+    barters {
+        source
+        requiredItems {
+            item {
+                ...ItemFragment
+            }
+            count
+        }
+        rewardItems {
+            item {
+                ...ItemFragment
+            }
+            count
+        }
+    }
+}

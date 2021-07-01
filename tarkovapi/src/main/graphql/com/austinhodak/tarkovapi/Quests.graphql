@@ -1,0 +1,34 @@
+query Quests {
+    quests {
+        id
+        title
+        wikiLink
+        exp
+        unlocks
+        giver {
+            id
+            name
+        }
+        turnin {
+            id
+            name
+        }
+        reputation {
+            trader {
+                id
+                name
+            }
+            amount
+        }
+        objectives {
+            id
+            type
+            target
+            targetItem {
+                id
+            }
+            number
+            location
+        }
+    }
+}

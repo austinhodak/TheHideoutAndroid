@@ -1,0 +1,5 @@
+query ItemByName($name: String!) {
+    itemsByName(name: $name) {
+        ...ItemFragment
+    }
+}
