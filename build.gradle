@@ -19,15 +19,15 @@ buildscript {
                 detekt            : '1.14.2',
                 slidingpaneLayout : "1.1.0",
                 swiperefreshLayout: "1.1.0",
-                materialDrawer    : '8.4.0',
-                firebaseBOM       : "27.1.0",
-                ktx               : "1.3.2",
+                materialDrawer    : '8.4.1',
+                firebaseBOM       : "28.2.0",
+                ktx               : '1.5.0',
                 mDialogs          : "3.3.0",
                 epoxy             : "4.1.0",
                 room              : "2.3.0",
                 hilt              : "2.31.2-alpha"
         ]
-        compose_version = '1.0.0-beta07'
+        compose_version = '1.0.0-beta09'
     }
 
     repositories {
@@ -42,8 +42,9 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.navigation}"
         classpath 'com.google.gms:google-services:4.3.8'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.0'
-        classpath "com.google.dagger:hilt-android-gradle-plugin:2.35.1"
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.37"
+
     }
 
 

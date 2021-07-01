@@ -4,10 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_weapon_detail.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_flea_item_detail.xml" value="0.33" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_weapon_detail_home.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo_detail_trader_price.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo_small.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_backpack.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_key.xml" value="0.11348684210526316" />
       </map>
     </option>
