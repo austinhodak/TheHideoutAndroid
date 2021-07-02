@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.TheHideout.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#1F1F1F</item>
     </style>
 
     <style name="TabsBender" parent="TextAppearance.AppCompat.Body1">
@@ -77,4 +78,10 @@
 
     <style name="Theme.TheHideout.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Theme.TheHideoutCompose" parent="@style/Theme.Material.DayNight.NoActionBar">
+        <item name="android:colorPrimary">#ff00ff</item>
+        <item name="android:colorAccent">#ff00ff</item>
+    </style>
+
+    <style name="Theme.Material.DayNight.NoActionBar" parent="@android:style/Theme.Material.NoActionBar" />
 </resources>

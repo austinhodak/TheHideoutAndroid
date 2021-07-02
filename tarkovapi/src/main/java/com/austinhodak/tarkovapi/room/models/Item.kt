@@ -1,9 +1,13 @@
 package com.austinhodak.tarkovapi.room.models
 
+import android.text.format.DateUtils
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.austinhodak.tarkovapi.fragment.ItemFragment
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 @Entity(tableName = "items")
 data class Item (
@@ -27,7 +31,30 @@ data class Item (
     val MaxDurability: Int? = null,
     val pricing: ItemFragment? = null
     //@Embedded val prefab: Prefab?,
-)
+) {
+   /*fun getHighestTraderSell(): String {
+        val highestSell = pricing?.traderPrices?.maxByOrNull { it?.price ?: 0 }
+       return "${highestSell?.trader?.name}: ${highestSell?.price?.asCurrency()}"
+    }*/
+
+    fun getTotalSlots(): Int {
+        return width?.times(height ?: 1) ?: 1
+    }
+
+    fun getPrice(): Int {
+        return pricing?.lastLowPrice ?: pricing?.basePrice ?: 0
+    }
+
+    fun getPricePerSlot(): Int {
+        return getPrice() / getTotalSlots()
+    }
+
+    fun getUpdatedTime(): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        sdf.timeZone = TimeZone.getTimeZone("GMT")
+        return "Updated ${DateUtils.getRelativeTimeSpanString(sdf.parse(pricing?.updated ?: "2021-07-01T08:36:35.194Z")?.time ?: 0, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS)}"
+    }
+}
 
 fun toItem(item: JSONObject): Item {
     val props = item.getJSONObject("_props")

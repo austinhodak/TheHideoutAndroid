@@ -9,18 +9,28 @@ import android.text.TextWatcher
 import android.view.*
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.list.customListAdapter
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
-import com.austinhodak.thehideout.MainActivity
+import com.austinhodak.tarkovapi.room.TarkovDatabase
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.FleaItem
+import com.austinhodak.thehideout.compose.theme.TheHideoutTheme
 import com.austinhodak.thehideout.databinding.FragmentFleaListBinding
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.models.FleaItem
@@ -59,18 +69,34 @@ class FleaMarketListFragment : Fragment() {
     private var _binding: FragmentFleaListBinding? = null
     private val binding get() = _binding!!
 
+    @ExperimentalMaterialApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentFleaListBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return ComposeView(requireContext()).apply {
+            setContent {
+                TheHideoutTheme {
+                    val scope = rememberCoroutineScope()
+                    val data = TarkovDatabase.getDatabase(context, scope).ItemDao().getAll().observeAsState()
+                    LazyColumn(
+                        Modifier.padding(vertical = 4.dp)
+                    ) {
+                        items(items = data.value?.sortedByDescending { it.getPrice() } ?: emptyList()) { item ->
+                            FleaItem(item = item)
+                        }
+                    }
+                }
+            }
+        }
+       /* _binding = FragmentFleaListBinding.inflate(layoutInflater, container, false)
+        return binding.root*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        /*prefs = PreferenceManager.getDefaultSharedPreferences(context)
         setupAdapter()
         setupRecyclerView()
 
-        (activity as MainActivity).isSearchHidden(false)
+        (activity as MainActivity).isSearchHidden(false)*/
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +106,7 @@ class FleaMarketListFragment : Fragment() {
     }
 
     private fun setupAdapter() {
+
         itemAdapter = ItemAdapter()
         fastAdapter = FastAdapter.with(itemAdapter)
 
@@ -168,6 +195,8 @@ class FleaMarketListFragment : Fragment() {
                     }
                 })
             }
+        }.registerDefault(R.layout.item_dialog_simple) { s, i ->
+
         }
 
         fastAdapter.onLongClickListener = { view, adapter, item, pos ->

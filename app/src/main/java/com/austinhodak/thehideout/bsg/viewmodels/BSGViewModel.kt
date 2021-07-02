@@ -5,11 +5,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.austinhodak.tarkovapi.room.TarkovDatabase
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.bsg.BSGRepository
 import com.austinhodak.thehideout.bsg.models.ammo.BsgAmmo
 import com.austinhodak.thehideout.bsg.models.mod.BsgMod
 import com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon
 import com.austinhodak.thehideout.bsg.models.weapon.WeaponClass
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class BSGViewModel (application: Application) : AndroidViewModel(application) {
@@ -22,6 +25,16 @@ class BSGViewModel (application: Application) : AndroidViewModel(application) {
     fun allData(): LiveData<List<Any>> = _allData
 
     init {
+        val database = TarkovDatabase.getDatabase(application, viewModelScope)
+        val dao = database.ItemDao()
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.insert(
+                Item(
+                    ""
+                )
+            )
+        }
+
         viewModelScope.launch {
             _allData.value = BSGRepository.processRawData(context).apply {
                 _allWeapons.value = this.filterIsInstance(BsgWeapon::class.java)

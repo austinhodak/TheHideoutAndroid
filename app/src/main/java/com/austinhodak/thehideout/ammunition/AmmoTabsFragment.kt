@@ -8,12 +8,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.databinding.FragmentAmmoTabsBinding
+import com.austinhodak.thehideout.utils.AmmoCalibers
+import com.austinhodak.thehideout.utils.getCaliberName
 import com.austinhodak.thehideout.utils.logScreen
 import com.google.android.material.tabs.TabLayoutMediator
 
 class AmmoTabsFragment : Fragment() {
 
-    private lateinit var calibers: List<AmmoHelper.Caliber>
+    private lateinit var calibers: List<String>
     private val sharedViewModel: AmmoViewModel by activityViewModels()
 
     private var _binding: FragmentAmmoTabsBinding? = null
@@ -29,7 +31,7 @@ class AmmoTabsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        calibers = AmmoHelper.caliberList
+        calibers = AmmoCalibers()
         setupTabs()
     }
 
@@ -37,11 +39,11 @@ class AmmoTabsFragment : Fragment() {
         binding.ammoViewpager.adapter = CollectionAdapter(this, calibers.size)
 
         for (i in calibers) {
-            binding.ammoTabs.addTab(binding.ammoTabs.newTab().setText(i.name))
+            binding.ammoTabs.addTab(binding.ammoTabs.newTab().setText(i))
         }
 
         TabLayoutMediator(binding.ammoTabs, binding.ammoViewpager) { tab, position ->
-            tab.text = calibers[position].name
+            tab.text = getCaliberName(calibers[position])
         }.attach()
     }
 
@@ -67,7 +69,7 @@ class AmmoTabsFragment : Fragment() {
         override fun getItemCount(): Int = itemsCount
 
         override fun createFragment(position: Int): Fragment {
-            return AmmoListFragment.newInstance(calibers[position].key)
+            return AmmoListFragment.newInstance(calibers[position])
         }
     }
 

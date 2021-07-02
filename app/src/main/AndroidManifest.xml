@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
+            android:name=".clothing.ClothingDetailActivityC"
+            android:theme="@style/Theme.TheHideoutCompose" />
+        <activity
             android:name=".settings.SettingsActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar"/>
         <activity android:name=".bsg.CreatorMainActivity" />
@@ -56,6 +59,10 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/hideout_shadow_1" />
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
 
         <service
             android:name=".firebase.MessagingService"

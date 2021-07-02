@@ -17,6 +17,7 @@ import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -24,7 +25,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.tarkovapi.view.ViewState
+import com.austinhodak.tarkovapi.networking.TarkovApi
+import com.austinhodak.tarkovapi.room.TarkovDatabase
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
@@ -96,17 +98,38 @@ class MainActivity : AppCompatActivity() {
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
         bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
 
+        val database = TarkovDatabase.getDatabase(application, lifecycleScope)
+
+        lifecycleScope.launchWhenResumed {
+            database.updatePricing(TarkovApi().getTarkovClient(application), lifecycleScope)
+        }
+
+
         //bsgViewModel.allData()
 
         setupDrawer(savedInstanceState)
-        setupSearchAdapter()
+        //setupSearchAdapter()
         setupNavigation()
 
         if (isDebug()) {
             Only.clearOnly("mapGenie")
         }
 
-        fleaVM.itemsList.observe(this) { response ->
+
+        /*val id = listOf("544a5cde4bdc2d39388b456b", "545cdae64bdc2d39198b4568")
+
+        lifecycleScope.launchWhenResumed {
+            for (i in id) {
+                val response = TarkovApi().getTarkovClient(applicationContext).query(ItemQuery(id = i)).await()
+                Timber.d("$i - $response")
+            }
+
+            //val dump = TarkovApi().getTarkovClient(applicationContext).apolloStore.normalizedCache().dump()
+            //println("dump: " + NormalizedCache.prettifyDump(dump))
+
+        }*/
+
+        /*fleaVM.itemsList.observe(this) { response ->
             when (response) {
                 is ViewState.Loading -> {
                     Timber.d("Loading")
@@ -121,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                     Timber.d("Error Loading")
                 }
             }
-        }
+        }*/
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -397,7 +420,7 @@ class MainActivity : AppCompatActivity() {
         binding.slider.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            setupSearch(destination)
+            //setupSearch(destination)
             setToolbarElevation(destination)
             supportActionBar?.title = ""
             binding.toolbarTitle.text = destination.label
@@ -578,7 +601,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         actionBarDrawerToggle.syncState()
-        setupSearch(findNavController(R.id.nav_host_fragment).currentDestination!!)
+        //setupSearch(findNavController(R.id.nav_host_fragment).currentDestination!!)
     }
 
     fun setQuestChipVisibility(visible: Boolean) {

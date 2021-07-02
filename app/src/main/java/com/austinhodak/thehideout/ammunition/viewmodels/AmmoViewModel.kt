@@ -6,7 +6,10 @@ import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
+import com.austinhodak.tarkovapi.room.TarkovDatabase
+import com.austinhodak.tarkovapi.room.models.AmmoItem
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.models.Ammo
@@ -15,6 +18,8 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
@@ -33,6 +38,20 @@ class AmmoViewModel(application: Application) : AndroidViewModel(application){
     init {
         setSortBy(0)
         loadAmmo()
+
+        viewModelScope.launch(Dispatchers.IO) {
+            getAmmo()
+        }
+    }
+
+    val ammo : LiveData<List<AmmoItem>> get() = _ammo
+    private val _ammo = MutableLiveData<List<AmmoItem>>()
+
+    private fun getAmmo() {
+        val data = TarkovDatabase.getDatabase(context, viewModelScope).WeaponDao().getAllAmmo()
+        viewModelScope.launch {
+            //_ammo.value = data
+        }
     }
 
     private fun loadAmmo() {

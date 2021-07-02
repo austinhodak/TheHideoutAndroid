@@ -1,5 +1,6 @@
 package com.austinhodak.tarkovapi.room.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,14 +12,14 @@ import com.austinhodak.tarkovapi.room.models.WeaponItem
 interface WeaponDao {
 
     @Query("SELECT * FROM ammo")
-    fun getAllAmmo(): List<AmmoItem>
+    fun getAllAmmo(): LiveData<List<AmmoItem>>
 
     @Query("SELECT * FROM ammo WHERE id = :id")
     fun getAmmoByID(id: String): AmmoItem
 
     @Query("SELECT * FROM ammo WHERE Caliber = :caliber")
-    fun getAmmoByCaliber(caliber: String): List<AmmoItem>
+    suspend fun getAmmoByCaliber(caliber: String): List<AmmoItem>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: WeaponItem)
+    suspend fun insert(item: WeaponItem)
 }

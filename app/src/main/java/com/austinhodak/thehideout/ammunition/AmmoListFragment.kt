@@ -1,19 +1,30 @@
 package com.austinhodak.thehideout.ammunition
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.austinhodak.tarkovapi.room.TarkovDatabase
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.compose.components.AmmoDetailCard
+import com.austinhodak.thehideout.compose.theme.TheHideoutTheme
 import com.austinhodak.thehideout.databinding.FragmentAmmoListBinding
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import com.mikepenz.itemanimators.AlphaInAnimator
 
 private const val ARG_CALIBER_ID = "param1"
 
@@ -36,14 +47,36 @@ class AmmoListFragment : Fragment() {
         }
     }
 
+
+
+    @ExperimentalMaterialApi
+    @ExperimentalAnimationApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentAmmoListBinding.inflate(inflater, container, false)
-        return binding.root
+        return ComposeView(requireContext()).apply {
+            setContent {
+                TheHideoutTheme {
+                    val scope = rememberCoroutineScope()
+                    //val data = sharedViewModel.ammo.observeAsState()
+                    val data = TarkovDatabase.getDatabase(context, scope).WeaponDao().getAllAmmo().observeAsState()
+                    //MainView()
+                    LazyColumn(
+                        Modifier.padding(vertical = 4.dp)
+                    ) {
+                        items(items = data.value?.filter { it.Caliber == caliberID } ?: emptyList()) { item ->
+                            //Timber.d(item.name)
+                            AnimatedVisibility(visible = true) {
+                                AmmoDetailCard(item = item)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val linearLayoutManager = LinearLayoutManager(requireActivity())
+        /*val linearLayoutManager = LinearLayoutManager(requireActivity())
         binding.ammoList.layoutManager = linearLayoutManager
         binding.ammoList.itemAnimator = AlphaInAnimator()
 
@@ -71,7 +104,7 @@ class AmmoListFragment : Fragment() {
                 putExtra("id", ammo._id)
             })
             false
-        }
+        }*/
     }
 
     //TODO Fix double call on start.

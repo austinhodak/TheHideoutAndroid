@@ -24,9 +24,54 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.math.round
 
+fun Int.asCurrency(currency: String = "R"): String {
+    val numFormat = NumberFormat.getCurrencyInstance().apply {
+        maximumFractionDigits = 0
+    }
+
+    numFormat.currency = when (currency) {
+        "R" -> Currency.getInstance("RUB")
+        "D" -> Currency.getInstance("USD")
+        "E" -> Currency.getInstance("EUR")
+        else -> Currency.getInstance("RUB")
+    }
+
+    var formatted = numFormat.format(this)
+
+    if (currency == "R") {
+        formatted = formatted.replace("RUB", "").plus("₽")
+    }
+
+    return formatted
+}
+
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 }
+
+fun AmmoCalibers(): List<String> = arrayListOf(
+    "Caliber762x35",
+    "Caliber86x70",
+    "Caliber366TKM",
+    "Caliber1143x23ACP",
+    "Caliber127x55",
+    "Caliber12g",
+    "Caliber20g",
+    "Caliber23x75",
+    "Caliber46x30",
+    "Caliber40x46",
+    "Caliber545x39",
+    "Caliber556x45NATO",
+    "Caliber57x28",
+    "Caliber762x25TT",
+    "Caliber762x39",
+    "Caliber762x51",
+    "Caliber762x54R",
+    "Caliber9x18PM",
+    "Caliber9x19PARA",
+    "Caliber9x21",
+    "Caliber9x39",
+)
 
 fun getCaliberName(caliber: String?): String {
     return when (caliber) {

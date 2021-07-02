@@ -134,7 +134,7 @@ class QuestsOverviewFragment : Fragment() {
             progressBar.progress = item.progress
             progressBar.max = item.maxProgress
             progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(item.color))
-        }.updateData(data)
+        }.registerDefault(R.layout.item_quest_overview) { _, _ -> }.updateData(data)
     }
 
     companion object {

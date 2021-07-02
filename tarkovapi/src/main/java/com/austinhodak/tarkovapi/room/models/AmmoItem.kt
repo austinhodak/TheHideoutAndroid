@@ -20,6 +20,10 @@ data class AmmoItem (
     @Embedded val ballistics: Ballistics? = null
     //@Embedded val prefab: Prefab?,
 ) {
+    fun getPrice(): Int {
+        return pricing?.lastLowPrice ?: pricing?.basePrice ?: 0
+    }
+
     data class Ballistics (
         val damage: Int,
         val armorDamage: Int,

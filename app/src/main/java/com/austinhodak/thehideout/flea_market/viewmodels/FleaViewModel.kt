@@ -7,8 +7,10 @@ import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.models.PriceAlert
@@ -25,6 +27,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
@@ -37,11 +40,17 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
     var searchKey = MutableLiveData<String>()
 
     val fleaItems = MutableLiveData<List<FleaItem>>()
+    val fleaItemsNew = MutableLiveData<List<Item>>()
     val priceAlerts = MutableLiveData<List<PriceAlert>>()
 
     init {
         loadData()
         loadPriceAlerts()
+        getAllItems()
+    }
+
+    private fun getAllItems() = viewModelScope.launch {
+        //fleaItemsNew.value = TarkovDatabase.getDatabase(context, viewModelScope).ItemDao().getAll().sortedByDescending { it.getPrice() }
     }
 
     private fun loadData() {

@@ -6,11 +6,15 @@ import com.austinhodak.thehideout.bsg.models.ammo.BsgAmmo
 import com.austinhodak.thehideout.bsg.models.mod.BsgMod
 import com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon
 import com.austinhodak.thehideout.bsg.models.weapon.WeaponClass
+import com.beust.klaxon.Klaxon
+import com.beust.klaxon.TypeAdapter
+import com.beust.klaxon.TypeFor
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import kotlin.reflect.KClass
 
 object BSGRepository {
 
@@ -27,6 +31,7 @@ object BSGRepository {
     ).sortedBy { it.name }.toMutableSet()
 
     var d: List<Any>? = null
+    var items: List<Data>? = null
 
     suspend fun getRawData(@ApplicationContext context: Context): JSONObject = withContext(Dispatchers.IO) {
         JSONObject(context.resources.openRawResource(R.raw.bsg_items).bufferedReader().use { it.readText() })
@@ -61,4 +66,45 @@ object BSGRepository {
         d = list
         list
     }
+
+    suspend fun getData(@ApplicationContext context: Context): List<Data>? = withContext(Dispatchers.IO) {
+        if (items == null) {
+            items = Klaxon().parseArray(context.resources.openRawResource(R.raw.bsg_items_array).bufferedReader().use { it.readText() })
+        }
+        items
+    }
+
+    open class Item
+    data class Ammo(val Caliber: String): Item()
+    data class Weapon(val weapFireType: String): Item()
+    data class Empty(val Name: String): Item()
+
+    class Data (
+        @TypeFor(field = "type", adapter = ShapeTypeAdapter::class)
+        val type: String,
+        val _props: Item,
+        val _id: String,
+        val _name: String,
+        val _parent: String,
+    ) {
+        override fun toString(): String {
+            return "$_id • $_name"
+        }
+    }
+
+    class ShapeTypeAdapter: TypeAdapter<Item> {
+        override fun classFor(_type: Any): KClass<out Item> {
+            return when (_type as String) {
+                "ammo" -> Ammo::class
+                "weapon" -> Weapon::class
+                else -> Empty::class
+            }
+        }
+
+    /*when(_props as JSONObject) {
+            _props.has("Caliber") -> Ammo::class
+            _props.has("Caliber") -> Ammo::class
+        }*/
+    }
+
 }

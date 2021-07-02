@@ -2,7 +2,6 @@ package com.austinhodak.tarkovapi.networking
 
 import android.content.Context
 import android.os.Looper
-import android.util.Log
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.CustomTypeAdapter
 import com.apollographql.apollo.api.CustomTypeValue
@@ -32,20 +31,20 @@ class TarkovApi {
             override fun fromFieldRecordSet(field: ResponseField, recordSet: Map<String, Any>): CacheKey {
 
                 val typePrefix = (recordSet["__typename"] as String).toUpperCase(Locale.ROOT)
-                val id = recordSet["id"] as String
+                val id = recordSet["id"] as String?
 
-                Log.d("TARKOVAPI", "RETRIEVING: $typePrefix.$id")
+                //Log.d("TARKOVAPI", "RETRIEVING: $typePrefix.$id")
 
                 return when (typePrefix) {
                     "ITEM",
                     "QUESTOBJECTIVE",
                     "QUEST",
                     "TRADER" -> {
-                        Log.d("TARKOVAPI", "FOUND: $typePrefix.$id")
+                        //Log.d("TARKOVAPI", "FOUND: $typePrefix.$id")
                         CacheKey.from("$typePrefix.$id")
                     }
                     else -> {
-                        Log.d("TARKOVAPI", "NO KEY: $typePrefix.$id")
+                        //Log.d("TARKOVAPI", "NO KEY: $typePrefix.$id")
                         CacheKey.NO_KEY
                     }
                 }
@@ -62,11 +61,11 @@ class TarkovApi {
                     "QUESTOBJECTIVE",
                     "QUEST",
                     "TRADER" -> {
-                        Log.d("TARKOVAPI", "SAVING: $fullID")
+                        //Log.d("TARKOVAPI", "SAVING: $fullID")
                         CacheKey.from(fullID)
                     }
                     else -> {
-                        Log.d("TARKOVAPI", "SAVING NO KEY: $fullID")
+                        //Log.d("TARKOVAPI", "SAVING NO KEY: $fullID")
                         CacheKey.NO_KEY
                     }
                 }
