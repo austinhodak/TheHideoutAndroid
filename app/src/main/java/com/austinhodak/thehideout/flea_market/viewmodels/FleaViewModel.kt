@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.austinhodak.tarkovapi.room.TarkovDatabase
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
@@ -27,6 +28,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -38,19 +40,28 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
     val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     var searchKey = MutableLiveData<String>()
+    var sortBy = MutableLiveData(1)
 
     val fleaItems = MutableLiveData<List<FleaItem>>()
-    val fleaItemsNew = MutableLiveData<List<Item>>()
+    var fleaItemsNew = MutableLiveData<List<Item>>()
     val priceAlerts = MutableLiveData<List<PriceAlert>>()
 
     init {
-        loadData()
-        loadPriceAlerts()
+        //loadData()
+        //loadPriceAlerts()
         getAllItems()
     }
 
-    private fun getAllItems() = viewModelScope.launch {
+    private fun getAllItems() = viewModelScope.launch(Dispatchers.IO) {
         //fleaItemsNew.value = TarkovDatabase.getDatabase(context, viewModelScope).ItemDao().getAll().sortedByDescending { it.getPrice() }
+        val data = TarkovDatabase.getDatabase(context, viewModelScope).ItemDao().getAll().sortedByDescending { it.getPrice() }
+        launch(Dispatchers.Main) {
+            fleaItemsNew.value = data
+        }
+    }
+
+    fun setSort(int: Int) {
+        sortBy.value = int
     }
 
     private fun loadData() {

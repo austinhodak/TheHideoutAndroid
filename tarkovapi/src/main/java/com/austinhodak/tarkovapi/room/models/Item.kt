@@ -32,11 +32,6 @@ data class Item (
     val pricing: ItemFragment? = null
     //@Embedded val prefab: Prefab?,
 ) {
-   /*fun getHighestTraderSell(): String {
-        val highestSell = pricing?.traderPrices?.maxByOrNull { it?.price ?: 0 }
-       return "${highestSell?.trader?.name}: ${highestSell?.price?.asCurrency()}"
-    }*/
-
     fun getTotalSlots(): Int {
         return width?.times(height ?: 1) ?: 1
     }
@@ -67,7 +62,7 @@ fun toItem(item: JSONObject): Item {
     }
 
     return Item (
-        id = item.getString("_id"),
+        id = item.getString("_id") ?: "",
         parent = item.optString("_parent"),
         name = props.optString("Name"),
         shortName = props.optString("ShortName"),

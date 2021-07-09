@@ -25,6 +25,10 @@
             android:name=".ammunition.AmmoDetailActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
+            android:exported="true"
+            android:name=".flea_market.detail.FleaItemDetail"
+            android:theme="@style/Theme.TheHideout.NoActionBar" />
+        <activity
             android:name=".quests.QuestDetailActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity

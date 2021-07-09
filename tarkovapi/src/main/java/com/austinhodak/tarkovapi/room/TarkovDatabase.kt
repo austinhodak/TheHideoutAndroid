@@ -12,19 +12,21 @@ import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.austinhodak.tarkovapi.ItemsByTypeQuery
 import com.austinhodak.tarkovapi.R
-import com.austinhodak.tarkovapi.room.dao.ItemDao
-import com.austinhodak.tarkovapi.room.dao.WeaponDao
+import com.austinhodak.tarkovapi.room.dao.*
 import com.austinhodak.tarkovapi.room.models.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 
-@Database(entities = [Item::class, AmmoItem::class, WeaponItem::class], version = 9)
+@Database(entities = [Item::class, AmmoItem::class, WeaponItem::class, Craft::class, Barter::class, Quest::class], version = 15)
 @TypeConverters(Converters::class)
 abstract class TarkovDatabase : RoomDatabase() {
     abstract fun ItemDao(): ItemDao
     abstract fun WeaponDao(): WeaponDao
+    abstract fun CraftDao(): CraftDao
+    abstract fun BarterDao(): BarterDao
+    abstract fun QuestDao(): QuestDao
 
     companion object {
         @Volatile
@@ -51,8 +53,21 @@ abstract class TarkovDatabase : RoomDatabase() {
             private val context: Context,
             private val scope: CoroutineScope
         ) : RoomDatabase.Callback() {
-            override fun onOpen(db: SupportSQLiteDatabase) {
-                super.onOpen(db)
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                Log.d("DATABASE", "OPENED")
+
+                INSTANCE?.let { database ->
+                    scope.launch(Dispatchers.IO) {
+                        JSONArray(context.resources.openRawResource(R.raw.bsg_items_array).bufferedReader().use { it.readText() }).let {
+                            populateDatabase(INSTANCE!!, it, scope)
+                        }
+                    }
+                }
+            }
+
+            override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
+                super.onDestructiveMigration(db)
                 Log.d("DATABASE", "OPENED")
 
                 INSTANCE?.let { database ->
@@ -68,6 +83,7 @@ abstract class TarkovDatabase : RoomDatabase() {
         fun populateDatabase(database: TarkovDatabase, items: JSONArray, scope: CoroutineScope) {
             val itemDao = database.ItemDao()
             val weaponDao = database.WeaponDao()
+            val craftDao = database.CraftDao()
 
             for (i in 0 until items.length()) {
                 val item = items.getJSONObject(i)

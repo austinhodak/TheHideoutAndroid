@@ -1,117 +1,6 @@
-# This file was generated based on ".graphqlconfig". Do not edit manually.
-
-schema {
-    query: Query
-}
-
-type Barter {
-    requiredItems: [TaskItem]!
-    rewardItems: [TaskItem]!
-    source: String!
-}
-
-type Craft {
-    duration: Int!
-    requiredItems: [TaskItem]!
-    rewardItems: [TaskItem]!
-    source: String!
-}
-
-type GameProperty {
-    arrayValue: [String]
-    key: String!
-    numericValue: Float
-    objectValue: String
-    stringValue: String
-}
-
-type Item {
-    accuracyModifier: Float
-    avg24hPrice: Int
-    basePrice: Int!
-    blocksHeadphones: Boolean
-    changeLast48h: Float
-    ergonomicsModifier: Float
-    gridImageLink: String
-    hasGrid: Boolean
-    height: Int!
-    high24hPrice: Int
-    iconLink: String
-    id: ID!
-    imageLink: String
-    lastLowPrice: Int
-    link: String
-    low24hPrice: Int
-    name: String
-    normalizedName: String
-    recoilModifier: Float
-    shortName: String
-    traderPrices: [TraderPrice]!
-    types: [ItemType]!
-    updated: String
-    width: Int!
-    wikiLink: String
-}
-
-type Query {
-    barters: [Barter]
-    crafts: [Craft]
-    item(id: ID!): Item
-    itemsByName(name: String!): [Item]!
-    itemsByType(type: ItemType!): [Item]!
-    quests: [Quest]
-}
-
-type Quest {
-    exp: Int!
-    giver: Trader!
-    id: String!
-    objectives: [QuestObjective]!
-    reputation: [QuestRewardReputation!]
-    requirements: QuestRequirement
-    title: String!
-    turnin: Trader!
-    unlocks: [String]!
-    wikiLink: String!
-}
-
-type QuestObjective {
-    id: String
-    location: String
-    number: Int
-    target: String!
-    targetItem: Item
-    type: String!
-}
-
-type QuestRequirement {
-    level: Int
-    quests: [String]!
-}
-
-type QuestRewardReputation {
-    amount: Float!
-    trader: Trader!
-}
-
-type TaskItem {
-    count: Float!
-    item: Item!
-}
-
-type Trader {
-    id: String!
-    name: String!
-}
-
-type TraderPrice {
-    price: Int!
-    trader: Trader!
-}
-
 enum ItemType {
-    ammo
     any
+    ammo
     armor
     backpack
     barter
@@ -126,4 +15,167 @@ enum ItemType {
     provisions
     unLootable
     wearable
+}
+
+enum TraderName {
+    prapor
+    therapist
+    fence
+    skier
+    peacekeeper
+    mechanic
+    ragman
+    jaeger
+}
+
+enum ItemSourceName {
+    prapor
+    therapist
+    fence
+    skier
+    peacekeeper
+    mechanic
+    ragman
+    jaeger
+    fleaMarket
+}
+
+enum RequirementType {
+    playerLevel
+    loyaltyLevel
+    questCompleted
+}
+
+type GameProperty {
+    key: String!
+    numericValue: Float
+    stringValue: String
+    arrayValue: [String]
+    objectValue: String
+}
+
+type Item {
+    id: ID!
+    name: String
+    normalizedName: String
+    shortName: String
+    basePrice: Int!
+    updated: String
+    width: Int!
+    height: Int!
+    iconLink: String
+    wikiLink: String
+    imageLink: String
+    gridImageLink: String
+    types: [ItemType]!
+    avg24hPrice: Int
+    accuracyModifier: Float
+    recoilModifier: Float
+    ergonomicsModifier: Float
+    hasGrid: Boolean
+    blocksHeadphones: Boolean
+    traderPrices: [TraderPrice]!
+    link: String
+    lastLowPrice: Int
+    changeLast48h: Float
+    low24hPrice: Int
+    high24hPrice: Int
+    sellFor: [ItemPrice!]
+    buyFor: [ItemPrice!]
+}
+
+type ItemPrice {
+    source: ItemSourceName
+    price: Int
+    currency: String
+    requirements: [PriceRequirement]!
+}
+
+type PriceRequirement {
+    type: RequirementType
+    value: Int
+}
+
+type TaskItem {
+    item: Item!
+    count: Float!
+}
+
+type Barter {
+    source: String!
+    requiredItems: [TaskItem]!
+    rewardItems: [TaskItem]!
+}
+
+type Craft {
+    source: String!
+    duration: Int!
+    requiredItems: [TaskItem]!
+    rewardItems: [TaskItem]!
+}
+
+type Trader {
+    id: String!
+    name: String!
+}
+
+type TraderInventory {
+    id: String!
+    name: TraderName!
+    items: [TraderInventoryItem!]
+}
+
+type TraderInventoryItem {
+    item: Item!
+    minLevel: Int
+    price: Int
+    updated: String
+    questUnlockId: String
+    currency: String
+}
+
+type QuestRequirement {
+    level: Int
+    quests: [[Int]]!
+}
+
+type QuestRewardReputation {
+    trader: Trader!
+    amount: Float!
+}
+
+type QuestObjective {
+    id: String
+    type: String!
+    target: [String!]
+    targetItem: Item
+    number: Int
+    location: String
+}
+
+type Quest {
+    id: String!
+    requirements: QuestRequirement
+    giver: Trader!
+    turnin: Trader!
+    title: String!
+    wikiLink: String!
+    exp: Int!
+    unlocks: [String]!
+    reputation: [QuestRewardReputation!]
+    objectives: [QuestObjective]!
+}
+
+type TraderPrice {
+    price: Int!
+    trader: Trader!
+}
+
+type Query {
+    item(id: ID!): Item
+    itemsByType(type: ItemType!): [Item]!
+    itemsByName(name: String!): [Item]!
+    barters: [Barter]
+    crafts: [Craft]
+    quests: [Quest]
 }

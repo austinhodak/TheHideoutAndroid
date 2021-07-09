@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.browser.customtabs.CustomTabsIntent
+import com.austinhodak.tarkovapi.fragment.ItemPrice
+import com.austinhodak.tarkovapi.type.ItemSourceName
+import com.austinhodak.tarkovapi.type.RequirementType
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.quests.models.Traders
@@ -23,6 +26,116 @@ import com.google.firebase.ktx.Firebase
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.round
+import kotlin.math.roundToInt
+
+fun String.traderIcon(): String {
+    return when (ItemSourceName.valueOf(this.toUpperCase())) {
+        ItemSourceName.PRAPOR -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+        ItemSourceName.THERAPIST -> "https://tarkov-tools.com/images/therapist-icon.jpg"
+        ItemSourceName.FENCE -> "https://tarkov-tools.com/images/fence-icon.jpg"
+        ItemSourceName.SKIER -> "https://tarkov-tools.com/images/skier-icon.jpg"
+        ItemSourceName.PEACEKEEPER -> "https://tarkov-tools.com/images/peacekeeper-icon.jpg"
+        ItemSourceName.MECHANIC -> "https://tarkov-tools.com/images/mechanic-icon.jpg"
+        ItemSourceName.RAGMAN -> "https://tarkov-tools.com/images/ragman-icon.jpg"
+        ItemSourceName.JAEGER -> "https://tarkov-tools.com/images/jaeger-icon.jpg"
+        else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+    }
+}
+
+fun ItemPrice.toName(showRequirement: Boolean = false): String? {
+    val source = this.source
+    return if (showRequirement && this.requirements.isNotEmpty()) {
+        return if (source == ItemSourceName.FLEAMARKET && requirements.first()?.type == RequirementType.PLAYERLEVEL) {
+            "Flea Market L${requirements.first()?.value}"
+        } else {
+            "${source?.name} ${requirements.first()?.value?.getTraderLevel()}"
+        }
+        ""
+    } else {
+        if (source == ItemSourceName.FLEAMARKET) "Flea Market"
+        else source?.name
+    }
+}
+
+fun ItemPrice.traderImage(): String {
+    //Flea Market Icon
+    if (this.source == ItemSourceName.FLEAMARKET) return "https://tarkov-tools.com/images/flea-market-icon.jpg"
+
+    when {
+        requirements.isNullOrEmpty() -> {
+            return when (this.source) {
+                ItemSourceName.PRAPOR -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+                ItemSourceName.THERAPIST -> "https://tarkov-tools.com/images/therapist-icon.jpg"
+                ItemSourceName.FENCE -> "https://tarkov-tools.com/images/fence-icon.jpg"
+                ItemSourceName.SKIER -> "https://tarkov-tools.com/images/skier-icon.jpg"
+                ItemSourceName.PEACEKEEPER -> "https://tarkov-tools.com/images/peacekeeper-icon.jpg"
+                ItemSourceName.MECHANIC -> "https://tarkov-tools.com/images/mechanic-icon.jpg"
+                ItemSourceName.RAGMAN -> "https://tarkov-tools.com/images/ragman-icon.jpg"
+                ItemSourceName.JAEGER -> "https://tarkov-tools.com/images/jaeger-icon.jpg"
+                else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+            }
+        }
+        requirements.first()?.type == RequirementType.LOYALTYLEVEL -> {
+            val level = requirements.first()?.value ?: 1
+            return when (this.source) {
+                ItemSourceName.PRAPOR -> when (level) {
+                    1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fc/Prapor_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110125"
+                    2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/75/Prapor_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110134"
+                    3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/64/Prapor_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110141"
+                    4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f1/Prapor_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110153"
+                    else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fc/Prapor_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110125"
+                }
+                ItemSourceName.THERAPIST -> when (level) {
+                    1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fb/Therapist_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110312"
+                    2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5f/Therapist_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110321"
+                    3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f6/Therapist_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110328"
+                    4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Therapist_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110338"
+                    else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Therapist_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110338"
+                }
+                ItemSourceName.FENCE -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f7/Fence_Portrait.png/revision/latest/scale-to-width-down/127?cb=20180425012754"
+                ItemSourceName.RAGMAN -> when (level) {
+                    1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e5/Ragman_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110204"
+                    2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/20/Ragman_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110215"
+                    3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ed/Ragman_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110221"
+                    4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1c/Ragman_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110230"
+                    else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e5/Ragman_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110204"
+                }
+                ItemSourceName.PEACEKEEPER -> when (level) {
+                    1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Peacekeeper_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110041"
+                    2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/96/Peacekeeper_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110052"
+                    3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/95/Peacekeeper_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110059"
+                    4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3e/Peacekeeper_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110108"
+                    else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Peacekeeper_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110041"
+                }
+                ItemSourceName.SKIER -> when (level) {
+                    1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/eb/Skier_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110238"
+                    2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/12/Skier_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110248"
+                    3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/65/Skier_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110257"
+                    4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e8/Skier_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110304"
+                    else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/eb/Skier_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110238"
+                }
+                ItemSourceName.MECHANIC -> when (level) {
+                    1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3f/Mechanic_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822105848"
+                    2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/9b/Mechanic_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822105910"
+                    3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b8/Mechanic_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110019"
+                    4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/bd/Mechanic_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110029"
+                    else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3f/Mechanic_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822105848"
+                }
+                ItemSourceName.JAEGER -> when (level) {
+                    1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/Jaeger_1_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221027"
+                    2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/18/Jaeger_2_icon.png/revision/latest/scale-to-width-down/130?cb=20191101214208"
+                    3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ed/Jaeger_3_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221028"
+                    4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f2/Jaeger_4_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221026"
+                    else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/Jaeger_1_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221027"
+                }
+                else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+            }
+        }
+        else -> {
+            return "https://tarkov-tools.com/images/flea-market-icon.jpg"
+        }
+    }
+}
 
 fun Int.asCurrency(currency: String = "R"): String {
     val numFormat = NumberFormat.getCurrencyInstance().apply {
@@ -43,6 +156,10 @@ fun Int.asCurrency(currency: String = "R"): String {
     }
 
     return formatted
+}
+
+fun Int.convertRtoUSD(): Int {
+    return (this/116.0).roundToInt()
 }
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
@@ -216,7 +333,7 @@ fun uid(): String? {
 
 fun pushToken(token: String) {
     if (Firebase.auth.currentUser != null)
-    Firebase.database.getReference("users/${Firebase.auth.uid}/").updateChildren(hashMapOf<String, Any>("token" to token))
+        Firebase.database.getReference("users/${Firebase.auth.uid}/").updateChildren(hashMapOf<String, Any>("token" to token))
 }
 
 fun log(event: String, itemID: String, itemName: String, contentType: String) {
@@ -280,3 +397,4 @@ fun hasInternet(context: Context): Boolean {
     val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
     return activeNetwork?.isConnectedOrConnecting == true
 }
+

@@ -8,10 +8,4 @@
         android:title="Favorite"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/fleaDetailTM"
-        android:icon="@drawable/_37ca1aa3998d8193c098d1748b5280e_t"
-        android:title="Tarkov Market"
-        app:showAsAction="always" />
-
 </menu>

@@ -8,8 +8,14 @@ import com.austinhodak.tarkovapi.room.models.Item
 
 @Dao
 interface ItemDao {
-    @Query("SELECT * FROM items WHERE pricing IS NOT NULL")
-    fun getAll(): LiveData<List<Item>>
+    @Query("SELECT * FROM items WHERE pricing IS NOT NULL ORDER BY name")
+    fun getAll(): List<Item>
+
+    @Query("SELECT * FROM items WHERE pricing IS NOT NULL ORDER BY name")
+    fun getAllLive(): LiveData<List<Item>>
+
+    @Query("SELECT * FROM items WHERE id = :id")
+    fun getByID(id: String): LiveData<Item>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)
@@ -27,9 +33,11 @@ interface ItemDao {
     suspend fun updateWeaponTable(id: String, tt: ItemFragment)
 
     @Transaction
-    suspend fun updateAllPricing(id: String, pricing: ItemFragment) {
-        updateItemsTable(id, pricing)
-        updateAmmoTable(id, pricing)
-        updateWeaponTable(id, pricing)
+    suspend fun updateAllPricing(id: String?, pricing: ItemFragment) {
+        if (id != null) {
+            updateItemsTable(id, pricing)
+            updateAmmoTable(id, pricing)
+            updateWeaponTable(id, pricing)
+        }
     }
 }

@@ -1,34 +1,52 @@
 query Quests {
     quests {
-        id
-        title
-        wikiLink
-        exp
-        unlocks
-        giver {
-            id
-            name
-        }
-        turnin {
-            id
-            name
-        }
-        reputation {
-            trader {
-                id
-                name
-            }
-            amount
-        }
-        objectives {
-            id
-            type
-            target
-            targetItem {
-                id
-            }
-            number
-            location
-        }
+        ...QuestFragment
     }
+}
+
+fragment QuestFragment on Quest {
+    id
+    title
+    wikiLink
+    exp
+    unlocks
+    requirements {
+        level
+        quests
+    }
+    giver {
+        ...TraderFragment
+    }
+    turnin {
+        ...TraderFragment
+    }
+    reputation {
+        ...RepFragment
+    }
+    objectives {
+        ...ObjectiveFragment
+    }
+}
+
+fragment RepFragment on QuestRewardReputation {
+    trader {
+        ...TraderFragment
+    }
+    amount
+}
+
+fragment TraderFragment on Trader {
+    id
+    name
+}
+
+fragment ObjectiveFragment on QuestObjective {
+    id
+    type
+    target
+    targetItem {
+        ...ItemFragment
+    }
+    number
+    location
 }

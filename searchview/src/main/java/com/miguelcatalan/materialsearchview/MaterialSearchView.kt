@@ -234,7 +234,7 @@ class MaterialSearchView @JvmOverloads constructor(
         if (query != null && TextUtils.getTrimmedLength(query) > 0) {
             if (mOnQueryChangeListener == null || !mOnQueryChangeListener!!.onQueryTextSubmit(query.toString())) {
                 closeSearch()
-                mSearchSrcTextView?.setText(null)
+                //mSearchSrcTextView?.setText(null)
             }
         }
     }
@@ -336,11 +336,11 @@ class MaterialSearchView @JvmOverloads constructor(
 
     //Public Methods
     fun showSuggestions() {
-        if (mNewAdapter != null && mNewAdapter?.itemCount!! > 0 && mSuggestionsListView!!.visibility == GONE) {
+        /*if (mNewAdapter != null && mNewAdapter?.itemCount!! > 0 && mSuggestionsListView!!.visibility == GONE) {
             mSuggestionsListView!!.visibility = VISIBLE
         } else if (mNewAdapter?.itemCount!! == 0) {
             mSuggestionsListView!!.visibility = GONE
-        }
+        }*/
     }
 
     /**
@@ -475,6 +475,8 @@ class MaterialSearchView @JvmOverloads constructor(
         if (isSearchOpen) {
             return
         }
+
+        mTintView!!.visibility = GONE
 
         //Request Focus
         mSearchSrcTextView?.text = null

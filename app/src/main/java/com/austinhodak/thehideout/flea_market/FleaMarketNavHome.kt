@@ -5,7 +5,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.utils.logScreen
-import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class FleaMarketNavHome : Fragment() {
@@ -27,9 +26,7 @@ class FleaMarketNavHome : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.flea_tm -> {
-                "https://tarkov-market.com/".openWithCustomTab(requireContext())
-            }
+
         }
         return super.onOptionsItemSelected(item)
     }

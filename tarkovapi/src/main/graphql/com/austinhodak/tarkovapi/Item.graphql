@@ -21,4 +21,19 @@ fragment ItemFragment on Item {
     high24hPrice
     updated
     types
+    sellFor {
+        ...ItemPrice
+    }
+    buyFor {
+        ...ItemPrice
+    }
+}
+
+fragment ItemPrice on ItemPrice {
+    source
+    price
+    requirements {
+        type
+        value
+    }
 }

@@ -2,16 +2,10 @@ query Barters {
     barters {
         source
         requiredItems {
-            item {
-                ...ItemFragment
-            }
-            count
+            ...TaskItem
         }
         rewardItems {
-            item {
-                ...ItemFragment
-            }
-            count
+            ...TaskItem
         }
     }
 }

@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/bottom_nav_selector_text.xml" value="0.15486111111111112" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.15486111111111112" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_flea_detail.xml" value="0.14" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_main.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_weapon_detail.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_flea_home.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_flea_item_detail.xml" value="0.33" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_weapon_detail_home.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo.xml" value="0.22467105263157894" />
@@ -11,7 +16,15 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo_small.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_backpack.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_flea.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_hideout_craft.xml" value="0.5" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_key.xml" value="0.11348684210526316" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/menu/activity_flea_detail.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_ammo_list.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_flea.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_flea_bottom_nav.xml" value="0.18" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_flea_main.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_flea_main_bottom_nav.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_quests_bottom_nav.xml" value="0.22467105263157894" />
       </map>
     </option>
   </component>

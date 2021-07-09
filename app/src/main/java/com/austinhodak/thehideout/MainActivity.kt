@@ -25,8 +25,15 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.apollographql.apollo.coroutines.await
+import com.austinhodak.tarkovapi.BartersQuery
+import com.austinhodak.tarkovapi.CraftsQuery
+import com.austinhodak.tarkovapi.QuestsQuery
 import com.austinhodak.tarkovapi.networking.TarkovApi
 import com.austinhodak.tarkovapi.room.TarkovDatabase
+import com.austinhodak.tarkovapi.room.models.Barter
+import com.austinhodak.tarkovapi.room.models.Craft
+import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
@@ -102,8 +109,50 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenResumed {
             database.updatePricing(TarkovApi().getTarkovClient(application), lifecycleScope)
-        }
+            val craftDao = database.CraftDao()
+            val crafts = TarkovApi().getTarkovClient(application).query(CraftsQuery()).await()
+            craftDao.insert(crafts.data?.crafts?.mapIndexed { index, craft ->
+                Craft(
+                    id = index,
+                    source = craft?.source ?: "",
+                    duration = craft?.duration ?: 0,
+                    requiredItems = craft?.requiredItems?.map { it?.fragments?.taskItem!! }!!,
+                    rewardItems = craft.rewardItems.map { it?.fragments?.taskItem!! }
+                )
+            })
 
+            val barterDao = database.BarterDao()
+            val barters = TarkovApi().getTarkovClient(application).query(BartersQuery()).await()
+            barterDao.insert(barters.data?.barters?.mapIndexed { index, craft ->
+                Barter(
+                    id = index,
+                    source = craft?.source ?: "",
+                    requiredItems = craft?.requiredItems?.map { it?.fragments?.taskItem!! }!!,
+                    rewardItems = craft.rewardItems.map { it?.fragments?.taskItem!! }
+                )
+            })
+
+            val questsDao = database.QuestDao()
+            val quests = TarkovApi().getTarkovClient(application).query(QuestsQuery()).await()
+            questsDao.insert(quests.data?.quests?.map { q ->
+                val quest = q?.fragments?.questFragment
+                Quest(
+                    id = quest?.id!!,
+                    title = quest.title,
+                    wikiLink = quest.wikiLink,
+                    exp = quest.exp,
+                    giver = quest.giver.fragments.traderFragment,
+                    turnin = quest.turnin.fragments.traderFragment,
+                    unlocks = quest.unlocks,
+                    requirement = Quest.QuestRequirement(
+                        level = quest.requirements?.level,
+                        quests = quest.requirements?.quests!!
+                    ),
+                    reputation = quest.reputation?.map { it.fragments.repFragment },
+                    objective = quest.objectives.map { it?.fragments?.objectiveFragment!! }
+                )
+            })
+        }
 
         //bsgViewModel.allData()
 
@@ -114,7 +163,6 @@ class MainActivity : AppCompatActivity() {
         if (isDebug()) {
             Only.clearOnly("mapGenie")
         }
-
 
         /*val id = listOf("544a5cde4bdc2d39388b456b", "545cdae64bdc2d39198b4568")
 
@@ -420,7 +468,7 @@ class MainActivity : AppCompatActivity() {
         binding.slider.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            //setupSearch(destination)
+            setupSearch(destination)
             setToolbarElevation(destination)
             supportActionBar?.title = ""
             binding.toolbarTitle.text = destination.label
@@ -454,7 +502,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupSearch(currentDestination: NavDestination) {
         var list: MutableList<SuggestionModel>? = null
 
-        ammoViewModel.ammoList.observe(this) {
+        /*ammoViewModel.ammoList.observe(this) {
             list = when (currentDestination.id) {
                 R.id.FirstFragment -> {
                     ammoViewModel.ammoList.value?.map { ammo ->
@@ -478,7 +526,7 @@ class MainActivity : AppCompatActivity() {
         binding.searchView.setAdapter(mSearchAdapter)
         if (list != null) {
             binding.searchView.setSuggestions(list!!)
-        }
+        }*/
 
         binding.searchView.setHint("Search ${currentDestination.label}")
 
@@ -488,6 +536,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                Timber.d(newText)
                 keysViewModel.searchKey.value = newText
                 fleaViewModel.searchKey.value = newText
                 return true
@@ -590,7 +639,7 @@ class MainActivity : AppCompatActivity() {
                 binding.root.closeDrawer(binding.slider)
             }
             binding.searchView.isSearchOpen -> {
-                binding.searchView.closeSearch()
+                //binding.searchView.closeSearch()
             }
             else -> {
                 super.onBackPressed()
