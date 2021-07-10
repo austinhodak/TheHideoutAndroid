@@ -171,6 +171,17 @@ type TraderPrice {
     trader: Trader!
 }
 
+type HideoutModuleItemRequirement {
+    item: Item!
+    quantity: Int!
+}
+
+type HideoutModule {
+    name: String
+    level: Int
+    itemRequirements: [HideoutModuleItemRequirement]!
+}
+
 type Query {
     item(id: ID!): Item
     itemsByType(type: ItemType!): [Item]!
@@ -178,4 +189,5 @@ type Query {
     barters: [Barter]
     crafts: [Craft]
     quests: [Quest]
+    hideoutModules: [HideoutModule]
 }
