@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -64,10 +65,21 @@ class FleaItemDetail : ComponentActivity() {
 
                 val item = database.ItemDao().getByID(itemID).observeAsState()
 
+                val quests = database.QuestDao().getQuestsWithItemID("%${item.value?.id}%").observeAsState().value
+                val barters = database.BarterDao().getBartersWithItemID("%${item.value?.id}%").observeAsState().value
+                val crafts = database.CraftDao().getCraftsWithItemID("%${item.value?.id}%").observeAsState().value
+
+                val items = listOf(
+                    NavItem("Item", R.drawable.ic_baseline_shopping_cart_24),
+                    NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, barters?.isNotEmpty()),
+                    NavItem("Crafts", R.drawable.ic_baseline_handyman_24, crafts?.isNotEmpty()),
+                    NavItem("Quests", R.drawable.ic_baseline_assignment_24, quests?.isNotEmpty())
+                )
+
                 Scaffold(
                     scaffoldState = scaffoldState,
                     topBar = { HideoutToolbar(viewModel = viewModel, item = item.value) { finish() } },
-                    bottomBar = { FleaBottomNav(selected = selectedNavItem) { selectedNavItem = it } },
+                    bottomBar = { FleaBottomNav(selected = selectedNavItem, items) { selectedNavItem = it } },
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         Crossfade(targetState = selectedNavItem) {
@@ -106,7 +118,7 @@ class FleaItemDetail : ComponentActivity() {
                                 2 -> {
                                     CraftsPage(item = item.value, database)
                                 }
-                                3 -> QuestsPage(item = item.value, database, scope)
+                                3 -> QuestsPage(item = item.value, database, scope, quests)
                             }
                         }
                     }
@@ -121,9 +133,10 @@ class FleaItemDetail : ComponentActivity() {
 private fun QuestsPage(
     item: Item?,
     database: TarkovDatabase,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    quests: List<Quest>?
 ) {
-    val quests = database.QuestDao().getQuestsWithItemID("%${item?.id}%").observeAsState().value
+
     LazyColumn(
         contentPadding = PaddingValues(vertical = 4.dp)
     ) {
@@ -425,26 +438,22 @@ private fun BarterCraftCostItem(taskItem: TaskItem) {
 @Composable
 fun FleaBottomNav(
     selected: Int,
+    items: List<NavItem>,
     onItemSelected: (Int) -> Unit
 ) {
 
-    val items = listOf(
-        Pair("Item", R.drawable.ic_baseline_shopping_cart_24),
-        Pair("Barters", R.drawable.ic_baseline_compare_arrows_24),
-        Pair("Crafts", R.drawable.ic_baseline_handyman_24),
-        Pair("Quests", R.drawable.ic_baseline_assignment_24)
-    )
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.primary
     ) {
         items.forEachIndexed { index, item ->
             BottomNavigationItem(
-                icon = { Icon(painter = painterResource(id = item.second), contentDescription = null) },
-                label = { Text(item.first) },
+                icon = { Icon(painter = painterResource(id = item.icon), contentDescription = null) },
+                label = { Text(item.title) },
                 selected = selected == index,
                 onClick = { onItemSelected(index) },
                 selectedContentColor = MaterialTheme.colors.secondary,
-                unselectedContentColor = Color(0x99FFFFFF)
+                unselectedContentColor = if (item.enabled == true) Color(0x99FFFFFF) else Color(0x33FFFFFF),
+                enabled = item.enabled ?: true
             )
         }
     }
@@ -740,3 +749,9 @@ private fun SavingsRow(
         )
     }
 }
+
+data class NavItem(
+    val title: String,
+    @DrawableRes val icon: Int,
+    val enabled: Boolean? = true
+)
