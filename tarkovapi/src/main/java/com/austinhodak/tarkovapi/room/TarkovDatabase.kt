@@ -55,7 +55,7 @@ abstract class TarkovDatabase : RoomDatabase() {
         ) : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                Log.d("DATABASE", "OPENED")
+                Log.d("DATABASE", "CREATED")
 
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
@@ -68,7 +68,7 @@ abstract class TarkovDatabase : RoomDatabase() {
 
             override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
                 super.onDestructiveMigration(db)
-                Log.d("DATABASE", "OPENED")
+                Log.d("DATABASE", "DESTRUCTIVE")
 
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {

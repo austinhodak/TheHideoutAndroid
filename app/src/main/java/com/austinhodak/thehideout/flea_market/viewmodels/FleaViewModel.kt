@@ -28,7 +28,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -49,13 +48,12 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
     init {
         //loadData()
         //loadPriceAlerts()
-        getAllItems()
     }
 
-    private fun getAllItems() = viewModelScope.launch(Dispatchers.IO) {
+    fun getAllItems() = viewModelScope.launch {
         //fleaItemsNew.value = TarkovDatabase.getDatabase(context, viewModelScope).ItemDao().getAll().sortedByDescending { it.getPrice() }
-        val data = TarkovDatabase.getDatabase(context, viewModelScope).ItemDao().getAll().sortedByDescending { it.getPrice() }
-        launch(Dispatchers.Main) {
+        val data = TarkovDatabase.getDatabase(context, viewModelScope).ItemDao().getAll()
+        launch {
             fleaItemsNew.value = data
         }
     }

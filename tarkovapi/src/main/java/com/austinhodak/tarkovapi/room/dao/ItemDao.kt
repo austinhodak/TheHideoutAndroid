@@ -9,7 +9,7 @@ import com.austinhodak.tarkovapi.room.models.Item
 @Dao
 interface ItemDao {
     @Query("SELECT * FROM items WHERE pricing IS NOT NULL ORDER BY name")
-    fun getAll(): List<Item>
+    suspend fun getAll(): List<Item>
 
     @Query("SELECT * FROM items WHERE pricing IS NOT NULL ORDER BY name")
     fun getAllLive(): LiveData<List<Item>>

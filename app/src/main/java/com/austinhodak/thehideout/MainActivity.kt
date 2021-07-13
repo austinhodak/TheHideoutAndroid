@@ -105,6 +105,50 @@ class MainActivity : AppCompatActivity() {
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
         bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
 
+
+
+        //bsgViewModel.allData()
+
+        setupDrawer(savedInstanceState)
+        //setupSearchAdapter()
+        setupNavigation()
+
+        if (isDebug()) {
+            Only.clearOnly("mapGenie")
+        }
+
+        /*val id = listOf("544a5cde4bdc2d39388b456b", "545cdae64bdc2d39198b4568")
+
+        lifecycleScope.launchWhenResumed {
+            for (i in id) {
+                val response = TarkovApi().getTarkovClient(applicationContext).query(ItemQuery(id = i)).await()
+                Timber.d("$i - $response")
+            }
+
+            //val dump = TarkovApi().getTarkovClient(applicationContext).apolloStore.normalizedCache().dump()
+            //println("dump: " + NormalizedCache.prettifyDump(dump))
+
+        }*/
+
+        /*fleaVM.itemsList.observe(this) { response ->
+            when (response) {
+                is ViewState.Loading -> {
+                    Timber.d("Loading")
+                }
+
+                is ViewState.Success -> {
+                    val items = response.value?.data?.itemsByType
+                    Timber.d("Loaded with ${items?.size} items.")
+                }
+
+                is ViewState.Error -> {
+                    Timber.d("Error Loading")
+                }
+            }
+        }*/
+    }
+
+    private fun updateDatabase() {
         val database = TarkovDatabase.getDatabase(application, lifecycleScope)
 
         lifecycleScope.launchWhenResumed {
@@ -153,46 +197,6 @@ class MainActivity : AppCompatActivity() {
                 )
             })
         }
-
-        //bsgViewModel.allData()
-
-        setupDrawer(savedInstanceState)
-        //setupSearchAdapter()
-        setupNavigation()
-
-        if (isDebug()) {
-            Only.clearOnly("mapGenie")
-        }
-
-        /*val id = listOf("544a5cde4bdc2d39388b456b", "545cdae64bdc2d39198b4568")
-
-        lifecycleScope.launchWhenResumed {
-            for (i in id) {
-                val response = TarkovApi().getTarkovClient(applicationContext).query(ItemQuery(id = i)).await()
-                Timber.d("$i - $response")
-            }
-
-            //val dump = TarkovApi().getTarkovClient(applicationContext).apolloStore.normalizedCache().dump()
-            //println("dump: " + NormalizedCache.prettifyDump(dump))
-
-        }*/
-
-        /*fleaVM.itemsList.observe(this) { response ->
-            when (response) {
-                is ViewState.Loading -> {
-                    Timber.d("Loading")
-                }
-
-                is ViewState.Success -> {
-                    val items = response.value?.data?.itemsByType
-                    Timber.d("Loaded with ${items?.size} items.")
-                }
-
-                is ViewState.Error -> {
-                    Timber.d("Error Loading")
-                }
-            }
-        }*/
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {

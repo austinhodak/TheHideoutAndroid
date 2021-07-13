@@ -9,16 +9,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
-import com.austinhodak.tarkovapi.room.TarkovDatabase
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.FleaItem
 import com.austinhodak.thehideout.compose.theme.TheHideoutTheme
@@ -51,14 +51,21 @@ class FleaMarketListFragment : Fragment() {
     private var _binding: FragmentFleaListBinding? = null
     private val binding get() = _binding!!
 
+    @SuppressLint("CoroutineCreationDuringComposition")
     @ExperimentalMaterialApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return ComposeView(requireContext()).apply {
             setContent {
                 TheHideoutTheme {
-                    val database = TarkovDatabase.getDatabase(context, lifecycleScope)
-                    //val data = viewModel.fleaItemsNew.observeAsState()
-                    val data = database.ItemDao().getAllLive().observeAsState()
+                    val scope = rememberCoroutineScope()
+
+                    LaunchedEffect(scope) {
+                        viewModel.getAllItems()
+                    }
+
+                    val data = viewModel.fleaItemsNew.observeAsState()
+
+                    Timber.d("Flea: ${data.value?.size}")
                     val searchKey = viewModel.searchKey.observeAsState()
                     val sortBy = viewModel.sortBy.observeAsState()
 
