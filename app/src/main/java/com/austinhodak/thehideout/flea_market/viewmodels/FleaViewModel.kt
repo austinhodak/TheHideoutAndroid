@@ -25,6 +25,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import timber.log.Timber
 import java.io.File
@@ -91,11 +92,16 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
         val storagePath = File(context.filesDir, "the_hideout")
         if (!storagePath.exists()) {
             storagePath.mkdirs()
+            return emptyList()
         }
 
-        val objectString = FileInputStream(File(storagePath, "fleaItems.json")).bufferedReader().use { it.readText() }
-        val groupListType: Type = object : TypeToken<ArrayList<FleaItem?>?>() {}.type
-        return Gson().fromJson(objectString, groupListType)
+        return try {
+            val objectString = FileInputStream(File(storagePath, "fleaItems.json")).bufferedReader().use { it.readText() }
+            val groupListType: Type = object : TypeToken<ArrayList<FleaItem?>?>() {}.type
+            Gson().fromJson(objectString, groupListType)
+        } catch (e: JsonSyntaxException) {
+            emptyList()
+        }
     }
 
     fun getItemById(uid: String): FleaItem? {
