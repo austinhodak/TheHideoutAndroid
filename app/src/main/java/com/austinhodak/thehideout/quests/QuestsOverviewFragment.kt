@@ -2,14 +2,13 @@ package com.austinhodak.thehideout.quests
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.quests.models.QuestOverviewItem
 import com.austinhodak.thehideout.quests.viewmodels.QuestsViewModel
@@ -23,6 +22,7 @@ class QuestsOverviewFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_quest_overview, container, false)
     }
 
@@ -135,6 +135,30 @@ class QuestsOverviewFragment : Fragment() {
             progressBar.max = item.maxProgress
             progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(item.color))
         }.updateData(data)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.quest_overview, menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.reset_progress -> {
+                MaterialDialog(requireActivity()).show {
+                    title(text = "Reset Progress?")
+                    positiveButton(text = "RESET") {
+                        questsViewModel.resetQuestProgress()
+                    }
+                    negativeButton(text = "CANCEL") {
+                        dismiss()
+                    }
+
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

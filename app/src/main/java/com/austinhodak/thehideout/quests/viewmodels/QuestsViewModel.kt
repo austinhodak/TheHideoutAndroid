@@ -89,6 +89,11 @@ class QuestsViewModel(application: Application) : AndroidViewModel(application) 
         userRef("quests/completed/\"${quest.id}\"").setValue(true)
     }
 
+    fun resetQuestProgress() {
+        userRef("quests").removeValue()
+        userRef("questObjectives").removeValue()
+    }
+
     fun jumpToQuest(quest: Quest) {
 
     }

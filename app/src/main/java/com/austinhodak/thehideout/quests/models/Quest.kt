@@ -40,8 +40,6 @@ data class Quest(
         var hint: String?
     ) {
 
-
-
         fun isCompleted(objectives: UserFB.UserFBQuestObjectives?): Boolean {
             if (objectives == null) return false
             val pg = objectives.progress
