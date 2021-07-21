@@ -47,8 +47,6 @@ class AmmoListFragment : Fragment() {
         }
     }
 
-
-
     @ExperimentalMaterialApi
     @ExperimentalAnimationApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -62,7 +60,7 @@ class AmmoListFragment : Fragment() {
                     LazyColumn(
                         Modifier.padding(vertical = 4.dp)
                     ) {
-                        items(items = data.value?.filter { it.Caliber == caliberID } ?: emptyList()) { item ->
+                        items(items = data.value?.filter { it.Caliber == caliberID && it.ballistics?.tracerColor != "tracerYellow" && it.name != "Ammo" } ?: emptyList()) { item ->
                             //Timber.d(item.name)
                             AnimatedVisibility(visible = true) {
                                 AmmoDetailCard(item = item)
