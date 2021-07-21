@@ -43,9 +43,9 @@ android {
         targetSdkVersion 30
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 10320
+        versionCode 10330
         // [1]-[0].[2].[0].[0]
-        versionName "0.3.2"
+        versionName "0.3.3"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
