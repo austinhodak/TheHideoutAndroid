@@ -1,0 +1,41 @@
+query Item(
+    $id: ID!
+) {
+    item(id: $id) {
+        ...ItemFragment
+    }
+}
+
+fragment ItemFragment on Item {
+    id
+    name
+    shortName
+    iconLink
+    imageLink
+    gridImageLink
+    avg24hPrice
+    basePrice
+    lastLowPrice
+    changeLast48h
+    low24hPrice
+    high24hPrice
+    updated
+    types
+    width
+    height
+    sellFor {
+        ...ItemPrice
+    }
+    buyFor {
+        ...ItemPrice
+    }
+}
+
+fragment ItemPrice on ItemPrice {
+    source
+    price
+    requirements {
+        type
+        value
+    }
+}

@@ -3,10 +3,15 @@ package com.austinhodak.thehideout.bsg.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.austinhodak.tarkovapi.room.TarkovDatabase
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.bsg.models.mod.BsgMod
 import com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
 
@@ -20,6 +25,16 @@ class BSGViewModel (application: Application) : AndroidViewModel(application) {
     }
 
     init {
+        val database = TarkovDatabase.getDatabase(application, viewModelScope)
+        val dao = database.ItemDao()
+        viewModelScope.launch(Dispatchers.IO) {
+            dao.insert(
+                Item(
+                    ""
+                )
+            )
+        }
+
         val data = allData.value
         val allMods = data?.filterIsInstance<BsgMod>()
         Timber.d(data?.sumBy {

@@ -1,0 +1,5 @@
+query ItemsByType($type: ItemType!) {
+    itemsByType(type: $type) {
+        ...ItemFragment
+    }
+}

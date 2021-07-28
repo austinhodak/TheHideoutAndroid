@@ -1,0 +1,11 @@
+query Barters {
+    barters {
+        source
+        requiredItems {
+            ...TaskItem
+        }
+        rewardItems {
+            ...TaskItem
+        }
+    }
+}

@@ -1,0 +1,19 @@
+query Crafts {
+    crafts {
+        source
+        duration
+        requiredItems {
+            ...TaskItem
+        }
+        rewardItems {
+            ...TaskItem
+        }
+    }
+}
+
+fragment TaskItem on TaskItem {
+    item {
+        ...ItemFragment
+    }
+    count
+}

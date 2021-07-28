@@ -97,6 +97,7 @@ android {
 dependencies {
     implementation project(":searchview")
     implementation project(":slimadapter")
+    implementation project(":tarkovapi")
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
@@ -213,4 +214,17 @@ dependencies {
 
     implementation('org.jetbrains.kotlinx:kotlinx-datetime:0.2.1')
 
+    // The core runtime dependencies
+    implementation("com.apollographql.apollo:apollo-runtime:2.5.9")
+    // Coroutines extensions for easier asynchronicity handling
+    implementation("com.apollographql.apollo:apollo-coroutines-support:2.5.9")
+
+    implementation "com.google.accompanist:accompanist-glide:0.12.0"
+
+    implementation 'com.beust:klaxon:5.5'
+
+    implementation("com.google.android.play:core:1.10.0")
+    implementation("com.google.android.play:core-ktx:1.8.1")
+
+    implementation 'io.github.ibrahimyilmaz:kiel:1.2.1'
 }

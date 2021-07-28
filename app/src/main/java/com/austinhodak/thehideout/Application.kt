@@ -21,29 +21,28 @@ import timber.log.Timber.DebugTree
 @HiltAndroidApp
 class Application : Application() {
 
-
-
     override fun onCreate() {
         super.onCreate()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
-        if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
-            Firebase.analytics.setAnalyticsCollectionEnabled(false)
-        }
-
-
 
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
             Timber.d("Firebase UID: %s", uid())
         }
 
-        Firebase.database.setPersistenceEnabled(true)
-
-        Firebase.auth.signInAnonymously()
-
         Only.init(applicationContext)
 
+        setupFirebase()
+    }
+
+    private fun setupFirebase() {
+        //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
+        if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
+            Firebase.analytics.setAnalyticsCollectionEnabled(false)
+        }
+
+        Firebase.database.setPersistenceEnabled(true)
+        Firebase.auth.signInAnonymously()
         Firebase.firestore.firestoreSettings = firestoreSettings {
             isPersistenceEnabled = true
         }
@@ -52,14 +51,6 @@ class Application : Application() {
             Timber.d("Firebase Messaging Token: %s", it)
         }
 
-        setupRemoteConfig()
-    }
-
-    /**
-     * Sets up the Firebase remote config.
-     */
-
-    private fun setupRemoteConfig() {
         //Set remote config settings if debug.
         if (BuildConfig.DEBUG) {
             Firebase.remoteConfig.setConfigSettingsAsync(remoteConfigSettings {

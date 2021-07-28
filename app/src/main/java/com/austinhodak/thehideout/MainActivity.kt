@@ -16,6 +16,7 @@ import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -23,9 +24,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
+import com.apollographql.apollo.coroutines.await
+import com.austinhodak.tarkovapi.BartersQuery
+import com.austinhodak.tarkovapi.CraftsQuery
+import com.austinhodak.tarkovapi.networking.TarkovApi
+import com.austinhodak.tarkovapi.room.TarkovDatabase
+import com.austinhodak.tarkovapi.room.models.Barter
+import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
@@ -50,6 +59,7 @@ import com.mikepenz.materialdrawer.util.setupWithNavController
 import com.skydoves.only.Only
 import com.skydoves.only.onlyOnce
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -65,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     private var searchItem: MenuItem? = null
     private var hideSearch = false
     private lateinit var ammoViewModel: AmmoViewModel
-    //private lateinit var bsgViewModel: BSGViewModel
+    private lateinit var bsgViewModel: BSGViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var mSearchAdapter: SlimAdapter
@@ -76,6 +86,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_TheHideout)
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
@@ -85,12 +96,76 @@ class MainActivity : AppCompatActivity() {
         ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
-        //bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
+        bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
+
+        //bsgViewModel.allData()
 
         setupDrawer(savedInstanceState)
         setupSearchAdapter()
         setupNavigation()
+        setupDebug()
+        updateDatabase()
+    }
 
+    private fun updateDatabase() {
+        val database = TarkovDatabase.getDatabase(application, lifecycleScope)
+
+        lifecycleScope.launchWhenResumed {
+            database.updatePricing(TarkovApi().getTarkovClient(application), lifecycleScope)
+
+            launch(Dispatchers.Main) {
+                /*database.ItemDao().getAllItemsWithPrices("544a5cde4bdc2d39388b456b").observeForever {
+                    Timber.d(it.toString())
+                }*/
+            }
+
+            val craftDao = database.CraftDao()
+            val crafts = TarkovApi().getTarkovClient(application).query(CraftsQuery()).await()
+            craftDao.insert(crafts.data?.crafts?.mapIndexed { index, craft ->
+                Craft(
+                    id = index,
+                    source = craft?.source ?: "",
+                    duration = craft?.duration ?: 0,
+                    requiredItems = craft?.requiredItems?.map { it?.fragments?.taskItem!! }!!,
+                    rewardItems = craft.rewardItems.map { it?.fragments?.taskItem!! }
+                )
+            })
+
+            val barterDao = database.BarterDao()
+            val barters = TarkovApi().getTarkovClient(application).query(BartersQuery()).await()
+            barterDao.insert(barters.data?.barters?.mapIndexed { index, craft ->
+                Barter(
+                    id = index,
+                    source = craft?.source ?: "",
+                    requiredItems = craft?.requiredItems?.map { it?.fragments?.taskItem!! }!!,
+                    rewardItems = craft.rewardItems.map { it?.fragments?.taskItem!! }
+                )
+            })
+
+            /*val questsDao = database.QuestDao()
+            val quests = TarkovApi().getTarkovClient(application).query(QuestsQuery()).await()
+            questsDao.insert(quests.data?.quests?.map { q ->
+                val quest = q?.fragments?.questFragment
+                Quest(
+                    id = quest?.id!!,
+                    title = quest.title,
+                    wikiLink = quest.wikiLink,
+                    exp = quest.exp,
+                    giver = quest.giver.fragments.traderFragment,
+                    turnin = quest.turnin.fragments.traderFragment,
+                    unlocks = quest.unlocks,
+                    requirement = Quest.QuestRequirement(
+                        level = quest.requirements?.level,
+                        quests = quest.requirements?.quests!!
+                    ),
+                    reputation = quest.reputation?.map { it.fragments.repFragment },
+                    objective = quest.objectives.map { it?.fragments?.objectiveFragment!! }
+                )
+            })*/
+        }
+    }
+
+    private fun setupDebug() {
         if (isDebug()) {
             Only.clearOnly("mapGenie")
             Only.clearOnly("damageSim")
