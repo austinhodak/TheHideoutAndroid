@@ -6,10 +6,10 @@ buildscript {
                 annotation        : '1.2.0',
                 recyclerView      : '1.2.1',
                 core              : '1.3.2',
-                material          : '1.3.0',
-                appcompat         : '1.3.0',
+                material          : '1.4.0',
+                appcompat         : '1.3.1',
                 drawerlayout      : '1.1.1',
-                constraintLayout  : '2.1.0-beta02',
+                constraintLayout  : '2.1.0',
                 cardview          : '1.0.0',
                 kotlin            : '1.5.10',
                 fastadapter       : "5.3.2",
@@ -19,15 +19,15 @@ buildscript {
                 detekt            : '1.14.2',
                 slidingpaneLayout : "1.1.0",
                 swiperefreshLayout: "1.1.0",
-                materialDrawer    : '8.4.1',
-                firebaseBOM       : "28.2.0",
-                ktx               : '1.5.0',
+                materialDrawer    : '8.4.2',
+                firebaseBOM       : "28.3.0",
+                ktx               : '1.6.0',
                 mDialogs          : "3.3.0",
                 epoxy             : "4.1.0",
                 room              : "2.3.0",
                 hilt              : "2.31.2-alpha"
         ]
-        compose_version = '1.0.0-beta09'
+        compose_version = '1.0.1'
     }
 
     repositories {
@@ -38,12 +38,12 @@ buildscript {
 
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.navigation}"
-        classpath 'com.google.gms:google-services:4.3.8'
+        classpath 'com.google.gms:google-services:4.3.10'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
-        classpath "com.google.dagger:hilt-android-gradle-plugin:2.37"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.38.1"
 
     }
 

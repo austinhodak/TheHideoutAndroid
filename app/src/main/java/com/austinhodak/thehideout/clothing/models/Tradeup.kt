@@ -1,6 +1,6 @@
 package com.austinhodak.thehideout.clothing.models
 
-import com.austinhodak.thehideout.utils.getTraderLevel
+import com.austinhodak.tarkovapi.utils.getTraderLevel
 import java.text.DecimalFormat
 
 data class Tradeup(

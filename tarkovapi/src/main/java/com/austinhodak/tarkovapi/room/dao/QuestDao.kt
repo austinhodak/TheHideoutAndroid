@@ -19,15 +19,12 @@ interface QuestDao {
     @Query("SELECT * FROM quests WHERE id IS :id")
     fun getQuestByID(id: String): LiveData<Quest>
 
-    @Query("SELECT EXISTS (SELECT * FROM quests WHERE id IS '195' AND requirement_quests LIKE '%' + :id + '%')")
-    fun isQuestRequiredForKappa(id: String): LiveData<Int>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(craft: Quest)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(crafts: List<Quest>?)
 
-   /* @Query("DELETE FROM quests")
-    fun nukeTable()*/
+    /* @Query("DELETE FROM quests")
+     fun nukeTable()*/
 }

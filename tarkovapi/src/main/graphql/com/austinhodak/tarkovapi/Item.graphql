@@ -27,6 +27,8 @@ fragment ItemFragment on Item {
     buyFor {
         ...ItemPrice
     }
+    width
+    height
 }
 
 fragment ItemPrice on ItemPrice {

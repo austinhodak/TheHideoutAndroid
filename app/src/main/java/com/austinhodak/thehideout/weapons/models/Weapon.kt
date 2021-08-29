@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.austinhodak.tarkovapi.utils.getTraderLevel
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.databinding.ItemWeaponBinding
 import com.austinhodak.thehideout.utils.getCurrency
-import com.austinhodak.thehideout.utils.getTraderLevel
 import com.bumptech.glide.Glide
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import java.text.DecimalFormat

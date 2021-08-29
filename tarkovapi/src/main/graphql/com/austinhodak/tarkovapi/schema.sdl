@@ -15,6 +15,9 @@ enum ItemType {
     provisions
     unLootable
     wearable
+    rig
+    headphones
+    suppressor
 }
 
 enum TraderName {
@@ -137,6 +140,7 @@ type TraderInventoryItem {
 type QuestRequirement {
     level: Int
     quests: [[Int]]!
+    prerequisiteQuests: [[Quest]]!
 }
 
 type QuestRewardReputation {
@@ -180,6 +184,7 @@ type HideoutModule {
     name: String
     level: Int
     itemRequirements: [HideoutModuleItemRequirement]!
+    moduleRequirements: [HideoutModule]!
 }
 
 type Query {

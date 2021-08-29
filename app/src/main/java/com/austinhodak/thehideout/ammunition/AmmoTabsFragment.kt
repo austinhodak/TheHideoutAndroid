@@ -5,11 +5,11 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.austinhodak.tarkovapi.utils.AmmoCalibers
+import com.austinhodak.tarkovapi.utils.getCaliberName
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.databinding.FragmentAmmoTabsBinding
-import com.austinhodak.thehideout.utils.AmmoCalibers
-import com.austinhodak.thehideout.utils.getCaliberName
 import com.austinhodak.thehideout.utils.logScreen
 import com.google.android.material.tabs.TabLayoutMediator
 

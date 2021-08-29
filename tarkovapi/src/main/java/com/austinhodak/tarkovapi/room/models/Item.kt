@@ -3,14 +3,14 @@ package com.austinhodak.tarkovapi.room.models
 import android.text.format.DateUtils
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.austinhodak.tarkovapi.fragment.ItemFragment
+import com.austinhodak.tarkovapi.room.enums.ItemType
+import com.austinhodak.tarkovapi.utils.getItemType
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 @Entity(tableName = "items")
-data class Item (
+data class Item(
     @PrimaryKey val id: String,
     val itemType: ItemType? = ItemType.NONE,
     val parent: String? = null,
@@ -29,8 +29,7 @@ data class Item (
     val RepairCost: Int? = null,
     val Durability: Int? = null,
     val MaxDurability: Int? = null,
-    val pricing: ItemFragment? = null
-    //@Embedded val prefab: Prefab?,
+    val pricing: Pricing? = null
 ) {
     fun getTotalSlots(): Int {
         return width?.times(height ?: 1) ?: 1
@@ -51,19 +50,14 @@ data class Item (
     }
 }
 
-fun toItem(item: JSONObject): Item {
-    val props = item.getJSONObject("_props")
+fun JSONObject.toItem(): Item {
+    val props = getJSONObject("_props")
 
-    val itemType: ItemType = when {
-        props.has("weapFireType") -> ItemType.WEAPON
-        props.has("Prefab") && props.getJSONObject("Prefab").getString("path").contains("assets/content/items/mods") -> ItemType.MODS
-        props.has("Caliber") -> ItemType.AMMO
-        else -> ItemType.NONE
-    }
+    val itemType = getItemType()
 
-    return Item (
-        id = item.getString("_id") ?: "",
-        parent = item.optString("_parent"),
+    return Item(
+        id = getString("_id") ?: "",
+        parent = optString("_parent"),
         name = props.optString("Name"),
         shortName = props.optString("ShortName"),
         description = props.optString("Description"),
@@ -81,20 +75,4 @@ fun toItem(item: JSONObject): Item {
         Durability = props.optInt("Durability"),
         MaxDurability = props.optInt("MaxDurability"),
     )
-}
-
-enum class ItemType {
-    NONE,
-    AMMO,
-    ARMOR,
-    BACKPACK,
-    GLASSES,
-    GRENADE,
-    GUN,
-    HELMET,
-    KEY,
-    MODS,
-    PROVISIONS,
-    WEARABLE,
-    WEAPON
 }

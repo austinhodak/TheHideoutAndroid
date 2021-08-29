@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.austinhodak.tarkovapi.utils.getCaliberImage
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.bsg.models.ammo.BsgAmmo
 import com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon
@@ -15,7 +16,6 @@ import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.databinding.FragmentWeaponDetailHomeBinding
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.models.FleaItem
-import com.austinhodak.thehideout.utils.getCaliberImage
 import com.austinhodak.thehideout.utils.log
 import com.bumptech.glide.Glide
 import com.google.firebase.analytics.FirebaseAnalytics

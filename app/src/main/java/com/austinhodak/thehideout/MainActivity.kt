@@ -17,7 +17,6 @@ import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -25,15 +24,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.apollographql.apollo.coroutines.await
-import com.austinhodak.tarkovapi.BartersQuery
-import com.austinhodak.tarkovapi.CraftsQuery
-import com.austinhodak.tarkovapi.QuestsQuery
-import com.austinhodak.tarkovapi.networking.TarkovApi
-import com.austinhodak.tarkovapi.room.TarkovDatabase
-import com.austinhodak.tarkovapi.room.models.Barter
-import com.austinhodak.tarkovapi.room.models.Craft
-import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.utils.Time
 import com.austinhodak.thehideout.ammunition.AmmoHelper
 import com.austinhodak.thehideout.ammunition.models.Ammo
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
@@ -44,7 +35,6 @@ import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
-import com.austinhodak.thehideout.utils.Time
 import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.OutdatedDrawerItem
@@ -146,57 +136,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }*/
-    }
-
-    private fun updateDatabase() {
-        val database = TarkovDatabase.getDatabase(application, lifecycleScope)
-
-        lifecycleScope.launchWhenResumed {
-            database.updatePricing(TarkovApi().getTarkovClient(application), lifecycleScope)
-            val craftDao = database.CraftDao()
-            val crafts = TarkovApi().getTarkovClient(application).query(CraftsQuery()).await()
-            craftDao.insert(crafts.data?.crafts?.mapIndexed { index, craft ->
-                Craft(
-                    id = index,
-                    source = craft?.source ?: "",
-                    duration = craft?.duration ?: 0,
-                    requiredItems = craft?.requiredItems?.map { it?.fragments?.taskItem!! }!!,
-                    rewardItems = craft.rewardItems.map { it?.fragments?.taskItem!! }
-                )
-            })
-
-            val barterDao = database.BarterDao()
-            val barters = TarkovApi().getTarkovClient(application).query(BartersQuery()).await()
-            barterDao.insert(barters.data?.barters?.mapIndexed { index, craft ->
-                Barter(
-                    id = index,
-                    source = craft?.source ?: "",
-                    requiredItems = craft?.requiredItems?.map { it?.fragments?.taskItem!! }!!,
-                    rewardItems = craft.rewardItems.map { it?.fragments?.taskItem!! }
-                )
-            })
-
-            val questsDao = database.QuestDao()
-            val quests = TarkovApi().getTarkovClient(application).query(QuestsQuery()).await()
-            questsDao.insert(quests.data?.quests?.map { q ->
-                val quest = q?.fragments?.questFragment
-                Quest(
-                    id = quest?.id!!,
-                    title = quest.title,
-                    wikiLink = quest.wikiLink,
-                    exp = quest.exp,
-                    giver = quest.giver.fragments.traderFragment,
-                    turnin = quest.turnin.fragments.traderFragment,
-                    unlocks = quest.unlocks,
-                    requirement = Quest.QuestRequirement(
-                        level = quest.requirements?.level,
-                        quests = quest.requirements?.quests!!
-                    ),
-                    reputation = quest.reputation?.map { it.fragments.repFragment },
-                    objective = quest.objectives.map { it?.fragments?.objectiveFragment!! }
-                )
-            })
-        }
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {

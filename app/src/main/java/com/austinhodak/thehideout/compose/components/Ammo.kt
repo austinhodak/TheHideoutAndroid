@@ -13,9 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.austinhodak.tarkovapi.room.models.AmmoItem
-import com.austinhodak.thehideout.utils.asCurrency
 import com.google.accompanist.glide.rememberGlidePainter
-import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
 @Composable

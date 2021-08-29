@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,15 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.apollographql.apollo.coroutines.toFlow
 import com.austinhodak.tarkovapi.ItemsByTypeQuery
 import com.austinhodak.tarkovapi.networking.TarkovApi
 import com.austinhodak.tarkovapi.type.ItemType
+import com.austinhodak.thehideout.ItemsByTypeQuery
 import com.austinhodak.thehideout.clothing.ClothingDetailActivityC
 import com.austinhodak.thehideout.clothing.models.Backpack
 import com.austinhodak.thehideout.compose.theme.TheHideoutTheme
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
-import com.austinhodak.thehideout.utils.asCurrency
 import com.google.accompanist.glide.rememberGlidePainter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber

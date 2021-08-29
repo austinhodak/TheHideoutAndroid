@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.utils.asCurrency
 import com.google.accompanist.glide.rememberGlidePainter
 
 @ExperimentalMaterialApi

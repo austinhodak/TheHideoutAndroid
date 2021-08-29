@@ -1,23 +1,8 @@
 package com.austinhodak.tarkovapi.networking
 
-import android.content.Context
-import android.os.Looper
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.Operation
-import com.apollographql.apollo.api.ResponseField
-import com.apollographql.apollo.cache.normalized.CacheKey
-import com.apollographql.apollo.cache.normalized.CacheKeyResolver
-import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
-import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
-import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
-import com.apollographql.apollo.fetcher.ApolloResponseFetchers
-import okhttp3.OkHttpClient
-import java.util.*
-import java.util.concurrent.TimeUnit
-
 class TarkovApi {
 
-    fun getTarkovClient(context: Context? = null): ApolloClient {
+    /*fun getTarkovClient(context: Context? = null): ApolloClient {
         check(Looper.myLooper() == Looper.getMainLooper()) {
             "Only the main thread can get the apolloClient instance"
         }
@@ -84,5 +69,5 @@ class TarkovApi {
             .normalizedCache(sqlCache, resolver)
             .defaultResponseFetcher(ApolloResponseFetchers.CACHE_FIRST)
             .build()
-    }
+    }*/
 }

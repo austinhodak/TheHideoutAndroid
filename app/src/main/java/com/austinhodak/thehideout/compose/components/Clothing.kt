@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.austinhodak.tarkovapi.ItemQuery
-import com.austinhodak.thehideout.utils.asCurrency
+import com.austinhodak.thehideout.ItemQuery
 import com.google.accompanist.glide.rememberGlidePainter
 
 @Composable
