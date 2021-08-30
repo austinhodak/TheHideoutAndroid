@@ -1,6 +1,6 @@
 package com.austinhodak.tarkovapi.room.models
 
-import com.austinhodak.tarkovapi.room.enums.ItemType
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.getTraderLevel
 import com.austinhodak.tarkovapi.utils.sourceTitle
 
@@ -18,7 +18,7 @@ data class Pricing(
     val low24hPrice: Int?,
     val high24hPrice: Int?,
     val updated: String?,
-    val types: List<ItemType?>,
+    val types: List<ItemTypes?>,
     val width: Int?,
     val height: Int?,
     val sellFor: List<BuySellPrice>?,

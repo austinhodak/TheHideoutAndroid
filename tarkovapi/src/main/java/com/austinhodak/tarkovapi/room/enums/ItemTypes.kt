@@ -1,6 +1,6 @@
 package com.austinhodak.tarkovapi.room.enums
 
-enum class ItemType {
+enum class ItemTypes {
     NULL,
     NONE,
     AMMO,

@@ -1,9 +1,9 @@
 package com.austinhodak.thehideout
 
-import android.app.Application
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import com.austinhodak.thehideout.utils.Prefs
 import com.austinhodak.thehideout.utils.uid
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
@@ -20,11 +20,24 @@ import org.json.JSONObject
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
+val questPrefs: Prefs by lazy {
+    Application.questPrefs!!
+}
+
 @HiltAndroidApp
-class Application : Application() {
+class Application : android.app.Application() {
+
+    companion object {
+        var questPrefs: Prefs? = null
+        lateinit var instance: Application
+            private set
+    }
 
     override fun onCreate() {
         super.onCreate()
+
+        instance = this
+        questPrefs = Prefs(applicationContext)
 
         //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
         if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {

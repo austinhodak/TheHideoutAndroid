@@ -7,17 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import com.austinhodak.tarkovapi.utils.getCaliberImage
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.bsg.models.ammo.BsgAmmo
-import com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon
-import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.databinding.FragmentWeaponDetailHomeBinding
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.utils.log
-import com.bumptech.glide.Glide
 import com.google.firebase.analytics.FirebaseAnalytics
 
 private const val ARG_PARAM1 = "id"
@@ -26,13 +20,13 @@ class WeaponDetailHomeFragment : Fragment() {
 
     private var _binding: FragmentWeaponDetailHomeBinding? = null
     private val binding get() = _binding!!
-    lateinit var weapon: BsgWeapon
-    private val bsgViewModel: BSGViewModel by activityViewModels()
+    //lateinit var weapon: BsgWeapon
+    //private val bsgViewModel: BSGViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            weapon = it.getSerializable(ARG_PARAM1) as BsgWeapon
+            //weapon = it.getSerializable(ARG_PARAM1) as BsgWeapon
         }
     }
 
@@ -44,10 +38,10 @@ class WeaponDetailHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadWeapon()
+        //loadWeapon()
     }
 
-    private fun loadWeapon() {
+    /*private fun loadWeapon() {
         binding.weapon = weapon
         binding.fleaItem = weapon.fleaItem
 
@@ -61,7 +55,7 @@ class WeaponDetailHomeFragment : Fragment() {
             binding.weaponDetailAmmoDamage.text = ammoList.maxByOrNull { it._props.Damage }?._props?.ShortName
             binding.weaponDetailAmmoPen.text = ammoList.maxByOrNull { it._props.PenetrationPower }?._props?.ShortName
         }
-    }
+    }*/
 
     private fun setupFleaData(item: FleaItem) {
         binding.ammoDetailFleaCard.setOnClickListener {
@@ -110,7 +104,7 @@ class WeaponDetailHomeFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: BsgWeapon) =
+        fun newInstance(param1: String) =
             WeaponDetailHomeFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_PARAM1, param1)

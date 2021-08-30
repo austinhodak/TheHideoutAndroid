@@ -3,7 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.austinhodak.tarkovapi.room.enums.ItemType
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.getItemType
 import org.json.JSONObject
@@ -11,7 +11,7 @@ import org.json.JSONObject
 @Entity(tableName = "ammo")
 data class Ammo (
     @PrimaryKey val id: String,
-    val itemType: ItemType? = ItemType.NONE,
+    val itemType: ItemTypes? = ItemTypes.NONE,
     val parent: String?,
     val name: String?,
     val shortName: String?,

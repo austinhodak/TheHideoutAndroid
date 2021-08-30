@@ -10,7 +10,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.tarkovapi.room.TarkovDatabase
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.flea_market.models.FleaItem
@@ -52,10 +51,7 @@ class FleaViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getAllItems() = viewModelScope.launch {
         //fleaItemsNew.value = TarkovDatabase.getDatabase(context, viewModelScope).ItemDao().getAll().sortedByDescending { it.getPrice() }
-        val data = TarkovDatabase.getDatabase(context, viewModelScope).ItemDao().getAll()
-        launch {
-            fleaItemsNew.value = data
-        }
+
     }
 
     fun setSort(int: Int) {

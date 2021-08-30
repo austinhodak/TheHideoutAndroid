@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.ammunition
 
 import android.os.Bundle
 import android.view.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -13,6 +14,7 @@ import com.austinhodak.thehideout.databinding.FragmentAmmoTabsBinding
 import com.austinhodak.thehideout.utils.logScreen
 import com.google.android.material.tabs.TabLayoutMediator
 
+@ExperimentalMaterialApi
 class AmmoTabsFragment : Fragment() {
 
     private lateinit var calibers: List<String>
@@ -53,7 +55,7 @@ class AmmoTabsFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        sharedViewModel.setSortBy(
+        sharedViewModel.setSort(
             when (item.itemId) {
                 R.id.sort_name -> 0
                 R.id.sort_damage -> 1

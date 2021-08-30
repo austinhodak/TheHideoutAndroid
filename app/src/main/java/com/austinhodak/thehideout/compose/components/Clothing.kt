@@ -1,21 +1,13 @@
 package com.austinhodak.thehideout.compose.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.austinhodak.tarkovapi.ItemQuery
-import com.austinhodak.thehideout.ItemQuery
-import com.google.accompanist.glide.rememberGlidePainter
 
 @Composable
 fun ClothingDetailCard(item: ItemQuery.Item?) {
     Card {
-        Column {
+        /*Column {
             Row(
                 Modifier.padding(16.dp)
             ) {
@@ -45,6 +37,6 @@ fun ClothingDetailCard(item: ItemQuery.Item?) {
                     }
                 }
             }
-        }
+        }*/
     }
 }

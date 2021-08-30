@@ -47,8 +47,6 @@ object CalculatorHelper {
             }
         }
 
-        //Log.d("AMMO", ammoDamage.toString())
-
         if (blocked) {
             return ammoDamage
         }
@@ -73,11 +71,10 @@ object CalculatorHelper {
             }
 
             if (num4 - Math.random() * 100.0 < 0.0) {
-                //Timber.d("Blocked!")
                 return true
             }
         }
-        //Timber.d("Not Blocked!")
+
         return false
     }
 

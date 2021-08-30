@@ -16,7 +16,8 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import java.text.DecimalFormat
 
-data class Ammo (
+@Deprecated("Use new API/room model.")
+data class AmmoOld (
     var description: String? = null,
     var weight: Double? = null,
     var velocity: Int? = null,

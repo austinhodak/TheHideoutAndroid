@@ -2,7 +2,7 @@ package com.austinhodak.tarkovapi.room.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.austinhodak.tarkovapi.room.enums.ItemType
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -15,7 +15,7 @@ interface ItemDao {
     fun getByID(id: String): LiveData<Item>
 
     @Query("SELECT * FROM items WHERE itemType = :type")
-    fun getByType(type: ItemType): Flow<List<Item>>
+    fun getByType(type: ItemTypes): Flow<List<Item>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)

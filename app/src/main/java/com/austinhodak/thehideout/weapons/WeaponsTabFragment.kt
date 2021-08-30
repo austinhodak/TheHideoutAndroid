@@ -2,32 +2,23 @@ package com.austinhodak.thehideout.weapons
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.utils.logScreen
 import com.austinhodak.thehideout.weapons.viewmodels.WeaponViewModel
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 
 class WeaponsTabFragment : Fragment() {
 
-    private lateinit var collectionAdapter: CollectionAdapter
     private lateinit var tabs: TabLayout
     private lateinit var classes: Array<String>
     private lateinit var classesNames: Array<String>
     private var sortBy: Int = 0
     internal val sharedViewModel: AmmoViewModel by activityViewModels()
-    internal val bsgViewModel: BSGViewModel by activityViewModels()
     val weaponViewModel: WeaponViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -42,7 +33,7 @@ class WeaponsTabFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+/*
         collectionAdapter = CollectionAdapter(this, bsgViewModel.weaponClasses().size)
 
         val viewpager = view.findViewById<ViewPager2>(R.id.ammo_viewpager)
@@ -59,10 +50,10 @@ class WeaponsTabFragment : Fragment() {
 
         TabLayoutMediator(tabs, viewpager) { tab, position ->
             tab.text = bsgViewModel.weaponClasses().elementAt(position).name
-        }.attach()
+        }.attach()*/
     }
     
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.sort_name -> {
                 sharedViewModel.setSortBy(0)
@@ -94,7 +85,7 @@ class WeaponsTabFragment : Fragment() {
         override fun createFragment(position: Int): Fragment {
             return WeaponListFragment.newInstance(bsgViewModel.weaponClasses().elementAt(position))
         }
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

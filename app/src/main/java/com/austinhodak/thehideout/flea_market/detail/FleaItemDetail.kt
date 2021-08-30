@@ -1,50 +1,6 @@
 package com.austinhodak.thehideout.flea_market.detail
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.annotation.DrawableRes
-import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.toUpperCase
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.lifecycleScope
-import com.austinhodak.tarkovapi.fragment.ItemFragment
-import com.austinhodak.tarkovapi.fragment.ItemPrice
-import com.austinhodak.tarkovapi.fragment.TaskItem
-import com.austinhodak.tarkovapi.room.TarkovDatabase
-import com.austinhodak.tarkovapi.room.models.Barter
-import com.austinhodak.tarkovapi.room.models.Craft
-import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.tarkovapi.room.models.Quest
-import com.austinhodak.tarkovapi.type.ItemSourceName
-import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.components.Rectangle
-import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.utils.*
-import com.google.accompanist.glide.rememberGlidePainter
-import kotlinx.coroutines.CoroutineScope
-import kotlin.math.roundToInt
+/*
 
 class FleaItemDetail : ComponentActivity() {
 
@@ -100,7 +56,8 @@ class FleaItemDetail : ComponentActivity() {
                                             if (!item.value?.pricing?.buyFor?.filter { it.fragments.itemPrice.price != 0 }
                                                     .isNullOrEmpty()) TradersBuyCard(title = "BUY PRICES", item = item.value, item.value?.pricing?.buyFor)
                                         }
-                                        /*item {
+                                        */
+/*item {
                                             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                                                 Text(
                                                     modifier = Modifier.padding(top = 4.dp),
@@ -109,7 +66,8 @@ class FleaItemDetail : ComponentActivity() {
                                                     fontSize = 10.sp
                                                 )
                                             }
-                                        }*/
+                                        }*//*
+
                                     }
                                 }
                                 1 -> {
@@ -618,9 +576,11 @@ private fun TradersSellCard(
                     TraderPriceListGridItem(item.fragments.itemPrice, index == 0)
                 }
             }
-            /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
+            */
+/*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
                 TraderPriceListItem(item.fragments.itemPrice, index == 0)
-            }*/
+            }*//*
+
         }
     }
 }
@@ -655,9 +615,11 @@ private fun TradersBuyCard(
                     TraderPriceListGridItem(item.fragments.itemPrice, index == 0)
                 }
             }
-            /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
+            */
+/*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
                 TraderPriceListItem(item.fragments.itemPrice, index == 0)
-            }*/
+            }*//*
+
         }
     }
 }
@@ -754,4 +716,4 @@ data class NavItem(
     val title: String,
     @DrawableRes val icon: Int,
     val enabled: Boolean? = true
-)
+)*/

@@ -21,9 +21,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.FleaItem
-import com.austinhodak.thehideout.compose.theme.TheHideoutTheme
+import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.databinding.FragmentFleaListBinding
-import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.utils.logScreen
@@ -53,10 +53,10 @@ class FleaMarketListFragment : Fragment() {
 
     @SuppressLint("CoroutineCreationDuringComposition")
     @ExperimentalMaterialApi
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                TheHideoutTheme {
+                HideoutTheme {
                     val scope = rememberCoroutineScope()
 
                     LaunchedEffect(scope) {
@@ -65,7 +65,6 @@ class FleaMarketListFragment : Fragment() {
 
                     val data = viewModel.fleaItemsNew.observeAsState()
 
-                    Timber.d("Flea: ${data.value?.size}")
                     val searchKey = viewModel.searchKey.observeAsState()
                     val sortBy = viewModel.sortBy.observeAsState()
 
@@ -86,7 +85,7 @@ class FleaMarketListFragment : Fragment() {
                     ) {
                         items(items = list ?: emptyList()) { item ->
                             FleaItem(item = item) {
-                                startActivity(Intent(requireContext(), FleaItemDetail::class.java).apply {
+                                startActivity(Intent(requireContext(), FleaItemDetailActivity::class.java).apply {
                                     putExtra("id", it)
                                 })
                             }

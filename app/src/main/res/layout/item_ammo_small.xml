@@ -5,7 +5,7 @@
     <data>
         <variable
             name="ammo"
-            type="com.austinhodak.thehideout.ammunition.models.Ammo" />
+            type="com.austinhodak.thehideout.ammunition.models.AmmoOld" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

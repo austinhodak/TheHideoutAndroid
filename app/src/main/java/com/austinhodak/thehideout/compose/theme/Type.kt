@@ -12,6 +12,8 @@ import com.austinhodak.thehideout.R
 val Bender = FontFamily(
     Font(R.font.bender, FontWeight.Normal),
     Font(R.font.bender_it, FontWeight.Normal, FontStyle.Italic),
+    Font(R.font.bender_bold, FontWeight.Medium),
+    Font(R.font.bender_bold_it, FontWeight.Medium, FontStyle.Italic),
     Font(R.font.bender_bold, FontWeight.Bold),
     Font(R.font.bender_bold_it, FontWeight.Bold, FontStyle.Italic),
     Font(R.font.bender_black, FontWeight.Black),
@@ -19,6 +21,8 @@ val Bender = FontFamily(
     Font(R.font.bender_light, FontWeight.Light),
     Font(R.font.bender_light_it, FontWeight.Light, FontStyle.Italic)
 )
+
+
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -29,27 +33,30 @@ val Typography = Typography(
     ),
     h6 = TextStyle(
         fontFamily = Bender,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Medium,
         fontSize = 20.sp
     ),
     h5 = TextStyle(
         fontFamily = Bender,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
+        letterSpacing = 0.sp
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = Bender,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp
+    ),
+    subtitle2 = TextStyle(
+        fontFamily = Bender,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        letterSpacing = 0.1.sp
     ),
     caption = TextStyle(
         fontFamily = Bender,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+        fontSize = 12.sp,
+        letterSpacing = 0.4.sp
     ),
-    defaultFontFamily = Bender
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
-    ),
-
-    */
 )
-

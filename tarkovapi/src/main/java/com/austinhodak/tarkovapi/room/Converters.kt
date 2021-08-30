@@ -1,14 +1,14 @@
 package com.austinhodak.tarkovapi.room
 
 import androidx.room.TypeConverter
-import com.austinhodak.tarkovapi.room.enums.ItemType
+import com.austinhodak.tarkovapi.fragment.ObjectiveFragment
+import com.austinhodak.tarkovapi.fragment.QuestFragment
+import com.austinhodak.tarkovapi.fragment.RepFragment
+import com.austinhodak.tarkovapi.fragment.TraderFragment
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.room.models.Weapon
-import com.austinhodak.thehideout.fragment.ObjectiveFragment
-import com.austinhodak.thehideout.fragment.QuestFragment
-import com.austinhodak.thehideout.fragment.RepFragment
-import com.austinhodak.thehideout.fragment.TraderFragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -16,12 +16,12 @@ import java.lang.reflect.Type
 class Converters {
 
     @TypeConverter
-    fun toItemType(value: String?): ItemType? {
-        return value?.let { ItemType.valueOf(value) }
+    fun toItemType(value: String?): ItemTypes? {
+        return value?.let { ItemTypes.valueOf(value) }
     }
 
     @TypeConverter
-    fun fromItemType(value: ItemType?): String? {
+    fun fromItemType(value: ItemTypes?): String? {
         return value?.toString()
     }
 

@@ -3,7 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import android.text.format.DateUtils
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.austinhodak.tarkovapi.room.enums.ItemType
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.getItemType
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -12,7 +12,7 @@ import java.util.*
 @Entity(tableName = "items")
 data class Item(
     @PrimaryKey val id: String,
-    val itemType: ItemType? = ItemType.NONE,
+    val itemType: ItemTypes? = ItemTypes.NONE,
     val parent: String? = null,
     val name: String? = null,
     val shortName: String? = null,

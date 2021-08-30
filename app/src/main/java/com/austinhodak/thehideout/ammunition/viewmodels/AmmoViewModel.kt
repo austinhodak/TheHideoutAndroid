@@ -1,118 +1,45 @@
 package com.austinhodak.thehideout.ammunition.viewmodels
 
-import android.app.Application
-import android.content.SharedPreferences
-import androidx.core.content.edit
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.preference.PreferenceManager
-import com.austinhodak.tarkovapi.room.TarkovDatabase
-import com.austinhodak.tarkovapi.room.models.AmmoItem
-import com.austinhodak.thehideout.BuildConfig
-import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.models.Ammo
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.storage.ktx.storage
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.Dispatchers
+import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.models.Ammo
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.io.File
-import java.io.FileInputStream
-import java.lang.reflect.Type
+import javax.inject.Inject
 
-class AmmoViewModel(application: Application) : AndroidViewModel(application){
+@HiltViewModel
+class AmmoViewModel @Inject constructor(
+    private val repository: TarkovRepo
+) : ViewModel() {
 
-    private val context = getApplication<Application>().applicationContext
-    val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    private val _sort = MutableLiveData(0)
+    val sort = _sort
 
-    val sortBy : LiveData<Int> get() = _sortBy
-    private val _sortBy = MutableLiveData<Int>()
+    fun setSort(index: Int) {
+        _sort.value = index
+    }
 
-    val ammoList = MutableLiveData<List<Ammo>>()
+    private val _ammoDetails = MutableLiveData<Ammo?>(null)
+    val ammoDetails = _ammoDetails
+
+    fun getAmmo(id: String) {
+        viewModelScope.launch {
+            repository.getAmmoByID(id).catch { e ->
+
+            }.collect {
+                _ammoDetails.value = it
+            }
+        }
+    }
 
     init {
-        setSortBy(0)
-        loadAmmo()
 
-        viewModelScope.launch(Dispatchers.IO) {
-            getAmmo()
-        }
     }
 
-    val ammo : LiveData<List<AmmoItem>> get() = _ammo
-    private val _ammo = MutableLiveData<List<AmmoItem>>()
 
-    private fun getAmmo() {
-        val data = TarkovDatabase.getDatabase(context, viewModelScope).WeaponDao().getAllAmmo()
-        viewModelScope.launch {
-            //_ammo.value = data
-        }
-    }
-
-    private fun loadAmmo() {
-        val timeout = Firebase.remoteConfig.getLong("cacheTimeout")
-
-        if ((System.currentTimeMillis() - prefs.getLong("lastAmmoLoad", 0)) > timeout) {
-            ammoList.value = loadInitialAmmo()
-            //Loaded over 4 hours ago.
-
-            val fleaRef = Firebase.storage.reference.child("ammoData.json")
-
-            val storagePath = File(context.filesDir, "the_hideout")
-            if (!storagePath.exists()) {
-                storagePath.mkdirs()
-            }
-
-            val myFile = File(storagePath, "ammoData.json")
-
-            if (!myFile.exists()) {
-                ammoList.value = loadInitialAmmo()
-            }
-
-            fleaRef.getFile(myFile).addOnSuccessListener {
-                ammoList.value = loadAmmoFromFile()
-
-                prefs.edit {
-                    putLong("lastAmmoLoad", System.currentTimeMillis())
-                }
-            }.addOnFailureListener {
-                Timber.e(it)
-            }
-        } else {
-            ammoList.value = loadAmmoFromFile()
-        }
-    }
-
-    private fun loadAmmoFromFile(): List<Ammo> {
-        val storagePath = File(context.filesDir, "the_hideout")
-        if (!storagePath.exists()) {
-            storagePath.mkdirs()
-        }
-
-        val myFile = File(storagePath, "ammoData.json")
-
-        if (!myFile.exists() || BuildConfig.DEBUG) {
-            return loadInitialAmmo()
-        }
-
-        val objectString = FileInputStream(myFile).bufferedReader().use { it.readText() }
-        val groupListType: Type = object : TypeToken<ArrayList<Ammo?>?>() {}.type
-        val list: List<Ammo> = Gson().fromJson(objectString, groupListType)
-        return list
-    }
-
-    private fun loadInitialAmmo(): List<Ammo> {
-        val groupListType: Type = object : TypeToken<ArrayList<Ammo?>?>() {}.type
-        return Gson().fromJson(context.resources.openRawResource(R.raw.ammo_data).bufferedReader().use { it.readText() }, groupListType)
-    }
-
-    fun setSortBy(int: Int) {
-        _sortBy.value = int
-    }
 
 }

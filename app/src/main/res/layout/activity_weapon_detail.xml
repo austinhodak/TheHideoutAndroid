@@ -9,9 +9,6 @@
             name="fleaItem"
             type="com.austinhodak.thehideout.flea_market.models.FleaItem" />
 
-        <variable
-            name="weapon"
-            type="com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon" />
 
         <import type="kotlin.collections.CollectionsKt" />
 
@@ -55,7 +52,7 @@
                     app:layout_collapseMode="pin"
                     android:theme="@style/Toolbar"
                     tools:title= "MP7A1"
-                    app:title="@{weapon._props.shortName}" />
+                    />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

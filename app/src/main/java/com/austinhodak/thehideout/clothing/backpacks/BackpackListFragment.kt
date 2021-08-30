@@ -1,35 +1,25 @@
 package com.austinhodak.thehideout.clothing.backpacks
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.austinhodak.tarkovapi.ItemsByTypeQuery
-import com.austinhodak.tarkovapi.networking.TarkovApi
-import com.austinhodak.tarkovapi.type.ItemType
-import com.austinhodak.thehideout.ItemsByTypeQuery
-import com.austinhodak.thehideout.clothing.ClothingDetailActivityC
 import com.austinhodak.thehideout.clothing.models.Backpack
-import com.austinhodak.thehideout.compose.theme.TheHideoutTheme
+import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
-import com.google.accompanist.glide.rememberGlidePainter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
@@ -53,7 +43,7 @@ class BackpackListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                TheHideoutTheme() {
+                HideoutTheme() {
                     MainView()
                 }
             }
@@ -70,15 +60,15 @@ class BackpackListFragment : Fragment() {
     private fun BackpackList() {
         Timber.d("Start load.")
 
-        val list = TarkovApi().getTarkovClient(requireContext()).query(ItemsByTypeQuery(if (param1 == 0) ItemType.BACKPACK else ItemType.BACKPACK)).toFlow().collectAsState(initial = null)
+       // val list = TarkovApi().getTarkovClient(requireContext()).query(ItemsByTypeQuery(if (param1 == 0) ItemType.BACKPACK else ItemType.BACKPACK)).toFlow().collectAsState(initial = null)
 
-        LazyColumn(
+        /*LazyColumn(
             Modifier.padding(vertical = 4.dp)
         ) {
             items(items = list.value?.data?.itemsByType?.sortedBy { it?.fragments?.itemFragment?.shortName } ?: emptyList()) { backpack ->
                 BackpackCard(backpack)
             }
-        }
+        }*/
     }
 
     @Composable
@@ -89,13 +79,13 @@ class BackpackListFragment : Fragment() {
             Modifier
                 .padding(vertical = 4.dp, horizontal = 8.dp)
                 .clickable {
-                    startActivity(Intent(requireActivity(), ClothingDetailActivityC::class.java).apply {
+                    /*startActivity(Intent(requireActivity(), ClothingDetailActivityC::class.java).apply {
                         putExtra("id", backpack?.fragments?.itemFragment?.id)
-                    })
+                    })*/
                 }
         ) {
             Column {
-                Row(
+                /*Row(
                     Modifier.padding(16.dp)
                 ) {
                     Image(
@@ -123,7 +113,7 @@ class BackpackListFragment : Fragment() {
                             )
                         }
                     }
-                }
+                }*/
             }
         }
     }

@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.compose.theme.*
 import com.google.accompanist.glide.rememberGlidePainter
 

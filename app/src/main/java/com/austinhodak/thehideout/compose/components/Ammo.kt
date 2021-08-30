@@ -9,19 +9,26 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.austinhodak.tarkovapi.room.models.AmmoItem
+import com.austinhodak.tarkovapi.room.models.Ammo
+import com.austinhodak.tarkovapi.utils.openActivity
+import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.google.accompanist.glide.rememberGlidePainter
+import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
 @Composable
-fun AmmoDetailCard(item: AmmoItem?) {
+fun AmmoDetailCard(item: Ammo?) {
+    val context = LocalContext.current
     Card(
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).height(72.dp),
         onClick = {
-
+            context.openActivity(AmmoDetailActivity::class.java) {
+                putString("ammoID", item?.id)
+            }
         }
     ) {
         Column {
@@ -62,7 +69,7 @@ fun AmmoDetailCard(item: AmmoItem?) {
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "Last Price: ${item?.getPrice()?.asCurrency()}",
+                            text = "Last Price: ${item?.getPrice()}",
                             style = MaterialTheme.typography.caption
                         )
                     }

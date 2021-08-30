@@ -2,10 +2,10 @@ package com.austinhodak.tarkovapi.room.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.austinhodak.thehideout.fragment.ObjectiveFragment
-import com.austinhodak.thehideout.fragment.QuestFragment
-import com.austinhodak.thehideout.fragment.RepFragment
-import com.austinhodak.thehideout.fragment.TraderFragment
+import com.austinhodak.tarkovapi.fragment.ObjectiveFragment
+import com.austinhodak.tarkovapi.fragment.QuestFragment
+import com.austinhodak.tarkovapi.fragment.RepFragment
+import com.austinhodak.tarkovapi.fragment.TraderFragment
 
 @Entity(tableName = "quests")
 data class Quest(

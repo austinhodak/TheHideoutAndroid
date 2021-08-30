@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.models.AmmoOld
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.models.Body
 import com.austinhodak.thehideout.calculator.models.Character
@@ -29,7 +29,7 @@ class CalculatorMainActivity : AppCompatActivity() {
     private lateinit var bottomBinding: BottomSheetCalculatorMainBinding
     private var body = Body()
 
-    private lateinit var selectedAmmo: Ammo
+    private lateinit var selectedAmmo: AmmoOld
     private var selectedHelmet: Armor? = null
     private var selectedChestArmor: Armor?  = null
     private lateinit var selectedCharacter: Character
@@ -39,7 +39,7 @@ class CalculatorMainActivity : AppCompatActivity() {
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK && result.data != null) {
             if (result.data?.hasExtra("ammoID") == true) {
-                selectedAmmo = ammoViewModel.ammoList.value?.find { it._id == result.data?.getStringExtra("ammoID") }!!
+                //selectedAmmo = ammoViewModel.ammoList.value?.find { it._id == result.data?.getStringExtra("ammoID") }!!
                 updateBottomSheet()
             }
             if (result.data?.hasExtra("helmetID") == true) {
@@ -89,7 +89,7 @@ class CalculatorMainActivity : AppCompatActivity() {
         body.linkToHealthBar(Part.LEFTLEG, binding.healthLLeg)
         body.linkToHealthBar(Part.RIGHTLEG, binding.healthRLeg)
 
-        ammoViewModel.ammoList.observe(this) {
+        /*ammoViewModel.ammoList.observe(this) {
             selectedAmmo = it.find { it._id == "5f4a52549f319f4528ac363b" }!!
 
             if (intent.hasExtra("ammoID")) {
@@ -98,7 +98,7 @@ class CalculatorMainActivity : AppCompatActivity() {
 
             updateBottomSheet()
             updateDurabilities()
-        }
+        }*/
 
         selectedHelmet = if (intent.hasExtra("helmetID")) {
             ArmorHelper.getArmors(this).find { it._id == intent.getStringExtra("helmetID") }

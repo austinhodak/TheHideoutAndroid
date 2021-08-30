@@ -7,7 +7,7 @@
 
         <variable
             name="weapon"
-            type="com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon" />
+            type="com.austinhodak.tarkovapi.room.models.Weapon" />
 
     </data>
 
@@ -37,7 +37,6 @@
 
                 <ImageView
                     android:id="@+id/weaponImage"
-                    weaponImageURL="@{weapon.fleaItem.icon}"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
@@ -54,7 +53,7 @@
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/bender_bold"
                     android:maxLines="1"
-                    android:text="@{weapon._props.shortName}"
+                    android:text=""
                     android:textColor="@color/primaryText87"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/weaponAmmo"
@@ -69,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:fontFamily="@font/bender"
-                    android:text="@{weapon.getCaliberName()}"
+                    android:text=""
                     app:layout_constraintBottom_toTopOf="@+id/constraintLayout16"
                     app:layout_constraintStart_toEndOf="@+id/weaponImage"
                     app:layout_constraintTop_toBottomOf="@+id/weaponName"
@@ -104,7 +103,7 @@
                             android:fontFamily="@font/bender_bold"
                             android:textColor="@color/primaryText87"
                             android:textSize="20sp"
-                            android:text="@{String.valueOf(Math.addExact(weapon._props.RecoilForceUp, weapon._props.RecoilForceBack))}"
+                            android:text=""
                             tools:text="290" />
 
                         <TextView
@@ -133,7 +132,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/bender_bold"
-                            android:text="@{Integer.toString(weapon._props.bFirerate)}"
+                            android:text=""
                             android:textColor="@color/primaryText87"
                             android:textSize="20sp"
                             tools:text="600" />
@@ -166,7 +165,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/bender_bold"
-                            android:text="@{String.valueOf(weapon._props.bEffDist) + `m`}"
+                            android:text=""
                             android:textColor="@color/primaryText87"
                             android:textSize="20sp"
                             tools:text="400m" />

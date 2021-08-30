@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.models.AmmoOld
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.calculator.models.Character
@@ -29,7 +29,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCalculatorPickerBinding
     private var searchItem: MenuItem? = null
     private lateinit var adapter: FastAdapter<*>
-    private lateinit var ammoAdapter: ItemAdapter<Ammo>
+    private lateinit var ammoAdapter: ItemAdapter<AmmoOld>
     private lateinit var helmetAdapter: ItemAdapter<Armor>
     private lateinit var chestAdapter: ItemAdapter<Armor>
     private lateinit var armorAdapter: ItemAdapter<Armor>
@@ -68,7 +68,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
             //Toast.makeText(this, "Selected: $pos", Toast.LENGTH_SHORT).show()
             val intent = Intent()
             when(item) {
-                is Ammo -> {
+                is AmmoOld -> {
                     intent.putExtra("ammoID", item._id)
                 }
                 is Armor -> {
@@ -102,7 +102,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 ammoAdapter.filter(newText)
-                ammoAdapter.itemFilter.filterPredicate = { ammo: Ammo, constraint: CharSequence? ->
+                ammoAdapter.itemFilter.filterPredicate = { ammo: AmmoOld, constraint: CharSequence? ->
                     ammo.name?.contains(constraint ?: "", true) ?: false
                 }
 
@@ -141,7 +141,7 @@ class CalculatorPickerActivity : AppCompatActivity() {
         this.itemType = itemType
         when (itemType) {
             ItemType.AMMO -> {
-                ammoAdapter.add(ammoViewModel.ammoList.value?.sortedBy { it.name } ?: emptyList())
+                //ammoAdapter.add(ammoViewModel.ammoList.value?.sortedBy { it.name } ?: emptyList())
             }
             ItemType.HELMET -> {
                 helmetAdapter.setNewList(armorHelper.getArmors(this).filter { it.`class` == "Helmet" }.sortedWith(compareBy({ it.level }, { it.name })).map {

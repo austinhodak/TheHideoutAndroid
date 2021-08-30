@@ -8,10 +8,6 @@
             name="fleaItem"
             type="com.austinhodak.thehideout.flea_market.models.FleaItem" />
 
-        <variable
-            name="weapon"
-            type="com.austinhodak.thehideout.bsg.models.weapon.BsgWeapon" />
-
         <import type="kotlin.collections.CollectionsKt" />
 
         <import type="android.view.View"/>
@@ -75,7 +71,7 @@
                             android:layout_marginStart="16dp"
                             android:fontFamily="@font/bender_bold"
                             android:maxLines="1"
-                            android:text="@{weapon.getCaliberName()}"
+                            android:text=""
                             android:textColor="@color/primaryText87"
                             android:textSize="18sp"
                             app:layout_constraintBottom_toBottomOf="@+id/weaponDetailAmmoIcon"

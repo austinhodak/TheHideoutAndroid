@@ -24,17 +24,15 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.tarkovapi.utils.Time
 import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.ammunition.models.Ammo
+import com.austinhodak.thehideout.ammunition.models.AmmoOld
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.bsg.CreatorMainActivity
-import com.austinhodak.thehideout.bsg.viewmodels.BSGViewModel
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
+import com.austinhodak.thehideout.utils.Time
 import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.OutdatedDrawerItem
@@ -71,7 +69,6 @@ class MainActivity : AppCompatActivity() {
     private var searchItem: MenuItem? = null
     private var hideSearch = false
     private lateinit var ammoViewModel: AmmoViewModel
-    private lateinit var bsgViewModel: BSGViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var mSearchAdapter: SlimAdapter
@@ -93,7 +90,6 @@ class MainActivity : AppCompatActivity() {
         ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
-        bsgViewModel = ViewModelProvider(this).get(BSGViewModel::class.java)
 
 
 
@@ -274,7 +270,7 @@ class MainActivity : AppCompatActivity() {
                     iconRes = R.drawable.icons8_ammo_100
                     isSelectable = false
                     onDrawerItemClickListener = { _, _, _ ->
-                        startActivity(Intent(this@MainActivity, CreatorMainActivity::class.java))
+                        //startActivity(Intent(this@MainActivity, CreatorMainActivity::class.java))
                         false
                     }
                 },
@@ -506,7 +502,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSearchAdapter() {
-        mSearchAdapter = SlimAdapter.create().register<Ammo>(R.layout.item_ammo_search) { data, injector ->
+        mSearchAdapter = SlimAdapter.create().register<AmmoOld>(R.layout.item_ammo_search) { data, injector ->
             injector.text(R.id.ammoSmallName, data.name)
             injector.text(R.id.textView2, data.getSubtitle())
             injector.text(R.id.ammoSmallDamage, data.damage.toString())

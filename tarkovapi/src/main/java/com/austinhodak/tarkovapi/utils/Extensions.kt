@@ -3,11 +3,14 @@ package com.austinhodak.tarkovapi.utils
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.austinhodak.tarkovapi.room.enums.ItemType
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import com.austinhodak.tarkovapi.ItemsByTypeQuery
+import com.austinhodak.tarkovapi.QuestsQuery
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
-import com.austinhodak.thehideout.ItemsByTypeQuery
-import com.austinhodak.thehideout.QuestsQuery
 import org.json.JSONObject
 import java.text.NumberFormat
 import java.util.*
@@ -97,18 +100,33 @@ fun getCaliberShortName(caliber: String?): String {
     }
 }
 
-fun JSONObject.itemType(): ItemType {
+fun JSONObject.itemType(): ItemTypes {
     val props = getJSONObject("_props")
-    if (getString("_name").equals("Ammo") || getString("_parent").isNullOrBlank()) {
-        return ItemType.NULL
+    if (
+        getString("_name").equals("Ammo")
+        || getString("_parent").isNullOrBlank()
+        || getString("_parent") == "54009119af1c881c07000029"
+        || getString("_parent") == "5661632d4bdc2d903d8b456b"
+    ) {
+        return ItemTypes.NULL
     }
+
     return when {
-        props.has("weapFireType") -> ItemType.WEAPON
-        props.has("Caliber") && !props.getString("Name").contains("Shrapnel", true) -> ItemType.AMMO
+        props.has("weapFireType") -> ItemTypes.WEAPON
+        props.has("Caliber") && !props.getString("Name").contains("Shrapnel", true) -> ItemTypes.AMMO
         else -> {
-            ItemType.NONE
+            ItemTypes.NONE
         }
     }
+}
+
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    observe(lifecycleOwner, object : Observer<T> {
+        override fun onChanged(t: T?) {
+            observer.onChanged(t)
+            removeObserver(this)
+        }
+    })
 }
 
 fun QuestsQuery.Quest.toQuest(): Quest {
@@ -357,25 +375,25 @@ fun Int.getTraderLevel(): String {
     }
 }
 
-fun JSONObject.getItemType(): ItemType {
+fun JSONObject.getItemType(): ItemTypes {
     val props = getJSONObject("_props")
     return when {
-        props.has("weapFireType") -> ItemType.WEAPON
-        props.has("Prefab") && props.getJSONObject("Prefab").getString("path").contains("assets/content/items/mods") -> ItemType.MOD
-        props.has("Caliber") -> ItemType.AMMO
-        this.getString("_parent").equals("5448e54d4bdc2dcc718b4568") -> ItemType.ARMOR
-        this.getString("_parent").equals("5448e5284bdc2dcb718b4567") -> ItemType.RIG
-        this.getString("_parent").equals("5448e53e4bdc2d60728b4567") -> ItemType.BACKPACK
-        this.getString("_parent").equals("5a341c4686f77469e155819e") -> ItemType.FACECOVER
-        this.getString("_parent").equals("5448e5724bdc2ddf718b4568") -> ItemType.GLASSES
-        this.getString("_parent").equals("543be6564bdc2df4348b4568") -> ItemType.GRENADE
-        this.getString("_parent").equals("5645bcb74bdc2ded0b8b4578") -> ItemType.HEADSET
-        this.getString("_parent").equals("5a341c4086f77401f2541505") -> ItemType.HELMET
-        this.getString("_parent").equals("5c99f98d86f7745c314214b3") || this.getString("_parent").equals("5c164d2286f774194c5e69fa") -> ItemType.KEY
-        this.getString("_parent").equals("5448f3a64bdc2d60728b456a") -> ItemType.STIM
-        this.getString("_parent").equals("5448f39d4bdc2d0a728b4568") -> ItemType.MED
-        this.getString("_parent").equals("5448f3ac4bdc2dce718b4569") -> ItemType.MED
-        this.getString("_parent").equals("5448f3a14bdc2d27728b4569") -> ItemType.MED
-        else -> ItemType.NONE
+        props.has("weapFireType") -> ItemTypes.WEAPON
+        props.has("Prefab") && props.getJSONObject("Prefab").getString("path").contains("assets/content/items/mods") -> ItemTypes.MOD
+        props.has("Caliber") -> ItemTypes.AMMO
+        this.getString("_parent").equals("5448e54d4bdc2dcc718b4568") -> ItemTypes.ARMOR
+        this.getString("_parent").equals("5448e5284bdc2dcb718b4567") -> ItemTypes.RIG
+        this.getString("_parent").equals("5448e53e4bdc2d60728b4567") -> ItemTypes.BACKPACK
+        this.getString("_parent").equals("5a341c4686f77469e155819e") -> ItemTypes.FACECOVER
+        this.getString("_parent").equals("5448e5724bdc2ddf718b4568") -> ItemTypes.GLASSES
+        this.getString("_parent").equals("543be6564bdc2df4348b4568") -> ItemTypes.GRENADE
+        this.getString("_parent").equals("5645bcb74bdc2ded0b8b4578") -> ItemTypes.HEADSET
+        this.getString("_parent").equals("5a341c4086f77401f2541505") -> ItemTypes.HELMET
+        this.getString("_parent").equals("5c99f98d86f7745c314214b3") || this.getString("_parent").equals("5c164d2286f774194c5e69fa") -> ItemTypes.KEY
+        this.getString("_parent").equals("5448f3a64bdc2d60728b456a") -> ItemTypes.STIM
+        this.getString("_parent").equals("5448f39d4bdc2d0a728b4568") -> ItemTypes.MED
+        this.getString("_parent").equals("5448f3ac4bdc2dce718b4569") -> ItemTypes.MED
+        this.getString("_parent").equals("5448f3a14bdc2d27728b4569") -> ItemTypes.MED
+        else -> ItemTypes.NONE
     }
 }

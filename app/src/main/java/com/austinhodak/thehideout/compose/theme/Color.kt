@@ -2,16 +2,15 @@ package com.austinhodak.thehideout.compose.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
-
 val Red400 = Color(0xFFEF5350)
 val Red500 = Color(0xFFF44336)
 val Red700 = Color(0xFFD32F2F)
-
 val Green500 = Color(0xFF4CAF50)
+
+val White = Color(0xFFFFFFFF)
+
+// Dark Theme Colors
+val DarkPrimary = Color(0xFF1F1F1F)
 
 val DarkGrey = Color(0xFF1F1F1F)
 val DarkerGrey = Color(0xFF101010)
