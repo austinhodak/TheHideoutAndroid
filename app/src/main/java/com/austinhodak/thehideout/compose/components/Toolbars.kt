@@ -9,11 +9,13 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 
 @Composable
 fun MainToolbar(
     title: String,
+    navViewModel: NavViewModel,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     actions: @Composable() (RowScope.() -> Unit) = {}
 ) {
@@ -21,7 +23,7 @@ fun MainToolbar(
         title = { Text(title) },
         navigationIcon = {
             IconButton(onClick = {
-
+                navViewModel.isDrawerOpen.value = true
             }) {
                 Icon(Icons.Filled.Menu, contentDescription = null)
             }

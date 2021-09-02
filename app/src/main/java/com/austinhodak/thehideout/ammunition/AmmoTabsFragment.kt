@@ -14,6 +14,7 @@ import com.austinhodak.thehideout.databinding.FragmentAmmoTabsBinding
 import com.austinhodak.thehideout.utils.logScreen
 import com.google.android.material.tabs.TabLayoutMediator
 
+@Deprecated("")
 @ExperimentalMaterialApi
 class AmmoTabsFragment : Fragment() {
 

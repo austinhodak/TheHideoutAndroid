@@ -6,6 +6,7 @@ import com.austinhodak.tarkovapi.fragment.QuestFragment
 import com.austinhodak.tarkovapi.fragment.RepFragment
 import com.austinhodak.tarkovapi.fragment.TraderFragment
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.room.models.Grid
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.room.models.Weapon
@@ -59,6 +60,19 @@ class Converters {
 
     @TypeConverter
     fun fromSlot(value: List<Weapon.Slot>?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toGrid(value: String?): List<Grid>? {
+        val filterType: Type = object : TypeToken<ArrayList<Grid>?>() {}.type
+        if (value == null) return null
+        return Gson().fromJson(value, filterType)
+    }
+
+    @TypeConverter
+    fun fromGrid(value: List<Grid>?): String? {
         if (value == null) return null
         return Gson().toJson(value)
     }

@@ -69,13 +69,13 @@ class FleaMarketListFragment : Fragment() {
                     val sortBy = viewModel.sortBy.observeAsState()
 
                     val list = when (sortBy.value) {
-                        0 -> data.value?.sortedBy { it.name }
+                        0 -> data.value?.sortedBy { it.Name }
                         1 -> data.value?.sortedByDescending { it.getPrice() }
                         2 -> data.value?.sortedByDescending { it.getPricePerSlot() }
                         3 -> data.value?.sortedByDescending { it.pricing?.changeLast48h }
                         4 -> data.value?.sortedBy { it.pricing?.changeLast48h }
                         else -> data.value?.sortedBy { it.getPrice() }
-                    }?.filter { if (searchKey.value.isNullOrEmpty()) true else it.name?.contains(searchKey.value.toString(), true) == true }
+                    }?.filter { if (searchKey.value.isNullOrEmpty()) true else it.Name?.contains(searchKey.value.toString(), true) == true }
 
                     Timber.d(searchKey.value.toString())
 

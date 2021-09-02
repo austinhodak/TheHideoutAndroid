@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import java.lang.reflect.Type
 
+@Deprecated("")
 object AmmoHelper {
 
     /**

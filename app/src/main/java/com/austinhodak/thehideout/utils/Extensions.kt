@@ -1,16 +1,24 @@
 package com.austinhodak.thehideout.utils
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.thehideout.BuildConfig
@@ -30,6 +38,24 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.math.round
 import kotlin.math.roundToInt
+
+@Composable
+fun Fragment.toCompose(args: Bundle? = null, fragmentManager: FragmentManager) {
+    val fragment = this
+
+    AndroidView(factory = {
+        val container = FrameLayout(it)
+        container.id = R.id.fast_adapter_id
+
+        fragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(container.id, fragment).apply {
+                arguments = args
+            }
+        }
+        container
+    })
+}
 
 fun Double.getColor(reverse: Boolean = false, surfaceColor: Color): Color {
     return if (this == 0.0) {
@@ -204,6 +230,12 @@ fun AmmoCalibers(): List<String> = arrayListOf(
     "Caliber9x39",
 )
 
+fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
+    val intent = Intent(this, it)
+    intent.putExtras(Bundle().apply(extras))
+    startActivity(intent)
+}
+
 fun getCaliberName(caliber: String?): String {
     return when (caliber) {
         "Caliber762x35" -> ".300 Blackout"
@@ -334,6 +366,33 @@ fun getCurrencyString(string: String): String {
         "€" -> "EURO"
         "₽" -> "RUB"
         else -> "RUB"
+    }
+}
+
+fun getCaliberShortName(caliber: String?): String {
+    return when (caliber) {
+        "Caliber762x35" -> ".300"
+        "Caliber86x70" -> ".338"
+        "Caliber366TKM" -> ".366 TKM"
+        "Caliber1143x23ACP" -> ".45 ACP"
+        "Caliber127x55" -> "12.7x55mm"
+        "Caliber12g" -> "12G"
+        "Caliber20g" -> "20G"
+        "Caliber23x75" -> "23x75mm"
+        "Caliber46x30" -> "4.6x30mm"
+        "Caliber40x46" -> "40x46mm"
+        "Caliber545x39" -> "5.45x39mm"
+        "Caliber556x45NATO" -> "5.56x45mm"
+        "Caliber57x28" -> "5.7x28mm"
+        "Caliber762x25TT" -> "7.62x25mm"
+        "Caliber762x39" -> "7.62x39mm"
+        "Caliber762x51" -> "7.62x51mm"
+        "Caliber762x54R" -> "7.62x54mmR"
+        "Caliber9x18PM" -> "9x18mm"
+        "Caliber9x19PARA" -> "9x19mm"
+        "Caliber9x21" -> "9x21mm"
+        "Caliber9x39" -> "9x39mm"
+        else -> "Unknown Ammo Type"
     }
 }
 

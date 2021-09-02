@@ -24,8 +24,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.thehideout.ammunition.AmmoHelper
-import com.austinhodak.thehideout.ammunition.models.AmmoOld
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
@@ -36,8 +34,6 @@ import com.austinhodak.thehideout.utils.Time
 import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.OutdatedDrawerItem
-import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
-import com.austinhodak.thehideout.weapons.models.Weapon
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
@@ -91,8 +87,6 @@ class MainActivity : AppCompatActivity() {
         keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
 
-
-
         //bsgViewModel.allData()
 
         setupDrawer(savedInstanceState)
@@ -102,36 +96,6 @@ class MainActivity : AppCompatActivity() {
         if (isDebug()) {
             Only.clearOnly("mapGenie")
         }
-
-        /*val id = listOf("544a5cde4bdc2d39388b456b", "545cdae64bdc2d39198b4568")
-
-        lifecycleScope.launchWhenResumed {
-            for (i in id) {
-                val response = TarkovApi().getTarkovClient(applicationContext).query(ItemQuery(id = i)).await()
-                Timber.d("$i - $response")
-            }
-
-            //val dump = TarkovApi().getTarkovClient(applicationContext).apolloStore.normalizedCache().dump()
-            //println("dump: " + NormalizedCache.prettifyDump(dump))
-
-        }*/
-
-        /*fleaVM.itemsList.observe(this) { response ->
-            when (response) {
-                is ViewState.Loading -> {
-                    Timber.d("Loading")
-                }
-
-                is ViewState.Success -> {
-                    val items = response.value?.data?.itemsByType
-                    Timber.d("Loaded with ${items?.size} items.")
-                }
-
-                is ViewState.Error -> {
-                    Timber.d("Error Loading")
-                }
-            }
-        }*/
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
@@ -310,13 +274,6 @@ class MainActivity : AppCompatActivity() {
                 twitch,
                 twitter,
                 DividerDrawerItem(),
-                SecondaryDrawerItem().apply {
-                    isEnabled = false
-                    typeface = benderFont
-                    isIconTinted = true
-                    nameText = "${BuildConfig.VERSION_NAME}"
-                    iconRes = R.drawable.ic_baseline_info_24
-                },
                 /*PrimaryDrawerItem().apply {
                     typeface = benderFont
                     isIconTinted = true
@@ -501,7 +458,7 @@ class MainActivity : AppCompatActivity() {
         invalidateOptionsMenu()
     }
 
-    private fun setupSearchAdapter() {
+    /*private fun setupSearchAdapter() {
         mSearchAdapter = SlimAdapter.create().register<AmmoOld>(R.layout.item_ammo_search) { data, injector ->
             injector.text(R.id.ammoSmallName, data.name)
             injector.text(R.id.textView2, data.getSubtitle())
@@ -537,7 +494,7 @@ class MainActivity : AppCompatActivity() {
                 })
             }
         }.registerDefault(R.layout.layout_empty) { default, i -> }.attachTo(binding.searchView.getRV())
-    }
+    }*/
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)

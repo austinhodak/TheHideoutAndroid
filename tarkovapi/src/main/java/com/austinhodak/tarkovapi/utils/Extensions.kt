@@ -388,7 +388,7 @@ fun JSONObject.getItemType(): ItemTypes {
         this.getString("_parent").equals("5448e5724bdc2ddf718b4568") -> ItemTypes.GLASSES
         this.getString("_parent").equals("543be6564bdc2df4348b4568") -> ItemTypes.GRENADE
         this.getString("_parent").equals("5645bcb74bdc2ded0b8b4578") -> ItemTypes.HEADSET
-        this.getString("_parent").equals("5a341c4086f77401f2541505") -> ItemTypes.HELMET
+        this.getString("_parent").equals("5a341c4086f77401f2541505") || this.getString("_parent").equals("57bef4c42459772e8d35a53b") -> ItemTypes.HELMET
         this.getString("_parent").equals("5c99f98d86f7745c314214b3") || this.getString("_parent").equals("5c164d2286f774194c5e69fa") -> ItemTypes.KEY
         this.getString("_parent").equals("5448f3a64bdc2d60728b456a") -> ItemTypes.STIM
         this.getString("_parent").equals("5448f39d4bdc2d0a728b4568") -> ItemTypes.MED

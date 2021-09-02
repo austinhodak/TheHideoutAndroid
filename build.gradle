@@ -28,6 +28,7 @@ buildscript {
                 hilt              : "2.31.2-alpha"
         ]
         compose_version = '1.0.1'
+        accompanist = '0.17.0'
     }
 
     repositories {

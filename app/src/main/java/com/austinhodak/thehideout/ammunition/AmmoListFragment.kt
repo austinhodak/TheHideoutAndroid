@@ -33,6 +33,7 @@ private const val ARG_CALIBER_ID = "param1"
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
+@Deprecated("")
 class AmmoListFragment : Fragment() {
 
     private var caliberID: String = ""
@@ -92,6 +93,7 @@ class AmmoListFragment : Fragment() {
         }
     }
 
+    @Deprecated("")
     companion object {
         @JvmStatic
         fun newInstance(param1: String) =

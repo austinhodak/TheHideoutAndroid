@@ -124,7 +124,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
+    <com.austinhodak.thehideout.views.Drawer
         android:id="@+id/slider"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

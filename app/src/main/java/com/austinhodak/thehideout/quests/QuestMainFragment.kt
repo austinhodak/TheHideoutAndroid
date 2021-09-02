@@ -1,111 +1,120 @@
 package com.austinhodak.thehideout.quests
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.annotation.DrawableRes
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.austinhodak.thehideout.MainActivity
+import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.databinding.FragmentQuestsMainBinding
-import com.austinhodak.thehideout.quests.inraid.QuestInRaidActivity
-import com.austinhodak.thehideout.quests.inraid.models.Map
-import com.austinhodak.thehideout.utils.logScreen
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class QuestMainFragment : Fragment() {
 
-    private var _binding: FragmentQuestsMainBinding? = null
-    private val binding get() = _binding!!
+    private val questViewModel: QuestMainViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        logScreen("QuestsFragment")
-        QuestsHelper.getQuests(requireContext())
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                val navController = rememberNavController()
+                val scaffoldState = rememberScaffoldState()
+                HideoutTheme {
+                    Scaffold(
+                        scaffoldState = scaffoldState,
+                        bottomBar = {
+                            QuestBottomNav(navController = navController)
+                        },
+                        floatingActionButton = {
+                            FloatingActionButton(onClick = {  }) {
+                                Icon(Icons.Filled.PlayArrow, contentDescription = "")
+                            }
+                        }
+                    ) {
+                        NavHost(navController = navController, startDestination = BottomNavigationScreens.Stats.route) {
+                            composable(BottomNavigationScreens.Stats.route) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentQuestsMainBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupBottomNav(view.findViewById(R.id.questBottomNavBar))
-        val fab = binding.questStartRaidFAB
-
-        val bs = BottomSheetBehavior.from(view.findViewById<ConstraintLayout>(R.id.bottomSheet))
-        bs.skipCollapsed = true
-        bs.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    fab.show()
+                            }
+                        }
+                    }
                 }
             }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-        })
-
-        fab.setOnClickListener {
-            if (bs.state == BottomSheetBehavior.STATE_HIDDEN || bs.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                bs.state = BottomSheetBehavior.STATE_EXPANDED
-                fab.hide()
-            } else {
-                bs.state = BottomSheetBehavior.STATE_HIDDEN
-            }
-        }
-
-        (requireActivity() as MainActivity).updateChips(arrayListOf("All", "Available", "Locked", "Completed"))
-
-        val mapRV = binding.bottomSheet.startRaidMapRV
-        mapRV.layoutManager = LinearLayoutManager(context)
-        val itemAdapter = ItemAdapter<Map>()
-        val fastAdapter = FastAdapter.with(itemAdapter)
-        for (map in com.austinhodak.thehideout.utils.Map.values()) {
-            itemAdapter.add(Map(map))
-        }
-        mapRV.adapter = fastAdapter
-        fastAdapter.onClickListener = { v, a, map, int ->
-            startActivity(Intent(requireContext(), QuestInRaidActivity::class.java).apply {
-                putExtra("map", map.map)
-            })
-            false
         }
     }
 
-    private fun setupBottomNav(bottomNav: BottomNavigationView) {
-        bottomNav.setOnNavigationItemSelectedListener {
-            val fragment = when (it.itemId) {
-                R.id.questOverview -> QuestsOverviewFragment.newInstance()
-                R.id.questTraders -> QuestsTradersTabFragment()
-                R.id.questMaps -> QuestsMapTabFragment()
-                R.id.questItems -> QuestsItemListFragment()
-                else -> QuestsOverviewFragment.newInstance()
+    @Composable
+    private fun QuestBottomNav(
+        navController: NavController
+    ) {
+        val items = listOf(
+            BottomNavigationScreens.Stats,
+            BottomNavigationScreens.Quests,
+            BottomNavigationScreens.Items,
+            BottomNavigationScreens.Maps
+        )
+
+        BottomNavigation(
+            backgroundColor = MaterialTheme.colors.primary
+        ) {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
+
+            items.forEachIndexed { index, item ->
+                BottomNavigationItem(
+                    icon = {
+                        if (item.icon != null) {
+                            Icon(item.icon, "", tint = Color.White)
+                        } else {
+                            Icon(painter = painterResource(id = item.iconDrawable!!), contentDescription = item.resourceId, tint = Color.White)
+                        }
+                    },
+                    label = { Text(item.resourceId, color = Color.White) },
+                    selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
+                    alwaysShowLabel = false, // This hides the title for the unselected items
+                    onClick = {
+                        if (currentDestination?.route == item.route) return@BottomNavigationItem
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                )
             }
-
-            (requireActivity() as MainActivity).setQuestChipVisibility(
-                when (it.itemId) {
-                    R.id.questTraders -> true
-                    R.id.questMaps -> true
-                    else -> false
-                }
-            )
-
-            childFragmentManager.beginTransaction().replace(R.id.questsFragment, fragment).commit()
-            true
         }
-        bottomNav.selectedItemId = R.id.questOverview
+    }
+
+    sealed class BottomNavigationScreens(
+        val route: String,
+        val resourceId: String,
+        val icon: ImageVector? = null,
+        @DrawableRes val iconDrawable: Int? = null
+    ) {
+        object Stats : BottomNavigationScreens("Stats", "Stats", null, R.drawable.ic_baseline_dashboard_24)
+        object Quests : BottomNavigationScreens("Quests", "Quests", null, R.drawable.ic_baseline_assignment_turned_in_24)
+        object Items : BottomNavigationScreens("Items", "Items", null, R.drawable.ic_baseline_assignment_24)
+        object Maps : BottomNavigationScreens("Maps", "Maps", null, R.drawable.ic_baseline_map_24)
     }
 
     companion object {
