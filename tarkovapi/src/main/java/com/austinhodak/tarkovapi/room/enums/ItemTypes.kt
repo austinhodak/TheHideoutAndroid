@@ -19,5 +19,6 @@ enum class ItemTypes {
     RIG,
     STIM,
     WEARABLE,
-    WEAPON
+    WEAPON,
+    FOOD
 }

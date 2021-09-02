@@ -58,9 +58,9 @@ fun Fragment.toCompose(args: Bundle? = null, fragmentManager: FragmentManager) {
 }
 
 fun Double.getColor(reverse: Boolean = false, surfaceColor: Color): Color {
-    return if (this == 0.0) {
+    return if (this == 0.0 || this.isNaN()) {
         surfaceColor
-    } else if (this > 0) {
+    } else if (this > 0.0) {
         if (reverse) Red500 else Green500
     } else {
         if (reverse) Green500 else Red500
@@ -472,3 +472,32 @@ fun hasInternet(context: Context): Boolean {
     return activeNetwork?.isConnectedOrConnecting == true
 }
 
+fun String.modParent(): String {
+    return when (this) {
+        "bipod" -> "55818afb4bdc2dde698b456d"
+        "foregrips" -> "55818af64bdc2d5b648b4570"
+        "flashlights" -> "55818b084bdc2d5b648b4571"
+        "tac" -> "55818b164bdc2ddc698b456c"
+        "aux" -> "550aa4dd4bdc2dc9348b4569"
+        "muzzle_flash",
+        "muzzle_brakes",
+        "muzzle_adapters" -> "550aa4bf4bdc2dd6348b456b"
+        "muzzle_suppressor" -> "550aa4cd4bdc2dd8348b456c"
+        "gear_handles" -> "55818a6f4bdc2db9688b456b"
+        "gear_mags" -> "5448bc234bdc2d3c308b4569"
+        "gear_mounts" -> "55818b224bdc2dde698b456f"
+        "gear_stocks" -> "55818a594bdc2db9688b456a"
+        "vital_barrels" -> "555ef6e44bdc2de9068b457e"
+        "vital_gas" -> "56ea9461d2720b67698b456f"
+        "vital_handguards" -> "55818a104bdc2db9688b4569"
+        "vital_grips" -> "55818a684bdc2ddd698b456d"
+        "vital_receivers" -> "55818a304bdc2db5418b457d"
+        "sights_assault" -> "55818add4bdc2d5b648b456f"
+        "sights_reflex" -> "55818ad54bdc2ddc698b4569"
+        "sights_compact" -> "55818acf4bdc2dde698b456b"
+        "sights_iron" -> "55818ac54bdc2d5b648b456e"
+        "sights_scopes" -> "55818ae44bdc2dde698b456c"
+        "sights_special" -> "55818aeb4bdc2ddc698b456a"
+        else -> ""
+    }
+}

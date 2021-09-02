@@ -20,10 +20,13 @@ import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.gear.GearListScreen
 import com.austinhodak.thehideout.keys.KeyListScreen
+import com.austinhodak.thehideout.medical.MedicalListScreen
+import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.MainDrawer
 import com.austinhodak.thehideout.weapons.WeaponListScreen
+import com.austinhodak.thehideout.weapons.mods.ModsListScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -101,6 +104,21 @@ class NavActivity : AppCompatActivity() {
                             KeyListScreen(
                                 navViewModel = navViewModel,
                                 tarkovRepo
+                            )
+                        }
+                        composable("medical") {
+                            MedicalListScreen(
+                                tarkovRepo,
+                                navViewModel = navViewModel
+                            )
+                        }
+                        composable("food") {
+                            ProvisionListScreen(navViewModel = navViewModel, tarkovRepo = tarkovRepo)
+                        }
+                        composable("weaponmods") {
+                            ModsListScreen(
+                                tarkovRepo,
+                                navViewModel
                             )
                         }
                         composable("weapons/{classID}") {

@@ -15,7 +15,13 @@
             android:name=".NavActivity"
             android:exported="true"
             android:label="@string/title_activity_nav"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".clothing.ClothingDetailActivityC"
             android:theme="@style/Theme.TheHideoutCompose" />
@@ -51,11 +57,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"

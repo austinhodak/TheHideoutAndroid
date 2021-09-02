@@ -25,7 +25,7 @@ import org.json.JSONArray
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class], version = 5)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class], version = 7)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao

@@ -53,7 +53,24 @@ data class Item(
     val BluntThroughput: Double? = null,
     val ArmorMaterial: String? = null,
     val BlindnessProtection: Double? = null,
-    val Grids: List<Grid>? = null
+    val Grids: List<Grid>? = null,
+    //Mods
+    val Accuracy: Double? = null,
+    val Recoil: Double? = null,
+    val Loudness: Double? = null,
+    val EffectiveDistance: Double? = null,
+    val Ergonomics: Double? = null,
+    val Velocity: Double? = null,
+    val RaidModdable: Boolean? = null,
+    val ToolModdable: Boolean? = null,
+    val SightingRange: Double? = null,
+    val muzzleModType: String? = null,
+    //Meds
+    val medUseTime: Double? = null,
+    val medEffectType: String? = null,
+    val MaxHpResource: Double? = null,
+    val hpResourceRate: Double? = null,
+    val StimulatorBuffs: String? = null,
 ) {
     fun cArmorClass(): Int {
         return armorClass?.toIntOrNull() ?: 0
