@@ -55,7 +55,7 @@ data class Item(
     val BlindnessProtection: Double? = null,
     val Grids: List<Grid>? = null
 ) {
-    fun getArmorClass(): Int {
+    fun cArmorClass(): Int {
         return armorClass?.toIntOrNull() ?: 0
     }
 

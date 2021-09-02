@@ -12,10 +12,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,8 +25,16 @@ import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.MainToolbar
+import com.austinhodak.thehideout.compose.theme.Red400
+import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.utils.asCurrency
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 
+@ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
@@ -50,36 +55,115 @@ fun GearListScreen(
     }
 
     val data = tarkovRepo.getItemsByType(type).collectAsState(initial = emptyList())
+    val titles: List<String>? = when (type) {
+        ItemTypes.GLASSES,
+        ItemTypes.RIG -> listOf("UNARMORED", "ARMORED")
+        ItemTypes.HELMET -> listOf("ARMORED", "VANITY")
+        else -> null
+    }
+
+    val pagerState = rememberPagerState(pageCount = titles?.size ?: 0)
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
             Column {
                 MainToolbar(
                     title = category ?: "Armor",
-                    navViewModel = navViewModel
+                    navViewModel = navViewModel,
+                    elevation = when (type) {
+                        ItemTypes.HELMET,
+                        ItemTypes.RIG -> 0.dp
+                        else -> 4.dp
+                    }
                 )
+                if (titles != null) {
+                    TabRow(
+                        selectedTabIndex = pagerState.currentPage,
+                        indicator = { tabPositions ->
+                            TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = Red400)
+                        },
+                    ) {
+                        titles.forEachIndexed { index, title ->
+                            Tab(
+                                text = { Text(title) },
+                                selected = pagerState.currentPage == index,
+                                onClick = {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(index)
+                                    }
+                                },
+                                selectedContentColor = Red400,
+                                unselectedContentColor = White
+                            )
+                        }
+                    }
+                }
             }
         }
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
-        ) {
-            val items = when (type) {
-                ItemTypes.HELMET -> data.value.filter { it.pricing != null && it.getArmorClass() > 0 }.sortedBy { it.ShortName }
-                else -> data.value.filter { it.pricing != null }.sortedBy { it.ShortName }
-            }
-            items(items = items) { item ->
-                //Timber.d("${item.Name} - " + item.armorZone?.first().toString())
-                val visibleState = remember { MutableTransitionState(false) }
-                visibleState.targetState = true
-                AnimatedVisibility(
-                    visibleState,
-                    enter = fadeIn(),
-                    exit = fadeOut()
+        if (titles != null) {
+            HorizontalPager(state = pagerState) { page ->
+                val items = when {
+                    type == ItemTypes.RIG && page == 0 -> data.value.filter { it.cArmorClass() == 0 }.sortedBy { it.ShortName }
+                    type == ItemTypes.RIG && page == 1 -> data.value.filter { it.cArmorClass() > 0 }.sortedBy { it.ShortName }
+                    type == ItemTypes.HELMET -> {
+                        when (page) {
+                            0 -> data.value.filter { it.cArmorClass() > 0 }.sortedBy { it.ShortName }
+                            1 -> data.value.filter { it.cArmorClass() == 0 && it.armorClass != null }.sortedBy { it.ShortName }
+                            else -> data.value.filter { it.cArmorClass() > 0 }.sortedBy { it.ShortName }
+                        }
+                    }
+                    type == ItemTypes.GLASSES && page == 0 -> data.value.filter { it.cArmorClass() == 0 }.sortedBy { it.ShortName }
+                    type == ItemTypes.GLASSES && page == 1 -> data.value.filter { it.cArmorClass() > 0 }.sortedBy { it.ShortName }
+                    else -> data.value.filter { it.pricing != null }.sortedBy { it.armorClass }
+                }
+                LazyColumn(
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                    modifier = Modifier.fillMaxHeight()
                 ) {
-                    when (type) {
-                        ItemTypes.BACKPACK -> BackpackCard(item = item)
-                        else -> GearCard(item = item)
+                    items(items = items) { item ->
+                        val visibleState = remember { MutableTransitionState(false) }
+                        visibleState.targetState = true
+                        AnimatedVisibility(
+                            visibleState,
+                            enter = fadeIn(),
+                            exit = fadeOut()
+                        ) {
+                            when {
+                                type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item)
+                                type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item)
+                                type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item)
+                                else -> GearCard(item = item)
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                val items = when (type) {
+                    ItemTypes.HELMET -> data.value.filter { it.pricing != null && it.cArmorClass() > 0 }.sortedBy { it.ShortName }
+                    ItemTypes.FACECOVER -> data.value.filter { it.pricing != null && it.cArmorClass() == 0 }.sortedBy { it.ShortName }
+                    else -> data.value.filter { it.pricing != null }.sortedBy { it.armorClass }
+                }
+                items(items = items) { item ->
+                    val visibleState = remember { MutableTransitionState(false) }
+                    visibleState.targetState = true
+                    AnimatedVisibility(
+                        visibleState,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        when (type) {
+                            ItemTypes.BACKPACK -> BackpackCard(item = item)
+                            ItemTypes.FACECOVER,
+                            ItemTypes.HEADSET -> HeadsetCard(item = item)
+                            else -> GearCard(item = item)
+                        }
                     }
                 }
             }
@@ -116,8 +200,8 @@ private fun GearCard(
                     rememberImagePainter(item.pricing?.gridImageLink),
                     contentDescription = null,
                     modifier = Modifier
-                        .width(38.dp)
-                        .height(38.dp)
+                        .width(40.dp)
+                        .height(40.dp)
                 )
                 Column(
                     modifier = Modifier
@@ -257,6 +341,60 @@ private fun BackpackCard(
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun HeadsetCard(
+    item: Item
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(72.dp)
+            .padding(vertical = 4.dp),
+        border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
+        elevation = 0.dp,
+        onClick = {
+
+        }
+    ) {
+        Column(
+            Modifier.fillMaxSize()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(start = 16.dp, end = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    rememberImagePainter(item.pricing?.gridImageLink),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(40.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "${item.ShortName}",
+                        style = MaterialTheme.typography.subtitle1
+                    )
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = "Last Price: ${item.getPrice().asCurrency()}",
+                            style = MaterialTheme.typography.caption
                         )
                     }
                 }
