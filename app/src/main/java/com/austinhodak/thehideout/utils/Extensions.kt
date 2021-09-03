@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Pricing
+import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CAmmo
@@ -34,6 +35,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.round
@@ -110,10 +112,20 @@ fun Pricing.BuySellPrice.toName(showRequirement: Boolean = false): String? {
 fun Pricing.BuySellPrice.traderImage(): String {
     //Flea Market Icon
     if (this.source == "fleaMarket") return "https://tarkov-tools.com/images/flea-market-icon.jpg"
-
+    Timber.d(this.toString())
     when {
         requirements.isNullOrEmpty() -> {
-            return this.traderImage()
+            return when (this.source) {
+                ItemSourceName.prapor.rawValue -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+                ItemSourceName.therapist.rawValue -> "https://tarkov-tools.com/images/therapist-icon.jpg"
+                ItemSourceName.fence.rawValue -> "https://tarkov-tools.com/images/fence-icon.jpg"
+                ItemSourceName.skier.rawValue -> "https://tarkov-tools.com/images/skier-icon.jpg"
+                ItemSourceName.peacekeeper.rawValue -> "https://tarkov-tools.com/images/peacekeeper-icon.jpg"
+                ItemSourceName.mechanic.rawValue -> "https://tarkov-tools.com/images/mechanic-icon.jpg"
+                ItemSourceName.ragman.rawValue -> "https://tarkov-tools.com/images/ragman-icon.jpg"
+                ItemSourceName.jaeger.rawValue -> "https://tarkov-tools.com/images/jaeger-icon.jpg"
+                else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+            }
         }
         requirements.first().type == "loyaltyLevel" -> {
             val level = requirements.first().value

@@ -1,6 +1,5 @@
 package com.austinhodak.tarkovapi.room.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
@@ -12,10 +11,14 @@ import kotlinx.coroutines.flow.Flow
 interface ItemDao {
 
     @Query("SELECT * FROM items WHERE id = :id")
-    fun getByID(id: String): LiveData<Item>
+    fun getByID(id: String): Flow<Item>
 
     @Query("SELECT * FROM items WHERE itemType = :type")
     fun getByType(type: ItemTypes): Flow<List<Item>>
+
+    @Transaction
+    @Query("SELECT * FROM items WHERE pricing IS NOT NULL")
+    fun getAllItems(): Flow<List<Item>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)

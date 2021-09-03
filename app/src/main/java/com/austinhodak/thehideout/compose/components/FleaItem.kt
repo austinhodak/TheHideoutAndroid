@@ -44,7 +44,8 @@ fun FleaItem(
         //border = BorderStroke(1.dp, color = color),
         onClick = {
             onClick(item.id)
-        }
+        },
+        backgroundColor = Color(0xFE1F1F1F)
     ) {
         Column {
             Row(

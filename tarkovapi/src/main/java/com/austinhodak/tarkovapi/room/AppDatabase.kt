@@ -6,17 +6,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.apollographql.apollo3.ApolloClient
-import com.austinhodak.tarkovapi.ItemsByTypeQuery
-import com.austinhodak.tarkovapi.QuestsQuery
-import com.austinhodak.tarkovapi.R
+import com.austinhodak.tarkovapi.*
 import com.austinhodak.tarkovapi.di.ApplicationScope
 import com.austinhodak.tarkovapi.room.dao.*
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemType
-import com.austinhodak.tarkovapi.utils.itemType
-import com.austinhodak.tarkovapi.utils.toPricing
-import com.austinhodak.tarkovapi.utils.toQuest
+import com.austinhodak.tarkovapi.utils.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +21,7 @@ import org.json.JSONArray
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class], version = 7)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class], version = 11)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -33,6 +29,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun WeaponDao(): WeaponDao
     abstract fun QuestDao(): QuestDao
     abstract fun TraderDao(): TraderDao
+    abstract fun BarterDao(): BarterDao
+    abstract fun CraftDao(): CraftDao
 
     class Callback @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -99,6 +97,8 @@ abstract class AppDatabase : RoomDatabase() {
 
             updatePricing()
             populateQuests()
+            populateCrafts()
+            populateBarters()
         }
 
         private suspend fun populateQuests() {
@@ -110,6 +110,32 @@ abstract class AppDatabase : RoomDatabase() {
             for (quest in quests) {
                 if (quest != null) {
                     questDao.insert(quest)
+                }
+            }
+        }
+
+        private suspend fun populateCrafts() {
+            val craftDao = database.get().CraftDao()
+            val response = apolloClient.query(CraftsQuery())
+            val crafts = response.data?.crafts?.map { craft ->
+                craft?.toCraft()
+            } ?: emptyList()
+            for (craft in crafts) {
+                if (craft != null) {
+                    craftDao.insert(craft)
+                }
+            }
+        }
+
+        private suspend fun populateBarters() {
+            val barterDao = database.get().BarterDao()
+            val response = apolloClient.query(BartersQuery())
+            val barters = response.data?.barters?.map { barter ->
+                barter?.toBarter()
+            } ?: emptyList()
+            for (barter in barters) {
+                if (barter != null) {
+                    barterDao.insert(barter)
                 }
             }
         }

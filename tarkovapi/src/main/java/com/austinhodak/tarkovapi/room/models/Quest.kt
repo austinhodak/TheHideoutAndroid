@@ -2,9 +2,6 @@ package com.austinhodak.tarkovapi.room.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.austinhodak.tarkovapi.fragment.ObjectiveFragment
-import com.austinhodak.tarkovapi.fragment.QuestFragment
-import com.austinhodak.tarkovapi.fragment.RepFragment
 import com.austinhodak.tarkovapi.fragment.TraderFragment
 
 @Entity(tableName = "quests")
@@ -17,9 +14,9 @@ data class Quest(
     val turnin: TraderFragment? = null,
     val unlocks: List<String?>? = null,
     //@Embedded(prefix = "requirement_") val requirement: QuestRequirement? = null,
-    val requirement: QuestFragment.Requirements? = null,
-    val reputation: List<RepFragment>? = null,
-    val objective: List<ObjectiveFragment>? = null,
+    val requirement: QuestRequirement? = null,
+    //val reputation: List<RepFragment>? = null,
+    val objective: List<QuestObjective>? = null,
 ) {
 
     data class QuestRequirement(
@@ -28,8 +25,17 @@ data class Quest(
         val prerequisiteQuests: List<List<Quest?>?>? = null
     )
 
-    fun getObjective(itemID: String? = null): ObjectiveFragment? {
-        return objective?.find { it.targetItem?.fragments?.itemFragment?.id == itemID }
+    data class QuestObjective(
+        val id: String? = null,
+        val type: String? = null,
+        val target: List<String>? = null,
+        val number: Int? = null,
+        val location: String? = null,
+        val targetItem: Pricing? = null
+    )
+
+    fun getObjective(itemID: String? = null): QuestObjective? {
+        return objective?.find { it.targetItem?.id == itemID }
     }
 
     fun getMaps(): String {

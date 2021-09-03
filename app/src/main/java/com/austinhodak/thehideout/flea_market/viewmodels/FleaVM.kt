@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.austinhodak.tarkovapi.ItemQuery
-import com.austinhodak.tarkovapi.ItemsByTypeQuery
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.models.Item
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,14 +21,19 @@ class FleaVM @Inject constructor(
     private val tarkovRepo: TarkovRepo
 ) : ViewModel() {
 
-    private val _itemsList by lazy { MutableLiveData<ItemsByTypeQuery.Data>() }
-    val itemsList: LiveData<ItemsByTypeQuery.Data> get() = _itemsList
-
-    private val _item by lazy { MutableLiveData<ItemQuery.Data>() }
-    val item: LiveData<ItemQuery.Data> get() = _item
+    private val _item by lazy { MutableLiveData<Item>() }
+    val item: LiveData<Item> get() = _item
 
     fun getItemByID(id: String) = viewModelScope.launch {
+        tarkovRepo.getItemByID(id).collect {
+            _item.value = it
+        }
+    }
 
+    var sortBy = MutableLiveData(1)
+
+    fun setSort(int: Int) {
+        sortBy.value = int
     }
 
 }

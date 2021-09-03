@@ -40,7 +40,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
     private val drawerAmmo = PrimaryDrawerItem().apply { tag = "ammunition/Caliber762x35"; identifier = 101; nameText = "Ammunition"; iconRes = R.drawable.icons8_ammo_100; isIconTinted = true; typeface = benderFont }
     private val drawerKeys = PrimaryDrawerItem().apply { tag = "keys"; identifier = 104; nameText = "Keys"; iconRes = R.drawable.icons8_key_100; isIconTinted = true; typeface = benderFont }
     private val drawerMedical = PrimaryDrawerItem().apply { tag = "medical"; identifier = 105; nameText = "Medical"; iconRes = R.drawable.icons8_syringe_100; isIconTinted = true; typeface = benderFont }
-    private val drawerFleaMarket = PrimaryDrawerItem().apply { identifier = 107; nameText = "Flea Market"; iconRes = R.drawable.ic_baseline_shopping_cart_24; isIconTinted = true; typeface = benderFont }
+    private val drawerFleaMarket = PrimaryDrawerItem().apply { tag = "flea"; identifier = 107; nameText = "Flea Market"; iconRes = R.drawable.ic_baseline_shopping_cart_24; isIconTinted = true; typeface = benderFont }
     private val drawerHideout = PrimaryDrawerItem().apply { identifier = 108; nameText = "Hideout"; iconRes = R.drawable.icons8_tent_96; isIconTinted = true; typeface = benderFont }
     private val drawerQuests = PrimaryDrawerItem().apply { identifier = 109; nameText = "Quests"; iconRes = R.drawable.ic_baseline_assignment_24; isIconTinted = true; typeface = benderFont }
     private val drawerMaps = PrimaryDrawerItem().apply { tag = "url:https://mapgenie.io/tarkov/maps/customs"; identifier = 110; nameText = "Map Genie"; iconRes = R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont }

@@ -6,9 +6,14 @@ import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.austinhodak.tarkovapi.BartersQuery
+import com.austinhodak.tarkovapi.CraftsQuery
 import com.austinhodak.tarkovapi.ItemsByTypeQuery
 import com.austinhodak.tarkovapi.QuestsQuery
+import com.austinhodak.tarkovapi.fragment.ItemFragment
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.room.models.Barter
+import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import org.json.JSONObject
@@ -139,14 +144,27 @@ fun QuestsQuery.Quest.toQuest(): Quest {
         quest.giver.fragments.traderFragment,
         quest.turnin.fragments.traderFragment,
         quest.unlocks,
-        quest.requirements,
-        quest.reputation?.map { it.fragments.repFragment },
-        quest.objectives.map { it?.fragments?.objectiveFragment!! }
+        Quest.QuestRequirement(
+            level = quest.requirements?.level,
+            quests = quest.requirements?.quests
+        ),
+        quest.objectives.map {
+            val obj = it?.fragments?.objectiveFragment
+            Quest.QuestObjective(
+                obj?.id,
+                obj?.type,
+                obj?.target,
+                obj?.number,
+                obj?.location,
+                obj?.targetItem?.fragments?.itemFragment?.toClass()
+            )
+        }
+        //quest.reputation?.map { it.fragments.repFragment },
     )
 }
 
-fun ItemsByTypeQuery.ItemsByType.toPricing(): Pricing {
-    val item = this.fragments.itemFragment
+fun ItemFragment.toClass(): Pricing {
+    val item = this
     return Pricing(
         item.id,
         item.name,
@@ -185,6 +203,36 @@ fun ItemsByTypeQuery.ItemsByType.toPricing(): Pricing {
             )
         }
     )
+}
+
+fun CraftsQuery.Craft.toCraft(): Craft {
+    return Craft(
+        duration = duration,
+        requiredItems = requiredItems.map {
+            Craft.CraftItem(it?.fragments?.taskItem?.count?.roundToInt(), it?.fragments?.taskItem?.item?.fragments?.itemFragment?.toClass())
+        },
+        rewardItems = rewardItems.map {
+            Craft.CraftItem(it?.fragments?.taskItem?.count?.roundToInt(), it?.fragments?.taskItem?.item?.fragments?.itemFragment?.toClass())
+        },
+        source = source
+    )
+}
+
+fun BartersQuery.Barter.toBarter(): Barter {
+    return Barter(
+        requiredItems = requiredItems.map {
+            Craft.CraftItem(it?.fragments?.taskItem?.count?.roundToInt(), it?.fragments?.taskItem?.item?.fragments?.itemFragment?.toClass())
+        },
+        rewardItems = rewardItems.map {
+            Craft.CraftItem(it?.fragments?.taskItem?.count?.roundToInt(), it?.fragments?.taskItem?.item?.fragments?.itemFragment?.toClass())
+        },
+        source = source
+    )
+}
+
+fun ItemsByTypeQuery.ItemsByType.toPricing(): Pricing {
+    val item = this.fragments.itemFragment
+    return item.toClass()
 }
 
 /*

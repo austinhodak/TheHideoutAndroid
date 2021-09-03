@@ -44,6 +44,15 @@ object Module {
     @Provides
     fun providesWeaponDao(database: AppDatabase) = database.WeaponDao()
 
+    @Provides
+    fun providesQuestDao(database: AppDatabase) = database.QuestDao()
+
+    @Provides
+    fun providesBarterDao(database: AppDatabase) = database.BarterDao()
+
+    @Provides
+    fun providesCraftDao(database: AppDatabase) = database.CraftDao()
+
     @ApplicationScope
     @Provides
     @Singleton

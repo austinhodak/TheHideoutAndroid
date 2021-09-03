@@ -18,6 +18,8 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.flea_market.FleaMarketScreen
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.gear.GearListScreen
 import com.austinhodak.thehideout.keys.KeyListScreen
 import com.austinhodak.thehideout.medical.MedicalListScreen
@@ -33,9 +35,11 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
@@ -43,6 +47,7 @@ import javax.inject.Inject
 class NavActivity : AppCompatActivity() {
 
     private val navViewModel: NavViewModel by viewModels()
+    private val fleaViewModel: FleaVM by viewModels()
     @Inject lateinit var tarkovRepo: TarkovRepo
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,6 +119,9 @@ class NavActivity : AppCompatActivity() {
                         }
                         composable("food") {
                             ProvisionListScreen(navViewModel = navViewModel, tarkovRepo = tarkovRepo)
+                        }
+                        composable("flea") {
+                            FleaMarketScreen(navViewModel = navViewModel, fleaViewModel = fleaViewModel, tarkovRepo = tarkovRepo)
                         }
                         composable("weaponmods") {
                             ModsListScreen(

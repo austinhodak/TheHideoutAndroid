@@ -1,15 +1,10 @@
 package com.austinhodak.tarkovapi.room
 
 import androidx.room.TypeConverter
-import com.austinhodak.tarkovapi.fragment.ObjectiveFragment
-import com.austinhodak.tarkovapi.fragment.QuestFragment
 import com.austinhodak.tarkovapi.fragment.RepFragment
 import com.austinhodak.tarkovapi.fragment.TraderFragment
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
-import com.austinhodak.tarkovapi.room.models.Grid
-import com.austinhodak.tarkovapi.room.models.Pricing
-import com.austinhodak.tarkovapi.room.models.Quest
-import com.austinhodak.tarkovapi.room.models.Weapon
+import com.austinhodak.tarkovapi.room.models.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -72,6 +67,19 @@ class Converters {
     }
 
     @TypeConverter
+    fun fromCraftItem(value: List<Craft.CraftItem>?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toCraftItem(value: String?): List<Craft.CraftItem>? {
+        val filterType: Type = object : TypeToken<ArrayList<Craft.CraftItem>?>() {}.type
+        if (value == null) return null
+        return Gson().fromJson(value, filterType)
+    }
+
+    @TypeConverter
     fun fromGrid(value: List<Grid>?): String? {
         if (value == null) return null
         return Gson().toJson(value)
@@ -112,26 +120,26 @@ class Converters {
     }
 
     @TypeConverter
-    fun toObjectiveFragment(value: String?): List<ObjectiveFragment>? {
-        val filterType: Type = object : TypeToken<ArrayList<ObjectiveFragment>?>() {}.type
+    fun toObjectiveFragment(value: String?): List<Quest.QuestObjective>? {
+        val filterType: Type = object : TypeToken<ArrayList<Quest.QuestObjective>?>() {}.type
         if (value == null) return null
         return Gson().fromJson(value, filterType)
     }
 
     @TypeConverter
-    fun fromObjectiveFragment(value: List<ObjectiveFragment>?): String? {
+    fun fromObjectiveFragment(value: List<Quest.QuestObjective>?): String? {
         if (value == null) return null
         return Gson().toJson(value)
     }
 
     @TypeConverter
-    fun toQuestReq(value: String?): QuestFragment.Requirements? {
+    fun toQuestReq(value: String?): Quest.QuestRequirement? {
         if (value == null) return null
-        return Gson().fromJson(value, QuestFragment.Requirements::class.java)
+        return Gson().fromJson(value, Quest.QuestRequirement::class.java)
     }
 
     @TypeConverter
-    fun fromQuestReq(value: QuestFragment.Requirements?): String? {
+    fun fromQuestReq(value: Quest.QuestRequirement?): String? {
         if (value == null) return null
         return Gson().toJson(value)
     }

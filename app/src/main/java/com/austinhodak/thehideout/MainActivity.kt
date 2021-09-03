@@ -29,7 +29,6 @@ import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.databinding.ActivityMainBinding
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.utils.Time
 import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openWithCustomTab
@@ -68,7 +67,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var mSearchAdapter: SlimAdapter
-    private lateinit var keysViewModel: KeysViewModel
     private lateinit var fleaViewModel: FleaViewModel
     private lateinit var prefs: SharedPreferences
 
@@ -84,7 +82,6 @@ class MainActivity : AppCompatActivity() {
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
         ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
-        keysViewModel = ViewModelProvider(this).get(KeysViewModel::class.java)
         fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
 
         //bsgViewModel.allData()
@@ -353,13 +350,13 @@ class MainActivity : AppCompatActivity() {
         )
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
-        actionBarDrawerToggle = ActionBarDrawerToggle(
+        /*actionBarDrawerToggle = ActionBarDrawerToggle(
             this,
             binding.root,
             toolbar,
             com.mikepenz.materialdrawer.R.string.material_drawer_open,
             com.mikepenz.materialdrawer.R.string.material_drawer_close
-        )
+        )*/
         binding.root.addDrawerListener(actionBarDrawerToggle)
         binding.slider.setupWithNavController(navController)
 
@@ -433,7 +430,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 Timber.d(newText)
-                keysViewModel.searchKey.value = newText
                 fleaViewModel.searchKey.value = newText
                 return true
             }

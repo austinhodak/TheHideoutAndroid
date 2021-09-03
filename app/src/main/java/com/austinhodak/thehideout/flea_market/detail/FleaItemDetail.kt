@@ -1,40 +1,82 @@
 package com.austinhodak.thehideout.flea_market.detail
 
-/*
+import android.os.Bundle
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.models.*
+import com.austinhodak.tarkovapi.type.ItemSourceName
+import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.Rectangle
+import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
+import com.austinhodak.thehideout.utils.asCurrency
+import com.austinhodak.thehideout.utils.convertRtoUSD
+import com.austinhodak.thehideout.utils.traderIcon
+import com.austinhodak.thehideout.utils.traderImage
+import com.google.accompanist.glide.rememberGlidePainter
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class FleaItemDetail : ComponentActivity() {
+@AndroidEntryPoint
+class FleaItemDetail : AppCompatActivity() {
 
-    private val viewModel: FleaViewModel by viewModels()
+    private val viewModel: FleaVM by viewModels()
+    @Inject
+    lateinit var tarkovRepo: TarkovRepo
     private lateinit var itemID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         itemID = intent.getStringExtra("id") ?: "54491c4f4bdc2db1078b4568"
+        viewModel.getItemByID(itemID)
 
         setContent {
-            TheHideoutTheme {
+            HideoutTheme {
                 val scaffoldState = rememberScaffoldState()
                 var selectedNavItem by remember { mutableStateOf(0) }
-                val database = TarkovDatabase.getDatabase(this, lifecycleScope)
+
                 val scope = rememberCoroutineScope()
 
-                val item = database.ItemDao().getByID(itemID).observeAsState()
+                val item = viewModel.item.observeAsState()
 
-                val quests = database.QuestDao().getQuestsWithItemID("%${item.value?.id}%").observeAsState().value
-                val barters = database.BarterDao().getBartersWithItemID("%${item.value?.id}%").observeAsState().value
-                val crafts = database.CraftDao().getCraftsWithItemID("%${item.value?.id}%").observeAsState().value
+                val quests = tarkovRepo.getQuestsWithItemID("%${item.value?.id}%").collectAsState(emptyList()).value
+                val barters = tarkovRepo.getBartersWithItemID("%${item.value?.id}%").collectAsState(emptyList()).value
+                val crafts = tarkovRepo.getCraftsWithItemID("%${item.value?.id}%").collectAsState(emptyList()).value
 
                 val items = listOf(
                     NavItem("Item", R.drawable.ic_baseline_shopping_cart_24),
-                    NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, barters?.isNotEmpty()),
-                    NavItem("Crafts", R.drawable.ic_baseline_handyman_24, crafts?.isNotEmpty()),
-                    NavItem("Quests", R.drawable.ic_baseline_assignment_24, quests?.isNotEmpty())
+                    NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, barters.isNotEmpty()),
+                    NavItem("Crafts", R.drawable.ic_baseline_handyman_24, crafts.isNotEmpty()),
+                    NavItem("Quests", R.drawable.ic_baseline_assignment_24, quests.isNotEmpty())
                 )
 
                 Scaffold(
                     scaffoldState = scaffoldState,
-                    topBar = { HideoutToolbar(viewModel = viewModel, item = item.value) { finish() } },
+                    topBar = { HideoutToolbar(item = item.value) { finish() } },
                     bottomBar = { FleaBottomNav(selected = selectedNavItem, items) { selectedNavItem = it } },
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
@@ -47,17 +89,20 @@ class FleaItemDetail : ComponentActivity() {
                                     ) {
                                         item {
                                             Card1(item = item.value)
-                                            if (!item.value?.pricing?.sellFor?.filter { it.fragments.itemPrice.price != 0 }
+                                            if (!item.value?.pricing?.sellFor?.filter { it.price != 0 }
                                                     .isNullOrEmpty()) TradersSellCard(
                                                 title = "SELL PRICES",
                                                 item = item.value,
                                                 item.value?.pricing?.sellFor
                                             )
-                                            if (!item.value?.pricing?.buyFor?.filter { it.fragments.itemPrice.price != 0 }
-                                                    .isNullOrEmpty()) TradersBuyCard(title = "BUY PRICES", item = item.value, item.value?.pricing?.buyFor)
+                                            if (!item.value?.pricing?.buyFor?.filter { it.price != 0 }
+                                                    .isNullOrEmpty()) TradersBuyCard(
+                                                title = "BUY PRICES",
+                                                item = item.value,
+                                                item.value?.pricing?.buyFor
+                                            )
                                         }
-                                        */
-/*item {
+                                        /*item {
                                             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                                                 Text(
                                                     modifier = Modifier.padding(top = 4.dp),
@@ -66,17 +111,16 @@ class FleaItemDetail : ComponentActivity() {
                                                     fontSize = 10.sp
                                                 )
                                             }
-                                        }*//*
-
+                                        }*/
                                     }
                                 }
                                 1 -> {
-                                    BartersPage(item = item.value, database)
+                                    BartersPage(item = item.value, barters)
                                 }
                                 2 -> {
-                                    CraftsPage(item = item.value, database)
+                                    CraftsPage(item = item.value, crafts)
                                 }
-                                3 -> QuestsPage(item = item.value, database, scope, quests)
+                                3 -> QuestsPage(item = item.value, quests, tarkovRepo)
                             }
                         }
                     }
@@ -90,9 +134,8 @@ class FleaItemDetail : ComponentActivity() {
 @Composable
 private fun QuestsPage(
     item: Item?,
-    database: TarkovDatabase,
-    scope: CoroutineScope,
-    quests: List<Quest>?
+    quests: List<Quest>?,
+    tarkovRepo: TarkovRepo
 ) {
 
     LazyColumn(
@@ -101,7 +144,7 @@ private fun QuestsPage(
         items(items = quests ?: emptyList()) { quest ->
 //            val isRequired = quest.isRequiredForKappa(database).observeAsState().value
 //            Text("${quest.title} - ${isRequired == 1}")
-            QuestItem(quest = quest, item = item, database)
+            QuestItem(quest = quest, item = item, tarkovRepo)
         }
     }
 }
@@ -110,15 +153,16 @@ private fun QuestsPage(
 private fun QuestItem(
     quest: Quest,
     item: Item?,
-    database: TarkovDatabase,
+    database: TarkovRepo,
 ) {
 
-    val isKappa = quest.isRequiredForKappa(database).observeAsState().value
+    val isKappa = database.isQuestRequiredForKappa(quest.id).collectAsState(0).value
 
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        backgroundColor = Color(0xFE1F1F1F)
     ) {
         Row(
             Modifier.padding(16.dp)
@@ -128,7 +172,7 @@ private fun QuestItem(
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                     Text(
-                        text = "LEVEL ${quest.requirement?.level} • ${if (isKappa == true) "KAPPA" else "NOT KAPPA"}",
+                        text = "LEVEL ${quest.requirement?.level} • ${if (isKappa == 1) "KAPPA" else "NOT KAPPA"}",
                         style = MaterialTheme.typography.overline
                     )
                 }
@@ -163,9 +207,8 @@ private fun QuestItem(
 @Composable
 private fun CraftsPage(
     item: Item?,
-    database: TarkovDatabase
+    crafts: List<Craft>
 ) {
-    val crafts = database.CraftDao().getCraftsWithItemID("%${item?.id}%").observeAsState().value
     LazyColumn(
         contentPadding = PaddingValues(vertical = 4.dp)
     ) {
@@ -177,11 +220,12 @@ private fun CraftsPage(
 
 @Composable
 private fun CraftItem(craft: Craft) {
-    val rewardItem = craft.rewardItems?.firstOrNull()?.item?.fragments?.itemFragment
+    val rewardItem = craft.rewardItems?.firstOrNull()?.item
     val requiredItems = craft.requiredItems
 
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        backgroundColor = Color(0xFE1F1F1F)
     ) {
         Column {
             Row(
@@ -216,7 +260,7 @@ private fun CraftItem(craft: Craft) {
                     )
                     CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                         Text(
-                            text = craft.source,
+                            text = craft.source ?: "",
                             style = MaterialTheme.typography.caption,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Light,
@@ -263,9 +307,8 @@ private fun CraftItem(craft: Craft) {
 @Composable
 private fun BartersPage(
     item: Item?,
-    database: TarkovDatabase
+    barters: List<Barter>
 ) {
-    val barters = database.BarterDao().getBartersWithItemID("%${item?.id}%").observeAsState().value
     LazyColumn(
         contentPadding = PaddingValues(vertical = 4.dp)
     ) {
@@ -277,11 +320,12 @@ private fun BartersPage(
 
 @Composable
 private fun BarterItem(barter: Barter) {
-    val rewardItem = barter.rewardItems?.firstOrNull()?.item?.fragments?.itemFragment
+    val rewardItem = barter.rewardItems?.firstOrNull()?.item
     val requiredItems = barter.requiredItems
 
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        backgroundColor = Color(0xFE1F1F1F)
     ) {
         Column {
             Row(
@@ -314,7 +358,7 @@ private fun BarterItem(barter: Barter) {
                     )
                     CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                         Text(
-                            text = barter.source,
+                            text = barter.source ?: "",
                             style = MaterialTheme.typography.caption,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Light,
@@ -358,15 +402,15 @@ private fun BarterItem(barter: Barter) {
 }
 
 @Composable
-private fun BarterCraftCostItem(taskItem: TaskItem) {
-    val item = taskItem.item.fragments.itemFragment
+private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
+    val item = taskItem?.item
     Row(
         modifier = Modifier.padding(start = 16.dp, top = 2.dp, bottom = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             rememberGlidePainter(
-                request = item.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                request = item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
             ),
             contentDescription = null,
             modifier = Modifier
@@ -378,12 +422,14 @@ private fun BarterCraftCostItem(taskItem: TaskItem) {
             modifier = Modifier.padding(start = 16.dp)
         ) {
             Text(
-                text = "${item.shortName}",
+                text = "${item?.shortName}",
                 style = MaterialTheme.typography.body1
             )
             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                 Text(
-                    text = "${taskItem.count.roundToInt()} x ${item.avg24hPrice?.asCurrency()} = ${(taskItem.count * item.avg24hPrice!!).roundToInt().asCurrency()}",
+                    text = "${taskItem?.count} x ${item?.avg24hPrice?.asCurrency()} = ${
+                        (taskItem?.count ?: 0 * item?.avg24hPrice!!).asCurrency()
+                    }",
                     style = MaterialTheme.typography.caption,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Light,
@@ -401,7 +447,7 @@ fun FleaBottomNav(
 ) {
 
     BottomNavigation(
-        backgroundColor = MaterialTheme.colors.primary
+        backgroundColor = Color(0xFE1F1F1F)
     ) {
         items.forEachIndexed { index, item ->
             BottomNavigationItem(
@@ -411,7 +457,7 @@ fun FleaBottomNav(
                 onClick = { onItemSelected(index) },
                 selectedContentColor = MaterialTheme.colors.secondary,
                 unselectedContentColor = if (item.enabled == true) Color(0x99FFFFFF) else Color(0x33FFFFFF),
-                enabled = item.enabled ?: true
+                enabled = item.enabled ?: true,
             )
         }
     }
@@ -420,7 +466,6 @@ fun FleaBottomNav(
 @Composable
 fun HideoutToolbar(
     modifier: Modifier = Modifier,
-    viewModel: FleaViewModel,
     item: Item?,
     onNavIconPressed: () -> Unit = { },
 ) {
@@ -429,7 +474,7 @@ fun HideoutToolbar(
         title = {
             Row {
                 Text(
-                    text = item?.name ?: "The Hideout",
+                    text = item?.Name ?: "The Hideout",
                     color = MaterialTheme.colors.onPrimary,
                     style = MaterialTheme.typography.h6
                 )
@@ -463,7 +508,8 @@ private fun Card1(
     }
 
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        backgroundColor = Color(0xFE1F1F1F)
     ) {
         Row(
             Modifier.height(IntrinsicSize.Min)
@@ -550,12 +596,13 @@ private fun AvgPriceRow(
 private fun TradersSellCard(
     title: String,
     item: Item?,
-    prices: List<ItemFragment.SellFor>?
+    prices: List<Pricing.BuySellPrice>?
 ) {
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        backgroundColor = Color(0xFE1F1F1F)
     ) {
         Column() {
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
@@ -571,16 +618,14 @@ private fun TradersSellCard(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
             ) {
-                itemsIndexed(prices?.filter { it.fragments.itemPrice.price != 0 }?.sortedByDescending { it.fragments.itemPrice.price }
+                itemsIndexed(prices?.filter { it.price != 0 }?.sortedByDescending { it.price }
                     ?: emptyList()) { index, item ->
-                    TraderPriceListGridItem(item.fragments.itemPrice, index == 0)
+                    TraderPriceListGridItem(item, index == 0)
                 }
             }
-            */
-/*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
+            /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
                 TraderPriceListItem(item.fragments.itemPrice, index == 0)
-            }*//*
-
+            }*/
         }
     }
 }
@@ -589,12 +634,13 @@ private fun TradersSellCard(
 private fun TradersBuyCard(
     title: String,
     item: Item?,
-    prices: List<ItemFragment.BuyFor>?
+    prices: List<Pricing.BuySellPrice>?
 ) {
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        backgroundColor = Color(0xFE1F1F1F)
     ) {
         Column() {
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
@@ -610,21 +656,19 @@ private fun TradersBuyCard(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
             ) {
-                itemsIndexed(prices?.filter { it.fragments.itemPrice.price != 0 }?.sortedBy { it.fragments.itemPrice.price }
+                itemsIndexed(prices?.filter { it.price != 0 }?.sortedBy { it.price }
                     ?: emptyList()) { index, item ->
-                    TraderPriceListGridItem(item.fragments.itemPrice, index == 0)
+                    TraderPriceListGridItem(item, index == 0)
                 }
             }
-            */
-/*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
+            /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
                 TraderPriceListItem(item.fragments.itemPrice, index == 0)
-            }*//*
-
+            }*/
         }
     }
 }
 
-@Composable
+/*@Composable
 private fun TraderPriceListItem(
     item: ItemPrice,
     isHighest: Boolean = false
@@ -642,7 +686,7 @@ private fun TraderPriceListItem(
         }
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = if (item.source == ItemSourceName.PEACEKEEPER) {
+            text = if (item.source == ItemSourceName.peacekeeper) {
                 item.price?.convertRtoUSD()?.asCurrency("D") ?: ""
             } else {
                 item.price?.asCurrency() ?: ""
@@ -652,11 +696,11 @@ private fun TraderPriceListItem(
             fontWeight = if (isHighest) FontWeight.Bold else FontWeight.Normal
         )
     }
-}
+}*/
 
 @Composable
 private fun TraderPriceListGridItem(
-    item: ItemPrice,
+    item: Pricing.BuySellPrice,
     isHighest: Boolean = false
 ) {
     Column(
@@ -673,7 +717,7 @@ private fun TraderPriceListGridItem(
 
             )
         Text(
-            text = if (item.source == ItemSourceName.PEACEKEEPER) {
+            text = if (item.source == ItemSourceName.peacekeeper.rawValue) {
                 item.price?.convertRtoUSD()?.asCurrency("D") ?: ""
             } else {
                 item.price?.asCurrency() ?: ""
@@ -716,4 +760,4 @@ data class NavItem(
     val title: String,
     @DrawableRes val icon: Int,
     val enabled: Boolean? = true
-)*/
+)
