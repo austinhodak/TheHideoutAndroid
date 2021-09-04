@@ -24,6 +24,7 @@ import com.austinhodak.thehideout.gear.GearListScreen
 import com.austinhodak.thehideout.keys.KeyListScreen
 import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
+import com.austinhodak.thehideout.quests.QuestMainScreen
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.MainDrawer
@@ -84,7 +85,7 @@ class NavActivity : AppCompatActivity() {
                 ) {
                     AnimatedNavHost(
                         navController = navController,
-                        startDestination = "ammunition/{caliber}",
+                        startDestination = "quests",
                         enterTransition = { _, _ ->
                             fadeIn(animationSpec = tween(0))
                         },
@@ -132,6 +133,12 @@ class NavActivity : AppCompatActivity() {
                         composable("weapons/{classID}") {
                             WeaponListScreen(
                                 classID = it.arguments?.getString("classID") ?: "assaultRifle",
+                                navViewModel,
+                                tarkovRepo
+                            )
+                        }
+                        composable("quests") {
+                            QuestMainScreen(
                                 navViewModel,
                                 tarkovRepo
                             )

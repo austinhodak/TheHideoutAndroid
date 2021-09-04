@@ -5,9 +5,6 @@
 
     <data>
         <variable
-            name="fragment"
-            type="com.austinhodak.thehideout.quests.QuestMainFragment" />
-        <variable
             name="map"
             type="com.austinhodak.thehideout.quests.inraid.models.Map" />
     </data>

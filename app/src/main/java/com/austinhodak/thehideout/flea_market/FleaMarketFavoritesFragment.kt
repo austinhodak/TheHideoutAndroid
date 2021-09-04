@@ -1,6 +1,5 @@
 package com.austinhodak.thehideout.flea_market
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
@@ -24,7 +23,6 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.thehideout.MainActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentFleaFavoritesListBinding
-import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.utils.log
@@ -204,9 +202,7 @@ class FleaMarketFavoritesFragment : Fragment() {
 
         fastAdapter.onClickListener = { view, adapter, item, pos ->
             log(FirebaseAnalytics.Event.SELECT_ITEM, item.uid ?: "", item.name ?: "", "flea_item")
-            startActivity(Intent(requireContext(), FleaItemDetailActivity::class.java).apply {
-                putExtra("id", item.uid)
-            })
+
             false
         }
 

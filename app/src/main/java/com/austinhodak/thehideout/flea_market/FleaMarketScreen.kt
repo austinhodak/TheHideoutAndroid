@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -30,12 +32,13 @@ import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.FleaItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
-import com.austinhodak.thehideout.compose.theme.Red400
-import com.austinhodak.thehideout.compose.theme.White
+import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.utils.openActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun FleaMarketScreen(
@@ -47,36 +50,60 @@ fun FleaMarketScreen(
     val scaffoldState = rememberScaffoldState()
 
     val data = tarkovRepo.getAllItems().collectAsState(initial = emptyList())
+    val isSearchOpen by navViewModel.isSearchOpen.observeAsState(false)
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             Column {
-                MainToolbar(
-                    title = "Flea Market",
-                    navViewModel = navViewModel
-                )
+                if (isSearchOpen) {
+                    SearchToolbar(
+                        onClosePressed = {
+                            navViewModel.setSearchOpen(false)
+                            fleaViewModel.clearSearch()
+                        },
+                        onValue = {
+                            fleaViewModel.setSearchKey(it)
+                        }
+                    )
+                } else {
+                    MainToolbar(
+                        title = "Flea Market",
+                        navViewModel = navViewModel,
+                        actions = {
+                            IconButton(onClick = {
+                                navViewModel.setSearchOpen(true)
+                            }) {
+                                Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
+                            }
+                        }
+                    )
+                }
+
             }
         },
         bottomBar = {
             FleaBottomNav(navController = navController)
         }
-    ) {
+    ) { paddingValues ->
         NavHost(navController = navController, startDestination = FleaMarketScreens.Items.route) {
             composable(FleaMarketScreens.Items.route) {
-                FleaMarketListScreen(data, fleaViewModel)
+                FleaMarketListScreen(data, fleaViewModel, paddingValues)
             }
         }
     }
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @ExperimentalMaterialApi
 @Composable
 private fun FleaMarketListScreen(
     data: State<List<Item>>,
-    fleaViewModel: FleaVM
+    fleaViewModel: FleaVM,
+    paddingValues: PaddingValues
 ) {
     val sortBy = fleaViewModel.sortBy.observeAsState()
+    val searchKey by fleaViewModel.searchKey.observeAsState("")
 
     val list = when (sortBy.value) {
         0 -> data.value.sortedBy { it.Name }
@@ -85,6 +112,10 @@ private fun FleaMarketListScreen(
         3 -> data.value.sortedByDescending { it.pricing?.changeLast48h }
         4 -> data.value.sortedBy { it.pricing?.changeLast48h }
         else -> data.value.sortedBy { it.getPrice() }
+    }.filter {
+        it.ShortName?.contains(searchKey, ignoreCase = true) == true
+                || it.Name?.contains(searchKey, ignoreCase = true) == true
+                || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
     }
 
     if (data.value.isNullOrEmpty()) {
@@ -102,7 +133,7 @@ private fun FleaMarketListScreen(
         val context = LocalContext.current
         LazyColumn(
             modifier = Modifier,
-            contentPadding = PaddingValues(vertical = 4.dp)
+            contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
         ) {
             items(items = list) { item ->
                 FleaItem(item = item) {
@@ -142,7 +173,7 @@ private fun FleaBottomNav(
                 },
                 label = { Text(item.resourceId) },
                 selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
-                alwaysShowLabel = false, // This hides the title for the unselected items
+                alwaysShowLabel = true, // This hides the title for the unselected items
                 onClick = {
                     if (currentDestination?.route == item.route) return@BottomNavigationItem
                     navController.navigate(item.route) {
@@ -153,8 +184,8 @@ private fun FleaBottomNav(
                         restoreState = true
                     }
                 },
-                selectedContentColor = Red400,
-                unselectedContentColor = White
+                selectedContentColor = MaterialTheme.colors.secondary,
+                unselectedContentColor = Color(0x99FFFFFF),
             )
         }
     }

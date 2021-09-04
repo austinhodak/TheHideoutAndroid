@@ -31,6 +31,10 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
+    body2 = TextStyle(
+        fontFamily = Bender,
+        fontWeight = FontWeight.Normal
+    ),
     h6 = TextStyle(
         fontFamily = Bender,
         fontWeight = FontWeight.Medium,

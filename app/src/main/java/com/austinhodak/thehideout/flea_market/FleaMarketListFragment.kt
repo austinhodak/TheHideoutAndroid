@@ -1,7 +1,6 @@
 package com.austinhodak.thehideout.flea_market
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
@@ -23,7 +22,6 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.FleaItem
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.databinding.FragmentFleaListBinding
-import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
 import com.austinhodak.thehideout.flea_market.models.FleaItem
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.utils.logScreen
@@ -85,9 +83,7 @@ class FleaMarketListFragment : Fragment() {
                     ) {
                         items(items = list ?: emptyList()) { item ->
                             FleaItem(item = item) {
-                                startActivity(Intent(requireContext(), FleaItemDetailActivity::class.java).apply {
-                                    putExtra("id", it)
-                                })
+
                             }
                         }
                     }

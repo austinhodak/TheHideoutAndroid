@@ -36,4 +36,15 @@ class FleaVM @Inject constructor(
         sortBy.value = int
     }
 
+    private val _searchKey = MutableLiveData("")
+    val searchKey = _searchKey
+
+    fun setSearchKey(string: String) {
+        _searchKey.value = string
+    }
+
+    fun clearSearch() {
+        _searchKey.value = ""
+    }
+
 }

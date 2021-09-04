@@ -3,6 +3,8 @@ package com.austinhodak.tarkovapi.room.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.austinhodak.tarkovapi.fragment.TraderFragment
+import com.austinhodak.tarkovapi.utils.Maps
+import timber.log.Timber
 
 @Entity(tableName = "quests")
 data class Quest(
@@ -38,8 +40,11 @@ data class Quest(
         return objective?.find { it.targetItem?.id == itemID }
     }
 
-    fun getMaps(): String {
-        val list = objective?.map { it.location.toString() }?.distinct()
-        return list?.joinToString(separator = ", ") { it } ?: ""
+    fun getMaps(mapsList: Maps): String {
+        val list = objective?.map { it.location?.toInt() }?.distinct()
+        val mapList = list?.map { mapsList.getMap(it ?: 0) }
+        Timber.d(list.toString())
+        Timber.d(mapList.toString())
+        return mapList?.joinToString(separator = ", ") { it?.locale?.en.toString() } ?: ""
     }
 }

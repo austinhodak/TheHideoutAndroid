@@ -32,6 +32,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.Rectangle
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
+import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.utils.asCurrency
 import com.austinhodak.thehideout.utils.convertRtoUSD
 import com.austinhodak.thehideout.utils.traderIcon
@@ -182,7 +183,7 @@ private fun QuestItem(
                     modifier = Modifier.padding(top = 8.dp)
                 )
                 Text(
-                    text = quest.getMaps(),
+                    text = quest.getMaps(mapsList),
                     style = MaterialTheme.typography.body2,
                     modifier = Modifier.padding(top = 0.dp)
                 )
@@ -428,7 +429,7 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                 Text(
                     text = "${taskItem?.count} x ${item?.avg24hPrice?.asCurrency()} = ${
-                        (taskItem?.count ?: 0 * item?.avg24hPrice!!).asCurrency()
+                        (taskItem?.count?.times(item?.avg24hPrice!!))?.asCurrency()
                     }",
                     style = MaterialTheme.typography.caption,
                     fontSize = 11.sp,

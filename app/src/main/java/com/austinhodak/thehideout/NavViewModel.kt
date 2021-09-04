@@ -16,11 +16,18 @@ class NavViewModel @Inject constructor() : ViewModel() {
         isDrawerOpen.value = isOpen
     }
 
-    private val _selectedDrawerItem = MutableLiveData(Pair("ammunition/Caliber762x35", 101))
+    private val _selectedDrawerItem = MutableLiveData(Pair("quests", 101))
     val selectedDrawerItem = _selectedDrawerItem
 
     fun drawerItemSelected(route: Pair<String, Int>) {
         _selectedDrawerItem.value = route
+    }
+
+    private val _isSearchOpen = MutableLiveData(false)
+    val isSearchOpen = _isSearchOpen
+
+    fun setSearchOpen(isOpen: Boolean) {
+        isSearchOpen.value = isOpen
     }
 
     init {

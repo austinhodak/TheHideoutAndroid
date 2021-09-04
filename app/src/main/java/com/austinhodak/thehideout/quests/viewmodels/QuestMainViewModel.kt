@@ -10,5 +10,4 @@ class QuestMainViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-
 }
