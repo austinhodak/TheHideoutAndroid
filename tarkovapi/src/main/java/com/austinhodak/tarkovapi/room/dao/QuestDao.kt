@@ -28,6 +28,9 @@ interface QuestDao {
     @Query("SELECT EXISTS (SELECT * FROM quests WHERE id IS '195' AND requirement LIKE '%' + :id + '%')")
     fun isQuestRequiredForKappa(id: String): Flow<Int>
 
+    @Query("SELECT COUNT (id) FROM quests")
+    fun numOfQuests(): Flow<Int>
+
     /* @Query("DELETE FROM quests")
      fun nukeTable()*/
 }

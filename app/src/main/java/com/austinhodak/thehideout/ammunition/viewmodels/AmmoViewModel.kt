@@ -35,11 +35,4 @@ class AmmoViewModel @Inject constructor(
             }
         }
     }
-
-    init {
-
-    }
-
-
-
 }

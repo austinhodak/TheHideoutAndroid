@@ -31,4 +31,7 @@ class TarkovRepo @Inject constructor(
 
     fun isQuestRequiredForKappa(id: String): Flow<Int> = questDao.isQuestRequiredForKappa(id)
 
+    fun numOfQuests(): Flow<Int> = questDao.numOfQuests()
+    fun getAllQuests(): Flow<List<Quest>> = questDao.getAlLQuests()
+
 }

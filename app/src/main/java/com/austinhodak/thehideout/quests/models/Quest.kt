@@ -150,15 +150,15 @@ data class Quest(
     }
 }
 
-enum class Traders (var id: String) {
-    PRAPOR      ("Prapor"),
-    THERAPIST   ("Therapist"),
-    FENCE       ("Fence"),
-    SKIER       ("Skier"),
-    PEACEKEEPER ("Peacekeeper"),
-    MECHANIC    ("Mechanic"),
-    RAGMAN      ("Ragman"),
-    JAEGER      ("Jaeger"),
+enum class Traders (var id: String, var icon: Int) {
+    PRAPOR      ("Prapor", R.drawable.prapor_portrait),
+    THERAPIST   ("Therapist", R.drawable.therapist_portrait),
+    FENCE       ("Fence", R.drawable.fence_portrait),
+    SKIER       ("Skier", R.drawable.skier_portrait),
+    PEACEKEEPER ("Peacekeeper", R.drawable.peacekeeper_portrait),
+    MECHANIC    ("Mechanic", R.drawable.mechanic_portrait),
+    RAGMAN      ("Ragman", R.drawable.ragman_portrait),
+    JAEGER      ("Jaeger", R.drawable.jaeger_portrait),
 }
 
 enum class Maps (var id: String) {

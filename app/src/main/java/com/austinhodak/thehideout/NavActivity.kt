@@ -25,6 +25,7 @@ import com.austinhodak.thehideout.keys.KeyListScreen
 import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen
+import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.MainDrawer
@@ -49,6 +50,7 @@ class NavActivity : AppCompatActivity() {
 
     private val navViewModel: NavViewModel by viewModels()
     private val fleaViewModel: FleaVM by viewModels()
+    private val questViewModel: QuestMainViewModel by viewModels()
     @Inject lateinit var tarkovRepo: TarkovRepo
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,6 +142,7 @@ class NavActivity : AppCompatActivity() {
                         composable("quests") {
                             QuestMainScreen(
                                 navViewModel,
+                                questViewModel,
                                 tarkovRepo
                             )
                         }
