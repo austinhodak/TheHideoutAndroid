@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.austinhodak.thehideout.NavViewModel
@@ -60,6 +59,40 @@ fun AmmoDetailToolbar(
 ) {
     TopAppBar(
         title = { Text(title) },
+        navigationIcon = {
+            IconButton(onClick = {
+                onBackPressed()
+            }) {
+                Icon(Icons.Filled.ArrowBack, contentDescription = null)
+            }
+        },
+        actions = actions,
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+        elevation = elevation
+    )
+}
+
+@Composable
+fun QuestDetailToolbar(
+    title: String,
+    elevation: Dp = AppBarDefaults.TopAppBarElevation,
+    onBackPressed: () -> Unit,
+    actions: @Composable() (RowScope.() -> Unit) = {}
+) {
+    TopAppBar(
+        title = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                /*Image(
+                    painter = painterResource(id = traderIcon ?: R.drawable.prapor_portrait),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(40.dp)
+                )
+                Spacer(modifier = Modifier.padding(horizontal = 8.dp))*/
+                Text(title)
+            }
+        },
         navigationIcon = {
             IconButton(onClick = {
                 onBackPressed()
@@ -129,8 +162,9 @@ fun SearchToolbar(
     )
 }
 
+/*
 @Preview
 @Composable
 fun SearchToolbarPreview() {
     SearchToolbar(onClosePressed = {}) {}
-}
+}*/

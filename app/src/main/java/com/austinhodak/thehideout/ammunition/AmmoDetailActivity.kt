@@ -1,6 +1,5 @@
 package com.austinhodak.thehideout.ammunition
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,20 +27,14 @@ import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.plusMinus
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
-import com.austinhodak.thehideout.calculator.CalculatorHelper
-import com.austinhodak.thehideout.calculator.pickers.CalculatorPickerActivity
-import com.austinhodak.thehideout.clothing.armor.ArmorHelper
-import com.austinhodak.thehideout.clothing.models.Armor
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.databinding.ActivityAmmoDetailBinding
 import com.austinhodak.thehideout.utils.getCaliberName
 import com.austinhodak.thehideout.utils.getColor
-import com.austinhodak.thehideout.utils.toCAmmo
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
@@ -53,18 +46,18 @@ class AmmoDetailActivity : ComponentActivity() {
     private val ammoViewModel: AmmoViewModel by viewModels()
     private var ammo: Ammo? = null
 
-    private var selectedArmor: Armor? = null
+    //private var selectedArmor: Armor? = null
 
     var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK && result.data != null) {
+            /*if (result.resultCode == RESULT_OK && result.data != null) {
                 if (result.data?.hasExtra("armorID") == true) {
                     selectedArmor = ArmorHelper.getArmors(this)
                         .find { it._id == result.data?.getStringExtra("armorID") }
                     armorSelected()
                     updatePenChance()
                 }
-            }
+            }*/
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,8 +116,8 @@ class AmmoDetailActivity : ComponentActivity() {
             }
         }
 
-        selectedArmor = ArmorHelper.getArmors(this).find { it.name == "Galvion Caiman" }
-        armorSelected()
+        //selectedArmor = ArmorHelper.getArmors(this).find { it.name == "Galvion Caiman" }
+        //armorSelected()
     }
 
     private fun armorSelected() {
@@ -136,7 +129,7 @@ class AmmoDetailActivity : ComponentActivity() {
         binding.ammoDetailArmorPenSeekbar.value = selectedArmor?.hitpoints?.toFloat() ?: 0.0f*/
     }
 
-    private fun updatePenChance(durability: Float? = null) {
+    /*private fun updatePenChance(durability: Float? = null) {
         if (ammo != null) {
             val chance = CalculatorHelper.penChance(
                 ammo?.toCAmmo()!!,
@@ -147,13 +140,13 @@ class AmmoDetailActivity : ComponentActivity() {
 
             binding.textView23.text = "${String.format("%.2f", chance)}%"
         }
-    }
+    }*/
 
-    private fun updateData() {
+    /*private fun updateData() {
         getCaliberData()
         binding.ammo = ammo
 
-        /*if (ammo?.prices?.isNotEmpty() == true) {
+        *//*if (ammo?.prices?.isNotEmpty() == true) {
             SlimAdapter.create().register<AmmoOld.AmmoPriceModel>(R.layout.item_ammo_detail_trader_price) { price, i ->
                 i.text(R.id.ammoDetailTraderPriceTitle, price.getTraderString())
                 i.text(R.id.ammoDetailTraderPriceTV, price.getPrice())
@@ -161,7 +154,7 @@ class AmmoDetailActivity : ComponentActivity() {
             binding.ammoDetailTraderPriceRV.layoutManager = LinearLayoutManager(this)
         } else {
             binding.ammoDetailSoldByCard.visibility = View.GONE
-        }*/
+        }*//*
 
         binding.ammoDetailArmorPenSeekbar.addOnChangeListener { slider, value, fromUser ->
             binding.ammoDetailPenChanceCurrentDurability.text = String.format("%.2f", value)
@@ -170,20 +163,20 @@ class AmmoDetailActivity : ComponentActivity() {
 
         updatePenChance()
 
-        binding.calcChestCard.setOnClickListener {
+        *//*binding.calcChestCard.setOnClickListener {
             launchPicker(CalculatorPickerActivity.ItemType.ARMOR)
-        }
-    }
+        }*//*
+    }*/
 
     private fun getCaliberData() {
         binding.caliber = ammo?.Caliber?.let { AmmoHelper.getCaliberByID(it) }
     }
 
-    private fun launchPicker(itemType: CalculatorPickerActivity.ItemType) {
+    /*private fun launchPicker(itemType: CalculatorPickerActivity.ItemType) {
         val intent = Intent(this, CalculatorPickerActivity::class.java)
         intent.putExtra("itemType", itemType)
         resultLauncher.launch(intent)
-    }
+    }*/
 
     @Composable
     private fun AmmoDetailCard(

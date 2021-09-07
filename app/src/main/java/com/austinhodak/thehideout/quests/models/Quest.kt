@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.firebase.UserFB
-import com.austinhodak.thehideout.quests.QuestsHelper
 import com.austinhodak.thehideout.utils.userRef
 
 data class Quest(
@@ -78,7 +77,8 @@ data class Quest(
             }
         }
 
-        @DrawableRes fun getIcon(): Int {
+        @DrawableRes
+        fun getIcon(): Int {
             return when (type) {
                 "kill" -> R.drawable.icons8_sniper_96
                 "collect" -> R.drawable.ic_baseline_swap_horizontal_circle_24
@@ -144,30 +144,4 @@ data class Quest(
         }
         return false
     }
-
-    fun isLocked(quests: UserFB.UserFBQuests): Boolean {
-        return QuestsHelper.getLockedQuests(quests).contains(this)
-    }
-}
-
-enum class Traders (var id: String, var icon: Int) {
-    PRAPOR      ("Prapor", R.drawable.prapor_portrait),
-    THERAPIST   ("Therapist", R.drawable.therapist_portrait),
-    FENCE       ("Fence", R.drawable.fence_portrait),
-    SKIER       ("Skier", R.drawable.skier_portrait),
-    PEACEKEEPER ("Peacekeeper", R.drawable.peacekeeper_portrait),
-    MECHANIC    ("Mechanic", R.drawable.mechanic_portrait),
-    RAGMAN      ("Ragman", R.drawable.ragman_portrait),
-    JAEGER      ("Jaeger", R.drawable.jaeger_portrait),
-}
-
-enum class Maps (var id: String) {
-    ANY         ("Any"),
-    FACTORY     ("Factory"),
-    CUSTOMS     ("Customs"),
-    WOODS       ("Woods"),
-    SHORELINE   ("Shoreline"),
-    INTERCHANGE ("Interchange"),
-    RESERVE     ("Reserve"),
-    THELAB        ("Labs")
 }

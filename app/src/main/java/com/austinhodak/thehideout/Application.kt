@@ -51,6 +51,7 @@ class Application : android.app.Application() {
         }
 
         Firebase.database.setPersistenceEnabled(true)
+        //Firebase.database("https://hideout-tracker.firebaseio.com").setPersistenceEnabled(true)
 
         Firebase.auth.signInAnonymously()
 

@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.databinding.FragmentTraderLevelSettingsBinding
-import com.austinhodak.thehideout.quests.models.Traders
 import com.austinhodak.thehideout.utils.getTraderIcon
 import net.idik.lib.slimadapter.SlimAdapter
 

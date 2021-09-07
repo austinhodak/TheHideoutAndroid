@@ -63,4 +63,10 @@ val Typography = Typography(
         fontSize = 12.sp,
         letterSpacing = 0.4.sp
     ),
+    button = TextStyle(
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        letterSpacing = 1.25.sp,
+        fontFamily = Bender
+    )
 )

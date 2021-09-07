@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,15 +31,21 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.enums.Maps
+import com.austinhodak.tarkovapi.room.enums.Traders
+import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.quests.models.Traders
+import com.austinhodak.thehideout.firebase.UserQuest
+import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.pagerTabIndicatorOffset
-import com.google.accompanist.pager.rememberPagerState
+import com.austinhodak.thehideout.utils.getIcon
+import com.austinhodak.thehideout.utils.isAvailable
+import com.austinhodak.thehideout.utils.isLocked
+import com.austinhodak.thehideout.utils.openActivity
+import com.google.accompanist.pager.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
@@ -52,6 +59,10 @@ fun QuestMainScreen(
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
+
     HideoutTheme {
         Scaffold(
             scaffoldState = scaffoldState,
@@ -64,17 +75,6 @@ fun QuestMainScreen(
                 }*/
             },
             topBar = {
-                /*MainToolbar(
-                    title = "Quests",
-                    navViewModel = navViewModel,
-                    actions = {
-                        *//*IconButton(onClick = {
-                            navViewModel.setSearchOpen(true)
-                        }) {
-                            Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
-                        }*//*
-                    }
-                )*/
                 TopAppBar(
                     title = {
                         val selected by questViewModel.view.observeAsState()
@@ -83,21 +83,28 @@ fun QuestMainScreen(
                             Modifier.horizontalScroll(scrollState),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            /*Text(
-                                "Quests",
-                                modifier = Modifier.padding(end = 16.dp)
-                            )*/
-                            Chip(text = "Available", selected = selected == QuestFilter.AVAILABLE) {
-                                questViewModel.setView(QuestFilter.AVAILABLE)
-                            }
-                            Chip(text = "Locked", selected = selected == QuestFilter.LOCKED) {
-                                questViewModel.setView(QuestFilter.LOCKED)
-                            }
-                            Chip(text = "Completed", selected = selected == QuestFilter.COMPLETED) {
-                                questViewModel.setView(QuestFilter.COMPLETED)
-                            }
-                            Chip(text = "All", selected = selected == QuestFilter.ALL) {
-                                questViewModel.setView(QuestFilter.ALL)
+                            when (navBackStackEntry?.destination?.route) {
+                                BottomNavigationScreens.Overview.route,
+                                BottomNavigationScreens.Items.route -> {
+                                    Text(
+                                        "Quests",
+                                        modifier = Modifier.padding(end = 16.dp)
+                                    )
+                                }
+                                else -> {
+                                    Chip(text = "Available", selected = selected == QuestFilter.AVAILABLE) {
+                                        questViewModel.setView(QuestFilter.AVAILABLE)
+                                    }
+                                    Chip(text = "Locked", selected = selected == QuestFilter.LOCKED) {
+                                        questViewModel.setView(QuestFilter.LOCKED)
+                                    }
+                                    Chip(text = "Completed", selected = selected == QuestFilter.COMPLETED) {
+                                        questViewModel.setView(QuestFilter.COMPLETED)
+                                    }
+                                    Chip(text = "All", selected = selected == QuestFilter.ALL) {
+                                        questViewModel.setView(QuestFilter.ALL)
+                                    }
+                                }
                             }
                         }
                     },
@@ -112,7 +119,7 @@ fun QuestMainScreen(
                     elevation = 0.dp
                 )
             }
-        ) {
+        ) { padding ->
             /*Box(
                 Modifier.fillMaxWidth()
             ) {
@@ -125,54 +132,235 @@ fun QuestMainScreen(
                 }
             }*/
 
-            NavHost(navController = navController, startDestination = BottomNavigationScreens.Overview.route) {
-                composable(BottomNavigationScreens.Overview.route) {
-                    QuestOverviewScreen(questViewModel = questViewModel, tarkovRepo = tarkovRepo)
+            if (quests.isNullOrEmpty()) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 32.dp)
+                ) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colors.secondary
+                    )
                 }
-                composable(BottomNavigationScreens.Quests.route) {
-                    val selectedTrader by questViewModel.selectedTrader.observeAsState()
-                    val pagerState = rememberPagerState(pageCount = Traders.values().size)
+            } else {
+                NavHost(navController = navController, startDestination = BottomNavigationScreens.Overview.route) {
+                    composable(BottomNavigationScreens.Overview.route) {
+                        QuestOverviewScreen(questViewModel = questViewModel, tarkovRepo = tarkovRepo, quests)
+                    }
+                    composable(BottomNavigationScreens.Quests.route) {
+                        QuestTradersScreen(questViewModel = questViewModel, tarkovRepo = tarkovRepo, scope = scope, quests, padding, false)
+                    }
+                    composable(BottomNavigationScreens.Items.route) {
 
-                    Column (
-                        Modifier.fillMaxWidth()
-                    ) {
-                        ScrollableTabRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            selectedTabIndex = pagerState.currentPage,
-                            indicator = { tabPositions ->
-                                TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = Red400)
-                            },
-                        ) {
-                            Traders.values().forEachIndexed { index, trader ->
-                                LeadingIconTab(
-                                    text = { Text(trader.id, fontFamily = Bender) },
-                                    selected = pagerState.currentPage == index,
-                                    onClick = {
-                                        scope.launch {
-                                            pagerState.animateScrollToPage(index)
-                                        }
-                                    },
-                                    icon = {
-                                        Image(
-                                            painter = painterResource(id = trader.icon),
-                                            contentDescription = "",
-                                            modifier = Modifier
-                                                .clip(CircleShape)
-                                                .size(24.dp)
-                                        )
-                                    },
-                                    selectedContentColor = Red400,
-                                    unselectedContentColor = White
-                                )
+                    }
+                    composable(BottomNavigationScreens.Maps.route) {
+                        QuestTradersScreen(questViewModel = questViewModel, tarkovRepo = tarkovRepo, scope = scope, quests, padding, true)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
+@Composable
+private fun QuestTradersScreen(
+    questViewModel: QuestMainViewModel,
+    tarkovRepo: TarkovRepo,
+    scope: CoroutineScope,
+    quests: List<Quest>,
+    padding: PaddingValues,
+    isMapTab: Boolean
+) {
+    val userData by questViewModel.userData.observeAsState()
+    val selectedView by questViewModel.view.observeAsState()
+
+    val pagerState = if (!isMapTab) {
+        rememberPagerState(pageCount = Traders.values().size)
+    } else {
+        rememberPagerState(pageCount = Maps.values().size)
+    }
+
+    val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
+
+    val test = quests.filter { it.requirement?.quests?.size!! > 1 }.map { it.title }
+
+    Column(
+        Modifier.fillMaxWidth()
+    ) {
+        if (!isMapTab) {
+            TraderTabs(pagerState, scope)
+        } else {
+            MapsTab(pagerState, scope)
+        }
+
+        HorizontalPager(modifier = Modifier.fillMaxWidth(), state = pagerState) { page ->
+            val questsList = if (!isMapTab) {
+                val trader = Traders.values()[page]
+                quests.filter { it.giver?.name == trader.id }
+            } else {
+                val map = Maps.values()[page]
+                quests.filter {
+                    if (map.int == -1) {
+                        it.getMapsIDs()?.contains(map.int) == true
+                    } else {
+                        it.getMapsIDs()?.contains(map.int) == true
+                    }
+                }
+            }
+            val data = when {
+                selectedView == QuestFilter.AVAILABLE -> {
+                    questsList.filter {
+                        if (userData?.isQuestCompleted(it) == true) {
+                            false
+                        } else {
+                            if (it.requirement?.quests.isNullOrEmpty() && it.requirement?.level ?: 0 <= 15) {
+                                true
+                            } else {
+                                it.requirement?.quests?.forEach {
+                                    if (it != null)
+                                        return@filter completedQuests?.containsAll(it) == true
+                                }
+                                false
                             }
                         }
                     }
                 }
-                composable(BottomNavigationScreens.Items.route) {
-
+                selectedView == QuestFilter.LOCKED -> {
+                    questsList.filterNot {
+                        if (userData?.isQuestCompleted(it) == true) {
+                            true
+                        } else {
+                            if (it.requirement?.quests.isNullOrEmpty() && it.requirement?.level ?: 0 <= 15) {
+                                true
+                            } else {
+                                it.requirement?.quests?.forEach {
+                                    if (it != null)
+                                        return@filterNot completedQuests?.containsAll(it) == true
+                                }
+                                false
+                            }
+                        }
+                    }
                 }
-                composable(BottomNavigationScreens.Maps.route) {
+                selectedView == QuestFilter.ALL -> questsList
+                selectedView == QuestFilter.COMPLETED -> {
+                    questsList.filter {
+                        completedQuests?.contains(it.id.toInt()) == true
+                    }
+                }
+                else -> questsList
+            }
 
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
+            ) {
+                data.forEach {
+                    item {
+                        QuestCard(it, userData, questViewModel, scope)
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun QuestCard(
+    quest: Quest,
+    userData: UserQuest?,
+    questViewModel: QuestMainViewModel,
+    scope: CoroutineScope
+) {
+    val context = LocalContext.current
+    Card(
+        modifier = Modifier
+            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .fillMaxWidth(),
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+        onClick = {
+            context.openActivity(QuestDetailActivity::class.java) {
+                putString("questID", quest.id)
+            }
+        }
+    ) {
+        Column {
+            Row(
+                Modifier.padding(16.dp)
+            ) {
+                Column(
+                    Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = quest.title.toString(),
+                        style = MaterialTheme.typography.h6,
+                        fontSize = 18.sp
+                    )
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = quest.getMaps(mapsList),
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
+                }
+                Column(
+                    Modifier.fillMaxHeight()
+                ) {
+                    /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = "Level ${quest.requirement?.level}",
+                            style = MaterialTheme.typography.overline
+                        )
+                    }*/
+                    if (quest.isLocked(userData)) {
+                        OutlinedButton(
+                            onClick = {
+                                questViewModel.skipToQuest(quest)
+                            },
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                backgroundColor = Color.Transparent,
+                                contentColor = Color.Gray
+                            ),
+                            border = BorderStroke(1.dp, color = Color.Gray)
+                        ) {
+                            Text("SKIP TO")
+                        }
+                    } else if (quest.isAvailable(userData)) {
+                        OutlinedButton(
+                            onClick = { questViewModel.markQuestCompleted(quest) },
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                backgroundColor = Color.Transparent,
+                                contentColor = Red400
+                            ),
+                            border = BorderStroke(1.dp, color = Red400)
+                        ) {
+                            Text("COMPLETE")
+                        }
+                    } else {
+                        OutlinedButton(
+                            onClick = { questViewModel.undoQuest(quest, true) },
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                backgroundColor = Color.Transparent,
+                                contentColor = Color.Gray
+                            ),
+                            border = BorderStroke(1.dp, color = Color.Gray)
+                        ) {
+                            Text("UNDO")
+                        }
+                    }
+                }
+            }
+            Divider()
+            Column(
+                Modifier.padding(vertical = 8.dp)
+            ) {
+                quest.objective?.forEach {
+                    QuestObjectiveItem(it, questViewModel, scope, userData, quest)
                 }
             }
         }
@@ -180,11 +368,130 @@ fun QuestMainScreen(
 }
 
 @Composable
+private fun QuestObjectiveItem(
+    questObjective: Quest.QuestObjective,
+    questViewModel: QuestMainViewModel,
+    scope: CoroutineScope,
+    userData: UserQuest?,
+    quest: Quest
+) {
+    var text by remember { mutableStateOf("") }
+
+    Row(
+        Modifier
+            .height(36.dp)
+            .clickable {
+                questViewModel.toggleObjective(quest, questObjective)
+            },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        scope.launch {
+            text = questViewModel.getObjectiveText(questObjective)
+        }
+        Icon(
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .size(20.dp),
+            painter = painterResource(id = questObjective.getIcon()),
+            contentDescription = "",
+            tint = if (userData?.isObjectiveCompleted(questObjective) == true) Green500 else White
+        )
+        Text(
+            text = text,
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 8.dp, end = 16.dp),
+            style = MaterialTheme.typography.body2,
+            color = if (userData?.isObjectiveCompleted(questObjective) == true) Green500 else White
+        )
+    }
+}
+
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
+@Composable
+private fun TraderTabs(
+    pagerState: PagerState,
+    scope: CoroutineScope
+) {
+    ScrollableTabRow(
+        modifier = Modifier.fillMaxWidth(),
+        selectedTabIndex = pagerState.currentPage,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = Red400)
+        },
+    ) {
+        Traders.values().forEachIndexed { index, trader ->
+            LeadingIconTab(
+                text = { Text(trader.id, fontFamily = Bender) },
+                selected = pagerState.currentPage == index,
+                onClick = {
+                    scope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                },
+                icon = {
+                    Image(
+                        painter = painterResource(id = trader.icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .size(24.dp)
+                    )
+                },
+                selectedContentColor = Red400,
+                unselectedContentColor = White
+            )
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
+@Composable
+private fun MapsTab(
+    pagerState: PagerState,
+    scope: CoroutineScope
+) {
+    ScrollableTabRow(
+        modifier = Modifier.fillMaxWidth(),
+        selectedTabIndex = pagerState.currentPage,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = Red400)
+        },
+    ) {
+        Maps.values().forEachIndexed { index, map ->
+            LeadingIconTab(
+                text = { Text(map.id, fontFamily = Bender) },
+                selected = pagerState.currentPage == index,
+                onClick = {
+                    scope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                },
+                icon = {
+                    Image(
+                        painter = painterResource(id = map.icon),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .size(24.dp)
+                    )
+                },
+                selectedContentColor = Red400,
+                unselectedContentColor = White
+            )
+        }
+    }
+}
+
+@Composable
 private fun QuestOverviewScreen(
     questViewModel: QuestMainViewModel,
-    tarkovRepo: TarkovRepo
+    tarkovRepo: TarkovRepo,
+    quests: List<Quest>
 ) {
-    val questTotal by tarkovRepo.numOfQuests().collectAsState(initial = 0)
+    val questTotal = quests.size
     val pmcElimsTotal by questViewModel.pmcElimsTotal.observeAsState()
     val scavElimsTotal by questViewModel.scavElimsTotal.observeAsState()
     val questItemsTotal by questViewModel.questItemsTotal.observeAsState()
@@ -193,6 +500,17 @@ private fun QuestOverviewScreen(
     val placedTotal by questViewModel.placedTotal.observeAsState()
     val pickupTotal by questViewModel.pickupTotal.observeAsState()
 
+    val questTotalCompletedUser by questViewModel.questTotalCompletedUser.observeAsState()
+    val pmcElimsTotalUser by questViewModel.pmcElimsTotalUser.observeAsState()
+    val scavElimsTotalUser by questViewModel.scavElimsTotalUser.observeAsState()
+    val questItemsTotalUser by questViewModel.questItemsTotalUser.observeAsState()
+    val placedTotalUser by questViewModel.placedTotalUser.observeAsState()
+    val pickupTotalUser by questViewModel.pickupTotalUser.observeAsState()
+
+    //Timber.d(pickupTotalUser.toString())
+    //Timber.d(pickupTotal.toString())
+    //Timber.d("TEST - " + (pickupTotalUser?.toDouble()!! / pickupTotal?.toDouble()!!).toFloat())
+
     LazyColumn(
         contentPadding = PaddingValues(vertical = 4.dp)
     ) {
@@ -200,16 +518,16 @@ private fun QuestOverviewScreen(
             OverviewItem(
                 color = Green500,
                 s1 = "Quests Completed",
-                s2 = "0/$questTotal",
-                progress = 0f
+                s2 = "$questTotalCompletedUser/$questTotal",
+                progress = (questTotalCompletedUser?.toDouble()?.div(questTotal?.toDouble()))?.toFloat(),
             )
         }
         item {
             OverviewItem(
                 color = Red500,
                 s1 = "PMC Eliminations",
-                s2 = "0/$pmcElimsTotal",
-                progress = 0f,
+                s2 = "$pmcElimsTotalUser/$pmcElimsTotal",
+                progress = (pmcElimsTotalUser?.toDouble()?.div(pmcElimsTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.icons8_sniper_96
             )
         }
@@ -217,8 +535,8 @@ private fun QuestOverviewScreen(
             OverviewItem(
                 color = Color(0xFFFF9800),
                 s1 = "Scav Eliminations",
-                s2 = "0/$scavElimsTotal",
-                progress = 0f,
+                s2 = "$scavElimsTotalUser/$scavElimsTotal",
+                progress = (scavElimsTotalUser?.toDouble()?.div(scavElimsTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.icons8_target_96
             )
         }
@@ -226,12 +544,12 @@ private fun QuestOverviewScreen(
             OverviewItem(
                 color = Color(0xFF03A9F4),
                 s1 = "Quest Items",
-                s2 = "0/$questItemsTotal",
-                progress = 0f,
+                s2 = "$questItemsTotalUser/$questItemsTotal",
+                progress = (questItemsTotalUser?.toDouble()?.div(questItemsTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.ic_search_black_24dp
             )
         }
-        item {
+        /*item {
             OverviewItem(
                 color = Color(0xFF03A9F4),
                 s1 = "Found in Raid Items",
@@ -248,13 +566,13 @@ private fun QuestOverviewScreen(
                 progress = 0f,
                 icon = R.drawable.ic_baseline_swap_horizontal_circle_24
             )
-        }
+        }*/
         item {
             OverviewItem(
                 color = Color(0xFF9C27B0),
                 s1 = "Placed Objectives",
-                s2 = "0/$placedTotal",
-                progress = 0f,
+                s2 = "$placedTotalUser/$placedTotal",
+                progress = (placedTotalUser?.toDouble()?.div(placedTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.icons8_low_importance_96
             )
         }
@@ -262,8 +580,8 @@ private fun QuestOverviewScreen(
             OverviewItem(
                 color = Color(0xFF9C27B0),
                 s1 = "Pickup Objectives",
-                s2 = "0/$pickupTotal",
-                progress = 0f,
+                s2 = "$pickupTotalUser/$pickupTotal",
+                progress = (pickupTotalUser?.toDouble()?.div(pickupTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.icons8_upward_arrow_96
             )
         }
@@ -276,11 +594,11 @@ private fun OverviewItem(
     icon: Int = R.drawable.ic_baseline_assignment_turned_in_24,
     s1: String = "",
     s2: String = "",
-    progress: Float = 0.5f
+    progress: Float? = 0.5f
 ) {
-    var progress by remember { mutableStateOf(progress) }
+    var p by remember { mutableStateOf(progress) }
     val animatedProgress by animateFloatAsState(
-        targetValue = progress,
+        targetValue = p ?: 0.5f,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
     )
 

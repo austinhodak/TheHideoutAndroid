@@ -39,6 +39,7 @@
             android:exported="true"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
+            android:exported="true"
             android:name=".quests.QuestDetailActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity

@@ -106,6 +106,21 @@ data class Item(
             )
         }"
     }
+
+    /*fun getColor(): Int {
+        return when (BackgroundColor) {
+            "blue" -> itemBlue
+            "grey" -> itemGrey
+            "red" -> itemRed
+            "orange" -> itemOrange
+            "default" -> itemDefault
+            "violet" -> itemViolet
+            "yellow" -> itemYellow
+            "green" -> itemGreen
+            "black" -> itemBlack
+            else -> itemDefault
+        }
+    }*/
 }
 
 fun JSONObject.toItem(): Item {

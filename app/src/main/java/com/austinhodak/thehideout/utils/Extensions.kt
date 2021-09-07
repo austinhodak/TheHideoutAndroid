@@ -29,6 +29,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
+import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.type.ItemSourceName
@@ -37,7 +38,6 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red500
-import com.austinhodak.thehideout.quests.models.Traders
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -422,6 +422,10 @@ fun userRef(ref: String? = null): DatabaseReference {
     return Firebase.database.getReference("users/${Firebase.auth.uid}/$ref/")
 }
 
+fun userRefTracker(ref: String? = null): DatabaseReference {
+    return questsFirebase.child("users/${Firebase.auth.uid}/$ref/")
+}
+
 fun uid(): String? {
     return Firebase.auth.uid
 }
@@ -455,6 +459,10 @@ fun Int.addQuotes(): String {
     return "\"$this\""
 }
 
+fun Any.addQuotes(): String {
+    return "\"$this\""
+}
+
 @DrawableRes
 fun String.getObjectiveIcon(): Int {
     return when (this.toLowerCase()) {
@@ -465,7 +473,7 @@ fun String.getObjectiveIcon(): Int {
         "place" -> R.drawable.icons8_low_importance_96
         "mark" -> R.drawable.icons8_low_importance_96
         "locate" -> R.drawable.ic_baseline_location_searching_24
-        "find" -> R.drawable.ic_baseline_location_searching_24
+        "find" -> R.drawable.ic_baseline_check_circle_outline_24
         "reputation" -> R.drawable.ic_baseline_thumb_up_24
         "warning" -> R.drawable.ic_baseline_warning_24
         "skill" -> R.drawable.ic_baseline_fitness_center_24
@@ -627,3 +635,5 @@ fun Modifier.verticalFadingEdge(
         )
     }
 }
+
+val questsFirebase = Firebase.database("https://hideout-tracker.firebaseio.com").reference

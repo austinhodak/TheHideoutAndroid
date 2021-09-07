@@ -28,6 +28,6 @@ class Maps(context: Context) {
         }
     }
 
-    fun getMap(id: Int): Map? = maps.find { it.id == id }
+    fun getMap(id: Int?): Map? = maps.find { it.id == id }
     fun getMap(string: String): Map? = maps.find { it.locale?.en == string }
 }

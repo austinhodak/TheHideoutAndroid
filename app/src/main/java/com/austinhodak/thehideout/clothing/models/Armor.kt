@@ -96,18 +96,6 @@ data class Armor(
         )
     }
 
-    fun getSubtitle(): String {
-        var string = ""
-        for (i in prices) {
-            string += "\n$i"
-        }
-
-        for (i in tradeups) {
-            string += "\n$i"
-        }
-
-        return string.trim()
-    }
 
     fun getPickerSubtitle(): String {
         return "Class $level • $material"

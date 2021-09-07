@@ -9,6 +9,10 @@ data class Map(
     val svg: Svg? = null,
     val wiki: String? = null
 ) {
+    override fun toString(): String {
+        return locale?.en ?: "Any Map"
+    }
+
     data class Locale(
         val en: String? = null
     )
