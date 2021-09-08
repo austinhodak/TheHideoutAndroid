@@ -1,8 +1,8 @@
 package com.austinhodak.tarkovapi.utils
 
 import android.content.Context
-import com.austinhodak.tarkovapi.Map
 import com.austinhodak.tarkovapi.R
+import com.austinhodak.tarkovapi.models.Map
 import com.google.gson.Gson
 import org.json.JSONObject
 

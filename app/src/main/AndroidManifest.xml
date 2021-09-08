@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
+            android:name=".weapons.mods.ModDetailActivity"
+            android:exported="true"
+            android:label="@string/title_activity_mod_detail"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
+        <activity
             android:name=".NavActivity"
             android:exported="true"
             android:label="@string/title_activity_nav"
@@ -39,8 +44,8 @@
             android:exported="true"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".quests.QuestDetailActivity"
+            android:exported="true"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
             android:name=".quests.inraid.QuestInRaidActivity"
@@ -58,8 +63,6 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
-
-
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />

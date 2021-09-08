@@ -1,0 +1,171 @@
+[
+  {
+    "id": 0,
+    "locales": {
+      "en": "Generator"
+    },
+    "function": "Provides power for hideout crafting stations",
+    "imgSource": "/img/Generator_Portrait.png"
+  },
+  {
+    "id": 1,
+    "locales": {
+      "en": "Air Filtering Unit"
+    },
+    "function": "Allows use of absorbers to increase physical skill leveling speed",
+    "imgSource": "/img/Air_Filtering_Unit_Portrait.png"
+  },
+  {
+    "id": 2,
+    "locales": {
+      "en": "Bitcoin farm"
+    },
+    "function": "Allows production of Physical bitcoins",
+    "imgSource": "/img/Bitcoin_farm_Portrait.png"
+  },
+  {
+    "id": 3,
+    "locales": {
+      "en": "Booze generator"
+    },
+    "function": "Allows production of moonshine",
+    "imgSource": "/img/Booze_generator_Portrait.png"
+  },
+  {
+    "id": 4,
+    "locales": {
+      "en": "Heating"
+    },
+    "function": "Provides passive out-of-raid energy regen for your PMC",
+    "imgSource": "/img/Heating_Portrait.png"
+  },
+  {
+    "id": 5,
+    "locales": {
+      "en": "Illumination"
+    },
+    "function": "A resource sink that gates other modules, while also providing 3d visibility",
+    "imgSource": "/img/Illumination_Portrait.png"
+  },
+  {
+    "id": 6,
+    "locales": {
+      "en": "Lavatory"
+    },
+    "function": "Produces various trade items, mainly focused on fluid centric products",
+    "imgSource": "/img/Lavatory_Portrait.png"
+  },
+  {
+    "id": 7,
+    "locales": {
+      "en": "Library"
+    },
+    "function": "Provides exp and practical skills boost",
+    "imgSource": "/img/Library_Portrait.png"
+  },
+  {
+    "id": 8,
+    "locales": {
+      "en": "Medstation"
+    },
+    "function": "Provides passive healing and produces various healing items",
+    "imgSource": "/img/Medstation_Portrait.png"
+  },
+  {
+    "id": 9,
+    "locales": {
+      "en": "Nutrition Unit"
+    },
+    "function": "Provides passive out-of-raid energy regen and produces various consumables",
+    "imgSource": "/img/Nutrition_unit_Portrait.png"
+  },
+  {
+    "id": 10,
+    "locales": {
+      "en": "Rest space"
+    },
+    "function": "Provides passive out-of-raid energy regen and healing",
+    "imgSource": "/img/Rest_Space_Portrait.png"
+  },
+  {
+    "id": 11,
+    "locales": {
+      "en": "Scav case"
+    },
+    "function": "Provides passive income in the form of follower missions",
+    "imgSource": "/img/Scav_case_Portrait.png"
+  },
+  {
+    "id": 12,
+    "locales": {
+      "en": "Security"
+    },
+    "function": "A resource sink to progress gate other hideout modules",
+    "imgSource": "/img/Security_Portrait.png"
+  },
+  {
+    "id": 13,
+    "locales": {
+      "en": "Shooting range"
+    },
+    "function": "Allows you to test fire your loadout",
+    "imgSource": "/img/Shooting_range_Portrait.png"
+  },
+  {
+    "id": 14,
+    "locales": {
+      "en": "Solar power"
+    },
+    "function": "Reduces generator fuel consumption by half",
+    "imgSource": "/img/Solar_power_Portrait.png"
+  },
+  {
+    "id": 15,
+    "locales": {
+      "en": "Stash"
+    },
+    "function": "Provides you with permanent item storage",
+    "imgSource": "/img/Stash_Portrait.png"
+  },
+  {
+    "id": 16,
+    "locales": {
+      "en": "Vents"
+    },
+    "function": "A resource sink to progress gate other hideout modules",
+    "imgSource": "/img/Vents_Portrait.png"
+  },
+  {
+    "id": 17,
+    "locales": {
+      "en": "Water collector"
+    },
+    "function": "Provides passive out-of-raid hydration regen",
+    "imgSource": "/img/Water_collector_Portrait.png"
+  },
+  {
+    "id": 18,
+    "locales": {
+      "en": "Workbench"
+    },
+    "function": "Provides a wide variety of potential item crafts",
+    "imgSource": "/img/Workbench_Portrait.png"
+  },
+  {
+    "id": 19,
+    "locales": {
+      "en": "Christmas Tree"
+    },
+    "function": "Provides a wide variety of potential item crafts",
+    "imgSource": "/img/Christmas_tree_Portrait.png",
+    "disabled": true
+  },
+  {
+    "id": 20,
+    "locales": {
+      "en": "Intelligence center"
+    },
+    "function": "Provides passive income boosts and produces rare data items",
+    "imgSource": "/img/Intelligence_Center_Portrait.png"
+  }
+]

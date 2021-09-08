@@ -70,7 +70,7 @@ data class Quest(
                 "mark" -> "MS2000 marker at ${target?.first()} on $location"
                 "locate" -> "${target?.first()} on $location"
                 "find" -> "$number ${target?.first()}"
-                "reputation" -> "Loyalty Level $number with ${Traders.values()[target?.first()?.toInt() ?: 0].id}"
+                "reputation" -> "Loyalty Level $number with ${Traders.values().find { it.int == target?.first()?.toInt() ?: 0}?.id}"
                 "warning" -> target?.first() ?: ""
                 "skill" -> "$number with ${target?.first()}"
                 "survive" -> "At $location $number times."

@@ -25,15 +25,15 @@ enum class ItemTypes {
     FOOD
 }
 
-enum class Traders(var id: String, var icon: Int) {
-    PRAPOR("Prapor", R.drawable.prapor_portrait),
-    THERAPIST("Therapist", R.drawable.therapist_portrait),
-    FENCE("Fence", R.drawable.fence_portrait),
-    SKIER("Skier", R.drawable.skier_portrait),
-    PEACEKEEPER("Peacekeeper", R.drawable.peacekeeper_portrait),
-    MECHANIC("Mechanic", R.drawable.mechanic_portrait),
-    RAGMAN("Ragman", R.drawable.ragman_portrait),
-    JAEGER("Jaeger", R.drawable.jaeger_portrait),
+enum class Traders(var id: String, var icon: Int, var int: Int) {
+    PRAPOR("Prapor", R.drawable.prapor_portrait,0),
+    THERAPIST("Therapist", R.drawable.therapist_portrait, 1),
+    FENCE("Fence", R.drawable.fence_portrait,7),
+    SKIER("Skier", R.drawable.skier_portrait, 2),
+    PEACEKEEPER("Peacekeeper", R.drawable.peacekeeper_portrait, 3),
+    MECHANIC("Mechanic", R.drawable.mechanic_portrait, 4),
+    RAGMAN("Ragman", R.drawable.ragman_portrait, 5),
+    JAEGER("Jaeger", R.drawable.jaeger_portrait ,6),
 }
 
 enum class Maps(var id: String, var int: Int, var icon: Int) {

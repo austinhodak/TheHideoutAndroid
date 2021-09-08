@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -21,6 +22,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -33,10 +35,7 @@ import com.austinhodak.thehideout.compose.components.Rectangle
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.mapsList
-import com.austinhodak.thehideout.utils.asCurrency
-import com.austinhodak.thehideout.utils.convertRtoUSD
-import com.austinhodak.thehideout.utils.traderIcon
-import com.austinhodak.thehideout.utils.traderImage
+import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.glide.rememberGlidePainter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,10 +44,12 @@ import javax.inject.Inject
 class FleaItemDetail : AppCompatActivity() {
 
     private val viewModel: FleaVM by viewModels()
+
     @Inject
     lateinit var tarkovRepo: TarkovRepo
     private lateinit var itemID: String
 
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -205,6 +206,7 @@ private fun QuestItem(
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 private fun CraftsPage(
     item: Item?,
@@ -219,14 +221,21 @@ private fun CraftsPage(
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
-private fun CraftItem(craft: Craft) {
+fun CraftItem(craft: Craft) {
     val rewardItem = craft.rewardItems?.firstOrNull()?.item
     val requiredItems = craft.requiredItems
+    val context = LocalContext.current
 
     Card(
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-        backgroundColor = Color(0xFE1F1F1F)
+        backgroundColor = Color(0xFE1F1F1F),
+        onClick = {
+            context.openActivity(FleaItemDetail::class.java) {
+                putString("id", rewardItem?.id)
+            }
+        }
     ) {
         Column {
             Row(
@@ -405,9 +414,16 @@ private fun BarterItem(barter: Barter) {
 @Composable
 private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     val item = taskItem?.item
+    val context = LocalContext.current
     Row(
-        modifier = Modifier.padding(start = 16.dp, top = 2.dp, bottom = 2.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier
+            .padding(start = 16.dp, top = 2.dp, bottom = 2.dp).fillMaxWidth()
+            .clickable {
+                context.openActivity(FleaItemDetail::class.java) {
+                    putString("id", item?.id)
+                }
+            },
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
             rememberGlidePainter(

@@ -21,6 +21,9 @@ import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.flea_market.FleaMarketScreen
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.gear.GearListScreen
+import com.austinhodak.thehideout.hideout.HideoutMainScreen
+import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
+import com.austinhodak.thehideout.hideout.viewmodels.HideoutViewModel
 import com.austinhodak.thehideout.keys.KeyListScreen
 import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
@@ -51,6 +54,7 @@ class NavActivity : AppCompatActivity() {
     private val navViewModel: NavViewModel by viewModels()
     private val fleaViewModel: FleaVM by viewModels()
     private val questViewModel: QuestMainViewModel by viewModels()
+    private val hideoutViewModel: HideoutMainViewModel by viewModels()
     @Inject lateinit var tarkovRepo: TarkovRepo
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,6 +147,13 @@ class NavActivity : AppCompatActivity() {
                             QuestMainScreen(
                                 navViewModel,
                                 questViewModel,
+                                tarkovRepo
+                            )
+                        }
+                        composable("hideout") {
+                            HideoutMainScreen(
+                                navViewModel,
+                                hideoutViewModel,
                                 tarkovRepo
                             )
                         }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface CraftDao {
 
     @Query("SELECT * FROM crafts")
-    fun getAllCrafts(): List<Craft>
+    fun getAllCrafts(): Flow<List<Craft>>
 
     @Query("SELECT * FROM crafts WHERE requiredItems LIKE :id OR rewardItems LIKE :id")
     fun getCraftsWithItemID(id: String): Flow<List<Craft>>

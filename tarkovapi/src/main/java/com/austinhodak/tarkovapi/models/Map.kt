@@ -1,4 +1,4 @@
-package com.austinhodak.tarkovapi
+package com.austinhodak.tarkovapi.models
 
 data class Map(
     val description: String? = null,

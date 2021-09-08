@@ -3,6 +3,7 @@ package com.austinhodak.thehideout
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import com.austinhodak.tarkovapi.utils.Hideout
 import com.austinhodak.tarkovapi.utils.Maps
 import com.austinhodak.thehideout.utils.Prefs
 import com.austinhodak.thehideout.utils.uid
@@ -27,6 +28,7 @@ class Application : android.app.Application() {
     companion object {
         var questPrefs: Prefs? = null
         var maps: Maps? = null
+        var hideout: Hideout? = null
         lateinit var instance: Application
             private set
     }
@@ -37,6 +39,7 @@ class Application : android.app.Application() {
         instance = this
         questPrefs = Prefs(applicationContext)
         maps = Maps(applicationContext)
+        hideout = Hideout(applicationContext)
 
         //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
         if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
@@ -100,4 +103,8 @@ val questPrefs: Prefs by lazy {
 
 val mapsList: Maps by lazy {
     Application.maps!!
+}
+
+val hideoutList: Hideout by lazy {
+    Application.hideout!!
 }

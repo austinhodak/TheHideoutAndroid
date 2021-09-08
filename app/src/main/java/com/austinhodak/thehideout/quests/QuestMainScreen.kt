@@ -655,7 +655,7 @@ private fun OverviewItem(
 }
 
 @Composable
-private fun Chip(
+fun Chip(
     selected: Boolean = false,
     text: String,
     onClick: () -> Unit
