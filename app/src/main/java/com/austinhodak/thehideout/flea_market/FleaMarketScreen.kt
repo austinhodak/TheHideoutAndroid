@@ -8,7 +8,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -26,6 +25,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.NavViewModel
@@ -35,6 +36,7 @@ import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
+import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.utils.openActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -49,8 +51,11 @@ fun FleaMarketScreen(
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
 
-    val data = tarkovRepo.getAllItems().collectAsState(initial = emptyList())
+    val data by tarkovRepo.getAllItems().collectAsState(initial = null)
     val isSearchOpen by navViewModel.isSearchOpen.observeAsState(false)
+    val sort by fleaViewModel.sortBy.observeAsState()
+
+    val context = LocalContext.current
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -76,6 +81,26 @@ fun FleaMarketScreen(
                             }) {
                                 Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
                             }
+                            IconButton(onClick = {
+                                val items = listOf(
+                                    "Name",
+                                    "Price: Low to High",
+                                    "Price: High to Low",
+                                    "Price Per Slot",
+                                    "Change Last 48H: Low to High",
+                                    "Change Last 48H: High to Low",
+                                    "Insta Profit: Low to High",
+                                    "Insta Profit: High to Low"
+                                )
+                                MaterialDialog(context).show {
+                                    title(text = "Sort By")
+                                    listItemsSingleChoice(items = items, initialSelection = sort ?: 2) { _, index, _ ->
+                                        fleaViewModel.setSort(index)
+                                    }
+                                }
+                            }) {
+                                Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = "Sort Ammo", tint = Color.White)
+                            }
                         }
                     )
                 }
@@ -90,6 +115,79 @@ fun FleaMarketScreen(
             composable(FleaMarketScreens.Items.route) {
                 FleaMarketListScreen(data, fleaViewModel, paddingValues)
             }
+            composable(FleaMarketScreens.Favorites.route) {
+                FleaMarketFavoritesList(data, fleaViewModel, paddingValues)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalMaterialApi
+@Composable
+private fun FleaMarketFavoritesList(
+    data: List<Item>?,
+    fleaViewModel: FleaVM,
+    paddingValues: PaddingValues
+) {
+    val sortBy = fleaViewModel.sortBy.observeAsState()
+    val searchKey by fleaViewModel.searchKey.observeAsState("")
+
+    val list = when (sortBy.value) {
+        0 -> data?.sortedBy { it.Name }
+        1 -> data?.sortedBy { it.getPrice() }
+        2 -> data?.sortedByDescending { it.getPrice() }
+        3 -> data?.sortedByDescending { it.getPricePerSlot() }
+        4 -> data?.sortedBy { it.pricing?.changeLast48h }
+        5 -> data?.sortedByDescending { it.pricing?.changeLast48h }
+        6 -> data?.sortedBy { it.pricing?.getInstaProfit() }
+        7 -> data?.sortedByDescending { it.pricing?.getInstaProfit() }
+        else -> data?.sortedBy { it.getPrice() }
+    }?.filter {
+        it.ShortName?.contains(searchKey, ignoreCase = true) == true
+                || it.Name?.contains(searchKey, ignoreCase = true) == true
+                || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
+    }?.filter {
+        questPrefs.favoriteItems?.contains(it.id) ?: false
+    }
+
+    when {
+        data == null -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 32.dp)
+            ) {
+                CircularProgressIndicator(
+                    color = MaterialTheme.colors.secondary
+                )
+            }
+        }
+        data.isEmpty() -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 32.dp)
+            ) {
+                Text(text = "No Favorites")
+            }
+        }
+        else -> {
+            val context = LocalContext.current
+            LazyColumn(
+                modifier = Modifier,
+                contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
+            ) {
+                items(items = list ?: emptyList()) { item ->
+                    FleaItem(item = item) {
+                        context.openActivity(FleaItemDetail::class.java) {
+                            putString("id", item.id)
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -98,7 +196,7 @@ fun FleaMarketScreen(
 @ExperimentalMaterialApi
 @Composable
 private fun FleaMarketListScreen(
-    data: State<List<Item>>,
+    data: List<Item>?,
     fleaViewModel: FleaVM,
     paddingValues: PaddingValues
 ) {
@@ -106,19 +204,22 @@ private fun FleaMarketListScreen(
     val searchKey by fleaViewModel.searchKey.observeAsState("")
 
     val list = when (sortBy.value) {
-        0 -> data.value.sortedBy { it.Name }
-        1 -> data.value.sortedByDescending { it.getPrice() }
-        2 -> data.value.sortedByDescending { it.getPricePerSlot() }
-        3 -> data.value.sortedByDescending { it.pricing?.changeLast48h }
-        4 -> data.value.sortedBy { it.pricing?.changeLast48h }
-        else -> data.value.sortedBy { it.getPrice() }
-    }.filter {
+        0 -> data?.sortedBy { it.Name }
+        1 -> data?.sortedBy { it.getPrice() }
+        2 -> data?.sortedByDescending { it.getPrice() }
+        3 -> data?.sortedByDescending { it.getPricePerSlot() }
+        4 -> data?.sortedBy { it.pricing?.changeLast48h }
+        5 -> data?.sortedByDescending { it.pricing?.changeLast48h }
+        6 -> data?.sortedBy { it.pricing?.getInstaProfit() }
+        7 -> data?.sortedByDescending { it.pricing?.getInstaProfit() }
+        else -> data?.sortedBy { it.getPrice() }
+    }?.filter {
         it.ShortName?.contains(searchKey, ignoreCase = true) == true
                 || it.Name?.contains(searchKey, ignoreCase = true) == true
                 || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
     }
 
-    if (data.value.isNullOrEmpty()) {
+    if (data.isNullOrEmpty()) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -135,7 +236,7 @@ private fun FleaMarketListScreen(
             modifier = Modifier,
             contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
         ) {
-            items(items = list) { item ->
+            items(items = list ?: emptyList()) { item ->
                 FleaItem(item = item) {
                     context.openActivity(FleaItemDetail::class.java) {
                         putString("id", item.id)

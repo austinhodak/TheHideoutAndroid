@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 
 
 @Composable
@@ -52,7 +51,6 @@ fun MainToolbar(
 @Composable
 fun AmmoDetailToolbar(
     title: String,
-    ammoViewModel: AmmoViewModel,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     onBackPressed: () -> Unit,
     actions: @Composable() (RowScope.() -> Unit) = {}

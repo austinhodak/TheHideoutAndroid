@@ -82,7 +82,6 @@ class AmmoDetailActivity : ComponentActivity() {
                         Column {
                             AmmoDetailToolbar(
                                 title = ammo?.pricing?.name ?: "Error Loading...",
-                                ammoViewModel = ammoViewModel,
                                 onBackPressed = { finish() }
                             )
                             if (ammo == null) {

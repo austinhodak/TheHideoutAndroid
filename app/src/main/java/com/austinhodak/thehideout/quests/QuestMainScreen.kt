@@ -37,7 +37,7 @@ import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.firebase.UserQuest
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
 import com.austinhodak.thehideout.utils.getIcon
@@ -273,7 +273,7 @@ private fun QuestTradersScreen(
 @Composable
 private fun QuestCard(
     quest: Quest,
-    userData: UserQuest?,
+    userData: User?,
     questViewModel: QuestMainViewModel,
     scope: CoroutineScope
 ) {
@@ -372,7 +372,7 @@ private fun QuestObjectiveItem(
     questObjective: Quest.QuestObjective,
     questViewModel: QuestMainViewModel,
     scope: CoroutineScope,
-    userData: UserQuest?,
+    userData: User?,
     quest: Quest
 ) {
     var text by remember { mutableStateOf("") }

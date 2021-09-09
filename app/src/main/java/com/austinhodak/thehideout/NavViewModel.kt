@@ -16,7 +16,7 @@ class NavViewModel @Inject constructor() : ViewModel() {
         isDrawerOpen.value = isOpen
     }
 
-    private val _selectedDrawerItem = MutableLiveData(Pair("quests", 101))
+    private val _selectedDrawerItem = MutableLiveData(Pair("hideout", 101))
     val selectedDrawerItem = _selectedDrawerItem
 
     fun drawerItemSelected(route: Pair<String, Int>) {

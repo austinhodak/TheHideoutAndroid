@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.firebase.UserQuest
+import com.austinhodak.thehideout.firebase.User
 
 @DrawableRes
 fun Quest.QuestObjective.getIcon(): Int {
@@ -25,7 +25,7 @@ fun Quest.QuestObjective.getIcon(): Int {
     }
 }
 
-fun Quest.isLocked(userData: UserQuest?): Boolean {
+fun Quest.isLocked(userData: User?): Boolean {
     val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
     return if (userData?.isQuestCompleted(this) == true) {
         false
@@ -42,7 +42,7 @@ fun Quest.isLocked(userData: UserQuest?): Boolean {
     }
 }
 
-fun Quest.isAvailable(userData: UserQuest?): Boolean {
+fun Quest.isAvailable(userData: User?): Boolean {
     val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
     return if (userData?.isQuestCompleted(this) == true) {
         false

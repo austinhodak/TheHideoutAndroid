@@ -7,7 +7,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
-import com.austinhodak.thehideout.firebase.UserQuest
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.quests.QuestFilter
 import com.austinhodak.thehideout.utils.*
@@ -171,7 +171,7 @@ class QuestMainViewModel @Inject constructor(
         pickupTotalUser.value = pickup
     }
 
-    private val _userData = MutableLiveData<UserQuest?>(null)
+    private val _userData = MutableLiveData<User?>(null)
     val userData = _userData
 
     init {
@@ -186,7 +186,7 @@ class QuestMainViewModel @Inject constructor(
         if (uid() != null) {
             questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    _userData.value = snapshot.getValue<UserQuest>()
+                    _userData.value = snapshot.getValue<User>()
                     viewModelScope.launch {
                         updateUserTotals()
                     }

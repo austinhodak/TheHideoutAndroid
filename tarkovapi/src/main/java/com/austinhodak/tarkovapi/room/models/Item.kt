@@ -88,7 +88,7 @@ data class Item(
     }
 
     fun getPrice(): Int {
-        return pricing?.lastLowPrice ?: pricing?.basePrice ?: 0
+        return pricing?.getPrice() ?: 0
     }
 
     fun getPricePerSlot(): Int {
@@ -134,25 +134,4 @@ fun JSONObject.toItem(): Item {
     item.id = getString("_id") ?: ""
 
     return item
-
-    return Item(
-        id = getString("_id") ?: "",
-        parent = optString("_parent"),
-        Name = props.optString("Name"),
-        ShortName = props.optString("ShortName"),
-        Description = props.optString("Description"),
-        Weight = props.optDouble("Weight"),
-        itemType = itemType,
-        Width = props.optInt("Width"),
-        Height = props.optInt("Height"),
-        StackMaxSize = props.optInt("StackMaxSize"),
-        Rarity = props.optString("Rarity"),
-        SpawnChance = props.optDouble("SpawnChance"),
-        BackgroundColor = props.optString("BackgroundColor"),
-        LootExperience = props.optInt("LootExperience"),
-        ExamineExperience = props.optInt("ExamineExperience"),
-        RepairCost = props.optInt("RepairCost"),
-        Durability = props.optInt("Durability"),
-        MaxDurability = props.optInt("MaxDurability"),
-    )
 }

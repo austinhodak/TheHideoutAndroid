@@ -26,7 +26,11 @@ data class Pricing(
 ) {
 
     fun getPrice(): Int {
-        return lastLowPrice ?: basePrice
+        return if (avg24hPrice ?: 0 > 0) {
+            avg24hPrice ?: lastLowPrice ?: basePrice
+        } else {
+            lastLowPrice ?: basePrice
+        }
     }
 
     data class BuySellPrice(
@@ -50,5 +54,21 @@ data class Pricing(
                 }
             }
         }
+
+        fun isFleaMarket(): Boolean = source == "fleaMarket"
+    }
+
+    fun getFleaMarketBuy(): BuySellPrice? {
+        return buyFor?.find { it.isFleaMarket() }
+    }
+
+    fun getHighestTraderSell(): BuySellPrice? {
+        return sellFor?.filter { !it.isFleaMarket() }?.maxByOrNull {
+            it.price ?: 0
+        }
+    }
+
+    fun getInstaProfit(): Int? {
+        return getHighestTraderSell()?.price?.minus(getFleaMarketBuy()?.price ?: lastLowPrice ?: 0)
     }
 }

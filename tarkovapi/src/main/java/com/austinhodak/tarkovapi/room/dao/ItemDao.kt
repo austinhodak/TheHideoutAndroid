@@ -17,7 +17,7 @@ interface ItemDao {
     fun getByType(type: ItemTypes): Flow<List<Item>>
 
     @Transaction
-    @Query("SELECT * FROM items WHERE pricing IS NOT NULL")
+    @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor FROM items WHERE pricing IS NOT NULL")
     fun getAllItems(): Flow<List<Item>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

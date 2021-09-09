@@ -2,6 +2,7 @@ package com.austinhodak.tarkovapi.room.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.austinhodak.tarkovapi.models.Hideout
 import kotlin.math.roundToInt
 
 @Entity(tableName = "crafts")
@@ -17,6 +18,13 @@ data class Craft(
         val item: Pricing? = null
     ) {
 
+    }
+
+    fun getSourceID(hideout: Hideout?): Int? {
+        if (hideout == null) return null
+        val station = source?.split(" level ")?.get(0)?.lowercase()
+        val level = source?.split(" level ")?.get(1)?.toInt()
+        return hideout.modules?.find { it?.level == level && it?.module?.lowercase() == station }?.id
     }
 
     fun totalCost(): Int {

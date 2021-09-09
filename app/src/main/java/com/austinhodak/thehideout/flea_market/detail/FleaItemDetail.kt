@@ -7,6 +7,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -27,14 +31,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.Rectangle
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
+import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.mapsList
+import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.glide.rememberGlidePainter
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +77,8 @@ class FleaItemDetail : AppCompatActivity() {
                 val barters = tarkovRepo.getBartersWithItemID("%${item.value?.id}%").collectAsState(emptyList()).value
                 val crafts = tarkovRepo.getCraftsWithItemID("%${item.value?.id}%").collectAsState(emptyList()).value
 
+                val userData by viewModel.userData.observeAsState()
+
                 val items = listOf(
                     NavItem("Item", R.drawable.ic_baseline_shopping_cart_24),
                     NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, barters.isNotEmpty()),
@@ -76,9 +86,40 @@ class FleaItemDetail : AppCompatActivity() {
                     NavItem("Quests", R.drawable.ic_baseline_assignment_24, quests.isNotEmpty())
                 )
 
+                var isFavorited by remember {
+                    mutableStateOf(questPrefs.favoriteItems?.contains(itemID))
+                }
+
+                questPrefs.preference.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->
+                    if (s == "FAVORITE_ITEMS") {
+                        isFavorited = questPrefs.favoriteItems?.contains(itemID)
+                    }
+                }
+
                 Scaffold(
                     scaffoldState = scaffoldState,
-                    topBar = { HideoutToolbar(item = item.value) { finish() } },
+                    topBar = {
+                        FleaDetailToolbar(
+                            item = item.value,
+                            actions = {
+                                IconButton(onClick = {
+                                    isFavorited = if (isFavorited == true) {
+                                        questPrefs.removeFavorite(itemID)
+                                        false
+                                    } else {
+                                        questPrefs.addFavorite(itemID)
+                                        true
+                                    }
+                                }) {
+                                    if (isFavorited == true) {
+                                        Icon(Icons.Filled.Favorite, contentDescription = null, tint = Pink500)
+                                    } else {
+                                        Icon(Icons.Filled.FavoriteBorder, contentDescription = null, tint = Color.White)
+                                    }
+                                }
+                            }
+                        ) { finish() }
+                    },
                     bottomBar = { FleaBottomNav(selected = selectedNavItem, items) { selectedNavItem = it } },
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
@@ -117,12 +158,12 @@ class FleaItemDetail : AppCompatActivity() {
                                     }
                                 }
                                 1 -> {
-                                    BartersPage(item = item.value, barters)
+                                    BartersPage(item = item.value, barters, userData)
                                 }
                                 2 -> {
-                                    CraftsPage(item = item.value, crafts)
+                                    CraftsPage(item = item.value, crafts, userData)
                                 }
-                                3 -> QuestsPage(item = item.value, quests, tarkovRepo)
+                                3 -> QuestsPage(item = item.value, quests, tarkovRepo, userData)
                             }
                         }
                     }
@@ -137,7 +178,8 @@ class FleaItemDetail : AppCompatActivity() {
 private fun QuestsPage(
     item: Item?,
     quests: List<Quest>?,
-    tarkovRepo: TarkovRepo
+    tarkovRepo: TarkovRepo,
+    userData: User?
 ) {
 
     LazyColumn(
@@ -157,9 +199,6 @@ private fun QuestItem(
     item: Item?,
     database: TarkovRepo,
 ) {
-
-    val isKappa = database.isQuestRequiredForKappa(quest.id).collectAsState(0).value
-
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -174,7 +213,7 @@ private fun QuestItem(
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                     Text(
-                        text = "LEVEL ${quest.requirement?.level} • ${if (isKappa == 1) "KAPPA" else "NOT KAPPA"}",
+                        text = "LEVEL ${quest.requirement?.level}",
                         style = MaterialTheme.typography.overline
                     )
                 }
@@ -192,9 +231,7 @@ private fun QuestItem(
             Column {
                 Box {
                     Image(
-                        rememberGlidePainter(
-                            request = quest.giver?.name?.traderIcon() ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
-                        ),
+                        rememberImagePainter(quest.trader().icon),
                         contentDescription = null,
                         modifier = Modifier
                             .width(80.dp)
@@ -210,106 +247,134 @@ private fun QuestItem(
 @Composable
 private fun CraftsPage(
     item: Item?,
-    crafts: List<Craft>
+    crafts: List<Craft>,
+    userData: User?
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 4.dp)
     ) {
-        items(items = crafts ?: emptyList()) { craft ->
-            CraftItem(craft)
+        items(items = crafts) { craft ->
+            CraftItem(craft, userData)
         }
     }
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun CraftItem(craft: Craft) {
+fun CraftItem(craft: Craft, userData: User?) {
     val rewardItem = craft.rewardItems?.firstOrNull()?.item
     val requiredItems = craft.requiredItems
     val context = LocalContext.current
 
-    Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-        backgroundColor = Color(0xFE1F1F1F),
-        onClick = {
-            context.openActivity(FleaItemDetail::class.java) {
-                putString("id", rewardItem?.id)
-            }
-        }
-    ) {
-        Column {
-            Row(
-                Modifier
-                    .padding(start = 16.dp, end = 16.dp)
-                    .height(IntrinsicSize.Min),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box {
-                    Image(
-                        rememberGlidePainter(
-                            request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(vertical = 16.dp)
-                            .width(38.dp)
-                            .height(38.dp)
-                            .border((0.25).dp, color = BorderColor)
-                    )
+    val alpha = if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+        ContentAlpha.high
+    } else {
+        ContentAlpha.high
+    }
+
+    CompositionLocalProvider(LocalContentAlpha provides alpha) {
+        Card(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            backgroundColor = Color(0xFE1F1F1F),
+            onClick = {
+                context.openActivity(FleaItemDetail::class.java) {
+                    putString("id", rewardItem?.id)
                 }
-                Column(
+            },
+        ) {
+            Column {
+                if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+
+                } else {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(color = Red400)
+                            .padding(8.dp)
+                    ) {
+                        Icon(Icons.Filled.Warning, contentDescription = "")
+                        Text(
+                            text = "${craft.source?.toUpperCase()} NOT BUILT",
+                            style = MaterialTheme.typography.caption,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black
+                        )
+                    }
+                }
+
+                Row(
                     Modifier
-                        .padding(horizontal = 16.dp)
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
+                        .padding(start = 16.dp, end = 16.dp)
+                        .height(IntrinsicSize.Min),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = rewardItem?.name ?: "",
-                        style = MaterialTheme.typography.h6,
-                        fontSize = 16.sp
-                    )
-                    CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
-                        Text(
-                            text = craft.source ?: "",
-                            style = MaterialTheme.typography.caption,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Light,
+                    Box {
+                        Image(
+                            rememberGlidePainter(
+                                request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(vertical = 16.dp)
+                                .width(38.dp)
+                                .height(38.dp)
+                                .border((0.25).dp, color = BorderColor)
                         )
                     }
-                    CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                    Column(
+                        Modifier
+                            .padding(horizontal = 16.dp)
+                            .weight(1f),
+                        verticalArrangement = Arrangement.Center
+                    ) {
                         Text(
-                            text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",
-                            style = MaterialTheme.typography.caption,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Light,
+                            text = rewardItem?.name ?: "",
+                            style = MaterialTheme.typography.h6,
+                            fontSize = 16.sp
                         )
+                        CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                            Text(
+                                text = craft.source ?: "",
+                                style = MaterialTheme.typography.caption,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Light,
+                            )
+                        }
+                        CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                            Text(
+                                text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",
+                                style = MaterialTheme.typography.caption,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Light,
+                            )
+                        }
                     }
                 }
-            }
-            Divider(
-                modifier = Modifier.padding(bottom = 8.dp),
-                color = Color(0x1F000000)
-            )
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                Text(
-                    text = "NEEDS",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Light,
-                    fontFamily = Bender,
-                    modifier = Modifier.padding(bottom = 8.dp, top = 4.dp, start = 16.dp, end = 16.dp)
+                Divider(
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    color = Color(0x1F000000)
                 )
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "NEEDS",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(bottom = 8.dp, top = 4.dp, start = 16.dp, end = 16.dp)
+                    )
+                }
+                requiredItems?.forEach { taskItem ->
+                    BarterCraftCostItem(taskItem)
+                }
+                Divider(
+                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+                    color = Color(0x1F000000)
+                )
+                AvgPriceRow(title = "COST", price = craft.totalCost())
+                SavingsRow(title = "ESTIMATED PROFIT", price = craft.estimatedProfit())
+                SavingsRow(title = "ESTIMATED PROFIT PER HOUR", price = craft.estimatedProfitPerHour())
+                Spacer(modifier = Modifier.padding(bottom = 8.dp))
             }
-            requiredItems?.forEach { taskItem ->
-                BarterCraftCostItem(taskItem)
-            }
-            Divider(
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                color = Color(0x1F000000)
-            )
-            AvgPriceRow(title = "COST", price = craft.totalCost())
-            SavingsRow(title = "ESTIMATED PROFIT", price = craft.estimatedProfit())
-            SavingsRow(title = "ESTIMATED PROFIT PER HOUR", price = craft.estimatedProfitPerHour())
-            Spacer(modifier = Modifier.padding(bottom = 8.dp))
         }
     }
 }
@@ -317,7 +382,8 @@ fun CraftItem(craft: Craft) {
 @Composable
 private fun BartersPage(
     item: Item?,
-    barters: List<Barter>
+    barters: List<Barter>,
+    userData: User?
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 4.dp)
@@ -417,7 +483,8 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
-            .padding(start = 16.dp, top = 2.dp, bottom = 2.dp).fillMaxWidth()
+            .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
+            .fillMaxWidth()
             .clickable {
                 context.openActivity(FleaItemDetail::class.java) {
                     putString("id", item?.id)
@@ -481,9 +548,10 @@ fun FleaBottomNav(
 }
 
 @Composable
-fun HideoutToolbar(
+fun FleaDetailToolbar(
     modifier: Modifier = Modifier,
     item: Item?,
+    actions: @Composable() (RowScope.() -> Unit) = {},
     onNavIconPressed: () -> Unit = { },
 ) {
     TopAppBar(
@@ -503,7 +571,8 @@ fun HideoutToolbar(
             IconButton(onClick = onNavIconPressed) {
                 Icon(Icons.Filled.ArrowBack, contentDescription = null)
             }
-        }
+        },
+        actions = actions
     )
 }
 
@@ -577,7 +646,8 @@ private fun Card1(
                 )
                 AvgPriceRow(title = "LOW 24H PRICE", price = item?.pricing?.low24hPrice)
                 AvgPriceRow(title = "AVG 24H PRICE", price = item?.pricing?.avg24hPrice)
-                AvgPriceRow(title = "HIGH 24H PRICE", price = item?.pricing?.high24hPrice, modifier = Modifier.padding(bottom = 8.dp))
+                AvgPriceRow(title = "HIGH 24H PRICE", price = item?.pricing?.high24hPrice)
+                SavingsRow(title = "INSTA PROFIT", price = item?.pricing?.getInstaProfit(), modifier = Modifier.padding(bottom = 8.dp))
             }
         }
     }

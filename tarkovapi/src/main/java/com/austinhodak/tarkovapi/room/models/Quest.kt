@@ -96,7 +96,7 @@ data class Quest(
         val mapList = list?.map { mapsList.getMap(it) }
         Timber.d(list.toString())
         Timber.d(mapList.toString())
-        return mapList?.joinToString(separator = ", ") { it?.locale?.en ?: "Any Map" } ?: "Any Map"
+        return mapList?.joinToString(separator = ", ") { it?.locale?.en ?: "Any Map" } ?: ""
     }
 
     fun getMapsIDs(): List<Int?>? = objective?.map { it.location?.toInt() }?.distinct()

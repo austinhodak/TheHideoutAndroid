@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -27,7 +28,9 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.utils.getCaliberShortName
+import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.views.weaponCategories
+import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 
 @ExperimentalAnimationApi
 @Composable
@@ -72,6 +75,8 @@ fun WeaponListScreen(
 fun WeaponCard(
     weapon: Weapon
 ) {
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -80,7 +85,9 @@ fun WeaponCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
-
+            context.openActivity(WeaponDetailActivity::class.java) {
+                putString("weaponID", weapon.id)
+            }
         }
     ) {
         Column(

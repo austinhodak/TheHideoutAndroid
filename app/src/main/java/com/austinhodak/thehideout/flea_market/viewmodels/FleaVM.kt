@@ -7,6 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.utils.questsFirebase
+import com.austinhodak.thehideout.utils.uid
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,7 +37,7 @@ class FleaVM @Inject constructor(
         }
     }
 
-    var sortBy = MutableLiveData(1)
+    var sortBy = MutableLiveData(2)
 
     fun setSort(int: Int) {
         sortBy.value = int
@@ -45,6 +52,23 @@ class FleaVM @Inject constructor(
 
     fun clearSearch() {
         _searchKey.value = ""
+    }
+
+    private val _userData = MutableLiveData<User?>(null)
+    val userData = _userData
+
+    init {
+        if (uid() != null) {
+            questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    _userData.value = snapshot.getValue<User>()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+        }
     }
 
 }
