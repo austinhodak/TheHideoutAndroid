@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -24,7 +23,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-
 
 @Composable
 fun MainToolbar(
@@ -121,7 +119,7 @@ fun SearchToolbar(
                 value = text,
                 onValueChange = {
                     text = it
-                    onValue(it)
+                    onValue(text)
                 },
                 textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
                 singleLine = true,
@@ -148,13 +146,16 @@ fun SearchToolbar(
             IconButton(onClick = {
                 onClosePressed()
             }) {
-                Icon(Icons.Filled.Close, contentDescription = null)
+                Icon(Icons.Filled.ArrowBack, contentDescription = null)
             }
         },
         backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
         actions = {
-            IconButton(onClick = { }) {
-                Icon(painterResource(id = R.drawable.ic_baseline_manage_search_24), contentDescription = null, tint = Color.White)
+            IconButton(onClick = {
+                text = ""
+                onValue(text)
+            }) {
+                Icon(painterResource(id = R.drawable.ic_baseline_close_24), contentDescription = null, tint = Color.White)
             }
         }
     )

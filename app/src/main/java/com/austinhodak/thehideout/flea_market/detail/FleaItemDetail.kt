@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
@@ -43,6 +44,7 @@ import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.questPrefs
+import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.glide.rememberGlidePainter
 import dagger.hilt.android.AndroidEntryPoint
@@ -172,155 +174,281 @@ class FleaItemDetail : AppCompatActivity() {
             }
         }
     }
-}
 
-@Composable
-private fun QuestsPage(
-    item: Item?,
-    quests: List<Quest>?,
-    tarkovRepo: TarkovRepo,
-    userData: User?
-) {
 
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 4.dp)
+    @ExperimentalMaterialApi
+    @Composable
+    private fun QuestsPage(
+        item: Item?,
+        quests: List<Quest>?,
+        tarkovRepo: TarkovRepo,
+        userData: User?
     ) {
-        items(items = quests ?: emptyList()) { quest ->
+
+        LazyColumn(
+            contentPadding = PaddingValues(vertical = 4.dp)
+        ) {
+            items(items = quests ?: emptyList()) { quest ->
 //            val isRequired = quest.isRequiredForKappa(database).observeAsState().value
 //            Text("${quest.title} - ${isRequired == 1}")
-            QuestItem(quest = quest, item = item, tarkovRepo)
+                QuestItem(quest = quest, item = item, tarkovRepo)
+            }
         }
     }
-}
 
-@Composable
-private fun QuestItem(
-    quest: Quest,
-    item: Item?,
-    database: TarkovRepo,
-) {
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .fillMaxWidth(),
-        backgroundColor = Color(0xFE1F1F1F)
+    @ExperimentalMaterialApi
+    @Composable
+    private fun QuestItem(
+        quest: Quest,
+        item: Item?,
+        database: TarkovRepo,
     ) {
-        Row(
-            Modifier.padding(16.dp)
+        val context = LocalContext.current
+
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .fillMaxWidth(),
+            backgroundColor = Color(0xFE1F1F1F),
+            onClick = {
+                context.openActivity(QuestDetailActivity::class.java) {
+                    putString("questID", quest.id)
+                }
+            }
         ) {
-            Column(
-                modifier = Modifier.weight(1f)
+            Row(
+                Modifier.padding(16.dp)
             ) {
-                CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                        Text(
+                            text = "LEVEL ${quest.requirement?.level}",
+                            style = MaterialTheme.typography.overline
+                        )
+                    }
                     Text(
-                        text = "LEVEL ${quest.requirement?.level}",
-                        style = MaterialTheme.typography.overline
+                        text = quest.title ?: "",
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                    Text(
+                        text = quest.getMaps(mapsList),
+                        style = MaterialTheme.typography.body2,
+                        modifier = Modifier.padding(top = 0.dp)
                     )
                 }
-                Text(
-                    text = quest.title ?: "",
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-                Text(
-                    text = quest.getMaps(mapsList),
-                    style = MaterialTheme.typography.body2,
-                    modifier = Modifier.padding(top = 0.dp)
-                )
-            }
-            Column {
-                Box {
-                    Image(
-                        rememberImagePainter(quest.trader().icon),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(80.dp)
-                            .height(80.dp)
-                    )
+                Column {
+                    Box {
+                        Image(
+                            rememberImagePainter(quest.trader().icon),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(72.dp)
+                                .height(72.dp)
+                        )
+                    }
                 }
             }
         }
     }
-}
 
-@ExperimentalMaterialApi
-@Composable
-private fun CraftsPage(
-    item: Item?,
-    crafts: List<Craft>,
-    userData: User?
-) {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 4.dp)
+    @ExperimentalMaterialApi
+    @Composable
+    private fun CraftsPage(
+        item: Item?,
+        crafts: List<Craft>,
+        userData: User?
     ) {
-        items(items = crafts) { craft ->
-            CraftItem(craft, userData)
+        LazyColumn(
+            contentPadding = PaddingValues(vertical = 4.dp)
+        ) {
+            items(items = crafts) { craft ->
+                CraftItem(craft, userData)
+            }
         }
     }
-}
 
-@ExperimentalMaterialApi
-@Composable
-fun CraftItem(craft: Craft, userData: User?) {
-    val rewardItem = craft.rewardItems?.firstOrNull()?.item
-    val requiredItems = craft.requiredItems
-    val context = LocalContext.current
+    @ExperimentalMaterialApi
+    @Composable
+    fun CraftItem(craft: Craft, userData: User?) {
+        val rewardItem = craft.rewardItems?.firstOrNull()?.item
+        val requiredItems = craft.requiredItems
+        val context = LocalContext.current
 
-    val alpha = if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
-        ContentAlpha.high
-    } else {
-        ContentAlpha.high
+        val alpha = if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+            ContentAlpha.high
+        } else {
+            ContentAlpha.high
+        }
+
+        CompositionLocalProvider(LocalContentAlpha provides alpha) {
+            Card(
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                backgroundColor = Color(0xFE1F1F1F),
+                onClick = {
+                    if (rewardItem?.id != itemID) {
+                        context.openActivity(FleaItemDetail::class.java) {
+                            putString("id", rewardItem?.id)
+                        }
+                    }
+                },
+            ) {
+                Column {
+                    if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+
+                    } else {
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .background(color = Red400)
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(Icons.Filled.Warning, contentDescription = "", tint = Color.Black, modifier = Modifier.height(20.dp).width(20.dp))
+                            Text(
+                                text = "${craft.source?.toUpperCase()} NOT BUILT",
+                                style = MaterialTheme.typography.caption,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.Black,
+                                modifier = Modifier.padding(start = 34.dp)
+                            )
+                        }
+                    }
+
+                    Row(
+                        Modifier
+                            .padding(start = 16.dp, end = 16.dp)
+                            .height(IntrinsicSize.Min),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box {
+                            Image(
+                                rememberGlidePainter(
+                                    request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .padding(vertical = 16.dp)
+                                    .width(38.dp)
+                                    .height(38.dp)
+                                    .border((0.25).dp, color = BorderColor)
+                            )
+                        }
+                        Column(
+                            Modifier
+                                .padding(horizontal = 16.dp)
+                                .weight(1f),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = rewardItem?.name ?: "",
+                                style = MaterialTheme.typography.h6,
+                                fontSize = 16.sp
+                            )
+                            CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                                Text(
+                                    text = craft.source ?: "",
+                                    style = MaterialTheme.typography.caption,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Light,
+                                )
+                            }
+                            CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                                Text(
+                                    text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",
+                                    style = MaterialTheme.typography.caption,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Light,
+                                )
+                            }
+                        }
+                    }
+                    Divider(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        color = Color(0x1F000000)
+                    )
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = "NEEDS",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                            modifier = Modifier.padding(bottom = 8.dp, top = 4.dp, start = 16.dp, end = 16.dp)
+                        )
+                    }
+                    requiredItems?.forEach { taskItem ->
+                        BarterCraftCostItem(taskItem)
+                    }
+                    Divider(
+                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+                        color = Color(0x1F000000)
+                    )
+                    AvgPriceRow(title = "COST", price = craft.totalCost())
+                    SavingsRow(title = "ESTIMATED PROFIT", price = craft.estimatedProfit())
+                    SavingsRow(title = "ESTIMATED PROFIT PER HOUR", price = craft.estimatedProfitPerHour())
+                    Spacer(modifier = Modifier.padding(bottom = 8.dp))
+                }
+            }
+        }
     }
 
-    CompositionLocalProvider(LocalContentAlpha provides alpha) {
+    @ExperimentalMaterialApi
+    @Composable
+    private fun BartersPage(
+        item: Item?,
+        barters: List<Barter>,
+        userData: User?
+    ) {
+        LazyColumn(
+            contentPadding = PaddingValues(vertical = 4.dp)
+        ) {
+            items(items = barters ?: emptyList()) { barter ->
+                BarterItem(barter)
+            }
+        }
+    }
+
+    @ExperimentalMaterialApi
+    @Composable
+    private fun BarterItem(
+        barter: Barter
+    ) {
+        val rewardItem = barter.rewardItems?.firstOrNull()?.item
+        val requiredItems = barter.requiredItems
+
+        val context = LocalContext.current
+
         Card(
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             backgroundColor = Color(0xFE1F1F1F),
             onClick = {
-                context.openActivity(FleaItemDetail::class.java) {
-                    putString("id", rewardItem?.id)
-                }
-            },
-        ) {
-            Column {
-                if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
-
-                } else {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .background(color = Red400)
-                            .padding(8.dp)
-                    ) {
-                        Icon(Icons.Filled.Warning, contentDescription = "")
-                        Text(
-                            text = "${craft.source?.toUpperCase()} NOT BUILT",
-                            style = MaterialTheme.typography.caption,
-                            fontWeight = FontWeight.Medium,
-                            color = Color.Black
-                        )
+                if (rewardItem?.id != itemID) {
+                    context.openActivity(FleaItemDetail::class.java) {
+                        putString("id", rewardItem?.id)
                     }
                 }
-
+            }
+        ) {
+            Column {
                 Row(
                     Modifier
                         .padding(start = 16.dp, end = 16.dp)
                         .height(IntrinsicSize.Min),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Box {
-                        Image(
-                            rememberGlidePainter(
-                                request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
-                            ),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(vertical = 16.dp)
-                                .width(38.dp)
-                                .height(38.dp)
-                                .border((0.25).dp, color = BorderColor)
-                        )
-                    }
+                    Image(
+                        rememberGlidePainter(
+                            request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(vertical = 16.dp)
+                            .width(38.dp)
+                            .height(38.dp)
+                            .border((0.25).dp, color = BorderColor)
+                    )
                     Column(
                         Modifier
                             .padding(horizontal = 16.dp)
@@ -334,7 +462,7 @@ fun CraftItem(craft: Craft, userData: User?) {
                         )
                         CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                             Text(
-                                text = craft.source ?: "",
+                                text = barter.source ?: "",
                                 style = MaterialTheme.typography.caption,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Light,
@@ -370,390 +498,278 @@ fun CraftItem(craft: Craft, userData: User?) {
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
                     color = Color(0x1F000000)
                 )
-                AvgPriceRow(title = "COST", price = craft.totalCost())
-                SavingsRow(title = "ESTIMATED PROFIT", price = craft.estimatedProfit())
-                SavingsRow(title = "ESTIMATED PROFIT PER HOUR", price = craft.estimatedProfitPerHour())
+                AvgPriceRow(title = "COST", price = barter.totalCost())
+                SavingsRow(title = "ESTIMATED SAVINGS", price = barter.estimatedProfit())
                 Spacer(modifier = Modifier.padding(bottom = 8.dp))
             }
         }
     }
-}
 
-@Composable
-private fun BartersPage(
-    item: Item?,
-    barters: List<Barter>,
-    userData: User?
-) {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 4.dp)
-    ) {
-        items(items = barters ?: emptyList()) { barter ->
-            BarterItem(barter)
-        }
-    }
-}
-
-@Composable
-private fun BarterItem(barter: Barter) {
-    val rewardItem = barter.rewardItems?.firstOrNull()?.item
-    val requiredItems = barter.requiredItems
-
-    Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-        backgroundColor = Color(0xFE1F1F1F)
-    ) {
-        Column {
-            Row(
-                Modifier
-                    .padding(start = 16.dp, end = 16.dp)
-                    .height(IntrinsicSize.Min),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    rememberGlidePainter(
-                        request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
-                    ),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .width(38.dp)
-                        .height(38.dp)
-                        .border((0.25).dp, color = BorderColor)
-                )
-                Column(
-                    Modifier
-                        .padding(horizontal = 16.dp)
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = rewardItem?.name ?: "",
-                        style = MaterialTheme.typography.h6,
-                        fontSize = 16.sp
-                    )
-                    CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
-                        Text(
-                            text = barter.source ?: "",
-                            style = MaterialTheme.typography.caption,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Light,
-                        )
-                    }
-                    CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
-                        Text(
-                            text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",
-                            style = MaterialTheme.typography.caption,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Light,
-                        )
-                    }
-                }
-            }
-            Divider(
-                modifier = Modifier.padding(bottom = 8.dp),
-                color = Color(0x1F000000)
-            )
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                Text(
-                    text = "NEEDS",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Light,
-                    fontFamily = Bender,
-                    modifier = Modifier.padding(bottom = 8.dp, top = 4.dp, start = 16.dp, end = 16.dp)
-                )
-            }
-            requiredItems?.forEach { taskItem ->
-                BarterCraftCostItem(taskItem)
-            }
-            Divider(
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                color = Color(0x1F000000)
-            )
-            AvgPriceRow(title = "COST", price = barter.totalCost())
-            SavingsRow(title = "ESTIMATED SAVINGS", price = barter.estimatedProfit())
-            Spacer(modifier = Modifier.padding(bottom = 8.dp))
-        }
-    }
-}
-
-@Composable
-private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
-    val item = taskItem?.item
-    val context = LocalContext.current
-    Row(
-        modifier = Modifier
-            .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
-            .fillMaxWidth()
-            .clickable {
-                context.openActivity(FleaItemDetail::class.java) {
-                    putString("id", item?.id)
-                }
-            },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Image(
-            rememberGlidePainter(
-                request = item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
-            ),
-            contentDescription = null,
-            modifier = Modifier
-                .width(38.dp)
-                .height(38.dp)
-                .border((0.25).dp, color = BorderColor)
-        )
-        Column(
-            modifier = Modifier.padding(start = 16.dp)
-        ) {
-            Text(
-                text = "${item?.shortName}",
-                style = MaterialTheme.typography.body1
-            )
-            CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
-                Text(
-                    text = "${taskItem?.count} x ${item?.avg24hPrice?.asCurrency()} = ${
-                        (taskItem?.count?.times(item?.avg24hPrice!!))?.asCurrency()
-                    }",
-                    style = MaterialTheme.typography.caption,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Light,
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun FleaBottomNav(
-    selected: Int,
-    items: List<NavItem>,
-    onItemSelected: (Int) -> Unit
-) {
-
-    BottomNavigation(
-        backgroundColor = Color(0xFE1F1F1F)
-    ) {
-        items.forEachIndexed { index, item ->
-            BottomNavigationItem(
-                icon = { Icon(painter = painterResource(id = item.icon), contentDescription = null) },
-                label = { Text(item.title) },
-                selected = selected == index,
-                onClick = { onItemSelected(index) },
-                selectedContentColor = MaterialTheme.colors.secondary,
-                unselectedContentColor = if (item.enabled == true) Color(0x99FFFFFF) else Color(0x33FFFFFF),
-                enabled = item.enabled ?: true,
-            )
-        }
-    }
-}
-
-@Composable
-fun FleaDetailToolbar(
-    modifier: Modifier = Modifier,
-    item: Item?,
-    actions: @Composable() (RowScope.() -> Unit) = {},
-    onNavIconPressed: () -> Unit = { },
-) {
-    TopAppBar(
-        modifier = modifier,
-        title = {
-            Row {
-                Text(
-                    text = item?.Name ?: "The Hideout",
-                    color = MaterialTheme.colors.onPrimary,
-                    style = MaterialTheme.typography.h6
-                )
-            }
-        },
-        backgroundColor = MaterialTheme.colors.primary,
-        elevation = 0.dp,
-        navigationIcon = {
-            IconButton(onClick = onNavIconPressed) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = null)
-            }
-        },
-        actions = actions
-    )
-}
-
-@Composable
-private fun Card1(
-    item: Item?
-) {
-    val color = when (item?.BackgroundColor) {
-        "blue" -> itemBlue
-        "grey" -> itemGrey
-        "red" -> itemRed
-        "orange" -> itemOrange
-        "default" -> itemDefault
-        "violet" -> itemViolet
-        "yellow" -> itemYellow
-        "green" -> itemGreen
-        "black" -> itemBlack
-        else -> itemDefault
-    }
-
-    Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-        backgroundColor = Color(0xFE1F1F1F)
-    ) {
+    @Composable
+    private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
+        val item = taskItem?.item
+        val context = LocalContext.current
         Row(
-            Modifier.height(IntrinsicSize.Min)
-        ) {
-            Rectangle(color = color, modifier = Modifier.fillMaxHeight())
-            Column {
-                Row(
-                    Modifier
-                        .padding(start = 16.dp, end = 16.dp)
-                        .height(IntrinsicSize.Min),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        rememberGlidePainter(
-                            request = item?.pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(vertical = 16.dp)
-                            .width(38.dp)
-                            .height(38.dp)
-                            .border((0.25).dp, color = BorderColor)
-                    )
-                    Column(
-                        Modifier
-                            .padding(horizontal = 16.dp)
-                            .weight(1f),
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "Last Price: ${item?.getPrice()?.asCurrency()}",
-                            style = MaterialTheme.typography.h6,
-                            fontSize = 16.sp
-                        )
-                        CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
-                            Text(
-                                text = "${item?.getPricePerSlot()?.asCurrency()}/slot",
-                                style = MaterialTheme.typography.caption,
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight.Light,
-                            )
+            modifier = Modifier
+                .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
+                .fillMaxWidth()
+                .clickable {
+                    if (item?.id != itemID) {
+                        context.openActivity(FleaItemDetail::class.java) {
+                            putString("id", item?.id)
                         }
                     }
-                }
-                Divider(
-                    modifier = Modifier.padding(bottom = 8.dp),
-                    color = Color(0x1F000000)
+                },
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Image(
+                rememberGlidePainter(
+                    request = item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                ),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(38.dp)
+                    .height(38.dp)
+                    .border((0.25).dp, color = BorderColor)
+            )
+            Column(
+                modifier = Modifier.padding(start = 16.dp)
+            ) {
+                Text(
+                    text = "${item?.shortName}",
+                    style = MaterialTheme.typography.body1
                 )
-                AvgPriceRow(title = "LOW 24H PRICE", price = item?.pricing?.low24hPrice)
-                AvgPriceRow(title = "AVG 24H PRICE", price = item?.pricing?.avg24hPrice)
-                AvgPriceRow(title = "HIGH 24H PRICE", price = item?.pricing?.high24hPrice)
-                SavingsRow(title = "INSTA PROFIT", price = item?.pricing?.getInstaProfit(), modifier = Modifier.padding(bottom = 8.dp))
+                CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                    Text(
+                        text = "${taskItem?.count} x ${item?.avg24hPrice?.asCurrency()} = ${
+                            (taskItem?.count?.times(item?.avg24hPrice!!))?.asCurrency()
+                        }",
+                        style = MaterialTheme.typography.caption,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Light,
+                    )
+                }
             }
         }
     }
-}
 
-@Composable
-private fun AvgPriceRow(
-    title: String,
-    price: Int?,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically
+    @Composable
+    fun FleaBottomNav(
+        selected: Int,
+        items: List<NavItem>,
+        onItemSelected: (Int) -> Unit
     ) {
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.body1,
-                fontSize = 12.sp
-            )
+
+        BottomNavigation(
+            backgroundColor = Color(0xFE1F1F1F)
+        ) {
+            items.forEachIndexed { index, item ->
+                BottomNavigationItem(
+                    icon = { Icon(painter = painterResource(id = item.icon), contentDescription = null) },
+                    label = { Text(item.title) },
+                    selected = selected == index,
+                    onClick = { onItemSelected(index) },
+                    selectedContentColor = MaterialTheme.colors.secondary,
+                    unselectedContentColor = if (item.enabled == true) Color(0x99FFFFFF) else Color(0x33FFFFFF),
+                    enabled = item.enabled ?: true,
+                )
+            }
         }
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = price?.asCurrency() ?: "",
-            style = MaterialTheme.typography.body1,
-            fontSize = 14.sp
+    }
+
+    @Composable
+    fun FleaDetailToolbar(
+        modifier: Modifier = Modifier,
+        item: Item?,
+        actions: @Composable() (RowScope.() -> Unit) = {},
+        onNavIconPressed: () -> Unit = { },
+    ) {
+        TopAppBar(
+            modifier = modifier,
+            title = {
+                Row {
+                    Text(
+                        text = item?.Name ?: "The Hideout",
+                        color = MaterialTheme.colors.onPrimary,
+                        style = MaterialTheme.typography.h6,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            },
+            backgroundColor = MaterialTheme.colors.primary,
+            elevation = 0.dp,
+            navigationIcon = {
+                IconButton(onClick = onNavIconPressed) {
+                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                }
+            },
+            actions = actions
         )
     }
-}
 
-@Composable
-private fun TradersSellCard(
-    title: String,
-    item: Item?,
-    prices: List<Pricing.BuySellPrice>?
-) {
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .fillMaxWidth(),
-        backgroundColor = Color(0xFE1F1F1F)
+    @Composable
+    private fun Card1(
+        item: Item?
     ) {
-        Column() {
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                Text(
-                    text = title,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Light,
-                    fontFamily = Bender,
-                    modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
-                )
-            }
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
+        val color = when (item?.BackgroundColor) {
+            "blue" -> itemBlue
+            "grey" -> itemGrey
+            "red" -> itemRed
+            "orange" -> itemOrange
+            "default" -> itemDefault
+            "violet" -> itemViolet
+            "yellow" -> itemYellow
+            "green" -> itemGreen
+            "black" -> itemBlack
+            else -> itemDefault
+        }
+
+        Card(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            backgroundColor = Color(0xFE1F1F1F)
+        ) {
+            Row(
+                Modifier.height(IntrinsicSize.Max)
             ) {
-                itemsIndexed(prices?.filter { it.price != 0 }?.sortedByDescending { it.price }
-                    ?: emptyList()) { index, item ->
-                    TraderPriceListGridItem(item, index == 0)
+                Rectangle(color = color, modifier = Modifier.fillMaxHeight())
+                Column(Modifier.padding(bottom = 8.dp)) {
+                    Row(
+                        Modifier
+                            .padding(start = 16.dp, end = 16.dp)
+                            .height(IntrinsicSize.Min),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            rememberImagePainter(item?.pricing?.iconLink ?: ""),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(vertical = 16.dp)
+                                .width(52.dp)
+                                .height(52.dp)
+                                .border((0.25).dp, color = BorderColor)
+                        )
+                        Column(
+                            Modifier
+                                .padding(horizontal = 16.dp)
+                                .weight(1f),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            /*Text(
+                            text = "${item?.Name}",
+                            style = MaterialTheme.typography.h6,
+                            //fontSize = 16.sp
+                        )*/
+                            Text(
+                                text = "Last Price: ${item?.getPrice()?.asCurrency()}",
+                                style = MaterialTheme.typography.subtitle1,
+                                fontSize = 16.sp
+                            )
+                            CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                                Text(
+                                    text = "${item?.getPricePerSlot()?.asCurrency()}/slot • ${item?.getTotalSlots()} Slots",
+                                    style = MaterialTheme.typography.caption,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Light,
+                                )
+                            }
+                        }
+                    }
+                    Divider(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        color = DividerDark
+                    )
+                    AvgPriceRow(title = "LOW 24H PRICE", price = item?.pricing?.low24hPrice)
+                    AvgPriceRow(title = "AVG 24H PRICE", price = item?.pricing?.avg24hPrice)
+                    AvgPriceRow(title = "HIGH 24H PRICE", price = item?.pricing?.high24hPrice)
+                    SavingsRow(title = "INSTA PROFIT", price = item?.pricing?.getInstaProfit(), modifier = Modifier.padding(bottom = 8.dp))
+                    Divider(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        color = DividerDark
+                    )
+                    BasicStatRow(title = "WEIGHT", text = "${item?.Weight}kg")
                 }
             }
-            /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
-                TraderPriceListItem(item.fragments.itemPrice, index == 0)
-            }*/
         }
     }
-}
 
-@Composable
-private fun TradersBuyCard(
-    title: String,
-    item: Item?,
-    prices: List<Pricing.BuySellPrice>?
-) {
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .fillMaxWidth(),
-        backgroundColor = Color(0xFE1F1F1F)
+
+
+    @Composable
+    private fun TradersSellCard(
+        title: String,
+        item: Item?,
+        prices: List<Pricing.BuySellPrice>?
     ) {
-        Column() {
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                Text(
-                    text = title,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Light,
-                    fontFamily = Bender,
-                    modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
-                )
-            }
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
-            ) {
-                itemsIndexed(prices?.filter { it.price != 0 }?.sortedBy { it.price }
-                    ?: emptyList()) { index, item ->
-                    TraderPriceListGridItem(item, index == 0)
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .fillMaxWidth(),
+            backgroundColor = Color(0xFE1F1F1F)
+        ) {
+            Column() {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = title,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
+                    )
                 }
-            }
-            /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
+                ) {
+                    itemsIndexed(prices?.filter { it.price != 0 }?.sortedByDescending { it.price }
+                        ?: emptyList()) { index, item ->
+                        TraderPriceListGridItem(item, index == 0)
+                    }
+                }
+                /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
                 TraderPriceListItem(item.fragments.itemPrice, index == 0)
             }*/
+            }
         }
     }
-}
+
+    @Composable
+    private fun TradersBuyCard(
+        title: String,
+        item: Item?,
+        prices: List<Pricing.BuySellPrice>?
+    ) {
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .fillMaxWidth(),
+            backgroundColor = Color(0xFE1F1F1F)
+        ) {
+            Column() {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = title,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
+                    )
+                }
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
+                ) {
+                    itemsIndexed(prices?.filter { it.price != 0 }?.sortedBy { it.price }
+                        ?: emptyList()) { index, item ->
+                        TraderPriceListGridItem(item, index == 0)
+                    }
+                }
+                /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
+                TraderPriceListItem(item.fragments.itemPrice, index == 0)
+            }*/
+            }
+        }
+    }
 
 /*@Composable
 private fun TraderPriceListItem(
@@ -785,39 +801,46 @@ private fun TraderPriceListItem(
     }
 }*/
 
-@Composable
-private fun TraderPriceListGridItem(
-    item: Pricing.BuySellPrice,
-    isHighest: Boolean = false
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+    @Composable
+    private fun TraderPriceListGridItem(
+        item: Pricing.BuySellPrice,
+        isHighest: Boolean = false
     ) {
-        Image(
-            modifier = Modifier
-                .size(72.dp)
-                .padding(bottom = 8.dp),
-            painter = rememberGlidePainter(
-                request = item.traderImage()
-            ),
-            contentDescription = "Prapor",
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(72.dp)
+                    .padding(bottom = 8.dp),
+                painter = rememberGlidePainter(
+                    request = item.traderImage()
+                ),
+                contentDescription = "Prapor",
 
+                )
+            Text(
+                text = if (item.source == ItemSourceName.peacekeeper.rawValue) {
+                    item.price?.convertRtoUSD()?.asCurrency("D") ?: ""
+                } else {
+                    item.price?.asCurrency() ?: ""
+                },
+                style = MaterialTheme.typography.body1,
+                fontSize = 12.sp,
+                fontWeight = if (isHighest) FontWeight.Bold else FontWeight.Normal
             )
-        Text(
-            text = if (item.source == ItemSourceName.peacekeeper.rawValue) {
-                item.price?.convertRtoUSD()?.asCurrency("D") ?: ""
-            } else {
-                item.price?.asCurrency() ?: ""
-            },
-            style = MaterialTheme.typography.body1,
-            fontSize = 12.sp,
-            fontWeight = if (isHighest) FontWeight.Bold else FontWeight.Normal
-        )
+        }
     }
+
+    data class NavItem(
+        val title: String,
+        @DrawableRes val icon: Int,
+        val enabled: Boolean? = true
+    )
 }
 
 @Composable
-private fun SavingsRow(
+fun SavingsRow(
     title: String,
     price: Int?,
     modifier: Modifier = Modifier
@@ -843,8 +866,54 @@ private fun SavingsRow(
     }
 }
 
-data class NavItem(
-    val title: String,
-    @DrawableRes val icon: Int,
-    val enabled: Boolean? = true
-)
+@Composable
+fun AvgPriceRow(
+    title: String,
+    price: Int?,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.body1,
+                fontSize = 12.sp
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = price?.asCurrency() ?: "",
+            style = MaterialTheme.typography.body1,
+            fontSize = 14.sp
+        )
+    }
+}
+
+@Composable
+fun BasicStatRow(
+    title: String,
+    text: String?,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.body1,
+                fontSize = 12.sp
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = text ?: "",
+            style = MaterialTheme.typography.body1,
+            fontSize = 14.sp
+        )
+    }
+}

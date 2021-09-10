@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -80,7 +81,7 @@ fun AmmunitionListScreen(
                         Icon(Icons.Filled.Search, contentDescription = "Sort Ammo", tint = Color.White)
                     }
                     IconButton(onClick = {
-                        val items = listOf("Name", "Price: Low to High", "Price: High to Low", "Damage", "Penetration")
+                        val items = listOf("Name", "Price: Low to High", "Price: High to Low", "Damage", "Penetration", "Armor Effectiveness")
                         MaterialDialog(context).show {
                             title(text = "Sort By")
                             listItemsSingleChoice(items = items, initialSelection = sort.value) { _, index, _ ->
@@ -160,6 +161,7 @@ fun AmmunitionListScreen(
                         2 -> items.sortedByDescending { it.pricing?.lastLowPrice }
                         3 -> items.sortedByDescending { it.ballistics?.damage }
                         4 -> items.sortedByDescending { it.ballistics?.penetrationPower }
+                        5 -> items.sortedByDescending { it.getArmorValues() }
                         else -> items.sortedBy { it.shortName }
                     }
                     items(items = items) { ammo ->
@@ -214,9 +216,22 @@ private fun AmmoCard(
             Row(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(start = 16.dp, end = 16.dp),
+                    .padding(end = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Column(
+                    Modifier
+                        .padding(end = 16.dp)
+                        .width(3.dp)
+                        .fillMaxHeight()
+                ) {
+                    ArmorBox(ammo.getColor(1), Modifier.weight(1f))
+                    ArmorBox(ammo.getColor(2), Modifier.weight(1f))
+                    ArmorBox(ammo.getColor(3), Modifier.weight(1f))
+                    ArmorBox(ammo.getColor(4), Modifier.weight(1f))
+                    ArmorBox(ammo.getColor(5), Modifier.weight(1f))
+                    ArmorBox(ammo.getColor(6), Modifier.weight(1f))
+                }
                 Image(
                     rememberImagePainter(ammo.pricing?.gridImageLink),
                     contentDescription = null,
@@ -278,5 +293,35 @@ private fun AmmoCard(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ArmorBox(
+    color: Color,
+    modifier: Modifier = Modifier
+) {
+
+    Box(
+        modifier = modifier
+            .background(color)
+            .fillMaxWidth(),
+    ) {
+        Column {
+            Box (
+                modifier = Modifier
+                    .background(Color.Black.copy(alpha = 0.1f))
+                    .fillMaxWidth()
+                    .height(1.dp)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Box (
+                modifier = Modifier
+                    .background(Color.Black.copy(alpha = 0.1f))
+                    .fillMaxWidth()
+                    .height(1.dp)
+            )
+        }
+
     }
 }

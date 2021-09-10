@@ -285,8 +285,9 @@ fun ModsListScreen(
 
 @ExperimentalMaterialApi
 @Composable
-private fun ModsBasicCard(
-    item: Item
+fun ModsBasicCard(
+    item: Item,
+    clicked: (item: Item) -> Unit = {}
 ) {
     Card(
         modifier = Modifier
@@ -296,7 +297,7 @@ private fun ModsBasicCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
-
+            clicked(item)
         },
         backgroundColor = Color(0xFE1F1F1F)
     ) {

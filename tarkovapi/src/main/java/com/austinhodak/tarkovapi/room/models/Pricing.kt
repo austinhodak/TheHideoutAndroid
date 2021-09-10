@@ -3,6 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.getTraderLevel
 import com.austinhodak.tarkovapi.utils.sourceTitle
+import java.io.Serializable
 
 data class Pricing(
     val id: String,
@@ -23,7 +24,7 @@ data class Pricing(
     val height: Int?,
     val sellFor: List<BuySellPrice>?,
     val buyFor: List<BuySellPrice>?
-) {
+) : Serializable {
 
     fun getPrice(): Int {
         return if (avg24hPrice ?: 0 > 0) {
@@ -37,11 +38,11 @@ data class Pricing(
         val source: String?,
         val price: Int?,
         val requirements: List<Requirement>
-    ) {
+    ) : Serializable {
         data class Requirement(
             val type: String,
             val value: Int
-        )
+        ) : Serializable
 
         fun getTitle(): String {
             return if (source == "fleaMarket") {

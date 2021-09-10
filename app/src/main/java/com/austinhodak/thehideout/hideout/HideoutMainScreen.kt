@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -30,12 +31,14 @@ import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
+import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
-import com.austinhodak.thehideout.flea_market.detail.CraftItem
+import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.flea_market.detail.SavingsRow
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.quests.Chip
@@ -290,7 +293,7 @@ private fun HideoutRequirementItem(
     val item by tarkovRepo.getItemByID(requirement.name.toString()).collectAsState(initial = null)
     val pricing = item?.pricing
 
-    Row (
+    Row(
         modifier = Modifier
             .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
             .fillMaxWidth()
@@ -426,6 +429,172 @@ private fun HideoutCraftsPage(
     ) {
         items(items = crafts.sortedBy { it.rewardItems?.first()?.item?.name }) { craft ->
             CraftItem(craft, null)
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun CraftItem(craft: Craft, userData: User?) {
+    val rewardItem = craft.rewardItems?.firstOrNull()?.item
+    val requiredItems = craft.requiredItems
+    val context = LocalContext.current
+
+    val alpha = if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+        ContentAlpha.high
+    } else {
+        ContentAlpha.high
+    }
+
+    CompositionLocalProvider(LocalContentAlpha provides alpha) {
+        Card(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            backgroundColor = Color(0xFE1F1F1F),
+            onClick = {
+                context.openActivity(FleaItemDetail::class.java) {
+                    putString("id", rewardItem?.id)
+                }
+            },
+        ) {
+            Column {
+                if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+
+                } else {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(color = Red400)
+                            .padding(8.dp)
+                    ) {
+                        Icon(Icons.Filled.Warning, contentDescription = "")
+                        Text(
+                            text = "${craft.source?.toUpperCase()} NOT BUILT",
+                            style = MaterialTheme.typography.caption,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black
+                        )
+                    }
+                }
+
+                Row(
+                    Modifier
+                        .padding(start = 16.dp, end = 16.dp)
+                        .height(IntrinsicSize.Min),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box {
+                        Image(
+                            rememberGlidePainter(
+                                request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(vertical = 16.dp)
+                                .width(38.dp)
+                                .height(38.dp)
+                                .border((0.25).dp, color = BorderColor)
+                        )
+                    }
+                    Column(
+                        Modifier
+                            .padding(horizontal = 16.dp)
+                            .weight(1f),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = rewardItem?.name ?: "",
+                            style = MaterialTheme.typography.h6,
+                            fontSize = 16.sp
+                        )
+                        CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                            Text(
+                                text = craft.source ?: "",
+                                style = MaterialTheme.typography.caption,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Light,
+                            )
+                        }
+                        CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                            Text(
+                                text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",
+                                style = MaterialTheme.typography.caption,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Light,
+                            )
+                        }
+                    }
+                }
+                Divider(
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    color = Color(0x1F000000)
+                )
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "NEEDS",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(bottom = 8.dp, top = 4.dp, start = 16.dp, end = 16.dp)
+                    )
+                }
+                requiredItems?.forEach { taskItem ->
+                    BarterCraftCostItem(taskItem)
+                }
+                Divider(
+                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+                    color = Color(0x1F000000)
+                )
+                AvgPriceRow(title = "COST", price = craft.totalCost())
+                SavingsRow(title = "ESTIMATED PROFIT", price = craft.estimatedProfit())
+                SavingsRow(title = "ESTIMATED PROFIT PER HOUR", price = craft.estimatedProfitPerHour())
+                Spacer(modifier = Modifier.padding(bottom = 8.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
+    val item = taskItem?.item
+    val context = LocalContext.current
+    Row(
+        modifier = Modifier
+            .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
+            .fillMaxWidth()
+            .clickable {
+                context.openActivity(FleaItemDetail::class.java) {
+                    putString("id", item?.id)
+                }
+            },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Image(
+            rememberGlidePainter(
+                request = item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+            ),
+            contentDescription = null,
+            modifier = Modifier
+                .width(38.dp)
+                .height(38.dp)
+                .border((0.25).dp, color = BorderColor)
+        )
+        Column(
+            modifier = Modifier.padding(start = 16.dp)
+        ) {
+            Text(
+                text = "${item?.shortName}",
+                style = MaterialTheme.typography.body1
+            )
+            CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                Text(
+                    text = "${taskItem?.count} x ${item?.avg24hPrice?.asCurrency()} = ${
+                        (taskItem?.count?.times(item?.avg24hPrice!!))?.asCurrency()
+                    }",
+                    style = MaterialTheme.typography.caption,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Light,
+                )
+            }
         }
     }
 }

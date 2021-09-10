@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
 import org.json.JSONObject
+import java.io.Serializable
 
 @Entity(tableName = "weapons")
 data class Weapon (
@@ -82,15 +83,64 @@ data class Weapon (
         val _props: Props? = null,
         val _proto: String? = null,
         val _required: Boolean? = null
-    ) {
+    ) : Serializable {
         data class Props(
             val filters: List<Filter?>? = null
-        ) {
+        ) : Serializable {
             data class Filter(
                 val AnimationIndex: Double? = null,
                 val Filter: List<String?>? = null,
                 val Shift: Double? = null
-            )
+            ) : Serializable
+        }
+
+        fun getName(): String {
+            return when (_name?.removePrefix("mod_")) {
+                "magazine" -> "Magazine"
+                "stock" -> "Stock"
+                "foregrip" -> "Foregrip"
+                "charge" -> "Charging Handle"
+                "dust_cover" -> "Dust Cover"
+                "optic" -> "Optic"
+                "sight" -> "Sight"
+                "tactical" -> "Tactical"
+                "scope" -> "Scope"
+                "mount_000",
+                "mount_001",
+                "mount_002",
+                "mount_003",
+                "mount_004",
+                "mount_005",
+                "mount_006",
+                "mount" -> "Mount"
+                "handguard" -> "Handguard"
+                "barrel" -> "Barrel"
+                "bipod" -> "Bipod"
+                "other" -> "Other"
+                "auxiliary" -> "Auxiliary"
+                "gas_block" -> "Gas Block"
+                "launcher" -> "Launcher"
+                "muzzle" -> "Muzzle"
+                "pistol_grip" -> "Pistol Grip"
+                "reciever" -> "Receiver"
+                "sight_rear" -> "Rear Sight"
+                else -> _name ?: "Mod"
+            }.toUpperCase().let {
+                it
+                //if (_required == true) it.plus(" • REQUIRED") else it
+            }
+        }
+
+        fun getSubIds(): List<String>? {
+            if (_props?.filters?.isNullOrEmpty() == true) return null
+            return _props?.filters?.first()?.Filter?.filterNotNull()
+        }
+    }
+
+    fun getAllMods(): List<String>? {
+        if (Slots.isNullOrEmpty()) return null
+        return Slots.flatMap {
+            it._props?.filters?.first()?.Filter?.filterNotNull()!!
         }
     }
 }

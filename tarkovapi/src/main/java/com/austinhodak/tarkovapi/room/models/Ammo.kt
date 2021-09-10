@@ -1,15 +1,15 @@
 package com.austinhodak.tarkovapi.room.models
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
-import com.austinhodak.tarkovapi.utils.asCurrency
-import com.austinhodak.tarkovapi.utils.getItemType
+import com.austinhodak.tarkovapi.utils.*
 import org.json.JSONObject
 
 @Entity(tableName = "ammo")
-data class Ammo (
+data class Ammo(
     @PrimaryKey val id: String,
     val itemType: ItemTypes? = ItemTypes.NONE,
     val parent: String?,
@@ -21,11 +21,28 @@ data class Ammo (
     val pricing: Pricing? = null,
     @Embedded val ballistics: Ballistics? = null
 ) {
+    fun getColor(armorClass: Int): Color {
+        val armorValues = ammoArmorPenValues[id] ?: "------"
+        if (armorValues == "------") { return Color.Transparent }
+        return when (armorValues[armorClass - 1].toString()) {
+            "0" -> Armor0 //CE0B04
+            "1" -> Armor1
+            "2" -> Armor2
+            "3" -> Armor3
+            "4" -> Armor4
+            "5" -> Armor5
+            "6" -> Armor6
+            else -> Armor0
+        }
+    }
+
+    fun getArmorValues(): String = ammoArmorPenValues[id] ?: "------"
+
     fun getPrice(): String {
         return (pricing?.lastLowPrice ?: pricing?.basePrice ?: 0).asCurrency()
     }
 
-    data class Ballistics (
+    data class Ballistics(
         val damage: Int,
         val armorDamage: Int,
         val fragmentationChance: Double,
@@ -47,7 +64,7 @@ fun JSONObject.toAmmoItem(): Ammo {
 
     val itemType = getItemType()
 
-    return Ammo (
+    return Ammo(
         id = getString("_id"),
         parent = optString("_parent"),
         name = props.optString("Name"),

@@ -8,6 +8,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -23,8 +24,8 @@ import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.gear.GearListScreen
 import com.austinhodak.thehideout.hideout.HideoutMainScreen
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
-import com.austinhodak.thehideout.hideout.viewmodels.HideoutViewModel
 import com.austinhodak.thehideout.keys.KeyListScreen
+import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen
@@ -55,8 +56,10 @@ class NavActivity : AppCompatActivity() {
     private val fleaViewModel: FleaVM by viewModels()
     private val questViewModel: QuestMainViewModel by viewModels()
     private val hideoutViewModel: HideoutMainViewModel by viewModels()
+    private val keysViewModel: KeysViewModel by viewModels()
     @Inject lateinit var tarkovRepo: TarkovRepo
 
+    @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -115,7 +118,8 @@ class NavActivity : AppCompatActivity() {
                         composable("keys") {
                             KeyListScreen(
                                 navViewModel = navViewModel,
-                                tarkovRepo
+                                tarkovRepo,
+                                keysViewModel
                             )
                         }
                         composable("medical") {

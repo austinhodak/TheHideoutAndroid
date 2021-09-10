@@ -29,6 +29,7 @@ import com.austinhodak.tarkovapi.utils.plusMinus
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.theme.Bender
+import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.databinding.ActivityAmmoDetailBinding
 import com.austinhodak.thehideout.utils.getCaliberName
@@ -205,7 +206,7 @@ class AmmoDetailActivity : ComponentActivity() {
                         style = MaterialTheme.typography.subtitle1
                     )
                 }
-                Divider()
+                Divider(color = DividerDark)
                 Column(
                     Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
                 ) {
@@ -363,7 +364,7 @@ class AmmoDetailActivity : ComponentActivity() {
                         }
                     }
                 }
-                Divider()
+                Divider(color = DividerDark)
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
                         text = "DURABILITY",
@@ -393,7 +394,7 @@ class AmmoDetailActivity : ComponentActivity() {
                     )
                     Text(modifier = Modifier.width(40.dp), text = sliderPosition.roundToInt().toString(), style = MaterialTheme.typography.h5, textAlign = TextAlign.End)
                 }
-                Divider()
+                Divider(color = DividerDark)
                 Row(
                     Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
                     verticalAlignment = Alignment.CenterVertically

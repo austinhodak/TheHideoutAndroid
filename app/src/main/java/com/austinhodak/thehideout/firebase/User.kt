@@ -1,7 +1,9 @@
 package com.austinhodak.thehideout.firebase
 
 import com.austinhodak.tarkovapi.models.Hideout
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
@@ -10,6 +12,7 @@ data class User(
     var quests: Map<String, UQuest?>? = null,
     var hideoutModules: Map<String, UHideout?>? = null,
     var hideoutObjectives: Map<String, UHideoutObjective?>? = null,
+    var keysHave: Map<String, Boolean>? = null
 ) {
     data class UQuestObjective(
         var progress: Int? = null,
@@ -49,5 +52,21 @@ data class User(
     fun isObjectiveCompleted(objective: Quest.QuestObjective): Boolean {
         val o = questObjectives?.values?.find { it?.id == objective.id?.toInt() }
         return objective.number == o?.progress
+    }
+
+    fun hasKey(id: String): Boolean {
+        return keysHave?.containsKey(id) == true
+    }
+
+    fun hasKey(item: Item): Boolean {
+        return keysHave?.containsKey(item.id) == true
+    }
+
+    fun toggleKey(item: Item) {
+        if (hasKey(item)) {
+            userRefTracker("keysHave/${item.id}").removeValue()
+        } else {
+            userRefTracker("keysHave/${item.id}").setValue(true)
+        }
     }
 }

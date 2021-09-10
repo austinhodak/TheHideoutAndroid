@@ -16,6 +16,8 @@ val DarkPrimary = Color(0xFF1F1F1F)
 val DarkGrey = Color(0xFF1F1F1F)
 val DarkerGrey = Color(0xFF101010)
 
+val DividerDark = Color(0x1F000000)
+
 val Armor0 = Color(0xffce0b04)
 val Armor1 = Color(0xffdc3b07)
 val Armor2 = Color(0xffea6c0a)

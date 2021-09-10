@@ -22,6 +22,7 @@ import kotlin.math.roundToInt
 @ExperimentalMaterialApi
 @Composable
 fun AmmoDetailCard(item: Ammo?) {
+    if (item == null) return
     val context = LocalContext.current
     Card(
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).height(72.dp),
@@ -42,12 +43,12 @@ fun AmmoDetailCard(item: Ammo?) {
                         .width(3.dp)
                         .fillMaxHeight()
                 ) {
-                    /*ArmorBox(Armor6, Modifier.weight(1f))
-                    ArmorBox(Armor6, Modifier.weight(1f))
-                    ArmorBox(Armor5, Modifier.weight(1f))
-                    ArmorBox(Armor3, Modifier.weight(1f))
-                    ArmorBox(Armor2, Modifier.weight(1f))
-                    ArmorBox(Armor0, Modifier.weight(1f))*/
+                    ArmorBox(item.getColor(1), Modifier.weight(1f))
+                    ArmorBox(item.getColor(2), Modifier.weight(1f))
+                    ArmorBox(item.getColor(3), Modifier.weight(1f))
+                    ArmorBox(item.getColor(4), Modifier.weight(1f))
+                    ArmorBox(item.getColor(5), Modifier.weight(1f))
+                    ArmorBox(item.getColor(6), Modifier.weight(1f))
                 }
                 Image(
                     rememberGlidePainter(request = item?.pricing?.gridImageLink),

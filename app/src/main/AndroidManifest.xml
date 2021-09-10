@@ -28,9 +28,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".clothing.ClothingDetailActivityC"
-            android:theme="@style/Theme.TheHideoutCompose" />
-        <activity
             android:name=".settings.SettingsActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
@@ -51,12 +48,10 @@
             android:name=".quests.inraid.QuestInRaidActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
-            android:name=".flea_market.detail.FleaItemDetailActivity"
-            android:theme="@style/Theme.TheHideout.NoActionBar" />
-        <activity
             android:name=".calculator.CalculatorMainActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
+            android:exported="true"
             android:name=".weapons.detail.WeaponDetailActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
@@ -67,6 +62,8 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
+
+        <activity android:name=".weapons.mods.ModPickerActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -7,6 +7,7 @@ import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.getItemType
 import com.google.gson.Gson
 import org.json.JSONObject
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,7 +72,8 @@ data class Item(
     val MaxHpResource: Double? = null,
     val hpResourceRate: Double? = null,
     val StimulatorBuffs: String? = null,
-) {
+) : Serializable {
+
     fun cArmorClass(): Int {
         return armorClass?.toIntOrNull() ?: 0
     }
@@ -107,20 +109,12 @@ data class Item(
         }"
     }
 
-    /*fun getColor(): Int {
-        return when (BackgroundColor) {
-            "blue" -> itemBlue
-            "grey" -> itemGrey
-            "red" -> itemRed
-            "orange" -> itemOrange
-            "default" -> itemDefault
-            "violet" -> itemViolet
-            "yellow" -> itemYellow
-            "green" -> itemGreen
-            "black" -> itemBlack
-            else -> itemDefault
+    fun getAllMods(): List<String>? {
+        if (Slots.isNullOrEmpty()) return null
+        return Slots.flatMap {
+            it._props?.filters?.first()?.Filter?.filterNotNull()!!
         }
-    }*/
+    }
 }
 
 fun JSONObject.toItem(): Item {

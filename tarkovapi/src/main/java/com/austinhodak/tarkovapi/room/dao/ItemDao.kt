@@ -13,6 +13,9 @@ interface ItemDao {
     @Query("SELECT * FROM items WHERE id = :id")
     fun getByID(id: String): Flow<Item>
 
+    @Query("SELECT * FROM items WHERE id IN (:ids)")
+    suspend fun getByID(ids: List<String>): List<Item>
+
     @Query("SELECT * FROM items WHERE itemType = :type")
     fun getByType(type: ItemTypes): Flow<List<Item>>
 
