@@ -154,6 +154,4 @@ data class FleaItem(
         val tax = (mVO * mTi * mPO4 * mQ + mVR * mTr * mPR4 * mQ).roundToInt()
         callback.invoke(tax)
     }
-
-
 }

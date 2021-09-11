@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.flea_market.detail
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
@@ -12,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -23,9 +25,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,9 +47,13 @@ import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
+import com.bumptech.glide.Glide
 import com.google.accompanist.glide.rememberGlidePainter
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.database.ServerValue
+import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 @ExperimentalFoundationApi
@@ -62,118 +70,188 @@ class FleaItemDetail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        //WindowCompat.setDecorFitsSystemWindows(window, false)
+
         itemID = intent.getStringExtra("id") ?: "59e35abd86f7741778269d82"
         viewModel.getItemByID(itemID)
 
         setContent {
-            HideoutTheme {
-                val scaffoldState = rememberScaffoldState()
-                var selectedNavItem by remember { mutableStateOf(0) }
+            ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
 
-                val scope = rememberCoroutineScope()
+                HideoutTheme {
+                    val scaffoldState = rememberScaffoldState()
+                    var selectedNavItem by remember { mutableStateOf(0) }
 
-                val item = viewModel.item.observeAsState()
+                    val scope = rememberCoroutineScope()
 
-                val quests = tarkovRepo.getQuestsWithItemID("%${item.value?.id}%").collectAsState(emptyList()).value
-                val barters = tarkovRepo.getBartersWithItemID("%${item.value?.id}%").collectAsState(emptyList()).value
-                val crafts = tarkovRepo.getCraftsWithItemID("%${item.value?.id}%").collectAsState(emptyList()).value
+                    val item = viewModel.item.observeAsState()
 
-                val userData by viewModel.userData.observeAsState()
+                    val quests by tarkovRepo.getQuestsWithItemID("%${item.value?.id}%").collectAsState(emptyList())
+                    val barters by tarkovRepo.getBartersWithItemID("%${item.value?.id}%").collectAsState(emptyList())
+                    val crafts by tarkovRepo.getCraftsWithItemID("%${item.value?.id}%").collectAsState(emptyList())
 
-                val items = listOf(
-                    NavItem("Item", R.drawable.ic_baseline_shopping_cart_24),
-                    NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, barters.isNotEmpty()),
-                    NavItem("Crafts", R.drawable.ic_baseline_handyman_24, crafts.isNotEmpty()),
-                    NavItem("Quests", R.drawable.ic_baseline_assignment_24, quests.isNotEmpty())
-                )
+                    val userData by viewModel.userData.observeAsState()
 
-                var isFavorited by remember {
-                    mutableStateOf(questPrefs.favoriteItems?.contains(itemID))
-                }
+                    val items = listOf(
+                        NavItem("Item", R.drawable.ic_baseline_storefront_24),
+                        NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, barters.isNotEmpty()),
+                        NavItem("Crafts", R.drawable.ic_baseline_handyman_24, crafts.isNotEmpty()),
+                        NavItem("Quests", R.drawable.ic_baseline_assignment_24, quests.isNotEmpty())
+                    )
 
-                questPrefs.preference.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->
-                    if (s == "FAVORITE_ITEMS") {
-                        isFavorited = questPrefs.favoriteItems?.contains(itemID)
+                    var isFavorited by remember {
+                        mutableStateOf(questPrefs.favoriteItems?.contains(itemID))
                     }
-                }
 
-                Scaffold(
-                    scaffoldState = scaffoldState,
-                    topBar = {
-                        FleaDetailToolbar(
-                            item = item.value,
-                            actions = {
-                                IconButton(onClick = {
-                                    isFavorited = if (isFavorited == true) {
-                                        questPrefs.removeFavorite(itemID)
-                                        false
-                                    } else {
-                                        questPrefs.addFavorite(itemID)
-                                        true
-                                    }
-                                }) {
-                                    if (isFavorited == true) {
-                                        Icon(Icons.Filled.Favorite, contentDescription = null, tint = Pink500)
-                                    } else {
-                                        Icon(Icons.Filled.FavoriteBorder, contentDescription = null, tint = Color.White)
-                                    }
-                                }
-                            }
-                        ) { finish() }
-                    },
-                    bottomBar = { FleaBottomNav(selected = selectedNavItem, items) { selectedNavItem = it } },
-                ) { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding)) {
-                        Crossfade(targetState = selectedNavItem) {
-                            when (it) {
-                                0 -> {
-                                    LazyColumn(
-                                        contentPadding = PaddingValues(vertical = 4.dp),
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-                                        item {
-                                            Card1(item = item.value)
-                                            if (!item.value?.pricing?.sellFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersSellCard(
-                                                title = "SELL PRICES",
-                                                item = item.value,
-                                                item.value?.pricing?.sellFor
-                                            )
-                                            if (!item.value?.pricing?.buyFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersBuyCard(
-                                                title = "BUY PRICES",
-                                                item = item.value,
-                                                item.value?.pricing?.buyFor
-                                            )
-                                            if (userData?.items?.containsKey(itemID) == true) {
-                                                val needed = userData?.items?.get(itemID)
-                                                NeededCard(title = "NEEDED", item = item.value, needed, tarkovRepo)
-                                            }
-                                        }
-                                        /*item {
-                                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                                                Text(
-                                                    modifier = Modifier.padding(top = 4.dp),
-                                                    text = item.value?.getUpdatedTime() ?: "",
-                                                    style = MaterialTheme.typography.caption,
-                                                    fontSize = 10.sp
-                                                )
-                                            }
-                                        }*/
-                                    }
-                                }
-                                1 -> {
-                                    BartersPage(item = item.value, barters, userData)
-                                }
-                                2 -> {
-                                    CraftsPage(item = item.value, crafts, userData)
-                                }
-                                3 -> QuestsPage(item = item.value, quests, tarkovRepo, userData)
-                            }
+                    questPrefs.preference.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->
+                        if (s == "FAVORITE_ITEMS") {
+                            isFavorited = questPrefs.favoriteItems?.contains(itemID)
                         }
                     }
 
+                    Scaffold(
+                        scaffoldState = scaffoldState,
+                        topBar = {
+                            FleaDetailToolbar(
+                                item = item.value,
+                                actions = {
+                                    IconButton(onClick = {
+                                        isFavorited = if (isFavorited == true) {
+                                            questPrefs.removeFavorite(itemID)
+                                            false
+                                        } else {
+                                            questPrefs.addFavorite(itemID)
+                                            true
+                                        }
+                                    }) {
+                                        if (isFavorited == true) {
+                                            Icon(Icons.Filled.Favorite, contentDescription = null, tint = Pink500)
+                                        } else {
+                                            Icon(Icons.Filled.FavoriteBorder, contentDescription = null, tint = Color.White)
+                                        }
+                                    }
+                                }
+                            ) { finish() }
+                        },
+                        bottomBar = { FleaBottomNav(selected = selectedNavItem, items) { selectedNavItem = it } },
+                        floatingActionButton = {
+                            FloatingActionButton(onClick = { }) {
+                                Icon(
+                                    painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                                    contentDescription = "Add to Shopping Cart",
+                                    tint = MaterialTheme.colors.onSecondary
+                                )
+                            }
+                        }
+                    ) { innerPadding ->
+                        Box(modifier = Modifier.padding(innerPadding)) {
+                            Crossfade(targetState = selectedNavItem) {
+                                when (it) {
+                                    0 -> {
+                                        LazyColumn(
+                                            contentPadding = PaddingValues(vertical = 4.dp),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            item {
+                                                Card1(item = item.value)
+                                                if (!item.value?.pricing?.sellFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersSellCard(
+                                                    title = "SELL PRICES",
+                                                    item = item.value,
+                                                    item.value?.pricing?.sellFor
+                                                )
+                                                if (!item.value?.pricing?.buyFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersBuyCard(
+                                                    title = "BUY PRICES",
+                                                    item = item.value,
+                                                    item.value?.pricing?.buyFor
+                                                )
+                                                if (userData?.items?.containsKey(itemID) == true) {
+                                                    val needed = userData?.items?.get(itemID)
+                                                    NeededCard(title = "NEEDED", item = item.value, needed, tarkovRepo)
+                                                }
+                                                //FleaFeeCalc(item.value)
+                                            }
+                                            item {
+                                                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                                                    Text(
+                                                        modifier = Modifier.padding(top = 8.dp),
+                                                        text = item.value?.getUpdatedTime() ?: "",
+                                                        style = MaterialTheme.typography.caption,
+                                                        fontSize = 10.sp
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                    1 -> {
+                                        BartersPage(item = item.value, barters, userData)
+                                    }
+                                    2 -> {
+                                        CraftsPage(item = item.value, crafts, userData)
+                                    }
+                                    3 -> QuestsPage(item = item.value, quests, tarkovRepo, userData)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+
+    @Composable
+    private fun FleaFeeCalc(
+        item: Item?
+    ) {
+        var fee by remember { mutableStateOf(getTax(item?.pricing?.avg24hPrice?.toString(), item)) }
+        var text by remember { mutableStateOf(item?.pricing?.avg24hPrice?.toString()) }
+
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .fillMaxWidth(),
+            backgroundColor = Color(0xFE1F1F1F)
+        ) {
+            Column() {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "FLEA MARKET FEE CALCULATOR",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
+                    )
+                }
+                OutlinedTextField(
+                    value = text ?: "",
+                    onValueChange = {
+                        fee = getTax(it, item)
+                        text = it
+                    },
+                    label = {
+                        Text("Sale Price")
+                    },
+                    leadingIcon = {
+                        Icon(painter = painterResource(id = R.drawable.ic_ruble_currency_sign), contentDescription = "Ruble")
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+            }
+
+        }
+    }
+
+    private fun getTax(value: String?, item: Item?): Int? {
+        if (value.isNullOrBlank()) return 0
+        val price = value.replace("[^0-9]".toRegex(), "").toLong()
+        return item?.pricing?.calculateTax(price)
+    }
+
+    private fun formatPriceString(value: Int?): String {
+        val formatter = DecimalFormat("#,###,###")
+        return formatter.format(value)
     }
 
     @Composable
@@ -696,11 +774,19 @@ class FleaItemDetail : AppCompatActivity() {
         TopAppBar(
             modifier = modifier,
             title = {
-                Row {
+                Column {
                     Text(
                         text = item?.Name ?: "The Hideout",
                         color = MaterialTheme.colors.onPrimary,
                         style = MaterialTheme.typography.h6,
+                        maxLines = 1,
+                        fontSize = 18.sp,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = "(${item?.ShortName})",
+                        color = MaterialTheme.colors.onPrimary,
+                        style = MaterialTheme.typography.caption,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -721,6 +807,7 @@ class FleaItemDetail : AppCompatActivity() {
     private fun Card1(
         item: Item?
     ) {
+        val context = LocalContext.current
         val color = when (item?.BackgroundColor) {
             "blue" -> itemBlue
             "grey" -> itemGrey
@@ -757,6 +844,18 @@ class FleaItemDetail : AppCompatActivity() {
                                 .width(52.dp)
                                 .height(52.dp)
                                 .border((0.25).dp, color = BorderColor)
+                                .clickable {
+                                    StfalconImageViewer
+                                        .Builder(context, listOf(item?.pricing?.imageLink)) { view, image ->
+                                            Glide
+                                                .with(view)
+                                                .load(image)
+                                                .into(view)
+                                        }
+                                        .withHiddenStatusBar(false)
+                                        .withBackgroundColor(color.toArgb())
+                                        .show()
+                                }
                         )
                         Column(
                             Modifier
@@ -776,11 +875,30 @@ class FleaItemDetail : AppCompatActivity() {
                             )
                             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                                 Text(
-                                    text = "${item?.getPricePerSlot()?.asCurrency()}/slot • ${item?.getTotalSlots()} Slots",
+                                    text = "${
+                                        item?.getPricePerSlot()?.asCurrency()
+                                    }/slot • ${item?.getTotalSlots()} Slots (${item?.Width}x${item?.Height})",
                                     style = MaterialTheme.typography.caption,
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Light,
                                 )
+                            }
+                            Row {
+                                CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                                    Text(
+                                        text = "Last 48h: ",
+                                        style = MaterialTheme.typography.caption,
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Light
+                                    )
+                                    Text(
+                                        text = "${item?.pricing?.changeLast48h}%",
+                                        style = MaterialTheme.typography.caption,
+                                        color = if (item?.pricing?.changeLast48h ?: 0.0 > 0.0) Green500 else if (item?.pricing?.changeLast48h ?: 0.0 < 0.0) Red500 else Color.Unspecified,
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Light
+                                    )
+                                }
                             }
                         }
                     }
@@ -993,7 +1111,7 @@ fun AvgPriceRow(
         }
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = price?.asCurrency() ?: "",
+            text = price?.asCurrency() ?: "-",
             style = MaterialTheme.typography.body1,
             fontSize = 14.sp
         )

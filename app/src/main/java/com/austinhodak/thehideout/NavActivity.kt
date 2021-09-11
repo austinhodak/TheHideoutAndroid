@@ -9,10 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -78,6 +75,10 @@ class NavActivity : AppCompatActivity() {
             val navController = rememberAnimatedNavController()
             val systemUiController = rememberSystemUiController()
 
+            //val selectedItem by navViewModel.selectedDrawerItem.observeAsState(null)
+
+            val tag: String = navViewModel.selectedDrawerItem.value?.tag?.toString() ?: questPrefs.openingPageTag
+
             navViewModel.isDrawerOpen.observe(lifeCycleOwner) { isOpen ->
                 coroutineScope.launch {
                     if (isOpen) {
@@ -102,7 +103,7 @@ class NavActivity : AppCompatActivity() {
                 ) {
                     AnimatedNavHost(
                         navController = navController,
-                        startDestination = "quests",
+                        startDestination = tag,
                         enterTransition = { _, _ ->
                             fadeIn(animationSpec = tween(0))
                         },
@@ -171,10 +172,10 @@ class NavActivity : AppCompatActivity() {
                         }
                     }
 
-                    navViewModel.selectedDrawerItem.observe(lifeCycleOwner) { selectedTag ->
-                        if (selectedTag == null) return@observe
-                        val route = selectedTag.first
-                        val identifier = selectedTag.second
+                    navViewModel.selectedDrawerItem.observe(lifeCycleOwner) { selectedItem ->
+                        if (selectedItem == null) return@observe
+                        val route = selectedItem.tag.toString()
+                        val identifier = selectedItem.identifier.toInt()
                         when {
                             route == "activity:sim" -> openActivity(CalculatorMainActivity::class.java)
                             route.contains("url:") -> {
@@ -185,7 +186,7 @@ class NavActivity : AppCompatActivity() {
                                     AuthUI.IdpConfig.EmailBuilder().build(),
                                     AuthUI.IdpConfig.PhoneBuilder().build(),
                                     AuthUI.IdpConfig.GoogleBuilder().build(),
-//                                    AuthUI.IdpConfig.FacebookBuilder().build(),
+                                    //AuthUI.IdpConfig.FacebookBuilder().build(),
                                     AuthUI.IdpConfig.TwitterBuilder().build(),
                                     AuthUI.IdpConfig.MicrosoftBuilder().build(),
                                     AuthUI.IdpConfig.GitHubBuilder().build(),
@@ -197,7 +198,7 @@ class NavActivity : AppCompatActivity() {
                                     .build()
                                 signInLauncher.launch(signInIntent)
                             }
-                            else -> navController.navigate(selectedTag.first) {
+                            else -> navController.navigate(route) {
 
                             }
                         }

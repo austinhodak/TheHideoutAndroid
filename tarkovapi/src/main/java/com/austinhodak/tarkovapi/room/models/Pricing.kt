@@ -4,6 +4,9 @@ import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.getTraderLevel
 import com.austinhodak.tarkovapi.utils.sourceTitle
 import java.io.Serializable
+import kotlin.math.log10
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
 data class Pricing(
     val id: String,
@@ -71,5 +74,30 @@ data class Pricing(
 
     fun getInstaProfit(): Int? {
         return getHighestTraderSell()?.price?.minus(getFleaMarketBuy()?.price ?: lastLowPrice ?: 0)
+    }
+
+    fun calculateTax(salePrice: Long = avg24hPrice?.toLong() ?: (0).toLong()): Int {
+        val mVO = basePrice.toDouble()
+        val mVR = salePrice.toDouble()
+        val mTi = 0.05
+        val mTr = 0.05
+        val mQ = 1
+        val mPO = log10((mVO / mVR))
+        val mPR = log10((mVR / mVO))
+
+        val mPO4 = if (mVO > mVR) {
+            Math.pow(4.0, mPO.pow(1.08))
+        } else {
+            Math.pow(4.0, mPO)
+        }
+
+        val mPR4 = if (mVR > mVO) {
+            Math.pow(4.0, mPR.pow(1.08))
+        } else {
+            Math.pow(4.0, mPR)
+        }
+
+        val tax = (mVO * mTi * mPO4 * mQ + mVR * mTr * mPR4 * mQ).roundToInt()
+        return tax
     }
 }

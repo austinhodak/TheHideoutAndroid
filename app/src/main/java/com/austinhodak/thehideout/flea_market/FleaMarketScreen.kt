@@ -374,6 +374,7 @@ private fun FleaBottomNav(
         FleaMarketScreens.Items,
         FleaMarketScreens.Needed,
         FleaMarketScreens.Favorites,
+        FleaMarketScreens.ShoppingCart
     )
 
     BottomNavigation(
@@ -418,8 +419,9 @@ sealed class FleaMarketScreens(
     val icon: ImageVector? = null,
     @DrawableRes val iconDrawable: Int? = null
 ) {
-    object Items : FleaMarketScreens("Items", "Items", null, R.drawable.ic_baseline_shopping_cart_24)
+    object Items : FleaMarketScreens("Items", "Items", null, R.drawable.ic_baseline_storefront_24)
     object Needed : FleaMarketScreens("Needed", "Needed", null, R.drawable.icons8_wish_list_96)
     object Favorites : FleaMarketScreens("Favorites", "Favorites", null, R.drawable.ic_baseline_favorite_24)
+    object ShoppingCart : FleaMarketScreens("Cart", "Cart", null, R.drawable.ic_baseline_shopping_cart_24)
     //object Alerts : FleaMarketScreens("Alerts", "Price Alerts", null, R.drawable.ic_baseline_notifications_active_24)
 }

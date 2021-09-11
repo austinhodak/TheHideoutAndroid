@@ -1,9 +1,16 @@
 package com.austinhodak.thehideout
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.austinhodak.thehideout.utils.Time
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,22 +23,33 @@ class NavViewModel @Inject constructor() : ViewModel() {
         isDrawerOpen.value = isOpen
     }
 
-    private val _selectedDrawerItem = MutableLiveData(Pair("hideout", 101))
+    private val _selectedDrawerItem = MutableLiveData<IDrawerItem<*>>(null)
     val selectedDrawerItem = _selectedDrawerItem
 
-    fun drawerItemSelected(route: Pair<String, Int>) {
-        _selectedDrawerItem.value = route
+    fun drawerItemSelected(item: IDrawerItem<*>) {
+        _selectedDrawerItem.value = item
     }
 
-    private val _isSearchOpen = MutableLiveData(false)
-    val isSearchOpen = _isSearchOpen
+    private val _timeLeft = MutableLiveData("00:00:00")
+    val timeLeft: LiveData<String> = _timeLeft
 
-    fun setSearchOpen(isOpen: Boolean) {
-        isSearchOpen.value = isOpen
+    private val _timeRight = MutableLiveData("00:00:00")
+    val timeRight: LiveData<String> = _timeRight
+
+    private suspend fun startGameTimers() {
+        withContext(Dispatchers.Main) {
+            while (true) {
+                _timeLeft.value = Time.realTimeToTarkovTime(true)
+                _timeRight.value = Time.realTimeToTarkovTime(false)
+                delay(1000/7)
+            }
+        }
     }
 
     init {
-        Timber.d("Init")
+        viewModelScope.launch {
+            startGameTimers()
+        }
     }
 
 }

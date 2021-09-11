@@ -2,22 +2,33 @@ package com.austinhodak.thehideout.views
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.theme.DividerDark
+import com.austinhodak.thehideout.compose.theme.Green500
+import com.austinhodak.thehideout.questPrefs
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
+import com.mikepenz.materialdrawer.util.getDrawerItem
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
-import timber.log.Timber
+import kotlinx.coroutines.launch
 
 val weaponCategories = mutableListOf(
     Triple("Assault Rifles", 301, "assaultRifle"),
@@ -35,7 +46,6 @@ val weaponCategories = mutableListOf(
 
 class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSliderView(context, attrs) {
 
-
     private val benderFont = ResourcesCompat.getFont(context, R.font.bender)
 
     private val drawerAmmo = PrimaryDrawerItem().apply {
@@ -49,7 +59,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
         tag = "medical"; identifier = 105; nameText = "Medical"; iconRes = R.drawable.icons8_syringe_100; isIconTinted = true; typeface = benderFont
     }
     private val drawerFleaMarket = PrimaryDrawerItem().apply {
-        tag = "flea"; identifier = 107; nameText = "Flea Market"; iconRes = R.drawable.ic_baseline_shopping_cart_24; isIconTinted = true; typeface =
+        tag = "flea"; identifier = 107; nameText = "Flea Market"; iconRes = R.drawable.ic_baseline_storefront_24; isIconTinted = true; typeface =
         benderFont
     }
     private val drawerHideout = PrimaryDrawerItem().apply {
@@ -187,6 +197,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
         recyclerView.isVerticalScrollBarEnabled = false
         expandableExtension.isOnlyOneExpandedItem = true
     }
+
 }
 
 @Composable
@@ -194,35 +205,85 @@ fun MainDrawer(
     navViewModel: NavViewModel
 ) {
 
-    val selectedDrawerItem: Pair<String, Int> by navViewModel.selectedDrawerItem.observeAsState(Pair("ammunition/Caliber762x35", 101))
+    val selectedDrawerItem by navViewModel.selectedDrawerItem.observeAsState()
+    val scope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
 
-    Timber.d(selectedDrawerItem.toString())
-
-    Column(
-        Modifier.fillMaxSize()
-    ) {
-        /*Row(Modifier.background(MaterialTheme.colors.surface).padding(16.dp)) {
-            GameClockText(Modifier.weight(1f), timeLeft)
-            GameClockText(Modifier.weight(1f), timeRight)
-        }*/
-        AndroidView(
-            modifier = Modifier.fillMaxSize(),
-            factory = { context ->
-                val drawer = Drawer(context)
-                drawer.onDrawerItemClickListener = { _, item, _ ->
-                    if (item.isSelectable || item.identifier.toInt() == 999) {
-                        navViewModel.drawerItemSelected(Pair(item.tag.toString(), item.identifier.toInt()))
-                        navViewModel.setDrawerOpen(false)
-                    }
-                    true
-                }
-
-                //drawer.setSelection(selectedDrawerItem.second.toLong(), false)
-
-                drawer
-            }, update = { drawer ->
-                drawer.setSelection(selectedDrawerItem.second.toLong(), false)
+    Scaffold(
+        scaffoldState = scaffoldState,
+        snackbarHost = {
+            SnackbarHost(it) { data ->
+                Snackbar(
+                    backgroundColor = Green500,
+                    snackbarData = data
+                )
             }
-        )
+        }
+    ) {
+        Column(
+            Modifier.fillMaxSize()
+        ) {
+            Row(
+                Modifier
+                    .background(MaterialTheme.colors.surface)
+                    .padding(16.dp)) {
+                GameClockText(Modifier.weight(1f), true, navViewModel)
+                GameClockText(Modifier.weight(1f), false, navViewModel)
+            }
+            Divider(color = DividerDark)
+            AndroidView(
+                modifier = Modifier.fillMaxSize(),
+                factory = { context ->
+                    val drawer = Drawer(context)
+                    drawer.onDrawerItemClickListener = { _, item, _ ->
+                        if (item.isSelectable || item.identifier.toInt() == 999) {
+                            navViewModel.drawerItemSelected(item)
+                            navViewModel.setDrawerOpen(false)
+                        }
+                        true
+                    }
+
+                    drawer.onDrawerItemLongClickListener = { _, item, _ ->
+                        if (item.isSelectable) {
+                            questPrefs.setOpeningItem(item)
+                            scope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("Opening screen set!")
+                            }
+                        }
+                        true
+                    }
+
+                    //drawer.setSelection(selectedDrawerItem.second.toLong(), false)
+
+                    drawer
+                }, update = { drawer ->
+                    if (selectedDrawerItem != null) {
+                        drawer.setSelection(selectedDrawerItem!!.identifier, false)
+                    } else {
+                        drawer.getDrawerItem(questPrefs.openingPage)?.let {
+                            navViewModel.drawerItemSelected(it)
+                            drawer.setSelection(it.identifier, false)
+                        }
+                    }
+                }
+            )
+        }
     }
+}
+
+@Composable
+fun GameClockText(
+    modifier: Modifier = Modifier,
+    left: Boolean,
+    navViewModel: NavViewModel
+) {
+
+    val text by if (left) navViewModel.timeLeft.observeAsState("00:00:00") else navViewModel.timeRight.observeAsState("00:00:00")
+
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.h5,
+        textAlign = TextAlign.Center
+    )
 }
