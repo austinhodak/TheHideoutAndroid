@@ -3,10 +3,10 @@ package com.austinhodak.thehideout.flea_market.viewmodels
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.thehideout.SearchViewModel
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.utils.questsFirebase
 import com.austinhodak.thehideout.utils.uid
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class FleaVM @Inject constructor(
     @ApplicationContext application: Context,
     private val tarkovRepo: TarkovRepo
-) : ViewModel() {
+) : SearchViewModel() {
 
     private val _item by lazy { MutableLiveData<Item>() }
     val item: LiveData<Item> get() = _item
@@ -41,17 +41,6 @@ class FleaVM @Inject constructor(
 
     fun setSort(int: Int) {
         sortBy.value = int
-    }
-
-    private val _searchKey = MutableLiveData("")
-    val searchKey = _searchKey
-
-    fun setSearchKey(string: String) {
-        _searchKey.value = string
-    }
-
-    fun clearSearch() {
-        _searchKey.value = ""
     }
 
     private val _userData = MutableLiveData<User?>(null)

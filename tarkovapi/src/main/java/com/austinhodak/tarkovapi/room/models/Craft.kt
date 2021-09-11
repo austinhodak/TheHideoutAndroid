@@ -20,6 +20,8 @@ data class Craft(
 
     }
 
+    fun rewardItem(): CraftItem? = rewardItems?.first()
+
     fun getSourceID(hideout: Hideout?): Int? {
         if (hideout == null) return null
         val station = source?.split(" level ")?.get(0)?.lowercase()

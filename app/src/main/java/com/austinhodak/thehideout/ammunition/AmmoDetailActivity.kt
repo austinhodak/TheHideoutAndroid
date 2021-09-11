@@ -31,7 +31,6 @@ import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.databinding.ActivityAmmoDetailBinding
 import com.austinhodak.thehideout.utils.getCaliberName
 import com.austinhodak.thehideout.utils.getColor
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -41,8 +40,6 @@ import kotlin.math.roundToInt
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class AmmoDetailActivity : ComponentActivity() {
-
-    private lateinit var binding: ActivityAmmoDetailBinding
 
     private val ammoViewModel: AmmoViewModel by viewModels()
     private var ammo: Ammo? = null
@@ -167,10 +164,6 @@ class AmmoDetailActivity : ComponentActivity() {
             launchPicker(CalculatorPickerActivity.ItemType.ARMOR)
         }*//*
     }*/
-
-    private fun getCaliberData() {
-        binding.caliber = ammo?.Caliber?.let { AmmoHelper.getCaliberByID(it) }
-    }
 
     /*private fun launchPicker(itemType: CalculatorPickerActivity.ItemType) {
         val intent = Intent(this, CalculatorPickerActivity::class.java)

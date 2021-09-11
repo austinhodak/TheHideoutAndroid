@@ -54,6 +54,10 @@ data class Hideout(
         fun getStation(h: Hideout): Station? {
             return h.hideout?.stations?.find { it?.id == stationId }
         }
+
+        override fun toString(): String {
+            return "$module Level $level"
+        }
     }
 
     data class Station(

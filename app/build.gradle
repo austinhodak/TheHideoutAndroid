@@ -185,6 +185,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
     //implementation 'com.google.android.gms:play-services-ads'
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     //END Firebase
 
     //Drawer
@@ -245,6 +246,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist"
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist"
+    implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
 
     implementation 'com.beust:klaxon:5.5'
 

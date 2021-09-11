@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -34,6 +35,7 @@ import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
@@ -42,11 +44,14 @@ import com.austinhodak.thehideout.flea_market.detail.SavingsRow
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.quests.Chip
+import com.austinhodak.thehideout.utils.addQuotes
 import com.austinhodak.thehideout.utils.asCurrency
 import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.accompanist.glide.rememberGlidePainter
 import timber.log.Timber
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun HideoutMainScreen(
@@ -58,6 +63,7 @@ fun HideoutMainScreen(
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val isSearchOpen by hideoutViewModel.isSearchOpen.observeAsState(false)
 
     HideoutTheme {
         Scaffold(
@@ -66,57 +72,78 @@ fun HideoutMainScreen(
                 HideoutBottomBar(navController = navController)
             },
             topBar = {
-                TopAppBar(
-                    title = {
-                        val selected by hideoutViewModel.view.observeAsState()
-                        val scrollState = rememberScrollState()
-                        Row(
-                            Modifier.horizontalScroll(scrollState),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            when (navBackStackEntry?.destination?.route) {
-                                HideoutNavigationScreens.Crafts.route -> {
-                                    Text(
-                                        "Crafts",
-                                        modifier = Modifier.padding(end = 16.dp)
+                if (isSearchOpen) {
+                    SearchToolbar(
+                        onClosePressed = {
+                            hideoutViewModel.setSearchOpen(false)
+                            hideoutViewModel.clearSearch()
+                        },
+                        onValue = {
+                            hideoutViewModel.setSearchKey(it)
+                        }
+                    )
+                } else {
+                    TopAppBar(
+                        title = {
+                            val selected by hideoutViewModel.view.observeAsState()
+                            val scrollState = rememberScrollState()
+                            Row(
+                                Modifier.horizontalScroll(scrollState),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                when (navBackStackEntry?.destination?.route) {
+                                    HideoutNavigationScreens.Crafts.route -> {
+                                        Text(
+                                            "Crafts",
+                                            modifier = Modifier.padding(end = 16.dp)
+                                        )
+                                    }
+                                    else -> {
+                                        Chip(text = "Current", selected = selected == HideoutFilter.CURRENT) {
+                                            hideoutViewModel.setView(HideoutFilter.CURRENT)
+                                        }
+                                        Chip(text = "Available", selected = selected == HideoutFilter.AVAILABLE) {
+                                            hideoutViewModel.setView(HideoutFilter.AVAILABLE)
+                                        }
+                                        Chip(text = "Locked", selected = selected == HideoutFilter.LOCKED) {
+                                            hideoutViewModel.setView(HideoutFilter.LOCKED)
+                                        }
+                                        Chip(text = "All", selected = selected == HideoutFilter.ALL) {
+                                            hideoutViewModel.setView(HideoutFilter.ALL)
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                navViewModel.isDrawerOpen.value = true
+                            }) {
+                                Icon(Icons.Filled.Menu, contentDescription = null)
+                            }
+                        },
+                        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+                        elevation = 4.dp,
+                        actions = {
+                            IconButton(onClick = {
+                                hideoutViewModel.setSearchOpen(true)
+                            }) {
+                                Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
+                            }
+                            if (navBackStackEntry?.destination?.route == HideoutNavigationScreens.Crafts.route) {
+                                IconButton(onClick = {
+
+                                }) {
+                                    Icon(
+                                        painterResource(id = R.drawable.ic_baseline_filter_alt_24),
+                                        contentDescription = "Filter",
+                                        tint = Color.White
                                     )
                                 }
-                                else -> {
-                                    Chip(text = "Current", selected = selected == HideoutFilter.CURRENT) {
-                                        hideoutViewModel.setView(HideoutFilter.CURRENT)
-                                    }
-                                    Chip(text = "Available", selected = selected == HideoutFilter.AVAILABLE) {
-                                        hideoutViewModel.setView(HideoutFilter.AVAILABLE)
-                                    }
-                                    Chip(text = "Locked", selected = selected == HideoutFilter.LOCKED) {
-                                        hideoutViewModel.setView(HideoutFilter.LOCKED)
-                                    }
-                                    Chip(text = "All", selected = selected == HideoutFilter.ALL) {
-                                        hideoutViewModel.setView(HideoutFilter.ALL)
-                                    }
-                                }
                             }
                         }
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            navViewModel.isDrawerOpen.value = true
-                        }) {
-                            Icon(Icons.Filled.Menu, contentDescription = null)
-                        }
-                    },
-                    backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-                    elevation = 4.dp,
-                    actions = {
-                        if (navBackStackEntry?.destination?.route == HideoutNavigationScreens.Crafts.route) {
-                            IconButton(onClick = {
-
-                            }) {
-                                Icon(painterResource(id = R.drawable.ic_baseline_filter_alt_24), contentDescription = "Filter", tint = Color.White)
-                            }
-                        }
-                    }
-                )
+                    )
+                }
             }
         ) { padding ->
             NavHost(navController = navController, startDestination = HideoutNavigationScreens.Modules.route) {
@@ -131,6 +158,7 @@ fun HideoutMainScreen(
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 private fun HideoutModulesPage(
     tarkovRepo: TarkovRepo,
@@ -161,6 +189,7 @@ private fun HideoutModulesPage(
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 private fun HideoutModuleCard(
     module: Hideout.Module?,
@@ -172,7 +201,19 @@ private fun HideoutModuleCard(
     val isComplete = userData?.isHideoutModuleComplete(module.id ?: return)
 
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .combinedClickable(
+                onClick = {},
+                onLongClick = {
+                    module.require?.filter { it?.type == "item" }?.forEach {
+                        val itemID = it?.name
+                        val quantity = it?.quantity ?: 0
+                        if (quantity > 500) return@forEach
+                        userRefTracker("items/$itemID/hideoutObjective/${it?.id?.addQuotes()}").setValue(quantity)
+                    }
+                }
+            ),
         backgroundColor = Color(0xFE1F1F1F)
     ) {
         Column {
@@ -279,6 +320,7 @@ private fun HideoutModuleCard(
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 private fun HideoutRequirementItem(
     tarkovRepo: TarkovRepo,
@@ -415,6 +457,7 @@ private fun HideoutRequirementTrader(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 private fun HideoutCraftsPage(
@@ -423,16 +466,21 @@ private fun HideoutCraftsPage(
     padding: PaddingValues
 ) {
     val crafts by tarkovRepo.getAllCrafts().collectAsState(initial = emptyList())
+    val searchKey by hideoutViewModel.searchKey.observeAsState("")
 
     LazyColumn(
         contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
     ) {
-        items(items = crafts.sortedBy { it.rewardItems?.first()?.item?.name }) { craft ->
+        items(items = crafts.sortedBy { it.rewardItems?.first()?.item?.name }.filter {
+            it.rewardItem()?.item?.name?.contains(searchKey, true) == true
+                    || it.rewardItem()?.item?.shortName?.contains(searchKey, true) == true
+        }) { craft ->
             CraftItem(craft, null)
         }
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun CraftItem(craft: Craft, userData: User?) {
@@ -553,6 +601,7 @@ fun CraftItem(craft: Craft, userData: User?) {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     val item = taskItem?.item

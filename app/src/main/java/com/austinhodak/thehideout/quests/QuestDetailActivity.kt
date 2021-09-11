@@ -5,10 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -33,14 +30,13 @@ import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.quests.QuestDetailActivity.Types.*
 import com.austinhodak.thehideout.quests.viewmodels.QuestDetailViewModel
-import com.austinhodak.thehideout.utils.getObjectiveIcon
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.trader
+import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.glide.rememberGlidePainter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
 
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class QuestDetailActivity : AppCompatActivity() {
 
@@ -248,11 +244,16 @@ class QuestDetailActivity : AppCompatActivity() {
 
         Column(
             Modifier
-                .clickable {
-                    context.openActivity(FleaItemDetail::class.java) {
-                        putString("id", pricing?.id)
+                .combinedClickable(
+                    onClick = {
+                        context.openActivity(FleaItemDetail::class.java) {
+                            putString("id", pricing?.id)
+                        }
+                    },
+                    onLongClick = {
+                        userRefTracker("items/${pricing?.id}/questObjective/${objective.id?.addQuotes()}").setValue(objective.number)
                     }
-                }
+                )
                 .padding(vertical = 4.dp)
         ) {
             Row(

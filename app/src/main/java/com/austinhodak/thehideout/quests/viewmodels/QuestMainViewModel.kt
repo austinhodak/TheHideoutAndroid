@@ -1,12 +1,12 @@
 package com.austinhodak.thehideout.quests.viewmodels
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.thehideout.SearchViewModel
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.quests.QuestFilter
@@ -25,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class QuestMainViewModel @Inject constructor(
     private val repository: TarkovRepo
-) : ViewModel() {
+) : SearchViewModel() {
 
     lateinit var quests: List<Quest>
 

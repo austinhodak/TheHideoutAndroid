@@ -6,10 +6,7 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -47,9 +44,11 @@ import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.glide.rememberGlidePainter
+import com.google.firebase.database.ServerValue
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class FleaItemDetail : AppCompatActivity() {
 
@@ -63,7 +62,7 @@ class FleaItemDetail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        itemID = intent.getStringExtra("id") ?: "54491c4f4bdc2db1078b4568"
+        itemID = intent.getStringExtra("id") ?: "59e35abd86f7741778269d82"
         viewModel.getItemByID(itemID)
 
         setContent {
@@ -134,18 +133,20 @@ class FleaItemDetail : AppCompatActivity() {
                                     ) {
                                         item {
                                             Card1(item = item.value)
-                                            if (!item.value?.pricing?.sellFor?.filter { it.price != 0 }
-                                                    .isNullOrEmpty()) TradersSellCard(
+                                            if (!item.value?.pricing?.sellFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersSellCard(
                                                 title = "SELL PRICES",
                                                 item = item.value,
                                                 item.value?.pricing?.sellFor
                                             )
-                                            if (!item.value?.pricing?.buyFor?.filter { it.price != 0 }
-                                                    .isNullOrEmpty()) TradersBuyCard(
+                                            if (!item.value?.pricing?.buyFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersBuyCard(
                                                 title = "BUY PRICES",
                                                 item = item.value,
                                                 item.value?.pricing?.buyFor
                                             )
+                                            if (userData?.items?.containsKey(itemID) == true) {
+                                                val needed = userData?.items?.get(itemID)
+                                                NeededCard(title = "NEEDED", item = item.value, needed, tarkovRepo)
+                                            }
                                         }
                                         /*item {
                                             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
@@ -175,6 +176,109 @@ class FleaItemDetail : AppCompatActivity() {
         }
     }
 
+    @Composable
+    private fun NeededCard(
+        title: String,
+        item: Item?,
+        needed: User.UNeededItem?,
+        tarkovRepo: TarkovRepo
+    ) {
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .fillMaxWidth(),
+            backgroundColor = Color(0xFE1F1F1F)
+        ) {
+            Column() {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = title,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
+                    )
+                }
+                if (needed?.questObjective != null) {
+                    needed.questObjective?.forEach {
+                        val quest by tarkovRepo.getQuestsWithObjectiveID("%id\":${it.key}%").collectAsState(null)
+
+                        BasicStatRow(
+                            title = ("${quest?.trader()?.id} Quest: ${quest?.title ?: "Unknown"}").toUpperCase(),
+                            text = "${it.value}",
+                            Modifier.clickable {
+                                userRefTracker("items/$itemID/questObjective/${it.key}").removeValue()
+                            }
+                        )
+                    }
+                }
+                if (needed?.hideoutObjective != null) {
+                    needed.hideoutObjective?.forEach { hide ->
+                        var hideoutModule = hideoutList.hideout?.modules?.find { it?.id == hide.key.removeSurrounding("\"").toInt() }
+                        if (hideoutModule == null) {
+                            val test = hideoutList.hideout?.modules?.find {
+                                it?.require?.find { require ->
+                                    require?.id == hide.key.removeSurrounding("\"").toInt()
+                                } != null
+                            }
+                            if (test != null) hideoutModule = test
+                        }
+
+                        BasicStatRow(
+                            title = hideoutModule.toString().toUpperCase(),
+                            text = "${hide.value}",
+                            Modifier.clickable {
+                                userRefTracker("items/$itemID/hideoutObjective/${hide.key}").removeValue()
+                            }
+                        )
+                    }
+                }
+                if (needed?.user != null) {
+                    needed.user?.forEach { userKey ->
+                        val user = userKey.value
+                        BasicStatRow(
+                            title = (user.reason ?: "User Defined Reason").toUpperCase(),
+                            text = "${user.quantity}",
+                            Modifier.clickable {
+                                userRefTracker("items/$itemID/user/${userKey.key}").removeValue()
+                            }
+                        )
+                    }
+                }
+                Divider(
+                    modifier = Modifier.padding(top = 8.dp),
+                    color = DividerDark
+                )
+                Row(
+                    Modifier.padding(start = 16.dp, top = 4.dp, bottom = 4.dp, end = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = "FOUND", style = MaterialTheme.typography.subtitle2)
+                    Spacer(modifier = Modifier.weight(1f))
+                    IconButton(onClick = {
+                        if (needed?.has != 0)
+                            userRefTracker("items/$itemID/has").setValue(ServerValue.increment(-1))
+                    }) {
+                        Icon(painter = painterResource(id = R.drawable.ic_baseline_remove_circle_24), contentDescription = "Minus")
+                    }
+                    Text(text = "${needed?.has ?: 0}/${needed?.getTotalNeeded()}")
+                    IconButton(onClick = {
+                        if (needed?.has != needed?.getTotalNeeded()) {
+                            userRefTracker("items/$itemID/has").setValue(ServerValue.increment(1))
+                        } else {
+                            userRefTracker("items/$itemID").removeValue()
+                        }
+                    }) {
+                        if (needed?.has != needed?.getTotalNeeded()) {
+                            Icon(painter = painterResource(id = R.drawable.ic_baseline_add_circle_24), contentDescription = "Plus")
+                        } else {
+                            Icon(painter = painterResource(id = R.drawable.ic_baseline_check_circle_24), contentDescription = "Plus")
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     @ExperimentalMaterialApi
     @Composable
@@ -196,6 +300,7 @@ class FleaItemDetail : AppCompatActivity() {
         }
     }
 
+    @ExperimentalFoundationApi
     @ExperimentalMaterialApi
     @Composable
     private fun QuestItem(
@@ -306,7 +411,11 @@ class FleaItemDetail : AppCompatActivity() {
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(Icons.Filled.Warning, contentDescription = "", tint = Color.Black, modifier = Modifier.height(20.dp).width(20.dp))
+                            Icon(
+                                Icons.Filled.Warning, contentDescription = "", tint = Color.Black, modifier = Modifier
+                                    .height(20.dp)
+                                    .width(20.dp)
+                            )
                             Text(
                                 text = "${craft.source?.toUpperCase()} NOT BUILT",
                                 style = MaterialTheme.typography.caption,
@@ -692,7 +801,6 @@ class FleaItemDetail : AppCompatActivity() {
             }
         }
     }
-
 
 
     @Composable

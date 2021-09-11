@@ -30,6 +30,8 @@ class TarkovRepo @Inject constructor(
     fun getBartersWithItemID(id: String): Flow<List<Barter>> = barterDao.getBartersWithItemID(id)
     fun getCraftsWithItemID(id: String): Flow<List<Craft>> = craftDao.getCraftsWithItemID(id)
 
+    fun getQuestsWithObjectiveID(id: String): Flow<Quest> = questDao.getQuestWithObjectiveID(id)
+
     fun getAllCrafts(): Flow<List<Craft>> = craftDao.getAllCrafts()
 
     fun isQuestRequiredForKappa(id: String): Flow<Int> = questDao.isQuestRequiredForKappa(id)

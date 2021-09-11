@@ -19,6 +19,9 @@ interface QuestDao {
     @Query("SELECT * FROM quests WHERE objective LIKE :id")
     fun getQuestsWithItemID(id: String): Flow<List<Quest>>
 
+    @Query("SELECT * FROM quests WHERE objective LIKE :id")
+    fun getQuestWithObjectiveID(id: String): Flow<Quest>
+
     @Query("SELECT * FROM quests WHERE id IS :id")
     fun getQuestByID(id: String): Flow<Quest>
 

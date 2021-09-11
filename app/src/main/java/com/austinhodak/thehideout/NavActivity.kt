@@ -35,6 +35,8 @@ import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.MainDrawer
 import com.austinhodak.thehideout.weapons.WeaponListScreen
 import com.austinhodak.thehideout.weapons.mods.ModsListScreen
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -58,6 +60,12 @@ class NavActivity : AppCompatActivity() {
     private val hideoutViewModel: HideoutMainViewModel by viewModels()
     private val keysViewModel: KeysViewModel by viewModels()
     @Inject lateinit var tarkovRepo: TarkovRepo
+
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) { res ->
+
+    }
 
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -171,6 +179,23 @@ class NavActivity : AppCompatActivity() {
                             route == "activity:sim" -> openActivity(CalculatorMainActivity::class.java)
                             route.contains("url:") -> {
                                 route.split(":")[1].openWithCustomTab(this)
+                            }
+                            identifier == 999 -> {
+                                val providers = arrayListOf(
+                                    AuthUI.IdpConfig.EmailBuilder().build(),
+                                    AuthUI.IdpConfig.PhoneBuilder().build(),
+                                    AuthUI.IdpConfig.GoogleBuilder().build(),
+//                                    AuthUI.IdpConfig.FacebookBuilder().build(),
+                                    AuthUI.IdpConfig.TwitterBuilder().build(),
+                                    AuthUI.IdpConfig.MicrosoftBuilder().build(),
+                                    AuthUI.IdpConfig.GitHubBuilder().build(),
+                                )
+                                val signInIntent = AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setAvailableProviders(providers)
+                                    .enableAnonymousUsersAutoUpgrade()
+                                    .build()
+                                signInLauncher.launch(signInIntent)
                             }
                             else -> navController.navigate(selectedTag.first) {
 

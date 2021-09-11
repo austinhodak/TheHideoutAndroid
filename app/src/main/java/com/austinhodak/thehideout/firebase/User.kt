@@ -12,8 +12,32 @@ data class User(
     var quests: Map<String, UQuest?>? = null,
     var hideoutModules: Map<String, UHideout?>? = null,
     var hideoutObjectives: Map<String, UHideoutObjective?>? = null,
-    var keysHave: Map<String, Boolean>? = null
+    var keysHave: Map<String, Boolean>? = null,
+    var items: Map<String, UNeededItem>? = null,
+    var ttApiKey: String? = null
 ) {
+    data class UNeededItem (
+        var hideoutObjective: Map<String, Int>? = null,
+        var questObjective: Map<String, Int>? = null,
+        var user: Map<String, UItemsUser>? = null,
+        var has: Int? = 0
+    ) {
+        data class UItemsUser (
+            var quantity: Int? = null,
+            var reason: String? = null
+        )
+
+        fun getTotalNeeded (): Int {
+            val hideoutTotal = hideoutObjective?.entries?.sumOf { it.value } ?: 0
+            val questObjectiveTotal = questObjective?.entries?.sumOf { it.value } ?: 0
+            val userTotal = user?.entries?.sumOf {
+                it.value.quantity ?: 0
+            } ?: 0
+
+            return hideoutTotal + questObjectiveTotal + userTotal
+        }
+    }
+
     data class UQuestObjective(
         var progress: Int? = null,
         var id: Int? = null

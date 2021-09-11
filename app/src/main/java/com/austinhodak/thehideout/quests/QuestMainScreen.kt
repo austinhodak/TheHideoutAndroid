@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -36,6 +37,7 @@ import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
@@ -48,6 +50,7 @@ import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @Composable
@@ -63,6 +66,8 @@ fun QuestMainScreen(
 
     val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
 
+    val isSearchOpen by questViewModel.isSearchOpen.observeAsState(false)
+
     HideoutTheme {
         Scaffold(
             scaffoldState = scaffoldState,
@@ -75,49 +80,73 @@ fun QuestMainScreen(
                 }*/
             },
             topBar = {
-                TopAppBar(
-                    title = {
-                        val selected by questViewModel.view.observeAsState()
-                        val scrollState = rememberScrollState()
-                        Row(
-                            Modifier.horizontalScroll(scrollState),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            when (navBackStackEntry?.destination?.route) {
-                                BottomNavigationScreens.Overview.route,
-                                BottomNavigationScreens.Items.route -> {
-                                    Text(
-                                        "Quests",
-                                        modifier = Modifier.padding(end = 16.dp)
-                                    )
+                if (isSearchOpen) {
+                    SearchToolbar(
+                        onClosePressed = {
+                            questViewModel.setSearchOpen(false)
+                            questViewModel.clearSearch()
+                        },
+                        onValue = {
+                            questViewModel.setSearchKey(it)
+                        }
+                    )
+                } else {
+                    TopAppBar(
+                        title = {
+                            val selected by questViewModel.view.observeAsState()
+                            val scrollState = rememberScrollState()
+                            Row(
+                                Modifier.horizontalScroll(scrollState),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                when (navBackStackEntry?.destination?.route) {
+                                    BottomNavigationScreens.Overview.route,
+                                    BottomNavigationScreens.Items.route -> {
+                                        Text(
+                                            "Quests",
+                                            modifier = Modifier.padding(end = 16.dp)
+                                        )
+                                    }
+                                    else -> {
+                                        Chip(text = "Available", selected = selected == QuestFilter.AVAILABLE) {
+                                            questViewModel.setView(QuestFilter.AVAILABLE)
+                                        }
+                                        Chip(text = "Locked", selected = selected == QuestFilter.LOCKED) {
+                                            questViewModel.setView(QuestFilter.LOCKED)
+                                        }
+                                        Chip(text = "Completed", selected = selected == QuestFilter.COMPLETED) {
+                                            questViewModel.setView(QuestFilter.COMPLETED)
+                                        }
+                                        Chip(text = "All", selected = selected == QuestFilter.ALL) {
+                                            questViewModel.setView(QuestFilter.ALL)
+                                        }
+                                    }
                                 }
-                                else -> {
-                                    Chip(text = "Available", selected = selected == QuestFilter.AVAILABLE) {
-                                        questViewModel.setView(QuestFilter.AVAILABLE)
-                                    }
-                                    Chip(text = "Locked", selected = selected == QuestFilter.LOCKED) {
-                                        questViewModel.setView(QuestFilter.LOCKED)
-                                    }
-                                    Chip(text = "Completed", selected = selected == QuestFilter.COMPLETED) {
-                                        questViewModel.setView(QuestFilter.COMPLETED)
-                                    }
-                                    Chip(text = "All", selected = selected == QuestFilter.ALL) {
-                                        questViewModel.setView(QuestFilter.ALL)
+                            }
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                navViewModel.isDrawerOpen.value = true
+                            }) {
+                                Icon(Icons.Filled.Menu, contentDescription = null, tint = White)
+                            }
+                        },
+                        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+                        elevation = 0.dp,
+                        actions = {
+                            when (navBackStackEntry?.destination?.route) {
+                                BottomNavigationScreens.Maps.route,
+                                BottomNavigationScreens.Quests.route -> {
+                                    IconButton(onClick = {
+                                        questViewModel.setSearchOpen(true)
+                                    }) {
+                                        Icon(Icons.Filled.Search, contentDescription = null, tint = White)
                                     }
                                 }
                             }
                         }
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            navViewModel.isDrawerOpen.value = true
-                        }) {
-                            Icon(Icons.Filled.Menu, contentDescription = null)
-                        }
-                    },
-                    backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-                    elevation = 0.dp
-                )
+                    )
+                }
             }
         ) { padding ->
             /*Box(
@@ -163,6 +192,7 @@ fun QuestMainScreen(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
@@ -176,6 +206,7 @@ private fun QuestTradersScreen(
 ) {
     val userData by questViewModel.userData.observeAsState()
     val selectedView by questViewModel.view.observeAsState()
+    val searchKey by questViewModel.searchKey.observeAsState("")
 
     val pagerState = if (!isMapTab) {
         rememberPagerState(pageCount = Traders.values().size)
@@ -252,6 +283,9 @@ private fun QuestTradersScreen(
                     }
                 }
                 else -> questsList
+            }.filter {
+                it.title?.contains(searchKey, ignoreCase = true) == true
+                        || it.getMaps(mapsList).contains(searchKey, ignoreCase = true)
             }
 
             LazyColumn(
@@ -269,6 +303,7 @@ private fun QuestTradersScreen(
 
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 private fun QuestCard(
@@ -294,7 +329,9 @@ private fun QuestCard(
                 Modifier.padding(16.dp)
             ) {
                 Column(
-                    Modifier.weight(1f)
+                    Modifier
+                        .weight(1f)
+                        .padding(end = 16.dp)
                 ) {
                     Text(
                         text = quest.title.toString(),
