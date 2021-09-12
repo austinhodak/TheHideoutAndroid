@@ -29,6 +29,7 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.Green500
@@ -124,6 +125,9 @@ fun KeyListScreen(
             }
         }.filter { it.pricing != null }
 
+        if (data.isNullOrEmpty()) {
+            LoadingItem()
+        }
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
         ) {

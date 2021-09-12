@@ -29,6 +29,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.Red400
@@ -138,16 +139,7 @@ fun AmmunitionListScreen(
 
     ) {
         if (data.isNullOrEmpty()) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 32.dp)
-            ) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colors.secondary
-                )
-            }
+            LoadingItem()
         } else {
             HorizontalPager(state = pagerState) { page ->
                 LazyColumn(

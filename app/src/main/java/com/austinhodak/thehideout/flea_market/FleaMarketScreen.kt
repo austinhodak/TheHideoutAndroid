@@ -41,6 +41,7 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.FleaItem
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.BorderColor
@@ -271,16 +272,7 @@ private fun FleaMarketFavoritesList(
 
     when {
         data == null -> {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 32.dp)
-            ) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colors.secondary
-                )
-            }
+            LoadingItem()
         }
         data.isEmpty() -> {
             Box(

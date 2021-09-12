@@ -1,5 +1,7 @@
 package com.austinhodak.thehideout
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +13,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ovh.plrapps.mapcompose.api.enableRotation
+import ovh.plrapps.mapcompose.api.scale
+import ovh.plrapps.mapcompose.api.scrollTo
+import ovh.plrapps.mapcompose.api.shouldLoopScale
+import ovh.plrapps.mapcompose.core.TileStreamProvider
+import ovh.plrapps.mapcompose.ui.state.MapState
+import java.io.BufferedInputStream
+import java.io.File
+import java.io.FileInputStream
+import java.net.HttpURLConnection
+import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,5 +64,5 @@ class NavViewModel @Inject constructor() : ViewModel() {
             startGameTimers()
         }
     }
-
 }
+

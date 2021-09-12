@@ -70,7 +70,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
         benderFont
     }
     private val drawerMaps = PrimaryDrawerItem().apply {
-        tag = "url:https://mapgenie.io/tarkov/maps/customs"; identifier = 110; nameText = "Map Genie"; iconRes =
+        tag = "maps"; identifier = 110; nameText = "Map Genie"; iconRes =
         R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont
     }
     private val drawerDamageSimulator = PrimaryDrawerItem().apply {
