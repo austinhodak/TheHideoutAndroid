@@ -1,6 +1,8 @@
 package com.austinhodak.thehideout
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
@@ -19,11 +21,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.res.ResourcesCompat
 import com.austinhodak.tarkovapi.models.MapInteractive
 import com.austinhodak.thehideout.compose.theme.DarkPrimary
+import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.databinding.ActivityMapsBinding
 import com.austinhodak.thehideout.utils.rememberMapViewWithLifecycle
@@ -217,6 +222,22 @@ class MapsActivity : AppCompatActivity() {
                     ).snippet(it.description).zIndex(if (it.category_id == 972) 1f else 2f)
                 )
 
+                if (it.category_id == 952) {
+                    mMap.addMarker(
+                        MarkerOptions().position(LatLng(it.latitude!!.toDouble()-0.0003, it.longitude!!.toDouble())).icon(
+                            BitmapDescriptorFactory.fromBitmap(textAsBitmap(it.title ?: "", 26f, resources.getColor(R.color.white), Color.Transparent.toArgb()))
+                        )
+                    )
+                }
+
+                if (it.category_id == 954) {
+                    mMap.addMarker(
+                        MarkerOptions().position(LatLng(it.latitude!!.toDouble()-0.0003, it.longitude!!.toDouble())).icon(
+                            BitmapDescriptorFactory.fromBitmap(textAsBitmap(it.title ?: "", 36f, resources.getColor(R.color.white), Green500.toArgb()))
+                        )
+                    )
+                }
+
                 marker?.tag = it
             }
         }
@@ -282,5 +303,32 @@ class MapsActivity : AppCompatActivity() {
             title.text = location.title
             subtitle1.text = location.description
         }
+    }
+
+    fun textAsBitmap(text: String, textSize: Float, textColor: Int, outlineColor: Int): Bitmap? {
+        val benderFont = ResourcesCompat.getFont(this, R.font.bender_bold)
+        val bender = ResourcesCompat.getFont(this, R.font.bender_bold)
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        paint.setTypeface(benderFont)
+        paint.textSize = textSize
+        paint.color = textColor
+        paint.textAlign = Paint.Align.LEFT
+
+        val stkPaint = Paint()
+        stkPaint.style = Paint.Style.STROKE
+        stkPaint.textSize = textSize
+        stkPaint.setTypeface(benderFont)
+        stkPaint.strokeWidth = 3f
+        stkPaint.color = outlineColor
+
+        val baseline: Float = -paint.ascent() // ascent() is negative
+        val width = (paint.measureText(text) + 0.5f).toInt() // round
+        val height = (baseline + paint.descent() + 0.5f).toInt()
+        val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(image)
+
+        canvas.drawText(text, 0f, baseline, stkPaint)
+        canvas.drawText(text, 0f, baseline, paint)
+        return image
     }
 }
