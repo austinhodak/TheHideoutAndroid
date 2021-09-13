@@ -61,8 +61,8 @@ fun FleaItem(
                     rememberGlidePainter(request = item.pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
                     contentDescription = null,
                     modifier = Modifier
-                        .width(38.dp)
-                        .height(38.dp)
+                        .width(48.dp)
+                        .height(48.dp)
                         .border((0.25).dp, color = BorderColor)
                 )
                 Column(

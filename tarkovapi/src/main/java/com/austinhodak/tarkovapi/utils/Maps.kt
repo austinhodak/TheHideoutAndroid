@@ -3,12 +3,14 @@ package com.austinhodak.tarkovapi.utils
 import android.content.Context
 import com.austinhodak.tarkovapi.R
 import com.austinhodak.tarkovapi.models.Map
+import com.austinhodak.tarkovapi.models.MapInteractive
 import com.google.gson.Gson
 import org.json.JSONObject
 
 class Maps(context: Context) {
 
     var maps: MutableList<Map> = mutableListOf()
+    var mapsInteractive: MutableList<MapInteractive> = mutableListOf()
 
     init {
         loadMaps(context)

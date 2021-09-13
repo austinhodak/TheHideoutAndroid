@@ -11,6 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAoGF3VmwlS_KJtYUq0fCuwuf2w1HCgElU" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".weapons.mods.ModDetailActivity"
             android:exported="true"
@@ -51,8 +60,8 @@
             android:name=".calculator.CalculatorMainActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".weapons.detail.WeaponDetailActivity"
+            android:exported="true"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
         <activity
             android:name=".MainActivity"
@@ -62,8 +71,7 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-
-        <activity android:name=".weapons.mods.ModPickerActivity"/>
+        <activity android:name=".weapons.mods.ModPickerActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

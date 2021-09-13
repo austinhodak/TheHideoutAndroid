@@ -17,12 +17,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
-import com.austinhodak.thehideout.BuildConfig
-import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.Green500
-import com.austinhodak.thehideout.questPrefs
+import com.austinhodak.thehideout.utils.openActivity
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
@@ -70,8 +69,12 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
         benderFont
     }
     private val drawerMaps = PrimaryDrawerItem().apply {
-        tag = "maps"; identifier = 110; nameText = "Map Genie"; iconRes =
-        R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont
+        tag = "activity:map"; identifier = 110; nameText = "Maps"; iconRes =
+        R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont; isSelectable = false;
+        onDrawerItemClickListener = { _, item, _ ->
+            context.openActivity(MapsActivity::class.java)
+            false
+        }
     }
     private val drawerDamageSimulator = PrimaryDrawerItem().apply {
         tag = "activity:sim"; identifier = 111; nameText = "Tarkov'd Simulator"; iconRes = R.drawable.icons8_dog_tag_96; isIconTinted =

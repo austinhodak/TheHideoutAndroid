@@ -10,10 +10,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -28,8 +24,6 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.compose.theme.Red400
-import com.austinhodak.thehideout.compose.theme.itemGreen
 import com.austinhodak.thehideout.flea_market.FleaMarketScreen
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
 import com.austinhodak.thehideout.gear.GearListScreen
@@ -58,7 +52,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapcompose.api.*
 import ovh.plrapps.mapcompose.core.TileStreamProvider
-import ovh.plrapps.mapcompose.ui.MapUI
 import ovh.plrapps.mapcompose.ui.layout.Fill
 import ovh.plrapps.mapcompose.ui.state.MapState
 import timber.log.Timber
@@ -108,19 +101,12 @@ class NavActivity : AppCompatActivity() {
                 minimumScaleMode = Fill
                 shouldLoopScale = true
                 scale = 0f
-                //X = 0.4706
-                //Y = 0.3434
 
-                //LAT Y 0.9268
-                //LON X -0.7491
+                // EAST WING 310 (LEFT MAP) X: -1.2314 Y: 0.5204 || X: 0.1255 Y: 0.6344
+                // DEAD SCAV (TRACKS) X: -0.6871 Y: 0.3329 || X: 0.5133 Y: 0.7719
+                // GROUND CACHE (FACTORY FAR) X: -0.1884 Y: 0.4618 || X: 0.8717 Y: 0.6765
+                // GROUND CACHE (MILITARY BASE CP) X: -0.1829 Y: 0.7517 || X: 0.8769 Y: 0.4685
 
-                //DEAD SCAV
-                //Y: "0.66941039301040" //Y .5290
-                //X: "-0.77709660313690" //X .4520
-
-                //DORM 203
-                //Y: "0.92680509170080 //Y .3434
-                //X: "-0.74914442273439" //X .4706
                 addMarker("test", 0.4520, 0.5290) {
                     Icon(
                         painterResource(id = R.drawable.icons8_key_100),
@@ -130,6 +116,7 @@ class NavActivity : AppCompatActivity() {
                     )
                 }
                 onTap { x, y ->
+                    Timber.d("$x $y")
                     Toast.makeText(this@NavActivity, "$x $y", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -239,13 +226,7 @@ class NavActivity : AppCompatActivity() {
                             )
                         }
                         composable("maps") {
-                            Box(
-                                Modifier
-                                    .fillMaxSize()
-                                    .background(Red400)
-                            ) {
-                                MapUI(Modifier.background(itemGreen), state = state)
-                            }
+
                         }
                     }
 
@@ -255,6 +236,7 @@ class NavActivity : AppCompatActivity() {
                         val identifier = selectedItem.identifier.toInt()
                         when {
                             route == "activity:sim" -> openActivity(CalculatorMainActivity::class.java)
+                            route == "activity:map" -> openActivity(MapsActivity::class.java)
                             route.contains("url:") -> {
                                 route.split(":")[1].openWithCustomTab(this)
                             }
@@ -284,6 +266,8 @@ class NavActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun makeTileStreamProvider() =
         TileStreamProvider { row, col, zoomLvl ->

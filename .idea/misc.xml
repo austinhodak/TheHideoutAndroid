@@ -5,12 +5,14 @@
       <map>
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/bottom_nav_selector_text.xml" value="0.15486111111111112" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_filter_alt_24.xml" value="0.18958333333333333" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.18680555555555556" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.15486111111111112" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_ammo_detail.xml" value="0.5" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_calculator_main.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_calculator_picker.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_flea_detail.xml" value="0.14" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_main.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_maps.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_quest_detail.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_quest_in_raid.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_weapon_detail.xml" value="0.1" />
@@ -49,6 +51,8 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_start_raid_map.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_weapon.xml" value="0.18" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/layout_empty.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/map_compose.xml" value="0.5" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_activity.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_trader_level_fragment.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_drawer_item_outdated.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_quest_objective.xml" value="0.5" />

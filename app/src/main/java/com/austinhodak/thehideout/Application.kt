@@ -101,9 +101,7 @@ val questPrefs: Prefs by lazy {
     Application.questPrefs!!
 }
 
-val mapsList: Maps by lazy {
-    Application.maps!!
-}
+val mapsList: Maps = Application.maps!!
 
 val hideoutList: Hideout by lazy {
     Application.hideout!!

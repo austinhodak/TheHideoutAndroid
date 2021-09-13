@@ -138,6 +138,7 @@ class QuestMainViewModel @Inject constructor(
     }
 
     private suspend fun updateUserTotals() {
+        if (!this::quests.isInitialized) return
         val userData = _userData.value ?: return
         questTotalCompletedUser.value = userData.quests?.values?.sumOf {
             val total = if (it?.completed == true) 1 else 0
@@ -175,12 +176,13 @@ class QuestMainViewModel @Inject constructor(
     val userData = _userData
 
     init {
-        viewModelScope.launch {
-            updateTotals()
-        }
 
         viewModelScope.launch(Dispatchers.IO) {
             quests = repository.getAllQuestsOnce()
+        }
+
+        viewModelScope.launch {
+            updateTotals()
         }
 
         if (uid() != null) {
