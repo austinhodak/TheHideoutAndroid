@@ -1,8 +1,9 @@
 package com.austinhodak.thehideout
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -10,16 +11,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
@@ -40,6 +34,7 @@ import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.MainDrawer
 import com.austinhodak.thehideout.weapons.WeaponListScreen
+import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModsListScreen
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -52,13 +47,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapcompose.api.*
-import ovh.plrapps.mapcompose.core.TileStreamProvider
-import ovh.plrapps.mapcompose.ui.layout.Fill
-import ovh.plrapps.mapcompose.ui.state.MapState
-import timber.log.Timber
-import java.io.BufferedInputStream
-import java.net.HttpURLConnection
-import java.net.URL
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -83,45 +71,20 @@ class NavActivity : AppCompatActivity() {
 
     }
 
-    @Composable
-    fun MapContainer(
-        modifier: Modifier = Modifier, viewModel: NavViewModel
-    ) {
-
+    private val weaponDetailLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { res ->
+        if (res.resultCode == RESULT_OK) {
+            val caliber = res.data?.getStringExtra("caliber")
+            if (caliber != null) {
+                navViewModel.drawerItemSelected(Pair((101).toLong(), caliber))
+            }
+        }
     }
 
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val tileStreamProvider = makeTileStreamProvider()
-
-        val state: MapState by mutableStateOf(
-            /* Notice how we increase the worker count when performing HTTP requests */
-            MapState(8, 32512, 32512, tileStreamProvider, workerCount = 16).apply {
-                minimumScaleMode = Fill
-                shouldLoopScale = true
-                scale = 0f
-
-                // EAST WING 310 (LEFT MAP) X: -1.2314 Y: 0.5204 || X: 0.1255 Y: 0.6344
-                // DEAD SCAV (TRACKS) X: -0.6871 Y: 0.3329 || X: 0.5133 Y: 0.7719
-                // GROUND CACHE (FACTORY FAR) X: -0.1884 Y: 0.4618 || X: 0.8717 Y: 0.6765
-                // GROUND CACHE (MILITARY BASE CP) X: -0.1829 Y: 0.7517 || X: 0.8769 Y: 0.4685
-
-                addMarker("test", 0.4520, 0.5290) {
-                    Icon(
-                        painterResource(id = R.drawable.icons8_key_100),
-                        contentDescription = null,
-                        modifier = Modifier.size(10.dp),
-                        tint = Color(0xCC2196F3)
-                    )
-                }
-                onTap { x, y ->
-                    Timber.d("$x $y")
-                    Toast.makeText(this@NavActivity, "$x $y", Toast.LENGTH_SHORT).show()
-                }
-            }
-        )
 
         setContent {
             val scaffoldState = rememberScaffoldState()
@@ -129,8 +92,6 @@ class NavActivity : AppCompatActivity() {
             val lifeCycleOwner = this
             val navController = rememberAnimatedNavController()
             val systemUiController = rememberSystemUiController()
-
-            //val selectedItem by navViewModel.selectedDrawerItem.observeAsState(null)
 
             val tag: String = navViewModel.selectedDrawerItem.value?.tag?.toString() ?: questPrefs.openingPageTag
 
@@ -152,7 +113,7 @@ class NavActivity : AppCompatActivity() {
                 Scaffold(
                     scaffoldState = scaffoldState,
                     drawerContent = {
-                        MainDrawer(navViewModel = navViewModel)
+                        MainDrawer(navViewModel = navViewModel, lifeCycleOwner)
                     },
                     drawerScrimColor = Color(0xFF121212)
                 ) {
@@ -210,7 +171,12 @@ class NavActivity : AppCompatActivity() {
                                 classID = it.arguments?.getString("classID") ?: "assaultRifle",
                                 navViewModel,
                                 tarkovRepo
-                            )
+                            ) {
+                                val intent = Intent(this@NavActivity, WeaponDetailActivity::class.java).apply {
+                                    putExtra("weaponID", it)
+                                }
+                                weaponDetailLauncher.launch(intent)
+                            }
                         }
                         composable("quests") {
                             QuestMainScreen(
@@ -263,56 +229,13 @@ class NavActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                    navViewModel.selectedDrawerItemIdentifier.observe(lifeCycleOwner) {
+                        if (it != null)
+                        navController.navigate(it.second)
+                    }
                 }
             }
         }
     }
-
-
-
-    private fun makeTileStreamProvider() =
-        TileStreamProvider { row, col, zoomLvl ->
-            Timber.d("$row $col $zoomLvl")
-            try {
-                //val url = URL("https://plrapps.ovh:8080/mapcompose-tile/$zoomLvl/$row/$col.jpg")
-
-                val xx = when (zoomLvl + 8) {
-                    8 -> "127"
-                    9 -> (254 + row).toString()
-                    10 -> (508 + row).toString()
-                    11 -> (1016 + row).toString()
-                    12 -> (2032 + row).toString()
-                    13 -> (4064 + row).toString()
-                    14 -> (8128 + row).toString()
-                    15 -> (16256 + row).toString()
-                    else -> "127"
-                }
-
-                val yy = when (zoomLvl + 8) {
-                    8 -> "8/127"
-                    9 -> (254 + col).toString()
-                    10 -> (508 + col).toString()
-                    11 -> (1016 + col).toString()
-                    12 -> (2032 + col).toString()
-                    13 -> (4064 + col).toString()
-                    14 -> (8128 + col).toString()
-                    15 -> (16256 + col).toString()
-                    else -> "8/127"
-                }
-
-                Timber.d("https://cdn.mapgenie.io/images/tiles/tarkov/customs/default-v3/${zoomLvl + 8}/$yy/$xx.png")
-
-                val x = 1017 + row
-                val y = (1016 + col).toString()
-                val url = URL("https://cdn.mapgenie.io/images/tiles/tarkov/customs/default-v3/${zoomLvl + 8}/$yy/$xx.png")
-                val connection = url.openConnection() as HttpURLConnection
-                connection.useCaches = true
-                connection.doInput = true
-                connection.connect()
-                BufferedInputStream(connection.inputStream)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
-        }
 }

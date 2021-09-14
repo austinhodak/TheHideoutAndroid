@@ -17,11 +17,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
-import com.austinhodak.thehideout.*
+import androidx.lifecycle.LifecycleOwner
+import com.austinhodak.thehideout.BuildConfig
+import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.map.MapsActivity
+import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.utils.openActivity
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
@@ -206,7 +209,8 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
 
 @Composable
 fun MainDrawer(
-    navViewModel: NavViewModel
+    navViewModel: NavViewModel,
+    lifecycleOwner: LifecycleOwner
 ) {
 
     val selectedDrawerItem by navViewModel.selectedDrawerItem.observeAsState()
@@ -230,7 +234,8 @@ fun MainDrawer(
             Row(
                 Modifier
                     .background(MaterialTheme.colors.surface)
-                    .padding(16.dp)) {
+                    .padding(16.dp)
+            ) {
                 GameClockText(Modifier.weight(1f), true, navViewModel)
                 GameClockText(Modifier.weight(1f), false, navViewModel)
             }
@@ -257,8 +262,6 @@ fun MainDrawer(
                         true
                     }
 
-                    //drawer.setSelection(selectedDrawerItem.second.toLong(), false)
-
                     drawer
                 }, update = { drawer ->
                     if (selectedDrawerItem != null) {
@@ -267,6 +270,14 @@ fun MainDrawer(
                         drawer.getDrawerItem(questPrefs.openingPage)?.let {
                             navViewModel.drawerItemSelected(it)
                             drawer.setSelection(it.identifier, false)
+                        }
+                    }
+
+                    navViewModel.selectedDrawerItemIdentifier.observe(lifecycleOwner) {
+                        if (it != null) {
+                            drawer.setSelectionAtPosition(-1, false)
+                            drawer.setSelection(it.first, false)
+                            navViewModel.selectedDrawerItemIdentifier.value = null
                         }
                     }
                 }

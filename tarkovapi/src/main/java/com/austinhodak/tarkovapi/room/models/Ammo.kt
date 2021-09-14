@@ -56,7 +56,11 @@ data class Ammo(
         val tracerColor: String,
         val ammoType: String,
         val projectileCount: Int
-    )
+    ) {
+        fun getMuzzleVelocity(): String {
+            return "$initialSpeed m/s"
+        }
+    }
 }
 
 fun JSONObject.toAmmoItem(): Ammo {

@@ -55,6 +55,8 @@ data class Weapon (
     val weapClass: String? = null,
     val weapFireType: List<String>? = null,
     val weapUseType: String? = null,
+    val RecoilForceUp: Int?= null,
+    val RecoilForceBack: Int? = null,
     val pricing: Pricing? = null
 ) {
     data class Chamber(

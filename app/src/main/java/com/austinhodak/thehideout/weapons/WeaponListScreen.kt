@@ -28,16 +28,15 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.utils.getCaliberShortName
-import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.views.weaponCategories
-import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 
 @ExperimentalAnimationApi
 @Composable
 fun WeaponListScreen(
     classID: String,
     navViewModel: NavViewModel,
-    tarkovRepo: TarkovRepo
+    tarkovRepo: TarkovRepo,
+    weaponClicked: (weaponID: String) -> Unit
 ) {
     val data = tarkovRepo.getWeaponsByClass(classID).collectAsState(initial = emptyList())
     val weaponClass = weaponCategories.find { it.third == classID }
@@ -63,7 +62,9 @@ fun WeaponListScreen(
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
-                    WeaponCard(weapon)
+                    WeaponCard(weapon) {
+                        weaponClicked(it)
+                    }
                 }
             }
         }
@@ -73,7 +74,8 @@ fun WeaponListScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WeaponCard(
-    weapon: Weapon
+    weapon: Weapon,
+    weaponClicked: (weaponID: String) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -85,9 +87,7 @@ fun WeaponCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
-            context.openActivity(WeaponDetailActivity::class.java) {
-                putString("weaponID", weapon.id)
-            }
+            weaponClicked(weapon.id)
         }
     ) {
         Column(
