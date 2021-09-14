@@ -31,6 +31,7 @@ import com.austinhodak.thehideout.hideout.HideoutMainScreen
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.keys.KeyListScreen
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
+import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen

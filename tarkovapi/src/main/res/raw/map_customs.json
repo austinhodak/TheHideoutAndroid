@@ -410,7 +410,7 @@
       "premium": false
     }]
   }],
-  /*"categories": {
+  "categories": {
     "960": {
       "id": 960,
       "group_id": 200,
@@ -827,7 +827,7 @@
       "description": null,
       "premium": false
     }
-  },*/
+  },
   "regions": [],
   "locations": [{
     "id": 29994,

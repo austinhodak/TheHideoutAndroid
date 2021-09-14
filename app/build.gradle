@@ -263,4 +263,6 @@ dependencies {
     implementation 'com.google.maps.android:maps-ktx:3.1.0'
     implementation 'com.google.maps.android:maps-utils-ktx:3.1.0'
 
+    implementation 'com.github.jeziellago:compose-markdown:0.2.6'
+
 }

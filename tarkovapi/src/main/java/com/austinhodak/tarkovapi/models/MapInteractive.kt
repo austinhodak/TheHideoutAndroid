@@ -12,7 +12,7 @@ data class MapInteractive(
 ) {
     data class DistanceToolConfig(
         var lineStyle: LineStyle? = null,
-        var scale: Int? = null,
+        var scale: Double? = null,
         var speeds: List<Speed?>? = null,
         var useHaversine: Boolean? = null
     ) {
@@ -73,6 +73,10 @@ data class MapInteractive(
             var type: String? = null,
             var url: String? = null
         )
+
+        fun getFormattedDescription(): String {
+            return description ?: ""
+        }
     }
 
     data class Map(

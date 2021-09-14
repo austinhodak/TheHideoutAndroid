@@ -21,6 +21,7 @@ import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.Green500
+import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.utils.openActivity
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
