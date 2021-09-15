@@ -7,23 +7,23 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.utils.asCurrency
+import com.austinhodak.thehideout.utils.getMedIcon
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -41,6 +41,15 @@ fun MedicalListScreen (
 
     val pagerState = rememberPagerState(pageCount = titles.size)
     val coroutineScope = rememberCoroutineScope()
+
+    var data by remember {
+        mutableStateOf(listOf<Item>())
+    }
+
+    LaunchedEffect("meds") {
+        val list = tarkovRepo.getItemsByTypes(listOf(ItemTypes.MED, ItemTypes.STIM))
+        data = list
+    }
 
     Scaffold(
         topBar = {
@@ -73,17 +82,33 @@ fun MedicalListScreen (
             }
         }
     ) {
-        HorizontalPager(state = pagerState) { page ->
-            val data = tarkovRepo.getItemsByType(if (page == 0) ItemTypes.MED else ItemTypes.STIM).collectAsState(initial = emptyList())
-            val items = data.value.filter { it.pricing != null && it.pricing?.gridImageLink != null }.sortedBy { it.ShortName }
-            LazyColumn(
-                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                items(items = items) { item ->
-                    MedCard(item = item)
-                }
+        if (data.isNullOrEmpty()) {
+            LoadingItem()
+        } else {
+            HorizontalPager(state = pagerState) { page ->
+                MedList(data, page)
             }
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun MedList(
+    data: List<Item>?,
+    page: Int
+) {
+    LazyColumn(
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+        modifier = Modifier.fillMaxHeight()
+    ) {
+        val items = data!!
+            .filter { it.itemType == if (page == 0) ItemTypes.MED else ItemTypes.STIM }
+            .filter { it.pricing != null && it.pricing?.gridImageLink != null }
+            .sortedBy { it.ShortName }
+
+        items(items = items) { item ->
+            MedCard(item = item)
         }
     }
 }
@@ -115,7 +140,7 @@ private fun MedCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.gridImageLink),
+                    rememberImagePainter(item.pricing?.iconLink),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)
@@ -136,6 +161,17 @@ private fun MedCard(
                             text = "Last Price: ${item.getPrice().asCurrency()}",
                             style = MaterialTheme.typography.caption
                         )
+                    }
+                }
+                Row {
+                    if (item.effects_damage != null) {
+                        item.effects_damage?.keys()?.forEach {
+                            val effect = item.effects_damage?.getJSONObject(it)
+                            val icon = it.getMedIcon()
+                            icon?.let {
+                                Icon(painter = painterResource(id = icon), contentDescription = "Med", tint = Color.Unspecified, modifier = Modifier.padding(start = 4.dp))
+                            }
+                        }
                     }
                 }
                 /*Column(

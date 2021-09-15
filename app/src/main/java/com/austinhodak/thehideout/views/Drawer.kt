@@ -239,7 +239,10 @@ fun MainDrawer(
                 GameClockText(Modifier.weight(1f), true, navViewModel)
                 GameClockText(Modifier.weight(1f), false, navViewModel)
             }
-            Divider(color = DividerDark)
+            Divider(
+                modifier = Modifier.background(MaterialTheme.colors.surface),
+                color = DividerDark
+            )
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
                 factory = { context ->

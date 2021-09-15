@@ -26,7 +26,8 @@ data class Pricing(
     val width: Int?,
     val height: Int?,
     val sellFor: List<BuySellPrice>?,
-    val buyFor: List<BuySellPrice>?
+    val buyFor: List<BuySellPrice>?,
+    val wikiLink: String?
 ) : Serializable {
 
     fun getPrice(): Int {

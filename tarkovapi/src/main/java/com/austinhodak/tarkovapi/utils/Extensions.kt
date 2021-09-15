@@ -202,7 +202,8 @@ fun ItemFragment.toClass(): Pricing {
                     Pricing.BuySellPrice.Requirement(requirement?.type?.rawValue!!, requirement.value!!)
                 }
             )
-        }
+        },
+        item.wikiLink
     )
 }
 

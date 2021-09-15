@@ -329,9 +329,7 @@ class MapsActivity : AppCompatActivity() {
                 val url = "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCoords.first}/${normalizedCoords.second}.png"
                 //Timber.d(url)
 
-                return if (!checkTileExists(x, y, zoom)) {
-                    null
-                } else try {
+                return try {
                     URL(url)
                 } catch (e: MalformedURLException) {
                     throw AssertionError(e)

@@ -20,14 +20,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class QuestMainViewModel @Inject constructor(
     private val repository: TarkovRepo
 ) : SearchViewModel() {
-
-    lateinit var quests: List<Quest>
 
     private val _view = MutableLiveData(QuestFilter.AVAILABLE)
     val view = _view
@@ -60,7 +59,9 @@ class QuestMainViewModel @Inject constructor(
     val placedTotalUser = MutableLiveData(0)
     val pickupTotalUser = MutableLiveData(0)
 
-    private suspend fun updateTotals() {
+    private suspend fun updateTotals(quests: List<Quest>) {
+        Timber.d(quests.size.toString())
+
         repository.getAllQuests().collect { quests ->
             pmcElimsTotal.value = quests.sumOf { quest ->
                 var total = 0
@@ -132,20 +133,21 @@ class QuestMainViewModel @Inject constructor(
                 }
                 total
             }
-        }
 
-        updateUserTotals()
+            updateUserTotals(quests)
+        }
     }
 
-    private suspend fun updateUserTotals() {
-        if (!this::quests.isInitialized) return
+    private fun updateUserTotals(quests: List<Quest>) {
+        Timber.d(quests.size.toString())
+        //if (!this::quests.isInitialized) return
         val userData = _userData.value ?: return
         questTotalCompletedUser.value = userData.quests?.values?.sumOf {
             val total = if (it?.completed == true) 1 else 0
             total
         }
 
-        val allObjectives = quests.flatMap { it.objective!! }
+        val allObjectives = quests?.flatMap { it.objective!! }
 
         var pmc = 0
         var scav = 0
@@ -154,7 +156,7 @@ class QuestMainViewModel @Inject constructor(
         var pickup = 0
 
         userData.questObjectives?.values?.forEach { obj ->
-            val objective = allObjectives.find { it.id?.toInt() == obj?.id }?: return@forEach
+            val objective = allObjectives?.find { it.id?.toInt() == obj?.id }?: return@forEach
 
             when {
                 objective.type == "kill" && objective.target?.contains("PMCs") == true -> pmc += obj?.progress ?: 0
@@ -177,20 +179,25 @@ class QuestMainViewModel @Inject constructor(
 
     init {
 
-        viewModelScope.launch(Dispatchers.IO) {
-            quests = repository.getAllQuestsOnce()
-        }
+        var quests: List<Quest>? = null
 
-        viewModelScope.launch {
-            updateTotals()
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getAllQuests().collect {
+                viewModelScope.launch {
+                    //Timber.d(it.toString())
+                    quests = it
+                    updateTotals(it)
+                }
+            }
         }
 
         if (uid() != null) {
             questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     _userData.value = snapshot.getValue<User>()
+
                     viewModelScope.launch {
-                        updateUserTotals()
+                        quests?.let { updateUserTotals(it) }
                     }
                 }
 
@@ -236,11 +243,11 @@ class QuestMainViewModel @Inject constructor(
     fun skipToQuest(quest: Quest) {
         viewModelScope.launch {
             quest.requiredQuestsList()?.forEach { id ->
-                val q = quests.find { it.id.toInt() == id }
+               /* val q = quests?.find { it.id.toInt() == id }
                 if (q != null) {
                     markQuestCompleted(q)
                     skipToQuest(q)
-                }
+                }*/
             }
         }
     }

@@ -2,10 +2,7 @@ package com.austinhodak.thehideout.ammunition
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -42,8 +39,11 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import kotlin.math.roundToInt
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @SuppressLint("CheckResult")
 @ExperimentalPagerApi
 @Composable
@@ -147,6 +147,7 @@ fun AmmunitionListScreen(
                     contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
                 ) {
                     var items = data.filter { it.Caliber == pages[page] }
+                    Timber.d(items.size.toString())
                     items = when (sort.value) {
                         0 -> items.sortedBy { it.shortName }
                         1 -> items.sortedBy { it.pricing?.lastLowPrice }
@@ -182,7 +183,8 @@ fun showJumpDialog(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Composable
 private fun AmmoCard(
     ammo: Ammo,

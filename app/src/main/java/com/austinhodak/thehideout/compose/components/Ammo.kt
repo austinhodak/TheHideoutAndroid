@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.compose.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,6 +20,7 @@ import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.google.accompanist.glide.rememberGlidePainter
 import kotlin.math.roundToInt
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun AmmoDetailCard(item: Ammo?) {
@@ -28,7 +30,7 @@ fun AmmoDetailCard(item: Ammo?) {
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).height(72.dp),
         onClick = {
             context.openActivity(AmmoDetailActivity::class.java) {
-                putString("ammoID", item?.id)
+                putString("ammoID", item.id)
             }
         }
     ) {

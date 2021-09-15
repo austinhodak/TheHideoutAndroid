@@ -6,26 +6,30 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
@@ -34,20 +38,24 @@ import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.WeaponBuild
-import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
-import com.austinhodak.thehideout.compose.theme.Bender
-import com.austinhodak.thehideout.compose.theme.DividerDark
-import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.compose.theme.Red400
+import com.austinhodak.thehideout.compose.components.OverflowMenu
+import com.austinhodak.thehideout.compose.components.WikiItem
+import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.utils.getCaliberName
+import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.weapons.mods.ModPickerActivity
 import com.austinhodak.thehideout.weapons.viewmodel.WeaponDetailViewModel
-import com.bumptech.glide.Glide
-import com.stfalcon.imageviewer.StfalconImageViewer
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
+@ExperimentalAnimationApi
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class WeaponDetailActivity : AppCompatActivity() {
@@ -81,48 +89,136 @@ class WeaponDetailActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalCoilApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val weaponID = intent.getStringExtra("weaponID") ?: "5bb2475ed4351e00853264e3"
         weaponViewModel.getWeapon(weaponID)
 
         setContent {
             HideoutTheme {
-                val weapon by weaponViewModel.weaponDetails.observeAsState()
-                val scaffoldState = rememberScaffoldState()
+                ProvideWindowInsets {
+                    val weapon by weaponViewModel.weaponDetails.observeAsState()
+                    val scaffoldState = rememberScaffoldState()
+                    val systemUiController = rememberSystemUiController()
 
-                val defaultAmmo by tarkovRepo.getAmmoByID(weapon?.defAmmo ?: "").collectAsState(initial = null)
+                    systemUiController.setStatusBarColor(
+                        Color.Transparent,
+                        darkIcons = false
+                    )
 
-                Scaffold(
-                    scaffoldState = scaffoldState,
-                    topBar = {
-                        Column {
-                            AmmoDetailToolbar(
-                                title = weapon?.pricing?.name ?: "Error Loading...",
-                                onBackPressed = { finish() }
-                            )
-                            if (weapon == null) {
-                                LinearProgressIndicator(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .height(2.dp),
-                                    color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                                    backgroundColor = Color.Transparent
-                                )
+                    val defaultAmmo by tarkovRepo.getAmmoByID(weapon?.defAmmo ?: "").collectAsState(initial = null)
+
+                    Scaffold(
+                        scaffoldState = scaffoldState,
+                        topBar = {
+                            Column {
+                                Box {
+                                    val painter = rememberImagePainter(
+                                        weapon?.getTarkovMarketImageURL(),
+                                        builder = {
+                                            crossfade(true)
+                                        }
+                                    )
+                                    Column {
+                                        Image(
+                                            painter,
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .then(
+                                                    if (painter.state is ImagePainter.State.Loading || painter.state is ImagePainter.State.Error) {
+                                                        Modifier.height(0.dp)
+                                                    } else {
+                                                        (painter.state as? ImagePainter.State.Success)
+                                                            ?.painter
+                                                            ?.intrinsicSize
+                                                            ?.let { intrinsicSize ->
+                                                                Modifier.aspectRatio(intrinsicSize.width / intrinsicSize.height)
+                                                            } ?: Modifier
+                                                    }
+                                                ),
+                                            contentScale = ContentScale.FillWidth
+                                        )
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .offset(y = (-4).dp)
+                                                .background(if (painter.state is ImagePainter.State.Success) Color.Black else DarkPrimary)
+                                                .padding(
+                                                    start = 72.dp,
+                                                    bottom = 16.dp,
+                                                    top = if (painter.state is ImagePainter.State.Success) 0.dp else 56.dp
+                                                )
+                                        ) {
+                                            Text(
+                                                text = weapon?.Name ?: "Loading...",
+                                                color = MaterialTheme.colors.onPrimary,
+                                                style = MaterialTheme.typography.h6,
+                                                maxLines = 1,
+                                                fontSize = 18.sp,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                            Text(
+                                                text = "(${weapon?.ShortName})",
+                                                color = MaterialTheme.colors.onPrimary,
+                                                style = MaterialTheme.typography.caption,
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                        }
+                                    }
+
+                                    TopAppBar(
+                                        title = { Spacer(modifier = Modifier.fillMaxWidth()) },
+                                        backgroundColor = Color.Transparent,
+                                        modifier = Modifier.statusBarsPadding(),
+                                        navigationIcon = {
+                                            IconButton(onClick = {
+                                                onBackPressed()
+                                            }) {
+                                                Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                                            }
+                                        },
+                                        elevation = 0.dp,
+                                        actions = {
+                                            OverflowMenu() {
+                                                weapon?.pricing?.wikiLink?.let { WikiItem(url = it) }
+                                            }
+                                        }
+                                    )
+                                }
+
+                                if (weapon == null) {
+                                    LinearProgressIndicator(
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .height(2.dp),
+                                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                                        backgroundColor = Color.Transparent
+                                    )
+                                }
                             }
                         }
-                    }
-                ) {
-                    LazyColumn(
-                        contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
                     ) {
-                        item {
-                            weapon?.let { WeaponDetailCard(weapon = it) }
-                        }
-                        item {
-                            if (weapon != null && defaultAmmo != null) {
-                                AmmoCard(weapon = weapon!!, defaultAmmo = defaultAmmo!!)
+                        LazyColumn(
+                            contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 4.dp)
+                        ) {
+                            item {
+                                weapon?.let { WeaponDetailCard(weapon = it) }
+                            }
+                            item {
+                                if (weapon != null && defaultAmmo != null) {
+                                    AmmoCard(weapon = weapon!!, defaultAmmo = defaultAmmo!!)
+                                }
+                            }
+                            item {
+                                weapon?.pricing?.let {
+                                    PricingCard(pricing = it)
+                                }
                             }
                         }
                     }
@@ -131,27 +227,32 @@ class WeaponDetailActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalAnimationApi
     @Composable
     private fun WeaponDetailCard(
         weapon: Weapon,
     ) {
+        var visible by remember {
+            mutableStateOf(false)
+        }
         Card(
             Modifier
                 .padding(vertical = 4.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable { visible = !visible },
             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
         ) {
             Column {
                 Row(
-                    Modifier.padding(16.dp),
+                    Modifier.padding(0.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        rememberImagePainter(weapon.pricing?.iconLink),
+                    /*Image(
+                        rememberImagePainter("https://cdn.tarkov-market.com/loadouts/images/hk_416a5/default.jpg"),
                         contentDescription = null,
                         modifier = Modifier
-                            .width(52.dp)
-                            .height(52.dp)
+                            .fillMaxWidth()
+                            .height(150.dp)
                             .clickable {
                                 StfalconImageViewer
                                     .Builder(this@WeaponDetailActivity, listOf(weapon.pricing?.imageLink)) { view, image ->
@@ -162,13 +263,9 @@ class WeaponDetailActivity : AppCompatActivity() {
                                     }
                                     .withHiddenStatusBar(false)
                                     .show()
-                            }
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 16.dp),
-                        text = getCaliberName(weapon.ammoCaliber),
-                        style = MaterialTheme.typography.subtitle1
-                    )
+                            },
+                        contentScale = ContentScale.Fit
+                    )*/
                 }
                 Divider(color = DividerDark)
                 Column(
@@ -184,24 +281,43 @@ class WeaponDetailActivity : AppCompatActivity() {
                     )
                     DataRow(
                         title = "EFFECTIVE DISTANCE",
-                        value = Pair(weapon.bEffDist, MaterialTheme.colors.onSurface)
+                        value = Pair(weapon.bEffDist?.roundToInt(), MaterialTheme.colors.onSurface)
                     )
                     DataRow(
                         title = "ERGONOMICS",
-                        value = Pair(weapon.Ergonomics, MaterialTheme.colors.onSurface)
-                    )
-                    DataRow(
-                        title = "FIRING MODES",
-                        value = Pair(weapon.weapFireType?.joinToString(", ")?.toUpperCase(Locale.current), MaterialTheme.colors.onSurface)
+                        value = Pair(weapon.Ergonomics?.roundToInt(), MaterialTheme.colors.onSurface)
                     )
                     DataRow(
                         title = "RATE OF FIRE",
-                        value = Pair(weapon.bFirerate, MaterialTheme.colors.onSurface)
+                        value = Pair(weapon.bFirerate?.roundToInt(), MaterialTheme.colors.onSurface)
                     )
                     DataRow(
                         title = "SIGHTING RANGE",
-                        value = Pair(weapon.IronSightRange, MaterialTheme.colors.onSurface)
+                        value = Pair("${weapon.IronSightRange?.roundToInt()}m", MaterialTheme.colors.onSurface)
                     )
+                    AnimatedVisibility(visible = visible) {
+                        Column(
+                            Modifier.padding(top = 4.dp, bottom = 0.dp)
+                        ) {
+                            Divider(color = DividerDark, modifier = Modifier.padding(bottom = 4.dp))
+                            DataRow(
+                                title = "DURABILITY",
+                                value = Pair(weapon.Durability?.roundToInt(), MaterialTheme.colors.onSurface)
+                            )
+                            DataRow(
+                                title = "WEIGHT",
+                                value = Pair("${weapon.Weight} KG", MaterialTheme.colors.onSurface)
+                            )
+                            DataRow(
+                                title = "SIZE",
+                                value = Pair("${weapon.Width?.roundToInt()}x${weapon.Height?.roundToInt()}", MaterialTheme.colors.onSurface)
+                            )
+                            DataRow(
+                                title = "FIRING MODES",
+                                value = Pair(weapon.weapFireType?.joinToString(", ")?.toUpperCase(Locale.current), MaterialTheme.colors.onSurface)
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -233,7 +349,7 @@ class WeaponDetailActivity : AppCompatActivity() {
                     )
                 }
                 Column(
-                    Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
+                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
                 ) {
                     DataRow(
                         title = "CALIBER",
@@ -274,14 +390,21 @@ class WeaponDetailActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalFoundationApi
     @Composable
     private fun PricingCard(
         pricing: Pricing
     ) {
+        val context = LocalContext.current
         Card(
             Modifier
                 .padding(vertical = 4.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable {
+                    context.openActivity(FleaItemDetail::class.java) {
+                        putString("id", pricing.id)
+                    }
+                },
             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
         ) {
             Column(

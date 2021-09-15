@@ -5,8 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.getItemType
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
+import timber.log.Timber
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
@@ -72,6 +74,10 @@ data class Item(
     val MaxHpResource: Double? = null,
     val hpResourceRate: Double? = null,
     val StimulatorBuffs: String? = null,
+    @SerializedName("effects_health_null")
+    var effects_health: JSONObject? = null,
+    @SerializedName("effects_damage_null")
+    var effects_damage: JSONObject? = null,
 ) : Serializable {
 
     fun cArmorClass(): Int {
@@ -122,10 +128,34 @@ fun JSONObject.toItem(): Item {
 
     val itemType = getItemType()
 
-    val item = Gson().fromJson(props.toString(), Item::class.java)
+    val builder = GsonBuilder()
+
+    val item = builder.create().fromJson(props.toString(), Item::class.java)
+
+
     item.itemType = itemType
     item.parent = optString("_parent")
     item.id = getString("_id") ?: ""
 
+    if (props.has("effects_damage") && props["effects_damage"] is JSONObject) {
+        Timber.d(props.getJSONObject("effects_damage").toString())
+    }
+
+    item.effects_health = if (props.has("effects_health") && props["effects_health"] is JSONObject) {
+        props.getJSONObject("effects_health")
+    } else {
+        null
+    }
+
+    item.effects_damage = if (props.has("effects_damage") && props["effects_damage"] is JSONObject) {
+        props.getJSONObject("effects_damage")
+    } else {
+        null
+    }
+
     return item
+}
+
+annotation class Hidden {
+
 }

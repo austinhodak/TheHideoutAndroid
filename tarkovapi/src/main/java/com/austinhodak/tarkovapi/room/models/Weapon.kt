@@ -4,10 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
 import org.json.JSONObject
+import timber.log.Timber
 import java.io.Serializable
 
 @Entity(tableName = "weapons")
-data class Weapon (
+data class Weapon(
     @PrimaryKey var id: String,
     val AllowMisfire: Boolean? = null,
     //val AllowSpawnOnLocations: List<Any?>? = null,
@@ -55,7 +56,7 @@ data class Weapon (
     val weapClass: String? = null,
     val weapFireType: List<String>? = null,
     val weapUseType: String? = null,
-    val RecoilForceUp: Int?= null,
+    val RecoilForceUp: Int? = null,
     val RecoilForceBack: Int? = null,
     val pricing: Pricing? = null
 ) {
@@ -145,10 +146,18 @@ data class Weapon (
             it._props?.filters?.first()?.Filter?.filterNotNull()!!
         }
     }
+
+    fun getTarkovMarketImageURL(): String {
+        val url = "https://cdn.tarkov-market.com/loadouts/images"
+        val name = ShortName?.replace("\"", "")?.replace("(", "_")?.replace(")", "_")?.replace(" ", "_")?.lowercase()
+        val getUrl = "$url/$name/default.jpg"
+        Timber.d(getUrl)
+        return getUrl
+    }
 }
 
 fun JSONObject.toWeapon(id: String): Weapon {
     val weapon = Gson().fromJson(this.toString(), Weapon::class.java)
-    weapon.id  = id
+    weapon.id = id
     return weapon
 }

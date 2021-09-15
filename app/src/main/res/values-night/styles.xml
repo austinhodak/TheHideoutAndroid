@@ -4,7 +4,7 @@
     <style name="Widget.MaterialDrawerStyleCustom" parent="Widget.MaterialDrawerStyle">
         <!-- MaterialDrawer specific values -->
         <item name="materialDrawerSelectedBackgroundColor">?colorPrimaryVariant</item>
-        <item name="materialDrawerDividerColor">@color/md_divider_dark_theme</item>
+        <item name="materialDrawerDividerColor">#1F000000</item>
         <item name="materialDrawerBackground">?attr/colorPrimary</item>
     </style>
 

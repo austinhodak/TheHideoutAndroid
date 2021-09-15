@@ -1,14 +1,13 @@
 package com.austinhodak.thehideout.compose.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -17,12 +16,15 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.utils.openWithCustomTab
 
 @Composable
 fun MainToolbar(
@@ -161,9 +163,57 @@ fun SearchToolbar(
     )
 }
 
-/*
-@Preview
 @Composable
-fun SearchToolbarPreview() {
-    SearchToolbar(onClosePressed = {}) {}
-}*/
+fun OverflowMenu(
+    items: @Composable (ColumnScope.() -> Unit) = {}
+) {
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+    Box(
+        modifier = Modifier
+            .wrapContentSize(Alignment.Center)
+    ) {
+        IconButton(onClick = { expanded = true }) {
+            Icon(Icons.Default.MoreVert, contentDescription = "Overflow Menu", tint = Color.White)
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            content = items
+        )
+    }
+}
+
+@Composable
+fun OverflowMenuItem(
+    text: String,
+    icon: @Composable (() -> Unit) = {},
+    onClick: () -> Unit
+) {
+    DropdownMenuItem(onClick = onClick) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            icon()
+            Text(text)
+        }
+    }
+}
+
+@Composable
+fun WikiItem(
+    url: String
+) {
+    val context = LocalContext.current
+    OverflowMenuItem(text = "Wiki Page", icon = {
+        Icon(
+            painter = painterResource(id = R.drawable.fandom_logo),
+            contentDescription = "Wiki",
+            tint = Color.Unspecified,
+            modifier = Modifier
+                .size(32.dp)
+                .padding(end = 8.dp)
+        )
+    }) {
+        url.openWithCustomTab(context)
+    }
+}

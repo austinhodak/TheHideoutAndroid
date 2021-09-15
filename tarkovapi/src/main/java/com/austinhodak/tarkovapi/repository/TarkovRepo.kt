@@ -18,6 +18,9 @@ class TarkovRepo @Inject constructor(
     fun getAmmoByID(id: String): Flow<Ammo> = ammoDao.getAmmo(id)
 
     fun getItemsByType(type: ItemTypes): Flow<List<Item>> = itemDao.getByType(type)
+
+    suspend fun getItemsByTypes(type: List<ItemTypes>): List<Item> = itemDao.getByTypes(type)
+
     fun getItemByID(id: String): Flow<Item> = itemDao.getByID(id)
     suspend fun getItemByID(ids: List<String>): List<Item> = itemDao.getByID(ids)
 
@@ -38,7 +41,7 @@ class TarkovRepo @Inject constructor(
 
     fun numOfQuests(): Flow<Int> = questDao.numOfQuests()
     fun getAllQuests(): Flow<List<Quest>> = questDao.getAlLQuests()
-    fun getAllQuestsOnce(): List<Quest> = questDao.getAlLQuestsOnce()
+    suspend fun getAllQuestsOnce(): List<Quest> = questDao.getAlLQuestsOnce()
     fun getQuestByID(id: String): Flow<Quest> = questDao.getQuestByID(id)
 
 }

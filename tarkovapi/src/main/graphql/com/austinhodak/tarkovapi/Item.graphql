@@ -21,6 +21,7 @@ fragment ItemFragment on Item {
     high24hPrice
     updated
     types
+    wikiLink
     sellFor {
         ...ItemPrice
     }

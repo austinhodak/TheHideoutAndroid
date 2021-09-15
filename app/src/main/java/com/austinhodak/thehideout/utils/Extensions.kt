@@ -9,13 +9,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.ScrollState
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
@@ -25,10 +23,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -51,22 +45,18 @@ import java.util.*
 import kotlin.math.round
 import kotlin.math.roundToInt
 
-@Composable
-fun Fragment.toCompose(args: Bundle? = null, fragmentManager: FragmentManager) {
-    val fragment = this
 
-    AndroidView(factory = {
-        val container = FrameLayout(it)
-        container.id = R.id.fast_adapter_id
-
-        fragmentManager.commit {
-            setReorderingAllowed(true)
-            replace(container.id, fragment).apply {
-                arguments = args
-            }
-        }
-        container
-    })
+fun String.getMedIcon(): Int? {
+    return when (this) {
+        "LightBleeding" -> R.drawable.light_bleeding_icon
+        "HeavyBleeding" -> R.drawable.heavy_bleeding_icon
+        "FreshWounds" -> R.drawable.fresh_wound_icon
+        "Fracture" -> R.drawable.fracture_icon
+        "Pain" -> R.drawable.pain_icon
+        "Contusion" -> R.drawable.contusion_icon
+        "Tremor" -> R.drawable.tremor_icon
+        else -> null
+    }
 }
 
 fun Double.getColor(reverse: Boolean = false, surfaceColor: Color): Color {
@@ -377,9 +367,7 @@ fun Double.round(decimals: Int): Double {
 }
 
 fun String.openWithCustomTab(context: Context) {
-    val builder = CustomTabsIntent.Builder()
-    val customTabsIntent = builder.build()
-    customTabsIntent.launchUrl(context, Uri.parse(this))
+    CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(this))
 }
 
 fun getCurrencyString(string: String): String {

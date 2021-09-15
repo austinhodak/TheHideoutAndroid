@@ -47,6 +47,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapcompose.api.*
+import timber.log.Timber
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -149,6 +150,8 @@ class NavActivity : AppCompatActivity() {
                             )
                         }
                         composable("medical") {
+                            Timber.d("MEDICAL SELECTED")
+
                             MedicalListScreen(
                                 tarkovRepo,
                                 navViewModel = navViewModel
@@ -205,7 +208,7 @@ class NavActivity : AppCompatActivity() {
                             route == "activity:sim" -> openActivity(CalculatorMainActivity::class.java)
                             route == "activity:map" -> openActivity(MapsActivity::class.java)
                             route.contains("url:") -> {
-                                route.split(":")[1].openWithCustomTab(this)
+                                route.split(":")[1].openWithCustomTab(this@NavActivity)
                             }
                             identifier == 999 -> {
                                 val providers = arrayListOf(
@@ -224,8 +227,11 @@ class NavActivity : AppCompatActivity() {
                                     .build()
                                 signInLauncher.launch(signInIntent)
                             }
-                            else -> navController.navigate(route) {
+                            else -> {
+                                Timber.d(route)
+                                navController.navigate(route) {
 
+                                }
                             }
                         }
                     }

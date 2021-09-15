@@ -21,12 +21,20 @@ class Prefs(context: Context) {
         set(value) = preference.edit().putLong(OPENING_PAGE, value).apply()
 
     var openingPageTag: String
-        get() = preference.getString(OPENING_PAGE_TAG, "keys") ?: "keys"
+        get() = preference.getString(OPENING_PAGE_TAG, "keys")?.replace("Caliber762x35", "{caliber}") ?: "keys"
         set(value) = preference.edit().putString(OPENING_PAGE_TAG, value).apply()
 
     fun setOpeningItem(item: IDrawerItem<*>) {
-        openingPage = item.identifier
-        openingPageTag = item.tag.toString()
+        when (item.identifier.toInt()) {
+            101 -> {
+                openingPage = item.identifier
+                openingPageTag = "ammunition/{caliber}"
+            }
+            else -> {
+                openingPage = item.identifier
+                openingPageTag = item.tag.toString()
+            }
+        }
     }
 
     fun addFavorite(id: String) {

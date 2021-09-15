@@ -7,9 +7,27 @@ import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.json.JSONObject
 import java.lang.reflect.Type
+import java.util.*
 
 class Converters {
+
+    @TypeConverter
+    fun toObject(value: String?): JSONObject? {
+        return value?.let {
+            try {
+                JSONObject(value)
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
+
+    @TypeConverter
+    fun fromObject(value: JSONObject?): String? {
+        return value?.toString()
+    }
 
     @TypeConverter
     fun toItemType(value: String?): ItemTypes? {
