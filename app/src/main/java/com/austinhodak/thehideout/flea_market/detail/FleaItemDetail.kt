@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.*
@@ -59,6 +60,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.text.DecimalFormat
 import javax.inject.Inject
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
@@ -515,8 +517,8 @@ class FleaItemDetail : AppCompatActivity() {
                     ) {
                         Box {
                             Image(
-                                rememberGlidePainter(
-                                    request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                                rememberImagePainter(
+                                    rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
                                 ),
                                 contentDescription = null,
                                 modifier = Modifier
@@ -539,7 +541,7 @@ class FleaItemDetail : AppCompatActivity() {
                             )
                             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                                 Text(
-                                    text = craft.source ?: "",
+                                    text = "${craft.source} • ${craft.getCraftingTime()}",
                                     style = MaterialTheme.typography.caption,
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Light,
@@ -731,9 +733,7 @@ class FleaItemDetail : AppCompatActivity() {
                 )
                 CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                     Text(
-                        text = "${taskItem?.count} x ${item?.avg24hPrice?.asCurrency()} = ${
-                            (taskItem?.count?.times(item?.avg24hPrice!!))?.asCurrency()
-                        }",
+                        text = item?.getTotalCostWithExplanation(taskItem.count ?: 1) ?: "",
                         style = MaterialTheme.typography.caption,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Light,

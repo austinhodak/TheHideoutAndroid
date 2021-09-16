@@ -217,14 +217,15 @@ class NavActivity : AppCompatActivity() {
                                     AuthUI.IdpConfig.PhoneBuilder().build(),
                                     AuthUI.IdpConfig.GoogleBuilder().build(),
                                     //AuthUI.IdpConfig.FacebookBuilder().build(),
-                                    AuthUI.IdpConfig.TwitterBuilder().build(),
-                                    AuthUI.IdpConfig.MicrosoftBuilder().build(),
-                                    AuthUI.IdpConfig.GitHubBuilder().build(),
+                                    //AuthUI.IdpConfig.TwitterBuilder().build(),
+                                    //AuthUI.IdpConfig.MicrosoftBuilder().build(),
+                                    //AuthUI.IdpConfig.GitHubBuilder().build(),
                                 )
                                 val signInIntent = AuthUI.getInstance()
                                     .createSignInIntentBuilder()
                                     .setAvailableProviders(providers)
-                                    .enableAnonymousUsersAutoUpgrade()
+                                    //.enableAnonymousUsersAutoUpgrade()
+                                    .setTheme(R.style.LoginTheme)
                                     .build()
                                 signInLauncher.launch(signInIntent)
                             }

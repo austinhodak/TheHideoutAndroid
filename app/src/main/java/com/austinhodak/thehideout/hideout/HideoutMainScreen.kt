@@ -618,7 +618,7 @@ fun CraftItem(craft: Craft, userData: User?) {
                         )
                         CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                             Text(
-                                text = craft.source ?: "",
+                                text = "${craft.source} • ${craft.getCraftingTime()}",
                                 style = MaterialTheme.typography.caption,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Light,

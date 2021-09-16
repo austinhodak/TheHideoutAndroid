@@ -38,4 +38,13 @@ data class Craft(
     }
 
     fun estimatedProfitPerHour(): Int? = estimatedProfit()?.div((duration?.div(3600.0)!!))?.roundToInt()
+
+    fun getCraftingTime(): String {
+        val duration = duration ?: 1
+        val hours = duration.div(3600)
+        val minutes = (duration % 3600) / 60
+        val seconds = duration % 60
+
+        return String.format("%02dH:%02dM", hours, minutes)
+    }
 }

@@ -174,7 +174,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
     private val drawerVersion = SecondaryDrawerItem().apply {
         nameText = BuildConfig.VERSION_NAME; iconRes = R.drawable.ic_baseline_info_24; isIconTinted = true; isEnabled = false
     }
-    private val drawerLogin = SecondaryDrawerItem().apply {
+    private val drawerLogin = SecondaryDrawerItem().apply { tag = "login"
         nameText = "Sign In"; iconRes = R.drawable.ic_baseline_info_24; isIconTinted = true; isSelectable = false; identifier = 999
     }
 

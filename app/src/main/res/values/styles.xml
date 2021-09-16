@@ -29,4 +29,12 @@
         <item name="android:fontFamily">@font/bender</item>
     </style>
 
+    <style name="LoginTheme" parent="FirebaseUI">
+        <item name="colorPrimary">#1F1F1F</item>
+        <item name="colorPrimaryVariant">@color/md_red_400</item>
+        <item name="colorAccent">@color/md_red_400</item>
+        <item name="android:colorBackground">#1F1F1F</item>
+        <item name="android:statusBarColor">#1F1F1F</item>
+    </style>
+
 </resources>
