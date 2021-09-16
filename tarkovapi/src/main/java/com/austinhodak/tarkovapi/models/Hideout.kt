@@ -25,6 +25,25 @@ data class Hideout(
             }
         }
 
+        fun getModuleRequirements(modules: List<Module?>?): List<Int> {
+            val ids: MutableList<Int> = emptyList<Int>().toMutableList()
+
+            require?.filter { it?.type == "module" }?.forEach {
+                val name = it?.name
+                val level = it?.quantity
+
+                val module = modules?.find { module ->
+                    module?.module == name && module?.level == level
+                }
+
+                module?.id?.let {
+                    ids.add(it)
+                }
+            }
+
+            return ids
+        }
+
         fun getIcon(name: String? = module): Int {
             return when (name) {
                 "Air Filtering Unit" -> R.drawable.air_filtering_unit_portrait

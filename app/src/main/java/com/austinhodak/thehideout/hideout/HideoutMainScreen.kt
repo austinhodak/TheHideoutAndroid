@@ -173,6 +173,8 @@ private fun HideoutModulesPage(
 ) {
     val modules = hideoutList.hideout?.modules
 
+    val searchKey by hideoutViewModel.searchKey.observeAsState("")
+
     val userData by hideoutViewModel.userData.observeAsState()
     val view by hideoutViewModel.view.observeAsState()
 
@@ -182,15 +184,28 @@ private fun HideoutModulesPage(
         HideoutFilter.CURRENT -> modules?.filter {
             userData?.isHideoutModuleComplete(it?.id ?: return) == true
         }
+        HideoutFilter.AVAILABLE -> modules?.filter {
+            if (userData?.isHideoutModuleComplete(it?.id!!) == true) return@filter false
+            if (it?.getModuleRequirements(modules)?.isEmpty() == true) {
+                true
+            } else {
+                userData?.completedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)!!) == true
+            }
+        }
+        HideoutFilter.LOCKED -> modules?.filter {
+            userData?.completedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)!!) == false
+        }
         HideoutFilter.ALL -> modules
         else -> modules
-    }?.sortedWith(compareBy({ it?.level }, { it?.module }))
+    }?.sortedWith(compareBy({ it?.level }, { it?.module }))?.filter {
+        it?.module?.contains(searchKey, true) == true
+    }
 
     LazyColumn(
         contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
     ) {
         items(items = data ?: emptyList()) { module ->
-            HideoutModuleCard(module, tarkovRepo, userData)
+            HideoutModuleCard(module, tarkovRepo, userData, hideoutViewModel)
         }
     }
 }
@@ -203,10 +218,14 @@ private fun HideoutModulesPage(
 private fun HideoutModuleCard(
     module: Hideout.Module?,
     tarkovRepo: TarkovRepo,
-    userData: User?
+    userData: User?,
+    hideoutViewModel: HideoutMainViewModel
 ) {
     if (module == null) return
     val isComplete = userData?.isHideoutModuleComplete(module.id ?: return)
+
+    val view by hideoutViewModel.view.observeAsState()
+    val modules = hideoutList.hideout?.modules
 
     Card(
         modifier = Modifier
@@ -301,23 +320,55 @@ private fun HideoutModuleCard(
             }
             Divider(color = itemBlack)
             Row(Modifier.padding(horizontal = 8.dp, vertical = 8.dp)) {
-                if (isComplete == true) {
-                    TextButton(onClick = {
-                        //Undo module
-                    }) {
-                        Text(
-                            "UNDO",
-                            color = Color(0xFF555555)
-                        )
+                when (view) {
+                    HideoutFilter.AVAILABLE -> {
+                        TextButton(onClick = {
+                            //Build module
+                            hideoutViewModel.buildModule(module)
+                        }) {
+                            Text(
+                                "BUILD LEVEL ${module.level}",
+                                color = Red400
+                            )
+                        }
                     }
-                } else {
-                    TextButton(onClick = {
-                        //Build module
-                    }) {
-                        Text(
-                            "BUILD LEVEL ${module.level}",
-                            color = Red400
-                        )
+                    HideoutFilter.LOCKED -> {
+                        TextButton(onClick = {
+                            //Undo module
+                        }) {
+                            Text(
+                                "LOCKED",
+                                color = Color(0xFF555555)
+                            )
+                        }
+                    }
+                    HideoutFilter.ALL -> {
+                        if (module.getModuleRequirements(modules).isEmpty() && isComplete == false || userData?.completedHideoutIDs()
+                                ?.containsAll(module.getModuleRequirements(modules)) == true && isComplete == false
+                        ) {
+                            TextButton(onClick = {
+                                //Build module
+                                hideoutViewModel.buildModule(module)
+                            }) {
+                                Text(
+                                    "BUILD LEVEL ${module.level}",
+                                    color = Red400
+                                )
+                            }
+                        }
+                    }
+                    else -> {
+                        if (isComplete == true) {
+                            TextButton(onClick = {
+                                //Undo module
+                                hideoutViewModel.undoModule(module)
+                            }) {
+                                Text(
+                                    "UNDO",
+                                    color = Color(0xFF555555)
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -373,13 +424,19 @@ private fun HideoutRequirementItem(
             )
             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                 Text(
+                    text = "${pricing?.getTotalCostWithExplanation(requirement.quantity ?: 1)}",
+                    style = MaterialTheme.typography.caption,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Light,
+                )
+                /*Text(
                     text = "${requirement.quantity} x ${pricing?.avg24hPrice?.asCurrency()} = ${
                         (requirement.quantity?.times(pricing?.avg24hPrice ?: 1))?.asCurrency()
                     }",
                     style = MaterialTheme.typography.caption,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Light,
-                )
+                )*/
             }
         }
     }

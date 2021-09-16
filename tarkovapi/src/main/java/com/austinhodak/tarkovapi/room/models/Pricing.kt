@@ -1,6 +1,7 @@
 package com.austinhodak.tarkovapi.room.models
 
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.getTraderLevel
 import com.austinhodak.tarkovapi.utils.sourceTitle
 import java.io.Serializable
@@ -63,11 +64,11 @@ data class Pricing(
         fun isFleaMarket(): Boolean = source == "fleaMarket"
     }
 
-    fun getFleaMarketBuy(): BuySellPrice? {
+    private fun getFleaMarketBuy(): BuySellPrice? {
         return buyFor?.find { it.isFleaMarket() }
     }
 
-    fun getHighestTraderSell(): BuySellPrice? {
+    private fun getHighestTraderSell(): BuySellPrice? {
         return sellFor?.filter { !it.isFleaMarket() }?.maxByOrNull {
             it.price ?: 0
         }
@@ -75,6 +76,22 @@ data class Pricing(
 
     fun getInstaProfit(): Int? {
         return getHighestTraderSell()?.price?.minus(getFleaMarketBuy()?.price ?: lastLowPrice ?: 0)
+    }
+
+    fun getTotalCostWithExplanation(quantity: Int): String {
+        if (shortName == "RUB" || shortName == "USD" || shortName == "EUR") {
+            return quantity.asCurrency(shortName[0].toString())
+        }
+
+        if (quantity == 1) {
+            avg24hPrice?.asCurrency()
+        }
+
+        val totalCost = avg24hPrice?.let {
+            it * quantity
+        }
+
+        return "$quantity x ${avg24hPrice?.asCurrency()} = ${totalCost?.asCurrency()}"
     }
 
     fun calculateTax(salePrice: Long = avg24hPrice?.toLong() ?: (0).toLong()): Int {

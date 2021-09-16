@@ -58,6 +58,16 @@ data class User(
         var id: Int? = null
     )
 
+    fun completedHideoutIDs(): List<Int> {
+        val ids: MutableList<Int> = arrayListOf()
+        hideoutModules?.values?.forEach {
+            if (it?.complete == true) {
+                it.id?.let { ids.add(it) }
+            }
+        }
+        return ids
+    }
+
     fun isHideoutModuleComplete(id: Int): Boolean {
         val h = hideoutModules?.values?.find { it?.id == id }
         return h?.complete == true

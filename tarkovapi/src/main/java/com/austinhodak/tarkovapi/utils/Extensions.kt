@@ -163,6 +163,7 @@ fun Int.asCurrency(currency: String = "R"): String {
     numFormat.currency = when (currency) {
         "R" -> Currency.getInstance("RUB")
         "D" -> Currency.getInstance("USD")
+        "U" -> Currency.getInstance("USD")
         "E" -> Currency.getInstance("EUR")
         else -> Currency.getInstance("RUB")
     }
