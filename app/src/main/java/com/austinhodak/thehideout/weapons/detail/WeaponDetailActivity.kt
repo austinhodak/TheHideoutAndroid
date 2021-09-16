@@ -50,10 +50,13 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -89,7 +92,6 @@ class WeaponDetailActivity : AppCompatActivity() {
         }
     }
 
-    @ExperimentalCoilApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -185,7 +187,7 @@ class WeaponDetailActivity : AppCompatActivity() {
                                         },
                                         elevation = 0.dp,
                                         actions = {
-                                            OverflowMenu() {
+                                            OverflowMenu {
                                                 weapon?.pricing?.wikiLink?.let { WikiItem(url = it) }
                                             }
                                         }
@@ -247,25 +249,7 @@ class WeaponDetailActivity : AppCompatActivity() {
                     Modifier.padding(0.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    /*Image(
-                        rememberImagePainter("https://cdn.tarkov-market.com/loadouts/images/hk_416a5/default.jpg"),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(150.dp)
-                            .clickable {
-                                StfalconImageViewer
-                                    .Builder(this@WeaponDetailActivity, listOf(weapon.pricing?.imageLink)) { view, image ->
-                                        Glide
-                                            .with(view)
-                                            .load(image)
-                                            .into(view)
-                                    }
-                                    .withHiddenStatusBar(false)
-                                    .show()
-                            },
-                        contentScale = ContentScale.Fit
-                    )*/
+
                 }
                 Divider(color = DividerDark)
                 Column(
@@ -338,7 +322,7 @@ class WeaponDetailActivity : AppCompatActivity() {
                 finish()
             }
         ) {
-            Column() {
+            Column {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
                         text = "AMMUNITION",

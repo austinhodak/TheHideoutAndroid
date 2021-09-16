@@ -17,7 +17,6 @@ data class Body(
     private val sim = CalculatorHelper
     private var shotsFired = 0
     private var shotsFiredAfterDead = 0
-    var onShootListener: (() -> Unit?)? = null
 
     fun reset(selectedCharacter: Character): Body {
         val characterHealth = selectedCharacter.health
@@ -117,7 +116,6 @@ data class Body(
         }
 
         updateHealthBars()
-        onShootListener?.invoke()
 
         return this
     }
@@ -130,16 +128,6 @@ data class Body(
         rightArm.health -= (ammo.damage * bodyPart.blowthrough * (1 / 6.0))
         leftLeg.health -= (ammo.damage * bodyPart.blowthrough * (1 / 6.0))
         rightLeg.health -= (ammo.damage * bodyPart.blowthrough * (1 / 6.0))
-    }
-
-    private fun round() {
-        head.health.roundToInt()
-        thorax.health.roundToInt()
-        stomach.health.roundToInt()
-        leftArm.health.roundToInt()
-        rightArm.health.roundToInt()
-        leftLeg.health.roundToInt()
-        rightLeg.health.roundToInt()
     }
 
     private fun dead() {

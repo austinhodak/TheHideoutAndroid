@@ -11,7 +11,7 @@ data class Barter(
     val source: String? = null
 ) {
     fun totalCost(): Int {
-        return requiredItems?.sumBy { (it?.count!!.times((it.item?.avg24hPrice ?: 0))) } ?: 0
+        return requiredItems?.sumOf { (it?.count!!.times((it.item?.avg24hPrice ?: 0))) } ?: 0
     }
 
     fun estimatedProfit(): Int? {

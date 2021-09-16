@@ -1,6 +1,5 @@
 package com.austinhodak.thehideout.flea_market.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -15,7 +14,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -24,7 +22,6 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class FleaViewModel @Inject constructor(
-    @ApplicationContext application: Context,
     private val tarkovRepo: TarkovRepo
 ) : SearchViewModel() {
 

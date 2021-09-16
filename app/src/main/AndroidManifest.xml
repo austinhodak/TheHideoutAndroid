@@ -40,10 +40,6 @@
         </activity>
 
         <activity
-            android:name=".settings.SettingsActivity"
-            android:theme="@style/Theme.TheHideout.NoActionBar" />
-
-        <activity
             android:name=".ammunition.AmmoDetailActivity"
             android:theme="@style/Theme.TheHideout.NoActionBar" />
 

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.austinhodak.tarkovapi.models.MapInteractive
-import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.R
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    private val repository: TarkovRepo,
     @ApplicationContext context: Context
 ) : ViewModel() {
 
@@ -56,7 +54,7 @@ class MapViewModel @Inject constructor(
             _selectedGroups.value = arrayListOf()
             it.groups?.forEach { group ->
                 group?.categories?.forEach { category ->
-                    category?.id?.let { id ->
+                    category?.id?.let { _ ->
                         //addGroup(id)
                     }
                 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
@@ -42,8 +43,11 @@ import com.austinhodak.thehideout.pickers.PickerActivity
 import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.math.roundToInt
 
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -119,64 +123,7 @@ class AmmoDetailActivity : ComponentActivity() {
                 }
             }
         }
-
-        //selectedArmor = ArmorHelper.getArmors(this).find { it.name == "Galvion Caiman" }
-        //armorSelected()
     }
-
-    private fun armorSelected() {
-        /*binding.calcChestTitle.text = "${selectedArmor?.name} • Class ${selectedArmor?.level}"
-        binding.calcChestSubtitle.text = selectedArmor?.zones?.joinToString(separator = ", ")
-        binding.textView24.text = selectedArmor?.hitpoints.toString()
-
-        binding.ammoDetailArmorPenSeekbar.valueTo = selectedArmor?.hitpoints?.toFloat() ?: 0.0f
-        binding.ammoDetailArmorPenSeekbar.value = selectedArmor?.hitpoints?.toFloat() ?: 0.0f*/
-    }
-
-    /*private fun updatePenChance(durability: Float? = null) {
-        if (ammo != null) {
-            val chance = CalculatorHelper.penChance(
-                ammo?.toCAmmo()!!,
-                selectedArmor?.getCArmor(durability?.toDouble())!!
-            )
-
-            Timber.d(chance.toString())
-
-            binding.textView23.text = "${String.format("%.2f", chance)}%"
-        }
-    }*/
-
-    /*private fun updateData() {
-        getCaliberData()
-        binding.ammo = ammo
-
-        *//*if (ammo?.prices?.isNotEmpty() == true) {
-            SlimAdapter.create().register<AmmoOld.AmmoPriceModel>(R.layout.item_ammo_detail_trader_price) { price, i ->
-                i.text(R.id.ammoDetailTraderPriceTitle, price.getTraderString())
-                i.text(R.id.ammoDetailTraderPriceTV, price.getPrice())
-            }.attachTo(binding.ammoDetailTraderPriceRV).updateData(ammo?.prices)
-            binding.ammoDetailTraderPriceRV.layoutManager = LinearLayoutManager(this)
-        } else {
-            binding.ammoDetailSoldByCard.visibility = View.GONE
-        }*//*
-
-        binding.ammoDetailArmorPenSeekbar.addOnChangeListener { slider, value, fromUser ->
-            binding.ammoDetailPenChanceCurrentDurability.text = String.format("%.2f", value)
-            updatePenChance(value)
-        }
-
-        updatePenChance()
-
-        *//*binding.calcChestCard.setOnClickListener {
-            launchPicker(CalculatorPickerActivity.ItemType.ARMOR)
-        }*//*
-    }*/
-
-    /*private fun launchPicker(itemType: CalculatorPickerActivity.ItemType) {
-        val intent = Intent(this, CalculatorPickerActivity::class.java)
-        intent.putExtra("itemType", itemType)
-        resultLauncher.launch(intent)
-    }*/
 
     @Composable
     private fun AmmoDetailCard(
@@ -340,7 +287,7 @@ class AmmoDetailActivity : ComponentActivity() {
                 .fillMaxWidth(),
             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
         ) {
-            Column() {
+            Column {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
                         text = "ARMOR PENETRATION CHANCE",

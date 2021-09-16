@@ -28,6 +28,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -48,9 +49,12 @@ import com.austinhodak.thehideout.quests.Chip
 import com.austinhodak.thehideout.utils.addQuotes
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
-import com.google.accompanist.glide.rememberGlidePainter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
+import java.util.*
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
@@ -61,7 +65,6 @@ fun HideoutMainScreen(
 ) {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val isSearchOpen by hideoutViewModel.isSearchOpen.observeAsState(false)
 
@@ -158,6 +161,9 @@ fun HideoutMainScreen(
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 private fun HideoutModulesPage(
@@ -184,16 +190,18 @@ private fun HideoutModulesPage(
         contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
     ) {
         items(items = data ?: emptyList()) { module ->
-            HideoutModuleCard(module, hideoutViewModel = hideoutViewModel, tarkovRepo, userData)
+            HideoutModuleCard(module, tarkovRepo, userData)
         }
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 private fun HideoutModuleCard(
     module: Hideout.Module?,
-    hideoutViewModel: HideoutMainViewModel,
     tarkovRepo: TarkovRepo,
     userData: User?
 ) {
@@ -206,12 +214,14 @@ private fun HideoutModuleCard(
             .combinedClickable(
                 onClick = {},
                 onLongClick = {
-                    module.require?.filter { it?.type == "item" }?.forEach {
-                        val itemID = it?.name
-                        val quantity = it?.quantity ?: 0
-                        if (quantity > 500) return@forEach
-                        userRefTracker("items/$itemID/hideoutObjective/${it?.id?.addQuotes()}").setValue(quantity)
-                    }
+                    module.require
+                        ?.filter { it?.type == "item" }
+                        ?.forEach {
+                            val itemID = it?.name
+                            val quantity = it?.quantity ?: 0
+                            if (quantity > 500) return@forEach
+                            userRefTracker("items/$itemID/hideoutObjective/${it?.id?.addQuotes()}").setValue(quantity)
+                        }
                 }
             ),
         backgroundColor = Color(0xFE1F1F1F)
@@ -268,24 +278,19 @@ private fun HideoutModuleCard(
                             "item" -> {
                                 HideoutRequirementItem(
                                     tarkovRepo,
-                                    hideoutViewModel,
-                                    module,
                                     requirement,
                                     userData
                                 )
                             }
                             "module" -> {
                                 HideoutRequirementModule(
-                                    hideoutViewModel = hideoutViewModel,
                                     module = module,
                                     requirement = requirement,
-                                    userData
+                                    userData = userData
                                 )
                             }
                             "trader" -> {
                                 HideoutRequirementTrader(
-                                    hideoutViewModel = hideoutViewModel,
-                                    module = module,
                                     requirement = requirement,
                                     userData = userData
                                 )
@@ -320,17 +325,17 @@ private fun HideoutModuleCard(
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 private fun HideoutRequirementItem(
     tarkovRepo: TarkovRepo,
-    hideoutViewModel: HideoutMainViewModel,
-    module: Hideout.Module,
     requirement: Hideout.Module.Require,
     userData: User?
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
     val item by tarkovRepo.getItemByID(requirement.name.toString()).collectAsState(initial = null)
     val pricing = item?.pricing
@@ -347,8 +352,8 @@ private fun HideoutRequirementItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            rememberGlidePainter(
-                request = pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+            rememberImagePainter(
+                pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
             ),
             contentDescription = null,
             modifier = Modifier
@@ -380,14 +385,13 @@ private fun HideoutRequirementItem(
     }
 }
 
+@ExperimentalCoilApi
 @Composable
 private fun HideoutRequirementModule(
-    hideoutViewModel: HideoutMainViewModel,
     module: Hideout.Module,
     requirement: Hideout.Module.Require,
     userData: User?
 ) {
-    val context = LocalContext.current
 
     Row(
         modifier = Modifier
@@ -420,12 +424,9 @@ private fun HideoutRequirementModule(
 
 @Composable
 private fun HideoutRequirementTrader(
-    hideoutViewModel: HideoutMainViewModel,
-    module: Hideout.Module,
     requirement: Hideout.Module.Require,
     userData: User?
 ) {
-    val context = LocalContext.current
     val trader = Traders.values().find { it.int == (requirement.name as Double).toInt() }
 
     Row(
@@ -457,6 +458,8 @@ private fun HideoutRequirementTrader(
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
@@ -480,6 +483,8 @@ private fun HideoutCraftsPage(
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
@@ -516,7 +521,7 @@ fun CraftItem(craft: Craft, userData: User?) {
                     ) {
                         Icon(Icons.Filled.Warning, contentDescription = "")
                         Text(
-                            text = "${craft.source?.toUpperCase()} NOT BUILT",
+                            text = "${craft.source?.uppercase()} NOT BUILT",
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Medium,
                             color = Color.Black
@@ -532,8 +537,8 @@ fun CraftItem(craft: Craft, userData: User?) {
                 ) {
                     Box {
                         Image(
-                            rememberGlidePainter(
-                                request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                            rememberImagePainter(
+                                rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
                             ),
                             contentDescription = null,
                             modifier = Modifier
@@ -601,6 +606,9 @@ fun CraftItem(craft: Craft, userData: User?) {
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
@@ -618,8 +626,8 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            rememberGlidePainter(
-                request = item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+            rememberImagePainter(
+                item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
             ),
             contentDescription = null,
             modifier = Modifier
@@ -663,7 +671,7 @@ private fun HideoutBottomBar(
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
 
-        items.forEachIndexed { index, item ->
+        items.forEachIndexed { _, item ->
             BottomNavigationItem(
                 icon = {
                     if (item.icon != null) {

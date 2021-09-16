@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.graphics.Color
-import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -339,7 +338,7 @@ fun Any.addQuotes(): String {
 
 @DrawableRes
 fun String.getObjectiveIcon(): Int {
-    return when (this.toLowerCase()) {
+    return when (this.lowercase()) {
         "kill" -> R.drawable.icons8_sniper_96
         "collect" -> R.drawable.ic_baseline_swap_horizontal_circle_24
         "pickup" -> R.drawable.icons8_upward_arrow_96
@@ -352,21 +351,6 @@ fun String.getObjectiveIcon(): Int {
         "warning" -> R.drawable.ic_baseline_warning_24
         "skill" -> R.drawable.ic_baseline_fitness_center_24
         else -> R.drawable.icons8_sniper_96
-    }
-}
-
-@DrawableRes
-fun getTraderIcon(trader: Traders): Int {
-    return when (trader.id) {
-        "Prapor" -> R.drawable.prapor_portrait
-        "Therapist" -> R.drawable.therapist_portrait
-        "Fence" -> R.drawable.fence_portrait
-        "Skier" -> R.drawable.skier_portrait
-        "Peacekeeper" -> R.drawable.peacekeeper_portrait
-        "Mechanic" -> R.drawable.mechanic_portrait
-        "Ragman" -> R.drawable.ragman_portrait
-        "Jaeger" -> R.drawable.jaeger_portrait
-        else -> R.drawable.jaeger_portrait
     }
 }
 

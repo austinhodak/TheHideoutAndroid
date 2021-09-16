@@ -7,7 +7,6 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,21 +16,12 @@ class AmmoViewModel @Inject constructor(
     private val repository: TarkovRepo
 ) : ViewModel() {
 
-    private val _sort = MutableLiveData(0)
-    val sort = _sort
-
-    fun setSort(index: Int) {
-        _sort.value = index
-    }
-
     private val _ammoDetails = MutableLiveData<Ammo?>(null)
     val ammoDetails = _ammoDetails
 
     fun getAmmo(id: String) {
         viewModelScope.launch {
-            repository.getAmmoByID(id).catch { e ->
-
-            }.collect {
+            repository.getAmmoByID(id).collect {
                 _ammoDetails.value = it
             }
         }

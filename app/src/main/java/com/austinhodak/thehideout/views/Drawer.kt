@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
+import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
@@ -47,6 +48,8 @@ val weaponCategories = mutableListOf(
     //Triple("Throwables", 311, ""),
 )
 
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
 class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSliderView(context, attrs) {
 
     private val benderFont = ResourcesCompat.getFont(context, R.font.bender)
@@ -75,7 +78,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
     private val drawerMaps = PrimaryDrawerItem().apply {
         tag = "activity:map"; identifier = 110; nameText = "Maps"; iconRes =
         R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont; isSelectable = false;
-        onDrawerItemClickListener = { _, item, _ ->
+        onDrawerItemClickListener = { _, _, _ ->
             context.openActivity(MapsActivity::class.java)
             false
         }
@@ -207,6 +210,8 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
 
 }
 
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
 @Composable
 fun MainDrawer(
     navViewModel: NavViewModel,

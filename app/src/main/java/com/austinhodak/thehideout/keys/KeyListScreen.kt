@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
@@ -36,8 +37,11 @@ import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
 @SuppressLint("CheckResult")
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -142,6 +146,9 @@ fun KeyListScreen(
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun KeyCard(

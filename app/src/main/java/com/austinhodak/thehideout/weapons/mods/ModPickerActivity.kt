@@ -22,13 +22,13 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class ModPickerActivity : AppCompatActivity() {
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo
 
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

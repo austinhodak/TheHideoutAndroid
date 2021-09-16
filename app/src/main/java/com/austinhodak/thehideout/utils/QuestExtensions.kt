@@ -60,5 +60,5 @@ fun Quest.isAvailable(userData: User?): Boolean {
 }
 
 fun Quest.trader(): Traders {
-    return Traders.valueOf(giver?.name?.toUpperCase()!!)
+    return Traders.valueOf(giver?.name?.uppercase()!!)
 }

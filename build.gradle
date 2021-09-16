@@ -19,7 +19,7 @@ buildscript {
                 detekt            : '1.14.2',
                 slidingpaneLayout : "1.1.0",
                 swiperefreshLayout: "1.1.0",
-                materialDrawer    : '8.4.2',
+                materialDrawer    : '8.4.3',
                 firebaseBOM       : "28.3.0",
                 ktx               : '1.6.0',
                 mDialogs          : "3.3.0",
@@ -28,18 +28,17 @@ buildscript {
                 hilt              : "2.31.2-alpha"
         ]
         compose_version = '1.0.2'
-        accompanist = '0.17.0'
+        accompanist = '0.18.0'
     }
 
     repositories {
         google()
         mavenCentral()
-        jcenter()
     }
 
     dependencies {
 
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'com.google.gms:google-services:4.3.10'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
@@ -53,7 +52,6 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        jcenter()
     }
 }
 

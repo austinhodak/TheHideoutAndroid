@@ -58,9 +58,12 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.firebase.database.ServerValue
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.text.DecimalFormat
 import javax.inject.Inject
 
+@ExperimentalMaterialApi
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
 class FleaItemDetail : AppCompatActivity() {
@@ -71,7 +74,6 @@ class FleaItemDetail : AppCompatActivity() {
     lateinit var tarkovRepo: TarkovRepo
     private lateinit var itemID: String
 
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -87,8 +89,6 @@ class FleaItemDetail : AppCompatActivity() {
                 HideoutTheme {
                     val scaffoldState = rememberScaffoldState()
                     var selectedNavItem by remember { mutableStateOf(0) }
-
-                    val scope = rememberCoroutineScope()
 
                     val item = viewModel.item.observeAsState()
 
@@ -217,7 +217,7 @@ class FleaItemDetail : AppCompatActivity() {
                 .fillMaxWidth(),
             backgroundColor = Color(0xFE1F1F1F)
         ) {
-            Column() {
+            Column {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
                         text = "FLEA MARKET FEE CALCULATOR",
@@ -272,7 +272,7 @@ class FleaItemDetail : AppCompatActivity() {
                 .fillMaxWidth(),
             backgroundColor = Color(0xFE1F1F1F)
         ) {
-            Column() {
+            Column {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
                         text = title,
@@ -773,7 +773,7 @@ class FleaItemDetail : AppCompatActivity() {
     fun FleaDetailToolbar(
         modifier: Modifier = Modifier,
         item: Item?,
-        actions: @Composable() (RowScope.() -> Unit) = {},
+        actions: @Composable (RowScope.() -> Unit) = {},
         onNavIconPressed: () -> Unit = { },
     ) {
         TopAppBar(
@@ -938,7 +938,7 @@ class FleaItemDetail : AppCompatActivity() {
                 .fillMaxWidth(),
             backgroundColor = Color(0xFE1F1F1F)
         ) {
-            Column() {
+            Column {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
                         text = title,
@@ -976,7 +976,7 @@ class FleaItemDetail : AppCompatActivity() {
                 .fillMaxWidth(),
             backgroundColor = Color(0xFE1F1F1F)
         ) {
-            Column() {
+            Column {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
                         text = title,
@@ -1001,36 +1001,6 @@ class FleaItemDetail : AppCompatActivity() {
             }
         }
     }
-
-/*@Composable
-private fun TraderPriceListItem(
-    item: ItemPrice,
-    isHighest: Boolean = false
-) {
-    Row(
-        modifier = Modifier.padding(top = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-            Text(
-                text = item.toName(true)?.toUpperCase(Locale.current) ?: "",
-                style = MaterialTheme.typography.body1,
-                fontSize = 12.sp
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = if (item.source == ItemSourceName.peacekeeper) {
-                item.price?.convertRtoUSD()?.asCurrency("D") ?: ""
-            } else {
-                item.price?.asCurrency() ?: ""
-            },
-            style = MaterialTheme.typography.body1,
-            fontSize = 14.sp,
-            fontWeight = if (isHighest) FontWeight.Bold else FontWeight.Normal
-        )
-    }
-}*/
 
     @Composable
     private fun TraderPriceListGridItem(

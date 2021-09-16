@@ -3,7 +3,6 @@ package com.austinhodak.thehideout.calculator.viewmodels
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.calculator.CalculatorHelper
@@ -18,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SimViewModel @Inject constructor(
-    private val repository: TarkovRepo,
     @ApplicationContext context: Context
 ) : ViewModel() {
 

@@ -14,11 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.compose.theme.*
-import com.google.accompanist.glide.rememberGlidePainter
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun FleaItem(
@@ -58,7 +60,7 @@ fun FleaItem(
                     .fillMaxHeight()
                     .padding(end = 16.dp))
                 Image(
-                    rememberGlidePainter(request = item.pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
+                    rememberImagePainter(item.pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
                     contentDescription = null,
                     modifier = Modifier
                         .width(48.dp)

@@ -18,6 +18,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
 import com.austinhodak.tarkovapi.room.models.Item
@@ -31,11 +33,14 @@ import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.quests.QuestDetailActivity.Types.*
 import com.austinhodak.thehideout.quests.viewmodels.QuestDetailViewModel
 import com.austinhodak.thehideout.utils.*
-import com.google.accompanist.glide.rememberGlidePainter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 import javax.inject.Inject
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
 class QuestDetailActivity : AppCompatActivity() {
@@ -186,11 +191,11 @@ class QuestDetailActivity : AppCompatActivity() {
         type: Types
     ) {
 
-        when {
-            type == KILL || type == PICKUP || type == PLACE -> {
+        when (type) {
+            KILL, PICKUP, PLACE -> {
                 ObjectiveItemBasic(title = objective.toStringBasic(), icon = Maps.values().find { it.int == objective.location?.toInt() }?.icon)
             }
-            type == COLLECT || type == FIND || type == KEY || type == BUILD -> {
+            COLLECT, FIND, KEY, BUILD -> {
                 val item: Item? by tarkovRepo.getItemByID(objective.target?.first() ?: "").collectAsState(initial = null)
                 if (item != null)
                     ObjectiveItemPricing(objective = objective, pricing = item?.pricing)
@@ -282,7 +287,7 @@ class QuestDetailActivity : AppCompatActivity() {
                     }
                 }
                 Image(
-                    rememberGlidePainter(request = pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
+                    rememberImagePainter(pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)

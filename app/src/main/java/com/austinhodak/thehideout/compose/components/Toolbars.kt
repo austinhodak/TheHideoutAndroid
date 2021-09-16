@@ -31,7 +31,7 @@ fun MainToolbar(
     title: String,
     navViewModel: NavViewModel,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
-    actions: @Composable() (RowScope.() -> Unit) = {}
+    actions: @Composable (RowScope.() -> Unit) = {}
 ) {
     TopAppBar(
         title = { Text(title) },
@@ -53,7 +53,7 @@ fun AmmoDetailToolbar(
     title: String,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     onBackPressed: () -> Unit,
-    actions: @Composable() (RowScope.() -> Unit) = {}
+    actions: @Composable (RowScope.() -> Unit) = {}
 ) {
     TopAppBar(
         title = { Text(title) },
@@ -75,7 +75,7 @@ fun QuestDetailToolbar(
     title: String,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     onBackPressed: () -> Unit,
-    actions: @Composable() (RowScope.() -> Unit) = {}
+    actions: @Composable (RowScope.() -> Unit) = {}
 ) {
     TopAppBar(
         title = {

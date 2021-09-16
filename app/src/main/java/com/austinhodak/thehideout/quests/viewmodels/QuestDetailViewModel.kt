@@ -23,9 +23,7 @@ class QuestDetailViewModel @Inject constructor(
 
     fun getQuest(id: String) {
         viewModelScope.launch {
-            repository.getQuestByID(id).catch { e ->
-
-            }.collect {
+            repository.getQuestByID(id).collect {
                 _questDetails.value = it
             }
         }

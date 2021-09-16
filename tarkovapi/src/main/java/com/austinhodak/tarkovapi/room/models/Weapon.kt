@@ -128,10 +128,7 @@ data class Weapon(
                 "reciever" -> "Receiver"
                 "sight_rear" -> "Rear Sight"
                 else -> _name ?: "Mod"
-            }.toUpperCase().let {
-                it
-                //if (_required == true) it.plus(" • REQUIRED") else it
-            }
+            }.uppercase()
         }
 
         fun getSubIds(): List<String>? {

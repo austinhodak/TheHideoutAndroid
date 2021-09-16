@@ -31,6 +31,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
 import com.austinhodak.tarkovapi.room.enums.Traders
@@ -48,8 +49,11 @@ import com.austinhodak.thehideout.utils.isLocked
 import com.austinhodak.thehideout.utils.openActivity
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -149,17 +153,6 @@ fun QuestMainScreen(
                 }
             }
         ) { padding ->
-            /*Box(
-                Modifier.fillMaxWidth()
-            ) {
-                FloatingActionButton(
-                    onClick = { },
-                    shape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50)),
-                    modifier = Modifier.size(40.dp).align(Alignment.TopEnd)
-                ) {
-                    Icon(Icons.Filled.Info, contentDescription = "Localized description")
-                }
-            }*/
 
             if (quests.isNullOrEmpty()) {
                 Box(
@@ -178,13 +171,13 @@ fun QuestMainScreen(
                         QuestOverviewScreen(questViewModel = questViewModel, tarkovRepo = tarkovRepo, quests)
                     }
                     composable(BottomNavigationScreens.Quests.route) {
-                        QuestTradersScreen(questViewModel = questViewModel, tarkovRepo = tarkovRepo, scope = scope, quests, padding, false)
+                        QuestTradersScreen(questViewModel = questViewModel, scope = scope, quests = quests, padding = padding, isMapTab = false)
                     }
                     composable(BottomNavigationScreens.Items.route) {
 
                     }
                     composable(BottomNavigationScreens.Maps.route) {
-                        QuestTradersScreen(questViewModel = questViewModel, tarkovRepo = tarkovRepo, scope = scope, quests, padding, true)
+                        QuestTradersScreen(questViewModel = questViewModel, scope = scope, quests = quests, padding = padding, isMapTab = true)
                     }
                 }
             }
@@ -192,13 +185,14 @@ fun QuestMainScreen(
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
 private fun QuestTradersScreen(
     questViewModel: QuestMainViewModel,
-    tarkovRepo: TarkovRepo,
     scope: CoroutineScope,
     quests: List<Quest>,
     padding: PaddingValues,
@@ -215,8 +209,6 @@ private fun QuestTradersScreen(
     }
 
     val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
-
-    val test = quests.filter { it.requirement?.quests?.size!! > 1 }.map { it.title }
 
     Column(
         Modifier.fillMaxWidth()
@@ -241,8 +233,8 @@ private fun QuestTradersScreen(
                     }
                 }
             }
-            val data = when {
-                selectedView == QuestFilter.AVAILABLE -> {
+            val data = when (selectedView) {
+                QuestFilter.AVAILABLE -> {
                     questsList.filter {
                         if (userData?.isQuestCompleted(it) == true) {
                             false
@@ -259,7 +251,7 @@ private fun QuestTradersScreen(
                         }
                     }
                 }
-                selectedView == QuestFilter.LOCKED -> {
+                QuestFilter.LOCKED -> {
                     questsList.filterNot {
                         if (userData?.isQuestCompleted(it) == true) {
                             true
@@ -276,8 +268,8 @@ private fun QuestTradersScreen(
                         }
                     }
                 }
-                selectedView == QuestFilter.ALL -> questsList
-                selectedView == QuestFilter.COMPLETED -> {
+                QuestFilter.ALL -> questsList
+                QuestFilter.COMPLETED -> {
                     questsList.filter {
                         completedQuests?.contains(it.id.toInt()) == true
                     }
@@ -303,6 +295,8 @@ private fun QuestTradersScreen(
 
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
@@ -354,40 +348,44 @@ private fun QuestCard(
                             style = MaterialTheme.typography.overline
                         )
                     }*/
-                    if (quest.isLocked(userData)) {
-                        OutlinedButton(
-                            onClick = {
-                                questViewModel.skipToQuest(quest)
-                            },
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                backgroundColor = Color.Transparent,
-                                contentColor = Color.Gray
-                            ),
-                            border = BorderStroke(1.dp, color = Color.Gray)
-                        ) {
-                            Text("SKIP TO")
+                    when {
+                        quest.isLocked(userData) -> {
+                            OutlinedButton(
+                                onClick = {
+                                    questViewModel.skipToQuest(quest)
+                                },
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    backgroundColor = Color.Transparent,
+                                    contentColor = Color.Gray
+                                ),
+                                border = BorderStroke(1.dp, color = Color.Gray)
+                            ) {
+                                Text("SKIP TO")
+                            }
                         }
-                    } else if (quest.isAvailable(userData)) {
-                        OutlinedButton(
-                            onClick = { questViewModel.markQuestCompleted(quest) },
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                backgroundColor = Color.Transparent,
-                                contentColor = Red400
-                            ),
-                            border = BorderStroke(1.dp, color = Red400)
-                        ) {
-                            Text("COMPLETE")
+                        quest.isAvailable(userData) -> {
+                            OutlinedButton(
+                                onClick = { questViewModel.markQuestCompleted(quest) },
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    backgroundColor = Color.Transparent,
+                                    contentColor = Red400
+                                ),
+                                border = BorderStroke(1.dp, color = Red400)
+                            ) {
+                                Text("COMPLETE")
+                            }
                         }
-                    } else {
-                        OutlinedButton(
-                            onClick = { questViewModel.undoQuest(quest, true) },
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                backgroundColor = Color.Transparent,
-                                contentColor = Color.Gray
-                            ),
-                            border = BorderStroke(1.dp, color = Color.Gray)
-                        ) {
-                            Text("UNDO")
+                        else -> {
+                            OutlinedButton(
+                                onClick = { questViewModel.undoQuest(quest, true) },
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    backgroundColor = Color.Transparent,
+                                    contentColor = Color.Gray
+                                ),
+                                border = BorderStroke(1.dp, color = Color.Gray)
+                            ) {
+                                Text("UNDO")
+                            }
                         }
                     }
                 }
@@ -544,10 +542,6 @@ private fun QuestOverviewScreen(
     val placedTotalUser by questViewModel.placedTotalUser.observeAsState()
     val pickupTotalUser by questViewModel.pickupTotalUser.observeAsState()
 
-    //Timber.d(pickupTotalUser.toString())
-    //Timber.d(pickupTotal.toString())
-    //Timber.d("TEST - " + (pickupTotalUser?.toDouble()!! / pickupTotal?.toDouble()!!).toFloat())
-
     LazyColumn(
         contentPadding = PaddingValues(vertical = 4.dp)
     ) {
@@ -556,7 +550,7 @@ private fun QuestOverviewScreen(
                 color = Green500,
                 s1 = "Quests Completed",
                 s2 = "$questTotalCompletedUser/$questTotal",
-                progress = (questTotalCompletedUser?.toDouble()?.div(questTotal?.toDouble()))?.toFloat(),
+                progress = (questTotalCompletedUser?.toDouble()?.div(questTotal.toDouble()))?.toFloat(),
             )
         }
         item {
@@ -633,7 +627,7 @@ private fun OverviewItem(
     s2: String = "",
     progress: Float? = 0.5f
 ) {
-    var p by remember { mutableStateOf(progress) }
+    val p by remember { mutableStateOf(progress) }
     val animatedProgress by animateFloatAsState(
         targetValue = p ?: 0.5f,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
@@ -741,7 +735,7 @@ private fun QuestBottomNav(
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
 
-        items.forEachIndexed { index, item ->
+        items.forEachIndexed { _, item ->
             BottomNavigationItem(
                 icon = {
                     if (item.icon != null) {

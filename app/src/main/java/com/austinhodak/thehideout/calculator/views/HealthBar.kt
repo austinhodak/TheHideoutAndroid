@@ -1,13 +1,13 @@
 package com.austinhodak.thehideout.calculator.views
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ProgressBar
@@ -20,6 +20,7 @@ import com.austinhodak.thehideout.calculator.models.BodyPart
 import kotlin.math.roundToInt
 
 
+@SuppressLint("ViewConstructor", "SetTextI18n")
 class HealthBar @JvmOverloads constructor(
     context: Context,
     attr: AttributeSet? = null,
@@ -28,7 +29,6 @@ class HealthBar @JvmOverloads constructor(
     body: Body
 ) : ConstraintLayout(context, attr, defStyleAttr) {
 
-    private var name = ""
     private var currentHealth = Health()
     private var pg: ProgressBar
     private var healthTV: TextView
@@ -71,12 +71,6 @@ class HealthBar @JvmOverloads constructor(
         currentHealth = newHealth
     }
 
-    fun reset(health: Health) {
-        pg.max = health.max.toInt()
-        updateBackground(currentHealth, health)
-        currentHealth = health
-    }
-
     fun updateShotCount(count: Int) {
         shotCountTV.visibility = if (count == 0) View.GONE else View.VISIBLE
         shotCountTV.text = count.toString()
@@ -85,18 +79,18 @@ class HealthBar @JvmOverloads constructor(
     private fun updateBackground(health: Health, newHealth: Health? = null) {
         val layerDrawable: LayerDrawable = getDrawable(context, R.drawable.progress_bar) as LayerDrawable
         val strokeDrawable = layerDrawable.findDrawableByLayerId(android.R.id.background) as GradientDrawable
-        Log.d("HEALTH", newHealth.toString())
+
         if (newHealth != null && newHealth.current <= 0.0) {
-            healthTV.setTextColor(resources.getColor(R.color.md_red_500))
+            healthTV.setTextColor(context.getColor(R.color.md_red_500))
             strokeDrawable.setStroke(3, context.getColor(R.color.md_red_500))
             blackedTV.visibility = View.VISIBLE
         } else if (health.current <= 0.0 && newHealth == null) {
-            healthTV.setTextColor(resources.getColor(R.color.md_red_500))
+            healthTV.setTextColor(context.getColor(R.color.md_red_500))
             strokeDrawable.setStroke(3, context.getColor(R.color.md_red_500))
             blackedTV.visibility = View.VISIBLE
         } else {
             blackedTV.visibility = View.GONE
-            healthTV.setTextColor(resources.getColor(R.color.white))
+            healthTV.setTextColor(context.getColor(R.color.white))
             strokeDrawable.setStroke(3, context.getColor(R.color.md_grey_800))
         }
 
@@ -106,7 +100,7 @@ class HealthBar @JvmOverloads constructor(
             val valueAnimator = ValueAnimator.ofFloat(health.current.toFloat(), newHealth.current.toFloat())
             valueAnimator.duration = 300
             valueAnimator.addUpdateListener {
-                val progressPercentage =if (health.max != newHealth.max) {
+                val progressPercentageNew = if (health.max != newHealth.max) {
                     it.animatedValue as Float / newHealth.max
                 } else {
                     it.animatedValue as Float / health.max
@@ -114,8 +108,8 @@ class HealthBar @JvmOverloads constructor(
                 healthTV.text = "${(it.animatedValue as Float).roundToInt()}/${newHealth.max.roundToInt()}"
                 pg.progressTintList = ColorStateList.valueOf(
                     Color.rgb(
-                        (255 - (255 * progressPercentage)).roundToInt().coerceIn(0, 255),
-                        (185 * progressPercentage).roundToInt().coerceIn(0, 255),
+                        (255 - (255 * progressPercentageNew)).roundToInt().coerceIn(0, 255),
+                        (185 * progressPercentageNew).roundToInt().coerceIn(0, 255),
                         0
                     )
                 )

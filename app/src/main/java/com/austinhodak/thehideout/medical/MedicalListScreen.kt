@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
@@ -30,6 +31,7 @@ import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
@@ -92,6 +94,7 @@ fun MedicalListScreen (
     }
 }
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 private fun MedList(
@@ -113,6 +116,7 @@ private fun MedList(
     }
 }
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 private fun MedCard(
@@ -166,7 +170,7 @@ private fun MedCard(
                 Row {
                     if (item.effects_damage != null) {
                         item.effects_damage?.keys()?.forEach {
-                            val effect = item.effects_damage?.getJSONObject(it)
+                            //val effect = item.effects_damage?.getJSONObject(it)
                             val icon = it.getMedIcon()
                             icon?.let {
                                 Icon(painter = painterResource(id = icon), contentDescription = "Med", tint = Color.Unspecified, modifier = Modifier.padding(start = 4.dp))

@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
@@ -38,12 +39,13 @@ import kotlinx.coroutines.flow.collect
 import java.io.Serializable
 import javax.inject.Inject
 
+@ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class PickerActivity : AppCompatActivity() {
 
-    val pickerViewModel: PickerViewModel by viewModels()
+    private val pickerViewModel: PickerViewModel by viewModels()
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo

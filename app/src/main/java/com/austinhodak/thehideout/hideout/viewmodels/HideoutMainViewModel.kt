@@ -1,7 +1,6 @@
 package com.austinhodak.thehideout.hideout.viewmodels
 
 import androidx.lifecycle.MutableLiveData
-import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.SearchViewModel
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.hideout.HideoutFilter
@@ -15,9 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HideoutMainViewModel @Inject constructor(
-    private val repository: TarkovRepo
-) : SearchViewModel() {
+class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
 
     private val _view = MutableLiveData(HideoutFilter.CURRENT)
     val view = _view

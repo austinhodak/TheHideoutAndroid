@@ -5,8 +5,8 @@ import java.util.*
 
 object Time {
 
-    private val tarkovRatio = 7
-    val formatter = SimpleDateFormat("HH:mm:ss").apply {
+    private const val tarkovRatio = 7
+    private val formatter = SimpleDateFormat("HH:mm:ss").apply {
         timeZone = TimeZone.getTimeZone("UTC")
     }
 

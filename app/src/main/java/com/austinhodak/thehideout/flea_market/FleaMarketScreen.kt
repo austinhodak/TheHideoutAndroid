@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.flea_market
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -33,6 +34,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
@@ -55,8 +57,10 @@ import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoilApi
+@SuppressLint("CheckResult")
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun FleaMarketScreen(
@@ -142,17 +146,20 @@ fun FleaMarketScreen(
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 private fun FleaMarketNeededScreen(
-    data: List<Item>?,
+    itemList: List<Item>?,
     userData: User?,
     fleaViewModel: FleaViewModel
 ) {
     val sortBy = fleaViewModel.sortBy.observeAsState()
     val searchKey by fleaViewModel.searchKey.observeAsState("")
 
-    val neededItems = data?.filter { userData?.items?.containsKey(it.id) == true }.let { data ->
+    val neededItems = itemList?.filter { userData?.items?.containsKey(it.id) == true }.let { data ->
         when (sortBy.value) {
             0 -> data?.sortedBy { it.Name }
             1 -> data?.sortedBy { it.getPrice() }
@@ -240,8 +247,8 @@ private fun FleaMarketNeededScreen(
 }
 
 
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExperimentalMaterialApi
 @Composable
 private fun FleaMarketFavoritesList(
@@ -302,8 +309,8 @@ private fun FleaMarketFavoritesList(
     }
 }
 
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
-@OptIn(ExperimentalCoroutinesApi::class)
 @ExperimentalMaterialApi
 @Composable
 private fun FleaMarketListScreen(
@@ -375,7 +382,7 @@ private fun FleaBottomNav(
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
 
-        items.forEachIndexed { index, item ->
+        items.forEachIndexed { _, item ->
             BottomNavigationItem(
                 icon = {
                     if (item.icon != null) {

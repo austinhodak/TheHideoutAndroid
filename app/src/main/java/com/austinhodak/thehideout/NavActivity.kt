@@ -14,6 +14,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
@@ -46,10 +47,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import ovh.plrapps.mapcompose.api.*
 import timber.log.Timber
 import javax.inject.Inject
 
+@ExperimentalFoundationApi
+@ExperimentalCoilApi
 @ExperimentalCoroutinesApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -68,7 +70,7 @@ class NavActivity : AppCompatActivity() {
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
-    ) { res ->
+    ) {
 
     }
 
@@ -83,7 +85,6 @@ class NavActivity : AppCompatActivity() {
         }
     }
 
-    @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

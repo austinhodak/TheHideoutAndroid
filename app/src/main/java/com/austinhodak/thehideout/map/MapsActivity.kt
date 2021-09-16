@@ -6,8 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -32,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
@@ -60,15 +59,15 @@ import java.net.MalformedURLException
 import java.net.URL
 import kotlin.math.roundToInt
 
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MapsActivity : AppCompatActivity() {
 
-    private lateinit var map: GoogleMap
     private val mapViewModel: MapViewModel by viewModels()
     private var markers: MutableList<Marker> = arrayListOf()
 
     @SuppressLint("CheckResult", "PotentialBehaviorOverride")
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -125,7 +124,7 @@ class MapsActivity : AppCompatActivity() {
                             FlowRow(crossAxisSpacing = 8.dp, mainAxisSpacing = 0.dp, mainAxisAlignment = FlowMainAxisAlignment.SpaceBetween) {
                                 categories?.forEach { category ->
                                     Chip(
-                                        text = category?.title ?: "",
+                                        string = category?.title ?: "",
                                         selected = true
                                     ) {
                                         val list = selectedCategories
@@ -209,7 +208,7 @@ class MapsActivity : AppCompatActivity() {
                             sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
                             sheetBackgroundColor = Color(0xFE1F1F1F)
                         ) { paddingValues ->
-                            Box() {
+                            Box {
                                 selectedMap?.let {
                                     AndroidView(factory = {
                                         mapView
@@ -276,9 +275,9 @@ class MapsActivity : AppCompatActivity() {
                                                 title(text = "Choose Map")
                                                 listItemsSingleChoice(
                                                     items = title,
-                                                    initialSelection = title.map { it.toLowerCase() }.indexOf(selectedMapText)
-                                                ) { _, index, text ->
-                                                    mapViewModel.setMap(text.toString().toLowerCase(), this@MapsActivity)
+                                                    initialSelection = title.map { it.lowercase() }.indexOf(selectedMapText)
+                                                ) { _, _, text ->
+                                                    mapViewModel.setMap(text.toString().lowercase(), this@MapsActivity)
                                                 }
                                             }
                                         },
@@ -319,14 +318,15 @@ class MapsActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("PotentialBehaviorOverride")
     private fun setupMap(map: GoogleMap, selectedMap: MapInteractive) {
         map.clear()
         map.mapType = GoogleMap.MAP_TYPE_NONE
 
         val tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
             override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
-                val normalizedCoords = getNormalizedCoord(x, y, zoom, selectedMap) ?: return null
-                val url = "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCoords.first}/${normalizedCoords.second}.png"
+                val normalizedCords = getNormalizedCord(x, y, zoom, selectedMap) ?: return null
+                val url = "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.png"
                 //Timber.d(url)
 
                 return try {
@@ -334,12 +334,6 @@ class MapsActivity : AppCompatActivity() {
                 } catch (e: MalformedURLException) {
                     throw AssertionError(e)
                 }
-            }
-
-            private fun checkTileExists(x: Int, y: Int, zoom: Int): Boolean {
-                val minZoom = 8
-                val maxZoom = 15
-                return zoom in minZoom..maxZoom
             }
         }
 
@@ -423,7 +417,7 @@ class MapsActivity : AppCompatActivity() {
                     else -> R.drawable.icon_unknown
                 }
 
-                val bitmapDrawable = (resources.getDrawable(icon) as BitmapDrawable).bitmap
+                val bitmapDrawable = (ResourcesCompat.getDrawable(resources, icon, null) as BitmapDrawable).bitmap
                 val markerIcon = Bitmap.createScaledBitmap(bitmapDrawable, 100, 100, false)
 
                 val marker: Marker? = when {
@@ -441,7 +435,7 @@ class MapsActivity : AppCompatActivity() {
                                     textAsBitmap(
                                         it.title ?: "",
                                         26f,
-                                        resources.getColor(R.color.white),
+                                        getColor(R.color.white),
                                         Color.Transparent.toArgb()
                                     )
                                 )
@@ -455,7 +449,7 @@ class MapsActivity : AppCompatActivity() {
                                     textAsBitmap(
                                         it.title ?: "",
                                         36f,
-                                        resources.getColor(R.color.white),
+                                        getColor(R.color.white),
                                         Green500.toArgb()
                                     )
                                 )
@@ -482,7 +476,7 @@ class MapsActivity : AppCompatActivity() {
         }
     }
 
-    fun updateMarkers(selectedCategories: List<Int>?) {
+    private fun updateMarkers(selectedCategories: List<Int>?) {
         markers.forEach {
             if (it.tag is MapInteractive.Location) {
                 val location = it.tag as MapInteractive.Location
@@ -491,7 +485,7 @@ class MapsActivity : AppCompatActivity() {
         }
     }
 
-    fun getNormalizedCoord(x: Int, y: Int, zoom: Int, map: MapInteractive?): Pair<Int, Int>? {
+    fun getNormalizedCord(x: Int, y: Int, zoom: Int, map: MapInteractive?): Pair<Int, Int>? {
         if (map == null) return null
         val tileSet = map.getFirstMap()!!.bounds!!
 
@@ -528,7 +522,7 @@ class MapsActivity : AppCompatActivity() {
 
     private fun textAsBitmap(text: String, textSize: Float, textColor: Int, outlineColor: Int): Bitmap {
         val benderFont = ResourcesCompat.getFont(this, R.font.bender_bold)
-        val bender = ResourcesCompat.getFont(this, R.font.bender_bold)
+
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.typeface = benderFont
         paint.textSize = textSize
@@ -556,7 +550,7 @@ class MapsActivity : AppCompatActivity() {
     @Composable
     private fun Chip(
         selected: Boolean = false,
-        text: String,
+        string: String,
         onClick: () -> Unit
     ) {
         Surface(
@@ -577,7 +571,7 @@ class MapsActivity : AppCompatActivity() {
                 }
         ) {
             Text(
-                text = text,
+                text = string,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.body2,
                 modifier = Modifier.padding(8.dp),

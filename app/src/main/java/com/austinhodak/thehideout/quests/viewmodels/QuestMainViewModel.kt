@@ -147,7 +147,7 @@ class QuestMainViewModel @Inject constructor(
             total
         }
 
-        val allObjectives = quests?.flatMap { it.objective!! }
+        val allObjectives = quests.flatMap { it.objective!! }
 
         var pmc = 0
         var scav = 0
@@ -156,7 +156,7 @@ class QuestMainViewModel @Inject constructor(
         var pickup = 0
 
         userData.questObjectives?.values?.forEach { obj ->
-            val objective = allObjectives?.find { it.id?.toInt() == obj?.id }?: return@forEach
+            val objective = allObjectives.find { it.id?.toInt() == obj?.id }?: return@forEach
 
             when {
                 objective.type == "kill" && objective.target?.contains("PMCs") == true -> pmc += obj?.progress ?: 0
@@ -222,27 +222,27 @@ class QuestMainViewModel @Inject constructor(
             item as String
         }
 
-        return when {
-            questObjective.type == "key" -> "$itemName needed on $location"
-            questObjective.type == "pickup" -> "Pick-up $itemName on $location"
-            questObjective.type == "kill" -> "Eliminate ${questObjective.number} $itemName on $location"
-            questObjective.type == "collect" -> "Hand over ${questObjective.number} $itemName"
-            questObjective.type == "place" -> "Place $itemName on $location"
-            questObjective.type == "mark" -> "Place MS2000 marker at $location"
-            questObjective.type == "locate" -> "Locate $itemName on $location"
-            questObjective.type == "find" -> "Find in raid ${questObjective.number} $itemName"
-            questObjective.type == "reputation" -> "Reach loyalty level ${questObjective.number} with ${Traders.values()[itemName?.toInt()!!].id}"
-            questObjective.type == "warning" -> "$itemName"
-            questObjective.type == "skill" -> "Reach skill level ${questObjective.number} with $itemName"
-            questObjective.type == "survive" -> "Survive in the raid at $location ${questObjective.number} times."
-            questObjective.type == "build" -> "Build $itemName"
+        return when (questObjective.type) {
+            "key" -> "$itemName needed on $location"
+            "pickup" -> "Pick-up $itemName on $location"
+            "kill" -> "Eliminate ${questObjective.number} $itemName on $location"
+            "collect" -> "Hand over ${questObjective.number} $itemName"
+            "place" -> "Place $itemName on $location"
+            "mark" -> "Place MS2000 marker at $location"
+            "locate" -> "Locate $itemName on $location"
+            "find" -> "Find in raid ${questObjective.number} $itemName"
+            "reputation" -> "Reach loyalty level ${questObjective.number} with ${Traders.values()[itemName?.toInt()!!].id}"
+            "warning" -> "$itemName"
+            "skill" -> "Reach skill level ${questObjective.number} with $itemName"
+            "survive" -> "Survive in the raid at $location ${questObjective.number} times."
+            "build" -> "Build $itemName"
             else -> ""
         }
     }
 
     fun skipToQuest(quest: Quest) {
         viewModelScope.launch {
-            quest.requiredQuestsList()?.forEach { id ->
+            quest.requiredQuestsList()?.forEach { _ ->
                /* val q = quests?.find { it.id.toInt() == id }
                 if (q != null) {
                     markQuestCompleted(q)

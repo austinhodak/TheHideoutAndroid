@@ -1,7 +1,6 @@
 package com.austinhodak.thehideout.keys.viewmodels
 
 import androidx.lifecycle.MutableLiveData
-import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.SearchViewModel
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.utils.questsFirebase
@@ -14,9 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class KeysViewModel @Inject constructor(
-    private val repository: TarkovRepo
-) : SearchViewModel() {
+class KeysViewModel @Inject constructor() : SearchViewModel() {
 
     var sortBy = MutableLiveData(0)
 

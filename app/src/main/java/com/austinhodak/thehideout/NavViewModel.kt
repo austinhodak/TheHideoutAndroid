@@ -48,7 +48,7 @@ class NavViewModel @Inject constructor() : ViewModel() {
             while (true) {
                 _timeLeft.value = Time.realTimeToTarkovTime(true)
                 _timeRight.value = Time.realTimeToTarkovTime(false)
-                delay(1000/7)
+                delay(1000.div(7).toLong())
             }
         }
     }

@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
@@ -22,6 +23,7 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.MainToolbar
 
+@ExperimentalCoilApi
 @Composable
 fun ProvisionListScreen(
     navViewModel: NavViewModel,
@@ -50,6 +52,7 @@ fun ProvisionListScreen(
     }
 }
 
+@ExperimentalCoilApi
 @Composable
 fun ProvisionCard(
     item: Item
