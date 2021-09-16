@@ -48,10 +48,7 @@ import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.quests.QuestDetailActivity
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.trader
-import com.austinhodak.thehideout.utils.traderImage
-import com.austinhodak.thehideout.utils.userRefTracker
+import com.austinhodak.thehideout.utils.*
 import com.bumptech.glide.Glide
 import com.google.accompanist.glide.rememberGlidePainter
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -141,6 +138,7 @@ class FleaItemDetail : AppCompatActivity() {
                         },
                         bottomBar = { FleaBottomNav(selected = selectedNavItem, items) { selectedNavItem = it } },
                         floatingActionButton = {
+                            if (isDebug())
                             FloatingActionButton(onClick = { }) {
                                 Icon(
                                     painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),

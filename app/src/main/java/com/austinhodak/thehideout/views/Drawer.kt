@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.views
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,11 +23,14 @@ import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.openWithCustomTab
+import com.firebase.ui.auth.AuthUI
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
@@ -77,15 +81,11 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
     }
     private val drawerMaps = PrimaryDrawerItem().apply {
         tag = "activity:map"; identifier = 110; nameText = "Maps"; iconRes =
-        R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont; isSelectable = false;
-        onDrawerItemClickListener = { _, _, _ ->
-            context.openActivity(MapsActivity::class.java)
-            false
-        }
+        R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont; isSelectable = false
     }
     private val drawerDamageSimulator = PrimaryDrawerItem().apply {
         tag = "activity:sim"; identifier = 111; nameText = "Tarkov'd Simulator"; iconRes = R.drawable.icons8_dog_tag_96; isIconTinted =
-        true; typeface = benderFont
+        true; typeface = benderFont; isSelectable = false
     }
     private val drawerSkills = PrimaryDrawerItem().apply {
         tag = "skills"; identifier = 113; nameText = "Skills"; iconRes = R.drawable.icons8_development_skill_96; isIconTinted = true; typeface =
@@ -165,11 +165,11 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
 
     private val drawerSectionJoinUs = SectionDrawerItem().apply { nameText = "Join us on" }
     private val drawerJoinUsDiscord =
-        PrimaryDrawerItem().apply { nameText = "Discord"; iconRes = R.drawable.icons8_discord_96; isIconTinted = true; typeface = benderFont }
+        PrimaryDrawerItem().apply { tag = "https://discord.gg/YQW36z29z6"; nameText = "Discord"; iconRes = R.drawable.icons8_discord_96; isIconTinted = true; typeface = benderFont; isSelectable = false }
     private val drawerJoinUsTwitch =
-        PrimaryDrawerItem().apply { nameText = "Twitch"; iconRes = R.drawable.icons8_twitch_96; isIconTinted = true; typeface = benderFont }
+        PrimaryDrawerItem().apply { tag = "https://www.twitch.tv/theeeelegend"; nameText = "Twitch"; iconRes = R.drawable.icons8_twitch_96; isIconTinted = true; typeface = benderFont; isSelectable = false }
     private val drawerJoinUsTwitter =
-        PrimaryDrawerItem().apply { nameText = "Twitter"; iconRes = R.drawable.icons8_twitter_squared_96; isIconTinted = true; typeface = benderFont }
+        PrimaryDrawerItem().apply { tag = "https://twitter.com/austin6561"; nameText = "Twitter"; iconRes = R.drawable.icons8_twitter_squared_96; isIconTinted = true; typeface = benderFont; isSelectable = false }
 
     private val drawerVersion = SecondaryDrawerItem().apply {
         nameText = BuildConfig.VERSION_NAME; iconRes = R.drawable.ic_baseline_info_24; isIconTinted = true; isEnabled = false
@@ -200,7 +200,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             drawerJoinUsTwitch,
             drawerJoinUsTwitter,
             drawerDivider,
-            drawerLogin,
+            //drawerLogin,
             drawerVersion
         )
         recyclerView.isVerticalFadingEdgeEnabled = false
@@ -210,6 +210,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
 
 }
 
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
@@ -253,9 +254,20 @@ fun MainDrawer(
                 factory = { context ->
                     val drawer = Drawer(context)
                     drawer.onDrawerItemClickListener = { _, item, _ ->
-                        if (item.isSelectable || item.identifier.toInt() == 999) {
-                            navViewModel.drawerItemSelected(item)
-                            navViewModel.setDrawerOpen(false)
+                        if (item.tag != null) {
+                            if (item.isSelectable || item.identifier.toInt() == 999) {
+                                navViewModel.drawerItemSelected(item)
+                                navViewModel.setDrawerOpen(false)
+                            } else if (!item.isSelectable && item.isEnabled) {
+                                val route = item.tag as String
+                                when {
+                                    route == "activity:sim" -> context.openActivity(CalculatorMainActivity::class.java)
+                                    route == "activity:map" -> context.openActivity(MapsActivity::class.java)
+                                    route.contains("https:") -> {
+                                        route.openWithCustomTab(context)
+                                    }
+                                }
+                            }
                         }
                         true
                     }

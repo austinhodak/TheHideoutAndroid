@@ -193,7 +193,7 @@ dependencies {
 
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
-    implementation 'com.airbnb.android:lottie:4.1.0'
+    implementation 'com.airbnb.android:lottie-compose:4.1.0'
 
     implementation "com.google.accompanist:accompanist-glide:0.15.0"
     implementation "com.google.accompanist:accompanist-insets:$accompanist"
@@ -215,4 +215,10 @@ dependencies {
 
     implementation 'com.github.jeziellago:compose-markdown:0.2.6'
 
+    implementation "com.github.MFlisar.MaterialPreferences:core:$prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:datastore:$prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen:$prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen-input:$prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen-choice:$prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen-color:$prefs"
 }

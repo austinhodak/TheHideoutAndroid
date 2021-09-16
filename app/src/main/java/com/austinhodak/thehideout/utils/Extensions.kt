@@ -11,6 +11,7 @@ import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.type.ItemSourceName
+import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
@@ -27,6 +28,7 @@ import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
 
+fun isDebug(): Boolean = BuildConfig.DEBUG
 
 fun Item.toSimArmor(customDurability: Double? = null): CArmor {
     return CArmor(

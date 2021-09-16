@@ -41,17 +41,17 @@
 
         <activity
             android:name=".ammunition.AmmoDetailActivity"
-            android:theme="@style/Theme.TheHideout.NoActionBar" />
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
 
         <activity
             android:name=".flea_market.detail.FleaItemDetail"
             android:exported="true"
-            android:theme="@style/Theme.TheHideout.NoActionBar" />
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
 
         <activity
             android:name=".quests.QuestDetailActivity"
             android:exported="true"
-            android:theme="@style/Theme.TheHideout.NoActionBar" />
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
 
         <activity
             android:name=".calculator.CalculatorMainActivity"
@@ -61,7 +61,7 @@
         <activity
             android:name=".weapons.detail.WeaponDetailActivity"
             android:exported="true"
-            android:theme="@style/Theme.TheHideout.NoActionBar" />
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
 
         <activity android:name=".weapons.mods.ModPickerActivity" />
 

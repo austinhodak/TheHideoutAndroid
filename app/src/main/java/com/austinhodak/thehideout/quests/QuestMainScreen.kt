@@ -725,7 +725,7 @@ private fun QuestBottomNav(
     val items = listOf(
         BottomNavigationScreens.Overview,
         BottomNavigationScreens.Quests,
-        BottomNavigationScreens.Items,
+        //BottomNavigationScreens.Items,
         BottomNavigationScreens.Maps
     )
 

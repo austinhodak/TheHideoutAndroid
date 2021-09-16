@@ -229,7 +229,6 @@ class NavActivity : AppCompatActivity() {
                                 signInLauncher.launch(signInIntent)
                             }
                             else -> {
-                                Timber.d(route)
                                 navController.navigate(route) {
 
                                 }

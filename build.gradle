@@ -29,6 +29,7 @@ buildscript {
         ]
         compose_version = '1.0.2'
         accompanist = '0.18.0'
+        prefs = "0.5.2"
     }
 
     repositories {

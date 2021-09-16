@@ -9,7 +9,6 @@
         <item name="colorSecondary">@color/md_red_400</item>
         <item name="colorSecondaryVariant">@color/md_red_400</item>
         <item name="colorOnSecondary">@color/black</item>
-
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
@@ -18,6 +17,8 @@
         <item name="materialDrawerHeaderStyle">@style/Widget.MaterialDrawerHeaderStyle</item>
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+        <item name="colorBackgroundFloating">@color/md_grey_900</item>
     </style>
 
     <style name="Theme.TheHideout.Launcher.NoActionBar">

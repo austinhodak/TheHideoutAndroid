@@ -52,6 +52,7 @@ import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.questPrefs
+import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
@@ -178,7 +179,7 @@ private fun FleaMarketNeededScreen(
     }
 
     LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
-        items(items = neededItems?: emptyList()) {
+        items(items = neededItems ?: emptyList()) {
             val needed = userData?.items?.get(it.id)
             val color = if (needed?.has == needed?.getTotalNeeded()) {
                 Green500
@@ -369,12 +370,20 @@ private fun FleaMarketListScreen(
 private fun FleaBottomNav(
     navController: NavController
 ) {
-    val items = listOf(
-        FleaMarketScreens.Items,
-        FleaMarketScreens.Needed,
-        FleaMarketScreens.Favorites,
-        FleaMarketScreens.ShoppingCart
-    )
+    val items = if (isDebug()) {
+        listOf(
+            FleaMarketScreens.Items,
+            FleaMarketScreens.Needed,
+            FleaMarketScreens.Favorites,
+            FleaMarketScreens.ShoppingCart
+        )
+    } else {
+        listOf(
+            FleaMarketScreens.Items,
+            FleaMarketScreens.Needed,
+            FleaMarketScreens.Favorites
+        )
+    }
 
     BottomNavigation(
         backgroundColor = Color(0xFE1F1F1F)
@@ -388,7 +397,11 @@ private fun FleaBottomNav(
                     if (item.icon != null) {
                         Icon(item.icon, "")
                     } else {
-                        Icon(painter = painterResource(id = item.iconDrawable!!), contentDescription = item.resourceId, modifier = Modifier.size(24.dp))
+                        Icon(
+                            painter = painterResource(id = item.iconDrawable!!),
+                            contentDescription = item.resourceId,
+                            modifier = Modifier.size(24.dp)
+                        )
                     }
                 },
                 label = { Text(item.resourceId) },

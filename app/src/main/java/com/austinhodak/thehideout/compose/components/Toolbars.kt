@@ -154,6 +154,9 @@ fun SearchToolbar(
         backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
         actions = {
             IconButton(onClick = {
+                if (text.isEmpty()) {
+                    onClosePressed()
+                }
                 text = ""
                 onValue(text)
             }) {

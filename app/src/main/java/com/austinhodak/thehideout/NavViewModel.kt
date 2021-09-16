@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class NavViewModel @Inject constructor() : ViewModel() {
+class NavViewModel @Inject constructor() : SearchViewModel() {
 
     private val _isDrawerOpen = MutableLiveData(false)
     val isDrawerOpen = _isDrawerOpen

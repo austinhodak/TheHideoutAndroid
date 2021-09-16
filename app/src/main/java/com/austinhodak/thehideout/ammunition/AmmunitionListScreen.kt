@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,8 +28,10 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.EmptyAmmo
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
+import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
@@ -39,10 +42,12 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.math.roundToInt
 
+@ExperimentalCoroutinesApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -72,103 +77,170 @@ fun AmmunitionListScreen(
 
     val data by tarkovRepo.getAllAmmo.collectAsState(initial = emptyList())
 
+    val searchKey by navViewModel.searchKey.observeAsState("")
+    val isSearchOpen by navViewModel.isSearchOpen.observeAsState(false)
+
     Scaffold(
         topBar = {
             Column {
-                MainToolbar(
-                    title = "Ammunition",
-                    navViewModel = navViewModel,
-                    elevation = 0.dp
-                ) {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(Icons.Filled.Search, contentDescription = "Sort Ammo", tint = Color.White)
-                    }
-                    IconButton(onClick = {
-                        val items = listOf("Name", "Price: Low to High", "Price: High to Low", "Damage", "Penetration", "Armor Effectiveness")
-                        MaterialDialog(context).show {
-                            title(text = "Sort By")
-                            listItemsSingleChoice(items = items, initialSelection = sort.value) { _, index, _ ->
-                                sort.value = index
-                            }
+                if (isSearchOpen) {
+                    SearchToolbar(
+                        onClosePressed = {
+                            navViewModel.setSearchOpen(false)
+                            navViewModel.clearSearch()
+                        },
+                        onValue = {
+                            navViewModel.setSearchKey(it)
                         }
-                    }) {
-                        Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = "Sort Ammo", tint = Color.White)
-                    }
-                }
-                ScrollableTabRow(
-                    selectedTabIndex = pagerState.currentPage,
-                    indicator = { tabPositions ->
-                        TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = Red400)
-                    },
-                    backgroundColor = MaterialTheme.colors.primary
-                ) {
-                    pages.forEachIndexed { index, title ->
-                        Tab(
-                            text = {
-                                Text(
-                                    getCaliberName(title),
-                                    fontFamily = Bender
-                                )
-                            },
-                            selected = pagerState.currentPage == index,
-                            onClick = {
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(index)
+                    )
+                } else {
+                    MainToolbar(
+                        title = "Ammunition",
+                        navViewModel = navViewModel,
+                        elevation = 0.dp
+                    ) {
+                        IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
+                            Icon(Icons.Filled.Search, contentDescription = "Sort Ammo", tint = Color.White)
+                        }
+                        IconButton(onClick = {
+                            val items = listOf("Name", "Price: Low to High", "Price: High to Low", "Damage", "Penetration", "Armor Effectiveness")
+                            MaterialDialog(context).show {
+                                title(text = "Sort By")
+                                listItemsSingleChoice(items = items, initialSelection = sort.value) { _, index, _ ->
+                                    sort.value = index
                                 }
-                            },
-                            selectedContentColor = Red400,
-                            unselectedContentColor = White
-                        )
+                            }
+                        }) {
+                            Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = "Sort Ammo", tint = Color.White)
+                        }
+                    }
+                    ScrollableTabRow(
+                        selectedTabIndex = pagerState.currentPage,
+                        indicator = { tabPositions ->
+                            TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = Red400)
+                        },
+                        backgroundColor = MaterialTheme.colors.primary
+                    ) {
+                        pages.forEachIndexed { index, title ->
+                            Tab(
+                                text = {
+                                    Text(
+                                        getCaliberName(title),
+                                        fontFamily = Bender
+                                    )
+                                },
+                                selected = pagerState.currentPage == index,
+                                onClick = {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(index)
+                                    }
+                                },
+                                selectedContentColor = Red400,
+                                unselectedContentColor = White
+                            )
+                        }
                     }
                 }
+
             }
         },
         floatingActionButton = {
             // Jump to Caliber dialog.
-            FloatingActionButton(onClick = {
-                showJumpDialog(
-                    context,
-                    pages
-                ) {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(it)
+            if (!isSearchOpen)
+                FloatingActionButton(onClick = {
+                    showJumpDialog(
+                        context,
+                        pages
+                    ) {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(it)
+                        }
                     }
+                }) {
+                    Icon(
+                        modifier = Modifier.size(24.dp),
+                        painter = painterResource(id = R.drawable.icons8_ammo_100),
+                        contentDescription = "Jump to Caliber",
+                        tint = Color.Black
+                    )
                 }
-            }) {
-                Icon(modifier = Modifier.size(24.dp), painter = painterResource(id = R.drawable.icons8_ammo_100), contentDescription = "Jump to Caliber", tint = Color.Black)
-            }
         },
 
-    ) {
-        if (data.isNullOrEmpty()) {
-            LoadingItem()
-        } else {
-            HorizontalPager(state = pagerState) { page ->
-                LazyColumn(
-                    Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
-                ) {
-                    var items = data.filter { it.Caliber == pages[page] }
-                    Timber.d(items.size.toString())
-                    items = when (sort.value) {
-                        0 -> items.sortedBy { it.shortName }
-                        1 -> items.sortedBy { it.pricing?.lastLowPrice }
-                        2 -> items.sortedByDescending { it.pricing?.lastLowPrice }
-                        3 -> items.sortedByDescending { it.ballistics?.damage }
-                        4 -> items.sortedByDescending { it.ballistics?.penetrationPower }
-                        5 -> items.sortedByDescending { it.getArmorValues() }
-                        else -> items.sortedBy { it.shortName }
-                    }
-                    items(items = items) { ammo ->
-                        AmmoCard(
-                            ammo,
-                            Modifier.padding(vertical = 4.dp)
-                        ) {
-                            context.openActivity(AmmoDetailActivity::class.java) {
-                                putString("ammoID", ammo.id)
+        ) {
+        when {
+            data.isNullOrEmpty() -> {
+                LoadingItem()
+            }
+            isSearchOpen -> {
+                AmmoSearchBody(searchKey, data)
+            }
+            else -> {
+                HorizontalPager(state = pagerState) { page ->
+                    LazyColumn(
+                        Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
+                    ) {
+                        var items = data.filter { it.Caliber == pages[page] }
+                        Timber.d(items.size.toString())
+                        items = when (sort.value) {
+                            0 -> items.sortedBy { it.shortName }
+                            1 -> items.sortedBy { it.pricing?.lastLowPrice }
+                            2 -> items.sortedByDescending { it.pricing?.lastLowPrice }
+                            3 -> items.sortedByDescending { it.ballistics?.damage }
+                            4 -> items.sortedByDescending { it.ballistics?.penetrationPower }
+                            5 -> items.sortedByDescending { it.getArmorValues() }
+                            else -> items.sortedBy { it.shortName }
+                        }
+                        items(items = items) { ammo ->
+                            AmmoCard(
+                                ammo,
+                                Modifier.padding(vertical = 4.dp)
+                            ) {
+                                context.openActivity(AmmoDetailActivity::class.java) {
+                                    putString("ammoID", ammo.id)
+                                }
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
+@Composable
+fun AmmoSearchBody(
+    searchKey: String,
+    data: List<Ammo>
+) {
+    val context = LocalContext.current
+
+    val items = data.filter {
+        if (searchKey.isBlank()) return@filter false
+        it.shortName?.contains(searchKey, ignoreCase = true) == true
+                || it.name?.contains(searchKey, ignoreCase = true) == true
+    }.sortedBy { it.shortName }
+
+    if (items.isNullOrEmpty()) {
+        EmptyAmmo()
+        return
+    }
+
+    LazyColumn(
+        Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
+    ) {
+        items(items = items) { ammo ->
+            AmmoCard(
+                ammo,
+                Modifier.padding(vertical = 4.dp)
+            ) {
+                context.openActivity(AmmoDetailActivity::class.java) {
+                    putString("ammoID", ammo.id)
                 }
             }
         }
@@ -305,14 +377,14 @@ fun ArmorBox(
             .fillMaxWidth(),
     ) {
         Column {
-            Box (
+            Box(
                 modifier = Modifier
                     .background(Color.Black.copy(alpha = 0.1f))
                     .fillMaxWidth()
                     .height(1.dp)
             )
             Spacer(modifier = Modifier.weight(1f))
-            Box (
+            Box(
                 modifier = Modifier
                     .background(Color.Black.copy(alpha = 0.1f))
                     .fillMaxWidth()

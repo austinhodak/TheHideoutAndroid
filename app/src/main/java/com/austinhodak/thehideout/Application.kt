@@ -36,6 +36,8 @@ class Application : android.app.Application() {
     override fun onCreate() {
         super.onCreate()
 
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+
         instance = this
         questPrefs = Prefs(applicationContext)
         maps = Maps(applicationContext)
@@ -45,8 +47,6 @@ class Application : android.app.Application() {
         if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
             Firebase.analytics.setAnalyticsCollectionEnabled(false)
         }
-
-        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())

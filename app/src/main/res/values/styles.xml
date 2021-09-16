@@ -6,32 +6,17 @@
         <item name="android:statusBarColor" tools:targetApi="l">#1F1F1F</item>
     </style>
 
-    <style name="TabsBender" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/bender_bold</item>
-    </style>
-
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
-    </style>
-
-    <style name="ChipStyle" parent="@style/Widget.MaterialComponents.Chip.Choice">
-
     </style>
 
     <style name="Widget.MaterialDrawerStyleLight" parent="Widget.MaterialDrawerStyle">
         <item name="materialDrawerDividerColor">@color/md_grey_200</item>
     </style>
 
-
     <style name="actionOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/white</item>
-    </style>
-
-    <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.Dark">
-        <item name="android:fontFamily">@font/bender_bold</item>
-        <item name="popupTheme">@style/Theme.TheHideout.AppBarOverlay</item>
-        <item name="actionOverflowButtonStyle">@style/actionOverflowButtonStyle</item>
     </style>
 
     <style name="Theme.TheHideout.NoActionBar">

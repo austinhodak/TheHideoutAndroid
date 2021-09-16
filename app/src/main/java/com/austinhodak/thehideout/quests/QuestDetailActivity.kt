@@ -72,6 +72,7 @@ class QuestDetailActivity : AppCompatActivity() {
                         )
                     },
                     floatingActionButton = {
+                        if (isDebug())
                         ExtendedFloatingActionButton(
                             icon = {
                                 Icon(

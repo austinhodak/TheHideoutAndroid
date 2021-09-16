@@ -6,7 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Pair
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +39,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.map.viewmodels.MapViewModel
 import com.austinhodak.thehideout.utils.Map
+import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.rememberMapViewWithLifecycle
 import com.bumptech.glide.Glide
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
@@ -46,7 +47,6 @@ import com.google.accompanist.flowlayout.FlowRow
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
-import com.google.maps.android.SphericalUtil
 import com.google.maps.android.ktx.awaitMap
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,7 +57,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.net.MalformedURLException
 import java.net.URL
-import kotlin.math.roundToInt
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -108,7 +107,13 @@ class MapsActivity : AppCompatActivity() {
                                 }
                             },
                             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-                            elevation = 5.dp
+                            elevation = 5.dp,
+                            actions = {
+                                IconButton(onClick = {
+                                    finish()
+                                }) {
+                                }
+                            }
                         )
                     },
                     backLayerContent = {
@@ -125,7 +130,7 @@ class MapsActivity : AppCompatActivity() {
                                 categories?.forEach { category ->
                                     Chip(
                                         string = category?.title ?: "",
-                                        selected = true
+                                        selected = selectedCategories?.contains(category?.id) == true
                                     ) {
                                         val list = selectedCategories
                                         if (selectedCategories?.contains(category?.id) == true) {
@@ -234,7 +239,9 @@ class MapsActivity : AppCompatActivity() {
                                                     }
                                                 }
 
-                                                val first = selectedPoints?.first
+                                                //TODO ADD MAP MEASURING
+
+                                               /* val first = selectedPoints?.first
                                                 val second = selectedPoints?.second
 
                                                 if (first == null) {
@@ -255,7 +262,7 @@ class MapsActivity : AppCompatActivity() {
                                                 if (first != null && second != null) {
                                                     selectedPoints = null
                                                     selectedPoints = Pair(it, null)
-                                                }
+                                                }*/
                                             }
 
                                             setupMarkers(selectedMap, map, selectedCategories)
@@ -293,6 +300,7 @@ class MapsActivity : AppCompatActivity() {
                                             modifier = Modifier.size(24.dp)
                                         )
                                     }
+                                    if (isDebug())
                                     FloatingActionButton(
                                         onClick = {
 
