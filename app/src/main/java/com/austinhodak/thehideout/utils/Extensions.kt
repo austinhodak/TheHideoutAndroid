@@ -2,34 +2,19 @@ package com.austinhodak.thehideout.utils
 
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.DrawableRes
-import androidx.annotation.LayoutRes
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.foundation.ScrollState
-import androidx.compose.material.MaterialTheme
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.debugInspectorInfo
-import androidx.compose.ui.unit.Dp
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Ammo
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.type.ItemSourceName
-import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.CAmmo
+import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red500
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -42,9 +27,39 @@ import com.google.firebase.ktx.Firebase
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
-import kotlin.math.round
-import kotlin.math.roundToInt
 
+
+fun Item.toSimArmor(customDurability: Double? = null): CArmor {
+    return CArmor(
+        `class` = armorClass?.toInt() ?: 1,
+        bluntThroughput = BluntThroughput!!,
+        durability = customDurability ?: Durability?.toDouble()!!,
+        maxDurability = MaxDurability?.toDouble()!!,
+        resistance = (armorClass?.toInt()?.times(10))?.toDouble()!!,
+        destructibility = when (ArmorMaterial) {
+            "UHMWPE" -> 0.45
+            "Titan" -> 0.55
+            "Glass" -> 0.8
+            "Combined" -> 0.5
+            "Ceramic" -> 0.8
+            "ArmoredSteel" -> 0.7
+            "Aramid" -> 0.25
+            "Aluminium" -> 0.6
+            else -> 0.0
+        },
+        zones = armorZone!!
+    )
+}
+
+fun Ammo.toSimAmmo(): CAmmo {
+    val ballistics = this.ballistics
+    return CAmmo(
+        ballistics?.projectileCount ?: 1,
+        ballistics?.damage?.toDouble() ?: 0.0,
+        ballistics?.penetrationPower ?: 0.0,
+        (ballistics?.armorDamage ?: 1.0).toDouble() * (ballistics?.projectileCount ?: 1) / 100
+    )
+}
 
 fun String.getMedIcon(): Int? {
     return when (this) {
@@ -66,46 +81,6 @@ fun Double.getColor(reverse: Boolean = false, surfaceColor: Color): Color {
         if (reverse) Red500 else Green500
     } else {
         if (reverse) Green500 else Red500
-    }
-}
-
-fun Ammo.toCAmmo(): CAmmo {
-
-    val b = this.ballistics?.projectileCount ?: 1
-    return CAmmo(
-        bullets = b,
-        damage = this.ballistics?.damage?.toDouble()?.times(b) ?: 0.0,
-        penetration = this.ballistics?.penetrationPower ?: 0.0,
-        armorDamage = (this.ballistics?.armorDamage?.toDouble()?.times(b) ?: 0.0) / 100
-    )
-}
-
-fun String.traderIcon(): String {
-    return when (this) {
-        "prapor" -> "https://tarkov-tools.com/images/prapor-icon.jpg"
-        "therapist" -> "https://tarkov-tools.com/images/therapist-icon.jpg"
-        "fence" -> "https://tarkov-tools.com/images/fence-icon.jpg"
-        "skier" -> "https://tarkov-tools.com/images/skier-icon.jpg"
-        "peacekeeper" -> "https://tarkov-tools.com/images/peacekeeper-icon.jpg"
-        "mechanic" -> "https://tarkov-tools.com/images/mechanic-icon.jpg"
-        "ragman" -> "https://tarkov-tools.com/images/ragman-icon.jpg"
-        "jaeger" -> "https://tarkov-tools.com/images/jaeger-icon.jpg"
-        else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
-    }
-}
-
-fun Pricing.BuySellPrice.toName(showRequirement: Boolean = false): String? {
-    val source = this.source
-    return if (showRequirement && this.requirements.isNotEmpty()) {
-        return if (source == "fleaMarket" && requirements.first().type == "playerLevel") {
-            "Flea Market L${requirements.first().value}"
-        } else {
-            "$source ${requirements.first().value.getTraderLevel()}"
-        }
-        ""
-    } else {
-        if (source == "fleaMarket") "Flea Market"
-        else source
     }
 }
 
@@ -189,35 +164,6 @@ fun Pricing.BuySellPrice.traderImage(): String {
     }
 }
 
-fun Int.asCurrency(currency: String = "R"): String {
-    val numFormat = NumberFormat.getCurrencyInstance().apply {
-        maximumFractionDigits = 0
-    }
-
-    numFormat.currency = when (currency) {
-        "R" -> Currency.getInstance("RUB")
-        "D" -> Currency.getInstance("USD")
-        "E" -> Currency.getInstance("EUR")
-        else -> Currency.getInstance("RUB")
-    }
-
-    var formatted = numFormat.format(this)
-
-    if (currency == "R") {
-        formatted = formatted.replace("RUB", "").plus("₽")
-    }
-
-    return formatted
-}
-
-fun Int.convertRtoUSD(): Int {
-    return (this / 116.0).roundToInt()
-}
-
-fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
-    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
-}
-
 fun AmmoCalibers(): List<String> = arrayListOf(
     "Caliber762x35",
     "Caliber86x70",
@@ -275,52 +221,6 @@ fun getCaliberName(caliber: String?): String {
     }
 }
 
-fun getCaliberImage(caliber: String?): String {
-    return when (caliber) {
-        "Caliber762x35" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/17/300_BlackoutAmmo.gif/revision/latest/scale-to-width-down/64?cb=20210106213942"
-        "Caliber86x70" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/ce/338_lapua.gif/revision/latest/scale-to-width-down/64?cb=20210106212708"
-        "Caliber366TKM" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/39/.366_TKM.gif/revision/latest/scale-to-width-down/64?cb=20200727194118"
-        "Caliber1143x23ACP" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/12/.45_Icon.gif/revision/latest/scale-to-width-down/64?cb=20200727195602"
-        "Caliber127x55" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/78/12.7x55.gif/revision/latest/scale-to-width-down/64?cb=20191109223753"
-        "Caliber12g" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/92/12x70.gif/revision/latest/scale-to-width-down/64?cb=20191109235500"
-        "Caliber20g" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/63/20-70.gif/revision/latest/scale-to-width-down/64?cb=20191109233805"
-        "Caliber23x75" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/96/23x75.gif/revision/latest/scale-to-width-down/64?cb=20201020101316"
-        "Caliber46x30" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/05/4.6x30.gif/revision/latest/scale-to-width-down/64?cb=20190519132652"
-        "Caliber40x46" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/19/40x46mm.gif/revision/latest/scale-to-width-down/64?cb=20200727194146"
-        "Caliber545x39" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/34/5.45x39.gif/revision/latest/scale-to-width-down/64?cb=20190519132729"
-        "Caliber556x45NATO" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/ce/5.56x45_NATO.gif/revision/latest/scale-to-width-down/64?cb=20210331145303"
-        "Caliber57x28" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/97/5.7x28.gif/revision/latest/scale-to-width-down/64?cb=20191109213543"
-        "Caliber762x25TT" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/ff/TT_7.62x25.gif/revision/latest/scale-to-width-down/64?cb=20190519132412"
-        "Caliber762x39" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/9f/7.62x39.gif/revision/latest/scale-to-width-down/64?cb=20210331145228"
-        "Caliber762x51" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1f/7.62x51_NATO.gif/revision/latest/scale-to-width-down/64?cb=20200805184031"
-        "Caliber762x54R" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/59/7.62x54R.gif/revision/latest/scale-to-width-down/64?cb=20191228194724"
-        "Caliber9x18PM" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c2/9x18_PM.gif/revision/latest/scale-to-width-down/64?cb=20190519132449"
-        "Caliber9x19PARA" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/db/9x19_para.gif/revision/latest/scale-to-width-down/64?cb=20200727195027"
-        "Caliber9x21" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/53/9x21_gyurza.gif/revision/latest/scale-to-width-down/64?cb=20190519132559"
-        "Caliber9x39" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/12/.45_Icon.gif/revision/latest/scale-to-width-down/64?cb=20200727195602"
-        else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/12/.45_Icon.gif/revision/latest/scale-to-width-down/64?cb=20200727195602"
-    }
-}
-
-fun String.getCurrency(): String {
-    return when (this) {
-        "R" -> "₽"
-        "D" -> "$"
-        "E" -> "€"
-        else -> ""
-    }
-}
-
-fun Int.getTraderLevel(): String {
-    return when (this) {
-        1 -> "I"
-        2 -> "II"
-        3 -> "III"
-        4 -> "IV"
-        else -> ""
-    }
-}
-
 fun Int.getPrice(c: String): String {
     val currency = c.replace("R", "₽").replace("D", "$").replace("E", "€")
     val format = NumberFormat.getCurrencyInstance()
@@ -358,12 +258,6 @@ fun Long.getPrice(c: String): String {
         format.format(this)
     }
 
-}
-
-fun Double.round(decimals: Int): Double {
-    var multiplier = 1.0
-    repeat(decimals) { multiplier *= 10 }
-    return round(this * multiplier) / multiplier
 }
 
 fun String.openWithCustomTab(context: Context) {
@@ -406,10 +300,6 @@ fun getCaliberShortName(caliber: String?): String {
     }
 }
 
-fun userRef(ref: String? = null): DatabaseReference {
-    return Firebase.database.getReference("users/${Firebase.auth.uid}/$ref/")
-}
-
 fun userRefTracker(ref: String? = null): DatabaseReference {
     return questsFirebase.child("users/${Firebase.auth.uid}/$ref/")
 }
@@ -437,10 +327,6 @@ fun logScreen(name: String) {
         param(FirebaseAnalytics.Param.SCREEN_NAME, name)
         param(FirebaseAnalytics.Param.SCREEN_CLASS, name)
     }
-}
-
-fun isDebug(): Boolean {
-    return BuildConfig.DEBUG
 }
 
 fun Int.addQuotes(): String {
@@ -484,12 +370,6 @@ fun getTraderIcon(trader: Traders): Int {
     }
 }
 
-fun hasInternet(context: Context): Boolean {
-    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-    return activeNetwork?.isConnectedOrConnecting == true
-}
-
 fun String.modParent(): String {
     return when (this) {
         "bipod" -> "55818afb4bdc2dde698b456d"
@@ -517,110 +397,6 @@ fun String.modParent(): String {
         "sights_scopes" -> "55818ae44bdc2dde698b456c"
         "sights_special" -> "55818aeb4bdc2ddc698b456a"
         else -> ""
-    }
-}
-
-fun Modifier.horizontalFadingEdge(
-    scrollState: ScrollState,
-    length: Dp,
-    edgeColor: Color? = null,
-) = composed(
-    debugInspectorInfo {
-        name = "length"
-        value = length
-    }
-) {
-    val color = edgeColor ?: MaterialTheme.colors.surface
-
-    Modifier.drawWithContent {
-        val lengthValue = length.toPx()
-        val scrollFromStart = scrollState.value
-        val scrollFromEnd = scrollState.maxValue - scrollState.value
-
-        val startFadingEdgeStrength = lengthValue * (scrollFromStart / lengthValue).coerceAtMost(1f)
-
-        val endFadingEdgeStrength = lengthValue * (scrollFromEnd / lengthValue).coerceAtMost(1f)
-
-        drawContent()
-
-        drawRect(
-            brush = Brush.horizontalGradient(
-                colors = listOf(
-                    color,
-                    Color.Transparent,
-                ),
-                startX = 0f,
-                endX = startFadingEdgeStrength,
-            ),
-            size = Size(
-                startFadingEdgeStrength,
-                this.size.height,
-            ),
-        )
-
-        drawRect(
-            brush = Brush.horizontalGradient(
-                colors = listOf(
-                    Color.Transparent,
-                    color,
-                ),
-                startX = size.width - endFadingEdgeStrength,
-                endX = size.width,
-            ),
-            topLeft = Offset(x = size.width - endFadingEdgeStrength, y = 0f),
-        )
-    }
-}
-
-fun Modifier.verticalFadingEdge(
-    scrollState: ScrollState,
-    length: Dp,
-    edgeColor: Color? = null,
-) = composed(
-    debugInspectorInfo {
-        name = "length"
-        value = length
-    }
-) {
-    val color = edgeColor ?: MaterialTheme.colors.surface
-
-    Modifier.drawWithContent {
-        val lengthValue = length.toPx()
-        val scrollFromTop = scrollState.value
-        val scrollFromBottom = scrollState.maxValue - scrollState.value
-
-        val topFadingEdgeStrength = lengthValue * (scrollFromTop / lengthValue).coerceAtMost(1f)
-
-        val bottomFadingEdgeStrength = lengthValue * (scrollFromBottom / lengthValue).coerceAtMost(1f)
-
-        drawContent()
-
-        drawRect(
-            brush = Brush.verticalGradient(
-                colors = listOf(
-                    color,
-                    Color.Transparent,
-                ),
-                startY = 0f,
-                endY = topFadingEdgeStrength,
-            ),
-            size = Size(
-                this.size.width,
-                topFadingEdgeStrength
-            ),
-        )
-
-        drawRect(
-            brush = Brush.verticalGradient(
-                colors = listOf(
-                    Color.Transparent,
-                    color,
-                ),
-                startY = size.height - bottomFadingEdgeStrength,
-                endY = size.height,
-            ),
-            topLeft = Offset(x = 0f, y = size.height - bottomFadingEdgeStrength),
-        )
     }
 }
 

@@ -19,6 +19,8 @@ class TarkovRepo @Inject constructor(
 
     fun getItemsByType(type: ItemTypes): Flow<List<Item>> = itemDao.getByType(type)
 
+    fun getItemsByTypesArmor(type: List<ItemTypes>): Flow<List<Item>> = itemDao.getByTypesArmor(type)
+
     suspend fun getItemsByTypes(type: List<ItemTypes>): List<Item> = itemDao.getByTypes(type)
 
     fun getItemByID(id: String): Flow<Item> = itemDao.getByID(id)

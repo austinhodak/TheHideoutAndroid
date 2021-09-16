@@ -78,11 +78,11 @@ object CalculatorHelper {
         return false
     }
 
-    fun penChance(ammo: CAmmo, armor: CArmor): Double {
+    fun penChance(ammo: CAmmo, armor: CArmor?): Double {
         var timesPenned = 0
 
         for (i in 1..10000) {
-            if (!simulateBlock(ammo, armor)) {
+            if (!simulateBlock(ammo, armor ?: CArmor())) {
                 timesPenned++
             }
         }

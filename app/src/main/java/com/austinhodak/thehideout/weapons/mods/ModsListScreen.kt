@@ -23,10 +23,10 @@ import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.MainToolbar
-import com.austinhodak.thehideout.utils.asCurrency
 import com.austinhodak.thehideout.utils.getColor
 import com.austinhodak.thehideout.utils.modParent
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem

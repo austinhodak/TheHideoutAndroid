@@ -118,11 +118,11 @@ fun KeyListScreen(
             else -> keys
         }.filter {
             it.ShortName?.contains(searchKey, ignoreCase = true) == true || it.Name?.contains(searchKey, ignoreCase = true) == true ||
-            if (searchKey.equals("have", true) || searchKey.equals("owned", true)) {
-                userData?.hasKey(it) == true
-            } else {
-                false
-            }
+                    if (searchKey.equals("have", true) || searchKey.equals("owned", true)) {
+                        userData?.hasKey(it) == true
+                    } else {
+                        false
+                    }
         }.filter { it.pricing != null }
 
         if (data.isNullOrEmpty()) {

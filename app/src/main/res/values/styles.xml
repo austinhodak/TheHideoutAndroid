@@ -10,25 +10,9 @@
         <item name="android:fontFamily">@font/bender_bold</item>
     </style>
 
-    <style name="BottomNavSelected" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/bender_bold</item>
-        <item name="android:textColor">@drawable/bottom_nav_selector_text</item>
-    </style>
-
-    <style name="BottomNavUnSelected" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/bender</item>
-        <item name="android:textColor">@drawable/bottom_nav_selector_text</item>
-    </style>
-
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
-    </style>
-
-    <style name="BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="itemIconTint">@drawable/bottom_nav_selector</item>
-        <item name="itemTextAppearanceActive">@style/BottomNavSelected</item>
-        <item name="itemTextAppearanceInactive">@style/BottomNavUnSelected</item>
     </style>
 
     <style name="ChipStyle" parent="@style/Widget.MaterialComponents.Chip.Choice">
@@ -39,14 +23,6 @@
         <item name="materialDrawerDividerColor">@color/md_grey_200</item>
     </style>
 
-    <style name="MaterialSearchViewStyle">
-        <item name="searchBackground">@color/md_red_500</item>
-        <item name="searchBackIcon">@drawable/ic_baseline_arrow_back_24</item>
-        <item name="android:textColor">@color/md_white_1000</item>
-        <item name="searchSuggestionBackground">@drawable/timeline_round_bottom_only_large</item>
-        <item name="searchSuggestionIcon">@null</item>
-        <item name="searchCloseIcon">@drawable/ic_action_navigation_close_inverted</item>
-    </style>
 
     <style name="actionOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/white</item>
@@ -64,24 +40,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.TheHideout.NoActionBar.Translucent">
-        <item name="android:windowContentTransitions">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-    </style>
-
     <style name="Theme.TheHideout.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:fontFamily">@font/bender</item>
     </style>
 
-    <style name="Theme.TheHideout.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="Theme.TheHideoutCompose" parent="@style/Theme.Material.DayNight.NoActionBar">
-        <item name="android:colorPrimary">#ff00ff</item>
-        <item name="android:colorAccent">#ff00ff</item>
-    </style>
-
-    <style name="Theme.Material.DayNight.NoActionBar" parent="@android:style/Theme.Material.NoActionBar" />
 </resources>

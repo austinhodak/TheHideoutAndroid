@@ -23,11 +23,11 @@ import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
-import com.austinhodak.thehideout.utils.asCurrency
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -134,7 +134,7 @@ fun GearListScreen(
                                 type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item)
                                 type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item)
                                 type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item)
-                                else -> GearCard(item = item)
+                                else -> GearCard(item = item) {}
                             }
                         }
                     }
@@ -162,7 +162,9 @@ fun GearListScreen(
                             ItemTypes.BACKPACK -> BackpackCard(item = item)
                             ItemTypes.FACECOVER,
                             ItemTypes.HEADSET -> HeadsetCard(item = item)
-                            else -> GearCard(item = item)
+                            else -> GearCard(item = item) {
+
+                            }
                         }
                     }
                 }
@@ -173,8 +175,9 @@ fun GearListScreen(
 
 @ExperimentalMaterialApi
 @Composable
-private fun GearCard(
-    item: Item
+fun GearCard(
+    item: Item,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -183,9 +186,7 @@ private fun GearCard(
             .padding(vertical = 4.dp),
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
-        onClick = {
-
-        }
+        onClick = onClick
     ) {
         Column(
             Modifier.fillMaxSize()

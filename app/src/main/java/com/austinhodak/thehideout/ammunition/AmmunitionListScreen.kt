@@ -161,7 +161,11 @@ fun AmmunitionListScreen(
                         AmmoCard(
                             ammo,
                             Modifier.padding(vertical = 4.dp)
-                        )
+                        ) {
+                            context.openActivity(AmmoDetailActivity::class.java) {
+                                putString("ammoID", ammo.id)
+                            }
+                        }
                     }
                 }
             }
@@ -186,9 +190,10 @@ fun showJumpDialog(
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-private fun AmmoCard(
+fun AmmoCard(
     ammo: Ammo,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -198,11 +203,7 @@ private fun AmmoCard(
             .height(72.dp),
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
-        onClick = {
-            context.openActivity(AmmoDetailActivity::class.java) {
-                putString("ammoID", ammo.id)
-            }
-        }
+        onClick = onClick
     ) {
         Column(
             Modifier.fillMaxSize()

@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.*
 import org.json.JSONObject
+import java.io.Serializable
 
 @Entity(tableName = "ammo")
 data class Ammo(
@@ -20,7 +21,7 @@ data class Ammo(
     val Caliber: String?,
     val pricing: Pricing? = null,
     @Embedded val ballistics: Ballistics? = null
-) {
+) : Serializable {
     fun getColor(armorClass: Int): Color {
         val armorValues = ammoArmorPenValues[id] ?: "------"
         if (armorValues == "------") { return Color.Transparent }
@@ -56,7 +57,7 @@ data class Ammo(
         val tracerColor: String,
         val ammoType: String,
         val projectileCount: Int
-    ) {
+    )  : Serializable {
         fun getMuzzleVelocity(): String {
             return "$initialSpeed m/s"
         }

@@ -48,7 +48,7 @@ import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
-import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
@@ -61,7 +61,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun FleaMarketScreen(
     navViewModel: NavViewModel,
-    fleaViewModel: FleaVM,
+    fleaViewModel: FleaViewModel,
     tarkovRepo: TarkovRepo
 ) {
     val navController = rememberNavController()
@@ -147,7 +147,7 @@ fun FleaMarketScreen(
 private fun FleaMarketNeededScreen(
     data: List<Item>?,
     userData: User?,
-    fleaViewModel: FleaVM
+    fleaViewModel: FleaViewModel
 ) {
     val sortBy = fleaViewModel.sortBy.observeAsState()
     val searchKey by fleaViewModel.searchKey.observeAsState("")
@@ -246,7 +246,7 @@ private fun FleaMarketNeededScreen(
 @Composable
 private fun FleaMarketFavoritesList(
     data: List<Item>?,
-    fleaViewModel: FleaVM,
+    fleaViewModel: FleaViewModel,
     paddingValues: PaddingValues
 ) {
     val sortBy = fleaViewModel.sortBy.observeAsState()
@@ -308,7 +308,7 @@ private fun FleaMarketFavoritesList(
 @Composable
 private fun FleaMarketListScreen(
     data: List<Item>?,
-    fleaViewModel: FleaVM,
+    fleaViewModel: FleaViewModel,
     paddingValues: PaddingValues
 ) {
     val sortBy = fleaViewModel.sortBy.observeAsState()

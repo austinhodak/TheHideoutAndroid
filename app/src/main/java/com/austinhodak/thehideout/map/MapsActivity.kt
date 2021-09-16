@@ -398,16 +398,16 @@ class MapsActivity : AppCompatActivity() {
                     942 -> R.drawable.icon_greande
                     961 -> R.drawable.icon_jacket
                     947 -> R.drawable.icon_key
+                    949,
                     946 -> R.drawable.icon_loose_loot
                     943 -> R.drawable.icon_meds
                     945 -> R.drawable.icon_money
-                    949 -> R.drawable.icon_unknown
                     968 -> R.drawable.icon_pc
                     1016 -> R.drawable.icon_food
                     944 -> R.drawable.icon_safe
                     970 -> R.drawable.icon_toolbox
                     958 -> R.drawable.icon_weapons
-                    1015 -> R.drawable.icon_mods
+                    1015 -> R.drawable.icon_mods_2
                     951 -> R.drawable.icon_boss
                     950 -> R.drawable.icon_scav
                     1011 -> R.drawable.icon_sniper
@@ -524,33 +524,6 @@ class MapsActivity : AppCompatActivity() {
         }
 
         return Pair(x, y)
-    }
-
-
-    internal inner class CustomInfoWindowAdapter : GoogleMap.InfoWindowAdapter {
-
-        private val window: View = layoutInflater.inflate(R.layout.map_compose, null)
-
-        override fun getInfoWindow(marker: Marker): View {
-            render(marker, window)
-            return window
-        }
-
-        override fun getInfoContents(marker: Marker): View {
-            render(marker, window)
-            return window
-        }
-
-        private fun render(marker: Marker, window: View) {
-            val location = marker.tag as MapInteractive.Location
-
-            val title = window.findViewById<TextView>(R.id.marker_title)
-            val subtitle1 = window.findViewById<TextView>(R.id.marker_subtitle_1)
-            //val subtitle2 = window.findViewById<TextView>(R.id.marker_subtitle_2)
-
-            title.text = location.title
-            subtitle1.text = location.description
-        }
     }
 
     private fun textAsBitmap(text: String, textSize: Float, textColor: Int, outlineColor: Int): Bitmap {

@@ -19,7 +19,7 @@ import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.flea_market.FleaMarketScreen
-import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.gear.GearListScreen
 import com.austinhodak.thehideout.hideout.HideoutMainScreen
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
@@ -58,7 +58,7 @@ import javax.inject.Inject
 class NavActivity : AppCompatActivity() {
 
     private val navViewModel: NavViewModel by viewModels()
-    private val fleaViewModel: FleaVM by viewModels()
+    private val fleaViewModel: FleaViewModel by viewModels()
     private val questViewModel: QuestMainViewModel by viewModels()
     private val hideoutViewModel: HideoutMainViewModel by viewModels()
     private val keysViewModel: KeysViewModel by viewModels()

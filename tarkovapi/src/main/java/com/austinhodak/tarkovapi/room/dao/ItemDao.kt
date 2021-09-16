@@ -25,6 +25,10 @@ interface ItemDao {
     suspend fun getByTypes(type: List<ItemTypes>): List<Item>
 
     @Transaction
+    @Query("SELECT * FROM items WHERE itemType in (:type)")
+    fun getByTypesArmor(type: List<ItemTypes>): Flow<List<Item>>
+
+    @Transaction
     @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor FROM items WHERE pricing IS NOT NULL")
     fun getAllItems(): Flow<List<Item>>
 

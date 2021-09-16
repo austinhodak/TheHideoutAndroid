@@ -8,10 +8,6 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
-kapt {
-    correctErrorTypes = true
-}
-
 android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
@@ -119,16 +115,14 @@ android {
 }
 
 dependencies {
-    implementation project(":searchview")
     implementation project(":tarkovapi")
-    implementation project(":slimadapter")
 
     implementation("com.apollographql.apollo3:apollo-runtime:3.0.0-alpha03")
     implementation("com.apollographql.apollo3:apollo-api:3.0.0-alpha03")
+
     implementation "io.coil-kt:coil-compose:1.3.1"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
@@ -157,17 +151,14 @@ dependencies {
     implementation "com.google.android.material:material:${versions.material}"
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
     implementation "androidx.recyclerview:recyclerview:${versions.recyclerView}"
-    implementation "androidx.cardview:cardview:${versions.cardview}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
-    implementation "androidx.slidingpanelayout:slidingpanelayout:${versions.slidingpaneLayout}"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:${versions.swiperefreshLayout}"
     implementation "androidx.annotation:annotation:${versions.annotation}"
     implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
-    implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
     implementation "androidx.fragment:fragment-ktx:1.3.6"
+
     implementation "androidx.navigation:navigation-compose:2.4.0-alpha08"
-    implementation "androidx.palette:palette-ktx:1.0.0"
+
     //END AndroidX
 
     //Firebase
@@ -194,11 +185,6 @@ dependencies {
     implementation "com.mikepenz:materialdrawer-iconics:${versions.materialDrawer}"
     implementation 'com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar'
 
-    implementation 'com.mikepenz:fastadapter-extensions-binding:5.4.1'
-    implementation 'com.mikepenz:fastadapter:5.4.1'
-    implementation 'com.mikepenz:fastadapter-extensions-diff:5.4.1' // diff util helpers
-    implementation 'com.mikepenz:fastadapter-extensions-expandable:5.4.1'
-    implementation 'com.mikepenz:fastadapter-extensions-ui:5.4.1'
 
     //END Drawer
 
@@ -207,39 +193,21 @@ dependencies {
     implementation "com.afollestad.material-dialogs:color:${versions.mDialogs}"
     //END Dialogs
 
-    implementation 'me.jorgecastillo:androidcolorx:0.2.0'
     implementation ("com.github.bumptech.glide:glide:4.12.0") {
         exclude group: "com.android.support"
     }
 
     implementation "androidx.browser:browser:1.3.0"
 
-    implementation "com.mikepenz:itemanimators:1.1.0"
-
     implementation "com.github.skydoves:only:1.0.8"
-
-    //implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1'
 
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
-    implementation 'androidx.paging:paging-runtime-ktx:3.0.1'
-
-    implementation "androidx.room:room-runtime:${versions.room}"
-    kapt "androidx.room:room-compiler:${versions.room}"
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:${versions.room}"
-
-    // optional - Test helpers
-    testImplementation "androidx.room:room-testing:${versions.room}"
-
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
     implementation 'com.airbnb.android:lottie:3.7.2'
-
-    implementation('org.jetbrains.kotlinx:kotlinx-datetime:0.2.1')
 
     implementation "com.google.accompanist:accompanist-glide:0.15.0"
     implementation "com.google.accompanist:accompanist-insets:$accompanist"
@@ -249,9 +217,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
     implementation "com.google.accompanist:accompanist-placeholder-material:$accompanist"
 
-    implementation 'com.beust:klaxon:5.5'
-
-    implementation("com.google.android.play:core:1.10.0")
+    implementation("com.google.android.play:core:1.10.1")
     implementation("com.google.android.play:core-ktx:1.8.1")
 
     implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'

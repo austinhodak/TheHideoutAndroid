@@ -14,15 +14,18 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.withStyledAttributes
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.calculator.models.Body
+import com.austinhodak.thehideout.calculator.models.BodyPart
 import kotlin.math.roundToInt
 
 
 class HealthBar @JvmOverloads constructor(
     context: Context,
     attr: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
+    bodyPart: BodyPart,
+    body: Body
 ) : ConstraintLayout(context, attr, defStyleAttr) {
 
     private var name = ""
@@ -39,8 +42,19 @@ class HealthBar @JvmOverloads constructor(
         healthTV = findViewById(R.id.healthBarHPTV)
         blackedTV = findViewById(R.id.healthBarX)
         shotCountTV = findViewById(R.id.shotCountTV)
+        body.linkToHealthBar(bodyPart.name, this)
 
-        context.withStyledAttributes(attr, R.styleable.HealthBar) {
+        bodyPart.let {
+            title.text = it.name.name
+            pg.max = it.initialHealth.roundToInt()
+            pg.progress = it.health.roundToInt()
+            healthTV.text = "${pg.progress}/${pg.max}"
+            currentHealth.current = pg.progress.toDouble()
+            currentHealth.max = pg.max.toDouble()
+            updateBackground(currentHealth)
+        }
+
+        /*context.withStyledAttributes(attr, R.styleable.HealthBar) {
             title.text = getString(R.styleable.HealthBar_name)
             pg.max = getInt(R.styleable.HealthBar_maxHealth, 0)
             pg.progress = getInt(R.styleable.HealthBar_health, 0)
@@ -48,7 +62,7 @@ class HealthBar @JvmOverloads constructor(
             currentHealth.current = pg.progress.toDouble()
             currentHealth.max = pg.max.toDouble()
             updateBackground(currentHealth)
-        }
+        }*/
     }
 
     fun updateHealth(newHealth: Health) {
@@ -109,13 +123,15 @@ class HealthBar @JvmOverloads constructor(
             }
             valueAnimator.start()
         } else {
-            pg.progressTintList = ColorStateList.valueOf(
-                Color.rgb(
-                    (255 - (255 * progressPercentage)).roundToInt(),
-                    (185 * progressPercentage).roundToInt(),
-                    0
+            if (health.max != 0.0) {
+                pg.progressTintList = ColorStateList.valueOf(
+                    Color.rgb(
+                        (255 - (255 * progressPercentage)).roundToInt(),
+                        (185 * progressPercentage).roundToInt(),
+                        0
+                    )
                 )
-            )
+            }
         }
 
         pg.progressDrawable = layerDrawable

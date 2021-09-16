@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.ammunition
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,17 +28,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.room.models.Ammo
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.plusMinus
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
-import com.austinhodak.thehideout.utils.getCaliberName
-import com.austinhodak.thehideout.utils.getColor
-import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.pickers.PickerActivity
+import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
@@ -48,20 +50,17 @@ import kotlin.math.roundToInt
 class AmmoDetailActivity : ComponentActivity() {
 
     private val ammoViewModel: AmmoViewModel by viewModels()
-    private var ammo: Ammo? = null
 
-    //private var selectedArmor: Armor? = null
-
-    var resultLauncher =
+    private var armorPickerLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            /*if (result.resultCode == RESULT_OK && result.data != null) {
-                if (result.data?.hasExtra("armorID") == true) {
-                    selectedArmor = ArmorHelper.getArmors(this)
-                        .find { it._id == result.data?.getStringExtra("armorID") }
-                    armorSelected()
-                    updatePenChance()
+            if (result.resultCode == RESULT_OK) {
+                val intent = result.data
+                intent?.getSerializableExtra("item")?.let {
+                    if (it is Item) {
+                        ammoViewModel.selectArmor(it)
+                    }
                 }
-            }*/
+            }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +72,8 @@ class AmmoDetailActivity : ComponentActivity() {
         setContent {
             val ammo by ammoViewModel.ammoDetails.observeAsState()
             val scaffoldState = rememberScaffoldState()
+
+            val selectedArmor by ammoViewModel.selectedArmor.observeAsState()
 
             HideoutTheme {
                 val systemUiController = rememberSystemUiController()
@@ -111,7 +112,7 @@ class AmmoDetailActivity : ComponentActivity() {
                                 PricingCard(ammo = ammo!!)
                             }
                             item {
-                                ArmorPenCard(ammo = ammo!!)
+                                ArmorPenCard(ammo = ammo!!, selectedArmor)
                             }
                         }
                     }
@@ -179,7 +180,7 @@ class AmmoDetailActivity : ComponentActivity() {
 
     @Composable
     private fun AmmoDetailCard(
-        ammo: Ammo,
+        ammo: Ammo
     ) {
         Card(
             Modifier
@@ -320,18 +321,24 @@ class AmmoDetailActivity : ComponentActivity() {
 
     @Composable
     private fun ArmorPenCard(
-        ammo: Ammo
+        ammo: Ammo,
+        selectedArmor: Item?
     ) {
-        var sliderPosition by remember { mutableStateOf(0f) }
+
+        val maxDurability = selectedArmor?.MaxDurability?.toFloat() ?: 1f
+        var sliderPosition by remember { mutableStateOf(maxDurability) }
+        val context = LocalContext.current
+        var chance: Double? by remember { mutableStateOf(0.0) }
+
+        if (selectedArmor != null) {
+            sliderPosition = maxDurability
+        }
 
         Card(
             modifier = Modifier
                 .padding(vertical = 4.dp)
                 .fillMaxWidth(),
-            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-            onClick = {
-
-            }
+            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
         ) {
             Column() {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
@@ -345,7 +352,14 @@ class AmmoDetailActivity : ComponentActivity() {
                 }
                 Card(
                     modifier = Modifier.padding(12.dp),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(16.dp),
+                    onClick = {
+                        Intent(context, PickerActivity::class.java).apply {
+                            putExtra("type", "armorAll")
+                        }.let {
+                            armorPickerLauncher.launch(it)
+                        }
+                    }
                 ) {
                     Row(
                         Modifier.padding(16.dp),
@@ -355,18 +369,18 @@ class AmmoDetailActivity : ComponentActivity() {
                             Modifier.weight(1f)
                         ) {
                             Text(
-                                text = "5.11 Hexgrid",
+                                text = selectedArmor?.Name ?: "Select Armor",
                                 style = MaterialTheme.typography.body1,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                text = "Chest, Stomach",
+                                text = selectedArmor?.armorZone?.joinToString(", ") ?: "None",
                                 fontWeight = FontWeight.Light,
                                 fontSize = 10.sp
                             )
                         }
                         Column {
-                            Text(text = "50.0", style = MaterialTheme.typography.h5)
+                            Text(text = selectedArmor?.MaxDurability?.toString() ?: "", style = MaterialTheme.typography.h5)
                         }
                     }
                 }
@@ -389,16 +403,25 @@ class AmmoDetailActivity : ComponentActivity() {
                             .weight(1f)
                             .padding(end = 16.dp),
                         value = sliderPosition,
-                        valueRange = 0f..100f,
+                        valueRange = 0f..maxDurability,
                         onValueChange = {
                             sliderPosition = it
+                            chance = CalculatorHelper.penChance(
+                                ammo.toSimAmmo(),
+                                selectedArmor?.toSimArmor((maxDurability * sliderPosition).toDouble())
+                            )
                         },
                         colors = SliderDefaults.colors(
                             thumbColor = MaterialTheme.colors.secondary,
                             activeTrackColor = MaterialTheme.colors.secondary
                         )
                     )
-                    Text(modifier = Modifier.width(40.dp), text = sliderPosition.roundToInt().toString(), style = MaterialTheme.typography.h5, textAlign = TextAlign.End)
+                    Text(
+                        modifier = Modifier.width(40.dp),
+                        text = sliderPosition.roundToInt().toString(),
+                        style = MaterialTheme.typography.h5,
+                        textAlign = TextAlign.End
+                    )
                 }
                 Divider(color = DividerDark)
                 Row(
@@ -412,7 +435,7 @@ class AmmoDetailActivity : ComponentActivity() {
                         fontFamily = Bender,
                         modifier = Modifier.weight(1f)
                     )
-                    Text(text = "100%", style = MaterialTheme.typography.h5)
+                    Text(text = "${chance?.roundToInt()}%", style = MaterialTheme.typography.h5)
                 }
             }
         }

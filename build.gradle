@@ -27,7 +27,7 @@ buildscript {
                 room              : "2.3.0",
                 hilt              : "2.31.2-alpha"
         ]
-        compose_version = '1.0.1'
+        compose_version = '1.0.2'
         accompanist = '0.17.0'
     }
 
@@ -41,7 +41,6 @@ buildscript {
 
         classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.navigation}"
         classpath 'com.google.gms:google-services:4.3.10'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.38.1"

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
+import com.austinhodak.tarkovapi.room.models.Item
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -35,4 +36,12 @@ class AmmoViewModel @Inject constructor(
             }
         }
     }
+
+    private val _selectedArmor = MutableLiveData<Item?>(null)
+    val selectedArmor = _selectedArmor
+
+    fun selectArmor(item: Item) {
+        _selectedArmor.value = item
+    }
+
 }

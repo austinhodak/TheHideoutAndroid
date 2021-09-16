@@ -37,16 +37,21 @@ import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemSourceName
+import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.convertRtoUSD
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.Rectangle
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
-import com.austinhodak.thehideout.flea_market.viewmodels.FleaVM
+import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.quests.QuestDetailActivity
-import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.trader
+import com.austinhodak.thehideout.utils.traderImage
+import com.austinhodak.thehideout.utils.userRefTracker
 import com.bumptech.glide.Glide
 import com.google.accompanist.glide.rememberGlidePainter
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -60,7 +65,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FleaItemDetail : AppCompatActivity() {
 
-    private val viewModel: FleaVM by viewModels()
+    private val viewModel: FleaViewModel by viewModels()
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo
