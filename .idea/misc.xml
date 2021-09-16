@@ -3,22 +3,73 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.13355048859934854" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/bottom_nav_selector_text.xml" value="0.15486111111111112" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.1" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_filter_alt_24.xml" value="0.18958333333333333" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_manage_search_24.xml" value="0.1" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.18680555555555556" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.1" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_menu_open_24.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.15486111111111112" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/shortcut_flea.xml" value="0.14027777777777778" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/stripe_tile.xml" value="0.1" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_ammo_detail.xml" value="0.5" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_calculator_main.xml" value="0.22" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_calculator_picker.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_flea_detail.xml" value="0.14" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_main.xml" value="0.22467105263157894" />
-        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_weapon_detail.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_maps.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_quest_detail.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_quest_in_raid.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/activity_weapon_detail.xml" value="0.1" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/bottom_sheet_calculator_main.xml" value="0.18" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/bottom_sheet_quest_in_raid_start.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/dialog_add_price_alert.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/dialog_ammo_armor_chart.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_ammo_list.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_ammo_tabs.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_backpack_tabs.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_flea_home.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_flea_item_detail.xml" value="0.33" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_quest_overview.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_quest_traders_tab.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_quests_main.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_trader_level_settings.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_trader_quest_list.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_weapon_detail_home.xml" value="0.22467105263157894" />
-        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/fragment_weapon_tabs.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo.xml" value="0.33" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo_detail_trader_price.xml" value="0.22467105263157894" />
-        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo_small.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_ammo_small.xml" value="0.33" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_backpack.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_flea.xml" value="0.10902777777777778" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_flea_api.xml" value="0.17" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_flea_detail_price_alert.xml" value="0.10460526315789474" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_flea_price_alert.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_hideout_craft.xml" value="0.5" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_in_raid_category.xml" value="0.3635382955771305" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_in_raid_objective.xml" value="0.27706422018348625" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_key.xml" value="0.11348684210526316" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_picker_calculator_armor.xml" value="0.2" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_picker_calculator_character.xml" value="0.33" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_quest.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_quest_items.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_quest_overview.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_quest_task.xml" value="0.67" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_rig.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_start_raid_map.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_weapon.xml" value="0.18" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/layout_empty.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/map_compose.xml" value="0.5" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_activity.xml" value="0.1" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_trader_level_fragment.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_drawer_item_outdated.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_health_bar.xml" value="0.67" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_loadout_progressbar.xml" value="0.22" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_quest_objective.xml" value="0.5" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/menu/activity_damage_calculator.xml" value="0.12368421052631579" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/activity_flea_detail.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_ammo_list.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_flea.xml" value="0.22467105263157894" />
@@ -31,7 +82,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

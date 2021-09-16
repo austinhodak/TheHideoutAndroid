@@ -21,14 +21,15 @@ fragment ItemFragment on Item {
     high24hPrice
     updated
     types
-    width
-    height
+    wikiLink
     sellFor {
         ...ItemPrice
     }
     buyFor {
         ...ItemPrice
     }
+    width
+    height
 }
 
 fragment ItemPrice on ItemPrice {

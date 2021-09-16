@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 import kotlin.math.max
+import kotlin.math.min
 
 object CalculatorHelper {
 
@@ -20,7 +21,7 @@ object CalculatorHelper {
     fun simulateHit(ammo: CAmmo, armor: CArmor): Double {
         var ammoDamage = ammo.damage
         var ammoPen = ammo.penetration
-        var damageToArmor = 0.0
+        var damageToArmor: Double
 
         var blocked = false
 
@@ -47,8 +48,6 @@ object CalculatorHelper {
             }
         }
 
-        //Log.d("AMMO", ammoDamage.toString())
-
         if (blocked) {
             return ammoDamage
         }
@@ -65,7 +64,7 @@ object CalculatorHelper {
             val num4 = if (num3 >= ammo.penetration + 15.0) {
                 0.0
             } else {
-                if (!(num3 >= ammo.penetration)) {
+                if (num3 < ammo.penetration) {
                     (100.0 + ammo.penetration / (0.9 * num3 - ammo.penetration))
                 } else {
                     (0.4 * (num3 - ammo.penetration - 15.0) * (num3 - ammo.penetration - 15.0))
@@ -73,19 +72,18 @@ object CalculatorHelper {
             }
 
             if (num4 - Math.random() * 100.0 < 0.0) {
-                //Timber.d("Blocked!")
                 return true
             }
         }
-        //Timber.d("Not Blocked!")
+
         return false
     }
 
-    fun penChance(ammo: CAmmo, armor: CArmor): Double {
+    fun penChance(ammo: CAmmo, armor: CArmor?): Double {
         var timesPenned = 0
 
         for (i in 1..10000) {
-            if (!simulateBlock(ammo, armor)) {
+            if (!simulateBlock(ammo, armor ?: CArmor())) {
                 timesPenned++
             }
         }
@@ -93,62 +91,8 @@ object CalculatorHelper {
         return timesPenned.toDouble() / 100
     }
 
-    /*private fun _shotsToKill(bullet: CAmmo, armor: CArmor, health: Double, blowthrough: Double): Double {
-        var h = health
-        var headHealth = 35.0
-        var shotCount = 0.0
-
-        for (i in 1..100) {
-            shotCount++
-
-            for (b in 1..bullet.bullets) {
-                val bulletDamage = simulateHit(bullet, armor)
-                //Log.d("AMMOTEST", "BULLET DAMAGE: $bulletDamage")
-                h -= bulletDamage
-            }
-
-            if (h <= 0.0) {
-                if (blowthrough == 0.0) {
-                    return shotCount
-                } else {
-                    val num = (35 * blowthrough * (1.0/6.0))
-                    headHealth -= num
-                    h = 0.0
-                    if (headHealth <= 0) {
-                        return shotCount
-                    }
-                }
-            }
-        }
-
-        return Double.POSITIVE_INFINITY
-    }*/
-
-    /*fun shotsToKill(bullet: CAmmo, armor: CArmor, health: Double, simulations: Int, blowthrough: Double): Double {
-        var avg = 0.0
-
-        for (i in 1..simulations) {
-
-            val armorC = CArmor(
-                95.0,
-                2,
-                0.30,
-                50.0,
-                50.0,
-                20.0,
-                0.250
-            )
-
-            val ct = _shotsToKill(bullet, armorC, 70.0, 1.5)
-            //Log.d("AMMOTEST", "$ct")
-            avg += ct
-        }
-
-        return avg/simulations
-    }*/
-
     fun clamp(num: Double, a: Double, b: Double): Double {
-        return Math.max(a, Math.min(b, num))
+        return max(a, min(b, num))
     }
 
 }

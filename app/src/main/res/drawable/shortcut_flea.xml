@@ -11,8 +11,7 @@
         android:left="16dp"
         android:top="16dp"
         android:right="16dp"
-        android:bottom="16dp"
-        android:drawable="@drawable/ic_baseline_shopping_cart_24_red">
+        android:bottom="16dp">
     </item>
 
 </layer-list>

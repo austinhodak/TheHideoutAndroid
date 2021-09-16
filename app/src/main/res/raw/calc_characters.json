@@ -196,5 +196,17 @@
     },
     "image": "",
     "c_type": "guard"
+  },
+  {
+    "name": "Tagilla",
+    "health": {
+      "head": 100,
+      "thorax": 320,
+      "stomach": 260,
+      "arms": 130,
+      "legs": 140
+    },
+    "image": "",
+    "c_type": "guard"
   }
 ]

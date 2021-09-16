@@ -1,25 +1,49 @@
 package com.austinhodak.tarkovapi.room.models
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.utils.*
 import org.json.JSONObject
+import java.io.Serializable
 
 @Entity(tableName = "ammo")
-data class Ammo (
+data class Ammo(
     @PrimaryKey val id: String,
-    val itemType: ItemType? = ItemType.NONE,
+    val itemType: ItemTypes? = ItemTypes.NONE,
     val parent: String?,
     val name: String?,
     val shortName: String?,
     val description: String?,
     val weight: Double? = null,
     val Caliber: String?,
+    val pricing: Pricing? = null,
     @Embedded val ballistics: Ballistics? = null
-    //@Embedded val prefab: Prefab?,
-) {
+) : Serializable {
+    fun getColor(armorClass: Int): Color {
+        val armorValues = ammoArmorPenValues[id] ?: "------"
+        if (armorValues == "------") { return Color.Transparent }
+        return when (armorValues[armorClass - 1].toString()) {
+            "0" -> Armor0 //CE0B04
+            "1" -> Armor1
+            "2" -> Armor2
+            "3" -> Armor3
+            "4" -> Armor4
+            "5" -> Armor5
+            "6" -> Armor6
+            else -> Armor0
+        }
+    }
 
-    data class Ballistics (
+    fun getArmorValues(): String = ammoArmorPenValues[id] ?: "------"
+
+    fun getPrice(): String {
+        return (pricing?.lastLowPrice ?: pricing?.basePrice ?: 0).asCurrency()
+    }
+
+    data class Ballistics(
         val damage: Int,
         val armorDamage: Int,
         val fragmentationChance: Double,
@@ -33,22 +57,21 @@ data class Ammo (
         val tracerColor: String,
         val ammoType: String,
         val projectileCount: Int
-    )
+    )  : Serializable {
+        fun getMuzzleVelocity(): String {
+            return "$initialSpeed m/s"
+        }
+    }
 }
 
-fun toAmmoItem(item: JSONObject): Ammo {
-    val props = item.getJSONObject("_props")
+fun JSONObject.toAmmoItem(): Ammo {
+    val props = getJSONObject("_props")
 
-    val itemType: ItemType = when {
-        props.has("weapFireType") -> ItemType.WEAPON
-        props.has("Prefab") && props.getJSONObject("Prefab").getString("path").contains("assets/content/items/mods") -> ItemType.MODS
-        props.has("Caliber") -> ItemType.AMMO
-        else -> ItemType.NONE
-    }
+    val itemType = getItemType()
 
-    return Ammo (
-        id = item.getString("_id"),
-        parent = item.optString("_parent"),
+    return Ammo(
+        id = getString("_id"),
+        parent = optString("_parent"),
         name = props.optString("Name"),
         shortName = props.optString("ShortName"),
         description = props.optString("Description"),

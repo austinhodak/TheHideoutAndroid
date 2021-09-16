@@ -1,8 +1,12 @@
 package com.austinhodak.thehideout
 
-import android.app.Application
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import com.austinhodak.tarkovapi.utils.Hideout
+import com.austinhodak.tarkovapi.utils.Maps
+import com.austinhodak.thehideout.utils.Prefs
+import com.austinhodak.thehideout.utils.uid
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -19,30 +23,43 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 
 @HiltAndroidApp
-class Application : Application() {
+class Application : android.app.Application() {
+
+    companion object {
+        var questPrefs: Prefs? = null
+        var maps: Maps? = null
+        var hideout: Hideout? = null
+        lateinit var instance: Application
+            private set
+    }
 
     override fun onCreate() {
         super.onCreate()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+        instance = this
+        questPrefs = Prefs(applicationContext)
+        maps = Maps(applicationContext)
+        hideout = Hideout(applicationContext)
+
+        //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
+        if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
+            Firebase.analytics.setAnalyticsCollectionEnabled(false)
+        }
+
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
             Timber.d("Firebase UID: %s", uid())
         }
 
+        Firebase.database.setPersistenceEnabled(true)
+        //Firebase.database("https://hideout-tracker.firebaseio.com").setPersistenceEnabled(true)
+
+        Firebase.auth.signInAnonymously()
+
         Only.init(applicationContext)
 
-        setupFirebase()
-    }
-
-    private fun setupFirebase() {
-        //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
-        if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
-            Firebase.analytics.setAnalyticsCollectionEnabled(false)
-        }
-
-        Firebase.database.setPersistenceEnabled(true)
-        Firebase.auth.signInAnonymously()
         Firebase.firestore.firestoreSettings = firestoreSettings {
             isPersistenceEnabled = true
         }
@@ -51,6 +68,14 @@ class Application : Application() {
             Timber.d("Firebase Messaging Token: %s", it)
         }
 
+        setupRemoteConfig()
+    }
+
+    /**
+     * Sets up the Firebase remote config.
+     */
+
+    private fun setupRemoteConfig() {
         //Set remote config settings if debug.
         if (BuildConfig.DEBUG) {
             Firebase.remoteConfig.setConfigSettingsAsync(remoteConfigSettings {
@@ -70,4 +95,14 @@ class Application : Application() {
         //Fetch and active.
         Firebase.remoteConfig.fetchAndActivate()
     }
+}
+
+val questPrefs: Prefs by lazy {
+    Application.questPrefs!!
+}
+
+val mapsList: Maps = Application.maps!!
+
+val hideoutList: Hideout by lazy {
+    Application.hideout!!
 }

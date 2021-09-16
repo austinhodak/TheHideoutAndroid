@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="fast_adapter_id" type="id"/>
-    <item name="fast_adapter_id_2" type="id"/>
-    <item name="fast_adapter_weapon_id" type="id"/>
-    <item name="fast_adapter_key_id" type="id"/>
-    <item name="fast_adapter_calc_ammo" type="id"/>
-    <item name="fast_adapter_calc_armor" type="id"/>
-    <item name="fast_adapter_calc_character" type="id"/>
-
-
+    <item name="map" type="id"/>
 </resources>

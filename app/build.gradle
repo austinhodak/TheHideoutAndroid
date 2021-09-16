@@ -4,16 +4,12 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
     id 'kotlin-kapt'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.10'
+
     id 'dagger.hilt.android.plugin'
 }
 
-kapt {
-    correctErrorTypes = true
-}
-
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     signingConfigs {
@@ -30,7 +26,7 @@ android {
             keyPassword "android"
         }
         release {
-            storeFile file('C:/Development/Keys/TheHideoutKeystore.jks')
+            //storeFile file('C:/Development/Keys/TheHideoutKeystore.jks')
             keyAlias 'key0'
             storePassword 'dg3hGsRvyUkBiHt67xkLgktK'
             keyPassword 'dg3hGsRvyUkBiHt67xkLgktK'
@@ -40,13 +36,16 @@ android {
     defaultConfig {
         applicationId "com.austinhodak.thehideout"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 10330
+        versionCode 10320
         // [1]-[0].[2].[0].[0]
-        versionName "0.3.3"
+        versionName "0.3.2"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     flavorDimensions "version"
@@ -63,6 +62,7 @@ android {
     buildFeatures {
         viewBinding true
         dataBinding true
+        compose true
     }
 
     buildTypes {
@@ -81,8 +81,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
+        useIR = true
     }
 
     sourceSets {
@@ -92,58 +94,62 @@ android {
             ]
         }
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerVersion '1.5.21'
+    }
 }
 
 dependencies {
-    implementation project(":searchview")
-    implementation project(":slimadapter")
     implementation project(":tarkovapi")
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation("com.apollographql.apollo3:apollo-runtime:3.0.0-alpha03")
+    implementation("com.apollographql.apollo3:apollo-api:3.0.0-alpha03")
+
+    implementation 'io.coil-kt:coil-compose:1.3.2'
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+
+    // Tests
     testImplementation 'junit:junit:4.13.2'
-
-    androidTestImplementation 'androidx.test:core:1.4.0'
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.ext:truth:1.4.0'
-    androidTestImplementation 'com.google.truth:truth:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-web:3.4.0'
-    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.4.0'
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
-    implementation 'com.google.dagger:hilt-android:2.38'
-    kapt 'com.google.dagger:hilt-android-compiler:2.38'
-
-
-    //noinspection DifferentStdlibGradleVersion
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+    // Core
     implementation "androidx.core:core-ktx:${versions.ktx}"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
+
+    //Compose
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.activity:activity-compose:1.3.1"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
     //AndroidX
     implementation "androidx.multidex:multidex:${versions.multiDex}"
     implementation "com.google.android.material:material:${versions.material}"
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
     implementation "androidx.recyclerview:recyclerview:${versions.recyclerView}"
-    implementation "androidx.cardview:cardview:${versions.cardview}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
-    implementation "androidx.slidingpanelayout:slidingpanelayout:${versions.slidingpaneLayout}"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:${versions.swiperefreshLayout}"
     implementation "androidx.annotation:annotation:${versions.annotation}"
     implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
-    implementation "androidx.viewpager2:viewpager2:1.1.0-alpha01"
-    implementation "androidx.fragment:fragment-ktx:1.3.3"
+    implementation "androidx.fragment:fragment-ktx:1.3.6"
+
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha08"
+
     //END AndroidX
 
     //Firebase
     implementation platform("com.google.firebase:firebase-bom:${versions.firebaseBOM}")
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation "com.google.firebase:firebase-analytics-ktx"
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-functions-ktx'
@@ -155,6 +161,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-config-ktx'
     implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
     //implementation 'com.google.android.gms:play-services-ads'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
     //END Firebase
 
     //Drawer
@@ -163,11 +171,6 @@ dependencies {
     implementation "com.mikepenz:materialdrawer-iconics:${versions.materialDrawer}"
     implementation 'com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar'
 
-    implementation 'com.mikepenz:fastadapter-extensions-binding:5.4.1'
-    implementation 'com.mikepenz:fastadapter:5.4.1'
-    implementation 'com.mikepenz:fastadapter-extensions-diff:5.4.1' // diff util helpers
-    implementation 'com.mikepenz:fastadapter-extensions-expandable:5.4.1'
-    implementation 'com.mikepenz:fastadapter-extensions-ui:5.4.1'
 
     //END Drawer
 
@@ -176,55 +179,40 @@ dependencies {
     implementation "com.afollestad.material-dialogs:color:${versions.mDialogs}"
     //END Dialogs
 
-    implementation 'me.jorgecastillo:androidcolorx:0.2.0'
-    implementation ('com.github.bumptech.glide:glide:4.12.0') {
+    implementation ("com.github.bumptech.glide:glide:4.12.0") {
         exclude group: "com.android.support"
     }
 
-    implementation 'pl.hypeapp:materialtimelineview:1.1'
-
-
     implementation "androidx.browser:browser:1.3.0"
-    implementation "com.mikepenz:itemanimators:1.1.0"
 
     implementation "com.github.skydoves:only:1.0.8"
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2'
-
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
 
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-
-    implementation 'androidx.paging:paging-runtime-ktx:3.0.0'
-
-    implementation "androidx.room:room-runtime:${versions.room}"
-    kapt "androidx.room:room-compiler:${versions.room}"
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:${versions.room}"
-
-    // optional - Test helpers
-    testImplementation "androidx.room:room-testing:${versions.room}"
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
-    implementation 'com.airbnb.android:lottie:3.7.2'
+    implementation 'com.airbnb.android:lottie:4.1.0'
 
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation "com.google.accompanist:accompanist-glide:0.15.0"
+    implementation "com.google.accompanist:accompanist-insets:$accompanist"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist"
+    implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist"
+    implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
+    implementation "com.google.accompanist:accompanist-placeholder-material:$accompanist"
 
-    implementation('org.jetbrains.kotlinx:kotlinx-datetime:0.2.1')
-
-    // The core runtime dependencies
-    implementation("com.apollographql.apollo:apollo-runtime:2.5.9")
-    // Coroutines extensions for easier asynchronicity handling
-    implementation("com.apollographql.apollo:apollo-coroutines-support:2.5.9")
-
-    implementation "com.google.accompanist:accompanist-glide:0.12.0"
-
-    implementation 'com.beust:klaxon:5.5'
-
-    implementation("com.google.android.play:core:1.10.0")
+    implementation("com.google.android.play:core:1.10.1")
     implementation("com.google.android.play:core-ktx:1.8.1")
 
-    implementation 'io.github.ibrahimyilmaz:kiel:1.2.1'
+    implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
+
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+
+    implementation 'com.google.maps.android:maps-ktx:3.1.0'
+    implementation 'com.google.maps.android:maps-utils-ktx:3.1.0'
+
+    implementation 'com.github.jeziellago:compose-markdown:0.2.6'
+
 }

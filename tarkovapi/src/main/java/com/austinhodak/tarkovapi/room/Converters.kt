@@ -1,23 +1,106 @@
 package com.austinhodak.tarkovapi.room
 
 import androidx.room.TypeConverter
-import com.austinhodak.tarkovapi.fragment.*
-import com.austinhodak.tarkovapi.room.models.Filter
-import com.austinhodak.tarkovapi.room.models.ItemType
+import com.austinhodak.tarkovapi.fragment.RepFragment
+import com.austinhodak.tarkovapi.fragment.TraderFragment
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.room.models.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.json.JSONObject
 import java.lang.reflect.Type
+import java.util.*
 
 class Converters {
 
     @TypeConverter
-    fun toItemType(value: String?): ItemType? {
-        return value?.let { ItemType.valueOf(value) }
+    fun toObject(value: String?): JSONObject? {
+        return value?.let {
+            try {
+                JSONObject(value)
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 
     @TypeConverter
-    fun fromItemType(value: ItemType?): String? {
+    fun fromObject(value: JSONObject?): String? {
         return value?.toString()
+    }
+
+    @TypeConverter
+    fun toItemType(value: String?): ItemTypes? {
+        return value?.let { ItemTypes.valueOf(value) }
+    }
+
+    @TypeConverter
+    fun fromItemType(value: ItemTypes?): String? {
+        return value?.toString()
+    }
+
+    @TypeConverter
+    fun toPricing(value: String?): Pricing? {
+        if (value == null) return null
+        return Gson().fromJson(value, Pricing::class.java)
+    }
+
+    @TypeConverter
+    fun fromPricing(value: Pricing?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toChamber(value: String?): List<Weapon.Chamber>? {
+        val filterType: Type = object : TypeToken<ArrayList<Weapon.Chamber>?>() {}.type
+        if (value == null) return null
+        return Gson().fromJson(value, filterType)
+    }
+
+    @TypeConverter
+    fun fromChamber(value: List<Weapon.Chamber>?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toSlot(value: String?): List<Weapon.Slot>? {
+        val filterType: Type = object : TypeToken<ArrayList<Weapon.Slot>?>() {}.type
+        if (value == null) return null
+        return Gson().fromJson(value, filterType)
+    }
+
+    @TypeConverter
+    fun fromSlot(value: List<Weapon.Slot>?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toGrid(value: String?): List<Grid>? {
+        val filterType: Type = object : TypeToken<ArrayList<Grid>?>() {}.type
+        if (value == null) return null
+        return Gson().fromJson(value, filterType)
+    }
+
+    @TypeConverter
+    fun fromCraftItem(value: List<Craft.CraftItem>?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toCraftItem(value: String?): List<Craft.CraftItem>? {
+        val filterType: Type = object : TypeToken<ArrayList<Craft.CraftItem>?>() {}.type
+        if (value == null) return null
+        return Gson().fromJson(value, filterType)
+    }
+
+    @TypeConverter
+    fun fromGrid(value: List<Grid>?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
     }
 
     @TypeConverter
@@ -31,20 +114,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun toTT(value: String?): ItemFragment? {
-        if (value == null) return null
-        return Gson().fromJson(value, ItemFragment::class.java)
-    }
-
-    @TypeConverter
-    fun fromTT(value: ItemFragment?): String? {
-        if (value == null) return null
-        return Gson().toJson(value)
-    }
-
-    @TypeConverter
     fun toTraderFragment(value: String?): TraderFragment? {
-        if (value == null) return null
         return Gson().fromJson(value, TraderFragment::class.java)
     }
 
@@ -55,92 +125,39 @@ class Converters {
     }
 
     @TypeConverter
-    fun toFilter(value: String?): Filter? {
-        if (value == null) return null
-        return Gson().fromJson(value, Filter::class.java)
-    }
-
-    @TypeConverter
-    fun fromFilter(value: Filter?): String? {
-        if (value == null) return null
-        return Gson().toJson(value)
-    }
-
-    @TypeConverter
-    fun toFilter3(value: String?): List<Filter>? {
-        val filterType: Type = object : TypeToken<ArrayList<Filter?>?>() {}.type
-        if (value == null) return null
-        return Gson().fromJson(value, filterType)
-    }
-
-    @TypeConverter
-    fun fromFilter3(value: List<Filter>?): String? {
-        if (value == null) return null
-        return Gson().toJson(value)
-    }
-
-    @TypeConverter
-    fun toTaskItemList(value: String?): List<TaskItem>? {
-        val filterType: Type = object : TypeToken<ArrayList<TaskItem>?>() {}.type
-        if (value == null) return null
-        return Gson().fromJson(value, filterType)
-    }
-
-    @TypeConverter
-    fun fromTaskItemList(value: List<TaskItem>?): String? {
-        if (value == null) return null
-        return Gson().toJson(value)
-    }
-
-    @TypeConverter
-    fun toRepFragmentList(value: String?): List<RepFragment>? {
+    fun toRepFragment(value: String?): List<RepFragment>? {
         val filterType: Type = object : TypeToken<ArrayList<RepFragment>?>() {}.type
         if (value == null) return null
         return Gson().fromJson(value, filterType)
     }
 
     @TypeConverter
-    fun fromRepFragmentList(value: List<RepFragment>?): String? {
+    fun fromRepFragment(value: List<RepFragment>?): String? {
         if (value == null) return null
         return Gson().toJson(value)
     }
 
     @TypeConverter
-    fun toRepFragment(value: String?): RepFragment? {
-        val filterType: Type = object : TypeToken<RepFragment?>() {}.type
+    fun toObjectiveFragment(value: String?): List<Quest.QuestObjective>? {
+        val filterType: Type = object : TypeToken<ArrayList<Quest.QuestObjective>?>() {}.type
         if (value == null) return null
         return Gson().fromJson(value, filterType)
     }
 
     @TypeConverter
-    fun fromRepFragment(value: RepFragment?): String? {
+    fun fromObjectiveFragment(value: List<Quest.QuestObjective>?): String? {
         if (value == null) return null
         return Gson().toJson(value)
     }
 
     @TypeConverter
-    fun toObjFragmentList(value: String?): List<ObjectiveFragment>? {
-        val filterType: Type = object : TypeToken<ArrayList<ObjectiveFragment>?>() {}.type
+    fun toQuestReq(value: String?): Quest.QuestRequirement? {
         if (value == null) return null
-        return Gson().fromJson(value, filterType)
-    }
-
-
-    @TypeConverter
-    fun fromObjFragmentList(value: List<ObjectiveFragment>?): String? {
-        if (value == null) return null
-        return Gson().toJson(value)
+        return Gson().fromJson(value, Quest.QuestRequirement::class.java)
     }
 
     @TypeConverter
-    fun toObjFragment(value: String?): ObjectiveFragment? {
-        val filterType: Type = object : TypeToken<ObjectiveFragment?>() {}.type
-        if (value == null) return null
-        return Gson().fromJson(value, filterType)
-    }
-
-    @TypeConverter
-    fun fromObjFragment(value: ObjectiveFragment?): String? {
+    fun fromQuestReq(value: Quest.QuestRequirement?): String? {
         if (value == null) return null
         return Gson().toJson(value)
     }
@@ -154,6 +171,19 @@ class Converters {
 
     @TypeConverter
     fun fromReqList(value: List<List<Int>>?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toReqQuests(value: String?): List<List<Quest>>? {
+        val filterType: Type = object : TypeToken<ArrayList<List<Quest>>?>() {}.type
+        if (value == null) return null
+        return Gson().fromJson(value, filterType)
+    }
+
+    @TypeConverter
+    fun fromReqQuests(value: List<List<Quest>>?): String? {
         if (value == null) return null
         return Gson().toJson(value)
     }

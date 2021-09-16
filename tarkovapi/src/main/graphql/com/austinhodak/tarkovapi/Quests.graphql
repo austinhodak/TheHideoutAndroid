@@ -13,6 +13,7 @@ fragment QuestFragment on Quest {
     requirements {
         level
         quests
+        ...PreRequisite
     }
     giver {
         ...TraderFragment
@@ -25,6 +26,12 @@ fragment QuestFragment on Quest {
     }
     objectives {
         ...ObjectiveFragment
+    }
+}
+
+fragment PreRequisite on QuestRequirement {
+    prerequisiteQuests {
+        id
     }
 }
 

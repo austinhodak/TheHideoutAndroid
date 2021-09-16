@@ -1,25 +1,22 @@
 package com.austinhodak.thehideout.calculator.models
 
-import android.widget.TextView
 import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.calculator.views.HealthBar
+import timber.log.Timber
 import kotlin.math.roundToInt
 
 data class Body(
-    var head: BodyPart = BodyPart(35.0, 0.0),
-    var thorax: BodyPart = BodyPart(85.0, 0.0),
-    var stomach: BodyPart = BodyPart(70.0, 1.5),
-    var leftArm: BodyPart = BodyPart(60.0, 0.7),
-    var rightArm: BodyPart = BodyPart(60.0, 0.7),
-    var leftLeg: BodyPart = BodyPart(65.0, 1.000000000000001),
-    var rightLeg: BodyPart = BodyPart(65.0, 1.000000000000001),
+    var head: BodyPart = BodyPart(35.0, 0.0, name = Part.HEAD),
+    var thorax: BodyPart = BodyPart(85.0, 0.0, name = Part.THORAX),
+    var stomach: BodyPart = BodyPart(70.0, 1.5, name = Part.STOMACH),
+    var leftArm: BodyPart = BodyPart(60.0, 0.7, name = Part.LEFTARM),
+    var rightArm: BodyPart = BodyPart(60.0, 0.7, name = Part.RIGHTARM),
+    var leftLeg: BodyPart = BodyPart(65.0, 1.000000000000001, name = Part.LEFTLEG),
+    var rightLeg: BodyPart = BodyPart(65.0, 1.000000000000001, name = Part.RIGHTLEG),
 ) {
     private val sim = CalculatorHelper
-    private lateinit var totalHealthTV: TextView
-    private lateinit var currentHealthTV: TextView
     private var shotsFired = 0
     private var shotsFiredAfterDead = 0
-    var onShootListener: (() -> Unit?)? = null
 
     fun reset(selectedCharacter: Character): Body {
         val characterHealth = selectedCharacter.health
@@ -46,12 +43,12 @@ data class Body(
         return this
     }
 
-    private fun getTotalHealth(): Int {
+    fun getTotalHealth(): Int {
         return (head.health + thorax.health + stomach.health + leftArm.health + rightArm.health + leftLeg.health + rightLeg.health).coerceAtLeast(0.0)
             .roundToInt()
     }
 
-    private fun getTotalInitialHealth(): Int {
+    fun getTotalInitialHealth(): Int {
         return (head.initialHealth + thorax.initialHealth + stomach.initialHealth + leftArm.initialHealth + rightArm.initialHealth + leftLeg.initialHealth + rightLeg.initialHealth).coerceAtLeast(
             0.0
         ).roundToInt()
@@ -62,14 +59,17 @@ data class Body(
 
         var armor = cArmor ?: CArmor()
 
-        if (armor.zones.find { it.replace(" ", "").equals(part.name, ignoreCase = true) }.isNullOrEmpty()) {
+        if (armor.zones.find { it.replace(" ", "").replace("Chest", "Thorax").equals(part.name, ignoreCase = true) }.isNullOrEmpty()) {
             //Armor does not cover body part, remove from calculation.
-            if (part == Part.HEAD && armor.zones.contains("Top")) {
+            /*if (part == Part.HEAD && armor.zones.contains("Top")) {
 
             } else {
                 armor = CArmor()
-            }
+            }*/
+            armor = CArmor()
         }
+
+        Timber.d(armor.toString())
 
         shotsFired++
         when (part) {
@@ -116,7 +116,6 @@ data class Body(
         }
 
         updateHealthBars()
-        onShootListener?.invoke()
 
         return this
     }
@@ -129,16 +128,6 @@ data class Body(
         rightArm.health -= (ammo.damage * bodyPart.blowthrough * (1 / 6.0))
         leftLeg.health -= (ammo.damage * bodyPart.blowthrough * (1 / 6.0))
         rightLeg.health -= (ammo.damage * bodyPart.blowthrough * (1 / 6.0))
-    }
-
-    private fun round() {
-        head.health.roundToInt()
-        thorax.health.roundToInt()
-        stomach.health.roundToInt()
-        leftArm.health.roundToInt()
-        rightArm.health.roundToInt()
-        leftLeg.health.roundToInt()
-        rightLeg.health.roundToInt()
     }
 
     private fun dead() {
@@ -181,24 +170,6 @@ data class Body(
         rightArm.healthBar?.updateHealth(rightArm.toHB())
         leftLeg.healthBar?.updateHealth(leftLeg.toHB())
         rightLeg.healthBar?.updateHealth(rightLeg.toHB())
-
-        if (this::currentHealthTV.isInitialized)
-        currentHealthTV.text = "${getTotalHealth()}"
-
-        if (this::totalHealthTV.isInitialized)
-        totalHealthTV.text = "/${getTotalInitialHealth()}"
-
-        /*if (shotsFiredAfterDead >= 5) {
-            totalHealthTV.text = "He's dead Jim!"
-        }*/
-    }
-
-    fun bindTotalTextView(view: TextView) {
-        totalHealthTV = view
-    }
-
-    fun bindCurrentTextView(view: TextView) {
-        currentHealthTV = view
     }
 }
 
@@ -207,7 +178,8 @@ data class BodyPart(
     var blowthrough: Double,
     var initialHealth: Double = health,
     var healthBar: HealthBar? = null,
-    var shotCount: Int = 0
+    var shotCount: Int = 0,
+    var name: Part
 ) {
     fun blacked(): Boolean {
         return health <= 0.0

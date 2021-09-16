@@ -1,209 +1,390 @@
 package com.austinhodak.thehideout.ammunition
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.view.View
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
-import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.models.Ammo
+import androidx.activity.viewModels
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
+import com.austinhodak.tarkovapi.room.models.Ammo
+import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.plusMinus
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.CalculatorHelper
-import com.austinhodak.thehideout.calculator.CalculatorMainActivity
-import com.austinhodak.thehideout.calculator.pickers.CalculatorPickerActivity
-import com.austinhodak.thehideout.clothing.armor.ArmorHelper
-import com.austinhodak.thehideout.clothing.models.Armor
-import com.austinhodak.thehideout.databinding.ActivityAmmoDetailBinding
-import com.austinhodak.thehideout.flea_market.detail.FleaItemDetailActivity
-import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.log
-import com.google.firebase.analytics.FirebaseAnalytics
-import net.idik.lib.slimadapter.SlimAdapter
-import timber.log.Timber
+import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
+import com.austinhodak.thehideout.compose.theme.Bender
+import com.austinhodak.thehideout.compose.theme.DividerDark
+import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.pickers.PickerActivity
+import com.austinhodak.thehideout.utils.*
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlin.math.roundToInt
 
-class AmmoDetailActivity : AppCompatActivity() {
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+@AndroidEntryPoint
+class AmmoDetailActivity : ComponentActivity() {
 
-    private lateinit var binding: ActivityAmmoDetailBinding
-    private lateinit var fleaViewModel: FleaViewModel
-    private lateinit var ammoViewModel: AmmoViewModel
-    private var ammo: Ammo? = null
+    private val ammoViewModel: AmmoViewModel by viewModels()
 
-    private var selectedArmor: Armor?  = null
-
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK && result.data != null) {
-            if (result.data?.hasExtra("armorID") == true) {
-                selectedArmor = ArmorHelper.getArmors(this).find { it._id == result.data?.getStringExtra("armorID") }
-                armorSelected()
-                updatePenChance()
+    private var armorPickerLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val intent = result.data
+                intent?.getSerializableExtra("item")?.let {
+                    if (it is Item) {
+                        ammoViewModel.selectArmor(it)
+                    }
+                }
             }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAmmoDetailBinding.inflate(layoutInflater).also {
-            setContentView(it.root)
-        }
 
-        ammoViewModel = ViewModelProvider(this).get(AmmoViewModel::class.java)
-        fleaViewModel = ViewModelProvider(this).get(FleaViewModel::class.java)
-        ammoViewModel.ammoList.observe(this) {
-            if (intent.hasExtra("id")) {
-                ammo = it.find { it._id == intent.getStringExtra("id") }
-                updateData()
-            }
-        }
+        val ammoID = intent.getStringExtra("ammoID") ?: "5fd20ff893a8961fc660a954"
+        ammoViewModel.getAmmo(ammoID)
 
-        setupToolbar()
+        setContent {
+            val ammo by ammoViewModel.ammoDetails.observeAsState()
+            val scaffoldState = rememberScaffoldState()
 
-        binding.ammoDetailArmorCard.setOnClickListener {
-            MaterialDialog(this).show {
-                title(text = "Armor Chart Legend")
-                customView(R.layout.dialog_ammo_armor_chart)
-                positiveButton(text = "Okay")
-            }
-        }
+            val selectedArmor by ammoViewModel.selectedArmor.observeAsState()
 
-        binding.ammoDetailCalcFAB.setOnClickListener {
-            startActivity(Intent(this, CalculatorMainActivity::class.java).apply {
-                putExtra("ammoID", ammo?._id)
-            })
-        }
+            HideoutTheme {
+                val systemUiController = rememberSystemUiController()
+                systemUiController.setSystemBarsColor(
+                    color = MaterialTheme.colors.primary,
+                )
 
-        binding.ammoDetailScollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if (scrollY > oldScrollY + 12 && binding.ammoDetailCalcFAB.isShown) {
-                binding.ammoDetailCalcFAB.hide()
-            }
-
-            if (scrollY < oldScrollY - 12 && !binding.ammoDetailCalcFAB.isShown) {
-                binding.ammoDetailCalcFAB.show()
-            }
-        }
-
-        selectedArmor = ArmorHelper.getArmors(this).find { it.name == "Galvion Caiman" }
-        armorSelected()
-    }
-
-    private fun armorSelected() {
-        binding.calcChestTitle.text = "${selectedArmor?.name} • Class ${selectedArmor?.level}"
-        binding.calcChestSubtitle.text = selectedArmor?.zones?.joinToString(separator = ", ")
-        binding.textView24.text = selectedArmor?.hitpoints.toString()
-
-        binding.ammoDetailArmorPenSeekbar.valueTo = selectedArmor?.hitpoints?.toFloat() ?: 0.0f
-        binding.ammoDetailArmorPenSeekbar.value = selectedArmor?.hitpoints?.toFloat() ?: 0.0f
-    }
-
-    private fun updatePenChance(durability: Float? = null) {
-        val chance = CalculatorHelper.penChance(
-            ammo?.getCAmmo()!!,
-            selectedArmor?.getCArmor(durability?.toDouble())!!
-        )
-
-        Timber.d(chance.toString())
-
-        binding.textView23.text = "${String.format("%.2f", chance)}%"
-    }
-
-    private fun updateData() {
-        getCaliberData()
-        binding.ammo = ammo
-
-        if (ammo?.prices?.isNotEmpty() == true) {
-            SlimAdapter.create().register<Ammo.AmmoPriceModel>(R.layout.item_ammo_detail_trader_price) { price, i ->
-                i.text(R.id.ammoDetailTraderPriceTitle, price.getTraderString())
-                i.text(R.id.ammoDetailTraderPriceTV, price.getPrice())
-            }.attachTo(binding.ammoDetailTraderPriceRV).updateData(ammo?.prices)
-            binding.ammoDetailTraderPriceRV.layoutManager = LinearLayoutManager(this)
-        } else {
-            binding.ammoDetailSoldByCard.visibility = View.GONE
-        }
-
-        getFleaItemData()
-
-        binding.ammoDetailArmorPenSeekbar.addOnChangeListener { slider, value, fromUser ->
-            binding.ammoDetailPenChanceCurrentDurability.text = String.format("%.2f", value)
-            updatePenChance(value)
-        }
-
-        updatePenChance()
-
-        binding.calcChestCard.setOnClickListener {
-            launchPicker(CalculatorPickerActivity.ItemType.ARMOR)
-        }
-    }
-
-    private fun getCaliberData() {
-        binding.caliber = ammo?.caliber?.let { AmmoHelper.getCaliberByID(it) }
-    }
-
-    private fun getFleaItemData() {
-        fleaViewModel.fleaItems.observe(this) {
-            binding.fleaItem = ammo?.getFleaMarketItem(it).also { item ->
-                if (item == null) return@also
-
-                binding.ammoDetailFleaCard.setOnClickListener {
-                    log(FirebaseAnalytics.Event.SELECT_ITEM, item.uid ?: "", item.name ?: "", "flea_item")
-                    startActivity(Intent(this, FleaItemDetailActivity::class.java).apply {
-                        putExtra("id", item.uid)
-                    })
-                }
-
-                when {
-                    item.diff24h!! > 0.0 -> {
-                        binding.fleaDetail24HTV.setTextColor(resources.getColor(R.color.md_green_500))
-                        binding.fleaDetail24HIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
-                        binding.fleaDetail24HIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_green_500))
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    topBar = {
+                        Column {
+                            AmmoDetailToolbar(
+                                title = ammo?.pricing?.name ?: "Error Loading...",
+                                onBackPressed = { finish() }
+                            )
+                            if (ammo == null) {
+                                LinearProgressIndicator(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(2.dp),
+                                    color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                                    backgroundColor = Color.Transparent
+                                )
+                            }
+                        }
                     }
-                    item.diff24h < 0.0 -> {
-                        binding.fleaDetail24HTV.setTextColor(resources.getColor(R.color.md_red_500))
-                        binding.fleaDetail24HIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
-                        binding.fleaDetail24HIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_red_500))
-                    }
-                    else -> {
-                        binding.fleaDetail24HTV.setTextColor(resources.getColor(R.color.primaryText60))
-                        binding.fleaDetail24HIcon.setImageResource(R.drawable.icons8_horizontal_line_96)
-                        binding.fleaDetail24HIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryText60))
-                    }
-                }
-
-                when {
-                    item.diff7days!! > 0.0 -> {
-                        binding.fleaDetail7DTV.setTextColor(resources.getColor(R.color.md_green_500))
-                        binding.fleaDetail7DIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24)
-                        binding.fleaDetail7DIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_green_500))
-                    }
-                    item.diff7days < 0.0 -> {
-                        binding.fleaDetail7DTV.setTextColor(resources.getColor(R.color.md_red_500))
-                        binding.fleaDetail7DIcon.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24)
-                        binding.fleaDetail7DIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.md_red_500))
-                    }
-                    else -> {
-                        binding.fleaDetail7DTV.setTextColor(resources.getColor(R.color.primaryText60))
-                        binding.fleaDetail7DIcon.setImageResource(R.drawable.icons8_horizontal_line_96)
-                        binding.fleaDetail7DIcon.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.primaryText60))
+                ) {
+                    if (ammo != null) {
+                        LazyColumn(
+                            contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
+                        ) {
+                            item {
+                                AmmoDetailCard(ammo = ammo!!)
+                            }
+                            item {
+                                PricingCard(ammo = ammo!!)
+                            }
+                            item {
+                                ArmorPenCard(ammo = ammo!!, selectedArmor)
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun setupToolbar() {
-        setSupportActionBar(binding.ammoDetailToolbar)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.md_nav_back)
-        binding.ammoDetailToolbar.setNavigationOnClickListener { super.onBackPressed() }
+    @Composable
+    private fun AmmoDetailCard(
+        ammo: Ammo
+    ) {
+        Card(
+            Modifier
+                .padding(vertical = 4.dp)
+                .fillMaxWidth(),
+            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+        ) {
+            Column {
+                Row(
+                    Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        rememberImagePainter(ammo.pricing?.gridImageLink),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(38.dp)
+                            .height(38.dp)
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 16.dp),
+                        text = getCaliberName(ammo.Caliber),
+                        style = MaterialTheme.typography.subtitle1
+                    )
+                }
+                Divider(color = DividerDark)
+                Column(
+                    Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
+                ) {
+                    DataRow(
+                        title = "DAMAGE",
+                        value = Pair(ammo.ballistics?.damage, MaterialTheme.colors.onSurface)
+                    )
+                    DataRow(
+                        title = "ARMOR DAMAGE %",
+                        value = Pair(ammo.ballistics?.armorDamage, MaterialTheme.colors.onSurface)
+                    )
+                    DataRow(
+                        title = "PENETRATION",
+                        value = Pair(
+                            ammo.ballistics?.penetrationPower?.roundToInt(),
+                            MaterialTheme.colors.onSurface
+                        )
+                    )
+                    DataRow(
+                        title = "RECOIL",
+                        value = Pair(
+                            ammo.ballistics?.recoil?.plusMinus(),
+                            ammo.ballistics?.recoil?.getColor(true, MaterialTheme.colors.onSurface)
+                        )
+                    )
+                    DataRow(
+                        title = "ACCURACY",
+                        value = Pair(
+                            ammo.ballistics?.accuracy?.plusMinus(),
+                            ammo.ballistics?.accuracy?.getColor(
+                                false,
+                                MaterialTheme.colors.onSurface
+                            )
+                        )
+                    )
+                    DataRow(
+                        title = "PROJECTILE SPEED",
+                        value = Pair(
+                            "${ammo.ballistics?.initialSpeed} m/s",
+                            MaterialTheme.colors.onSurface
+                        )
+                    )
+                }
+            }
+        }
     }
 
-    private fun launchPicker(itemType: CalculatorPickerActivity.ItemType) {
-        val intent = Intent(this, CalculatorPickerActivity::class.java)
-        intent.putExtra("itemType", itemType)
-        resultLauncher.launch(intent)
+    @Composable
+    private fun DataRow(
+        title: String,
+        value: Pair<Any?, Color?>?
+    ) {
+        Row(
+            Modifier.padding(vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = title,
+                style = MaterialTheme.typography.caption
+            )
+            Text(
+                text = value?.first.toString(),
+                style = MaterialTheme.typography.subtitle2,
+                color = value?.second ?: MaterialTheme.colors.onSurface
+            )
+        }
+    }
+
+    @ExperimentalFoundationApi
+    @Composable
+    private fun PricingCard(
+        ammo: Ammo
+    ) {
+        val context = LocalContext.current
+        Card(
+            Modifier
+                .padding(vertical = 4.dp)
+                .fillMaxWidth()
+                .clickable {
+                    context.openActivity(FleaItemDetail::class.java) {
+                        putString("id", ammo.pricing?.id)
+                    }
+                },
+            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+        ) {
+            Column(
+                Modifier.padding(16.dp)
+            ) {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "PRICING",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
+                Column {
+                    ammo.pricing?.buyFor?.forEach { item ->
+                        DataRow(
+                            title = "${item.getTitle().toUpperCase(Locale.current)} ", value = Pair(
+                                item.price?.asCurrency(if (item.source == "peacekeeper") "D" else "R"),
+                                MaterialTheme.colors.onSurface
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ArmorPenCard(
+        ammo: Ammo,
+        selectedArmor: Item?
+    ) {
+
+        val maxDurability = selectedArmor?.MaxDurability?.toFloat() ?: 1f
+        var sliderPosition by remember { mutableStateOf(maxDurability) }
+        val context = LocalContext.current
+        var chance: Double? by remember { mutableStateOf(0.0) }
+
+        if (selectedArmor != null) {
+            sliderPosition = maxDurability
+        }
+
+        Card(
+            modifier = Modifier
+                .padding(vertical = 4.dp)
+                .fillMaxWidth(),
+            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+        ) {
+            Column {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "ARMOR PENETRATION CHANCE",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                    )
+                }
+                Card(
+                    modifier = Modifier.padding(12.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    onClick = {
+                        Intent(context, PickerActivity::class.java).apply {
+                            putExtra("type", "armorAll")
+                        }.let {
+                            armorPickerLauncher.launch(it)
+                        }
+                    }
+                ) {
+                    Row(
+                        Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(
+                            Modifier.weight(1f)
+                        ) {
+                            Text(
+                                text = selectedArmor?.Name ?: "Select Armor",
+                                style = MaterialTheme.typography.body1,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = selectedArmor?.armorZone?.joinToString(", ") ?: "None",
+                                fontWeight = FontWeight.Light,
+                                fontSize = 10.sp
+                            )
+                        }
+                        Column {
+                            Text(text = selectedArmor?.MaxDurability?.toString() ?: "", style = MaterialTheme.typography.h5)
+                        }
+                    }
+                }
+                Divider(color = DividerDark)
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "DURABILITY",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                    )
+                }
+                Row(
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Slider(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 16.dp),
+                        value = sliderPosition,
+                        valueRange = 0f..maxDurability,
+                        onValueChange = {
+                            sliderPosition = it
+                            chance = CalculatorHelper.penChance(
+                                ammo.toSimAmmo(),
+                                selectedArmor?.toSimArmor((maxDurability * sliderPosition).toDouble())
+                            )
+                        },
+                        colors = SliderDefaults.colors(
+                            thumbColor = MaterialTheme.colors.secondary,
+                            activeTrackColor = MaterialTheme.colors.secondary
+                        )
+                    )
+                    Text(
+                        modifier = Modifier.width(40.dp),
+                        text = sliderPosition.roundToInt().toString(),
+                        style = MaterialTheme.typography.h5,
+                        textAlign = TextAlign.End
+                    )
+                }
+                Divider(color = DividerDark)
+                Row(
+                    Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "CHANCE TO PENETRATE ARMOR",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(text = "${chance?.roundToInt()}%", style = MaterialTheme.typography.h5)
+                }
+            }
+        }
     }
 }
