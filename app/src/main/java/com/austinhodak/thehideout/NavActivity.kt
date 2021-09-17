@@ -88,6 +88,11 @@ class NavActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val data = intent.extras
+        data?.let {
+            it.getString("url")?.openWithCustomTab(this)
+        }
+
         setContent {
             val scaffoldState = rememberScaffoldState()
             val coroutineScope = rememberCoroutineScope()

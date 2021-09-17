@@ -310,9 +310,9 @@ fun uid(): String? {
 }
 
 fun pushToken(token: String) {
-    if (Firebase.auth.currentUser != null)
-        Firebase.database.getReference("users/${Firebase.auth.uid}/")
-            .updateChildren(hashMapOf<String, Any>("token" to token))
+    if (Firebase.auth.currentUser != null) {
+        userRefTracker("token").setValue(token)
+    }
 }
 
 fun log(event: String, itemID: String, itemName: String, contentType: String) {
