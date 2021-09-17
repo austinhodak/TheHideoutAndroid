@@ -101,7 +101,7 @@ class MapsActivity : AppCompatActivity() {
                             title = { Text(selectedMap?.map?.title ?: "Map") },
                             navigationIcon = {
                                 IconButton(onClick = {
-
+                                    finish()
                                 }) {
                                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
                                 }
@@ -109,10 +109,7 @@ class MapsActivity : AppCompatActivity() {
                             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                             elevation = 5.dp,
                             actions = {
-                                IconButton(onClick = {
-                                    finish()
-                                }) {
-                                }
+
                             }
                         )
                     },

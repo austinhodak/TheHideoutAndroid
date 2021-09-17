@@ -2,9 +2,6 @@ package com.austinhodak.thehideout.flea_market
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
-import androidx.camera.core.*
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -29,8 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -44,7 +39,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.thehideout.CameraActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.FleaItem
@@ -61,14 +55,7 @@ import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.text.TextRecognition
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
-import java.nio.ByteBuffer
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 @ExperimentalCoilApi
 @SuppressLint("CheckResult")
@@ -148,11 +135,7 @@ fun FleaMarketScreen(
             FleaBottomNav(navController = navController)
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                context.openActivity(CameraActivity::class.java)
-            }) {
-                Icon(painterResource(id = R.drawable.ic_baseline_camera_alt_24), contentDescription = "")
-            }
+
         }
     ) { paddingValues ->
 

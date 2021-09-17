@@ -185,7 +185,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             drawerKeys,
             drawerMedical,
             drawerProvisions,
-            drawerSkills,
+            //drawerSkills,
             drawerWeaponExpandable,
             drawerWeaponMods,
             drawerDivider,

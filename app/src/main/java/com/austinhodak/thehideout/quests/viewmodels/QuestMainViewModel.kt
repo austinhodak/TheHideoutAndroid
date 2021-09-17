@@ -145,7 +145,7 @@ class QuestMainViewModel @Inject constructor(
         questTotalCompletedUser.value = userData.quests?.values?.sumOf {
             val total = if (it?.completed == true) 1 else 0
             total
-        }
+        } ?: 0
 
         val allObjectives = quests.flatMap { it.objective!! }
 

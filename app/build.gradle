@@ -30,6 +30,7 @@ android {
             keyAlias 'key0'
             storePassword 'dg3hGsRvyUkBiHt67xkLgktK'
             keyPassword 'dg3hGsRvyUkBiHt67xkLgktK'
+            storeFile file('C:\\Development\\Keys\\TheHideoutKeystore.jks')
         }
     }
 
@@ -39,9 +40,9 @@ android {
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 10320
+        versionCode 11001
         // [1]-[0].[2].[0].[0]
-        versionName "0.3.2"
+        versionName "1.0.0 Beta 1"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
