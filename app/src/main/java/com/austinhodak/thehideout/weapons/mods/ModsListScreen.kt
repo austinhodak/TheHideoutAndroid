@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.weapons.mods
 
 import android.view.ViewGroup
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -19,23 +21,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.MainToolbar
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.utils.getColor
 import com.austinhodak.thehideout.utils.modParent
+import com.michaelflisar.materialpreferences.core.initialisation.SettingSetup.context
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun ModsListScreen(
@@ -44,6 +54,8 @@ fun ModsListScreen(
 ) {
     val scaffoldState = rememberBackdropScaffoldState(initialValue = BackdropValue.Concealed)
     val scope = rememberCoroutineScope()
+
+    val context = LocalContext.current
 
     val selectedCategory = remember { mutableStateOf(Triple("bipod", 1001, "Bipod")) }
     val data = tarkovRepo.getItemsByType(ItemTypes.MOD).collectAsState(initial = emptyList())
@@ -273,7 +285,11 @@ fun ModsListScreen(
                             modifier = Modifier.fillMaxHeight()
                         ) {
                             items(items = items) { item ->
-                                ModsBasicCard(item = item)
+                                ModsBasicCard(item = item) {
+                                    context.openActivity(FleaItemDetail::class.java) {
+                                        putString("id", item.pricing?.id)
+                                    }
+                                }
                             }
                         }
                     }

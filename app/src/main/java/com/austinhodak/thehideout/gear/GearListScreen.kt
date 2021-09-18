@@ -6,6 +6,7 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,16 +27,21 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -45,6 +52,8 @@ fun GearListScreen(
     navViewModel: NavViewModel,
     tarkovRepo: TarkovRepo
 ) {
+
+    val context = LocalContext.current
     val type = when (category) {
         "Armor" -> ItemTypes.ARMOR
         "Backpacks" -> ItemTypes.BACKPACK
@@ -136,7 +145,11 @@ fun GearListScreen(
                                 type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item)
                                 type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item)
                                 type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item)
-                                else -> GearCard(item = item) {}
+                                else -> GearCard(item = item) {
+                                    context.openActivity(FleaItemDetail::class.java) {
+                                        putString("id", item.pricing?.id)
+                                    }
+                                }
                             }
                         }
                     }
@@ -165,7 +178,9 @@ fun GearListScreen(
                             ItemTypes.FACECOVER,
                             ItemTypes.HEADSET -> HeadsetCard(item = item)
                             else -> GearCard(item = item) {
-
+                                context.openActivity(FleaItemDetail::class.java) {
+                                    putString("id", item.pricing?.id)
+                                }
                             }
                         }
                     }
@@ -264,12 +279,15 @@ fun GearCard(
     }
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 private fun BackpackCard(
     item: Item
 ) {
+    val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -278,7 +296,9 @@ private fun BackpackCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
-
+            context.openActivity(FleaItemDetail::class.java) {
+                putString("id", item.pricing?.id)
+            }
         }
     ) {
         Column(
@@ -354,12 +374,15 @@ private fun BackpackCard(
     }
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 private fun HeadsetCard(
     item: Item
 ) {
+    val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -368,7 +391,9 @@ private fun HeadsetCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
-
+            context.openActivity(FleaItemDetail::class.java) {
+                putString("id", item.pricing?.id)
+            }
         }
     ) {
         Column(

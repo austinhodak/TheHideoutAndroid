@@ -41,10 +41,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.components.FleaItem
-import com.austinhodak.thehideout.compose.components.LoadingItem
-import com.austinhodak.thehideout.compose.components.MainToolbar
-import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.firebase.User
@@ -185,8 +182,13 @@ private fun FleaMarketNeededScreen(
         }
     }
 
+    if (neededItems.isNullOrEmpty()) {
+        EmptyText(text = "No Items Added.")
+        return
+    }
+
     LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
-        items(items = neededItems ?: emptyList()) {
+        items(items = neededItems) {
             val needed = userData?.items?.get(it.id)
             val color = if (needed?.has == needed?.getTotalNeeded()) {
                 Green500
@@ -255,6 +257,7 @@ private fun FleaMarketNeededScreen(
 }
 
 
+@ExperimentalCoilApi
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -285,19 +288,14 @@ private fun FleaMarketFavoritesList(
         questPrefs.favoriteItems?.contains(it.id) ?: false
     }
 
+    if (list?.isEmpty() == true) {
+        EmptyText(text = "No Favorites.")
+        return
+    }
+
     when {
         data == null -> {
             LoadingItem()
-        }
-        data.isEmpty() -> {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 32.dp)
-            ) {
-                Text(text = "No Favorites")
-            }
         }
         else -> {
             val context = LocalContext.current

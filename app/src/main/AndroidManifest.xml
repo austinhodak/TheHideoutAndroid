@@ -11,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -20,13 +23,11 @@
             android:name=".map.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
-
         <activity
             android:name=".weapons.mods.ModDetailActivity"
             android:exported="true"
             android:label="@string/title_activity_mod_detail"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".NavActivity"
             android:exported="true"
@@ -38,41 +39,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ammunition.AmmoDetailActivity"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".flea_market.detail.FleaItemDetail"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".quests.QuestDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".calculator.CalculatorMainActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".weapons.detail.WeaponDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity android:name=".weapons.mods.ModPickerActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/hideout_shadow_1" />
-
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ocr" />
@@ -88,6 +81,6 @@
         <activity
             android:name=".pickers.PickerActivity"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
     </application>
+
 </manifest>

@@ -500,7 +500,7 @@ class FleaItemDetail : AppCompatActivity() {
                                     .width(20.dp)
                             )
                             Text(
-                                text = "${craft.source?.toUpperCase()} NOT BUILT",
+                                text = "${craft.source?.uppercase()} NOT BUILT",
                                 style = MaterialTheme.typography.caption,
                                 fontWeight = FontWeight.Medium,
                                 color = Color.Black,

@@ -231,7 +231,7 @@ class QuestMainViewModel @Inject constructor(
             "mark" -> "Place MS2000 marker at $location"
             "locate" -> "Locate $itemName on $location"
             "find" -> "Find in raid ${questObjective.number} $itemName"
-            "reputation" -> "Reach loyalty level ${questObjective.number} with ${Traders.values()[itemName?.toInt()!!].id}"
+            "reputation" -> "Reach loyalty level ${questObjective.number} with ${Traders.values().find { it.int == questObjective.target?.first()?.toInt() ?: 0}?.id}"
             "warning" -> "$itemName"
             "skill" -> "Reach skill level ${questObjective.number} with $itemName"
             "survive" -> "Survive in the raid at $location ${questObjective.number} times."

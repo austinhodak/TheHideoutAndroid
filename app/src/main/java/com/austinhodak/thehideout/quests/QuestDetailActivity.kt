@@ -27,7 +27,9 @@ import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.QuestDetailToolbar
+import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.quests.QuestDetailActivity.Types.*
@@ -68,22 +70,29 @@ class QuestDetailActivity : AppCompatActivity() {
                             title = "${quest?.title}",
                             onBackPressed = {
                                 finish()
+                            },
+                            actions = {
+                                OverflowMenu {
+                                    quest?.wikiLink?.let { WikiItem(url = it) }
+                                }
                             }
                         )
                     },
                     floatingActionButton = {
                         if (isDebug())
-                        ExtendedFloatingActionButton(
-                            icon = {
-                                Icon(
-                                    painterResource(id = R.drawable.ic_baseline_assignment_turned_in_24),
-                                    contentDescription = null,
-                                    tint = Color.Black
-                                )
-                            },
-                            text = { Text("COMPLETED", color = Color.Black, style = MaterialTheme.typography.button) },
-                            onClick = { /*do something*/ }
-                        )
+                            ExtendedFloatingActionButton(
+                                icon = {
+                                    Icon(
+                                        painterResource(id = R.drawable.ic_baseline_assignment_turned_in_24),
+                                        contentDescription = null,
+                                        tint = Color.Black
+                                    )
+                                },
+                                text = { Text("COMPLETED", color = Color.Black, style = MaterialTheme.typography.button) },
+                                onClick = {
+
+                                }
+                            )
                     }
                 ) {
                     if (quest == null) return@Scaffold

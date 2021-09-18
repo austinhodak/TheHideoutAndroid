@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.provisions
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -13,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -20,9 +22,15 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.MainToolbar
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @Composable
 fun ProvisionListScreen(
@@ -52,17 +60,26 @@ fun ProvisionListScreen(
     }
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @ExperimentalCoilApi
 @Composable
 fun ProvisionCard(
     item: Item
 ) {
+    val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
-        elevation = 0.dp
+        elevation = 0.dp,
+        onClick = {
+            context.openActivity(FleaItemDetail::class.java) {
+                putString("id", item.pricing?.id)
+            }
+        }
     ) {
         Column(
             Modifier.fillMaxSize().padding(16.dp)

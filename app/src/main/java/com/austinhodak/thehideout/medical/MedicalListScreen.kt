@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.medical
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
@@ -19,18 +21,23 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.utils.getMedIcon
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -94,6 +101,8 @@ fun MedicalListScreen (
     }
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
@@ -116,12 +125,15 @@ private fun MedList(
     }
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 private fun MedCard(
     item: Item
 ) {
+    val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -130,7 +142,9 @@ private fun MedCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
-
+            context.openActivity(FleaItemDetail::class.java) {
+                putString("id", item.pricing?.id)
+            }
         },
         backgroundColor = Color(0xFE1F1F1F)
     ) {

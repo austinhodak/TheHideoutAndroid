@@ -37,6 +37,8 @@ import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.EmptyText
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
@@ -134,7 +136,7 @@ fun HideoutMainScreen(
                                 Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
                             }
                             if (navBackStackEntry?.destination?.route == HideoutNavigationScreens.Crafts.route) {
-                                IconButton(onClick = {
+                                /*IconButton(onClick = {
 
                                 }) {
                                     Icon(
@@ -142,7 +144,7 @@ fun HideoutMainScreen(
                                         contentDescription = "Filter",
                                         tint = Color.White
                                     )
-                                }
+                                }*/
                             }
                         }
                     )
@@ -201,10 +203,15 @@ private fun HideoutModulesPage(
         it?.module?.contains(searchKey, true) == true
     }
 
+    if (data.isNullOrEmpty()) {
+        EmptyText(text = "No Modules.")
+        return
+    }
+
     LazyColumn(
         contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
     ) {
-        items(items = data ?: emptyList()) { module ->
+        items(items = data) { module ->
             HideoutModuleCard(module, tarkovRepo, userData, hideoutViewModel)
         }
     }
@@ -222,7 +229,7 @@ private fun HideoutModuleCard(
     hideoutViewModel: HideoutMainViewModel
 ) {
     if (module == null) return
-    val isComplete = userData?.isHideoutModuleComplete(module.id ?: return)
+    val isComplete = userData?.isHideoutModuleComplete(module.id ?: return) ?: false
 
     val view by hideoutViewModel.view.observeAsState()
     val modules = hideoutList.hideout?.modules
@@ -287,7 +294,7 @@ private fun HideoutModuleCard(
                 }
                 //Text(text = "Level ${module.level}", style = MaterialTheme.typography.overline)
             }
-            if (isComplete == false) {
+            if (!isComplete) {
                 Divider(color = itemBlack)
                 Column(
                     Modifier.padding(vertical = 8.dp)
@@ -528,6 +535,11 @@ private fun HideoutCraftsPage(
     val crafts by tarkovRepo.getAllCrafts().collectAsState(initial = emptyList())
     val searchKey by hideoutViewModel.searchKey.observeAsState("")
 
+    if (crafts.isEmpty()) {
+        LoadingItem()
+        return
+    }
+
     LazyColumn(
         contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
     ) {
@@ -535,7 +547,7 @@ private fun HideoutCraftsPage(
             it.rewardItem()?.item?.name?.contains(searchKey, true) == true
                     || it.rewardItem()?.item?.shortName?.contains(searchKey, true) == true
         }) { craft ->
-            CraftItem(craft, null)
+            CraftItem(craft, hideoutViewModel.userData.value)
         }
     }
 }
@@ -574,14 +586,20 @@ fun CraftItem(craft: Craft, userData: User?) {
                         Modifier
                             .fillMaxWidth()
                             .background(color = Red400)
-                            .padding(8.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(Icons.Filled.Warning, contentDescription = "")
+                        Icon(
+                            Icons.Filled.Warning, contentDescription = "", tint = Color.Black, modifier = Modifier
+                                .height(20.dp)
+                                .width(20.dp)
+                        )
                         Text(
                             text = "${craft.source?.uppercase()} NOT BUILT",
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Medium,
-                            color = Color.Black
+                            color = Color.Black,
+                            modifier = Modifier.padding(start = 34.dp)
                         )
                     }
                 }

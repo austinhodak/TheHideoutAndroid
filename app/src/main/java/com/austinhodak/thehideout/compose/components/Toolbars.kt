@@ -160,7 +160,7 @@ fun SearchToolbar(
                 text = ""
                 onValue(text)
             }) {
-                Icon(painterResource(id = R.drawable.ic_baseline_close_24), contentDescription = null, tint = Color.White)
+                Icon(painterResource(id = R.drawable.ic_outline_cancel_24), contentDescription = null, tint = Color.White)
             }
         }
     )

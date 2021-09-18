@@ -9,11 +9,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun EmptyAmmo() {
+fun EmptyText(
+    text: String
+) {
     Box(
         Modifier.fillMaxSize()
     ) {
 
-        Text(text = "Search Ammunition", modifier = Modifier.align(Alignment.Center), style = MaterialTheme.typography.caption)
+        Text(text = text, modifier = Modifier.align(Alignment.Center), style = MaterialTheme.typography.caption)
     }
 }

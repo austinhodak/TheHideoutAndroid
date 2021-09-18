@@ -28,6 +28,8 @@ import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.questPrefs
+import com.austinhodak.thehideout.settings.SettingsActivity
+import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.firebase.ui.auth.AuthUI
@@ -178,6 +180,10 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
         nameText = "Sign In"; iconRes = R.drawable.ic_baseline_info_24; isIconTinted = true; isSelectable = false; identifier = 999
     }
 
+    private val drawerSettings = SecondaryDrawerItem().apply { tag = "settings"
+        nameText = "Settings"; iconRes = R.drawable.ic_baseline_settings_24; isIconTinted = true; isSelectable = false; isEnabled = isDebug()
+    }
+
     init {
         itemAdapter.add(
             drawerAmmo,
@@ -201,7 +207,8 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             drawerJoinUsTwitter,
             drawerDivider,
             //drawerLogin,
-            drawerVersion
+            drawerSettings,
+            //drawerVersion,
         )
         recyclerView.isVerticalFadingEdgeEnabled = false
         recyclerView.isVerticalScrollBarEnabled = false
@@ -263,6 +270,7 @@ fun MainDrawer(
                                 when {
                                     route == "activity:sim" -> context.openActivity(CalculatorMainActivity::class.java)
                                     route == "activity:map" -> context.openActivity(MapsActivity::class.java)
+                                    route == "settings" -> context.openActivity(SettingsActivity::class.java)
                                     route.contains("https:") -> {
                                         route.openWithCustomTab(context)
                                     }

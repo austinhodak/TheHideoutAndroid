@@ -28,7 +28,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.components.EmptyAmmo
+import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
@@ -226,7 +226,7 @@ fun AmmoSearchBody(
     }.sortedBy { it.shortName }
 
     if (items.isNullOrEmpty()) {
-        EmptyAmmo()
+        EmptyText("Search Ammunition")
         return
     }
 

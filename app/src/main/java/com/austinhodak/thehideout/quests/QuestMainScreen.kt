@@ -38,6 +38,7 @@ import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
@@ -51,6 +52,7 @@ import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -103,6 +105,7 @@ fun QuestMainScreen(
                                 Modifier.horizontalScroll(scrollState),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
+
                                 when (navBackStackEntry?.destination?.route) {
                                     BottomNavigationScreens.Overview.route,
                                     BottomNavigationScreens.Items.route -> {
@@ -111,7 +114,8 @@ fun QuestMainScreen(
                                             modifier = Modifier.padding(end = 16.dp)
                                         )
                                     }
-                                    else -> {
+                                    BottomNavigationScreens.Quests.route,
+                                    BottomNavigationScreens.Maps.route -> {
                                         Chip(text = "Available", selected = selected == QuestFilter.AVAILABLE) {
                                             questViewModel.setView(QuestFilter.AVAILABLE)
                                         }
@@ -124,6 +128,12 @@ fun QuestMainScreen(
                                         Chip(text = "All", selected = selected == QuestFilter.ALL) {
                                             questViewModel.setView(QuestFilter.ALL)
                                         }
+                                    }
+                                    else -> {
+                                        Text(
+                                            "Quests",
+                                            modifier = Modifier.padding(end = 16.dp)
+                                        )
                                     }
                                 }
                             }
@@ -278,6 +288,11 @@ private fun QuestTradersScreen(
             }.filter {
                 it.title?.contains(searchKey, ignoreCase = true) == true
                         || it.getMaps(mapsList).contains(searchKey, ignoreCase = true)
+            }
+
+            if (data.isEmpty()) {
+                EmptyText(text = "No Quests.")
+                return@HorizontalPager
             }
 
             LazyColumn(
@@ -748,13 +763,17 @@ private fun QuestBottomNav(
                 selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                 alwaysShowLabel = false, // This hides the title for the unselected items
                 onClick = {
-                    if (currentDestination?.route == item.route) return@BottomNavigationItem
-                    navController.navigate(item.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                    try {
+                        if (currentDestination?.route == item.route) return@BottomNavigationItem
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
+                    } catch (e: Exception) {
+                        Timber.e(e)
                     }
                 },
                 selectedContentColor = MaterialTheme.colors.secondary,

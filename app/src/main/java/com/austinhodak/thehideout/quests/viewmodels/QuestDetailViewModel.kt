@@ -5,6 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.utils.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -17,6 +23,23 @@ import javax.inject.Inject
 class QuestDetailViewModel @Inject constructor(
     private val repository: TarkovRepo
 ) : ViewModel() {
+
+    private val _userData = MutableLiveData<User?>(null)
+    val userData = _userData
+
+    init {
+        if (uid() != null) {
+            questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    _userData.value = snapshot.getValue<User>()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+        }
+    }
 
     private val _questDetails = MutableLiveData<Quest?>(null)
     val questDetails = _questDetails
@@ -33,6 +56,73 @@ class QuestDetailViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             emit(repository.getItemByID(id))
         }
+    }
+
+    fun skipToQuest(quest: Quest) {
+        viewModelScope.launch {
+            quest.requiredQuestsList()?.forEach { _ ->
+                /* val q = quests?.find { it.id.toInt() == id }
+                 if (q != null) {
+                     markQuestCompleted(q)
+                     skipToQuest(q)
+                 }*/
+            }
+        }
+    }
+
+    fun toggleObjective(quest: Quest, objective: Quest.QuestObjective) {
+        if (userData.value?.isObjectiveCompleted(objective) == true) {
+            unMarkObjectiveComplete(objective)
+            undoQuest(quest)
+        } else {
+            markObjectiveComplete(objective)
+        }
+    }
+
+    private fun markObjectiveComplete(objective: Quest.QuestObjective) {
+        log("objective_complete", objective.toString(), objective.toString(), "quest_objective")
+        userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").setValue(
+            mapOf(
+                "id" to objective.id?.toInt(),
+                "progress" to objective.number
+            )
+        )
+    }
+
+    private fun unMarkObjectiveComplete(objective: Quest.QuestObjective) {
+        log("objective_un_complete", objective.toString(), objective.toString(), "quest_objective")
+        userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").removeValue()
+    }
+
+    fun markQuestCompleted(quest: Quest) {
+        log("quest_completed", quest.id, quest.title.toString(), "quest")
+        userRefTracker("quests/${quest.id.addQuotes()}").setValue(
+            mapOf(
+                "id" to quest.id.toInt(),
+                "completed" to true
+            )
+        )
+
+        //Mark quest objectives completed
+        for (obj in quest.objective!!) {
+            markObjectiveComplete(obj)
+        }
+    }
+
+    fun undoQuest(quest: Quest, unmarkObjectives: Boolean = false) {
+        log("quest_undo", quest.id, quest.title.toString(), "quest")
+
+        if (unmarkObjectives)
+            for (obj in quest.objective!!) {
+                unMarkObjectiveComplete(obj)
+            }
+
+        userRefTracker("quests/${quest.id.addQuotes()}").setValue(
+            mapOf(
+                "id" to quest.id.toInt(),
+                "completed" to false
+            )
+        )
     }
 
    /* fun getObjectiveText(questObjective: Quest.QuestObjective) = liveData {
