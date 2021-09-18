@@ -28,7 +28,7 @@ import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
 
-fun isDebug(): Boolean = false
+fun isDebug(): Boolean = BuildConfig.DEBUG
 
 fun Item.toSimArmor(customDurability: Double? = null): CArmor {
     return CArmor(

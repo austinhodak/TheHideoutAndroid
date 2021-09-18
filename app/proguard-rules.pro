@@ -21,11 +21,8 @@
 #-renamesourcefileattribute SourceFile
 -keepattributes Signature
 
--keep class com.austinhodak.thehideout.viewmodels.models.** { *; }
--keep class com.austinhodak.thehideout.quests.models.** { *; }
--keep class com.austinhodak.thehideout.quests.inraid.models.** { *; }
--keep class com.austinhodak.thehideout.hideout.models.** { *; }
--keep class com.austinhodak.thehideout.flea_market.models.** { *; }
--keep class com.austinhodak.thehideout.firebase.UserFB { *; }
+-keep class com.austinhodak.thehideout.firebase.* { *; }
 -keep class com.austinhodak.thehideout.calculator.models.** { *; }
--keep class com.austinhodak.thehideout.ammunition.** { *; }
+-keep class com.austinhodak.thehideout.WeaponBuild { *; }
+-keep class com.austinhodak.thehideout.calculator.views.HealthBar$Health { *; }
+-keep class com.austinhodak.thehideout.flea_market.detail.FleaItemDetail$NavItem { *; }
