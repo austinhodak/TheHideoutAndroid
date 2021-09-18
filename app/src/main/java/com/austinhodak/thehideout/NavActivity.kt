@@ -14,6 +14,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
@@ -39,9 +43,6 @@ import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModsListScreen
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -97,7 +98,7 @@ class NavActivity : AppCompatActivity() {
             val scaffoldState = rememberScaffoldState()
             val coroutineScope = rememberCoroutineScope()
             val lifeCycleOwner = this
-            val navController = rememberAnimatedNavController()
+            val navController = rememberNavController()
             val systemUiController = rememberSystemUiController()
 
             val tag: String = navViewModel.selectedDrawerItem.value?.tag?.toString() ?: questPrefs.openingPageTag
@@ -124,15 +125,15 @@ class NavActivity : AppCompatActivity() {
                     },
                     drawerScrimColor = Color(0xFF121212)
                 ) {
-                    AnimatedNavHost(
+                    NavHost(
                         navController = navController,
                         startDestination = tag,
-                        enterTransition = { _, _ ->
+                        /*enterTransition = { _, _ ->
                             fadeIn(animationSpec = tween(0))
                         },
                         exitTransition = { _, _ ->
                             fadeOut(animationSpec = tween(0))
-                        }
+                        }*/
                     ) {
                         composable("ammunition/{caliber}") {
                             AmmunitionListScreen(
@@ -156,8 +157,6 @@ class NavActivity : AppCompatActivity() {
                             )
                         }
                         composable("medical") {
-                            Timber.d("MEDICAL SELECTED")
-
                             MedicalListScreen(
                                 tarkovRepo,
                                 navViewModel = navViewModel
@@ -201,9 +200,6 @@ class NavActivity : AppCompatActivity() {
                                 tarkovRepo
                             )
                         }
-                        composable("maps") {
-
-                        }
                     }
 
                     navViewModel.selectedDrawerItem.observe(lifeCycleOwner) { selectedItem ->
@@ -236,7 +232,8 @@ class NavActivity : AppCompatActivity() {
                             }
                             else -> {
                                 navController.navigate(route) {
-
+                                    //launchSingleTop = true
+                                    //restoreState = true
                                 }
                             }
                         }
@@ -244,7 +241,7 @@ class NavActivity : AppCompatActivity() {
 
                     navViewModel.selectedDrawerItemIdentifier.observe(lifeCycleOwner) {
                         if (it != null)
-                        navController.navigate(it.second)
+                            navController.navigate(it.second)
                     }
                 }
             }

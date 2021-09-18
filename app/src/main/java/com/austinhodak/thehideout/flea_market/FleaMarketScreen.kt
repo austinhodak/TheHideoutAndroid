@@ -72,9 +72,6 @@ fun FleaMarketScreen(
     val isSearchOpen by fleaViewModel.isSearchOpen.observeAsState(false)
     val sort by fleaViewModel.sortBy.observeAsState()
     val userData by fleaViewModel.userData.observeAsState()
-    val lifecycleOwner by rememberUpdatedState(LocalLifecycleOwner.current)
-
-    var cameraOpen by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
 
@@ -156,7 +153,7 @@ fun FleaMarketScreen(
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-private fun FleaMarketNeededScreen(
+fun FleaMarketNeededScreen(
     itemList: List<Item>?,
     userData: User?,
     fleaViewModel: FleaViewModel
@@ -262,7 +259,7 @@ private fun FleaMarketNeededScreen(
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-private fun FleaMarketFavoritesList(
+fun FleaMarketFavoritesList(
     data: List<Item>?,
     fleaViewModel: FleaViewModel,
     paddingValues: PaddingValues
@@ -319,7 +316,7 @@ private fun FleaMarketFavoritesList(
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-private fun FleaMarketListScreen(
+fun FleaMarketListScreen(
     data: List<Item>?,
     fleaViewModel: FleaViewModel,
     paddingValues: PaddingValues
@@ -372,7 +369,7 @@ private fun FleaMarketListScreen(
 }
 
 @Composable
-private fun FleaBottomNav(
+fun FleaBottomNav(
     navController: NavController
 ) {
     val items = if (isDebug()) {
