@@ -10,12 +10,18 @@ import android.util.Pair
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -38,11 +44,11 @@ import com.austinhodak.tarkovapi.models.MapInteractive
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.map.viewmodels.MapViewModel
+import com.austinhodak.thehideout.settings.UserSettingsModel
 import com.austinhodak.thehideout.utils.Map
 import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.rememberMapViewWithLifecycle
 import com.bumptech.glide.Glide
-import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -66,6 +72,9 @@ class MapsActivity : AppCompatActivity() {
     private val mapViewModel: MapViewModel by viewModels()
     private var markers: MutableList<Marker> = arrayListOf()
 
+    lateinit var map: GoogleMap
+
+    @ExperimentalAnimationApi
     @SuppressLint("CheckResult", "PotentialBehaviorOverride")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,247 +93,316 @@ class MapsActivity : AppCompatActivity() {
                 mutableStateOf<MutableList<Int>?>(null)
             }
 
+            val selectedCats by UserSettingsModel.mapMarkerCategories.flow.collectAsState(initial = emptySet())
+
             var selectedPoints: Pair<LatLng?, LatLng?>? = null
 
             scope.launch {
-                selectedCategories = selectedMap?.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toMutableList()!!
+                selectedMap?.let {
+                    UserSettingsModel.mapMarkerCategories.update(
+                        it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
+                    )
+                    updateMarkers(selectedCats.toMutableList())
+                }
             }
 
             var selectedMarker by remember { mutableStateOf<Marker?>(null) }
 
             HideoutTheme {
-                BackdropScaffold(
-                    scaffoldState = backdropScaffoldState,
-                    gesturesEnabled = false,
-                    appBar = {
-                        TopAppBar(
-                            title = { Text(selectedMap?.map?.title ?: "Map") },
-                            navigationIcon = {
-                                IconButton(onClick = {
-                                    finish()
-                                }) {
-                                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                Box {
+                    BackdropScaffold(
+                        scaffoldState = backdropScaffoldState,
+                        gesturesEnabled = false,
+                        appBar = {
+                            TopAppBar(
+                                title = { Text(selectedMap?.map?.title ?: "Map") },
+                                navigationIcon = {
+                                    IconButton(onClick = {
+                                        finish()
+                                    }) {
+                                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                                    }
+                                },
+                                backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+                                elevation = 5.dp,
+                                actions = {
+
                                 }
-                            },
-                            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-                            elevation = 5.dp,
-                            actions = {
+                            )
+                        },
+                        backLayerContent = {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 0.dp)
+                                    .verticalScroll(rememberScrollState())
+                            ) {
 
-                            }
-                        )
-                    },
-                    backLayerContent = {
-                        Column(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                                .verticalScroll(rememberScrollState())
-                        ) {
+                                selectedMap?.groups?.forEach { group ->
+                                    Row(
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {
+                                                val list = selectedCats.toMutableList()
 
-                            val categories = selectedMap?.groups?.flatMap { it?.categories!! }
+                                                group?.categories?.forEach { category ->
+                                                    if (selectedCats.contains(category?.id)) {
+                                                        category?.id?.let {
+                                                            list.remove(it)
+                                                        }
+                                                    } else {
+                                                        category?.id?.let {
+                                                            list.add(it)
+                                                        }
+                                                    }
+                                                }
 
-                            FlowRow(crossAxisSpacing = 8.dp, mainAxisSpacing = 0.dp, mainAxisAlignment = FlowMainAxisAlignment.SpaceBetween) {
-                                categories?.forEach { category ->
-                                    Chip(
-                                        string = category?.title ?: "",
-                                        selected = selectedCategories?.contains(category?.id) == true
-                                    ) {
-                                        val list = selectedCategories
-                                        if (selectedCategories?.contains(category?.id) == true) {
-                                            category?.id?.let {
-                                                list?.remove(it)
+                                                scope.launch {
+                                                    UserSettingsModel.mapMarkerCategories.update(list.toSet())
+                                                }
+                                                updateMarkers(list)
                                             }
-                                        } else {
-                                            category?.id?.let {
-                                                list?.add(it)
+                                            .padding(top = 16.dp, bottom = 12.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = group?.title ?: "Group",
+                                            style = MaterialTheme.typography.subtitle2,
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                    }
+
+                                    val groupCategories = group?.categories
+
+                                    FlowRow(crossAxisSpacing = 8.dp, mainAxisSpacing = 0.dp) {
+                                        groupCategories?.forEach { category ->
+                                            Chip(
+                                                string = category?.title ?: "",
+                                                selected = selectedCats.contains(category?.id)
+                                            ) {
+                                                val list = selectedCats.toMutableList()
+                                                if (selectedCats.contains(category?.id)) {
+                                                    category?.id?.let {
+                                                        list.remove(it)
+                                                    }
+                                                } else {
+                                                    category?.id?.let {
+                                                        list.add(it)
+                                                    }
+                                                }
+
+                                                scope.launch {
+                                                    UserSettingsModel.mapMarkerCategories.update(list.toSet())
+                                                }
+                                                updateMarkers(list)
                                             }
                                         }
-                                        selectedCategories = list
-                                        updateMarkers(selectedCategories)
                                     }
                                 }
                             }
-                        }
-                    },
-                    frontLayerContent = {
-                        BottomSheetScaffold(
-                            scaffoldState = bottomSheetScaffoldState,
-                            sheetPeekHeight = 0.dp,
-                            sheetContent = {
-                                selectedMarker?.let {
-                                    if (it.tag is MapInteractive.Location) {
-                                        val location = it.tag as MapInteractive.Location
-                                        Column(
-                                            Modifier.padding(16.dp)
-                                        ) {
-                                            Text(text = location.title ?: "", style = MaterialTheme.typography.h6)
-                                            MarkdownText(markdown = location.getFormattedDescription(), style = MaterialTheme.typography.body2)
-                                            if (!location.media.isNullOrEmpty()) {
-                                                Row(
-                                                    Modifier
-                                                        .horizontalScroll(rememberScrollState())
-                                                        .padding(top = 16.dp)
-                                                        .fillMaxWidth()
-                                                ) {
-                                                    location.media?.forEach { media ->
-                                                        Image(
-                                                            painter = rememberImagePainter(media?.url),
-                                                            contentDescription = "",
-                                                            modifier = Modifier
-                                                                .height(100.dp)
-                                                                .width(150.dp)
-                                                                .padding(end = 8.dp)
-                                                                .border(1.dp, BorderColor)
-                                                                .clickable {
-                                                                    StfalconImageViewer
-                                                                        .Builder(
-                                                                            this@MapsActivity,
-                                                                            listOf(media?.url)
-                                                                        ) { view, image ->
-                                                                            Glide
-                                                                                .with(view)
-                                                                                .load(image)
-                                                                                .into(view)
-                                                                        }
-                                                                        .withHiddenStatusBar(false)
-                                                                        .show()
-                                                                },
-                                                            contentScale = ContentScale.FillHeight
-                                                        )
+                        },
+                        frontLayerContent = {
+                            BottomSheetScaffold(
+                                scaffoldState = bottomSheetScaffoldState,
+                                sheetPeekHeight = 0.dp,
+                                sheetContent = {
+                                    selectedMarker?.let {
+                                        if (it.tag is MapInteractive.Location) {
+                                            val location = it.tag as MapInteractive.Location
+                                            Column(
+                                                Modifier.padding(16.dp)
+                                            ) {
+                                                Text(text = location.title ?: "", style = MaterialTheme.typography.h6)
+                                                MarkdownText(markdown = location.getFormattedDescription(), style = MaterialTheme.typography.body2)
+                                                if (!location.media.isNullOrEmpty()) {
+                                                    Row(
+                                                        Modifier
+                                                            .horizontalScroll(rememberScrollState())
+                                                            .padding(top = 16.dp)
+                                                            .fillMaxWidth()
+                                                    ) {
+                                                        location.media?.forEach { media ->
+                                                            Image(
+                                                                painter = rememberImagePainter(media?.url),
+                                                                contentDescription = "",
+                                                                modifier = Modifier
+                                                                    .height(100.dp)
+                                                                    .width(150.dp)
+                                                                    .padding(end = 8.dp)
+                                                                    .border(1.dp, BorderColor)
+                                                                    .clickable {
+                                                                        StfalconImageViewer
+                                                                            .Builder(
+                                                                                this@MapsActivity,
+                                                                                listOf(media?.url)
+                                                                            ) { view, image ->
+                                                                                Glide
+                                                                                    .with(view)
+                                                                                    .load(image)
+                                                                                    .into(view)
+                                                                            }
+                                                                            .withHiddenStatusBar(false)
+                                                                            .show()
+                                                                    },
+                                                                contentScale = ContentScale.FillHeight
+                                                            )
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                     }
+                                },
+                                sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                                sheetBackgroundColor = Color(0xFE1F1F1F)
+                            ) { paddingValues ->
+                                Box {
+                                    selectedMap?.let {
+                                        AndroidView(factory = {
+                                            mapView
+                                        }, modifier = Modifier.padding(paddingValues)) {
+                                            CoroutineScope(Dispatchers.Main).launch {
+                                                val map = mapView.awaitMap()
+                                                setupMap(map, selectedMap!!)
+
+                                                map.setOnMarkerClickListener { marker ->
+                                                    selectedMarker = marker
+                                                    scope.launch {
+                                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                                    }
+                                                    false
+                                                }
+
+                                                map.setOnMapClickListener {
+                                                    scope.launch {
+                                                        try {
+                                                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                                                        } catch (e: Exception) {
+
+                                                        }
+                                                    }
+
+                                                    //TODO ADD MAP MEASURING
+
+                                                    /* val first = selectedPoints?.first
+                                                     val second = selectedPoints?.second
+
+                                                     if (first == null) {
+                                                         selectedPoints = Pair(it, null)
+                                                     }
+
+                                                     if (first != null && second == null) {
+                                                         selectedPoints = Pair(first, it)
+                                                         val distance =
+                                                             SphericalUtil.computeDistanceBetween(selectedPoints!!.first, selectedPoints!!.second)
+                                                         Toast.makeText(
+                                                             this@MapsActivity,
+                                                             "${distance.div(selectedMap?.distanceToolConfig?.scale ?: 1.0).roundToInt()} Meters",
+                                                             Toast.LENGTH_SHORT
+                                                         ).show()
+                                                     }
+
+                                                     if (first != null && second != null) {
+                                                         selectedPoints = null
+                                                         selectedPoints = Pair(it, null)
+                                                     }*/
+                                                }
+
+                                                setupMarkers(selectedMap, map, selectedCats.toMutableList())
+                                            }
+                                        }
+                                    }
+                                    Column(
+                                        Modifier
+                                            .align(Alignment.TopEnd)
+                                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                                    ) {
+                                        FloatingActionButton(
+                                            onClick = {
+                                                val title = Map.values().map { it.mapName }
+
+                                                MaterialDialog(this@MapsActivity).show {
+                                                    title(text = "Choose Map")
+                                                    listItemsSingleChoice(
+                                                        items = title,
+                                                        initialSelection = title.map { it.lowercase() }.indexOf(selectedMapText)
+                                                    ) { _, _, text ->
+                                                        mapViewModel.setMap(text.toString().lowercase(), this@MapsActivity)
+                                                    }
+                                                }
+                                            },
+                                            backgroundColor = DarkPrimary,
+                                            modifier = Modifier
+                                                .padding(vertical = 8.dp)
+                                                .size(40.dp),
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.ic_baseline_map_24),
+                                                contentDescription = "Choose Map",
+                                                tint = Color.White,
+                                                modifier = Modifier.size(24.dp)
+                                            )
+                                        }
+                                        if (isDebug())
+                                            FloatingActionButton(
+                                                onClick = {
+
+                                                },
+                                                backgroundColor = DarkPrimary,
+                                                modifier = Modifier
+                                                    .padding(vertical = 8.dp)
+                                                    .size(40.dp),
+                                            ) {
+                                                Icon(
+                                                    painter = painterResource(id = R.drawable.icons8_ruler_96),
+                                                    contentDescription = "Distance",
+                                                    tint = Color.White,
+                                                    modifier = Modifier.size(24.dp)
+                                                )
+                                            }
+                                    }
                                 }
-                            }/*,
-                            floatingActionButton = {
-                                FloatingActionButton(onClick = {}) {
+                            }
+                        }
+                    )
+
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(16.dp),
+                        onClick = {
+                            scope.launch {
+                                if (backdropScaffoldState.isConcealed) backdropScaffoldState.reveal() else backdropScaffoldState.conceal()
+                            }
+                        }
+                    ) {
+                        AnimatedContent(targetState = backdropScaffoldState) {
+                            when {
+                                it.isRevealed -> {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_baseline_close_24),
+                                        contentDescription = "Filter",
+                                        tint = Color.Black
+                                    )
+                                }
+                                it.isConcealed -> {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_baseline_filter_alt_24),
                                         contentDescription = "Filter",
                                         tint = Color.Black
                                     )
                                 }
-                            }*/,
-                            sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-                            sheetBackgroundColor = Color(0xFE1F1F1F)
-                        ) { paddingValues ->
-                            Box {
-                                selectedMap?.let {
-                                    AndroidView(factory = {
-                                        mapView
-                                    }, modifier = Modifier.padding(paddingValues)) {
-                                        CoroutineScope(Dispatchers.Main).launch {
-                                            val map = mapView.awaitMap()
-                                            setupMap(map, selectedMap!!)
-
-                                            map.setOnMarkerClickListener { marker ->
-                                                selectedMarker = marker
-                                                scope.launch {
-                                                    bottomSheetScaffoldState.bottomSheetState.expand()
-                                                }
-                                                false
-                                            }
-
-                                            map.setOnMapClickListener {
-                                                scope.launch {
-                                                    try {
-                                                        bottomSheetScaffoldState.bottomSheetState.collapse()
-                                                    } catch (e: Exception) {
-
-                                                    }
-                                                }
-
-                                                //TODO ADD MAP MEASURING
-
-                                               /* val first = selectedPoints?.first
-                                                val second = selectedPoints?.second
-
-                                                if (first == null) {
-                                                    selectedPoints = Pair(it, null)
-                                                }
-
-                                                if (first != null && second == null) {
-                                                    selectedPoints = Pair(first, it)
-                                                    val distance =
-                                                        SphericalUtil.computeDistanceBetween(selectedPoints!!.first, selectedPoints!!.second)
-                                                    Toast.makeText(
-                                                        this@MapsActivity,
-                                                        "${distance.div(selectedMap?.distanceToolConfig?.scale ?: 1.0).roundToInt()} Meters",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
-
-                                                if (first != null && second != null) {
-                                                    selectedPoints = null
-                                                    selectedPoints = Pair(it, null)
-                                                }*/
-                                            }
-
-                                            setupMarkers(selectedMap, map, selectedCategories)
-                                        }
-                                    }
-                                }
-                                Column(
-                                    Modifier
-                                        .align(Alignment.TopEnd)
-                                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                                ) {
-                                    FloatingActionButton(
-                                        onClick = {
-                                            val title = Map.values().map { it.mapName }
-
-                                            MaterialDialog(this@MapsActivity).show {
-                                                title(text = "Choose Map")
-                                                listItemsSingleChoice(
-                                                    items = title,
-                                                    initialSelection = title.map { it.lowercase() }.indexOf(selectedMapText)
-                                                ) { _, _, text ->
-                                                    mapViewModel.setMap(text.toString().lowercase(), this@MapsActivity)
-                                                }
-                                            }
-                                        },
-                                        backgroundColor = DarkPrimary,
-                                        modifier = Modifier
-                                            .padding(vertical = 8.dp)
-                                            .size(40.dp),
-                                    ) {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_baseline_map_24),
-                                            contentDescription = "Choose Map",
-                                            tint = Color.White,
-                                            modifier = Modifier.size(24.dp)
-                                        )
-                                    }
-                                    if (isDebug())
-                                    FloatingActionButton(
-                                        onClick = {
-
-                                        },
-                                        backgroundColor = DarkPrimary,
-                                        modifier = Modifier
-                                            .padding(vertical = 8.dp)
-                                            .size(40.dp),
-                                    ) {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.icons8_ruler_96),
-                                            contentDescription = "Distance",
-                                            tint = Color.White,
-                                            modifier = Modifier.size(24.dp)
-                                        )
-                                    }
-                                }
                             }
                         }
                     }
-                )
+                }
             }
         }
     }
 
     @SuppressLint("PotentialBehaviorOverride")
     private fun setupMap(map: GoogleMap, selectedMap: MapInteractive) {
+        this.map = map
         map.clear()
         map.mapType = GoogleMap.MAP_TYPE_NONE
 
@@ -383,100 +461,105 @@ class MapsActivity : AppCompatActivity() {
     private fun setupMarkers(selectedMap: MapInteractive?, map: GoogleMap, selectedCategories: List<Int>?) {
         if (selectedMap == null) return
         Timber.d(selectedCategories.toString())
-        selectedMap.locations?.filter { selectedCategories?.contains(it?.category_id) == true }?.forEach {
-            if (it?.latitude != null && it.longitude != null) {
+        selectedMap.locations?.forEach {
+            addMarkerToMap(it, map)
+        }
 
-                val icon = when (it.category_id) {
-                    960 -> R.drawable.icon_ammo
-                    1013 -> R.drawable.icon_valuable
-                    948 -> R.drawable.icon_cache
-                    941 -> R.drawable.icon_crate
-                    959 -> R.drawable.icon_dead_scav
-                    969 -> R.drawable.icon_duffle
-                    1017 -> R.drawable.icon_filing_cabinet
-                    942 -> R.drawable.icon_greande
-                    961 -> R.drawable.icon_jacket
-                    947 -> R.drawable.icon_key
-                    949,
-                    946 -> R.drawable.icon_loose_loot
-                    943 -> R.drawable.icon_meds
-                    945 -> R.drawable.icon_money
-                    968 -> R.drawable.icon_pc
-                    1016 -> R.drawable.icon_food
-                    944 -> R.drawable.icon_safe
-                    970 -> R.drawable.icon_toolbox
-                    958 -> R.drawable.icon_weapons
-                    1015 -> R.drawable.icon_mods_2
-                    951 -> R.drawable.icon_boss
-                    950 -> R.drawable.icon_scav
-                    1011 -> R.drawable.icon_sniper
-                    1014 -> R.drawable.icon_easter_eggs
-                    954 -> R.drawable.icon_extract
-                    952 -> R.drawable.icon_location
-                    957 -> R.drawable.icon_lock
-                    956 -> R.drawable.icon_unknown
-                    955 -> R.drawable.icon_quest
-                    953 -> R.drawable.icon_spawn
-                    972 -> R.drawable.icon_transition
-                    1012 -> R.drawable.icon_scav_spawn
-                    else -> R.drawable.icon_unknown
+        updateMarkers(selectedCategories)
+    }
+
+    private fun addMarkerToMap(it: MapInteractive.Location?, map: GoogleMap) {
+        if (it?.latitude != null && it.longitude != null) {
+            val icon = when (it.category_id) {
+                960 -> R.drawable.icon_ammo
+                1013 -> R.drawable.icon_valuable
+                948 -> R.drawable.icon_cache
+                941 -> R.drawable.icon_crate
+                959 -> R.drawable.icon_dead_scav
+                969 -> R.drawable.icon_duffle
+                1017 -> R.drawable.icon_filing_cabinet
+                942 -> R.drawable.icon_greande
+                961 -> R.drawable.icon_jacket
+                947 -> R.drawable.icon_key
+                949,
+                946 -> R.drawable.icon_loose_loot
+                943 -> R.drawable.icon_meds
+                945 -> R.drawable.icon_money
+                968 -> R.drawable.icon_pc
+                1016 -> R.drawable.icon_food
+                944 -> R.drawable.icon_safe
+                970 -> R.drawable.icon_toolbox
+                958 -> R.drawable.icon_weapons
+                1015 -> R.drawable.icon_mods_2
+                951 -> R.drawable.icon_boss
+                950 -> R.drawable.icon_scav
+                1011 -> R.drawable.icon_sniper
+                1014 -> R.drawable.icon_easter_eggs
+                954 -> R.drawable.icon_extract
+                952 -> R.drawable.icon_location
+                957 -> R.drawable.icon_lock
+                956 -> R.drawable.icon_unknown
+                955 -> R.drawable.icon_quest
+                953 -> R.drawable.icon_spawn
+                972 -> R.drawable.icon_transition
+                1012 -> R.drawable.icon_scav_spawn
+                else -> R.drawable.icon_unknown
+            }
+
+            val bitmapDrawable = (ResourcesCompat.getDrawable(resources, icon, null) as BitmapDrawable).bitmap
+            val markerIcon = Bitmap.createScaledBitmap(bitmapDrawable, 100, 100, false)
+
+            val marker: Marker? = when {
+                it.category_id != 952 -> {
+                    map.addMarker(
+                        MarkerOptions().position(LatLng(it.latitude!!.toDouble(), it.longitude!!.toDouble())).icon(
+                            BitmapDescriptorFactory.fromBitmap(markerIcon)
+                        ).zIndex(if (it.category_id == 972) 1f else 2f)
+                    )
                 }
-
-                val bitmapDrawable = (ResourcesCompat.getDrawable(resources, icon, null) as BitmapDrawable).bitmap
-                val markerIcon = Bitmap.createScaledBitmap(bitmapDrawable, 100, 100, false)
-
-                val marker: Marker? = when {
-                    it.category_id != 952 -> {
-                        map.addMarker(
-                            MarkerOptions().position(LatLng(it.latitude!!.toDouble(), it.longitude!!.toDouble())).icon(
-                                BitmapDescriptorFactory.fromBitmap(markerIcon)
-                            ).zIndex(if (it.category_id == 972) 1f else 2f)
-                        )
-                    }
-                    it.category_id == 952 -> {
-                        map.addMarker(
-                            MarkerOptions().position(LatLng(it.latitude!!.toDouble() - 0.0003, it.longitude!!.toDouble())).icon(
-                                BitmapDescriptorFactory.fromBitmap(
-                                    textAsBitmap(
-                                        it.title ?: "",
-                                        26f,
-                                        getColor(R.color.white),
-                                        Color.Transparent.toArgb()
-                                    )
+                it.category_id == 952 -> {
+                    map.addMarker(
+                        MarkerOptions().position(LatLng(it.latitude!!.toDouble() - 0.0003, it.longitude!!.toDouble())).icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                textAsBitmap(
+                                    it.title ?: "",
+                                    26f,
+                                    getColor(R.color.white),
+                                    Color.Transparent.toArgb()
                                 )
                             )
                         )
-                    }
-                    it.category_id == 954 -> {
-                        map.addMarker(
-                            MarkerOptions().position(LatLng(it.latitude!!.toDouble() - 0.0003, it.longitude!!.toDouble())).icon(
-                                BitmapDescriptorFactory.fromBitmap(
-                                    textAsBitmap(
-                                        it.title ?: "",
-                                        36f,
-                                        getColor(R.color.white),
-                                        Green500.toArgb()
-                                    )
+                    )
+                }
+                it.category_id == 954 -> {
+                    map.addMarker(
+                        MarkerOptions().position(LatLng(it.latitude!!.toDouble() - 0.0003, it.longitude!!.toDouble())).icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                textAsBitmap(
+                                    it.title ?: "",
+                                    36f,
+                                    getColor(R.color.white),
+                                    Green500.toArgb()
                                 )
                             )
                         )
-                    }
-                    else -> {
-                        map.addMarker(
-                            MarkerOptions().position(LatLng(it.latitude!!.toDouble(), it.longitude!!.toDouble())).icon(
-                                BitmapDescriptorFactory.fromBitmap(bitmapDrawable)
-                            ).zIndex(if (it.category_id == 972) 1f else 2f)
-                        )
-                    }
+                    )
                 }
+                else -> {
+                    map.addMarker(
+                        MarkerOptions().position(LatLng(it.latitude!!.toDouble(), it.longitude!!.toDouble())).icon(
+                            BitmapDescriptorFactory.fromBitmap(bitmapDrawable)
+                        ).zIndex(if (it.category_id == 972) 1f else 2f)
+                    )
+                }
+            }
 
-                marker?.apply {
-                    tag = it
-                }
+            marker?.apply {
+                tag = it
+            }
 
-                marker?.let {
-                    markers.add(it)
-                }
+            marker?.let {
+                markers.add(it)
             }
         }
     }
@@ -487,6 +570,15 @@ class MapsActivity : AppCompatActivity() {
                 val location = it.tag as MapInteractive.Location
                 it.isVisible = selectedCategories?.contains(location.category_id) != false
             }
+        }
+
+        val isMarkerOnMap = markers.find {
+            if (it.tag is MapInteractive.Location) {
+                val location = it.tag as MapInteractive.Location
+                val catID = location.category_id
+                selectedCategories?.contains(catID ?: 0)
+            }
+            false
         }
     }
 
