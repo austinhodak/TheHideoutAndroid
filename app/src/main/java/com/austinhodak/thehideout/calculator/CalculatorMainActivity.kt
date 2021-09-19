@@ -65,6 +65,26 @@ class CalculatorMainActivity : AppCompatActivity() {
 
         setContent {
             HideoutTheme {
+                if (intent != null) {
+                    intent.getSerializableExtra("ammo")?.let {
+                        if (it is Ammo) {
+                            simViewModel.selectAmmo(it)
+                        }
+                    }
+
+                    intent.getSerializableExtra("armor")?.let {
+                        if (it is Item) {
+                            simViewModel.selectArmor(it)
+                        }
+                    }
+
+                    intent.getSerializableExtra("helmet")?.let {
+                        if (it is Item) {
+                            simViewModel.selectHelmet(it)
+                        }
+                    }
+                }
+
                 val scaffoldState = rememberBottomSheetScaffoldState()
                 val scope = rememberCoroutineScope()
 
