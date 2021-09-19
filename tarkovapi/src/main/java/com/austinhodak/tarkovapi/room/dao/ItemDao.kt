@@ -56,4 +56,13 @@ interface ItemDao {
         }
     }
 
+    @Transaction
+    suspend fun updateAllPricingChunked(id: String?, pricing: Pricing) {
+        if (id != null) {
+            updateItemsTable(id, pricing)
+            updateAmmoTable(id, pricing)
+            updateWeaponTable(id, pricing)
+        }
+    }
+
 }

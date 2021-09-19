@@ -80,6 +80,14 @@ data class Item(
     var effects_damage: JSONObject? = null,
 ) : Serializable {
 
+    fun getEnergy(): Int? {
+        return effects_health?.optJSONObject("Energy")?.optInt("value")
+    }
+
+    fun getHydration(): Int? {
+        return effects_health?.optJSONObject("Hydration")?.optInt("value")
+    }
+
     fun cArmorClass(): Int {
         return armorClass?.toIntOrNull() ?: 0
     }

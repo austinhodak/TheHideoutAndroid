@@ -1,6 +1,7 @@
 package com.austinhodak.tarkovapi.room
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -8,20 +9,25 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.*
 import com.austinhodak.tarkovapi.di.ApplicationScope
+import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.room.dao.*
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
+import timber.log.Timber
+import java.lang.reflect.Type
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class], version = 31)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class], version = 37)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -38,6 +44,8 @@ abstract class AppDatabase : RoomDatabase() {
         private val database: Provider<AppDatabase>,
         private val apolloClient: ApolloClient
     ) : RoomDatabase.Callback() {
+        val preferences = context.getSharedPreferences("tarkov", MODE_PRIVATE)
+
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             loadItemsFile()
@@ -58,6 +66,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
             super.onDestructiveMigration(db)
+            preferences.edit().putLong("lastPriceUpdate", 0).apply()
             loadItemsFile()
         }
 
@@ -104,9 +113,16 @@ abstract class AppDatabase : RoomDatabase() {
         private suspend fun populateQuests() {
             val questDao = database.get().QuestDao()
             val response = apolloClient.query(QuestsQuery())
+            //val questsJSON = getJsonDataFromAsset(context, R.raw.quests)
+            //val questType: Type = object : TypeToken<ArrayList<QuestExtra.QuestExtraItem?>?>() {}.type
+
+            //val questsExtraData: List<QuestExtra.QuestExtraItem> = Gson().fromJson(questsJSON, questType)
+
             val quests = response.data?.quests?.map { quest ->
-                quest?.toQuest()
+                //val questExtra = questsExtraData.find { it.id.toString() == quest?.fragments?.questFragment?.id }
+                quest?.toQuest(null)
             } ?: emptyList()
+
             for (quest in quests) {
                 if (quest != null) {
                     questDao.insert(quest)
@@ -141,15 +157,26 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private suspend fun updatePricing() {
+            val oneHour = 1000 * 60 * 60
+            if (preferences.getLong("lastPriceUpdate", 0) + oneHour > System.currentTimeMillis()) {
+                //return
+            }
+
             val itemDao = database.get().ItemDao()
             val response = apolloClient.query(ItemsByTypeQuery(ItemType.any))
             val items = response.data?.itemsByType?.map { fragments ->
                 fragments?.toPricing()
             } ?: emptyList()
+
+            //val itemsChunked = items.chunked(900)
+
             for (item in items) {
+                Timber.d("UPDATE PRICING")
                 if (item != null)
                     itemDao.updateAllPricing(item.id, item)
             }
+
+            preferences.edit().putLong("lastPriceUpdate", System.currentTimeMillis()).apply()
         }
     }
 

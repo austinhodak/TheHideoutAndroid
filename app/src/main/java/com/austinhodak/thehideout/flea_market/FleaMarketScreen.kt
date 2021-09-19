@@ -312,6 +312,7 @@ fun FleaMarketFavoritesList(
     }
 }
 
+@ExperimentalCoilApi
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi

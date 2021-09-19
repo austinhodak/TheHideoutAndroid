@@ -9,12 +9,14 @@ import com.austinhodak.tarkovapi.CraftsQuery
 import com.austinhodak.tarkovapi.ItemsByTypeQuery
 import com.austinhodak.tarkovapi.QuestsQuery
 import com.austinhodak.tarkovapi.fragment.ItemFragment
+import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import org.json.JSONObject
+import java.io.IOException
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -45,7 +47,7 @@ fun JSONObject.itemType(): ItemTypes {
     }
 }
 
-fun QuestsQuery.Quest.toQuest(): Quest {
+fun QuestsQuery.Quest.toQuest(questExtra: QuestExtra.QuestExtraItem?): Quest {
     val quest = this.fragments.questFragment
     return Quest(
         quest.id,
@@ -61,13 +63,16 @@ fun QuestsQuery.Quest.toQuest(): Quest {
         ),
         quest.objectives.map {
             val obj = it?.fragments?.objectiveFragment
+            //val extra = questExtra?.objectives?.find { it?.id.toString() == obj?.id }
             Quest.QuestObjective(
                 obj?.id,
                 obj?.type,
                 obj?.target,
                 obj?.number,
                 obj?.location,
-                obj?.targetItem?.fragments?.itemFragment?.toClass()
+                obj?.targetItem?.fragments?.itemFragment?.toClass(),
+                //extra?.with,
+                //extra?.hint
             )
         }
     )
@@ -391,3 +396,14 @@ val Armor3 = Color(0xfff99d0e)
 val Armor4 = Color(0xffc0b825)
 val Armor5 = Color(0xff86d43d)
 val Armor6 = Color(0xff4bf056)
+
+fun getJsonDataFromAsset(context: Context, fileName: Int): String? {
+    val jsonString: String
+    try {
+        jsonString = context.resources.openRawResource(fileName).bufferedReader().use { it.readText() }
+    } catch (ioException: IOException) {
+        ioException.printStackTrace()
+        return null
+    }
+    return jsonString
+}

@@ -7,17 +7,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
 import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
@@ -26,6 +24,7 @@ import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.flea_market.FleaMarketScreen
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.gear.GearListScreen
+import com.austinhodak.thehideout.gear.viewmodels.GearViewModel
 import com.austinhodak.thehideout.hideout.HideoutMainScreen
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.keys.KeyListScreen
@@ -65,6 +64,7 @@ class NavActivity : AppCompatActivity() {
     private val questViewModel: QuestMainViewModel by viewModels()
     private val hideoutViewModel: HideoutMainViewModel by viewModels()
     private val keysViewModel: KeysViewModel by viewModels()
+    private val gearViewModel: GearViewModel by viewModels()
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo
@@ -83,6 +83,15 @@ class NavActivity : AppCompatActivity() {
             if (caliber != null) {
                 navViewModel.drawerItemSelected(Pair((101).toLong(), caliber))
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        if (navViewModel.isDrawerOpen.value == true) {
+            navViewModel.setDrawerOpen(false)
+        } else {
+            super.onBackPressed()
         }
     }
 
@@ -113,10 +122,21 @@ class NavActivity : AppCompatActivity() {
                 }
             }
 
+            //val navBackStackEntry by navController.currentBackStackEntryAsState()
+
             HideoutTheme {
                 systemUiController.setSystemBarsColor(
                     color = MaterialTheme.colors.primary,
                 )
+
+                /*when (val currentRoute = navBackStackEntry?.destination?.route) {
+                    // do something with currentRoute
+                }*/
+
+                /*val navBackStackEntry by navController.currentBackStackEntryAsState()
+                navBackStackEntry?.destination?.route?.let {
+                    //navViewModel.updateCurrentNavRoute(it)
+                }*/
 
                 Scaffold(
                     scaffoldState = scaffoldState,
@@ -146,7 +166,8 @@ class NavActivity : AppCompatActivity() {
                             GearListScreen(
                                 category = it.arguments?.getString("category", null),
                                 navViewModel = navViewModel,
-                                tarkovRepo = tarkovRepo
+                                tarkovRepo = tarkovRepo,
+                                gearViewModel
                             )
                         }
                         composable("keys") {
@@ -233,7 +254,8 @@ class NavActivity : AppCompatActivity() {
                             else -> {
                                 navController.navigate(route) {
                                     //launchSingleTop = true
-                                    //restoreState = true
+                                    restoreState = true
+                                    navController.popBackStack()
                                 }
                             }
                         }
@@ -243,6 +265,8 @@ class NavActivity : AppCompatActivity() {
                         if (it != null)
                             navController.navigate(it.second)
                     }
+
+                    //navViewModel.updateCurrentNavRoute(navBackStackEntry?.destination?.route.toString())
                 }
             }
         }

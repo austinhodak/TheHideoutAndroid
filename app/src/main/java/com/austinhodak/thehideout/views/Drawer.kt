@@ -281,7 +281,7 @@ fun MainDrawer(
                     }
 
                     drawer.onDrawerItemLongClickListener = { _, item, _ ->
-                        if (item.isSelectable) {
+                        if (item.isSelectable && item.identifier !in 301..308) {
                             questPrefs.setOpeningItem(item)
                             scope.launch {
                                 scaffoldState.snackbarHostState.showSnackbar("Opening screen set!")

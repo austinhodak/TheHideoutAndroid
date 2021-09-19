@@ -19,9 +19,9 @@ import java.io.IOException
 @RunWith(AndroidJUnit4::class)
 class ItemReadWriteTest {
     private lateinit var itemDao: ItemDao
-    private lateinit var db: TarkovDatabase
+    //private lateinit var db: TarkovDatabase
 
-    @Before
+    /*@Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
@@ -38,12 +38,12 @@ class ItemReadWriteTest {
     @Test
     @Throws(Exception::class)
     fun writeUserAndReadInList() {
-        val item: Item = TestUtil.createItem()
-        runBlocking {
+        //val item: Item = TestUtil.createItem()
+        *//*runBlocking {
             itemDao.insert(item)
         }
 
         val byName = itemDao.getByID("590c657e86f77412b013051d")
-        assertThat(byName, equalTo(item))
-    }
+        assertThat(byName, equalTo(item))*//*
+    }*/
 }
