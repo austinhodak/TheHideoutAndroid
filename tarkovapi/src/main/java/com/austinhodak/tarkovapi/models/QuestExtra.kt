@@ -28,8 +28,9 @@ class QuestExtra : ArrayList<QuestExtra.QuestExtraItem>(){
             val id: Int? = null,
             val location: Int? = null,
             val number: Int? = null,
-            val target: String? = null,
-            val type: String? = null
+            //val target: String? = null,
+            val type: String? = null,
+            val with: List<Any>? = null
         ) {
             data class Gps(
                 val floor: String? = null,

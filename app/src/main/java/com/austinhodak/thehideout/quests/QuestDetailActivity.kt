@@ -55,7 +55,7 @@ class QuestDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val questID = intent.getStringExtra("questID") ?: "9"
+        val questID = intent.getStringExtra("questID") ?: "8"
 
         setContent {
             HideoutTheme {
@@ -108,7 +108,92 @@ class QuestDetailActivity : AppCompatActivity() {
                                 ObjectiveCategoryCard(type = Types.valueOf(type.uppercase(Locale.getDefault())), objectives)
                             }
                         }
+                        if (quest!!.requirement?.quests?.isNotEmpty() == true) {
+                            val preQuests = quest!!.requirement?.quests?.flatMap { it ?: emptyList() }
+                            preQuests?.let {
+                                item {
+                                    PreQuestCard(it)
+                                }
+                            }
+                        }
                     }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun PreQuestCard(
+        list: List<Int?>
+    ) {
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .fillMaxWidth(),
+            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+        ) {
+            Column(
+                Modifier.padding(bottom = 12.dp)
+            ) {
+                Row(
+                    Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_assignment_turned_in_24),
+                            contentDescription = "",
+                            modifier = Modifier.size(20.dp),
+                            tint = White
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            text = "PREREQUISITE QUESTS",
+                            style = MaterialTheme.typography.caption,
+                            color = White
+                        )
+                    }
+                }
+                list.forEach {
+                    val quest by tarkovRepo.getQuestByID(it.toString()).collectAsState(initial = null)
+                    quest?.let { quest ->
+                        SmallQuestItem(quest = quest)
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun SmallQuestItem(quest: Quest) {
+        Row(
+            Modifier
+                .clickable {
+                    openActivity(this::class.java) {
+                        putString("questID", quest.id)
+                    }
+                }
+                .padding(start = 16.dp, top = 4.dp, bottom = 4.dp, end = 16.dp)
+                .height(IntrinsicSize.Min),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                Modifier
+                    .padding(horizontal = 0.dp)
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = quest.title ?: "",
+                    style = MaterialTheme.typography.h6,
+                    fontSize = 15.sp
+                )
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "Unlocks at Level ${quest.requirement?.level}",
+                        style = MaterialTheme.typography.caption,
+                        fontSize = 10.sp
+                    )
                 }
             }
         }
@@ -203,23 +288,30 @@ class QuestDetailActivity : AppCompatActivity() {
 
         when (type) {
             KILL, PICKUP, PLACE -> {
-                ObjectiveItemBasic(title = objective.toStringBasic(), icon = Maps.values().find { it.int == objective.location?.toInt() }?.icon)
+                ObjectiveItemBasic(title = objective.toStringBasic(), icon = Maps.values().find { it.int == objective.location?.toInt() }?.icon, subtitle = "")
             }
             COLLECT, FIND, KEY, BUILD -> {
                 val item: Item? by tarkovRepo.getItemByID(objective.target?.first() ?: "").collectAsState(initial = null)
                 if (item != null)
                     ObjectiveItemPricing(objective = objective, pricing = item?.pricing)
             }
-            else -> ObjectiveItemBasic(title = objective.toStringBasic(), icon = Maps.values().find { it.int == objective.location?.toInt() }?.icon)
+            else -> ObjectiveItemBasic(title = objective.toStringBasic(), icon = Maps.values().find { it.int == objective.location?.toInt() }?.icon, subtitle = "")
         }
     }
 
     @Composable
     private fun ObjectiveItemBasic(
         title: String,
-        subtitle: String? = null,
+        subtitle: Any? = null,
         icon: Int? = null
     ) {
+        val sub = if (subtitle is String) {
+            subtitle.toString()
+        } else if (subtitle is List<*>) {
+            subtitle.joinToString(", ")
+        } else {
+            subtitle.toString()
+        }
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 4.dp)
@@ -233,7 +325,7 @@ class QuestDetailActivity : AppCompatActivity() {
                 )
                 if (subtitle != null) {
                     Text(
-                        text = subtitle,
+                        text = sub,
                         style = MaterialTheme.typography.caption
                     )
                 }
