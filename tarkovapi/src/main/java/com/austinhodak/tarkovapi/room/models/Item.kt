@@ -121,6 +121,34 @@ data class Item(
             it._props?.filters?.first()?.Filter?.filterNotNull()!!
         }
     }
+
+    fun destructibility(): Double {
+        return when (ArmorMaterial) {
+            "UHMWPE" -> 0.45
+            "Titan" -> 0.55
+            "Glass" -> 0.8
+            "Combined" -> 0.5
+            "Ceramic" -> 0.8
+            "ArmoredSteel" -> 0.7
+            "Aramid" -> 0.25
+            "Aluminium" -> 0.6
+            else -> 0.0
+        }
+    }
+
+    fun materialName(): String {
+        return when (ArmorMaterial) {
+            "UHMWPE" -> ArmorMaterial
+            "Titan" -> ArmorMaterial
+            "Glass" -> ArmorMaterial
+            "Combined" -> "Combined Materials"
+            "Ceramic" -> ArmorMaterial
+            "ArmoredSteel" -> "Steel"
+            "Aramid" -> ArmorMaterial
+            "Aluminium" -> ArmorMaterial
+            else -> "$ArmorMaterial"
+        }
+    }
 }
 
 fun JSONObject.toItem(): Item {

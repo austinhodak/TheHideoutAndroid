@@ -30,6 +30,26 @@ import java.util.*
 
 fun isDebug(): Boolean = BuildConfig.DEBUG
 
+fun Double.asColor(reverse: Boolean = false): Color {
+    return when {
+        this > 0.0 -> if (!reverse) Green500 else Red500
+        this < 0.0 -> if (!reverse) Red500 else Green500
+        else -> Color.Unspecified
+    }
+}
+
+fun Int.asColor(reverse: Boolean = false): Color {
+    return when {
+        this > 0.0 -> if (!reverse) Green500 else Red500
+        this < 0.0 -> if (!reverse) Red500 else Green500
+        else -> Color.Unspecified
+    }
+}
+
+fun Boolean?.asBlocks(): String {
+    return if (this == true) "YES" else "NO"
+}
+
 fun Item.toSimArmor(customDurability: Double? = null): CArmor {
     return CArmor(
         `class` = armorClass?.toInt() ?: 1,
@@ -37,17 +57,7 @@ fun Item.toSimArmor(customDurability: Double? = null): CArmor {
         durability = customDurability ?: Durability?.toDouble()!!,
         maxDurability = MaxDurability?.toDouble()!!,
         resistance = (armorClass?.toInt()?.times(10))?.toDouble()!!,
-        destructibility = when (ArmorMaterial) {
-            "UHMWPE" -> 0.45
-            "Titan" -> 0.55
-            "Glass" -> 0.8
-            "Combined" -> 0.5
-            "Ceramic" -> 0.8
-            "ArmoredSteel" -> 0.7
-            "Aramid" -> 0.25
-            "Aluminium" -> 0.6
-            else -> 0.0
-        },
+        destructibility = destructibility(),
         zones = armorZone!!
     )
 }
