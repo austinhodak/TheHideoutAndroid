@@ -77,6 +77,8 @@ fun AmmunitionListScreen(
 
     val data by tarkovRepo.getAllAmmo.collectAsState(initial = emptyList())
 
+    Timber.d(data.size.toString())
+
     val searchKey by navViewModel.searchKey.observeAsState("")
     val isSearchOpen by navViewModel.isSearchOpen.observeAsState(false)
 

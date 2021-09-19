@@ -6,10 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,7 +16,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
@@ -30,18 +29,21 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.plusMinus
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.CalculatorHelper
+import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
-import com.austinhodak.thehideout.compose.theme.Bender
-import com.austinhodak.thehideout.compose.theme.DividerDark
-import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.pickers.PickerActivity
 import com.austinhodak.thehideout.utils.*
+import com.bumptech.glide.Glide
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.math.roundToInt
@@ -103,17 +105,26 @@ class AmmoDetailActivity : ComponentActivity() {
                                 )
                             }
                         }
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(onClick = {
+                            openActivity(CalculatorMainActivity::class.java) {
+                                putSerializable("ammo", ammo)
+                            }
+                        }) {
+                            Icon(painter = painterResource(id = R.drawable.ic_baseline_calculate_24), contentDescription = "Open Calculator", tint = Color.Black)
+                        }
                     }
                 ) {
                     if (ammo != null) {
                         LazyColumn(
-                            contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
+                            contentPadding = PaddingValues(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 64.dp)
                         ) {
                             item {
                                 AmmoDetailCard(ammo = ammo!!)
                             }
                             item {
-                                PricingCard(ammo = ammo!!)
+                                PricingCard(pricing = ammo?.pricing!!)
                             }
                             item {
                                 ArmorPenCard(ammo = ammo!!, selectedArmor)
@@ -129,6 +140,8 @@ class AmmoDetailActivity : ComponentActivity() {
     private fun AmmoDetailCard(
         ammo: Ammo
     ) {
+        val context = LocalContext.current
+
         Card(
             Modifier
                 .padding(vertical = 4.dp)
@@ -137,21 +150,61 @@ class AmmoDetailActivity : ComponentActivity() {
         ) {
             Column {
                 Row(
-                    Modifier.padding(16.dp),
+                    Modifier
+                        .padding(start = 16.dp, end = 16.dp)
+                        .height(IntrinsicSize.Min),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(ammo.pricing?.gridImageLink),
+                        rememberImagePainter(ammo.pricing?.iconLink ?: ""),
                         contentDescription = null,
                         modifier = Modifier
-                            .width(38.dp)
-                            .height(38.dp)
+                            .padding(vertical = 16.dp)
+                            .width(52.dp)
+                            .height(52.dp)
+                            .border((0.25).dp, color = BorderColor)
+                            .clickable {
+                                StfalconImageViewer
+                                    .Builder(context, listOf(ammo.pricing?.imageLink)) { view, image ->
+                                        Glide
+                                            .with(view)
+                                            .load(image)
+                                            .into(view)
+                                    }
+                                    .withHiddenStatusBar(false)
+                                    .show()
+                            }
                     )
-                    Text(
-                        modifier = Modifier.padding(start = 16.dp),
-                        text = getCaliberName(ammo.Caliber),
-                        style = MaterialTheme.typography.subtitle1
-                    )
+                    Column(
+                        Modifier
+                            .padding(horizontal = 16.dp)
+                            .weight(1f),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Last Price: ${ammo.pricing?.getPrice()?.asCurrency()}",
+                            style = MaterialTheme.typography.subtitle1,
+                            fontSize = 16.sp
+                        )
+                        Row {
+                            CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                                Text(
+                                    text = "Last 48h: ",
+                                    style = MaterialTheme.typography.caption,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Light
+                                )
+                                Text(
+                                    text = "${ammo.pricing?.changeLast48h}%",
+                                    style = MaterialTheme.typography.caption,
+                                    //color = if (ammo.pricing?.changeLast48h ?: 0.0 > 0.0) Green500 else if (ammo.pricing?.changeLast48h ?: 0.0 < 0.0) Red500 else Color.Unspecified,
+                                    color = ammo.pricing?.changeLast48h?.asColor() ?: Color.Unspecified,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Light
+                                )
+                            }
+                        }
+                    }
                 }
                 Divider(color = DividerDark)
                 Column(
@@ -202,71 +255,6 @@ class AmmoDetailActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun DataRow(
-        title: String,
-        value: Pair<Any?, Color?>?
-    ) {
-        Row(
-            Modifier.padding(vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = title,
-                style = MaterialTheme.typography.caption
-            )
-            Text(
-                text = value?.first.toString(),
-                style = MaterialTheme.typography.subtitle2,
-                color = value?.second ?: MaterialTheme.colors.onSurface
-            )
-        }
-    }
-
-    @ExperimentalFoundationApi
-    @Composable
-    private fun PricingCard(
-        ammo: Ammo
-    ) {
-        val context = LocalContext.current
-        Card(
-            Modifier
-                .padding(vertical = 4.dp)
-                .fillMaxWidth()
-                .clickable {
-                    context.openActivity(FleaItemDetail::class.java) {
-                        putString("id", ammo.pricing?.id)
-                    }
-                },
-            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
-        ) {
-            Column(
-                Modifier.padding(16.dp)
-            ) {
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        text = "PRICING",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Light,
-                        fontFamily = Bender,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                }
-                Column {
-                    ammo.pricing?.buyFor?.forEach { item ->
-                        DataRow(
-                            title = "${item.getTitle().toUpperCase(Locale.current)} ", value = Pair(
-                                item.price?.asCurrency(if (item.source == "peacekeeper") "D" else "R"),
-                                MaterialTheme.colors.onSurface
-                            )
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    @Composable
     private fun ArmorPenCard(
         ammo: Ammo,
         selectedArmor: Item?
@@ -275,7 +263,7 @@ class AmmoDetailActivity : ComponentActivity() {
         val maxDurability = selectedArmor?.MaxDurability?.toFloat() ?: 1f
         var sliderPosition by remember { mutableStateOf(maxDurability) }
         val context = LocalContext.current
-        var chance: Double? by remember { mutableStateOf(0.0) }
+        var chance: Double? by remember { mutableStateOf(null) }
 
         if (selectedArmor != null) {
             sliderPosition = maxDurability
@@ -352,11 +340,13 @@ class AmmoDetailActivity : ComponentActivity() {
                         value = sliderPosition,
                         valueRange = 0f..maxDurability,
                         onValueChange = {
-                            sliderPosition = it
-                            chance = CalculatorHelper.penChance(
-                                ammo.toSimAmmo(),
-                                selectedArmor?.toSimArmor((maxDurability * sliderPosition).toDouble())
-                            )
+                            if (selectedArmor != null) {
+                                sliderPosition = it
+                                chance = CalculatorHelper.penChance(
+                                    ammo.toSimAmmo(),
+                                    selectedArmor?.toSimArmor((maxDurability * sliderPosition).toDouble())
+                                )
+                            }
                         },
                         colors = SliderDefaults.colors(
                             thumbColor = MaterialTheme.colors.secondary,
@@ -382,7 +372,75 @@ class AmmoDetailActivity : ComponentActivity() {
                         fontFamily = Bender,
                         modifier = Modifier.weight(1f)
                     )
-                    Text(text = "${chance?.roundToInt()}%", style = MaterialTheme.typography.h5)
+                    Text(text = "${chance?.roundToInt() ?: "-"}%", style = MaterialTheme.typography.h5)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DataRow(
+    title: String,
+    value: Pair<Any?, Color?>?
+) {
+    Row(
+        Modifier.padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier.weight(1f),
+            text = title,
+            style = MaterialTheme.typography.caption
+        )
+        Text(
+            text = value?.first.toString(),
+            style = MaterialTheme.typography.subtitle2,
+            color = value?.second ?: MaterialTheme.colors.onSurface
+        )
+    }
+}
+
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@Composable
+fun PricingCard(
+    pricing: Pricing
+) {
+    val context = LocalContext.current
+    Card(
+        Modifier
+            .padding(vertical = 4.dp)
+            .fillMaxWidth()
+            .clickable {
+                context.openActivity(FleaItemDetail::class.java) {
+                    putString("id", pricing.id)
+                }
+            },
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+    ) {
+        Column(
+            Modifier.padding(16.dp)
+        ) {
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Text(
+                    text = "PRICING",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Light,
+                    fontFamily = Bender,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
+            Column {
+                pricing?.buyFor?.forEach { item ->
+                    DataRow(
+                        title = "${item.getTitle().toUpperCase(Locale.current)} ", value = Pair(
+                            item.price?.asCurrency(if (item.source == "peacekeeper") "D" else "R"),
+                            MaterialTheme.colors.onSurface
+                        )
+                    )
                 }
             }
         }
