@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,7 @@ import javax.inject.Inject
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class ModPickerActivity : AppCompatActivity() {
+class ModPickerActivity : GodActivity() {
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo

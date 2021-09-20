@@ -37,6 +37,7 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.WeaponBuild
 import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.WikiItem
@@ -61,7 +62,7 @@ import kotlin.math.roundToInt
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class WeaponDetailActivity : AppCompatActivity() {
+class WeaponDetailActivity : GodActivity() {
 
     private val weaponViewModel: WeaponDetailViewModel by viewModels()
 

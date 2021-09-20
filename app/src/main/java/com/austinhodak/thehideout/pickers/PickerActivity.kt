@@ -26,6 +26,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.ammunition.AmmoCard
 import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.calculator.models.Character
@@ -43,7 +44,7 @@ import javax.inject.Inject
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class PickerActivity : AppCompatActivity() {
+class PickerActivity : GodActivity() {
 
     private val pickerViewModel: PickerViewModel by viewModels()
 

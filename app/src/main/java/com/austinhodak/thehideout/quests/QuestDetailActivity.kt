@@ -26,6 +26,7 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.QuestDetailToolbar
@@ -45,7 +46,7 @@ import javax.inject.Inject
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
-class QuestDetailActivity : AppCompatActivity() {
+class QuestDetailActivity : GodActivity() {
 
     private val questViewModel: QuestDetailViewModel by viewModels()
 
@@ -323,12 +324,12 @@ class QuestDetailActivity : AppCompatActivity() {
                     text = title,
                     style = MaterialTheme.typography.body2
                 )
-                if (subtitle != null) {
+                /*if (subtitle != null) {
                     Text(
                         text = sub,
                         style = MaterialTheme.typography.caption
                     )
-                }
+                }*/
             }
             if (icon != null && icon != R.drawable.icons8_map_96) {
                 Image(
@@ -412,6 +413,7 @@ class QuestDetailActivity : AppCompatActivity() {
         SURVIVE("YOU NEED TO SURVIVE"),
         KEY("YOU NEED KEYS"),
         REPUTATION("YOU NEED TO REACH"),
-        BUILD("YOU NEED TO BUILD")
+        BUILD("YOU NEED TO BUILD"),
+        SKILL("YOU NEED TO REACH")
     }
 }

@@ -40,14 +40,12 @@ import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.convertRtoUSD
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.Rectangle
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.hideoutList
-import com.austinhodak.thehideout.mapsList
-import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
 import com.bumptech.glide.Glide
@@ -65,7 +63,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
-class FleaItemDetail : AppCompatActivity() {
+class FleaItemDetail : GodActivity() {
 
     private val viewModel: FleaViewModel by viewModels()
 
@@ -1020,7 +1018,7 @@ class FleaItemDetail : AppCompatActivity() {
                 )
             Text(
                 text = if (item.source == ItemSourceName.peacekeeper.rawValue) {
-                    item.price?.convertRtoUSD()?.asCurrency("D") ?: ""
+                    item.price?.asCurrency("D") ?: ""
                 } else {
                     item.price?.asCurrency() ?: ""
                 },

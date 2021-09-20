@@ -104,10 +104,14 @@ abstract class AppDatabase : RoomDatabase() {
                     itemDao.insert(item.toItem())
             }
 
-            updatePricing()
-            populateQuests()
-            populateCrafts()
-            populateBarters()
+            try {
+                updatePricing()
+                populateQuests()
+                populateCrafts()
+                populateBarters()
+            } catch (e: Exception) {
+
+            }
         }
 
         private suspend fun populateQuests() {
@@ -162,21 +166,25 @@ abstract class AppDatabase : RoomDatabase() {
                 //return
             }
 
-            val itemDao = database.get().ItemDao()
-            val response = apolloClient.query(ItemsByTypeQuery(ItemType.any))
-            val items = response.data?.itemsByType?.map { fragments ->
-                fragments?.toPricing()
-            } ?: emptyList()
+            try {
+                val itemDao = database.get().ItemDao()
+                val response = apolloClient.query(ItemsByTypeQuery(ItemType.any))
+                val items = response.data?.itemsByType?.map { fragments ->
+                    fragments?.toPricing()
+                } ?: emptyList()
 
-            //val itemsChunked = items.chunked(900)
+                //val itemsChunked = items.chunked(900)
 
-            for (item in items) {
-                Timber.d("UPDATE PRICING")
-                if (item != null)
-                    itemDao.updateAllPricing(item.id, item)
+                for (item in items) {
+                    Timber.d("UPDATE PRICING")
+                    if (item != null)
+                        itemDao.updateAllPricing(item.id, item)
+                }
+
+                preferences.edit().putLong("lastPriceUpdate", System.currentTimeMillis()).apply()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-
-            preferences.edit().putLong("lastPriceUpdate", System.currentTimeMillis()).apply()
         }
     }
 

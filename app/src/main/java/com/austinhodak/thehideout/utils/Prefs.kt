@@ -17,11 +17,11 @@ class Prefs(context: Context) {
         set(value) = preference.edit().putStringSet(FAVORITE_ITEMS, value).apply()
 
     var openingPage: Long
-        get() = preference.getLong(OPENING_PAGE, 107)
+        get() = 107 //preference.getLong(OPENING_PAGE, 107)
         set(value) = preference.edit().putLong(OPENING_PAGE, value).apply()
 
     var openingPageTag: String
-        get() = preference.getString(OPENING_PAGE_TAG, "flea")?.replace("Caliber762x35", "{caliber}") ?: "flea"
+        get() = "flea" // preference.getString(OPENING_PAGE_TAG, "flea")?.replace("Caliber762x35", "{caliber}") ?: "flea"
         set(value) = preference.edit().putString(OPENING_PAGE_TAG, value).apply()
 
     fun setOpeningItem(item: IDrawerItem<*>) {

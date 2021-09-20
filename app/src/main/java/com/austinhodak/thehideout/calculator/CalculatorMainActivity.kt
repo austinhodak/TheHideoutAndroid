@@ -35,6 +35,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.*
 import com.austinhodak.thehideout.calculator.viewmodels.SimViewModel
@@ -52,7 +53,7 @@ import javax.inject.Inject
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class CalculatorMainActivity : AppCompatActivity() {
+class CalculatorMainActivity : GodActivity() {
 
     private val simViewModel: SimViewModel by viewModels()
 

@@ -405,7 +405,7 @@ private fun QuestCard(
                     }
                 }
             }
-            Divider()
+            Divider(color = DividerDark)
             Column(
                 Modifier.padding(vertical = 8.dp)
             ) {

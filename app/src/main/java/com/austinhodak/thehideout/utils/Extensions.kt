@@ -1,9 +1,11 @@
 package com.austinhodak.thehideout.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.annotation.DrawableRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.graphics.Color
@@ -397,3 +399,11 @@ fun String.modParent(): String {
 }
 
 val questsFirebase = Firebase.database("https://hideout-tracker.firebaseio.com").reference
+
+fun Activity.keepScreenOn(keepOn: Boolean) {
+    if (keepOn) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    } else {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+}

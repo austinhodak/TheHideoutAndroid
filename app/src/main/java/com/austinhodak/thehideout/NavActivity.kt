@@ -2,6 +2,7 @@ package com.austinhodak.thehideout
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -12,6 +13,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -34,6 +36,8 @@ import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
+import com.austinhodak.thehideout.settings.UserSettingsModel
+import com.austinhodak.thehideout.utils.keepScreenOn
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.MainDrawer
@@ -57,7 +61,7 @@ import javax.inject.Inject
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @AndroidEntryPoint
-class NavActivity : AppCompatActivity() {
+class NavActivity : GodActivity() {
 
     private val navViewModel: NavViewModel by viewModels()
     private val fleaViewModel: FleaViewModel by viewModels()

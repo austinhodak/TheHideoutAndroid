@@ -42,6 +42,7 @@ import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.models.MapInteractive
+import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.map.viewmodels.MapViewModel
@@ -68,7 +69,7 @@ import java.net.URL
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class MapsActivity : AppCompatActivity() {
+class MapsActivity : GodActivity() {
 
     private val mapViewModel: MapViewModel by viewModels()
     private var markers: MutableList<Marker> = arrayListOf()
@@ -238,7 +239,7 @@ class MapsActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
-                                Column(
+                                /*Column(
                                     Modifier
                                         .fillMaxWidth()
                                         .padding(bottom = 8.dp)
@@ -264,7 +265,7 @@ class MapsActivity : AppCompatActivity() {
 
                                         }
                                     }
-                                }
+                                }*/
                             }
                         },
                         frontLayerContent = {

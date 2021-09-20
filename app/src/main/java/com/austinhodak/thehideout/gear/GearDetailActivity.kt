@@ -29,6 +29,7 @@ import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.DataRow
 import com.austinhodak.thehideout.ammunition.PricingCard
@@ -52,7 +53,7 @@ import kotlin.math.roundToInt
 @ExperimentalFoundationApi
 @ExperimentalCoilApi
 @AndroidEntryPoint
-class GearDetailActivity : ComponentActivity() {
+class GearDetailActivity : GodActivity() {
 
     private val gearViewModel: GearViewModel by viewModels()
 

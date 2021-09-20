@@ -3,8 +3,6 @@ package com.austinhodak.thehideout.settings
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.text.InputType
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,25 +13,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.preference.Preference
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.austinhodak.thehideout.BuildConfig
+import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.michaelflisar.materialpreferences.core.SettingsModel
 import com.michaelflisar.materialpreferences.datastore.DataStoreStorage
 import com.michaelflisar.materialpreferences.preferencescreen.*
-import com.michaelflisar.materialpreferences.preferencescreen.choice.asChoiceListString
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
-import com.michaelflisar.materialpreferences.preferencescreen.classes.asBatch
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : GodActivity() {
 
     lateinit var screen: PreferenceScreen
 
@@ -44,8 +40,6 @@ class SettingsActivity : AppCompatActivity() {
             HideoutTheme {
 
                 var toolbarTitle by remember { mutableStateOf("Settings") }
-
-
 
                 Scaffold(
                     topBar = {
@@ -116,23 +110,26 @@ class SettingsActivity : AppCompatActivity() {
                                         title = "Jaeger".asText()
                                     }
                                 }
-                                subScreen {
+                                /*subScreen {
                                     title = "Flea Market".asText()
                                     icon = R.drawable.ic_baseline_storefront_24.asIcon()
-                                    switch(UserSettingsModel.fleaScreenOn) {
+                                }*/
+                                subScreen {
+                                    title = "Display".asText()
+                                    icon = R.drawable.ic_baseline_wb_sunny_24.asIcon()
+                                    switch(UserSettingsModel.keepScreenOn) {
                                         title = "Keep Screen On".asText()
-                                        summary = "Screen won't turn off when on Flea Market screens.".asText()
                                         icon = R.drawable.ic_baseline_screen_lock_portrait_24.asIcon()
                                     }
                                 }
-                                subScreen {
+                                /*subScreen {
                                     title = "Hideout".asText()
                                     //icon = R.drawable.icons8_tent_96.asIcon()
-                                }
-                                subScreen {
+                                }*/
+                                /*subScreen {
                                     title = "Quests".asText()
                                     //icon = R.drawable.ic_baseline_assignment_24.asIcon()
-                                }
+                                }*/
                                 button {
                                     title = "Log out".asText()
                                     icon = R.drawable.ic_baseline_logout_24.asIcon()
@@ -180,7 +177,7 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
     val test by boolPref(true, "test")
 
-    val fleaScreenOn by boolPref(false, "fleaScreenOn")
+    val keepScreenOn by boolPref(false, "keepScreenOn")
 
     val praporLevel by enumPref(SettingsActivity.Levels.`4`, "praporLevel")
     val therapistLevel by enumPref(SettingsActivity.Levels.`4`, "therapistLevel")
