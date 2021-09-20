@@ -23,6 +23,13 @@ class NavViewModel @Inject constructor() : SearchViewModel() {
         isDrawerOpen.value = isOpen
     }
 
+    private val _currentNavRoute = MutableLiveData<String>(null)
+    val currentNavRoute = _currentNavRoute
+
+    fun updateCurrentNavRoute(route: String) {
+        _currentNavRoute.value = route
+    }
+
     private val _selectedDrawerItem = MutableLiveData<IDrawerItem<*>>(null)
     val selectedDrawerItem = _selectedDrawerItem
 

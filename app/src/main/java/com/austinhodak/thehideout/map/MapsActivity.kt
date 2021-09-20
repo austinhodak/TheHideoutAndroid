@@ -11,6 +11,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -89,8 +90,12 @@ class MapsActivity : AppCompatActivity() {
             val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
             val scope = rememberCoroutineScope()
 
-            var selectedCategories by remember {
-                mutableStateOf<MutableList<Int>?>(null)
+            var isDistanceToolActive by remember {
+                mutableStateOf(false)
+            }
+
+            var snackbarText: String? by remember {
+                mutableStateOf("Select first point.")
             }
 
             val selectedCats by UserSettingsModel.mapMarkerCategories.flow.collectAsState(initial = emptySet())
@@ -107,6 +112,12 @@ class MapsActivity : AppCompatActivity() {
             }
 
             var selectedMarker by remember { mutableStateOf<Marker?>(null) }
+
+            if (isDistanceToolActive && snackbarText != null) {
+                scope.launch {
+                    bottomSheetScaffoldState.snackbarHostState.showSnackbar(snackbarText!!, "CANCEL", SnackbarDuration.Indefinite)
+                }
+            }
 
             HideoutTheme {
                 Box {
@@ -131,71 +142,126 @@ class MapsActivity : AppCompatActivity() {
                             )
                         },
                         backLayerContent = {
+                            var isCategoriesVisible by remember { mutableStateOf(true) }
+                            var isSettingsVisible by remember { mutableStateOf(false) }
+
                             Column(
                                 Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 0.dp)
+                                    .height(IntrinsicSize.Min)
+                                    .padding(start = 8.dp, end = 8.dp, bottom = 16.dp, top = 0.dp)
                                     .verticalScroll(rememberScrollState())
                             ) {
-
-                                selectedMap?.groups?.forEach { group ->
-                                    Row(
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {
-                                                val list = selectedCats.toMutableList()
-
-                                                group?.categories?.forEach { category ->
-                                                    if (selectedCats.contains(category?.id)) {
-                                                        category?.id?.let {
-                                                            list.remove(it)
-                                                        }
-                                                    } else {
-                                                        category?.id?.let {
-                                                            list.add(it)
-                                                        }
-                                                    }
-                                                }
-
-                                                scope.launch {
-                                                    UserSettingsModel.mapMarkerCategories.update(list.toSet())
-                                                }
-                                                updateMarkers(list)
-                                            }
-                                            .padding(top = 16.dp, bottom = 12.dp),
-                                        verticalAlignment = Alignment.CenterVertically
+                                Column(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 8.dp)
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .background(Color(0xFF282828))
+                                        .clickable {
+                                            isCategoriesVisible = !isCategoriesVisible
+                                        }
+                                        .padding(16.dp)
+                                ) {
+                                    Row (
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier,
                                     ) {
-                                        Text(
-                                            text = group?.title ?: "Group",
-                                            style = MaterialTheme.typography.subtitle2,
-                                            modifier = Modifier.weight(1f)
+                                        Text("Categories", modifier = Modifier.weight(1f), style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Medium)
+                                        Icon(
+                                            painter = if (isCategoriesVisible) painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24) else painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24),
+                                            contentDescription = ""
                                         )
                                     }
+                                    AnimatedVisibility(visible = isCategoriesVisible) {
+                                        Column {
+                                            selectedMap?.groups?.forEach { group ->
+                                                Row(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {
+                                                            val list = selectedCats.toMutableList()
 
-                                    val groupCategories = group?.categories
+                                                            group?.categories?.forEach { category ->
+                                                                if (selectedCats.contains(category?.id)) {
+                                                                    category?.id?.let {
+                                                                        list.remove(it)
+                                                                    }
+                                                                } else {
+                                                                    category?.id?.let {
+                                                                        list.add(it)
+                                                                    }
+                                                                }
+                                                            }
 
-                                    FlowRow(crossAxisSpacing = 8.dp, mainAxisSpacing = 0.dp) {
-                                        groupCategories?.forEach { category ->
-                                            Chip(
-                                                string = category?.title ?: "",
-                                                selected = selectedCats.contains(category?.id)
-                                            ) {
-                                                val list = selectedCats.toMutableList()
-                                                if (selectedCats.contains(category?.id)) {
-                                                    category?.id?.let {
-                                                        list.remove(it)
-                                                    }
-                                                } else {
-                                                    category?.id?.let {
-                                                        list.add(it)
-                                                    }
+                                                            scope.launch {
+                                                                UserSettingsModel.mapMarkerCategories.update(list.toSet())
+                                                            }
+                                                            updateMarkers(list)
+                                                        }
+                                                        .padding(top = 16.dp, bottom = 12.dp),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Text(
+                                                        text = group?.title ?: "Group",
+                                                        style = MaterialTheme.typography.subtitle2,
+                                                        modifier = Modifier.weight(1f)
+                                                    )
                                                 }
 
-                                                scope.launch {
-                                                    UserSettingsModel.mapMarkerCategories.update(list.toSet())
+                                                val groupCategories = group?.categories
+
+                                                FlowRow(crossAxisSpacing = 8.dp, mainAxisSpacing = 0.dp) {
+                                                    groupCategories?.forEach { category ->
+                                                        Chip(
+                                                            string = category?.title ?: "",
+                                                            selected = selectedCats.contains(category?.id)
+                                                        ) {
+                                                            val list = selectedCats.toMutableList()
+                                                            if (selectedCats.contains(category?.id)) {
+                                                                category?.id?.let {
+                                                                    list.remove(it)
+                                                                }
+                                                            } else {
+                                                                category?.id?.let {
+                                                                    list.add(it)
+                                                                }
+                                                            }
+
+                                                            scope.launch {
+                                                                UserSettingsModel.mapMarkerCategories.update(list.toSet())
+                                                            }
+                                                            updateMarkers(list)
+                                                        }
+                                                    }
                                                 }
-                                                updateMarkers(list)
                                             }
+                                        }
+                                    }
+                                }
+                                Column(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 8.dp)
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .background(Color(0xFF282828))
+                                        .clickable {
+                                            isSettingsVisible = !isSettingsVisible
+                                        }
+                                        .padding(16.dp)
+                                ) {
+                                    Row (
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier,
+                                    ) {
+                                        Text("Settings", modifier = Modifier.weight(1f), style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Medium)
+                                        Icon(
+                                            painter = if (isSettingsVisible) painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24) else painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24),
+                                            contentDescription = ""
+                                        )
+                                    }
+                                    AnimatedVisibility(visible = isSettingsVisible) {
+                                        Column {
+
                                         }
                                     }
                                 }
@@ -282,6 +348,8 @@ class MapsActivity : AppCompatActivity() {
                                                         }
                                                     }
 
+                                                    Timber.d(it.toString())
+
                                                     //TODO ADD MAP MEASURING
 
                                                     /* val first = selectedPoints?.first
@@ -346,7 +414,7 @@ class MapsActivity : AppCompatActivity() {
                                         if (isDebug())
                                             FloatingActionButton(
                                                 onClick = {
-
+                                                    isDistanceToolActive = !isDistanceToolActive
                                                 },
                                                 backgroundColor = DarkPrimary,
                                                 modifier = Modifier
@@ -362,6 +430,14 @@ class MapsActivity : AppCompatActivity() {
                                             }
                                     }
                                 }
+                            }
+                        },
+                        snackbarHost = {
+                            SnackbarHost(it) { data ->
+                                Snackbar(
+                                    backgroundColor = Green500,
+                                    snackbarData = data
+                                )
                             }
                         }
                     )
@@ -427,10 +503,10 @@ class MapsActivity : AppCompatActivity() {
 
         map.setInfoWindowAdapter(null)
 
-        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(0.0, 0.0)))
+        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(0.600058195510644, -0.6989045441150665)))
 
-        val one = LatLng(1.2, 0.0)
-        val two = LatLng(0.0, -1.2)
+        val one = LatLng(1.5, -1.5)
+        val two = LatLng(0.0, 0.0)
 
         val builder = LatLngBounds.Builder()
         builder.include(one)
@@ -441,7 +517,7 @@ class MapsActivity : AppCompatActivity() {
         val height = resources.displayMetrics.heightPixels
 
         map.setLatLngBoundsForCameraTarget(bounds)
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, 0))
+        //map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, 0))
         map.moveCamera(CameraUpdateFactory.zoomTo(selectedMap.mapConfig?.initial_zoom?.toFloat() ?: 9f))
 
         val polygonOptions = PolygonOptions()
