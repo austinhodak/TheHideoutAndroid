@@ -118,7 +118,7 @@ fun ModsListScreen(
                     tag = "vital_barrels"; level = 1; identifier = 1014; nameText = "Barrels"; typeface = bender; iconRes = R.drawable.ic_blank
                 }
                 val vital_gas = SecondaryDrawerItem().apply {
-                    tag = "vital_gas = SecondaryDrawerItem"; level = 1; identifier = 1015; nameText = "Gas Blocks"; typeface = bender; iconRes =
+                    tag = "vital_gas"; level = 1; identifier = 1015; nameText = "Gas Blocks"; typeface = bender; iconRes =
                     R.drawable.ic_blank
                 }
                 val vital_handguards = SecondaryDrawerItem().apply {
@@ -233,6 +233,7 @@ fun ModsListScreen(
                 }
                 drawer.onDrawerItemClickListener = { _, item, _ ->
                     if (item.isSelectable) {
+
                         selectedCategory.value = Triple(item.tag.toString(), item.identifier.toInt(), "")
                         scope.launch {
                             scaffoldState.conceal()
