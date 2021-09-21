@@ -52,6 +52,19 @@ class Converters {
     }
 
     @TypeConverter
+    fun toCartridge(value: String?): List<Mod.Cartridge>? {
+        val filterType: Type = object : TypeToken<ArrayList<Mod.Cartridge>?>() {}.type
+        if (value == null) return null
+        return Gson().fromJson(value, filterType)
+    }
+
+    @TypeConverter
+    fun fromCartridge(value: List<Mod.Cartridge>?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
     fun toChamber(value: String?): List<Weapon.Chamber>? {
         val filterType: Type = object : TypeToken<ArrayList<Weapon.Chamber>?>() {}.type
         if (value == null) return null
@@ -171,6 +184,19 @@ class Converters {
 
     @TypeConverter
     fun fromReqList(value: List<List<Int>>?): String? {
+        if (value == null) return null
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toIntList(value: String?): List<Int>? {
+        val filterType: Type = object : TypeToken<ArrayList<Int>?>() {}.type
+        if (value == null) return null
+        return Gson().fromJson(value, filterType)
+    }
+
+    @TypeConverter
+    fun fromIntList(value: List<Int>?): String? {
         if (value == null) return null
         return Gson().toJson(value)
     }

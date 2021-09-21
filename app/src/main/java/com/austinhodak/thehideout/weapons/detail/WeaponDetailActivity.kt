@@ -104,7 +104,7 @@ class WeaponDetailActivity : GodActivity() {
         setContent {
             HideoutTheme {
                 ProvideWindowInsets {
-                    val weapon by weaponViewModel.weaponDetails.observeAsState()
+                    val weapon by tarkovRepo.getWeaponByID(weaponID).collectAsState(initial = null)
                     val scaffoldState = rememberScaffoldState()
                     val systemUiController = rememberSystemUiController()
 

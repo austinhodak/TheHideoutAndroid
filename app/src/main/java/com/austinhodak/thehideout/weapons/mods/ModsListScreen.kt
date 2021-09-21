@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.weapons.mods
 
 import android.view.ViewGroup
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -43,6 +44,7 @@ import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -287,7 +289,7 @@ fun ModsListScreen(
                         ) {
                             items(items = items) { item ->
                                 ModsBasicCard(item = item) {
-                                    context.openActivity(FleaItemDetail::class.java) {
+                                    context.openActivity(ModDetailActivity::class.java) {
                                         putString("id", item.pricing?.id)
                                     }
                                 }

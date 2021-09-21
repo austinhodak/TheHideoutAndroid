@@ -32,6 +32,11 @@ interface ItemDao {
     @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor FROM items WHERE pricing IS NOT NULL")
     fun getAllItems(): Flow<List<Item>>
 
+    @Transaction
+    @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor, Slots FROM items WHERE pricing IS NOT NULL")
+    fun getAllItemsSlots(): Flow<List<Item>>
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)
 
@@ -47,12 +52,16 @@ interface ItemDao {
     @Query("UPDATE weapons SET pricing = :tt WHERE id = :id")
     suspend fun updateWeaponTable(id: String, tt: Pricing)
 
+    @Query("UPDATE mods SET pricing = :tt WHERE id = :id")
+    suspend fun updateModTable(id: String, tt: Pricing)
+
     @Transaction
     suspend fun updateAllPricing(id: String?, pricing: Pricing) {
         if (id != null) {
             updateItemsTable(id, pricing)
             updateAmmoTable(id, pricing)
             updateWeaponTable(id, pricing)
+            updateModTable(id, pricing)
         }
     }
 
@@ -62,6 +71,7 @@ interface ItemDao {
             updateItemsTable(id, pricing)
             updateAmmoTable(id, pricing)
             updateWeaponTable(id, pricing)
+            updateModTable(id, pricing)
         }
     }
 

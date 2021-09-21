@@ -435,7 +435,7 @@ fun PricingCard(
                 )
             }
             Column {
-                pricing?.buyFor?.forEach { item ->
+                pricing.buyFor?.forEach { item ->
                     DataRow(
                         title = "${item.getTitle().toUpperCase(Locale.current)} ", value = Pair(
                             item.price?.asCurrency(if (item.source == "peacekeeper") "D" else "R"),

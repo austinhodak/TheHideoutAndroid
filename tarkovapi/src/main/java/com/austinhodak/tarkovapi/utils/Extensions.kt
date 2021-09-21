@@ -41,6 +41,7 @@ fun JSONObject.itemType(): ItemTypes {
     return when {
         props.has("weapFireType") -> ItemTypes.WEAPON
         props.has("Caliber") && !props.getString("Name").contains("Shrapnel", true) -> ItemTypes.AMMO
+        props.has("Prefab") && props.getJSONObject("Prefab").getString("path").contains("assets/content/items/mods") -> ItemTypes.MOD
         else -> {
             ItemTypes.NONE
         }

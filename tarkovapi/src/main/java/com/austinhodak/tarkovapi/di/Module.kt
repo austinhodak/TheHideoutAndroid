@@ -54,6 +54,9 @@ object Module {
     @Provides
     fun providesCraftDao(database: AppDatabase) = database.CraftDao()
 
+    @Provides
+    fun providesModDao(database: AppDatabase) = database.ModDao()
+
     @ApplicationScope
     @Provides
     @Singleton

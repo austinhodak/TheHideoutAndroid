@@ -27,7 +27,7 @@ import java.lang.reflect.Type
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class], version = 37)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 41)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -37,6 +37,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun TraderDao(): TraderDao
     abstract fun BarterDao(): BarterDao
     abstract fun CraftDao(): CraftDao
+    abstract fun ModDao(): ModDao
 
     class Callback @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -87,6 +88,7 @@ abstract class AppDatabase : RoomDatabase() {
             val ammoDao = database.get().AmmoDao()
             val itemDao = database.get().ItemDao()
             val weaponDao = database.get().WeaponDao()
+            val modDao = database.get().ModDao()
 
             for (i in 0 until jsonArray.length()) {
                 val item = jsonArray.getJSONObject(i)
@@ -95,6 +97,9 @@ abstract class AppDatabase : RoomDatabase() {
                     ItemTypes.WEAPON -> {
                         val weapon = item.getJSONObject("_props").toWeapon(item.getString("_id"))
                         weaponDao.insert(weapon)
+                    }
+                    ItemTypes.MOD -> {
+                        modDao.insert(item.toMod())
                     }
                     else -> {
                     }
@@ -163,7 +168,7 @@ abstract class AppDatabase : RoomDatabase() {
         private suspend fun updatePricing() {
             val oneHour = 1000 * 60 * 60
             if (preferences.getLong("lastPriceUpdate", 0) + oneHour > System.currentTimeMillis()) {
-                //return
+                return
             }
 
             try {
