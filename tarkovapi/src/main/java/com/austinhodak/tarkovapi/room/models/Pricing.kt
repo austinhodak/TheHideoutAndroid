@@ -31,6 +31,14 @@ data class Pricing(
     val wikiLink: String?
 ) : Serializable {
 
+    fun getCheapestBuy(): BuySellPrice? {
+        return buyFor?.minByOrNull { it.price ?: Int.MAX_VALUE }!!
+    }
+
+    fun getHighestSell(): BuySellPrice? {
+        return sellFor?.maxByOrNull { it.price ?: Int.MIN_VALUE }!!
+    }
+
     fun getPrice(): Int {
         return if (avg24hPrice ?: 0 > 0) {
             avg24hPrice ?: lastLowPrice ?: basePrice

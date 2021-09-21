@@ -15,6 +15,9 @@ interface ModDao {
     @Query("SELECT * FROM mods")
     fun getAllMods(): Flow<List<Mod>>
 
+    @Query("SELECT * FROM mods WHERE Slots LIKE :id ")
+    fun getModsForSlot(id: String): Flow<List<Mod>>
+
     @Query("SELECT * FROM mods WHERE id = :id")
     fun getByID(id: String): Flow<Mod>
 

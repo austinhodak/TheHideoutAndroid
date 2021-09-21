@@ -11,6 +11,7 @@ class ModsRepo @Inject constructor(
 
     fun getAllMods(): Flow<List<Mod>> = modDao.getAllMods()
     fun getModByID(id: String): Flow<Mod> = modDao.getByID(id)
+    fun getModBySlot(id: String): Flow<List<Mod>> = modDao.getModsForSlot(id)
     fun getModsByIDs(ids: List<String>): Flow<List<Mod>> = modDao.getByID(ids)
     fun getModByParent(id: String): Flow<List<Mod>> = modDao.getByParent(id)
     fun getModByParent(id: List<String>): Flow<List<Mod>> = modDao.getByParent(id)

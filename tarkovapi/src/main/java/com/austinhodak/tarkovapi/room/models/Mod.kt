@@ -3,6 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.utils.asCurrency
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.io.Serializable
@@ -87,6 +88,10 @@ class Mod(
 
     fun getPricePerSlot(): Int {
         return getPrice() / getTotalSlots()
+    }
+
+    override fun toString(): String {
+        return "R: $Recoil • E: $Ergonomics • A: $Accuracy% | ${getPrice().asCurrency()}"
     }
 }
 

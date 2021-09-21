@@ -3,7 +3,9 @@ package com.austinhodak.thehideout.weapons.mods
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -16,8 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,15 +35,16 @@ import com.austinhodak.tarkovapi.room.models.Mod
 import com.austinhodak.tarkovapi.room.models.getModName
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.GodActivity
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.DataRow
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
+import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.flea_market.FleaBottomNav
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
-import com.austinhodak.thehideout.utils.asColor
-import com.austinhodak.thehideout.utils.getCaliberName
-import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.bumptech.glide.Glide
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -72,24 +77,46 @@ class ModDetailActivity : GodActivity() {
 
         val modID = intent.getStringExtra("id") ?: "5ea172e498dacb342978818e"
 
-        val titles = listOf("STATS", "FITS", "ATTACHMENTS")
+
 
         setContent {
             HideoutTheme {
                 val allMods by modRepo.getAllMods().collectAsState(initial = null)
-                val allItems by tarkovRepo.getAllItemsSlots().collectAsState(initial = null)
+                val allItems by tarkovRepo.getAllItemsSlots("%${modID}%").collectAsState(initial = null)
                 val mod by modRepo.getModByID(modID).collectAsState(initial = null)
 
-                var state by remember { mutableStateOf(0) }
-                val pagerState = rememberPagerState(pageCount = titles.count())
                 val scope = rememberCoroutineScope()
+
+                var selectedNavItem by remember { mutableStateOf(0) }
+
+                val items = listOf(
+                    NavItem("Stats", R.drawable.ic_baseline_bar_chart_24),
+                    NavItem("Parent Mods", R.drawable.icons8_scroll_up_96),
+                    NavItem("Child Mods", R.drawable.icons8_scroll_down_96),
+                )
 
                 Scaffold(
                     topBar = {
                         Column {
                             TopAppBar(
                                 title = {
-                                        AutoSizeText(text = mod?.Name.toString(), textStyle = MaterialTheme.typography.h6)
+                                    Column {
+                                        Text(
+                                            text = mod?.Name ?: "Loading",
+                                            color = MaterialTheme.colors.onPrimary,
+                                            style = MaterialTheme.typography.h6,
+                                            maxLines = 1,
+                                            fontSize = 18.sp,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                        Text(
+                                            text = "(${mod?.ShortName ?: ""})",
+                                            color = MaterialTheme.colors.onPrimary,
+                                            style = MaterialTheme.typography.caption,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
                                 },
                                 actions = {
                                     OverflowMenu {
@@ -105,31 +132,6 @@ class ModDetailActivity : GodActivity() {
                                 },
                                 backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                             )
-                            TabRow(
-                                selectedTabIndex = state,
-                                indicator = { tabPositions ->
-                                    TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = Red400)
-                                }
-                            ) {
-                                titles.forEachIndexed { index, s ->
-                                    Tab(
-                                        text = {
-                                            Text(
-                                                s,
-                                                fontFamily = Bender
-                                            )
-                                        },
-                                        selected = pagerState.currentPage == index,
-                                        onClick = {
-                                            scope.launch {
-                                                pagerState.animateScrollToPage(index)
-                                            }
-                                        },
-                                        selectedContentColor = Red400,
-                                        unselectedContentColor = White
-                                    )
-                                }
-                            }
                             if (mod == null || allItems == null || allMods == null) {
                                 LinearProgressIndicator(
                                     Modifier
@@ -140,10 +142,13 @@ class ModDetailActivity : GodActivity() {
                                 )
                             }
                         }
+                    },
+                    bottomBar = {
+                        BottomNav(selected = selectedNavItem, items) { selectedNavItem = it }
                     }
                 ) {
-                    HorizontalPager(state = pagerState) { page ->
-                        when (page) {
+                    Crossfade(targetState = selectedNavItem, modifier = Modifier.padding(it)) {
+                        when (it) {
                             0 -> {
                                 LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 64.dp)) {
                                     mod?.let {
@@ -157,10 +162,17 @@ class ModDetailActivity : GodActivity() {
                                 LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 64.dp)) {
                                     mod?.let {
                                         val parents = allItems?.findParentMods(it)
-                                        parents?.let {
+                                        parents?.groupBy { it.itemType }?.forEach { (s, list) ->
                                             item {
-                                                ModListCard(mods = it.sortedByDescending { it.itemType }, "FITS ON")
+                                                ModListCard(mods = list.sortedBy { it.Name }, s?.name.toString())
                                             }
+                                        }
+
+                                        if (parents?.isNullOrEmpty() == true) {
+                                            item {
+                                                EmptyText(text = "No Parent Mods")
+                                            }
+
                                         }
                                     }
                                 }
@@ -179,6 +191,10 @@ class ModDetailActivity : GodActivity() {
                                                         ModListCard(mods = list, title = s?.getModName()?.uppercase() ?: "")
                                                     }
                                                 }
+                                            } else {
+                                                item {
+                                                    EmptyText(text = "No Child Mods")
+                                                }
                                             }
                                         }
                                     }
@@ -191,6 +207,29 @@ class ModDetailActivity : GodActivity() {
         }
     }
 
+    @Composable
+    fun BottomNav(
+        selected: Int,
+        items: List<NavItem>,
+        onItemSelected: (Int) -> Unit
+    ) {
+
+        BottomNavigation(
+            backgroundColor = Color(0xFE1F1F1F)
+        ) {
+            items.forEachIndexed { index, item ->
+                BottomNavigationItem(
+                    icon = { Icon(painter = painterResource(id = item.icon), contentDescription = null, modifier = Modifier.size(24.dp)) },
+                    label = { Text(item.title) },
+                    selected = selected == index,
+                    onClick = { onItemSelected(index) },
+                    selectedContentColor = MaterialTheme.colors.secondary,
+                    unselectedContentColor = if (item.enabled == true) Color(0x99FFFFFF) else Color(0x33FFFFFF),
+                    enabled = item.enabled ?: true,
+                )
+            }
+        }
+    }
 
     @Composable
     fun ModListCard(
@@ -224,6 +263,12 @@ class ModDetailActivity : GodActivity() {
             }
         }
     }
+
+    data class NavItem(
+        val title: String,
+        @DrawableRes val icon: Int,
+        val enabled: Boolean? = true
+    )
 
     @Composable
     fun ModListCardChildItem(
@@ -310,7 +355,9 @@ class ModDetailActivity : GodActivity() {
                         .border((0.25).dp, color = BorderColor)
                 )
                 Column(
-                    modifier = Modifier.padding(start = 16.dp)
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .weight(1f)
                 ) {
                     Text(
                         text = "${item.Name}",
@@ -327,6 +374,44 @@ class ModDetailActivity : GodActivity() {
                         )
                     }
                 }
+                Column(
+                    Modifier.width(IntrinsicSize.Min),
+                ) {
+                    StatItem(value = item.Recoil, title = "REC", item.Recoil?.getColor(true, MaterialTheme.colors.onSurface))
+                    StatItem(value = item.Ergonomics, title = "ERG", item.Ergonomics?.getColor(false, MaterialTheme.colors.onSurface))
+                    StatItem(value = item.Accuracy, title = "ACC", item.Accuracy?.getColor(false, MaterialTheme.colors.onSurface))
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun StatItem(
+        value: Any?,
+        title: String,
+        color: Color? = null
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Text(
+                text = "$value",
+                style = MaterialTheme.typography.h6,
+                fontSize = 9.sp,
+                modifier = Modifier.padding(end = 8.dp),
+                color = color ?: MaterialTheme.colors.onSurface,
+                textAlign = TextAlign.End
+            )
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.caption,
+                    fontWeight = FontWeight.Light,
+                    fontSize = 9.sp,
+                    textAlign = TextAlign.End
+                )
             }
         }
     }
@@ -338,8 +423,11 @@ class ModDetailActivity : GodActivity() {
         Card(
             Modifier
                 .padding(vertical = 4.dp)
-                .fillMaxWidth(),
-            backgroundColor = if (isSystemInDarkTheme()) DarkPrimary else MaterialTheme.colors.primary
+                .fillMaxWidth()
+                .clickable {
+                    openFleaDetail(mod.id)
+                },
+            backgroundColor = if (isSystemInDarkTheme()) DarkPrimary else MaterialTheme.colors.primary,
         ) {
             Column {
                 Row(

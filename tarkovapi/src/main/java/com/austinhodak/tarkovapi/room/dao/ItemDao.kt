@@ -33,8 +33,8 @@ interface ItemDao {
     fun getAllItems(): Flow<List<Item>>
 
     @Transaction
-    @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor, Slots FROM items WHERE pricing IS NOT NULL")
-    fun getAllItemsSlots(): Flow<List<Item>>
+    @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor, Slots FROM items WHERE Slots LIKE :id")
+    fun getAllItemsSlots(id: String): Flow<List<Item>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -8,17 +8,25 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.annotation.DrawableRes
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
+import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red500
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
+import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -26,6 +34,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
@@ -205,6 +214,48 @@ fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     val intent = Intent(this, it)
     intent.putExtras(Bundle().apply(extras))
     startActivity(intent)
+}
+
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+fun Context.openFleaDetail(id: String) {
+    this.openActivity(FleaItemDetail::class.java) {
+        putString("id", id)
+    }
+}
+
+@ExperimentalAnimationApi
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+fun Context.openWeaponDetail(id: String) {
+    this.openActivity(WeaponDetailActivity::class.java) {
+        putString("weaponID", id)
+    }
+}
+
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+fun Context.openAmmunitionDetail(id: String) {
+    this.openActivity(AmmoDetailActivity::class.java) {
+        putString("ammoID", id)
+    }
+}
+
+@ExperimentalAnimationApi
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+fun Context.openModDetail(id: String) {
+    this.openActivity(ModDetailActivity::class.java) {
+        putString("id", id)
+    }
 }
 
 fun getCaliberName(caliber: String?): String {
