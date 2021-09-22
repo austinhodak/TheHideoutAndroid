@@ -106,6 +106,12 @@ data class Weapon(
                 "dust_cover" -> "Dust Cover"
                 "optic" -> "Optic"
                 "sight" -> "Sight"
+                "mod_tactical_000",
+                "mod_tactical_001",
+                "mod_tactical_002",
+                "mod_tactical_003",
+                "mod_tactical_004",
+                "mod_tactical_005",
                 "tactical" -> "Tactical"
                 "scope" -> "Scope"
                 "mount_000",
@@ -127,6 +133,7 @@ data class Weapon(
                 "pistol_grip" -> "Pistol Grip"
                 "reciever" -> "Receiver"
                 "sight_rear" -> "Rear Sight"
+                "mod_sight_front" -> "Front Sight"
                 else -> _name ?: "Mod"
             }.uppercase()
         }

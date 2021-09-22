@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.withStyledAttributes
 import com.austinhodak.thehideout.R
 
@@ -17,10 +18,10 @@ class EditorProgress @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attr, defStyleAttr) {
 
-    private var pg: ProgressBar
-    private var nameTV: TextView
-    private var valueTV: TextView
-    private var icon: ImageView
+    var pg: ProgressBar
+    var nameTV: TextView
+    var valueTV: TextView
+    var icon: ImageView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_loadout_progressbar, this, true)
@@ -28,6 +29,8 @@ class EditorProgress @JvmOverloads constructor(
         nameTV = findViewById(R.id.name)
         valueTV = findViewById(R.id.value)
         icon = findViewById(R.id.icon)
+
+
 
         context.withStyledAttributes(attr, R.styleable.LoadoutProgressBar) {
             nameTV.text = getString(R.styleable.LoadoutProgressBar_lname)

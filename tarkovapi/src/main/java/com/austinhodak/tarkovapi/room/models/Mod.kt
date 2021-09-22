@@ -70,8 +70,12 @@ class Mod(
         ) : Serializable {
             data class Filter(
                 val Filter: List<String>
-            )
+            ) : Serializable
         }
+    }
+
+    fun getMagSize(): Int? {
+        return Cartridges?.first()?._max_count
     }
 
     fun getSlotModIDs(): List<String?>? {

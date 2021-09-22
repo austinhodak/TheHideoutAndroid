@@ -84,13 +84,13 @@ class WeaponDetailActivity : GodActivity() {
 
             val build = weaponViewModel.weaponBuild.value ?: WeaponBuild()
 
-            build.mods?.put(
+            /*build.mods?.put(
                 slotID,
                 WeaponBuild.BuildMod(
                     item = item,
                     id = type
                 )
-            )
+            )*/
 
             weaponViewModel.updateBuild(build.apply {
                 id = "TEST"
@@ -667,41 +667,5 @@ class WeaponDetailActivity : GodActivity() {
         }
     }
 
-    @Composable
-    fun ModSlot(slot: Weapon.Slot, build: WeaponBuild?) {
-        val buildSlot = build?.mods?.get(slot._id)
 
-        Card(
-            modifier = Modifier
-                .padding(vertical = 4.dp, horizontal = 8.dp)
-                .fillMaxWidth(),
-            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-            border = if (slot._required == true) BorderStroke(0.25.dp, Red400) else null,
-            onClick = {
-                val intent = Intent(this, ModPickerActivity::class.java)
-                intent.putExtra("ids", slot.getSubIds()?.joinToString(";"))
-                intent.putExtra("type", slot._name)
-                intent.putExtra("parent", slot._parent)
-                intent.putExtra("id", slot._id)
-                resultLauncher.launch(intent)
-            },
-        ) {
-            Column(
-                Modifier.padding(16.dp)
-            ) {
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        text = slot.getName(),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Light,
-                        fontFamily = Bender,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                }
-                Column {
-                    Text(text = buildSlot?.item?.Name.toString())
-                }
-            }
-        }
-    }
 }
