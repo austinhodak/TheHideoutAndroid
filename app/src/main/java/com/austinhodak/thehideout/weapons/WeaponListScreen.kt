@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,40 +28,41 @@ import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.MainToolbar
+import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.utils.getCaliberShortName
 import com.austinhodak.thehideout.views.weaponCategories
 
 @ExperimentalAnimationApi
 @Composable
 fun WeaponListScreen(
-    classID: String,
-    navViewModel: NavViewModel,
-    tarkovRepo: TarkovRepo,
-    weaponClicked: (weaponID: String) -> Unit
+        classID: String,
+        navViewModel: NavViewModel,
+        tarkovRepo: TarkovRepo,
+        weaponClicked: (weaponID: String) -> Unit
 ) {
     val data = tarkovRepo.getWeaponsByClass(classID).collectAsState(initial = emptyList())
     val weaponClass = weaponCategories.find { it.third == classID }
 
     Scaffold(
-        topBar = {
-            Column {
-                MainToolbar(
-                    title = weaponClass?.first ?: "",
-                    navViewModel = navViewModel
-                )
+            topBar = {
+                Column {
+                    MainToolbar(
+                            title = weaponClass?.first ?: "",
+                            navViewModel = navViewModel
+                    )
+                }
             }
-        }
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
         ) {
             items(items = data.value.sortedBy { it.Name }) { weapon ->
                 val visibleState = remember { MutableTransitionState(false) }
                 visibleState.targetState = true
                 AnimatedVisibility(
-                    visibleState,
-                    enter = fadeIn(),
-                    exit = fadeOut()
+                        visibleState,
+                        enter = fadeIn(),
+                        exit = fadeOut()
                 ) {
                     WeaponCard(weapon) {
                         weaponClicked(it)
@@ -74,64 +76,65 @@ fun WeaponListScreen(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WeaponCard(
-    weapon: Weapon,
-    weaponClicked: (weaponID: String) -> Unit
+        weapon: Weapon,
+        weaponClicked: (weaponID: String) -> Unit
 ) {
     val context = LocalContext.current
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min)
-            .padding(vertical = 4.dp),
-        border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
-        elevation = 0.dp,
-        onClick = {
-            weaponClicked(weapon.id)
-        }
+            modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
+                    .padding(vertical = 4.dp),
+            border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
+            elevation = 0.dp,
+            onClick = {
+                weaponClicked(weapon.id)
+            }
     ) {
         Column(
-            Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+                Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxHeight(),
-                verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier
+                            .fillMaxHeight(),
+                    verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(weapon.pricing?.iconLink),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(40.dp)
-                        .height(40.dp)
+                        rememberImagePainter(weapon.pricing?.iconLink),
+                        contentDescription = null,
+                        modifier = Modifier
+                                .width(40.dp)
+                                .height(40.dp)
+                                .border(0.25.dp, BorderColor)
                 )
                 Column(
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
+                        modifier = Modifier
+                                .padding(start = 16.dp)
+                                .weight(1f),
+                        verticalArrangement = Arrangement.Center
                 ) {
                     Row(
-                        verticalAlignment = Alignment.Top
+                            verticalAlignment = Alignment.Top
                     ) {
                         Text(
-                            modifier = Modifier.weight(1f),
-                            text = "${weapon.ShortName}",
-                            style = MaterialTheme.typography.subtitle1
+                                modifier = Modifier.weight(1f),
+                                text = "${weapon.ShortName}",
+                                style = MaterialTheme.typography.subtitle1
                         )
                         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                             Text(
-                                text = getCaliberShortName(weapon.ammoCaliber),
-                                style = MaterialTheme.typography.overline
+                                    text = getCaliberShortName(weapon.ammoCaliber),
+                                    style = MaterialTheme.typography.overline
                             )
                         }
                     }
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "Last Price: ${weapon.pricing?.getPrice()?.asCurrency()}",
-                            style = MaterialTheme.typography.caption
+                                text = "Last Price: ${weapon.pricing?.getPrice()?.asCurrency()}",
+                                style = MaterialTheme.typography.caption
                         )
                     }
                 }

@@ -3,6 +3,7 @@ package com.austinhodak.thehideout.weapons.builder
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -39,8 +40,10 @@ import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.OverflowMenuItem
 import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.firebase.WeaponBuildFirestore
 import com.austinhodak.thehideout.utils.getColor
 import com.austinhodak.thehideout.utils.openWithCustomTab
+import com.austinhodak.thehideout.utils.round
 import com.austinhodak.thehideout.views.EditorProgress
 import com.austinhodak.thehideout.weapons.builder.viewmodel.WeaponBuilderViewModel
 import com.austinhodak.thehideout.weapons.mods.ModPickerActivity
@@ -52,6 +55,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -61,12 +65,6 @@ class WeaponBuilderActivity : AppCompatActivity() {
 
     val viewModel: WeaponBuilderViewModel by viewModels()
 
-    @Inject
-    lateinit var tarkovRepo: TarkovRepo
-
-    @Inject
-    lateinit var modRepo: ModsRepo
-
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             val mod = result.data?.getSerializableExtra("item") as Mod
@@ -74,7 +72,9 @@ class WeaponBuilderActivity : AppCompatActivity() {
             val type = result.data?.getStringExtra("type")!!
             val parent = result.data?.getStringExtra("parent")!!
 
-            viewModel.updateMod(mod, slotID, parent)
+            val slot = result.data?.getSerializableExtra("slot") as Weapon.Slot
+
+            viewModel.updateMod(mod, slotID)
         }
     }
 
@@ -87,7 +87,21 @@ class WeaponBuilderActivity : AppCompatActivity() {
                 val scaffoldState = rememberBottomSheetScaffoldState()
 
                 val build = viewModel.buildState
-                viewModel.setParentWeapon("5bb2475ed4351e00853264e3")
+
+                intent.getSerializableExtra("weapon")?.let {
+                    Timber.d((it as Weapon).toString())
+                    //viewModel.setParentWeapon(it as Weapon)
+                    viewModel.setParentWeapon(it.id)
+                }
+
+                intent.getSerializableExtra("build")?.let {
+                    it as WeaponBuildFirestore
+                    viewModel.loadBuild(it)
+                }
+
+                val savedBuild = if (intent.getSerializableExtra("build") is WeaponBuildFirestore) intent.getSerializableExtra("build") as WeaponBuildFirestore else null
+
+                //viewModel.setParentWeapon("5bb2475ed4351e00853264e3")
 
                 val parentWeapon = build?.parentWeapon
 
@@ -143,6 +157,21 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                 }, update = {
                                     it.apply {
                                         pg.progressDrawable = ResourcesCompat.getDrawable(resources, R.drawable.editor_stat, null)
+                                        icon.setImageResource(R.drawable.icons8_weight_kg_24)
+
+                                        nameTV.text = "WEIGHT"
+                                        valueTV.text = "${build?.totalWeight()?.round(2)} KG"
+                                        pg.max = 50
+                                        pg.progress = build?.totalWeight()?.roundToInt() ?: 0
+                                    }
+                                })
+                                AndroidView(modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 4.dp), factory = {
+                                    EditorProgress(it)
+                                }, update = {
+                                    it.apply {
+                                        pg.progressDrawable = ResourcesCompat.getDrawable(resources, R.drawable.editor_stat, null)
                                         icon.setImageResource(R.drawable.ic_baseline_fitness_center_24)
 
                                         nameTV.text = "ERGONOMICS"
@@ -159,7 +188,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                     it.apply {
                                         pg.progressDrawable = ResourcesCompat.getDrawable(resources, R.drawable.editor_stat_blue, null)
 
-                                        icon.setImageResource(R.drawable.ic_baseline_arrow_back_24)
+                                        icon.setImageResource(R.drawable.ic_baseline_arrow_upward_24)
 
                                         nameTV.text = "VERTICAL RECOIL"
                                         valueTV.text = build?.totalVerticalRecoil().toString()
@@ -220,13 +249,40 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                     }
                                 })
 
-                                Row {
+                                Row (Modifier.fillMaxWidth()) {
                                     OutlinedButton(onClick = {
 
-                                    }) {
-
+                                    }, modifier = Modifier
+                                            .weight(1f)
+                                            .padding(top = 4.dp, end = 4.dp)) {
+                                        Text(text = "MAKE PUBLIC", color = Red400)
+                                    }
+                                    OutlinedButton(onClick = {
+                                        viewModel.saveBuild {
+                                            if (it) {
+                                                scope.launch {
+                                                    scaffoldState.snackbarHostState.showSnackbar("Saved!")
+                                                    Toast.makeText(this@WeaponBuilderActivity, "Saved!", Toast.LENGTH_SHORT).show()
+                                                }
+                                            } else {
+                                                scope.launch {
+                                                    scaffoldState.snackbarHostState.showSnackbar("Error saving.")
+                                                }
+                                            }
+                                        }
+                                    }, modifier = Modifier
+                                            .weight(1f)
+                                            .padding(top = 4.dp, start = 4.dp)) {
+                                        Text(text = "SAVE", color = White)
                                     }
                                 }
+                            }
+                        },
+                        snackbarHost = {
+                            SnackbarHost(it) { data ->
+                                Snackbar(
+                                        snackbarData = data
+                                )
                             }
                         },
                         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -237,7 +293,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                     title = {
                                         Column {
                                             Text(
-                                                    text = parentWeapon?.Name ?: "Loading",
+                                                    text = if (savedBuild == null) parentWeapon?.Name ?: "" else savedBuild.name ?: "",
                                                     color = MaterialTheme.colors.onPrimary,
                                                     style = MaterialTheme.typography.h6,
                                                     maxLines = 1,
@@ -263,7 +319,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                         }
                                     },
                                     actions = {
-                                        OverflowMenu {
+                                       /* OverflowMenu {
                                             OverflowMenuItem(text = "Save") {
                                                 FirebaseFirestore.getInstance().collection("loadouts").add(build?.toFirestore()!!).addOnFailureListener {
                                                     Timber.e(it)
@@ -272,21 +328,120 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                             OverflowMenuItem(text = "Reset") {
                                                 viewModel.resetBuild()
                                             }
-                                        }
+                                        }*/
                                     }
                             )
                         }
                 ) {
-                    LazyColumn(
-                            contentPadding = PaddingValues(top = 4.dp, bottom = 66.dp)) {
+                    if (build == null) return@BottomSheetScaffold
+                    LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = 66.dp)) {
                         parentWeapon?.Slots?.sortedBy { it._name }?.forEach {
-                            if (it.getSubIds()?.count() == 1 && it._required == true) {
+                            if (it.getSubIds()?.count() == 1 && it._required == true && intent.getSerializableExtra("build") == null) {
                                 viewModel.updateMod(it.getSubIds()?.first(), it._id, it._parent)
                             }
                             item {
                                 ModSlot(slot = it, build = build)
+                                //ModSlot2(slot = it, build = build)
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    @ExperimentalFoundationApi
+    @Composable
+    fun ModSlot2(slot: Weapon.Slot, build: WeaponBuild?) {
+        val mod = slot.mod
+
+        Card(
+                modifier = Modifier
+                        .padding(vertical = 4.dp, horizontal = 8.dp)
+                        .fillMaxWidth()
+                        .combinedClickable(onClick = {
+                            val intent = Intent(this, ModPickerActivity::class.java)
+                            intent.putExtra("ids", slot
+                                    .getSubIds()
+                                    ?.joinToString(";"))
+                            intent.putExtra("type", slot._name)
+                            intent.putExtra("parent", slot._parent)
+                            intent.putExtra("id", slot._id)
+                            intent.putExtra("conflictingItems", build
+                                    ?.allConflictingItems()
+                                    ?.joinToString(";"))
+
+                            intent.putExtra("slot", slot)
+                            resultLauncher.launch(intent)
+                        }, onLongClick = {
+                            mod?.let {
+                                //viewModel.removeMod(it.mod, slot._id, slot._parent)
+                            }
+                        }),
+                backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+                border = if (slot._required == true) BorderStroke(0.25.dp, Red400) else BorderStroke(0.25.dp, BorderColor),
+                elevation = 0.dp,
+        ) {
+            Column {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                            text = slot.getName(),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
+                    )
+                }
+                Column(modifier = Modifier.padding(bottom = 4.dp)) {
+                    Row(
+                            Modifier.padding(start = 16.dp, bottom = 8.dp, end = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (mod != null) {
+                            Image(
+                                    rememberImagePainter(mod.pricing?.iconLink),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                            .padding(end = 16.dp)
+                                            .width(40.dp)
+                                            .height(40.dp)
+                                            .border(0.25.dp, BorderColor)
+                            )
+                        }
+                        Column(
+                                modifier = Modifier.weight(1f),
+                                verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                    text = mod?.ShortName ?: "None",
+                                    style = MaterialTheme.typography.subtitle1
+                            )
+                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                                Text(
+                                        text = "Last Price: ${mod?.getPrice()?.asCurrency() ?: "-"}",
+                                        style = MaterialTheme.typography.caption
+                                )
+                            }
+                        }
+                        mod?.let {
+                            Column(
+                                    Modifier.width(IntrinsicSize.Min),
+                            ) {
+                                StatItem(value = mod.Recoil, title = "REC", mod.Recoil?.getColor(true, MaterialTheme.colors.onSurface))
+                                StatItem(value = mod.Ergonomics, title = "ERG", mod.Ergonomics?.getColor(false, MaterialTheme.colors.onSurface))
+                                StatItem(value = mod.Accuracy, title = "ACC", mod.Accuracy?.getColor(false, MaterialTheme.colors.onSurface))
+                            }
+                        }
+                    }
+
+                    mod?.Slots?.sortedBy { it._name }?.forEach {
+                        if (it.getSubIds()?.isNullOrEmpty() == true) {
+                            return@forEach
+                        }
+                        if (it.getSubIds()?.count() == 1 && it._required == true) {
+                            viewModel.updateMod(it.getSubIds()?.first(), it._id, it._parent)
+                        }
+                        ModSlot2(slot = it, build = build)
                     }
                 }
             }
@@ -313,10 +468,11 @@ class WeaponBuilderActivity : AppCompatActivity() {
                             intent.putExtra("conflictingItems", build
                                     ?.allConflictingItems()
                                     ?.joinToString(";"))
+                            intent.putExtra("slot", slot)
                             resultLauncher.launch(intent)
                         }, onLongClick = {
                             buildSlot?.let {
-                                viewModel.removeMod(it.mod, slot._id, slot._parent)
+                                viewModel.removeMod(it.mod, slot._id, slot._parent, slot)
                             }
                         }),
                 backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
@@ -366,12 +522,39 @@ class WeaponBuilderActivity : AppCompatActivity() {
                             }
                         }
                         buildSlot?.mod?.let {
+                            val item = it
                             Column(
                                     Modifier.width(IntrinsicSize.Min),
                             ) {
-                                StatItem(value = buildSlot?.mod?.Recoil, title = "REC", buildSlot?.mod?.Recoil?.getColor(true, MaterialTheme.colors.onSurface))
-                                StatItem(value = buildSlot?.mod?.Ergonomics, title = "ERG", buildSlot?.mod?.Ergonomics?.getColor(false, MaterialTheme.colors.onSurface))
-                                StatItem(value = buildSlot?.mod?.Accuracy, title = "ACC", buildSlot?.mod?.Accuracy?.getColor(false, MaterialTheme.colors.onSurface))
+                                when (item.parent) {
+                                    "5448bc234bdc2d3c308b4569" -> {
+                                        StatItem(value = item.getMagSize(), title = "MAG", null)
+                                        StatItem(value = item.Ergonomics, title = "ERG", item.Ergonomics?.getColor(false, MaterialTheme.colors.onSurface))
+                                        //StatItem(value = item.Ergonomics, title = "LOAD", item.Ergonomics?.getColor(false, MaterialTheme.colors.onSurface))
+                                    }
+                                    "55818add4bdc2d5b648b456f",
+                                    "55818ad54bdc2ddc698b4569",
+                                    "55818acf4bdc2dde698b456b",
+                                    "55818ac54bdc2d5b648b456e",
+                                    "55818ae44bdc2dde698b456c",
+                                    "55818aeb4bdc2ddc698b456a" -> {
+                                        StatItem(value = item.Ergonomics, title = "ERG", item.Ergonomics?.getColor(false, MaterialTheme.colors.onSurface))
+                                        StatItem(value = "${item.SightingRange?.roundToInt()}m", title = "RNG")
+                                        //StatItem(value = item.SightingRange, title = "MAG")
+                                    }
+                                    "550aa4dd4bdc2dc9348b4569",
+                                    "550aa4cd4bdc2dd8348b456c",
+                                    "555ef6e44bdc2de9068b457e" -> {
+                                        StatItem(value = item.Recoil, title = "REC", item.Recoil?.getColor(true, MaterialTheme.colors.onSurface))
+                                        StatItem(value = item.Ergonomics, title = "ERG", item.Ergonomics?.getColor(false, MaterialTheme.colors.onSurface))
+                                        StatItem(value = item.Velocity, title = "VEL", item.Velocity?.getColor(false, MaterialTheme.colors.onSurface))
+                                    }
+                                    else -> {
+                                        StatItem(value = item.Recoil, title = "REC", item.Recoil?.getColor(true, MaterialTheme.colors.onSurface))
+                                        StatItem(value = item.Ergonomics, title = "ERG", item.Ergonomics?.getColor(false, MaterialTheme.colors.onSurface))
+                                        //StatItem(value = item.Accuracy, title = "ACC", item.Accuracy?.getColor(false, MaterialTheme.colors.onSurface))
+                                    }
+                                }
                             }
                         }
                     }

@@ -10,11 +10,10 @@ data class WeaponBuild (
     var id: String? = null,
     var parentWeapon: Weapon? = null,
     var name: String? = null,
-    var creator: String? = null,
+    var uid: String? = null,
     var ammo: Ammo? = null,
     // STRING = SLOT ID
-    var mods: Map<String, BuildMod>? = HashMap(),
-    var slots: Map<Weapon.Slot, Mod>? = HashMap()
+    var mods: Map<String, BuildMod>? = HashMap()
 ) {
 
     data class BuildMod (
@@ -31,8 +30,8 @@ data class WeaponBuild (
                 "name" to parentWeapon?.Name,
                 "shortName" to parentWeapon?.ShortName
             ),
-            "creator" to uid(),
-            "name" to name,
+            "uid" to uid(),
+            "name" to "${parentWeapon?.ShortName} Build",
             "id" to id,
             "mods" to mods?.mapValues { it.value.mod?.id },
             "stats" to hashMapOf(
@@ -53,7 +52,7 @@ data class WeaponBuild (
     }
 
     fun totalCostFleaMarket(): Int? {
-        return mods?.map { it.value.mod?.pricing }?.sumOf { it?.getPrice() ?: 0 }
+        return mods?.map { it.value.mod?.pricing }?.sumOf { it?.getPrice() ?: 0 }?.plus(parentWeapon?.pricing?.getPrice() ?: 0)
     }
 
     fun totalVelocity(): Int? {

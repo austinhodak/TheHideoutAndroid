@@ -1,6 +1,7 @@
 package com.austinhodak.tarkovapi.room.models
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -59,7 +60,7 @@ data class Weapon(
     val RecoilForceUp: Int? = null,
     val RecoilForceBack: Int? = null,
     val pricing: Pricing? = null
-) {
+) : Serializable {
     data class Chamber(
         val _id: String? = null,
         val _mergeSlotWithChildren: Boolean? = null,
@@ -68,13 +69,13 @@ data class Weapon(
         val _props: Props? = null,
         val _proto: String? = null,
         val _required: Boolean? = null
-    ) {
+    ) : Serializable {
         data class Props(
             val filters: List<Filter?>? = null
-        ) {
+        ) : Serializable {
             data class Filter(
                 val Filter: List<String?>? = null
-            )
+            ) : Serializable
         }
     }
 
@@ -85,7 +86,9 @@ data class Weapon(
         val _parent: String? = null,
         val _props: Props? = null,
         val _proto: String? = null,
-        val _required: Boolean? = null
+        val _required: Boolean? = null,
+        @Ignore
+        var mod: Mod? = null
     ) : Serializable {
         data class Props(
             val filters: List<Filter?>? = null

@@ -33,11 +33,13 @@ import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
+import kotlin.math.round
 
 fun isDebug(): Boolean = BuildConfig.DEBUG
 
@@ -457,4 +459,10 @@ fun Activity.keepScreenOn(keepOn: Boolean) {
     } else {
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
+}
+
+fun Double.round(decimals: Int): Double {
+    var multiplier = 1.0
+    repeat(decimals) { multiplier *= 10 }
+    return round(this * multiplier) / multiplier
 }

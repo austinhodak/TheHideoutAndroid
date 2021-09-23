@@ -32,6 +32,7 @@ import com.austinhodak.tarkovapi.repository.ModsRepo
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Mod
+import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
@@ -71,6 +72,8 @@ class ModPickerActivity : GodActivity() {
         val type = intent.getStringExtra("type")
         val parent = intent.getStringExtra("parent")
         val id = intent.getStringExtra("id")
+
+        val slot = intent.getSerializableExtra("slot") as Weapon.Slot
 
         Timber.d(modList.toString())
 
@@ -172,6 +175,7 @@ class ModPickerActivity : GodActivity() {
                                     putExtra("item", item)
                                     putExtra("type", type)
                                     putExtra("parent", parent)
+                                    putExtra("slot", slot)
                                 })
                                 finish()
                             }

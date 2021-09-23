@@ -37,6 +37,7 @@ import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
+import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -60,6 +61,7 @@ fun KeyListScreen(
     val userData by keysViewModel.userData.observeAsState()
 
     val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -141,6 +143,14 @@ fun KeyListScreen(
                     userData,
                     scaffoldState
                 )
+            }
+        }
+    }
+
+    onlyOnce("keysTip") {
+        onDo {
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar("Tip: Long press on a key to mark as owned!")
             }
         }
     }

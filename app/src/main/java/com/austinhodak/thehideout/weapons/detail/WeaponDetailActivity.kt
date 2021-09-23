@@ -48,6 +48,7 @@ import com.austinhodak.thehideout.utils.getCaliberName
 import com.austinhodak.thehideout.utils.getColor
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openFleaDetail
+import com.austinhodak.thehideout.weapons.builder.WeaponBuilderActivity
 import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModPickerActivity
 import com.austinhodak.thehideout.weapons.viewmodel.WeaponDetailViewModel
@@ -76,30 +77,6 @@ class WeaponDetailActivity : GodActivity() {
     @Inject
     lateinit var modRepo: ModsRepo
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val item = result.data?.getSerializableExtra("item") as Item
-            val slotID = result.data?.getStringExtra("id")!!
-            val type = result.data?.getStringExtra("type")!!
-
-            val build = weaponViewModel.weaponBuild.value ?: WeaponBuild()
-
-            /*build.mods?.put(
-                slotID,
-                WeaponBuild.BuildMod(
-                    item = item,
-                    id = type
-                )
-            )*/
-
-            weaponViewModel.updateBuild(build.apply {
-                id = "TEST"
-            })
-            //Timber.d(build.toString())
-            Timber.d(weaponViewModel.weaponBuild.value.toString())
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -121,82 +98,136 @@ class WeaponDetailActivity : GodActivity() {
                     var selectedNavItem by remember { mutableStateOf(0) }
 
                     val items = listOf(
-                        ModDetailActivity.NavItem("Stats", R.drawable.ic_baseline_bar_chart_24),
-                        ModDetailActivity.NavItem("Mods", R.drawable.icons8_assault_rifle_mod_96),
+                            ModDetailActivity.NavItem("Stats", R.drawable.ic_baseline_bar_chart_24),
+                            ModDetailActivity.NavItem("Mods", R.drawable.icons8_assault_rifle_mod_96),
                     )
 
                     val defaultAmmo by tarkovRepo.getAmmoByID(weapon?.defAmmo ?: "").collectAsState(initial = null)
 
                     Scaffold(
-                        scaffoldState = scaffoldState,
-                        topBar = {
-                            Crossfade(targetState = selectedNavItem) {
-                                when (it) {
-                                    0 -> {
-                                        systemUiController.setStatusBarColor(
-                                            Color.Transparent,
-                                            darkIcons = false
-                                        )
-                                        Column {
-                                            Box {
-                                                val painter = rememberImagePainter(
-                                                    weapon?.getTarkovMarketImageURL(),
-                                                    builder = {
-                                                        crossfade(true)
-                                                    }
-                                                )
-                                                Column {
-                                                    Image(
-                                                        painter,
-                                                        contentDescription = null,
-                                                        modifier = Modifier
-                                                            .fillMaxWidth()
-                                                            .then(
-                                                                if (painter.state is ImagePainter.State.Loading || painter.state is ImagePainter.State.Error) {
-                                                                    Modifier.height(0.dp)
-                                                                } else {
-                                                                    (painter.state as? ImagePainter.State.Success)
-                                                                        ?.painter
-                                                                        ?.intrinsicSize
-                                                                        ?.let { intrinsicSize ->
-                                                                            Modifier.aspectRatio(intrinsicSize.width / intrinsicSize.height)
-                                                                        } ?: Modifier
-                                                                }
-                                                            ),
-                                                        contentScale = ContentScale.FillWidth
+                            scaffoldState = scaffoldState,
+                            topBar = {
+                                Crossfade(targetState = selectedNavItem) {
+                                    when (it) {
+                                        0 -> {
+                                            systemUiController.setStatusBarColor(
+                                                    Color.Transparent,
+                                                    darkIcons = false
+                                            )
+                                            Column {
+                                                Box {
+                                                    val painter = rememberImagePainter(
+                                                            weapon?.getTarkovMarketImageURL(),
+                                                            builder = {
+                                                                crossfade(true)
+                                                            }
                                                     )
-                                                    Column(
-                                                        modifier = Modifier
-                                                            .fillMaxWidth()
-                                                            .offset(y = (-4).dp)
-                                                            .background(if (painter.state is ImagePainter.State.Success) Color.Black else DarkPrimary)
-                                                            .padding(
-                                                                start = 72.dp,
-                                                                bottom = 16.dp,
-                                                                top = if (painter.state is ImagePainter.State.Success) 0.dp else 56.dp
+                                                    Column {
+                                                        Image(
+                                                                painter,
+                                                                contentDescription = null,
+                                                                modifier = Modifier
+                                                                        .fillMaxWidth()
+                                                                        .then(
+                                                                                if (painter.state is ImagePainter.State.Loading || painter.state is ImagePainter.State.Error) {
+                                                                                    Modifier.height(0.dp)
+                                                                                } else {
+                                                                                    (painter.state as? ImagePainter.State.Success)
+                                                                                            ?.painter
+                                                                                            ?.intrinsicSize
+                                                                                            ?.let { intrinsicSize ->
+                                                                                                Modifier.aspectRatio(intrinsicSize.width / intrinsicSize.height)
+                                                                                            } ?: Modifier
+                                                                                }
+                                                                        ),
+                                                                contentScale = ContentScale.FillWidth
+                                                        )
+                                                        Column(
+                                                                modifier = Modifier
+                                                                        .fillMaxWidth()
+                                                                        .offset(y = (-4).dp)
+                                                                        .background(if (painter.state is ImagePainter.State.Success) Color.Black else DarkPrimary)
+                                                                        .padding(
+                                                                                start = 72.dp,
+                                                                                bottom = 16.dp,
+                                                                                top = if (painter.state is ImagePainter.State.Success) 0.dp else 56.dp
+                                                                        )
+                                                        ) {
+                                                            Text(
+                                                                    text = weapon?.Name ?: "Loading...",
+                                                                    color = MaterialTheme.colors.onPrimary,
+                                                                    style = MaterialTheme.typography.h6,
+                                                                    maxLines = 1,
+                                                                    fontSize = 18.sp,
+                                                                    overflow = TextOverflow.Ellipsis
                                                             )
-                                                    ) {
-                                                        Text(
-                                                            text = weapon?.Name ?: "Loading...",
-                                                            color = MaterialTheme.colors.onPrimary,
-                                                            style = MaterialTheme.typography.h6,
-                                                            maxLines = 1,
-                                                            fontSize = 18.sp,
-                                                            overflow = TextOverflow.Ellipsis
-                                                        )
-                                                        Text(
-                                                            text = "(${weapon?.ShortName})",
-                                                            color = MaterialTheme.colors.onPrimary,
-                                                            style = MaterialTheme.typography.caption,
-                                                            maxLines = 1,
-                                                            overflow = TextOverflow.Ellipsis
-                                                        )
+                                                            Text(
+                                                                    text = "(${weapon?.ShortName})",
+                                                                    color = MaterialTheme.colors.onPrimary,
+                                                                    style = MaterialTheme.typography.caption,
+                                                                    maxLines = 1,
+                                                                    overflow = TextOverflow.Ellipsis
+                                                            )
+                                                        }
                                                     }
+
+                                                    TopAppBar(
+                                                            title = { Spacer(modifier = Modifier.fillMaxWidth()) },
+                                                            backgroundColor = Color.Transparent,
+                                                            modifier = Modifier.statusBarsPadding(),
+                                                            navigationIcon = {
+                                                                IconButton(onClick = {
+                                                                    onBackPressed()
+                                                                }) {
+                                                                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                                                                }
+                                                            },
+                                                            elevation = 0.dp,
+                                                            actions = {
+                                                                OverflowMenu {
+                                                                    weapon?.pricing?.wikiLink?.let { WikiItem(url = it) }
+                                                                }
+                                                            }
+                                                    )
                                                 }
 
-                                                TopAppBar(
-                                                    title = { Spacer(modifier = Modifier.fillMaxWidth()) },
-                                                    backgroundColor = Color.Transparent,
+                                                if (weapon == null) {
+                                                    LinearProgressIndicator(
+                                                            Modifier
+                                                                    .fillMaxWidth()
+                                                                    .height(2.dp),
+                                                            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                                                            backgroundColor = Color.Transparent
+                                                    )
+                                                }
+                                            }
+                                        }
+                                        1 -> {
+                                            systemUiController.setStatusBarColor(
+                                                    MaterialTheme.colors.primary,
+                                                    darkIcons = false
+                                            )
+                                            TopAppBar(
+                                                    title = {
+                                                        Column {
+                                                            Text(
+                                                                    text = weapon?.Name ?: "Loading",
+                                                                    color = MaterialTheme.colors.onPrimary,
+                                                                    style = MaterialTheme.typography.h6,
+                                                                    maxLines = 1,
+                                                                    fontSize = 18.sp,
+                                                                    overflow = TextOverflow.Ellipsis
+                                                            )
+                                                            Text(
+                                                                    text = "(${weapon?.ShortName ?: ""})",
+                                                                    color = MaterialTheme.colors.onPrimary,
+                                                                    style = MaterialTheme.typography.caption,
+                                                                    maxLines = 1,
+                                                                    overflow = TextOverflow.Ellipsis
+                                                            )
+                                                        }
+                                                    },
+                                                    backgroundColor = if (isSystemInDarkTheme()) DarkPrimary else MaterialTheme.colors.primary,
                                                     modifier = Modifier.statusBarsPadding(),
                                                     navigationIcon = {
                                                         IconButton(onClick = {
@@ -205,80 +236,37 @@ class WeaponDetailActivity : GodActivity() {
                                                             Icon(Icons.Filled.ArrowBack, contentDescription = null)
                                                         }
                                                     },
-                                                    elevation = 0.dp,
                                                     actions = {
                                                         OverflowMenu {
                                                             weapon?.pricing?.wikiLink?.let { WikiItem(url = it) }
                                                         }
                                                     }
-                                                )
-                                            }
-
-                                            if (weapon == null) {
-                                                LinearProgressIndicator(
-                                                    Modifier
-                                                        .fillMaxWidth()
-                                                        .height(2.dp),
-                                                    color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                                                    backgroundColor = Color.Transparent
-                                                )
-                                            }
+                                            )
                                         }
                                     }
-                                    1 -> {
-                                        systemUiController.setStatusBarColor(
-                                            MaterialTheme.colors.primary,
-                                            darkIcons = false
-                                        )
-                                        TopAppBar(
-                                            title = {
-                                                Column {
-                                                    Text(
-                                                        text = weapon?.Name ?: "Loading",
-                                                        color = MaterialTheme.colors.onPrimary,
-                                                        style = MaterialTheme.typography.h6,
-                                                        maxLines = 1,
-                                                        fontSize = 18.sp,
-                                                        overflow = TextOverflow.Ellipsis
-                                                    )
-                                                    Text(
-                                                        text = "(${weapon?.ShortName ?: ""})",
-                                                        color = MaterialTheme.colors.onPrimary,
-                                                        style = MaterialTheme.typography.caption,
-                                                        maxLines = 1,
-                                                        overflow = TextOverflow.Ellipsis
-                                                    )
-                                                }
-                                            },
-                                            backgroundColor = if (isSystemInDarkTheme()) DarkPrimary else MaterialTheme.colors.primary,
-                                            modifier = Modifier.statusBarsPadding(),
-                                            navigationIcon = {
-                                                IconButton(onClick = {
-                                                    onBackPressed()
-                                                }) {
-                                                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
-                                                }
-                                            },
-                                            actions = {
-                                                OverflowMenu {
-                                                    weapon?.pricing?.wikiLink?.let { WikiItem(url = it) }
-                                                }
-                                            }
-                                        )
+                                }
+
+                            },
+                            bottomBar = {
+                                BottomNav(selected = selectedNavItem, items) { selectedNavItem = it }
+                            },
+                            floatingActionButton = {
+                                FloatingActionButton(onClick = {
+                                    this.openActivity(WeaponBuilderActivity::class.java) {
+                                        weapon?.let {
+                                            putSerializable("weapon", it)
+                                        }
                                     }
+                                }) {
+                                    Icon(painter = painterResource(id = R.drawable.ic_baseline_construction_24), contentDescription = "Build", tint = Color.Black)
                                 }
                             }
-
-                        },
-                        bottomBar = {
-                            BottomNav(selected = selectedNavItem, items) { selectedNavItem = it }
-                        }
                     ) {
                         Crossfade(targetState = selectedNavItem, modifier = Modifier.padding(it)) {
                             when (it) {
                                 0 -> {
                                     LazyColumn(
-                                        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 4.dp)
+                                            contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 4.dp)
                                     ) {
                                         item {
                                             weapon?.let { WeaponDetailCard(weapon = it) }
@@ -308,30 +296,30 @@ class WeaponDetailActivity : GodActivity() {
 
     @Composable
     fun StatItem(
-        value: Any?,
-        title: String,
-        color: Color? = null
+            value: Any?,
+            title: String,
+            color: Color? = null
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = "$value",
-                style = MaterialTheme.typography.h6,
-                fontSize = 9.sp,
-                modifier = Modifier.padding(end = 8.dp),
-                color = color ?: MaterialTheme.colors.onSurface,
-                textAlign = TextAlign.End
+                    text = "$value",
+                    style = MaterialTheme.typography.h6,
+                    fontSize = 9.sp,
+                    modifier = Modifier.padding(end = 8.dp),
+                    color = color ?: MaterialTheme.colors.onSurface,
+                    textAlign = TextAlign.End
             )
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(
-                    text = title,
-                    style = MaterialTheme.typography.caption,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 9.sp,
-                    textAlign = TextAlign.End
+                        text = title,
+                        style = MaterialTheme.typography.caption,
+                        fontWeight = FontWeight.Light,
+                        fontSize = 9.sp,
+                        textAlign = TextAlign.End
                 )
             }
         }
@@ -339,35 +327,35 @@ class WeaponDetailActivity : GodActivity() {
 
     @Composable
     fun WeaponModScreen(
-        weapon: Weapon,
-        mods: List<Mod>?
+            weapon: Weapon,
+            mods: List<Mod>?
     ) {
         val modIDs = weapon.getAllMods()
         LazyColumn(
-            contentPadding = PaddingValues(vertical = 4.dp)
+                contentPadding = PaddingValues(vertical = 4.dp)
         ) {
             weapon.Slots?.forEach { slot ->
                 item {
                     Card(
-                        modifier = Modifier
-                            .padding(vertical = 4.dp, horizontal = 8.dp)
-                            .fillMaxWidth(),
-                        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-                        border = if (slot._required == true) BorderStroke(0.25.dp, Red400) else null,
-                        onClick = {
+                            modifier = Modifier
+                                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                                    .fillMaxWidth(),
+                            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+                            border = if (slot._required == true) BorderStroke(0.25.dp, Red400) else null,
+                            onClick = {
 
-                        },
+                            },
                     ) {
                         Column(
-                            Modifier.padding(16.dp)
+                                Modifier.padding(16.dp)
                         ) {
                             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                                 Text(
-                                    text = slot.getName(),
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Light,
-                                    fontFamily = Bender,
-                                    modifier = Modifier.padding(bottom = 8.dp)
+                                        text = slot.getName(),
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Light,
+                                        fontFamily = Bender,
+                                        modifier = Modifier.padding(bottom = 8.dp)
                                 )
                             }
                             val m = slot._props?.filters?.first()?.Filter?.map { it2 -> mods?.find { it.id == it2 } }
@@ -385,53 +373,53 @@ class WeaponDetailActivity : GodActivity() {
 
     @Composable
     fun ModListCardChildMod(
-        item: Mod,
-        mods: List<Mod>?
+            item: Mod,
+            mods: List<Mod>?
     ) {
         Column {
             Row(
-                modifier = Modifier
-                    .padding(start = 0.dp, top = 2.dp, bottom = 2.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        openActivity(ModDetailActivity::class.java) {
-                            putString("id", item.id)
-                        }
-                    },
-                verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                            .padding(start = 0.dp, top = 2.dp, bottom = 2.dp)
+                            .fillMaxWidth()
+                            .clickable {
+                                openActivity(ModDetailActivity::class.java) {
+                                    putString("id", item.id)
+                                }
+                            },
+                    verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
-                    rememberImagePainter(
-                        item.pricing?.iconLink ?: ""
-                    ),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(38.dp)
-                        .height(38.dp)
-                        .border((0.25).dp, color = BorderColor)
+                        rememberImagePainter(
+                                item.pricing?.iconLink ?: ""
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                                .width(38.dp)
+                                .height(38.dp)
+                                .border((0.25).dp, color = BorderColor)
                 )
                 Column(
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 8.dp)
-                        .weight(1f)
+                        modifier = Modifier
+                                .padding(start = 16.dp, end = 8.dp)
+                                .weight(1f)
                 ) {
                     Text(
-                        text = "${item.Name}",
-                        style = MaterialTheme.typography.body2,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                            text = "${item.Name}",
+                            style = MaterialTheme.typography.body2,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                     )
                     CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                         Text(
-                            text = "${item.pricing?.getPrice()?.asCurrency()}",
-                            style = MaterialTheme.typography.caption,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Light,
+                                text = "${item.pricing?.getPrice()?.asCurrency()}",
+                                style = MaterialTheme.typography.caption,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Light,
                         )
                     }
                 }
                 Column(
-                    Modifier.width(IntrinsicSize.Min),
+                        Modifier.width(IntrinsicSize.Min),
                 ) {
                     StatItem(value = item.Recoil, title = "REC", item.Recoil?.getColor(true, MaterialTheme.colors.onSurface))
                     StatItem(value = item.Ergonomics, title = "ERG", item.Ergonomics?.getColor(false, MaterialTheme.colors.onSurface))
@@ -459,23 +447,23 @@ class WeaponDetailActivity : GodActivity() {
 
     @Composable
     fun BottomNav(
-        selected: Int,
-        items: List<ModDetailActivity.NavItem>,
-        onItemSelected: (Int) -> Unit
+            selected: Int,
+            items: List<ModDetailActivity.NavItem>,
+            onItemSelected: (Int) -> Unit
     ) {
 
         BottomNavigation(
-            backgroundColor = Color(0xFE1F1F1F)
+                backgroundColor = Color(0xFE1F1F1F)
         ) {
             items.forEachIndexed { index, item ->
                 BottomNavigationItem(
-                    icon = { Icon(painter = painterResource(id = item.icon), contentDescription = null, modifier = Modifier.size(24.dp)) },
-                    label = { Text(item.title) },
-                    selected = selected == index,
-                    onClick = { onItemSelected(index) },
-                    selectedContentColor = MaterialTheme.colors.secondary,
-                    unselectedContentColor = if (item.enabled == true) Color(0x99FFFFFF) else Color(0x33FFFFFF),
-                    enabled = item.enabled ?: true,
+                        icon = { Icon(painter = painterResource(id = item.icon), contentDescription = null, modifier = Modifier.size(24.dp)) },
+                        label = { Text(item.title) },
+                        selected = selected == index,
+                        onClick = { onItemSelected(index) },
+                        selectedContentColor = MaterialTheme.colors.secondary,
+                        unselectedContentColor = if (item.enabled == true) Color(0x99FFFFFF) else Color(0x33FFFFFF),
+                        enabled = item.enabled ?: true,
                 )
             }
         }
@@ -484,73 +472,73 @@ class WeaponDetailActivity : GodActivity() {
     @ExperimentalAnimationApi
     @Composable
     private fun WeaponDetailCard(
-        weapon: Weapon,
+            weapon: Weapon,
     ) {
         var visible by remember {
             mutableStateOf(false)
         }
         Card(
-            Modifier
-                .padding(vertical = 4.dp)
-                .fillMaxWidth()
-                .clickable { visible = !visible },
-            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+                Modifier
+                        .padding(vertical = 4.dp)
+                        .fillMaxWidth()
+                        .clickable { visible = !visible },
+                backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
         ) {
             Column {
                 Row(
-                    Modifier.padding(0.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        Modifier.padding(0.dp),
+                        verticalAlignment = Alignment.CenterVertically
                 ) {
 
                 }
                 Divider(color = DividerDark)
                 Column(
-                    Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
+                        Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
                 ) {
                     DataRow(
-                        title = "RECOIL VERTICAL",
-                        value = Pair(weapon.RecoilForceUp, MaterialTheme.colors.onSurface)
+                            title = "RECOIL VERTICAL",
+                            value = Pair(weapon.RecoilForceUp, MaterialTheme.colors.onSurface)
                     )
                     DataRow(
-                        title = "RECOIL HORIZONTAL",
-                        value = Pair(weapon.RecoilForceBack, MaterialTheme.colors.onSurface)
+                            title = "RECOIL HORIZONTAL",
+                            value = Pair(weapon.RecoilForceBack, MaterialTheme.colors.onSurface)
                     )
                     DataRow(
-                        title = "EFFECTIVE DISTANCE",
-                        value = Pair(weapon.bEffDist?.roundToInt(), MaterialTheme.colors.onSurface)
+                            title = "EFFECTIVE DISTANCE",
+                            value = Pair(weapon.bEffDist?.roundToInt(), MaterialTheme.colors.onSurface)
                     )
                     DataRow(
-                        title = "ERGONOMICS",
-                        value = Pair(weapon.Ergonomics?.roundToInt(), MaterialTheme.colors.onSurface)
+                            title = "ERGONOMICS",
+                            value = Pair(weapon.Ergonomics?.roundToInt(), MaterialTheme.colors.onSurface)
                     )
                     DataRow(
-                        title = "RATE OF FIRE",
-                        value = Pair(weapon.bFirerate?.roundToInt(), MaterialTheme.colors.onSurface)
+                            title = "RATE OF FIRE",
+                            value = Pair(weapon.bFirerate?.roundToInt(), MaterialTheme.colors.onSurface)
                     )
                     DataRow(
-                        title = "SIGHTING RANGE",
-                        value = Pair("${weapon.IronSightRange?.roundToInt()}m", MaterialTheme.colors.onSurface)
+                            title = "SIGHTING RANGE",
+                            value = Pair("${weapon.IronSightRange?.roundToInt()}m", MaterialTheme.colors.onSurface)
                     )
                     AnimatedVisibility(visible = visible) {
                         Column(
-                            Modifier.padding(top = 4.dp, bottom = 0.dp)
+                                Modifier.padding(top = 4.dp, bottom = 0.dp)
                         ) {
                             Divider(color = DividerDark, modifier = Modifier.padding(bottom = 4.dp))
                             DataRow(
-                                title = "DURABILITY",
-                                value = Pair(weapon.Durability?.roundToInt(), MaterialTheme.colors.onSurface)
+                                    title = "DURABILITY",
+                                    value = Pair(weapon.Durability?.roundToInt(), MaterialTheme.colors.onSurface)
                             )
                             DataRow(
-                                title = "WEIGHT",
-                                value = Pair("${weapon.Weight} KG", MaterialTheme.colors.onSurface)
+                                    title = "WEIGHT",
+                                    value = Pair("${weapon.Weight} KG", MaterialTheme.colors.onSurface)
                             )
                             DataRow(
-                                title = "SIZE",
-                                value = Pair("${weapon.Width?.roundToInt()}x${weapon.Height?.roundToInt()}", MaterialTheme.colors.onSurface)
+                                    title = "SIZE",
+                                    value = Pair("${weapon.Width?.roundToInt()}x${weapon.Height?.roundToInt()}", MaterialTheme.colors.onSurface)
                             )
                             DataRow(
-                                title = "FIRING MODES",
-                                value = Pair(weapon.weapFireType?.joinToString(", ")?.toUpperCase(Locale.current), MaterialTheme.colors.onSurface)
+                                    title = "FIRING MODES",
+                                    value = Pair(weapon.weapFireType?.joinToString(", ")?.toUpperCase(Locale.current), MaterialTheme.colors.onSurface)
                             )
                         }
                     }
@@ -561,43 +549,43 @@ class WeaponDetailActivity : GodActivity() {
 
     @Composable
     private fun AmmoCard(
-        weapon: Weapon,
-        defaultAmmo: Ammo
+            weapon: Weapon,
+            defaultAmmo: Ammo
     ) {
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
-            backgroundColor = Color(0xFE1F1F1F),
-            onClick = {
-                setResult(RESULT_OK, Intent().putExtra("caliber", "ammunition/${weapon.ammoCaliber}"))
-                finish()
-            }
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                backgroundColor = Color(0xFE1F1F1F),
+                onClick = {
+                    setResult(RESULT_OK, Intent().putExtra("caliber", "ammunition/${weapon.ammoCaliber}"))
+                    finish()
+                }
         ) {
             Column {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "AMMUNITION",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Light,
-                        fontFamily = Bender,
-                        modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
+                            text = "AMMUNITION",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                            modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
                     )
                 }
                 Column(
-                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
+                        Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
                 ) {
                     DataRow(
-                        title = "CALIBER",
-                        value = Pair(getCaliberName(weapon.ammoCaliber), MaterialTheme.colors.onSurface)
+                            title = "CALIBER",
+                            value = Pair(getCaliberName(weapon.ammoCaliber), MaterialTheme.colors.onSurface)
                     )
                     DataRow(
-                        title = "DEFAULT AMMO",
-                        value = Pair(defaultAmmo.name, MaterialTheme.colors.onSurface)
+                            title = "DEFAULT AMMO",
+                            value = Pair(defaultAmmo.name, MaterialTheme.colors.onSurface)
                     )
                     DataRow(
-                        title = "MUZZLE VELOCITY",
-                        value = Pair(defaultAmmo.ballistics?.getMuzzleVelocity(), MaterialTheme.colors.onSurface)
+                            title = "MUZZLE VELOCITY",
+                            value = Pair(defaultAmmo.ballistics?.getMuzzleVelocity(), MaterialTheme.colors.onSurface)
                     )
                 }
             }
@@ -606,22 +594,22 @@ class WeaponDetailActivity : GodActivity() {
 
     @Composable
     private fun DataRow(
-        title: String,
-        value: Pair<Any?, Color?>?
+            title: String,
+            value: Pair<Any?, Color?>?
     ) {
         Row(
-            Modifier.padding(vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically
+                Modifier.padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier.weight(1f),
-                text = title,
-                style = MaterialTheme.typography.caption
+                    modifier = Modifier.weight(1f),
+                    text = title,
+                    style = MaterialTheme.typography.caption
             )
             Text(
-                text = value?.first.toString(),
-                style = MaterialTheme.typography.subtitle2,
-                color = value?.second ?: MaterialTheme.colors.onSurface
+                    text = value?.first.toString(),
+                    style = MaterialTheme.typography.subtitle2,
+                    color = value?.second ?: MaterialTheme.colors.onSurface
             )
         }
     }
@@ -629,37 +617,37 @@ class WeaponDetailActivity : GodActivity() {
     @ExperimentalFoundationApi
     @Composable
     private fun PricingCard(
-        pricing: Pricing
+            pricing: Pricing
     ) {
         val context = LocalContext.current
         Card(
-            Modifier
-                .padding(vertical = 4.dp)
-                .fillMaxWidth()
-                .clickable {
-                    openFleaDetail(pricing.id)
-                },
-            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+                Modifier
+                        .padding(vertical = 4.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            openFleaDetail(pricing.id)
+                        },
+                backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
         ) {
             Column(
-                Modifier.padding(16.dp)
+                    Modifier.padding(16.dp)
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "PRICING",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Light,
-                        fontFamily = Bender,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                            text = "PRICING",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                            modifier = Modifier.padding(bottom = 8.dp)
                     )
                 }
                 Column {
                     pricing.buyFor?.forEach { item ->
                         DataRow(
-                            title = "${item.getTitle().toUpperCase(Locale.current)} ", value = Pair(
+                                title = "${item.getTitle().toUpperCase(Locale.current)} ", value = Pair(
                                 item.price?.asCurrency(if (item.source == "peacekeeper") "D" else "R"),
                                 MaterialTheme.colors.onSurface
-                            )
+                        )
                         )
                     }
                 }

@@ -2,21 +2,16 @@ package com.austinhodak.thehideout
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -36,12 +31,12 @@ import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
-import com.austinhodak.thehideout.settings.UserSettingsModel
-import com.austinhodak.thehideout.utils.keepScreenOn
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.MainDrawer
 import com.austinhodak.thehideout.weapons.WeaponListScreen
+import com.austinhodak.thehideout.weapons.builder.WeaponLoadoutScreen
+import com.austinhodak.thehideout.weapons.builder.viewmodel.WeaponLoadoutViewModel
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModsListScreen
 import com.firebase.ui.auth.AuthUI
@@ -51,7 +46,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @ExperimentalFoundationApi
@@ -69,6 +63,7 @@ class NavActivity : GodActivity() {
     private val hideoutViewModel: HideoutMainViewModel by viewModels()
     private val keysViewModel: KeysViewModel by viewModels()
     private val gearViewModel: GearViewModel by viewModels()
+    private val loadoutViewModel: WeaponLoadoutViewModel by viewModels()
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo
@@ -223,6 +218,13 @@ class NavActivity : GodActivity() {
                                 navViewModel,
                                 hideoutViewModel,
                                 tarkovRepo
+                            )
+                        }
+                        composable("weaponloadouts") {
+                            WeaponLoadoutScreen(
+                                    loadoutViewModel,
+                                    navViewModel,
+                                    tarkovRepo
                             )
                         }
                     }

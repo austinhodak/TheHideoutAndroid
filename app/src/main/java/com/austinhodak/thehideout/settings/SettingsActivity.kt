@@ -33,6 +33,8 @@ class SettingsActivity : GodActivity() {
 
     lateinit var screen: PreferenceScreen
 
+    var currentScreen = "Settings"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -71,6 +73,7 @@ class SettingsActivity : GodActivity() {
                                 onScreenChanged = { subScreenStack, stateRestored ->
                                     val breadcrumbs = subScreenStack.joinToString(" > ") { it.title.get(this@SettingsActivity) }
                                     toolbarTitle = if (breadcrumbs.isBlank()) "Settings" else breadcrumbs
+                                    currentScreen = if (breadcrumbs.isBlank()) "Settings" else breadcrumbs
                                 }
                                 state = savedInstanceState
                                 input(UserSettingsModel.playerLevel) {
@@ -163,7 +166,11 @@ class SettingsActivity : GodActivity() {
     }
 
     override fun onBackPressed() {
-        screen.onBackPressed()
+        if (currentScreen == "Settings") {
+            super.onBackPressed()
+        } else {
+            screen.onBackPressed()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {

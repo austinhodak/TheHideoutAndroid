@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun EmptyText(
@@ -16,6 +17,6 @@ fun EmptyText(
         Modifier.fillMaxSize()
     ) {
 
-        Text(text = text, modifier = Modifier.align(Alignment.Center), style = MaterialTheme.typography.caption)
+        Text(text = text, modifier = Modifier.align(Alignment.Center), style = MaterialTheme.typography.caption, textAlign = TextAlign.Center)
     }
 }
