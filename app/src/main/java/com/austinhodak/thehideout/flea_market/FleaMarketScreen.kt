@@ -53,6 +53,7 @@ import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
+import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalAnimationApi
@@ -162,6 +163,17 @@ fun FleaMarketNeededScreen(
     userData: User?,
     fleaViewModel: FleaViewModel
 ) {
+    val context = LocalContext.current
+    onlyOnce("fleaNeededItemsHelper") {
+        onDo {
+            MaterialDialog(context).show {
+                title(text = "Needed Items How To")
+                message(text = "Add items to this list by long pressing on Hideout Modules, Quests, or Quest Requirements.\n\nSingle Tap: Increments Item Count\nDouble Tap: Decrements Item Count\nLong Click: Opens item page.\n\nThis feature will be getting improved soon.")
+                positiveButton(text = "GOT IT")
+            }
+        }
+    }
+
     val sortBy = fleaViewModel.sortBy.observeAsState()
     val searchKey by fleaViewModel.searchKey.observeAsState("")
 

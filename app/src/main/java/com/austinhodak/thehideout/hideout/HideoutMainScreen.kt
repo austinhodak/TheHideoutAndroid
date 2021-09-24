@@ -30,6 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
@@ -234,20 +235,29 @@ private fun HideoutModuleCard(
     val view by hideoutViewModel.view.observeAsState()
     val modules = hideoutList.hideout?.modules
 
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .combinedClickable(
                 onClick = {},
                 onLongClick = {
-                    module.require
-                        ?.filter { it?.type == "item" }
-                        ?.forEach {
-                            val itemID = it?.name
-                            val quantity = it?.quantity ?: 0
-                            if (quantity > 500) return@forEach
-                            userRefTracker("items/$itemID/hideoutObjective/${it?.id?.addQuotes()}").setValue(quantity)
+                    MaterialDialog(context).show {
+                        title(text = "Add to Needed Items?")
+                        message(text = "This will add these items to the needed items list on the Flea Market screen.")
+                        positiveButton(text = "ADD") {
+                            module.require
+                                ?.filter { it?.type == "item" }
+                                ?.forEach {
+                                    val itemID = it?.name
+                                    val quantity = it?.quantity ?: 0
+                                    if (quantity > 500) return@forEach
+                                    userRefTracker("items/$itemID/hideoutObjective/${it?.id?.addQuotes()}").setValue(quantity)
+                                }
                         }
+                        negativeButton(text = "CANCEL")
+                    }
                 }
             ),
         backgroundColor = Color(0xFE1F1F1F)
@@ -406,7 +416,20 @@ private fun HideoutRequirementItem(
                 context.openActivity(FleaItemDetail::class.java) {
                     putString("id", item?.id)
                 }
-            },
+            }
+            .combinedClickable(onClick = {
+
+            }, onLongClick = {
+                /*if (requirement.quantity ?: 0 > 500) return@combinedClickable
+                MaterialDialog(context).show {
+                    title(text = "Add to Needed Items?")
+                    message(text = "This will add these items to the needed items list on the Flea Market screen.")
+                    positiveButton(text = "ADD") {
+                        userRefTracker("items/${item?.id}/hideoutObjective/${it?.id?.addQuotes()}").setValue(quantity)
+                    }
+                    negativeButton(text = "CANCEL")
+                }*/
+            }),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(

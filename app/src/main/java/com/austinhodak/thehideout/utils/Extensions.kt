@@ -1,10 +1,12 @@
 package com.austinhodak.thehideout.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.view.WindowManager
 import androidx.annotation.DrawableRes
 import androidx.browser.customtabs.CustomTabsIntent
@@ -13,10 +15,15 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
 import coil.annotation.ExperimentalCoilApi
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.getInputField
+import com.afollestad.materialdialogs.input.input
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
+import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.type.ItemSourceName
+import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
@@ -32,11 +39,13 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
+import java.lang.Exception
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.round
@@ -472,4 +481,86 @@ fun Double.round(decimals: Int): Double {
     var multiplier = 1.0
     repeat(decimals) { multiplier *= 10 }
     return round(this * multiplier) / multiplier
+}
+
+fun Quest.completed() {
+    val quest = this
+    log("quest_completed", quest.id, quest.title.toString(), "quest")
+    userRefTracker("quests/${quest.id.addQuotes()}").setValue(
+        mapOf(
+            "id" to quest.id.toInt(),
+            "completed" to true
+        )
+    )
+
+    //Mark quest objectives completed
+    for (obj in quest.objective!!) {
+        obj.completed()
+    }
+}
+
+fun Quest.skipTo() {
+
+}
+
+fun Quest.QuestObjective.completed() {
+    val objective = this
+    log("objective_complete", objective.toString(), objective.toString(), "quest_objective")
+    userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").setValue(
+        mapOf(
+            "id" to objective.id?.toInt(),
+            "progress" to objective.number
+        )
+    )
+}
+
+fun Quest.QuestObjective.undo() {
+    val objective = this
+    log("objective_un_complete", objective.toString(), objective.toString(), "quest_objective")
+    userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").removeValue()
+}
+
+fun Quest.undo(objectives: Boolean = false) {
+    val quest = this
+    log("quest_undo", quest.id, quest.title.toString(), "quest")
+
+    if (objectives)
+        for (obj in quest.objective!!) {
+            obj.undo()
+        }
+
+    userRefTracker("quests/${quest.id.addQuotes()}").setValue(
+        mapOf(
+            "id" to quest.id.toInt(),
+            "completed" to false
+        )
+    )
+}
+
+@SuppressLint("CheckResult")
+fun Pricing.addToCartDialog(context: Context) {
+    val pricing = this
+    MaterialDialog(context).show {
+        var total: Long = pricing.getPrice().toLong()
+        title(text = "Add to Cart")
+        message(text = "Total: ${total.toInt().asCurrency()}")
+        input(inputType = InputType.TYPE_CLASS_NUMBER, maxLength = 6, prefill = "1", hint = "Quantity", waitForPositiveButton = false) { dialog, text ->
+            val quantity = text.toString().toLongOrNull()
+            total = pricing.getPrice().times(quantity ?: 1) ?: 0
+            dialog.message(text = "Total: ${total.toInt().asCurrency()}")
+        }
+        positiveButton(text = "ADD TO CART") {
+            val text = it.getInputField().text
+            try {
+                val quantity = text.toString().toLong()
+                pricing.addToCart(quantity)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+}
+
+fun Pricing.addToCart(quantity: Long? = 1) {
+    userRefTracker("cart/${this.id}").setValue(ServerValue.increment(quantity ?: 1))
 }

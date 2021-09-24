@@ -32,6 +32,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
+import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
 import com.austinhodak.tarkovapi.room.enums.Traders
@@ -44,10 +45,7 @@ import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
-import com.austinhodak.thehideout.utils.getIcon
-import com.austinhodak.thehideout.utils.isAvailable
-import com.austinhodak.thehideout.utils.isLocked
-import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -325,13 +323,32 @@ private fun QuestCard(
     Card(
         modifier = Modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
-            .fillMaxWidth(),
-        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-        onClick = {
-            context.openActivity(QuestDetailActivity::class.java) {
-                putString("questID", quest.id)
-            }
-        }
+            .fillMaxWidth()
+            .combinedClickable(onClick = {
+                context.openActivity(QuestDetailActivity::class.java) {
+                    putString("questID", quest.id)
+                }
+            }, onLongClick = {
+                MaterialDialog(context).show {
+                    title(text = "Add to Needed Items?")
+                    message(text = "This will add these items to the needed items list on the Flea Market screen.")
+                    positiveButton(text = "ADD") {
+                        for (requirement in quest.objective!!) {
+                            when (requirement.type) {
+                                "collect", "find", "key", "build" -> {
+                                    val itemID = requirement.target?.first()
+                                    itemID?.let {
+                                        userRefTracker("items/${it}/questObjective/${requirement.id?.addQuotes()}").setValue(requirement.number)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    negativeButton(text = "CANCEL")
+                }
+
+            }),
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
     ) {
         Column {
             Row(
@@ -380,7 +397,7 @@ private fun QuestCard(
                         }
                         quest.isAvailable(userData) -> {
                             OutlinedButton(
-                                onClick = { questViewModel.markQuestCompleted(quest) },
+                                onClick = { quest.completed() },
                                 colors = ButtonDefaults.outlinedButtonColors(
                                     backgroundColor = Color.Transparent,
                                     contentColor = Red400
@@ -392,7 +409,7 @@ private fun QuestCard(
                         }
                         else -> {
                             OutlinedButton(
-                                onClick = { questViewModel.undoQuest(quest, true) },
+                                onClick = { quest.undo(true) },
                                 colors = ButtonDefaults.outlinedButtonColors(
                                     backgroundColor = Color.Transparent,
                                     contentColor = Color.Gray

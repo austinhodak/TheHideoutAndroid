@@ -254,56 +254,10 @@ class QuestMainViewModel @Inject constructor(
 
     fun toggleObjective(quest: Quest, objective: Quest.QuestObjective) {
         if (userData.value?.isObjectiveCompleted(objective) == true) {
-            unMarkObjectiveComplete(objective)
-            undoQuest(quest)
+            objective.undo()
+            quest.undo()
         } else {
-            markObjectiveComplete(objective)
+            objective.completed()
         }
-    }
-
-    private fun markObjectiveComplete(objective: Quest.QuestObjective) {
-        log("objective_complete", objective.toString(), objective.toString(), "quest_objective")
-        userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").setValue(
-            mapOf(
-                "id" to objective.id?.toInt(),
-                "progress" to objective.number
-            )
-        )
-    }
-
-    private fun unMarkObjectiveComplete(objective: Quest.QuestObjective) {
-        log("objective_un_complete", objective.toString(), objective.toString(), "quest_objective")
-        userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").removeValue()
-    }
-
-    fun markQuestCompleted(quest: Quest) {
-        log("quest_completed", quest.id, quest.title.toString(), "quest")
-        userRefTracker("quests/${quest.id.addQuotes()}").setValue(
-            mapOf(
-                "id" to quest.id.toInt(),
-                "completed" to true
-            )
-        )
-
-        //Mark quest objectives completed
-        for (obj in quest.objective!!) {
-            markObjectiveComplete(obj)
-        }
-    }
-
-    fun undoQuest(quest: Quest, unmarkObjectives: Boolean = false) {
-        log("quest_undo", quest.id, quest.title.toString(), "quest")
-
-        if (unmarkObjectives)
-            for (obj in quest.objective!!) {
-                unMarkObjectiveComplete(obj)
-            }
-
-        userRefTracker("quests/${quest.id.addQuotes()}").setValue(
-            mapOf(
-                "id" to quest.id.toInt(),
-                "completed" to false
-            )
-        )
     }
 }

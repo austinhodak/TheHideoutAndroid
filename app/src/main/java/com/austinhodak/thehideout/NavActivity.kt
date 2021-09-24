@@ -26,11 +26,13 @@ import com.austinhodak.thehideout.hideout.HideoutMainScreen
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.keys.KeyListScreen
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
+import com.austinhodak.thehideout.login.LoginActivity
 import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
+import com.austinhodak.thehideout.settings.SettingsActivity
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.views.MainDrawer
@@ -261,7 +263,8 @@ class NavActivity : GodActivity() {
                                 route.split(":")[1].openWithCustomTab(this@NavActivity)
                             }
                             identifier == 999 -> {
-                                val providers = arrayListOf(
+                                openActivity(LoginActivity::class.java)
+                                /*val providers = arrayListOf(
                                     AuthUI.IdpConfig.EmailBuilder().build(),
                                     AuthUI.IdpConfig.PhoneBuilder().build(),
                                     AuthUI.IdpConfig.GoogleBuilder().build(),
@@ -273,10 +276,11 @@ class NavActivity : GodActivity() {
                                 val signInIntent = AuthUI.getInstance()
                                     .createSignInIntentBuilder()
                                     .setAvailableProviders(providers)
-                                    //.enableAnonymousUsersAutoUpgrade()
+                                    .enableAnonymousUsersAutoUpgrade()
                                     .setTheme(R.style.LoginTheme)
+                                    .setLogo(R.drawable.hideout_shadow_1)
                                     .build()
-                                signInLauncher.launch(signInIntent)
+                                signInLauncher.launch(signInIntent)*/
                             }
                             else -> {
                                 navController.navigate(route) {

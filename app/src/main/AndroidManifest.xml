@@ -66,6 +66,11 @@
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity android:name=".weapons.mods.ModPickerActivity" />
 
+        <activity
+            android:name=".login.LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

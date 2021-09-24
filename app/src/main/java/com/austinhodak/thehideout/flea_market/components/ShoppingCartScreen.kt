@@ -78,7 +78,13 @@ fun ShoppingCartScreen(data: List<Item>?, userData: User?, fleaViewModel: FleaVi
                         Text(text = total?.asCurrency() ?: "Nothing in cart.", color = Color.Black)
                     },
                     onClick = {
-
+                        MaterialDialog(context).show {
+                            title(text = "Clear Cart?")
+                            positiveButton(text = "CLEAR") {
+                                userRefTracker("cart").removeValue()
+                            }
+                            negativeButton(text = "CANCEL")
+                        }
                     },
                     modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())
                 )
@@ -172,7 +178,7 @@ private fun ShoppingFleaItem(
                     .fillMaxHeight()
             )
             Column {
-                Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 16.dp)) {
                     Image(
                         rememberImagePainter(item.pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
                         contentDescription = null,

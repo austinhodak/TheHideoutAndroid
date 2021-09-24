@@ -58,10 +58,4 @@ class FleaViewModel @Inject constructor(
             })
         }
     }
-
-    fun addToCard(item: Item?, quantity: Long? = null) {
-        item?.let {
-            userRefTracker("cart/${item.id}").setValue(ServerValue.increment(quantity ?: 1))
-        }
-    }
 }

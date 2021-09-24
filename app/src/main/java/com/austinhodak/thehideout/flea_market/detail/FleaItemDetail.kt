@@ -42,6 +42,7 @@ import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
@@ -61,6 +62,7 @@ import com.google.firebase.database.ServerValue
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 import java.lang.Exception
 import java.text.DecimalFormat
 import javax.inject.Inject
@@ -148,25 +150,7 @@ class FleaItemDetail : GodActivity() {
                         floatingActionButton = {
                             //if (isDebug())
                                 FloatingActionButton(onClick = {
-                                    MaterialDialog(this).show {
-                                        var total: Long = item.value?.pricing?.getPrice()?.toLong() ?: 0
-                                        title(text = "Add to Cart")
-                                        message(text = "Total: ${total.toInt().asCurrency()}")
-                                        input(inputType = InputType.TYPE_CLASS_NUMBER, maxLength = 6, prefill = "1", hint = "Quantity", waitForPositiveButton = false) { dialog, text ->
-                                            val quantity = text.toString().toLongOrNull()
-                                            total = item.value?.pricing?.getPrice()?.times(quantity ?: 1) ?: 0
-                                            dialog.message(text = "Total: ${total.toInt().asCurrency()}")
-                                        }
-                                        positiveButton(text = "ADD TO CART") {
-                                            val text = it.getInputField().text
-                                            try {
-                                                val quantity = text.toString().toLong()
-                                                viewModel.addToCard(item.value, quantity)
-                                            } catch (e: Exception) {
-                                                e.printStackTrace()
-                                            }
-                                        }
-                                    }
+                                    item.value?.pricing?.addToCartDialog(this)
                                 }) {
                                     Icon(
                                         painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
@@ -181,7 +165,7 @@ class FleaItemDetail : GodActivity() {
                                 when (it) {
                                     0 -> {
                                         LazyColumn(
-                                            contentPadding = PaddingValues(vertical = 4.dp),
+                                            contentPadding = PaddingValues(top = 4.dp, bottom = 60.dp),
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
                                             item {
@@ -198,6 +182,10 @@ class FleaItemDetail : GodActivity() {
                                                 )
                                                 if (userData?.items?.containsKey(itemID) == true) {
                                                     val needed = userData?.items?.get(itemID)
+                                                    if (needed?.hideoutObjective == null && needed?.questObjective == null && needed?.user == null) {
+                                                        userRefTracker("items/$itemID").removeValue()
+                                                    }
+
                                                     NeededCard(title = "NEEDED", item = item.value, needed, tarkovRepo)
                                                 }
                                                 //FleaFeeCalc(item.value)
@@ -899,7 +887,7 @@ class FleaItemDetail : GodActivity() {
                             //fontSize = 16.sp
                         )*/
                             Text(
-                                text = "Last Price: ${item?.getPrice()?.asCurrency()}",
+                                text = "Last Price: ${item?.pricing?.lastLowPrice?.asCurrency()}",
                                 style = MaterialTheme.typography.subtitle1,
                                 fontSize = 16.sp
                             )

@@ -20,7 +20,7 @@ buildscript {
                 slidingpaneLayout : "1.1.0",
                 swiperefreshLayout: "1.1.0",
                 materialDrawer    : '8.4.3',
-                firebaseBOM       : "28.3.0",
+                firebaseBOM       : "28.4.1",
                 ktx               : '1.6.0',
                 mDialogs          : "3.3.0",
                 epoxy             : "4.1.0",

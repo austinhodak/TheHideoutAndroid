@@ -54,7 +54,8 @@ data class Body(
         ).roundToInt()
     }
 
-    fun shoot(part: Part, ammo: CAmmo, cArmor: CArmor? = CArmor()): Body {
+    fun shoot(part: Part, ammo: CAmmo?, cArmor: CArmor? = CArmor()): Body {
+        if (ammo == null) return this
         if (getTotalHealth() <= 0) return this
 
         var armor = cArmor ?: CArmor()
