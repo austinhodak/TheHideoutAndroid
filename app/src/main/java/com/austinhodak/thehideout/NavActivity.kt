@@ -43,9 +43,13 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.skydoves.only.only
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @ExperimentalFoundationApi
@@ -81,6 +85,8 @@ class NavActivity : GodActivity() {
             val caliber = res.data?.getStringExtra("caliber")
             if (caliber != null) {
                 navViewModel.drawerItemSelected(Pair((101).toLong(), caliber))
+                navViewModel.clearSearch()
+                navViewModel.setSearchOpen(false)
             }
         }
     }
@@ -96,6 +102,21 @@ class NavActivity : GodActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val manager = ReviewManagerFactory.create(this)
+
+        only("reviewPopup", times = 5) {
+            onDone {
+                val request = manager.requestReviewFlow()
+                request.addOnSuccessListener { reviewInfo ->
+                    Timber.d("LAUNCHING REVIEW")
+                    manager.launchReviewFlow(this@NavActivity, reviewInfo)
+                }
+            }
+        }
+
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+
 
         val data = intent.extras
         data?.let {

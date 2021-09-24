@@ -17,7 +17,13 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
         <item name="colorBackgroundFloating">@color/md_grey_900</item>
+
         <item name="md_color_button_text">?attr/colorSecondary</item>
+        <item name="md_corner_radius">8dp</item>
+        <item name="md_font_title">@font/bender_bold</item>
+        <item name="md_font_body">@font/bender</item>
+        <item name="md_font_button">@font/bender_bold</item>
+
     </style>
 
 </resources>

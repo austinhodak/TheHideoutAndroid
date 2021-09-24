@@ -85,7 +85,6 @@ class WeaponDetailActivity : GodActivity() {
         val weaponID = intent.getStringExtra("weaponID") ?: "5bb2475ed4351e00853264e3"
         weaponViewModel.getWeapon(weaponID)
 
-
         setContent {
             HideoutTheme {
                 ProvideWindowInsets {

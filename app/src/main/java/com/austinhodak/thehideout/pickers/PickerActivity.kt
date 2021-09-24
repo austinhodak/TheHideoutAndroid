@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -26,6 +27,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.ammunition.AmmoCard
 import com.austinhodak.thehideout.calculator.CalculatorHelper
@@ -35,8 +37,12 @@ import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.gear.GearCard
 import com.austinhodak.thehideout.pickers.viewmodels.PickerViewModel
+import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.weapons.WeaponCard
+import com.austinhodak.thehideout.weapons.builder.WeaponBuilderActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import java.io.Serializable
 import javax.inject.Inject
 
@@ -51,6 +57,7 @@ class PickerActivity : GodActivity() {
     @Inject
     lateinit var tarkovRepo: TarkovRepo
 
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -104,6 +111,13 @@ class PickerActivity : GodActivity() {
                                     item.cArmorClass() > 0
                                 }
                             }
+                            "weapons" -> {
+                                tarkovRepo.getAllWeapons().collect {
+                                    list = it.filter {
+                                        it.pricing != null
+                                    }
+                                }
+                            }
                             else -> {
                                 finish()
                             }
@@ -150,6 +164,10 @@ class PickerActivity : GodActivity() {
                                             || it.armorClass?.contains(searchKey, true) == true
                                 }
                                 is Character -> it.name.contains(searchKey, true)
+                                is Weapon -> {
+                                    it.ShortName?.contains(searchKey, true) == true
+                                            || it.Name?.contains(searchKey, true) == true
+                                }
                                 else -> false
                             }
                         }?.sortedBy {
@@ -157,6 +175,7 @@ class PickerActivity : GodActivity() {
                                 is Ammo -> it.shortName
                                 is Item -> it.ShortName
                                 is Character -> null
+                                is Weapon -> it.ShortName
                                 else -> null
                             }
                         }?.forEach {
@@ -174,6 +193,11 @@ class PickerActivity : GodActivity() {
                                     }
                                     is Character -> {
                                         CharacterCard(character = it) {
+                                            selectedItem(it)
+                                        }
+                                    }
+                                    is Weapon -> {
+                                        WeaponCard(weapon = it) { id ->
                                             selectedItem(it)
                                         }
                                     }
@@ -218,11 +242,19 @@ class PickerActivity : GodActivity() {
         }
     }
 
+    @ExperimentalAnimationApi
     private fun selectedItem(item: Serializable) {
-        setResult(RESULT_OK, Intent().apply {
-            putExtra("item", item)
-        }).also {
+        if (item is Weapon && intent.action == "loadoutBuild") {
+            this.openActivity(WeaponBuilderActivity::class.java) {
+                putSerializable("weapon", item)
+            }
             finish()
+        } else {
+            setResult(RESULT_OK, Intent().apply {
+                putExtra("item", item)
+            }).also {
+                finish()
+            }
         }
     }
 }

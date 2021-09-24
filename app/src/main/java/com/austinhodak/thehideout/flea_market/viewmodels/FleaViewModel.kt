@@ -9,8 +9,10 @@ import com.austinhodak.thehideout.SearchViewModel
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.utils.questsFirebase
 import com.austinhodak.thehideout.utils.uid
+import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,4 +59,9 @@ class FleaViewModel @Inject constructor(
         }
     }
 
+    fun addToCard(item: Item?, quantity: Long? = null) {
+        item?.let {
+            userRefTracker("cart/${item.id}").setValue(ServerValue.increment(quantity ?: 1))
+        }
+    }
 }

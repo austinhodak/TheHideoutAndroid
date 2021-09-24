@@ -41,12 +41,12 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.MapInteractive
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.map.viewmodels.MapViewModel
-import com.austinhodak.thehideout.settings.UserSettingsModel
 import com.austinhodak.thehideout.utils.Map
 import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.rememberMapViewWithLifecycle

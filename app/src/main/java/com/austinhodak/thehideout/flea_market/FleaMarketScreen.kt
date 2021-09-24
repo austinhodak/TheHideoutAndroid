@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.flea_market
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -21,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -45,6 +45,7 @@ import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.flea_market.components.ShoppingCartScreen
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.questPrefs
@@ -54,6 +55,7 @@ import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalAnimationApi
 @ExperimentalCoilApi
 @SuppressLint("CheckResult")
 @ExperimentalCoroutinesApi
@@ -132,7 +134,6 @@ fun FleaMarketScreen(
 
         }
     ) { paddingValues ->
-
         NavHost(navController = navController, startDestination = FleaMarketScreens.Items.route) {
             composable(FleaMarketScreens.Items.route) {
                 FleaMarketListScreen(data, fleaViewModel, paddingValues)
@@ -142,6 +143,9 @@ fun FleaMarketScreen(
             }
             composable(FleaMarketScreens.Needed.route) {
                 FleaMarketNeededScreen(data, userData, fleaViewModel)
+            }
+            composable(FleaMarketScreens.ShoppingCart.route) {
+                ShoppingCartScreen(data, userData, fleaViewModel, paddingValues)
             }
         }
     }
@@ -384,7 +388,8 @@ fun FleaBottomNav(
         listOf(
             FleaMarketScreens.Items,
             FleaMarketScreens.Needed,
-            FleaMarketScreens.Favorites
+            FleaMarketScreens.Favorites,
+            FleaMarketScreens.ShoppingCart
         )
     }
 

@@ -22,6 +22,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -72,4 +78,10 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
+    api "com.github.MFlisar.MaterialPreferences:core:$prefs"
+    api "com.github.MFlisar.MaterialPreferences:datastore:$prefs"
+    api "com.github.MFlisar.MaterialPreferences:screen:$prefs"
+    api "com.github.MFlisar.MaterialPreferences:screen-input:$prefs"
+    api "com.github.MFlisar.MaterialPreferences:screen-choice:$prefs"
+    api "com.github.MFlisar.MaterialPreferences:screen-color:$prefs"
 }

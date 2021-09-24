@@ -45,12 +45,12 @@ abstract class AppDatabase : RoomDatabase() {
         private val database: Provider<AppDatabase>,
         private val apolloClient: ApolloClient
     ) : RoomDatabase.Callback() {
-        val preferences = context.getSharedPreferences("tarkov", MODE_PRIVATE)
+        private val preferences = context.getSharedPreferences("tarkov", MODE_PRIVATE)
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             loadItemsFile()
-            setupTraders()
+            //setupTraders()
         }
 
         private fun setupTraders() {

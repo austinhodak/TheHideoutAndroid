@@ -188,7 +188,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
 
     private val drawerSettings = SecondaryDrawerItem().apply {
         tag = "settings"
-        nameText = "Settings"; iconRes = R.drawable.ic_baseline_settings_24; isIconTinted = true; isSelectable = false; isEnabled = isDebug()
+        nameText = "Settings"; iconRes = R.drawable.ic_baseline_settings_24; isIconTinted = true; isSelectable = false; isEnabled = true
     }
 
     init {

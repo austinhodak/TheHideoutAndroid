@@ -47,4 +47,6 @@ class TarkovRepo @Inject constructor(
     suspend fun getAllQuestsOnce(): List<Quest> = questDao.getAlLQuestsOnce()
     fun getQuestByID(id: String): Flow<Quest> = questDao.getQuestByID(id)
 
+    fun getAllWeapons(): Flow<List<Weapon>> = weaponDao.getAllWeapons()
+
 }

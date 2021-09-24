@@ -14,6 +14,7 @@ data class User(
     var hideoutObjectives: Map<String, UHideoutObjective?>? = null,
     var keysHave: Map<String, Boolean>? = null,
     var items: Map<String, UNeededItem>? = null,
+    var cart: Map<String, Int>? = null,
     var ttApiKey: String? = null
 ) {
     data class UNeededItem (

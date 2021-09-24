@@ -218,6 +218,13 @@ fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     startActivity(intent)
 }
 
+fun <T> Context.openWeaponPicker(it: Class<T>, extras: Bundle.() -> Unit = {}) {
+    val intent = Intent(this, it)
+    intent.putExtras(Bundle().apply(extras))
+    intent.action = "loadoutBuild"
+    startActivity(intent)
+}
+
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi

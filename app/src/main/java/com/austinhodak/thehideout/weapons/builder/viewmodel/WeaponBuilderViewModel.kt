@@ -3,6 +3,7 @@ package com.austinhodak.thehideout.weapons.builder.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.repository.ModsRepo
@@ -11,7 +12,9 @@ import com.austinhodak.tarkovapi.room.models.Mod
 import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.thehideout.WeaponBuild
 import com.austinhodak.thehideout.firebase.WeaponBuildFirestore
+import com.austinhodak.thehideout.utils.uid
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -21,15 +24,32 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeaponBuilderViewModel @Inject constructor(
-        private val tarkovRepo: TarkovRepo,
-        private val modsRepo: ModsRepo
+    private val tarkovRepo: TarkovRepo,
+    private val modsRepo: ModsRepo
 ) : ViewModel() {
 
+    private val _userLoadouts = MutableLiveData<List<WeaponBuildFirestore>?>(null)
+    val userLoadouts = _userLoadouts
+
+    init {
+        Firebase.firestore.collection("loadouts").whereEqualTo("uid", uid()).addSnapshotListener { value, error ->
+            val loadouts = ArrayList<WeaponBuildFirestore>()
+            for (doc in value!!) {
+                val loadout = doc.toObject<WeaponBuildFirestore>()
+                loadout.id = doc.id
+                loadouts.add(loadout)
+            }
+            _userLoadouts.value = loadouts
+        }
+    }
+
     var buildState by mutableStateOf<WeaponBuild?>(WeaponBuild())
+    //var buildStateLive = MutableLiveData<WeaponBuild?>(WeaponBuild())
 
     var savedBuild: WeaponBuildFirestore? = null
 
     fun loadBuild(build: WeaponBuildFirestore) {
+        //Timber.d(build.toString())
         //if (savedBuild != null) return
         savedBuild = build
         val b = buildState?.copy() ?: WeaponBuild()
@@ -41,14 +61,20 @@ class WeaponBuilderViewModel @Inject constructor(
                 setAmmo(it)
             }
             build.mods?.forEach { (slotID, modID) ->
-                updateMod(modID, slotID, null)
+                if (buildState?.mods?.containsKey(slotID) == false) {
+                    updateMod(modID, slotID, null)
+                }
             }
-            Timber.d(build.mods.toString())
         }
 
         buildState = b
+        //buildStateLive.value = b
+
         buildState!!.name = build.name
         buildState!!.uid = build.uid
+
+        //buildStateLive.value!!.name =  build.name
+        //buildStateLive.value!!.uid = build.uid
     }
 
     fun setAmmo(ammoID: String) {
@@ -57,6 +83,7 @@ class WeaponBuilderViewModel @Inject constructor(
             tarkovRepo.getAmmoByID(ammoID).first {
                 b.ammo = it
                 buildState = b
+                //buildStateLive.value = b
                 true
             }
         }
@@ -69,15 +96,17 @@ class WeaponBuilderViewModel @Inject constructor(
             tarkovRepo.getWeaponByID(weaponID).first {
                 b.parentWeapon = it
                 it.Slots?.forEach {
-                    val s = Pair (it, null)
+                    val s = Pair(it, null)
                     //b.slots = b.slots?.plus(s)
                 }
                 buildState = b
+                //buildStateLive.value = b
 
                 it.defAmmo?.let {
                     tarkovRepo.getAmmoByID(it).first {
                         b.ammo = it
                         buildState = b
+                        //buildStateLive.value = b
                         true
                     }
                 }
@@ -93,11 +122,13 @@ class WeaponBuilderViewModel @Inject constructor(
         viewModelScope.launch {
             b.parentWeapon = weapon
             buildState = b
+            //buildStateLive.value = b
 
             weapon.defAmmo?.let {
                 tarkovRepo.getAmmoByID(it).first {
                     b.ammo = it
                     buildState = b
+                    //buildStateLive.value = b
                     true
                 }
             }
@@ -109,6 +140,7 @@ class WeaponBuilderViewModel @Inject constructor(
 
         buildState = WeaponBuild()
         b?.parentWeapon?.id?.let { setParentWeapon(it) }
+        //buildStateLive.value = b
     }
 
     fun removeMod(mod: Mod?, slotID: String?, parentID: String?, slot: Weapon.Slot) {
@@ -119,6 +151,7 @@ class WeaponBuilderViewModel @Inject constructor(
                 b.mods = b.mods!! - it
             }
             buildState = b
+            //buildStateLive.value = b
             it.forEach { slot ->
                 Timber.d(slot._id)
                 removeMod(null, slot._id, null, slot)
@@ -133,6 +166,7 @@ class WeaponBuilderViewModel @Inject constructor(
         }
         Timber.d(mMod.toString())
         buildState = b
+        //buildStateLive.value = b
     }
 
     fun updateMod(modID: String?, slotID: String?, parentID: String?) {
@@ -172,28 +206,30 @@ class WeaponBuilderViewModel @Inject constructor(
         }*/
 
         b.mods = b.mods!! + mapOf(
-                Pair(
-                        slotID,
-                        WeaponBuild.BuildMod(
-                                //parent = parentID,
-                                mod = mod
-                        )
+            Pair(
+                slotID,
+                WeaponBuild.BuildMod(
+                    //parent = parentID,
+                    mod = mod
                 )
+            )
         )
         buildState = b
+        //buildStateLive.value = b
     }
 
     fun saveBuild(done: (Boolean) -> Unit) {
         if (savedBuild == null) {
-            buildState?.toFirestore()?.let { Firebase.firestore.collection("loadouts").add(it) }
+            buildState?.toFirestore()?.let {
+                Firebase.firestore.collection("loadouts").add(it).addOnSuccessListener {
+                    done(true)
+                }
+            }
         } else if (savedBuild != null) {
             buildState?.toFirestore()?.let {
                 savedBuild!!.id?.let { id ->
                     buildState?.toFirestore()?.let { save ->
-                        Firebase.firestore.collection("loadouts").document(id).set(save
-                        ).addOnFailureListener {
-                            done(false)
-                        }.addOnSuccessListener {
+                        Firebase.firestore.collection("loadouts").document(id).set(save).addOnSuccessListener {
                             done(true)
                         }
                     }

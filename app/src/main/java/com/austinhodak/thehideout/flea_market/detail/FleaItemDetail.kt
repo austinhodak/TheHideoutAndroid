@@ -1,6 +1,8 @@
 package com.austinhodak.thehideout.flea_market.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputType
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -35,6 +37,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
+import com.afollestad.materialdialogs.input.getInputField
+import com.afollestad.materialdialogs.input.input
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemSourceName
@@ -55,6 +61,7 @@ import com.google.firebase.database.ServerValue
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.lang.Exception
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -71,6 +78,7 @@ class FleaItemDetail : GodActivity() {
     lateinit var tarkovRepo: TarkovRepo
     private lateinit var itemID: String
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -138,14 +146,34 @@ class FleaItemDetail : GodActivity() {
                         },
                         bottomBar = { FleaBottomNav(selected = selectedNavItem, items) { selectedNavItem = it } },
                         floatingActionButton = {
-                            if (isDebug())
-                            FloatingActionButton(onClick = { }) {
-                                Icon(
-                                    painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                                    contentDescription = "Add to Shopping Cart",
-                                    tint = MaterialTheme.colors.onSecondary
-                                )
-                            }
+                            //if (isDebug())
+                                FloatingActionButton(onClick = {
+                                    MaterialDialog(this).show {
+                                        var total: Long = item.value?.pricing?.getPrice()?.toLong() ?: 0
+                                        title(text = "Add to Cart")
+                                        message(text = "Total: ${total.toInt().asCurrency()}")
+                                        input(inputType = InputType.TYPE_CLASS_NUMBER, maxLength = 6, prefill = "1", hint = "Quantity", waitForPositiveButton = false) { dialog, text ->
+                                            val quantity = text.toString().toLongOrNull()
+                                            total = item.value?.pricing?.getPrice()?.times(quantity ?: 1) ?: 0
+                                            dialog.message(text = "Total: ${total.toInt().asCurrency()}")
+                                        }
+                                        positiveButton(text = "ADD TO CART") {
+                                            val text = it.getInputField().text
+                                            try {
+                                                val quantity = text.toString().toLong()
+                                                viewModel.addToCard(item.value, quantity)
+                                            } catch (e: Exception) {
+                                                e.printStackTrace()
+                                            }
+                                        }
+                                    }
+                                }) {
+                                    Icon(
+                                        painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                                        contentDescription = "Add to Shopping Cart",
+                                        tint = MaterialTheme.colors.onSecondary
+                                    )
+                                }
                         }
                     ) { innerPadding ->
                         Box(modifier = Modifier.padding(innerPadding)) {
@@ -420,7 +448,7 @@ class FleaItemDetail : GodActivity() {
                         modifier = Modifier.padding(top = 8.dp)
                     )
                     Text(
-                        text = quest.getMaps(mapsList),
+                        text = "${quest.getObjective(item?.id)?.number ?: "Key"} Needed",
                         style = MaterialTheme.typography.body2,
                         modifier = Modifier.padding(top = 0.dp)
                     )
@@ -804,6 +832,7 @@ class FleaItemDetail : GodActivity() {
         )
     }
 
+    @SuppressLint("CheckResult")
     @Composable
     private fun Card1(
         item: Item?
@@ -935,22 +964,33 @@ class FleaItemDetail : GodActivity() {
             backgroundColor = Color(0xFE1F1F1F)
         ) {
             Column {
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        text = title,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Light,
-                        fontFamily = Bender,
-                        modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
-                    )
+                Row(
+                    modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = title,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
+                    IconButton(onClick = {
+                        showFeeDialog(item)
+                    }, modifier = Modifier.size(20.dp)) {
+                        Icon(painter = painterResource(id = R.drawable.ic_baseline_calculate_24), contentDescription = "FEES")
+                    }
                 }
+
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
                 ) {
                     itemsIndexed(prices?.filter { it.price != 0 }?.sortedByDescending { it.price }
                         ?: emptyList()) { index, item ->
-                        TraderPriceListGridItem(item, index == 0)
+                        TraderPriceListGridItem(item, index == 0, false)
                     }
                 }
                 /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
@@ -988,7 +1028,7 @@ class FleaItemDetail : GodActivity() {
                 ) {
                     itemsIndexed(prices?.filter { it.price != 0 }?.sortedBy { it.price }
                         ?: emptyList()) { index, item ->
-                        TraderPriceListGridItem(item, index == 0)
+                        TraderPriceListGridItem(item, index == 0, true)
                     }
                 }
                 /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
@@ -1001,8 +1041,14 @@ class FleaItemDetail : GodActivity() {
     @Composable
     private fun TraderPriceListGridItem(
         item: Pricing.BuySellPrice,
-        isHighest: Boolean = false
+        isHighest: Boolean = false,
+        isBuy: Boolean
     ) {
+        val isUnlocked = if (isBuy) {
+            item.isRequirementMet()
+        } else {
+            true
+        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -1014,8 +1060,7 @@ class FleaItemDetail : GodActivity() {
                     request = item.traderImage()
                 ),
                 contentDescription = "Prapor",
-
-                )
+            )
             Text(
                 text = if (item.source == ItemSourceName.peacekeeper.rawValue) {
                     item.price?.asCurrency("D") ?: ""
@@ -1024,8 +1069,37 @@ class FleaItemDetail : GodActivity() {
                 },
                 style = MaterialTheme.typography.body1,
                 fontSize = 12.sp,
-                fontWeight = if (isHighest) FontWeight.Bold else FontWeight.Normal
+                fontWeight = if (isHighest) FontWeight.Bold else FontWeight.Normal,
+                color = if (!isUnlocked) Red400 else Color.Unspecified
             )
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun showFeeDialog(item: Item?) {
+        var intel3 = viewModel.userData.value?.isHideoutModuleComplete(17) ?: false
+        MaterialDialog(this@FleaItemDetail).show {
+            title(text = "Fee Calculator")
+            message(text = "Listing Fee: ${item?.pricing?.calculateTax(intel = intel3)?.asCurrency()}\nProfit: ${(item?.pricing?.lastLowPrice?.minus(item.pricing?.calculateTax(intel = intel3) ?: 0)?.asCurrency())}")
+            checkBoxPrompt(text = "Intel Center 3", isCheckedDefault = intel3) {
+                intel3 = it
+                try {
+                    val price = this.getInputField().text.toString().toLong()
+                    val tax = item?.pricing?.calculateTax(price, it) ?: 0
+                    this.message(text = "Listing Fee: ${tax.asCurrency()}\nProfit: ${(price-tax).toInt().asCurrency()}")
+                } catch (e: Exception) {
+
+                }
+            }
+            input (prefill = item?.pricing?.lastLowPrice.toString(), hint = "List Price", inputType = InputType.TYPE_CLASS_NUMBER, waitForPositiveButton = false) { materialDialog, charSequence ->
+                try {
+                    val price = charSequence.toString().toLong()
+                    val tax = item?.pricing?.calculateTax(price, intel3) ?: 0
+                    materialDialog.message(text = "Listing Fee: ${tax.asCurrency()}\nProfit: ${(price-tax).toInt().asCurrency()}")
+                } catch (e: Exception) {
+
+                }
+            }
         }
     }
 

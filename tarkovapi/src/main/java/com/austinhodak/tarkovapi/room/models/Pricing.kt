@@ -1,5 +1,6 @@
 package com.austinhodak.tarkovapi.room.models
 
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.getTraderLevel
@@ -31,6 +32,13 @@ data class Pricing(
     val wikiLink: String?
 ) : Serializable {
 
+    fun getCheapestBuyRequirements(): BuySellPrice? {
+        return buyFor?.minByOrNull {
+            if (!it.isRequirementMet()) Int.MAX_VALUE else it.price ?: Int.MAX_VALUE
+            //it.price ?: Int.MAX_VALUE
+        }!!
+    }
+
     fun getCheapestBuy(): BuySellPrice? {
         return buyFor?.minByOrNull { it.price ?: Int.MAX_VALUE }!!
     }
@@ -56,6 +64,56 @@ data class Pricing(
             val type: String,
             val value: Int
         ) : Serializable
+
+        fun isRequirementMet(): Boolean {
+            if (source == "fleaMarket") {
+                val playerLevel = UserSettingsModel.playerLevel.value
+                return playerLevel >= requirements.first().value
+            }
+            return when (source) {
+                "prapor" -> {
+                    val traderLevel = UserSettingsModel.praporLevel.value.toString().toInt()
+                    val requirement = requirements.find { it.type == "loyaltyLevel" }
+                    return traderLevel >= requirement?.value ?: 1
+                }
+                "therapist" -> {
+                    val traderLevel = UserSettingsModel.therapistLevel.value.toString().toInt()
+                    val requirement = requirements.find { it.type == "loyaltyLevel" }
+                    return traderLevel >= requirement?.value ?: 1
+                }
+                "fence" -> {
+                    val traderLevel = UserSettingsModel.fenceLevel.value.toString().toInt()
+                    val requirement = requirements.find { it.type == "loyaltyLevel" }
+                    return traderLevel >= requirement?.value ?: 1
+                }
+                "skier" -> {
+                    val traderLevel = UserSettingsModel.skierLevel.value.toString().toInt()
+                    val requirement = requirements.find { it.type == "loyaltyLevel" }
+                    return traderLevel >= requirement?.value ?: 1
+                }
+                "peacekeeper" -> {
+                    val traderLevel = UserSettingsModel.peacekeeperLevel.value.toString().toInt()
+                    val requirement = requirements.find { it.type == "loyaltyLevel" }
+                    return traderLevel >= requirement?.value ?: 1
+                }
+                "mechanic" -> {
+                    val traderLevel = UserSettingsModel.mechanicLevel.value.toString().toInt()
+                    val requirement = requirements.find { it.type == "loyaltyLevel" }
+                    return traderLevel >= requirement?.value ?: 1
+                }
+                "ragman" -> {
+                    val traderLevel = UserSettingsModel.ragmanLevel.value.toString().toInt()
+                    val requirement = requirements.find { it.type == "loyaltyLevel" }
+                    return traderLevel >= requirement?.value ?: 1
+                }
+                "skier" -> {
+                    val traderLevel = UserSettingsModel.skierLevel.value.toString().toInt()
+                    val requirement = requirements.find { it.type == "loyaltyLevel" }
+                    return traderLevel >= requirement?.value ?: 1
+                }
+                 else -> false
+            }
+        }
 
         fun getTitle(): String {
             return if (source == "fleaMarket") {
@@ -102,7 +160,7 @@ data class Pricing(
         return "$quantity x ${avg24hPrice?.asCurrency()} = ${totalCost?.asCurrency()}"
     }
 
-    fun calculateTax(salePrice: Long = avg24hPrice?.toLong() ?: (0).toLong()): Int {
+    fun calculateTax(salePrice: Long = lastLowPrice?.toLong() ?: (0).toLong(), intel: Boolean? = false): Int {
         val mVO = basePrice.toDouble()
         val mVR = salePrice.toDouble()
         val mTi = 0.05
@@ -124,6 +182,6 @@ data class Pricing(
         }
 
         val tax = (mVO * mTi * mPO4 * mQ + mVR * mTr * mPR4 * mQ).roundToInt()
-        return tax
+        return if (intel == false) tax else (tax * 0.70).roundToInt()
     }
 }

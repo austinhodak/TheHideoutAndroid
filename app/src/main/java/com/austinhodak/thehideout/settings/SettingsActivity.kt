@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.austinhodak.tarkovapi.Levels
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
@@ -90,12 +92,12 @@ class SettingsActivity : GodActivity() {
                                     singleChoice(UserSettingsModel.praporLevel, Levels.values(), { "Level $it" }) {
                                         title = "Prapor".asText()
                                     }
+                                    singleChoice(UserSettingsModel.therapistLevel, Levels.values(), { "Level $it" }) {
+                                        title = "Therapist".asText()
+                                    }
                                     singleChoice(UserSettingsModel.fenceLevel, Levels.values(), { "Level $it" }) {
                                         title = "Fence".asText()
                                         enabled = false
-                                    }
-                                    singleChoice(UserSettingsModel.skierLevel, Levels.values(), { "Level $it" }) {
-                                        title = "Skier".asText()
                                     }
                                     singleChoice(UserSettingsModel.skierLevel, Levels.values(), { "Level $it" }) {
                                         title = "Skier".asText()
@@ -133,11 +135,11 @@ class SettingsActivity : GodActivity() {
                                     title = "Quests".asText()
                                     //icon = R.drawable.ic_baseline_assignment_24.asIcon()
                                 }*/
-                                button {
+                                /*button {
                                     title = "Log out".asText()
                                     icon = R.drawable.ic_baseline_logout_24.asIcon()
                                     enabled = false
-                                }
+                                }*/
                                 category {
                                     title = "About".asText()
                                 }
@@ -158,13 +160,6 @@ class SettingsActivity : GodActivity() {
         }
     }
 
-    enum class Levels {
-        `1`,
-        `2`,
-        `3`,
-        `4`
-    }
-
     override fun onBackPressed() {
         if (currentScreen == "Settings") {
             super.onBackPressed()
@@ -180,23 +175,3 @@ class SettingsActivity : GodActivity() {
     }
 }
 
-object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
-
-    val test by boolPref(true, "test")
-
-    val keepScreenOn by boolPref(false, "keepScreenOn")
-
-    val praporLevel by enumPref(SettingsActivity.Levels.`4`, "praporLevel")
-    val therapistLevel by enumPref(SettingsActivity.Levels.`4`, "therapistLevel")
-    val fenceLevel by enumPref(SettingsActivity.Levels.`1`, "fenceLevel")
-    val skierLevel by enumPref(SettingsActivity.Levels.`4`, "skierLevel")
-    val peacekeeperLevel by enumPref(SettingsActivity.Levels.`4`, "peacekeeperLevel")
-    val mechanicLevel by enumPref(SettingsActivity.Levels.`4`, "mechanicLevel")
-    val ragmanLevel by enumPref(SettingsActivity.Levels.`4`, "ragmanLevel")
-    val jaegerLevel by enumPref(SettingsActivity.Levels.`4`, "jaegerLevel")
-
-    val playerLevel by intPref(71, "playerLevel")
-
-    val mapMarkerCategories by intSetPref(emptySet(), "mapMarkerCategories")
-
-}
