@@ -33,10 +33,14 @@ import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
+import com.mikepenz.materialdrawer.util.addStickyDrawerItems
 import com.mikepenz.materialdrawer.util.getDrawerItem
+import com.mikepenz.materialdrawer.util.removeItems
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
 import kotlinx.coroutines.launch
 
@@ -99,7 +103,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
     }
 
     private val drawerWeaponLoadouts = PrimaryDrawerItem().apply {
-        tag = "weaponloadouts"; identifier = 115; nameText = "Weapon Loadouts"; iconRes = R.drawable.icons8_assault_rifle_mod_96; isIconTinted =
+        tag = "weaponloadouts"; identifier = 115; nameText = "Weapon Loadouts"; iconRes = R.drawable.icons8_assault_rifle_custom; isIconTinted =
             true; typeface = benderFont
     }
 
@@ -183,7 +187,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
     }
     private val drawerLogin = SecondaryDrawerItem().apply {
         tag = "login"
-        nameText = "Sign In"; iconRes = R.drawable.ic_baseline_info_24; isIconTinted = true; isSelectable = false; identifier = 999
+        nameText = "Sign In"; iconRes = R.drawable.icons8_lock_96_color; isIconTinted = false; isSelectable = false; identifier = 999
     }
 
     private val drawerSettings = SecondaryDrawerItem().apply {
@@ -218,6 +222,15 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
                 drawerSettings,
                 //drawerVersion,
         )
+        if (isDebug())
+        Firebase.auth.addAuthStateListener {
+            val isLoggedIn = it.currentUser != null && it.currentUser?.isAnonymous == false
+            if (!isLoggedIn) {
+                this.addStickyDrawerItems(drawerLogin)
+            } else {
+                this.removeItems(999)
+            }
+        }
         recyclerView.isVerticalFadingEdgeEnabled = false
         recyclerView.isVerticalScrollBarEnabled = false
         expandableExtension.isOnlyOneExpandedItem = true

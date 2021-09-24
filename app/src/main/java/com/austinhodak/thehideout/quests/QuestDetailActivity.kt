@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
 import com.austinhodak.tarkovapi.room.models.Item
@@ -65,6 +66,8 @@ class QuestDetailActivity : GodActivity() {
 
                 val objectiveTypes = quest?.objective?.groupBy { it.type }
 
+                val userData by questViewModel.userData.observeAsState()
+
                 Scaffold(
                     topBar = {
                         QuestDetailToolbar(
@@ -80,20 +83,25 @@ class QuestDetailActivity : GodActivity() {
                         )
                     },
                     floatingActionButton = {
-                        if (isDebug())
-                            ExtendedFloatingActionButton(
-                                icon = {
-                                    Icon(
-                                        painterResource(id = R.drawable.ic_baseline_assignment_turned_in_24),
-                                        contentDescription = null,
-                                        tint = Color.Black
-                                    )
-                                },
-                                text = { Text("COMPLETED", color = Color.Black, style = MaterialTheme.typography.button) },
-                                onClick = {
+                        //if (isDebug())
+                        quest?.let {
+                            if (userData?.isQuestCompleted(it) == false && it.isAvailable(userData)) {
+                                ExtendedFloatingActionButton(
+                                    icon = {
+                                        Icon(
+                                            painterResource(id = R.drawable.ic_baseline_assignment_turned_in_24),
+                                            contentDescription = null,
+                                            tint = Color.Black
+                                        )
+                                    },
+                                    text = { Text("COMPLETED", color = Color.Black, style = MaterialTheme.typography.button) },
+                                    onClick = {
+                                        it.completed()
+                                    }
+                                )
+                            }
+                        }
 
-                                }
-                            )
                     }
                 ) {
                     if (quest == null) return@Scaffold
@@ -359,7 +367,14 @@ class QuestDetailActivity : GodActivity() {
                         }
                     },
                     onLongClick = {
-                        userRefTracker("items/${pricing?.id}/questObjective/${objective.id?.addQuotes()}").setValue(objective.number)
+                        MaterialDialog(context).show {
+                            title(text = "Add to Needed Items?")
+                            message(text = "This will add these items to the needed items list on the Flea Market screen.")
+                            positiveButton(text = "ADD") {
+                                userRefTracker("items/${pricing?.id}/questObjective/${objective.id?.addQuotes()}").setValue(objective.number)
+                            }
+                            negativeButton(text = "CANCEL")
+                        }
                     }
                 )
                 .padding(vertical = 4.dp)

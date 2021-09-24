@@ -468,10 +468,10 @@ class CalculatorMainActivity : GodActivity() {
         }, modifier = modifier.clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {
             when (bodyPart.name) {
                 Part.HEAD -> {
-                    viewModel.body.value?.shoot(bodyPart.name, viewModel.selectedAmmo.value?.toSimAmmo()!!, viewModel.selectedHelmetC.value ?: CArmor())
+                    viewModel.body.value?.shoot(bodyPart.name, viewModel.selectedAmmo.value?.toSimAmmo(), viewModel.selectedHelmetC.value ?: CArmor())
                 }
                 else -> {
-                    viewModel.body.value?.shoot(bodyPart.name, viewModel.selectedAmmo.value?.toSimAmmo()!!, viewModel.selectedArmorC.value ?: CArmor())
+                    viewModel.body.value?.shoot(bodyPart.name, viewModel.selectedAmmo.value?.toSimAmmo(), viewModel.selectedArmorC.value ?: CArmor())
                 }
             }
             viewModel.updateHealth()

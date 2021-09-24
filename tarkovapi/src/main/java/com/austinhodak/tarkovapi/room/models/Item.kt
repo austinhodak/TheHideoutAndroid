@@ -191,7 +191,3 @@ fun JSONObject.toItem(): Item {
 
     return item
 }
-
-annotation class Hidden {
-
-}

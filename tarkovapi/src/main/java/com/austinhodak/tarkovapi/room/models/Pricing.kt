@@ -36,7 +36,7 @@ data class Pricing(
         return buyFor?.minByOrNull {
             if (!it.isRequirementMet()) Int.MAX_VALUE else it.price ?: Int.MAX_VALUE
             //it.price ?: Int.MAX_VALUE
-        }!!
+        }
     }
 
     fun getCheapestBuy(): BuySellPrice? {
@@ -106,8 +106,8 @@ data class Pricing(
                     val requirement = requirements.find { it.type == "loyaltyLevel" }
                     return traderLevel >= requirement?.value ?: 1
                 }
-                "skier" -> {
-                    val traderLevel = UserSettingsModel.skierLevel.value.toString().toInt()
+                "jaeger" -> {
+                    val traderLevel = UserSettingsModel.jaegerLevel.value.toString().toInt()
                     val requirement = requirements.find { it.type == "loyaltyLevel" }
                     return traderLevel >= requirement?.value ?: 1
                 }

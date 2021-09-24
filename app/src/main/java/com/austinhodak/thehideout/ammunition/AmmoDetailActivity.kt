@@ -38,6 +38,9 @@ import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
 import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
+import com.austinhodak.thehideout.compose.components.OverflowMenu
+import com.austinhodak.thehideout.compose.components.OverflowMenuItem
+import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.pickers.PickerActivity
@@ -94,7 +97,15 @@ class AmmoDetailActivity : GodActivity() {
                         Column {
                             AmmoDetailToolbar(
                                 title = ammo?.pricing?.name ?: "Error Loading...",
-                                onBackPressed = { finish() }
+                                onBackPressed = { finish() },
+                                actions = {
+                                    OverflowMenu {
+                                        ammo?.pricing?.wikiLink?.let { WikiItem(url = it) }
+                                        OverflowMenuItem(text = "Add to Cart") {
+                                            ammo?.pricing?.addToCartDialog(this@AmmoDetailActivity)
+                                        }
+                                    }
+                                }
                             )
                             if (ammo == null) {
                                 LinearProgressIndicator(

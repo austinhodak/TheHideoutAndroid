@@ -21,6 +21,8 @@ import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.michaelflisar.materialpreferences.core.SettingsModel
 import com.michaelflisar.materialpreferences.datastore.DataStoreStorage
 import com.michaelflisar.materialpreferences.preferencescreen.*
@@ -44,6 +46,8 @@ class SettingsActivity : GodActivity() {
             HideoutTheme {
 
                 var toolbarTitle by remember { mutableStateOf("Settings") }
+
+                val isSignedIn = Firebase.auth.currentUser != null && Firebase.auth.currentUser?.isAnonymous == false
 
                 Scaffold(
                     topBar = {
@@ -138,7 +142,10 @@ class SettingsActivity : GodActivity() {
                                 /*button {
                                     title = "Log out".asText()
                                     icon = R.drawable.ic_baseline_logout_24.asIcon()
-                                    enabled = false
+                                    enabled = isSignedIn
+                                    onClick = {
+                                        Firebase.auth.signOut()
+                                    }
                                 }*/
                                 category {
                                     title = "About".asText()

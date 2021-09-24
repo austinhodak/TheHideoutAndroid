@@ -40,9 +40,9 @@ android {
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 11006
+        versionCode 11007
         // [1]-[0].[2].[0].[0]
-        versionName "1.0.0 Beta 6"
+        versionName "1.0.0 Beta 7"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
