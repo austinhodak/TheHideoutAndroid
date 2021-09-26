@@ -46,6 +46,7 @@ import com.austinhodak.thehideout.weapons.mods.ModPickerActivity
 import com.austinhodak.thehideout.weapons.mods.StatItem
 import com.google.accompanist.insets.statusBarsPadding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.math.roundToInt
 
@@ -109,6 +110,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                 Timber.d("SCAFFOLD")
 
                 BottomSheetScaffold(
+                    scaffoldState = scaffoldState,
                     sheetContent = {
                         var totalPriceOpen by remember { mutableStateOf(false) }
 
@@ -124,12 +126,16 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                     .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomEnd = 0.dp, bottomStart = 0.dp))
                                     .background(Color(0xFF282828))
                                     .clickable {
-                                        /*totalPriceOpen = !totalPriceOpen
+                                        //totalPriceOpen = !totalPriceOpen
                                         if (scaffoldState.bottomSheetState.isCollapsed) {
                                             scope.launch {
                                                 scaffoldState.bottomSheetState.expand()
                                             }
-                                        }*/
+                                        } else {
+                                            scope.launch {
+                                                scaffoldState.bottomSheetState.collapse()
+                                            }
+                                        }
                                     }
                                     .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 12.dp)
                             ) {
