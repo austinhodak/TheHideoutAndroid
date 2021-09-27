@@ -22,6 +22,8 @@ data class Craft(
 
     fun rewardItem(): CraftItem? = rewardItems?.first()
 
+    fun rewardQuantity(): Int = rewardItems?.first()?.count ?: 1
+
     fun getSourceID(hideout: Hideout?): Int? {
         if (hideout == null) return null
         val station = source?.split(" level ")?.get(0)?.lowercase()
@@ -34,7 +36,8 @@ data class Craft(
     }
 
     fun estimatedProfit(): Int? {
-        return rewardItems?.first()?.item?.avg24hPrice?.minus(totalCost())
+        val price = rewardItem()?.item?.avg24hPrice?.times(rewardQuantity())
+        return price?.minus(totalCost())
     }
 
     fun estimatedProfitPerHour(): Int? = estimatedProfit()?.div((duration?.div(3600.0)!!))?.roundToInt()

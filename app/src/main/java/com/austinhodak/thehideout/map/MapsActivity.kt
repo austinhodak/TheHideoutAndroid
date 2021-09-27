@@ -52,6 +52,7 @@ import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.rememberMapViewWithLifecycle
 import com.bumptech.glide.Glide
 import com.google.accompanist.flowlayout.FlowRow
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
@@ -119,6 +120,9 @@ class MapsActivity : GodActivity() {
                     bottomSheetScaffoldState.snackbarHostState.showSnackbar(snackbarText!!, "CANCEL", SnackbarDuration.Indefinite)
                 }
             }
+
+            val systemUiController = rememberSystemUiController()
+            systemUiController.setNavigationBarColor(Color.Transparent)
 
             HideoutTheme {
                 Box {

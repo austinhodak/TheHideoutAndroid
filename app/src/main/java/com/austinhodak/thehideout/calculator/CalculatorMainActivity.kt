@@ -40,10 +40,12 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.models.*
 import com.austinhodak.thehideout.calculator.viewmodels.SimViewModel
 import com.austinhodak.thehideout.calculator.views.HealthBar
+import com.austinhodak.thehideout.compose.theme.DarkPrimary
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.pickers.PickerActivity
 import com.austinhodak.thehideout.utils.toSimAmmo
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -101,6 +103,9 @@ class CalculatorMainActivity : GodActivity() {
                 if (selectedAmmo == null && !ammo.isNullOrEmpty()) {
                     simViewModel.selectAmmo(ammo.first())
                 }
+
+                val systemUiController = rememberSystemUiController()
+                systemUiController.setNavigationBarColor(DarkPrimary)
 
                 BottomSheetScaffold(
                     sheetContent = {

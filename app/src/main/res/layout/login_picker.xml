@@ -134,7 +134,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="64dp"
         android:layout_marginEnd="64dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="64dp"
         android:backgroundTint="#4267B2"
         android:text="SIGN IN WITH FACEBOOK"
         android:fontFamily="@font/bender_bold"

@@ -582,6 +582,7 @@ private fun HideoutCraftsPage(
 @Composable
 fun CraftItem(craft: Craft, userData: User?) {
     val rewardItem = craft.rewardItems?.firstOrNull()?.item
+    val reward = craft.rewardItems?.firstOrNull()
     val requiredItems = craft.requiredItems
     val context = LocalContext.current
 
@@ -653,7 +654,7 @@ fun CraftItem(craft: Craft, userData: User?) {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = rewardItem?.name ?: "",
+                            text = "${rewardItem?.name} (x${reward?.count})",
                             style = MaterialTheme.typography.h6,
                             fontSize = 16.sp
                         )

@@ -53,6 +53,7 @@ import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModPickerActivity
 import com.austinhodak.thehideout.weapons.viewmodel.WeaponDetailViewModel
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -113,6 +114,7 @@ class WeaponDetailActivity : GodActivity() {
                                                     Color.Transparent,
                                                     darkIcons = false
                                             )
+                                            systemUiController.setNavigationBarColor(DarkPrimary)
                                             Column {
                                                 Box {
                                                     val painter = rememberImagePainter(
@@ -452,7 +454,8 @@ class WeaponDetailActivity : GodActivity() {
     ) {
 
         BottomNavigation(
-                backgroundColor = Color(0xFE1F1F1F)
+                backgroundColor = Color(0xFE1F1F1F),
+            modifier = Modifier.navigationBarsPadding()
         ) {
             items.forEachIndexed { index, item ->
                 BottomNavigationItem(

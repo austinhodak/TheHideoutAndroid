@@ -13,7 +13,8 @@
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
             android:name=".weapons.builder.WeaponBuilderActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
             android:name=".gear.GearDetailActivity"
             android:exported="true" />
@@ -64,7 +65,9 @@
             android:name=".weapons.detail.WeaponDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-        <activity android:name=".weapons.mods.ModPickerActivity" />
+        <activity
+            android:name=".weapons.mods.ModPickerActivity"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
 
         <activity
             android:name=".login.LoginActivity"

@@ -39,10 +39,12 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.BorderColor
+import com.austinhodak.thehideout.compose.theme.DarkPrimary
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.utils.getColor
 import com.austinhodak.thehideout.weapons.mods.viewmodel.ModPickerViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -88,6 +90,8 @@ class ModPickerActivity : GodActivity() {
                 val scaffoldState = rememberScaffoldState()
                 val scope = rememberCoroutineScope()
 
+                val systemUiController = rememberSystemUiController()
+
                 val searchKey by viewModel.searchKey.observeAsState("")
                 val isSearchOpen by viewModel.isSearchOpen.observeAsState(false)
 
@@ -99,6 +103,8 @@ class ModPickerActivity : GodActivity() {
                         }
                     }
                 }
+
+                systemUiController.setNavigationBarColor(DarkPrimary)
 
                 Scaffold(
                         scaffoldState = scaffoldState,

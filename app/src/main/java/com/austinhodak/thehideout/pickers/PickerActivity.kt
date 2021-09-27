@@ -34,12 +34,14 @@ import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.calculator.models.Character
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.theme.DarkPrimary
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.gear.GearCard
 import com.austinhodak.thehideout.pickers.viewmodels.PickerViewModel
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.weapons.WeaponCard
 import com.austinhodak.thehideout.weapons.builder.WeaponBuilderActivity
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
@@ -71,6 +73,9 @@ class PickerActivity : GodActivity() {
 
                 val searchKey by pickerViewModel.searchKey.observeAsState("")
                 val isSearchOpen by pickerViewModel.isSearchOpen.observeAsState(false)
+
+                val systemUiController = rememberSystemUiController()
+                systemUiController.setNavigationBarColor(DarkPrimary)
 
                 LaunchedEffect(scope) {
                     intent.getStringExtra("type")?.let {

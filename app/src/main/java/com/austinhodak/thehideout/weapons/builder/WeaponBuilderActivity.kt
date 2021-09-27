@@ -45,6 +45,7 @@ import com.austinhodak.thehideout.weapons.builder.viewmodel.WeaponBuilderViewMod
 import com.austinhodak.thehideout.weapons.mods.ModPickerActivity
 import com.austinhodak.thehideout.weapons.mods.StatItem
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -80,6 +81,8 @@ class WeaponBuilderActivity : AppCompatActivity() {
 
         setContent {
             HideoutTheme {
+
+                val systemUiController = rememberSystemUiController()
                 val userLoadouts by viewModel.userLoadouts.observeAsState()
 
                 val scope = rememberCoroutineScope()
@@ -108,6 +111,8 @@ class WeaponBuilderActivity : AppCompatActivity() {
                 val parentWeapon = build?.parentWeapon
 
                 Timber.d("SCAFFOLD")
+
+                systemUiController.setNavigationBarColor(DarkPrimary)
 
                 BottomSheetScaffold(
                     scaffoldState = scaffoldState,
