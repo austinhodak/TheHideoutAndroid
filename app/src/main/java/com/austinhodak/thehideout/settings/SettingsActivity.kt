@@ -3,6 +3,7 @@ package com.austinhodak.thehideout.settings
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +22,7 @@ import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.michaelflisar.materialpreferences.core.SettingsModel
@@ -31,6 +33,7 @@ import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SettingsActivity : GodActivity() {
@@ -47,7 +50,15 @@ class SettingsActivity : GodActivity() {
 
                 var toolbarTitle by remember { mutableStateOf("Settings") }
 
-                val isSignedIn = Firebase.auth.currentUser != null && Firebase.auth.currentUser?.isAnonymous == false
+                var isSignedIn by remember {
+                    mutableStateOf(false)
+                }
+
+                FirebaseAuth.AuthStateListener {
+                    isSignedIn = it.currentUser != null && it.currentUser?.isAnonymous == false
+                }
+
+                isSignedIn = FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser?.isAnonymous == false
 
                 Scaffold(
                     topBar = {
@@ -139,14 +150,15 @@ class SettingsActivity : GodActivity() {
                                     title = "Quests".asText()
                                     //icon = R.drawable.ic_baseline_assignment_24.asIcon()
                                 }*/
-                                /*button {
+                                button {
                                     title = "Log out".asText()
                                     icon = R.drawable.ic_baseline_logout_24.asIcon()
                                     enabled = isSignedIn
                                     onClick = {
                                         Firebase.auth.signOut()
+                                        Toast.makeText(this@SettingsActivity, "Logged out!", Toast.LENGTH_SHORT).show()
                                     }
-                                }*/
+                                }
                                 category {
                                     title = "About".asText()
                                 }

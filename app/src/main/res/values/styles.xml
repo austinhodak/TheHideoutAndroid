@@ -37,4 +37,23 @@
         <item name="android:statusBarColor">#1F1F1F</item>
     </style>
 
+    <style name="LoginTheme2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/md_red_400</item>
+        <item name="colorPrimaryVariant">@color/md_red_400</item>
+        <item name="colorAccent">@color/md_red_400</item>
+<!--        <item name="android:colorBackground">#1F1F1F</item>-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="android:windowBackground">@drawable/login_bg</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">centerCrop</item>
+
+        <item name="android:fontFamily">@font/bender_bold</item>
+
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <item name="android:paddingTop">4dp</item>
+    </style>
+
 </resources>

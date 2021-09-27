@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:tint="#5B000000"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/g7z8a1hc71f51" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:srcCompat="@drawable/hideout_shadow_1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/bender_bold"
+        android:text="The Hideout"
+        android:textColor="#FFF"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/login_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bulb" />
+
+    <Button
+        android:id="@+id/login_email"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/md_red_400"
+        android:fontFamily="@font/bender_bold"
+        android:text="SIGN IN WITH EMAIL"
+        android:textColor="#FFF"
+        app:icon="@drawable/ic_baseline_email_24"
+        app:iconTint="#FFF"
+        app:layout_constraintBottom_toTopOf="@+id/login_phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/login_phone"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/md_green_400"
+        android:text="SIGN IN WITH PHONE"
+        android:fontFamily="@font/bender_bold"
+        android:textColor="#FFF"
+        app:icon="@drawable/ic_baseline_local_phone_24"
+        app:iconTint="#FFF"
+        app:layout_constraintBottom_toTopOf="@+id/login_github"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/login_github"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/md_grey_800"
+        android:text="SIGN IN WITH GITHUB"
+        android:fontFamily="@font/bender_bold"
+        android:textColor="#FFF"
+        app:icon="@drawable/icons8_github_96"
+        app:iconSize="24dp"
+        app:iconTint="#FFF"
+        app:iconTintMode="src_atop"
+        app:layout_constraintBottom_toTopOf="@+id/login_google"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/login_google"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#FFF"
+        android:text="SIGN IN WITH GOOGLE"
+        android:fontFamily="@font/bender_bold"
+        android:textColor="#000"
+        app:icon="@drawable/icons8_google_96"
+        app:iconSize="24dp"
+        app:iconTint="@android:color/transparent"
+        app:iconTintMode="src_atop"
+        app:layout_constraintBottom_toTopOf="@+id/login_facebook"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/login_facebook"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#4267B2"
+        android:text="SIGN IN WITH FACEBOOK"
+        android:fontFamily="@font/bender_bold"
+        android:textColor="#FFF"
+        app:icon="@drawable/com_facebook_button_icon"
+        app:iconSize="24dp"
+        app:iconTint="@android:color/transparent"
+        app:iconTintMode="src_atop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.austinhodak.thehideout
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -41,12 +42,15 @@ import com.austinhodak.thehideout.weapons.builder.WeaponLoadoutScreen
 import com.austinhodak.thehideout.weapons.builder.viewmodel.WeaponLoadoutViewModel
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModsListScreen
+import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.firebase.auth.FirebaseAuth
 import com.skydoves.only.only
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -77,7 +81,20 @@ class NavActivity : GodActivity() {
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) {
+        val response = it.idpResponse
 
+        if (it.resultCode == RESULT_OK) {
+            //USER SIGNED IN
+        } else {
+            if (response?.error?.errorCode == ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT) {
+                val nonAnonymousCredential = response.credentialForLinking
+                nonAnonymousCredential?.let {
+                    FirebaseAuth.getInstance().signInWithCredential(nonAnonymousCredential).addOnSuccessListener {
+                        Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     private val weaponDetailLauncher = registerForActivityResult(
@@ -263,11 +280,21 @@ class NavActivity : GodActivity() {
                                 route.split(":")[1].openWithCustomTab(this@NavActivity)
                             }
                             identifier == 999 -> {
-                                openActivity(LoginActivity::class.java)
-                                /*val providers = arrayListOf(
+                                val customLayout = AuthMethodPickerLayout
+                                    .Builder(R.layout.login_picker)
+                                    .setEmailButtonId(R.id.login_email)
+                                    .setPhoneButtonId(R.id.login_phone)
+                                    .setGoogleButtonId(R.id.login_google)
+                                    .setGithubButtonId(R.id.login_github)
+                                    .setFacebookButtonId(R.id.login_facebook)
+                                    .build()
+                                //openActivity(LoginActivity::class.java)
+                                val providers = arrayListOf(
                                     AuthUI.IdpConfig.EmailBuilder().build(),
                                     AuthUI.IdpConfig.PhoneBuilder().build(),
                                     AuthUI.IdpConfig.GoogleBuilder().build(),
+                                    AuthUI.IdpConfig.GitHubBuilder().build(),
+                                    AuthUI.IdpConfig.FacebookBuilder().build(),
                                     //AuthUI.IdpConfig.FacebookBuilder().build(),
                                     //AuthUI.IdpConfig.TwitterBuilder().build(),
                                     //AuthUI.IdpConfig.MicrosoftBuilder().build(),
@@ -277,10 +304,13 @@ class NavActivity : GodActivity() {
                                     .createSignInIntentBuilder()
                                     .setAvailableProviders(providers)
                                     .enableAnonymousUsersAutoUpgrade()
-                                    .setTheme(R.style.LoginTheme)
+                                    .setAuthMethodPickerLayout(customLayout)
+                                    .setTheme(R.style.LoginTheme2)
                                     .setLogo(R.drawable.hideout_shadow_1)
+                                    .setIsSmartLockEnabled(false)
+                                    //.setAlwaysShowSignInMethodScreen(true)
                                     .build()
-                                signInLauncher.launch(signInIntent)*/
+                                signInLauncher.launch(signInIntent)
                             }
                             else -> {
                                 navController.navigate(route) {

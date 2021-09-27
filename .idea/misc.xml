@@ -16,6 +16,7 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_menu_open_24.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.15486111111111112" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/login_bg.xml" value="0.23223684210526316" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/progress_bar.xml" value="0.3506578947368421" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/shortcut_flea.xml" value="0.14027777777777778" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/stripe_tile.xml" value="0.1" />
@@ -66,6 +67,7 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_start_raid_map.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_weapon.xml" value="0.18" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/layout_empty.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/login_picker.xml" value="0.22" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/map_compose.xml" value="0.5" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_activity.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_trader_level_fragment.xml" value="0.22467105263157894" />
