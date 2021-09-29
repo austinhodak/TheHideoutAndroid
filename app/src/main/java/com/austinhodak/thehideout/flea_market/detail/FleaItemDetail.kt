@@ -58,6 +58,7 @@ import com.austinhodak.thehideout.utils.*
 import com.bumptech.glide.Glide
 import com.google.accompanist.glide.rememberGlidePainter
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.database.ServerValue
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
@@ -121,6 +122,8 @@ class FleaItemDetail : GodActivity() {
                             isFavorited = questPrefs.favoriteItems?.contains(itemID)
                         }
                     }
+                    
+                    rememberSystemUiController().setNavigationBarColor(DarkPrimary)
 
                     Scaffold(
                         scaffoldState = scaffoldState,

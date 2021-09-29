@@ -44,6 +44,7 @@ import com.austinhodak.thehideout.quests.viewmodels.QuestDetailViewModel
 import com.austinhodak.thehideout.utils.*
 import com.bumptech.glide.Glide
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -90,6 +91,8 @@ class QuestDetailActivity : GodActivity() {
                         Color.Transparent,
                         darkIcons = false
                     )
+
+                    systemUiController.setNavigationBarColor(DarkPrimary)
 
                     Scaffold(
                         topBar = {
@@ -207,7 +210,8 @@ class QuestDetailActivity : GodActivity() {
                                         text = { Text("COMPLETED", color = Color.Black, style = MaterialTheme.typography.button) },
                                         onClick = {
                                             it.completed()
-                                        }
+                                        },
+                                        modifier = Modifier.navigationBarsPadding()
                                     )
                                 }
                             }

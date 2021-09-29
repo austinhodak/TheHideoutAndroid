@@ -258,7 +258,7 @@ fun MainDrawer(
 
     val drawerLogin = SecondaryDrawerItem().apply {
         tag = "login"
-        nameText = "Sign In"
+        nameText = "Sign In/Sign Up"
         iconRes = R.drawable.icons8_lock_96_color
         isIconTinted = false
         isSelectable = false
@@ -346,7 +346,7 @@ fun MainDrawer(
                         }
                     }
 
-                    if (isDebug()) {
+                    //if (isDebug()) {
                         Firebase.auth.addAuthStateListener {
                             val isLoggedIn = it.currentUser != null && it.currentUser?.isAnonymous == false
                             if (!isLoggedIn) {
@@ -356,7 +356,7 @@ fun MainDrawer(
                                 drawer.removeAllStickyFooterItems()
                             }
                         }
-                    }
+                    //}
                 }
             )
         }
