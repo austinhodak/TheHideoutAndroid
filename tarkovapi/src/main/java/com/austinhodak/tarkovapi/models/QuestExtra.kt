@@ -16,7 +16,10 @@ class QuestExtra : ArrayList<QuestExtra.QuestExtraItem>(){
         val title: String? = null,
         val turnin: Int? = null,
         val unlocks: List<Any?>? = null,
-        val wiki: String? = null
+        val wiki: String? = null,
+        val image: String? = null,
+        val dialogue: String? = null,
+        val guideImages: List<String>? = null
     ) {
         data class Locales(
             val en: String? = null

@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.austinhodak.tarkovapi.models.MapInteractive
+import com.austinhodak.tarkovapi.models.QuestExtra
+import com.austinhodak.tarkovapi.utils.QuestExtraHelper
 import com.austinhodak.thehideout.R
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +27,9 @@ class MapViewModel @Inject constructor(
     private val _selectedGroups = MutableLiveData<MutableList<Int>?>(null)
     val selectedGroups = _selectedGroups
 
+    private val _questsExtras = MutableLiveData<List<QuestExtra.QuestExtraItem>>()
+    val questsExtra = _questsExtras
+
     fun removeGroup(int: Int) {
         _selectedGroups.value?.remove(int)
         _selectedGroups.postValue(_selectedGroups.value)
@@ -44,6 +49,7 @@ class MapViewModel @Inject constructor(
 
     init {
         updateMap(context)
+        _questsExtras.value = QuestExtraHelper.getQuests(context = context)
     }
 
     private fun updateMap(context: Context) {
@@ -60,6 +66,7 @@ class MapViewModel @Inject constructor(
                 }
             }
         }
+
     }
 
     private fun getMapRaw(map: String? = _map.value): Int {

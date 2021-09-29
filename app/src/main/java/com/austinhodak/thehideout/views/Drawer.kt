@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.views
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,7 @@ import com.austinhodak.thehideout.settings.SettingsActivity
 import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mikepenz.materialdrawer.holder.BadgeStyle
@@ -46,6 +48,7 @@ import com.mikepenz.materialdrawer.util.getDrawerItem
 import com.mikepenz.materialdrawer.util.removeAllStickyFooterItems
 import com.mikepenz.materialdrawer.util.removeItems
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 val weaponCategories = mutableListOf(
@@ -237,6 +240,9 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
 
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalPagerApi
+@ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi

@@ -1,10 +1,11 @@
 package com.austinhodak.thehideout.settings
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
@@ -16,25 +17,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.Levels
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.GodActivity
+import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.restartNavActivity
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.michaelflisar.materialpreferences.core.SettingsModel
-import com.michaelflisar.materialpreferences.datastore.DataStoreStorage
 import com.michaelflisar.materialpreferences.preferencescreen.*
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class SettingsActivity : GodActivity() {
 
@@ -157,6 +167,7 @@ class SettingsActivity : GodActivity() {
                                     onClick = {
                                         Firebase.auth.signOut()
                                         Toast.makeText(this@SettingsActivity, "Logged out!", Toast.LENGTH_SHORT).show()
+                                        restartNavActivity()
                                     }
                                 }
                                 category {

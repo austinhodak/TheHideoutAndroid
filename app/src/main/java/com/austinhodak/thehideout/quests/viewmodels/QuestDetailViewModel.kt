@@ -1,28 +1,40 @@
 package com.austinhodak.thehideout.quests.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.enums.Traders
+import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.utils.QuestExtraHelper
 import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.utils.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class QuestDetailViewModel @Inject constructor(
-    private val repository: TarkovRepo
+    private val repository: TarkovRepo,
+    @ApplicationContext context: Context
 ) : ViewModel() {
+
+    private val _questsExtras = MutableLiveData<List<QuestExtra.QuestExtraItem>>()
+    val questsExtra = _questsExtras
 
     private val _userData = MutableLiveData<User?>(null)
     val userData = _userData
@@ -39,6 +51,10 @@ class QuestDetailViewModel @Inject constructor(
                 }
             })
         }
+
+
+
+        _questsExtras.value = QuestExtraHelper.getQuests(context = context)
     }
 
     private val _questDetails = MutableLiveData<Quest?>(null)
@@ -59,15 +75,15 @@ class QuestDetailViewModel @Inject constructor(
     }
 
     fun skipToQuest(quest: Quest) {
-        viewModelScope.launch {
-            quest.requiredQuestsList()?.forEach { _ ->
-                /* val q = quests?.find { it.id.toInt() == id }
-                 if (q != null) {
-                     markQuestCompleted(q)
-                     skipToQuest(q)
-                 }*/
+        /*viewModelScope.launch {
+            quest.requiredQuestsList()?.forEach { id ->
+                val q = questsList.value?.find { it.id.toInt() == id }
+                if (q != null) {
+                    q.completed()
+                    skipToQuest(q)
+                }
             }
-        }
+        }*/
     }
 
     fun toggleObjective(quest: Quest, objective: Quest.QuestObjective) {
@@ -125,9 +141,8 @@ class QuestDetailViewModel @Inject constructor(
         )
     }
 
-   /* fun getObjectiveText(questObjective: Quest.QuestObjective) = liveData {
+    suspend fun getObjectiveText(questObjective: Quest.QuestObjective): String {
         val location = mapsList.getMap(questObjective.location?.toInt()) ?: "Any Map"
-
         val item = if (questObjective.type == "key" || questObjective.targetItem == null) {
             repository.getItemByID(questObjective.target?.get(0) ?: "").firstOrNull()?.pricing ?: questObjective.target?.first()
         } else {
@@ -140,23 +155,21 @@ class QuestDetailViewModel @Inject constructor(
             item as String
         }
 
-        val text = when {
-            questObjective.type == "key" -> "$itemName needed on $location"
-            questObjective.type == "pickup" -> "Pick-up $itemName on $location"
-            questObjective.type == "kill" -> "Eliminate ${questObjective.number} $itemName on $location"
-            questObjective.type == "collect" -> "Hand over ${questObjective.number} $itemName"
-            questObjective.type == "place" -> "Place $itemName on $location"
-            questObjective.type == "mark" -> "Place MS2000 marker at $location"
-            questObjective.type == "locate" -> "Locate $itemName on $location"
-            questObjective.type == "find" -> "Find in raid ${questObjective.number} $itemName"
-            questObjective.type == "reputation" -> "Reach loyalty level ${questObjective.number} with ${Traders.values()[itemName?.toInt()!!].id}"
-            questObjective.type == "warning" -> "$itemName"
-            questObjective.type == "skill" -> "Reach skill level ${questObjective.number} with $itemName"
-            questObjective.type == "survive" -> "Survive in the raid at $location ${questObjective.number} times."
-            questObjective.type == "build" -> "Build $itemName"
+        return when (questObjective.type) {
+            "key" -> "$itemName needed on $location"
+            "pickup" -> "Pick-up $itemName on $location"
+            "kill" -> "Eliminate ${questObjective.number} $itemName on $location"
+            "collect" -> "Hand over ${questObjective.number} $itemName"
+            "place" -> "Place $itemName on $location"
+            "mark" -> "Place MS2000 marker at $location"
+            "locate" -> "Locate $itemName on $location"
+            "find" -> "Find in raid ${questObjective.number} $itemName"
+            "reputation" -> "Reach loyalty level ${questObjective.number} with ${Traders.values().find { it.int == questObjective.target?.first()?.toInt() ?: 0}?.id}"
+            "warning" -> "$itemName"
+            "skill" -> "Reach skill level ${questObjective.number} with $itemName"
+            "survive" -> "Survive in the raid at $location ${questObjective.number} times."
+            "build" -> "Build $itemName"
             else -> ""
         }
-
-        emit(text)
-    }*/
+    }
 }

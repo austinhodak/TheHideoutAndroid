@@ -4,13 +4,13 @@ import android.content.Context
 import com.austinhodak.tarkovapi.R
 import com.austinhodak.tarkovapi.models.Map
 import com.austinhodak.tarkovapi.models.MapInteractive
+import com.austinhodak.tarkovapi.room.models.Quest
 import com.google.gson.Gson
 import org.json.JSONObject
 
 class Maps(context: Context) {
 
     var maps: MutableList<Map> = mutableListOf()
-    var mapsInteractive: MutableList<MapInteractive> = mutableListOf()
 
     init {
         loadMaps(context)
@@ -32,4 +32,6 @@ class Maps(context: Context) {
 
     fun getMap(id: Int?): Map? = maps.find { it.id == id }
     fun getMap(string: String): Map? = maps.find { it.locale?.en == string }
+
+
 }

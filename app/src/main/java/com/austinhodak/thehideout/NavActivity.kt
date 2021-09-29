@@ -27,15 +27,14 @@ import com.austinhodak.thehideout.hideout.HideoutMainScreen
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.keys.KeyListScreen
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
-import com.austinhodak.thehideout.login.LoginActivity
 import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
-import com.austinhodak.thehideout.settings.SettingsActivity
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
+import com.austinhodak.thehideout.utils.restartNavActivity
 import com.austinhodak.thehideout.views.MainDrawer
 import com.austinhodak.thehideout.weapons.WeaponListScreen
 import com.austinhodak.thehideout.weapons.builder.WeaponLoadoutScreen
@@ -85,12 +84,13 @@ class NavActivity : GodActivity() {
 
         if (it.resultCode == RESULT_OK) {
             //USER SIGNED IN
+            restartNavActivity()
         } else {
             if (response?.error?.errorCode == ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT) {
                 val nonAnonymousCredential = response.credentialForLinking
                 nonAnonymousCredential?.let {
                     FirebaseAuth.getInstance().signInWithCredential(nonAnonymousCredential).addOnSuccessListener {
-                        Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show()
+                        restartNavActivity()
                     }
                 }
             }
@@ -262,9 +262,9 @@ class NavActivity : GodActivity() {
                         }
                         composable("weaponloadouts") {
                             WeaponLoadoutScreen(
-                                    loadoutViewModel,
-                                    navViewModel,
-                                    tarkovRepo
+                                loadoutViewModel,
+                                navViewModel,
+                                tarkovRepo
                             )
                         }
                     }

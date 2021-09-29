@@ -25,6 +25,7 @@ import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.BuildConfig
+import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.austinhodak.thehideout.calculator.models.CAmmo
@@ -34,6 +35,7 @@ import com.austinhodak.thehideout.compose.theme.Red500
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -220,6 +222,19 @@ fun AmmoCalibers(): List<String> = arrayListOf(
     "Caliber9x21",
     "Caliber9x39",
 )
+
+@ExperimentalPagerApi
+@ExperimentalAnimationApi
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+fun Activity.restartNavActivity() {
+    val intent = Intent(this, NavActivity::class.java)
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK)
+    startActivity(intent)
+    finishAffinity()
+}
 
 fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     val intent = Intent(this, it)

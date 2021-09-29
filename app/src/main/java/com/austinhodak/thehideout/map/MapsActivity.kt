@@ -9,12 +9,9 @@ import android.os.Bundle
 import android.util.Pair
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -22,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -35,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import coil.annotation.ExperimentalCoilApi
@@ -43,12 +40,16 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.MapInteractive
+import com.austinhodak.tarkovapi.models.QuestExtra
+import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.map.viewmodels.MapViewModel
+import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.Map
 import com.austinhodak.thehideout.utils.isDebug
+import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.rememberMapViewWithLifecycle
 import com.bumptech.glide.Glide
 import com.google.accompanist.flowlayout.FlowRow
@@ -62,11 +63,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.net.MalformedURLException
 import java.net.URL
 
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -96,7 +100,7 @@ class MapsActivity : GodActivity() {
                 mutableStateOf(false)
             }
 
-            var snackbarText: String? by remember {
+            val snackbarText: String? by remember {
                 mutableStateOf("Select first point.")
             }
 
@@ -123,6 +127,8 @@ class MapsActivity : GodActivity() {
 
             val systemUiController = rememberSystemUiController()
             systemUiController.setNavigationBarColor(Color.Transparent)
+
+            val questsExtra by mapViewModel.questsExtra.observeAsState()
 
             HideoutTheme {
                 Box {
@@ -276,15 +282,64 @@ class MapsActivity : GodActivity() {
                             BottomSheetScaffold(
                                 scaffoldState = bottomSheetScaffoldState,
                                 sheetPeekHeight = 0.dp,
+                                sheetElevation = 5.dp,
                                 sheetContent = {
                                     selectedMarker?.let {
                                         if (it.tag is MapInteractive.Location) {
                                             val location = it.tag as MapInteractive.Location
+                                            var quest by remember {
+                                                mutableStateOf<QuestExtra.QuestExtraItem?>(null)
+                                            }
+                                            if (location.category_id == 955) {
+                                                val questTitle = location.description?.split("**Quest:** ")?.get(1)?.substringBefore("\n")?.trim()
+                                                questTitle?.let { title ->
+                                                    quest = questsExtra?.find { it.title.equals(title, true) }
+                                                }
+                                            } else {
+                                                quest = null
+                                            }
                                             Column(
                                                 Modifier.padding(16.dp)
                                             ) {
                                                 Text(text = location.title ?: "", style = MaterialTheme.typography.h6)
                                                 MarkdownText(markdown = location.getFormattedDescription(), style = MaterialTheme.typography.body2)
+                                                if (quest != null) {
+                                                    Row(
+                                                        Modifier
+                                                            .padding(start = 0.dp, top = 8.dp, bottom = 0.dp, end = 0.dp)
+                                                            .clip(RoundedCornerShape(8.dp))
+                                                            .background(itemDefault)
+                                                            .clickable {
+                                                                openActivity(QuestDetailActivity::class.java) {
+                                                                    putString("questID", quest!!.id.toString())
+                                                                }
+                                                            }
+                                                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                                                            .height(IntrinsicSize.Min),
+                                                        verticalAlignment = Alignment.CenterVertically
+                                                    ) {
+                                                        Icon(painter = painterResource(id = R.drawable.ic_baseline_assignment_24), contentDescription = "", modifier = Modifier.size(20.dp))
+                                                        Column(
+                                                            Modifier
+                                                                .padding(start = 16.dp)
+                                                                .weight(1f),
+                                                            verticalArrangement = Arrangement.Center
+                                                        ) {
+                                                            Text(
+                                                                text = quest!!.title ?: "",
+                                                                style = MaterialTheme.typography.h6,
+                                                                fontSize = 15.sp
+                                                            )
+                                                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                                                                Text(
+                                                                    text = "Unlocks at Level ${quest!!.require?.level}",
+                                                                    style = MaterialTheme.typography.caption,
+                                                                    fontSize = 10.sp
+                                                                )
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                                 if (!location.media.isNullOrEmpty()) {
                                                     Row(
                                                         Modifier
@@ -455,7 +510,8 @@ class MapsActivity : GodActivity() {
                             scope.launch {
                                 if (backdropScaffoldState.isConcealed) backdropScaffoldState.reveal() else backdropScaffoldState.conceal()
                             }
-                        }
+                        },
+                        elevation = FloatingActionButtonDefaults.elevation(4.dp)
                     ) {
                         AnimatedContent(targetState = backdropScaffoldState) {
                             when {

@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -36,9 +37,12 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
 import com.austinhodak.tarkovapi.room.enums.Traders
+import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.ammunition.AmmoCard
+import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
@@ -71,6 +75,8 @@ fun QuestMainScreen(
     val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
 
     val isSearchOpen by questViewModel.isSearchOpen.observeAsState(false)
+    val searchKey by questViewModel.searchKey.observeAsState("")
+    val userData by questViewModel.userData.observeAsState()
 
     HideoutTheme {
         Scaffold(
@@ -161,6 +167,10 @@ fun QuestMainScreen(
                 }
             }
         ) { padding ->
+            if (isSearchOpen) {
+                QuestSearchBody(searchKey, quests, userData, questViewModel, scope)
+                return@Scaffold
+            }
 
             if (quests.isNullOrEmpty()) {
                 Box(
@@ -188,6 +198,42 @@ fun QuestMainScreen(
                         QuestTradersScreen(questViewModel = questViewModel, scope = scope, quests = quests, padding = padding, isMapTab = true)
                     }
                 }
+            }
+        }
+    }
+}
+
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
+@Composable
+fun QuestSearchBody(
+    searchKey: String,
+    data: List<Quest>,
+    userData: User?,
+    questViewModel: QuestMainViewModel,
+    scope: CoroutineScope
+) {
+
+    val items = data.filter {
+        if (searchKey.isBlank()) return@filter false
+        it.title?.contains(searchKey, ignoreCase = true) == true
+                || it.getMaps(mapsList).contains(searchKey, ignoreCase = true)
+    }.sortedBy { it.title }
+
+    if (items.isNullOrEmpty()) {
+        EmptyText("Search Quests.")
+        return
+    }
+
+    LazyColumn(
+        Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(vertical = 4.dp, horizontal = 4.dp)
+    ) {
+        items.forEach {
+            item {
+                QuestCard(it, userData, questViewModel, scope)
             }
         }
     }
@@ -352,7 +398,22 @@ private fun QuestCard(
     ) {
         Column {
             Row(
-                Modifier.padding(16.dp)
+                Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = quest.trader().icon),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(24.dp)
+                )
+                Text(
+                    modifier = Modifier.padding(start = 16.dp),
+                    text = "${quest.trader().id}", style = MaterialTheme.typography.caption)
+            }
+            Row(
+                Modifier.padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 16.dp)
             ) {
                 Column(
                     Modifier
@@ -407,7 +468,7 @@ private fun QuestCard(
                                 Text("COMPLETE")
                             }
                         }
-                        else -> {
+                        userData?.isQuestCompleted(quest) == true -> {
                             OutlinedButton(
                                 onClick = { quest.undo(true) },
                                 colors = ButtonDefaults.outlinedButtonColors(
@@ -417,6 +478,20 @@ private fun QuestCard(
                                 border = BorderStroke(1.dp, color = Color.Gray)
                             ) {
                                 Text("UNDO")
+                            }
+                        }
+                        else -> {
+                            OutlinedButton(
+                                onClick = {
+                                    questViewModel.skipToQuest(quest)
+                                },
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    backgroundColor = Color.Transparent,
+                                    contentColor = Color.Gray
+                                ),
+                                border = BorderStroke(1.dp, color = Color.Gray)
+                            ) {
+                                Text("SKIP TO")
                             }
                         }
                     }

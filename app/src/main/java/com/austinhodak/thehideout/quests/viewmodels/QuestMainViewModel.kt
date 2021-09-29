@@ -1,11 +1,14 @@
 package com.austinhodak.thehideout.quests.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.utils.QuestExtraHelper
 import com.austinhodak.thehideout.SearchViewModel
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
@@ -16,6 +19,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
@@ -25,8 +29,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuestMainViewModel @Inject constructor(
-    private val repository: TarkovRepo
+    private val repository: TarkovRepo,
+    @ApplicationContext context: Context
 ) : SearchViewModel() {
+
+    private val _questsExtras = MutableLiveData<List<QuestExtra.QuestExtraItem>>()
+    val questsExtra = _questsExtras
+
+    val questsList = MutableLiveData<List<Quest>>()
 
     private val _view = MutableLiveData(QuestFilter.AVAILABLE)
     val view = _view
@@ -185,6 +195,7 @@ class QuestMainViewModel @Inject constructor(
             repository.getAllQuests().collect {
                 viewModelScope.launch {
                     //Timber.d(it.toString())
+                    questsList.value = it
                     quests = it
                     updateTotals(it)
                 }
@@ -206,6 +217,8 @@ class QuestMainViewModel @Inject constructor(
                 }
             })
         }
+
+        _questsExtras.value = QuestExtraHelper.getQuests(context = context)
     }
 
     suspend fun getObjectiveText(questObjective: Quest.QuestObjective): String {
@@ -242,12 +255,12 @@ class QuestMainViewModel @Inject constructor(
 
     fun skipToQuest(quest: Quest) {
         viewModelScope.launch {
-            quest.requiredQuestsList()?.forEach { _ ->
-               /* val q = quests?.find { it.id.toInt() == id }
+            quest.requiredQuestsList()?.forEach { id ->
+                val q = questsList.value?.find { it.id.toInt() == id }
                 if (q != null) {
-                    markQuestCompleted(q)
+                    q.completed()
                     skipToQuest(q)
-                }*/
+                }
             }
         }
     }
