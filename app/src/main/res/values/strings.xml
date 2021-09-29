@@ -47,5 +47,6 @@
     <string name="title_activity_nav">The Hideout</string>
     <string name="title_activity_mod_detail">ModDetailActivity</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_premium">PremiumActivity</string>
 
 </resources>

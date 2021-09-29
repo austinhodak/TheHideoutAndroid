@@ -36,7 +36,7 @@ class Application : android.app.Application() {
     override fun onCreate() {
         super.onCreate()
 
-        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+        //AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
         instance = this
         questPrefs = Prefs(applicationContext)

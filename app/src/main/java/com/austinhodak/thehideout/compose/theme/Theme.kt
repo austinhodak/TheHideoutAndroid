@@ -6,6 +6,7 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
     primary = DarkGrey,
@@ -30,6 +31,37 @@ fun HideoutTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
     } else {
         DarkColorPalette
     }
+
+    MaterialTheme(
+        colors = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
+    )
+}
+
+private val DarkPalette = darkColors(
+    primary = Red400,
+    primaryVariant = DarkPrimary
+    //surface = Color(0xFE1F1F1F)
+)
+
+private val LightPalette = lightColors(
+    primary = Red400,
+    primaryVariant = Red700
+)
+
+@Composable
+fun TheHideoutTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+    val systemUiController = rememberSystemUiController()
+
+    val colors = if (darkTheme) {
+        DarkPalette
+    } else {
+        LightPalette
+    }
+
+    systemUiController.setStatusBarColor(colors.primaryVariant)
 
     MaterialTheme(
         colors = colors,

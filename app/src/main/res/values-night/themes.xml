@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/md_red_400</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
+<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>-->
 
         <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyleCustom</item>
 
