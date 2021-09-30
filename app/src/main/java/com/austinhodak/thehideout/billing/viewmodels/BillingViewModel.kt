@@ -51,6 +51,12 @@ class BillingViewModel @Inject constructor(
     suspend fun querySkuDetails() {
         val skuList = ArrayList<String>()
         skuList.add("donation_1")
+        skuList.add("donation_2")
+        skuList.add("donation_3")
+        skuList.add("donation_4")
+        skuList.add("donation_5")
+        skuList.add("donation_6")
+        skuList.add("donation_nice")
         val params = SkuDetailsParams.newBuilder()
         params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
 
