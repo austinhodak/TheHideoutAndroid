@@ -12,37 +12,63 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.android.billingclient.api.SkuDetails
+import androidx.lifecycle.viewModelScope
+import com.android.billingclient.api.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.billing.viewmodels.BillingViewModel
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.TheHideoutTheme
+import com.austinhodak.thehideout.utils.launchFlow
 import dagger.hilt.android.AndroidEntryPoint
 import dev.jeziellago.compose.markdowntext.MarkdownText
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PremiumActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var billingClientWrapper: BillingClientWrapper
 
     private val viewModel: BillingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             TheHideoutTheme {
                 val items by viewModel.itemList.observeAsState(mutableListOf())
                 val subs by viewModel.subList.observeAsState(mutableListOf())
 
+                var itemslist by remember { mutableStateOf<List<SkuDetails>?>(null) }
+                var subsList by remember { mutableStateOf<List<SkuDetails>?>(null) }
+
                 Timber.d(items.toString())
                 Timber.d(subs.toString())
+
+                billingClientWrapper.queryProducts(object : BillingClientWrapper.OnQueryProductsListener {
+                    override fun onSuccess(products: List<SkuDetails>) {
+                        products.filter { it.type == BillingClient.SkuType.INAPP }.let {
+                            itemslist = it
+                        }
+
+                        products.filter { it.type == BillingClient.SkuType.SUBS }.let {
+                            subsList = it
+                        }
+                    }
+
+                    override fun onFailure(error: BillingClientWrapper.Error) {
+
+                    }
+                })
 
                 Scaffold(
                     topBar = {
@@ -63,7 +89,7 @@ class PremiumActivity : AppCompatActivity() {
                         contentPadding = PaddingValues(vertical = 4.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        subs?.forEach {
+                        subsList?.forEach {
                             item {
                                 SubCard(details = it)
                             }
@@ -74,7 +100,7 @@ class PremiumActivity : AppCompatActivity() {
                                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                             )
                         }
-                        items?.forEach {
+                        itemslist?.forEach {
                             item {
                                 IAPCard(details = it)
                             }
@@ -112,7 +138,7 @@ class PremiumActivity : AppCompatActivity() {
                         .background(Red400)
                         .height(40.dp)
                         .clickable {
-
+                            billingClientWrapper.purchase(this@PremiumActivity, details)
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
@@ -150,7 +176,7 @@ class PremiumActivity : AppCompatActivity() {
                         .background(Red400)
                         .height(40.dp)
                         .clickable {
-
+                            billingClientWrapper.purchase(this@PremiumActivity, details)
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center

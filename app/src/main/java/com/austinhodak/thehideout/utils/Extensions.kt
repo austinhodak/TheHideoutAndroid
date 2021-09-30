@@ -18,6 +18,9 @@ import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.SkuDetails
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -578,4 +581,8 @@ fun Pricing.addToCartDialog(context: Context) {
 
 fun Pricing.addToCart(quantity: Long? = 1) {
     userRefTracker("cart/${this.id}").setValue(ServerValue.increment(quantity ?: 1))
+}
+
+fun SkuDetails.launchFlow(activity: Activity, billingClient: BillingClient): Int {
+    return billingClient.launchBillingFlow(activity, BillingFlowParams.newBuilder().setSkuDetails(this).build()).responseCode
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.*
+import com.austinhodak.thehideout.billing.BillingClientWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -15,40 +16,38 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BillingViewModel @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext context: Context,
+    billingClientWrapper: BillingClientWrapper
 ): ViewModel() {
-
-    private val purchasesUpdatedListener = PurchasesUpdatedListener { _, _ ->
-
-    }
-
-    private var billingClient = BillingClient.newBuilder(context)
-        .setListener(purchasesUpdatedListener)
-        .enablePendingPurchases()
-        .build()
 
     val subList = MutableLiveData<MutableList<SkuDetails>>(mutableListOf())
     val itemList = MutableLiveData<MutableList<SkuDetails>>(mutableListOf())
 
     init {
-        billingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingServiceDisconnected() {
-                billingClient.startConnection(this)
+        billingClientWrapper.queryProducts(object : BillingClientWrapper.OnQueryProductsListener {
+            override fun onSuccess(products: List<SkuDetails>) {
+                products.filter { it.type == BillingClient.SkuType.INAPP }.let {
+                    Timber.d(it.toString())
+                    val items = itemList.value ?: mutableListOf()
+                    items.addAll(it)
+                    itemList.value = items
+                }
+
+                products.filter { it.type == BillingClient.SkuType.SUBS }.let {
+                    Timber.d(it.toString())
+                    val items = itemList.value ?: mutableListOf()
+                    items.addAll(it)
+                    subList.value = items
+                }
             }
 
-            override fun onBillingSetupFinished(billingResult: BillingResult) {
-                if (billingResult.responseCode ==  BillingClient.BillingResponseCode.OK) {
-                    viewModelScope.launch {
-                        querySkuSubs()
-                        querySkuDetails()
-                    }
-                }
-                Timber.d(billingResult.responseCode.toString())
+            override fun onFailure(error: BillingClientWrapper.Error) {
+
             }
         })
     }
 
-    suspend fun querySkuDetails() {
+   /* suspend fun querySkuDetails() {
         val skuList = ArrayList<String>()
         skuList.add("donation_1")
         skuList.add("donation_2")
@@ -88,5 +87,5 @@ class BillingViewModel @Inject constructor(
             items.addAll(it)
             subList.value = items
         }
-    }
+    }*/
 }

@@ -48,5 +48,6 @@
     <string name="title_activity_mod_detail">ModDetailActivity</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_premium">PremiumActivity</string>
+    <string name="title_activity_premium_pusher">PremiumPusherActivity</string>
 
 </resources>

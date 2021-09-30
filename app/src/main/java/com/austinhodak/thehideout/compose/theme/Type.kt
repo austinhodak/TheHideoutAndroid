@@ -44,6 +44,12 @@ val Typography = Typography(
         fontSize = 24.sp,
         letterSpacing = 0.sp
     ),
+    h4 = TextStyle(
+        fontFamily = Bender,
+        fontWeight = FontWeight.Bold,
+        fontSize = 34.sp,
+        letterSpacing = 0.25.sp
+    ),
     subtitle1 = TextStyle(
         fontFamily = Bender,
         fontWeight = FontWeight.Medium,

@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
+            android:name=".billing.PremiumPusherActivity"
+            android:exported="true"
+            android:label="@string/title_activity_premium_pusher"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
+        <activity
             android:name=".billing.PremiumActivity"
             android:exported="true"
             android:label="@string/title_activity_premium"
@@ -20,11 +25,9 @@
             android:name=".weapons.builder.WeaponBuilderActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".gear.GearDetailActivity"
             android:exported="true" />
-
         <activity
             android:name=".settings.SettingsActivity"
             android:exported="true" />
@@ -37,25 +40,21 @@
             android:name=".map.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
-
         <activity
             android:name=".weapons.mods.ModDetailActivity"
             android:exported="true"
             android:label="@string/title_activity_mod_detail"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".NavActivity"
             android:exported="true"
             android:label="@string/title_activity_nav"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".ammunition.AmmoDetailActivity"
