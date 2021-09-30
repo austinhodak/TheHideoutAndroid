@@ -27,12 +27,13 @@ class BillingViewModel @Inject constructor(
         .enablePendingPurchases()
         .build()
 
-    val itemsList = MutableLiveData<MutableList<SkuDetails>>(mutableListOf())
+    val subList = MutableLiveData<MutableList<SkuDetails>>(mutableListOf())
+    val itemList = MutableLiveData<MutableList<SkuDetails>>(mutableListOf())
 
     init {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingServiceDisconnected() {
-
+                billingClient.startConnection(this)
             }
 
             override fun onBillingSetupFinished(billingResult: BillingResult) {
@@ -50,11 +51,6 @@ class BillingViewModel @Inject constructor(
     suspend fun querySkuDetails() {
         val skuList = ArrayList<String>()
         skuList.add("donation_1")
-        skuList.add("donation_2")
-        skuList.add("donation_3")
-        skuList.add("donation_4")
-        skuList.add("donation_5")
-        skuList.add("donation_nice")
         val params = SkuDetailsParams.newBuilder()
         params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
 
@@ -62,13 +58,11 @@ class BillingViewModel @Inject constructor(
             billingClient.querySkuDetails(params.build())
         }
 
-        Timber.d(skuDetailsResult.skuDetailsList.toString())
-
-        val items = itemsList.value ?: mutableListOf()
+        val items = itemList.value ?: mutableListOf()
 
         skuDetailsResult.skuDetailsList?.let {
             items.addAll(it)
-            itemsList.value = items
+            itemList.value = items
         }
     }
 
@@ -82,11 +76,11 @@ class BillingViewModel @Inject constructor(
             billingClient.querySkuDetails(params.build())
         }
 
-        val items = itemsList.value ?: mutableListOf()
+        val items = subList.value ?: mutableListOf()
 
         skuDetailsResult.skuDetailsList?.let {
             items.addAll(it)
-            itemsList.value = items
+            subList.value = items
         }
     }
 }
