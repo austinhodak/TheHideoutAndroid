@@ -55,7 +55,9 @@ class Application : android.app.Application() {
 
         Firebase.database.setPersistenceEnabled(true)
 
-        Firebase.auth.signInAnonymously()
+        if (Firebase.auth.currentUser == null) {
+            Firebase.auth.signInAnonymously()
+        }
 
         Only.init(applicationContext)
 
