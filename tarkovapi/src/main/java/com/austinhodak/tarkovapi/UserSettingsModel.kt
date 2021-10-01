@@ -21,6 +21,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val playerLevel by intPref(71, "playerLevel")
 
     val mapMarkerCategories by intSetPref(emptySet(), "mapMarkerCategories")
+
+    val playerIGN by stringPref(key = "playerIGN")
 }
 
 enum class Levels {
