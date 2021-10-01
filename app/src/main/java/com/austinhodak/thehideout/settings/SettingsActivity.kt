@@ -27,6 +27,7 @@ import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.utils.restartNavActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.FirebaseAuth
@@ -133,41 +134,50 @@ class SettingsActivity : GodActivity() {
                                     currentScreen = if (breadcrumbs.isBlank()) "Settings" else breadcrumbs
                                 }
                                 state = savedInstanceState
-                                input(UserSettingsModel.playerLevel) {
-                                    title = "Player Level".asText()
-                                    summary = "Level %s".asText()
-                                    hint = "Level".asText()
-                                }
                                 subScreen {
-                                    title = "Traders".asText()
+                                    title = "Player Profile".asText()
                                     icon = R.drawable.ic_baseline_person_24.asIcon()
-                                    category {
-                                        title = "Trader Levels".asText()
+                                    input(UserSettingsModel.playerIGN) {
+                                        title = "In Game Name".asText()
+                                        summary = "%s".asText()
+                                        hint = "Name".asText()
                                     }
-                                    singleChoice(UserSettingsModel.praporLevel, Levels.values(), { "Level $it" }) {
-                                        title = "Prapor".asText()
+                                    input(UserSettingsModel.playerLevel) {
+                                        title = "Player Level".asText()
+                                        summary = "Level %s".asText()
+                                        hint = "Level".asText()
                                     }
-                                    singleChoice(UserSettingsModel.therapistLevel, Levels.values(), { "Level $it" }) {
-                                        title = "Therapist".asText()
-                                    }
-                                    singleChoice(UserSettingsModel.fenceLevel, Levels.values(), { "Level $it" }) {
-                                        title = "Fence".asText()
-                                        enabled = false
-                                    }
-                                    singleChoice(UserSettingsModel.skierLevel, Levels.values(), { "Level $it" }) {
-                                        title = "Skier".asText()
-                                    }
-                                    singleChoice(UserSettingsModel.peacekeeperLevel, Levels.values(), { "Level $it" }) {
-                                        title = "Peacekeeper".asText()
-                                    }
-                                    singleChoice(UserSettingsModel.mechanicLevel, Levels.values(), { "Level $it" }) {
-                                        title = "Mechanic".asText()
-                                    }
-                                    singleChoice(UserSettingsModel.ragmanLevel, Levels.values(), { "Level $it" }) {
-                                        title = "Ragman".asText()
-                                    }
-                                    singleChoice(UserSettingsModel.jaegerLevel, Levels.values(), { "Level $it" }) {
-                                        title = "Jaeger".asText()
+                                    subScreen {
+                                        title = "Traders".asText()
+                                        //icon = R.drawable.ic_baseline_person_24.asIcon()
+                                        category {
+                                            title = "Trader Levels".asText()
+                                        }
+                                        singleChoice(UserSettingsModel.praporLevel, Levels.values(), { "Level $it" }) {
+                                            title = "Prapor".asText()
+                                        }
+                                        singleChoice(UserSettingsModel.therapistLevel, Levels.values(), { "Level $it" }) {
+                                            title = "Therapist".asText()
+                                        }
+                                        singleChoice(UserSettingsModel.fenceLevel, Levels.values(), { "Level $it" }) {
+                                            title = "Fence".asText()
+                                            enabled = false
+                                        }
+                                        singleChoice(UserSettingsModel.skierLevel, Levels.values(), { "Level $it" }) {
+                                            title = "Skier".asText()
+                                        }
+                                        singleChoice(UserSettingsModel.peacekeeperLevel, Levels.values(), { "Level $it" }) {
+                                            title = "Peacekeeper".asText()
+                                        }
+                                        singleChoice(UserSettingsModel.mechanicLevel, Levels.values(), { "Level $it" }) {
+                                            title = "Mechanic".asText()
+                                        }
+                                        singleChoice(UserSettingsModel.ragmanLevel, Levels.values(), { "Level $it" }) {
+                                            title = "Ragman".asText()
+                                        }
+                                        singleChoice(UserSettingsModel.jaegerLevel, Levels.values(), { "Level $it" }) {
+                                            title = "Jaeger".asText()
+                                        }
                                     }
                                 }
                                 /*subScreen {
@@ -214,6 +224,9 @@ class SettingsActivity : GodActivity() {
                                     summary = "${gameInfo.getString("version")} ($versionDate)".asText()
                                     icon = R.drawable.ic_baseline_info_24.asIcon()
                                     enabled = false
+                                    onClick= {
+                                        "https://escapefromtarkov.fandom.com/wiki/Changelog".openWithCustomTab(this@SettingsActivity)
+                                    }
                                 }
                                 button {
                                     title = "Last Wipe".asText()
