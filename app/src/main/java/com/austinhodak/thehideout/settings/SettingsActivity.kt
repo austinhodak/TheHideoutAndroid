@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.settings
 
+import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
@@ -31,6 +32,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.get
 import com.michaelflisar.materialpreferences.preferencescreen.*
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
@@ -38,6 +41,11 @@ import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.json.JSONObject
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.time.temporal.ChronoUnit
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -69,6 +77,28 @@ class SettingsActivity : GodActivity() {
                 }
 
                 isSignedIn = FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser?.isAnonymous == false
+
+                val gameInfo = JSONObject(FirebaseRemoteConfig.getInstance()["game_info"].asString())
+                val wipeDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val date = LocalDate.parse(gameInfo.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                    val now = LocalDate.now()
+
+                    val between = ChronoUnit.DAYS.between(date, now)
+
+                    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                    "${date.format(formatter)} ($between Days)"
+                } else {
+                    gameInfo.getString("wipe_date")
+                }
+
+                val versionDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val date = LocalDate.parse(gameInfo.getString("version_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+
+                    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                    "${date.format(formatter)}"
+                } else {
+                    gameInfo.getString("version_date")
+                }
 
                 Scaffold(
                     topBar = {
@@ -177,6 +207,18 @@ class SettingsActivity : GodActivity() {
                                     title = "The Hideout".asText()
                                     summary = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})".asText()
                                     icon = R.drawable.ic_baseline_code_24.asIcon()
+                                    enabled = false
+                                }
+                                button {
+                                    title = "Game Version".asText()
+                                    summary = "${gameInfo.getString("version")} ($versionDate)".asText()
+                                    icon = R.drawable.ic_baseline_info_24.asIcon()
+                                    enabled = false
+                                }
+                                button {
+                                    title = "Last Wipe".asText()
+                                    summary = wipeDate.asText()
+                                    icon = R.drawable.icons8_toilet_paper_24.asIcon()
                                     enabled = false
                                 }
                             }
