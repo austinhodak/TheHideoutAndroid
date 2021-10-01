@@ -379,6 +379,7 @@ fun MainDrawer(
                                 //Active premium
                                 drawer.removeItems(9999, 998)
                             } else {
+                                drawer.removeItems(9999, 998)
                                 //No premium.
                                 drawer.addItemAtPosition(14, DividerDrawerItem().apply { identifier = 9999 })
                                 drawer.addItemAtPosition(15, drawerUpgrade)
