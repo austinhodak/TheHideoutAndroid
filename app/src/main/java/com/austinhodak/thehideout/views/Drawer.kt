@@ -22,9 +22,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import coil.annotation.ExperimentalCoilApi
+import com.adapty.Adapty
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.billing.PremiumPusherActivity
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.Green500
@@ -43,10 +45,7 @@ import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.badgeText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
-import com.mikepenz.materialdrawer.util.addStickyDrawerItems
-import com.mikepenz.materialdrawer.util.getDrawerItem
-import com.mikepenz.materialdrawer.util.removeAllStickyFooterItems
-import com.mikepenz.materialdrawer.util.removeItems
+import com.mikepenz.materialdrawer.util.*
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -203,10 +202,12 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
     private val drawerSettings = SecondaryDrawerItem().apply {
         tag = "settings"
         nameText = "Settings"; iconRes = R.drawable.ic_baseline_settings_24; isIconTinted = true; isSelectable = false; isEnabled = true
+        typeface = benderFont
     }
 
     init {
         itemAdapter.add(
+            //drawerDivider,
             drawerAmmo,
             drawerGear,
             drawerKeys,
@@ -219,10 +220,9 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             drawerDivider,
             drawerFleaMarket,
             drawerHideout,
+            drawerMaps,
             drawerQuests,
             drawerDamageSimulator,
-            drawerDivider,
-            drawerMaps,
             drawerSectionJoinUs,
             drawerJoinUsDiscord,
             drawerJoinUsTwitch,
@@ -249,12 +249,15 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
 @Composable
 fun MainDrawer(
     navViewModel: NavViewModel,
-    lifecycleOwner: LifecycleOwner
+    lifecycleOwner: LifecycleOwner,
+    context: Context
 ) {
 
     val selectedDrawerItem by navViewModel.selectedDrawerItem.observeAsState()
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
+
+    val benderFont = ResourcesCompat.getFont(context, R.font.bender)
 
     val drawerLogin = SecondaryDrawerItem().apply {
         tag = "login"
@@ -263,8 +266,18 @@ fun MainDrawer(
         isIconTinted = false
         isSelectable = false
         identifier = 999
+        typeface = benderFont
         //badgeText = "BETA";
         //badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_red_700) }
+    }
+
+    val drawerUpgrade = PrimaryDrawerItem().apply {
+        tag = "upgrade"
+        nameText = "Upgrade to Premium"
+        iconRes = R.drawable.icons8_buy_upgrade_96
+        isSelectable = false
+        typeface = benderFont
+        identifier = 998
     }
 
     Scaffold(
@@ -308,6 +321,7 @@ fun MainDrawer(
                                     route == "activity:sim" -> context.openActivity(CalculatorMainActivity::class.java)
                                     route == "activity:map" -> context.openActivity(MapsActivity::class.java)
                                     route == "settings" -> context.openActivity(SettingsActivity::class.java)
+                                    route == "upgrade" -> context.openActivity(PremiumPusherActivity::class.java)
                                     route.contains("https:") -> {
                                         route.openWithCustomTab(context)
                                     }
@@ -357,6 +371,20 @@ fun MainDrawer(
                             }
                         }
                     //}
+
+                    Adapty.getPurchaserInfo { purchaserInfo, error ->
+                        if (error == null) {
+                            //Check for premium
+                            if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
+                                //Active premium
+                                drawer.removeItems(9999, 998)
+                            } else {
+                                //No premium.
+                                drawer.addItemAtPosition(14, DividerDrawerItem().apply { identifier = 9999 })
+                                drawer.addItemAtPosition(15, drawerUpgrade)
+                            }
+                        }
+                    }
                 }
             )
         }

@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import coil.compose.rememberImagePainter
+import com.adapty.Adapty
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.austinhodak.tarkovapi.room.models.Mod
@@ -39,6 +40,8 @@ import com.austinhodak.thehideout.WeaponBuild
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.WeaponBuildFirestore
 import com.austinhodak.thehideout.utils.getColor
+import com.austinhodak.thehideout.utils.isPremium
+import com.austinhodak.thehideout.utils.purchase
 import com.austinhodak.thehideout.utils.round
 import com.austinhodak.thehideout.views.EditorProgress
 import com.austinhodak.thehideout.weapons.builder.viewmodel.WeaponBuilderViewModel
@@ -282,7 +285,31 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                 OutlinedButton(
                                     onClick = {
                                         if (userLoadouts?.size ?: 0 >= 5) {
-                                            Toast.makeText(this@WeaponBuilderActivity, "Limited to 5 loadouts during beta.", Toast.LENGTH_SHORT).show()
+                                            isPremium {
+                                                if (it) {
+                                                    viewModel.saveBuild {
+                                                        Toast.makeText(this@WeaponBuilderActivity, "Saved!", Toast.LENGTH_SHORT).show()
+                                                    }
+                                                } else {
+                                                    Adapty.getPaywalls { paywalls, products, error ->
+                                                        val premium = products?.find { it.skuDetails?.sku == "premium_1" }?.let {
+                                                            it.purchase(this@WeaponBuilderActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
+                                                                if (error != null) {
+                                                                    Toast.makeText(this@WeaponBuilderActivity, "Error upgrading.", Toast.LENGTH_SHORT).show()
+                                                                }
+                                                                isPremium {
+                                                                    if (it) {
+                                                                        viewModel.saveBuild {
+                                                                            Toast.makeText(this@WeaponBuilderActivity, "Saved!", Toast.LENGTH_SHORT).show()
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            //Toast.makeText(this@WeaponBuilderActivity, "Limited to 5 loadouts during beta.", Toast.LENGTH_SHORT).show()
                                         } else {
                                             viewModel.saveBuild {
                                                 Toast.makeText(this@WeaponBuilderActivity, "Saved!", Toast.LENGTH_SHORT).show()

@@ -24,6 +24,7 @@ import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.billing.PremiumActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.restartNavActivity
@@ -168,6 +169,16 @@ class SettingsActivity : GodActivity() {
                                         Firebase.auth.signOut()
                                         Toast.makeText(this@SettingsActivity, "Logged out!", Toast.LENGTH_SHORT).show()
                                         restartNavActivity()
+                                    }
+                                }
+                                category {
+                                    title = "Premium & Donations".asText()
+                                }
+                                button {
+                                    title = "Upgrade or Donate".asText()
+                                    icon = R.drawable.ic_baseline_upgrade_24.asIcon()
+                                    onClick = {
+                                        context.openActivity(PremiumActivity::class.java)
                                     }
                                 }
                                 category {

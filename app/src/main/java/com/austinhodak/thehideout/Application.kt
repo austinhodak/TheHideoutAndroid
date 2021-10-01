@@ -3,6 +3,7 @@ package com.austinhodak.thehideout
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import com.adapty.Adapty
 import com.android.billingclient.api.BillingClient
 import com.austinhodak.tarkovapi.utils.Hideout
 import com.austinhodak.tarkovapi.utils.Maps
@@ -70,6 +71,14 @@ class Application : android.app.Application() {
         }
 
         setupRemoteConfig()
+
+        Adapty.activate(applicationContext, "public_live_SqlSm08V.OIqFvCDBsqP81tCyaNEU", customerUserId = uid())
+
+        Adapty.restorePurchases { purchaserInfo, googleValidationResultList, error ->
+            if (error == null) {
+                // successful restore
+            }
+        }
     }
 
     /**

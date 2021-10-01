@@ -24,16 +24,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
+import com.adapty.Adapty
+import com.adapty.models.PaywallModel
 import com.android.billingclient.api.*
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.billing.ui.theme.TheHideoutTheme
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.utils.launchFlow
+import com.austinhodak.thehideout.utils.purchase
 import com.austinhodak.thehideout.utils.restartNavActivity
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
@@ -46,6 +47,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
+@ExperimentalPagerApi
 @ExperimentalCoilApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
@@ -91,13 +93,17 @@ class PremiumPusherActivity : ComponentActivity() {
                         mutableStateOf(null)
                     }
 
+                    var paywall: PaywallModel? by remember {
+                        mutableStateOf(null)
+                    }
+
                     billingClient.startConnection(object : BillingClientStateListener {
                         override fun onBillingServiceDisconnected() {
                             billingClient.startConnection(this)
                         }
 
                         override fun onBillingSetupFinished(billingResult: BillingResult) {
-                            if (billingResult.responseCode ==  BillingClient.BillingResponseCode.OK) {
+                            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                                 val skuList = ArrayList<String>()
                                 skuList.add("premium_1")
                                 val params = SkuDetailsParams.newBuilder()
@@ -115,7 +121,15 @@ class PremiumPusherActivity : ComponentActivity() {
                         }
                     })
 
-                    details?.let {
+                    Adapty.getPaywalls(true) { paywalls, products, error ->
+                        if (error == null) {
+                            paywalls?.find { it.developerId == "premium" }?.let {
+                                paywall = it
+                            }
+                        }
+                    }
+
+                    paywall?.let {
                         Pusher(it)
                     }
                 }
@@ -125,10 +139,30 @@ class PremiumPusherActivity : ComponentActivity() {
 
     @Composable
     fun Pusher(
-        skuDetails: SkuDetails
+        paywall: PaywallModel
     ) {
+        val product = paywall.products.first()
+
+        val image = if (paywall.customPayload?.containsKey("background_image") == true) {
+            rememberImagePainter(data = paywall.customPayload?.get("background_image"))
+        } else {
+            painterResource(id = R.drawable.g7z8a1hc71f51)
+        }
+
+        val currentFeatures = if (paywall.customPayload?.containsKey("features") == true) {
+            paywall.customPayload?.get("features") as String
+        } else {
+            "• Unlimited Loadout Slots <br>• Future access to premium features."
+        }
+
+        val comingSoon = if (paywall.customPayload?.containsKey("coming_soon") == true) {
+            paywall.customPayload?.get("coming_soon") as String
+        } else {
+            "• Custom Map Markers <br>• Tarkov Tracker Integration <br>• Team Quest Tracking <br>• Quest Tracker Integration with Maps <br>• Team Map Collaboration <br>• Discord Role and Special Access <br>• Lots more! "
+        }
+
         Image(
-            painter = painterResource(id = R.drawable.g7z8a1hc71f51),
+            painter = image,
             contentDescription = "Background Image",
             alignment = Alignment.Center,
             contentScale = ContentScale.Crop,
@@ -217,7 +251,7 @@ class PremiumPusherActivity : ComponentActivity() {
                                         color = White
                                     )
                                     MarkdownText(
-                                        markdown = "• Unlimited Loadout Slots <br>• Future access to premium features.",
+                                        markdown = currentFeatures,
                                         style = MaterialTheme.typography.body1,
                                         fontResource = R.font.bender,
                                         color = White,
@@ -231,9 +265,7 @@ class PremiumPusherActivity : ComponentActivity() {
                                         color = White
                                     )
                                     MarkdownText(
-                                        markdown = "• Custom Map Markers <br>• Tarkov Tracker Integration <br>• Team Quest Tracking <br>" +
-                                                "• Quest Tracker Integration with Maps <br>• Team Map Collaboration <br>• Discord Role and Special Access " +
-                                                "<br>• Lots more! ",
+                                        markdown = comingSoon,
                                         style = MaterialTheme.typography.body1,
                                         fontResource = R.font.bender,
                                         color = White,
@@ -246,7 +278,12 @@ class PremiumPusherActivity : ComponentActivity() {
                 }
                 Button(
                     onClick = {
-                        skuDetails.launchFlow(this@PremiumPusherActivity, billingClient)
+                        product.purchase(this@PremiumPusherActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, e ->
+                            if (e == null) {
+                                Toast.makeText(this@PremiumPusherActivity, "Thank you!", Toast.LENGTH_SHORT).show()
+                                restartNavActivity()
+                            }
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -255,7 +292,7 @@ class PremiumPusherActivity : ComponentActivity() {
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Red400)
                 ) {
-                    Text(text = "${skuDetails.price}/MONTH", fontSize = 16.sp, color = Color.White)
+                    Text(text = "${product.skuDetails?.price}/MONTH", fontSize = 16.sp, color = Color.White)
                 }
             }
         }

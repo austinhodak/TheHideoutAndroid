@@ -180,7 +180,7 @@ class NavActivity : GodActivity() {
                 Scaffold(
                     scaffoldState = scaffoldState,
                     drawerContent = {
-                        MainDrawer(navViewModel = navViewModel, lifeCycleOwner)
+                        MainDrawer(navViewModel = navViewModel, lifeCycleOwner, this@NavActivity)
                     },
                     drawerScrimColor = Color(0xFF121212)
                 ) {

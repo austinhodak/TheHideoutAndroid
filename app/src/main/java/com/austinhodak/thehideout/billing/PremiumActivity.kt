@@ -1,9 +1,12 @@
 package com.austinhodak.thehideout.billing
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -18,20 +21,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
+import coil.annotation.ExperimentalCoilApi
+import com.adapty.Adapty
+import com.adapty.models.ProductModel
 import com.android.billingclient.api.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.billing.viewmodels.BillingViewModel
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.TheHideoutTheme
-import com.austinhodak.thehideout.utils.launchFlow
+import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.purchase
+import com.austinhodak.thehideout.utils.restartNavActivity
+import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import dev.jeziellago.compose.markdowntext.MarkdownText
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.json.JSONObject
-import timber.log.Timber
 import javax.inject.Inject
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@ExperimentalAnimationApi
+@ExperimentalPagerApi
 @AndroidEntryPoint
 class PremiumActivity : AppCompatActivity() {
 
@@ -48,27 +61,27 @@ class PremiumActivity : AppCompatActivity() {
                 val items by viewModel.itemList.observeAsState(mutableListOf())
                 val subs by viewModel.subList.observeAsState(mutableListOf())
 
-                var itemslist by remember { mutableStateOf<List<SkuDetails>?>(null) }
-                var subsList by remember { mutableStateOf<List<SkuDetails>?>(null) }
+                var itemslist by remember { mutableStateOf<List<ProductModel>?>(null) }
+                var subsList by remember { mutableStateOf<List<ProductModel>?>(null) }
 
-                Timber.d(items.toString())
-                Timber.d(subs.toString())
+                //Timber.d(items.toString())
+                //Timber.d(subs.toString())
 
-                billingClientWrapper.queryProducts(object : BillingClientWrapper.OnQueryProductsListener {
-                    override fun onSuccess(products: List<SkuDetails>) {
-                        products.filter { it.type == BillingClient.SkuType.INAPP }.let {
-                            itemslist = it
-                        }
+                /* billingClientWrapper.queryProducts(object : BillingClientWrapper.OnQueryProductsListener {
+                     override fun onSuccess(products: List<SkuDetails>) {
+                         products.filter { it.type == BillingClient.SkuType.INAPP }.let {
+                             itemslist = it
+                         }
 
-                        products.filter { it.type == BillingClient.SkuType.SUBS }.let {
-                            subsList = it
-                        }
-                    }
+                         products.filter { it.type == BillingClient.SkuType.SUBS }.let {
+                             subsList = it
+                         }
+                     }
 
-                    override fun onFailure(error: BillingClientWrapper.Error) {
+                     override fun onFailure(error: BillingClientWrapper.Error) {
 
-                    }
-                })
+                     }
+                 })*/
 
                 Scaffold(
                     topBar = {
@@ -85,6 +98,13 @@ class PremiumActivity : AppCompatActivity() {
                         )
                     }
                 ) {
+                    Adapty.getPaywalls (true) { paywalls, products, error ->
+                        if (error == null) {
+                            itemslist = products?.filter { it.skuDetails?.type == BillingClient.SkuType.INAPP }
+                            subsList = products?.filter { it.skuDetails?.type == BillingClient.SkuType.SUBS }
+                        }
+                    }
+
                     LazyColumn(
                         contentPadding = PaddingValues(vertical = 4.dp),
                         modifier = Modifier.fillMaxWidth()
@@ -112,12 +132,15 @@ class PremiumActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun SubCard(details: SkuDetails) {
-        val json = JSONObject(details.originalJson)
+    private fun SubCard(details: ProductModel) {
+        val json = JSONObject(details.skuDetails?.originalJson)
         Card(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 4.dp)
                 .fillMaxWidth()
+                .clickable {
+                    openActivity(PremiumPusherActivity::class.java)
+                }
         ) {
             Column(
             ) {
@@ -138,20 +161,25 @@ class PremiumActivity : AppCompatActivity() {
                         .background(Red400)
                         .height(40.dp)
                         .clickable {
-                            billingClientWrapper.purchase(this@PremiumActivity, details)
+                            details.purchase(this@PremiumActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
+                                if (error == null) {
+                                    Toast.makeText(this@PremiumActivity, "Thank you!", Toast.LENGTH_SHORT).show()
+                                    restartNavActivity()
+                                }
+                            }
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "${details.price}/MONTH", style = MaterialTheme.typography.button, color = Color.Black)
+                    Text(text = "${details.skuDetails?.price}/MONTH", style = MaterialTheme.typography.button, color = Color.Black)
                 }
             }
         }
     }
 
     @Composable
-    private fun IAPCard(details: SkuDetails) {
-        val json = JSONObject(details.originalJson)
+    private fun IAPCard(details: ProductModel) {
+        val json = JSONObject(details.skuDetails?.originalJson)
         Card(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -165,7 +193,7 @@ class PremiumActivity : AppCompatActivity() {
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                 )
                 MarkdownText(
-                    markdown = details.description,
+                    markdown = details.skuDetails?.description ?: "",
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                     style = MaterialTheme.typography.body1,
                     fontResource = R.font.bender
@@ -176,12 +204,17 @@ class PremiumActivity : AppCompatActivity() {
                         .background(Red400)
                         .height(40.dp)
                         .clickable {
-                            billingClientWrapper.purchase(this@PremiumActivity, details)
+                            details.purchase(this@PremiumActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
+                                if (error == null) {
+                                    Toast.makeText(this@PremiumActivity, "Thank you!", Toast.LENGTH_SHORT).show()
+                                    restartNavActivity()
+                                }
+                            }
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(text = details.price, style = MaterialTheme.typography.button, color = Color.Black)
+                    Text(text = details.skuDetails?.price ?: "", style = MaterialTheme.typography.button, color = Color.Black)
                 }
             }
         }

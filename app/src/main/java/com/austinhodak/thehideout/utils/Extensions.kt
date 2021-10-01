@@ -15,12 +15,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
 import coil.annotation.ExperimentalCoilApi
+import com.adapty.Adapty
+import com.adapty.errors.AdaptyError
+import com.adapty.models.GoogleValidationResult
+import com.adapty.models.ProductModel
+import com.adapty.models.PurchaserInfoModel
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingFlowParams
-import com.android.billingclient.api.SkuDetails
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -31,6 +33,8 @@ import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
+import com.austinhodak.thehideout.billing.PremiumActivity
+import com.austinhodak.thehideout.billing.PremiumPusherActivity
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.compose.theme.Green500
@@ -46,11 +50,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
-import java.lang.Exception
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.round
@@ -292,6 +294,26 @@ fun Context.openModDetail(id: String) {
     this.openActivity(ModDetailActivity::class.java) {
         putString("id", id)
     }
+}
+
+@ExperimentalPagerApi
+@ExperimentalAnimationApi
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+fun Context.launchPremiumPusher() {
+    this.openActivity(PremiumPusherActivity::class.java)
+}
+
+@ExperimentalPagerApi
+@ExperimentalAnimationApi
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+fun Context.launchPremium() {
+    this.openActivity(PremiumActivity::class.java)
 }
 
 fun getCaliberName(caliber: String?): String {
@@ -583,6 +605,17 @@ fun Pricing.addToCart(quantity: Long? = 1) {
     userRefTracker("cart/${this.id}").setValue(ServerValue.increment(quantity ?: 1))
 }
 
-fun SkuDetails.launchFlow(activity: Activity, billingClient: BillingClient): Int {
-    return billingClient.launchBillingFlow(activity, BillingFlowParams.newBuilder().setSkuDetails(this).build()).responseCode
+fun ProductModel.purchase(activity: Activity, adaptyCallback: (purchaserInfo: PurchaserInfoModel?, purchaseToken: String?, googleValidationResult: GoogleValidationResult?, product: ProductModel, error: AdaptyError?) -> Unit) {
+    Adapty.makePurchase(activity, this) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
+        adaptyCallback.invoke(purchaserInfo, purchaseToken, googleValidationResult, product, error)
+    }
+}
+
+fun isPremium (isPremium: (Boolean) -> Unit) {
+    Adapty.getPurchaserInfo { purchaserInfo, error ->
+        if (error == null) {
+            //Check for premium
+            isPremium.invoke(purchaserInfo?.accessLevels?.get("premium")?.isActive == true)
+        }
+    }
 }
