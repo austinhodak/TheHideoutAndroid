@@ -52,8 +52,6 @@ class QuestDetailViewModel @Inject constructor(
             })
         }
 
-
-
         _questsExtras.value = QuestExtraHelper.getQuests(context = context)
     }
 
