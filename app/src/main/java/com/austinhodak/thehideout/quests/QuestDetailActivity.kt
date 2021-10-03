@@ -198,7 +198,7 @@ class QuestDetailActivity : GodActivity() {
                         floatingActionButton = {
                             //if (isDebug())
                             quest?.let {
-                                if (userData?.isQuestCompleted(it) == false && it.isAvailable(userData)) {
+                                if (userData?.isQuestCompleted(it) == false && it.isAvailable(userData) || userData == null) {
                                     ExtendedFloatingActionButton(
                                         icon = {
                                             Icon(
@@ -228,7 +228,7 @@ class QuestDetailActivity : GodActivity() {
                                 val objectives = entry.value
                                 if (type == null) return@forEach
                                 item {
-                                    ObjectiveCategoryCard(type = Types.valueOf(type.uppercase(Locale.getDefault())), objectives, questExtra)
+                                    ObjectiveCategoryCard(type = Types.valueOf(type.uppercase()), objectives, questExtra)
                                 }
                             }
                             if (quest!!.requirement?.quests?.isNotEmpty() == true) {

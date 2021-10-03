@@ -15,7 +15,8 @@ data class User(
     var keysHave: Map<String, Boolean>? = null,
     var items: Map<String, UNeededItem>? = null,
     var cart: Map<String, Int>? = null,
-    var ttApiKey: String? = null
+    var ttApiKey: String? = null,
+    var teams: Map<String, Boolean>? = null
 ) {
     data class UNeededItem (
         var hideoutObjective: Map<String, Int>? = null,

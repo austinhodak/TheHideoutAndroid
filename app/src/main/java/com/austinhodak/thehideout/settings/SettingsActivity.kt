@@ -88,7 +88,7 @@ class SettingsActivity : GodActivity() {
                     val between = ChronoUnit.DAYS.between(date, now)
 
                     val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    "${date.format(formatter)} ($between Days)"
+                    "${date.format(formatter)} ($between Days Ago)"
                 } else {
                     gameInfo.getString("wipe_date")
                 }
@@ -129,6 +129,7 @@ class SettingsActivity : GodActivity() {
                             }
 
                             screen = screen {
+
                                 onScreenChanged = { subScreenStack, stateRestored ->
                                     val breadcrumbs = subScreenStack.joinToString(" > ") { it.title.get(this@SettingsActivity) }
                                     toolbarTitle = if (breadcrumbs.isBlank()) "Settings" else breadcrumbs
