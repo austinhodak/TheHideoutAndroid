@@ -291,10 +291,15 @@ class MapsActivity : GodActivity() {
                                                 mutableStateOf<QuestExtra.QuestExtraItem?>(null)
                                             }
                                             if (location.category_id == 955) {
-                                                val questTitle = location.description?.split("**Quest:** ")?.get(1)?.substringBefore("\n")?.trim()
-                                                questTitle?.let { title ->
-                                                    quest = questsExtra?.find { it.title.equals(title, true) }
+                                                try {
+                                                    val questTitle = location.description?.split("**Quest:** ")?.get(1)?.substringBefore("\n")?.trim()
+                                                    questTitle?.let { title ->
+                                                        quest = questsExtra?.find { it.title.equals(title, true) }
+                                                    }
+                                                } catch (e: Exception) {
+                                                    quest = null
                                                 }
+
                                             } else {
                                                 quest = null
                                             }
