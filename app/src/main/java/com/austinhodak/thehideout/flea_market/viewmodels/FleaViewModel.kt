@@ -3,6 +3,7 @@ package com.austinhodak.thehideout.flea_market.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.SearchViewModel
@@ -36,10 +37,13 @@ class FleaViewModel @Inject constructor(
         }
     }
 
-    var sortBy = MutableLiveData(2)
+    var sortBy = MutableLiveData(UserSettingsModel.fleaSort.value)
 
     fun setSort(int: Int) {
         sortBy.value = int
+        viewModelScope.launch {
+            UserSettingsModel.fleaSort.update(int)
+        }
     }
 
     private val _userData = MutableLiveData<User?>(null)

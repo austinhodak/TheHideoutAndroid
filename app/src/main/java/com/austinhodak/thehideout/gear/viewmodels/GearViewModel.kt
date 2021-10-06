@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.gear.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
@@ -34,9 +35,12 @@ class GearViewModel @Inject constructor(
         _selectedAmmo.value = ammo
     }
 
-    var sortBy = MutableLiveData(0)
+    var sortBy = MutableLiveData(UserSettingsModel.gearSort.value)
 
     fun setSort(int: Int) {
         sortBy.value = int
+        viewModelScope.launch {
+            UserSettingsModel.gearSort.update(int)
+        }
     }
 }

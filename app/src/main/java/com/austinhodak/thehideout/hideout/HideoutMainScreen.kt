@@ -1,6 +1,8 @@
 package com.austinhodak.thehideout.hideout
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,6 +33,8 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
@@ -56,6 +60,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 import java.util.*
 
+@SuppressLint("CheckResult")
 @ExperimentalCoilApi
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
@@ -70,6 +75,9 @@ fun HideoutMainScreen(
     val scaffoldState = rememberScaffoldState()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val isSearchOpen by hideoutViewModel.isSearchOpen.observeAsState(false)
+    val context = LocalContext.current
+    val sort by hideoutViewModel.sortBy.observeAsState()
+    val filterAvailable by hideoutViewModel.filterAvailable.observeAsState()
 
     HideoutTheme {
         Scaffold(
@@ -98,6 +106,12 @@ fun HideoutMainScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 when (navBackStackEntry?.destination?.route) {
+                                    HideoutNavigationScreens.Stations.route -> {
+                                        Text(
+                                            "Stations",
+                                            modifier = Modifier.padding(end = 16.dp)
+                                        )
+                                    }
                                     HideoutNavigationScreens.Crafts.route -> {
                                         Text(
                                             "Crafts",
@@ -137,27 +151,186 @@ fun HideoutMainScreen(
                                 Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
                             }
                             if (navBackStackEntry?.destination?.route == HideoutNavigationScreens.Crafts.route) {
-                                /*IconButton(onClick = {
-
+                                IconButton(onClick = {
+                                    val items = listOf(
+                                        "Name",
+                                        "Time to Craft",
+                                        "Cost: Low to High",
+                                        "Cost: High to Low",
+                                        "Profit: Low to High",
+                                        "Profit: High to Low",
+                                        "Profit/Hour: Low to High",
+                                        "Profit/Hour: High to Low",
+                                    )
+                                    MaterialDialog(context).show {
+                                        title(text = "Sort By")
+                                        listItemsSingleChoice(items = items, initialSelection = sort ?: 0) { _, index, _ ->
+                                            hideoutViewModel.setSort(index)
+                                        }
+                                        checkBoxPrompt(text = "Show Only Available Crafts", isCheckedDefault = filterAvailable == true) {
+                                            hideoutViewModel.setFilterAvailable(it)
+                                        }
+                                    }
                                 }) {
                                     Icon(
-                                        painterResource(id = R.drawable.ic_baseline_filter_alt_24),
-                                        contentDescription = "Filter",
+                                        painterResource(id = R.drawable.ic_baseline_sort_24),
+                                        contentDescription = "Sort",
                                         tint = Color.White
                                     )
-                                }*/
+                                }
                             }
                         }
                     )
                 }
             }
         ) { padding ->
-            NavHost(navController = navController, startDestination = HideoutNavigationScreens.Modules.route) {
+            NavHost(navController = navController, startDestination = HideoutNavigationScreens.Stations.route) {
+                composable(HideoutNavigationScreens.Stations.route) {
+                    HideoutStationsPage(tarkovRepo, hideoutViewModel, padding)
+                }
                 composable(HideoutNavigationScreens.Modules.route) {
                     HideoutModulesPage(tarkovRepo, hideoutViewModel, padding)
                 }
                 composable(HideoutNavigationScreens.Crafts.route) {
                     HideoutCraftsPage(tarkovRepo, hideoutViewModel, padding)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun OverviewItem(
+    color: Color = DividerDark,
+    icon: Int = R.drawable.ic_baseline_assignment_turned_in_24,
+    s1: String = "",
+    s2: String = "",
+    progress: Float? = 0.5f
+) {
+    val p by remember { mutableStateOf(progress) }
+    val animatedProgress by animateFloatAsState(
+        targetValue = p ?: 0.5f,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+    )
+
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .height(72.dp)
+            .fillMaxWidth(),
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+    ) {
+        Row {
+            Image(
+                modifier = Modifier
+                    .size(72.dp)
+                    .background(color)
+                    .padding(16.dp),
+                painter = painterResource(id = icon),
+                contentDescription = ""
+            )
+            Column(
+                Modifier.weight(1f)
+            ) {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .height(1.dp)
+                        .fillMaxWidth(),
+                    progress = animatedProgress,
+                    color = color
+                )
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = s1,
+                        style = MaterialTheme.typography.h6,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                    Text(
+                        modifier = Modifier,
+                        text = s2,
+                        style = MaterialTheme.typography.h5,
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun HideoutStationsPage(
+    tarkovRepo: TarkovRepo,
+    hideoutViewModel: HideoutMainViewModel,
+    padding: PaddingValues
+) {
+    val stations = hideoutList.hideout?.stations?.sortedBy { it?.locales?.en }
+    val modules = hideoutList.hideout?.modules
+    val userData by hideoutViewModel.userData.observeAsState()
+
+    LazyColumn(
+        contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding() + 4.dp)
+    ) {
+        stations?.forEach {
+            it?.let { station ->
+                val moduleTotal = modules?.count { it?.stationId == station.id }
+                val modulesComplete = modules?.filter { it?.stationId == station.id }?.count { userData?.isHideoutModuleComplete(it?.id) == true }
+
+                item {
+                    OverviewItem(
+                        icon = station.getIcon(),
+                        s1 = station.locales?.en ?: "",
+                        s2 = "${modulesComplete}/${moduleTotal}",
+                        color = if (moduleTotal == modulesComplete) Red400 else BorderColor,
+                        progress = (modulesComplete?.toDouble()?.div(moduleTotal?.toDouble() ?: 1.0))?.toFloat()
+                    )
+                    /*Card(
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        backgroundColor = Color(0xFE1F1F1F)
+                    ) {
+                        Column {
+                            Row(
+                                Modifier
+                                    .padding(16.dp)
+                                    .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = station.getIcon()),
+                                        contentDescription = "Module Icon",
+                                        modifier = Modifier
+                                            .size(40.dp)
+                                            .fillMaxWidth()
+                                    )
+                                }
+
+                                Column(
+                                    Modifier
+                                        .padding(start = 16.dp, end = 16.dp)
+                                        .weight(1f),
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(text = station.locales?.en ?: "", style = MaterialTheme.typography.h6)
+                                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                                        Text(
+                                            text = station.function ?: "",
+                                            style = MaterialTheme.typography.caption
+                                        )
+                                    }
+                                }
+
+                            }
+                        }
+                    }*/
                 }
             }
         }
@@ -557,6 +730,9 @@ private fun HideoutCraftsPage(
 ) {
     val crafts by tarkovRepo.getAllCrafts().collectAsState(initial = emptyList())
     val searchKey by hideoutViewModel.searchKey.observeAsState("")
+    val sort by hideoutViewModel.sortBy.observeAsState()
+    val filterAvailable by hideoutViewModel.filterAvailable.observeAsState()
+    val userData by hideoutViewModel.userData.observeAsState()
 
     if (crafts.isEmpty()) {
         LoadingItem()
@@ -566,11 +742,29 @@ private fun HideoutCraftsPage(
     LazyColumn(
         contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
     ) {
-        items(items = crafts.sortedBy { it.rewardItems?.first()?.item?.name }.filter {
+        items(items = crafts.filter {
             it.rewardItem()?.item?.name?.contains(searchKey, true) == true
                     || it.rewardItem()?.item?.shortName?.contains(searchKey, true) == true
+        }.let { data ->
+            when (sort) {
+                0 -> data.sortedBy { it.rewardItems?.first()?.item?.name }
+                1 -> data.sortedBy { it.duration }
+                2 -> data.sortedBy { it.totalCost() }
+                3 -> data.sortedByDescending { it.totalCost() }
+                4 -> data.sortedBy { it.estimatedProfit() }
+                5 -> data.sortedByDescending { it.estimatedProfit() }
+                6 -> data.sortedBy { it.estimatedProfitPerHour() }
+                7 -> data.sortedByDescending { it.estimatedProfitPerHour() }
+                else -> data
+            }
+        }.filter {
+            if (filterAvailable == true) {
+                userData == null || userData!!.isHideoutModuleComplete(it.getSourceID(hideoutList.hideout) ?: 0)
+            } else {
+                true
+            }
         }) { craft ->
-            CraftItem(craft, hideoutViewModel.userData.value)
+            CraftItem(craft, userData)
         }
     }
 }
@@ -760,6 +954,7 @@ private fun HideoutBottomBar(
     navController: NavController
 ) {
     val items = listOf(
+        HideoutNavigationScreens.Stations,
         HideoutNavigationScreens.Modules,
         HideoutNavigationScreens.Crafts
     )
@@ -805,6 +1000,7 @@ sealed class HideoutNavigationScreens(
     val icon: ImageVector? = null,
     @DrawableRes val iconDrawable: Int? = null
 ) {
+    object Stations : HideoutNavigationScreens("Stations", "Stations", null, R.drawable.ic_baseline_dashboard_24)
     object Modules : HideoutNavigationScreens("Modules", "Modules", null, R.drawable.ic_baseline_handyman_24)
     object Crafts : HideoutNavigationScreens("Crafts", "Crafts", null, R.drawable.ic_baseline_build_circle_24)
 }

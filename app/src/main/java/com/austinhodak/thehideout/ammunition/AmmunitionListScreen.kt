@@ -24,6 +24,7 @@ import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.thehideout.NavViewModel
@@ -65,7 +66,7 @@ fun AmmunitionListScreen(
     val pagerState = rememberPagerState(pageCount = pages.size)
     val coroutineScope = rememberCoroutineScope()
 
-    val sort = remember { mutableStateOf(0) }
+    val sort = remember { mutableStateOf(UserSettingsModel.ammoSort.value) }
 
     if (caliber != null) {
         LaunchedEffect(key1 = "initial") {
@@ -110,6 +111,9 @@ fun AmmunitionListScreen(
                                 title(text = "Sort By")
                                 listItemsSingleChoice(items = items, initialSelection = sort.value) { _, index, _ ->
                                     sort.value = index
+                                    coroutineScope.launch {
+                                        UserSettingsModel.ammoSort.update(index)
+                                    }
                                 }
                             }
                         }) {
