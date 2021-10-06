@@ -1,6 +1,8 @@
 package com.austinhodak.thehideout.hideout.viewmodels
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.thehideout.SearchViewModel
 import com.austinhodak.thehideout.firebase.User
@@ -14,10 +16,26 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
+
+    var sortBy = MutableLiveData(UserSettingsModel.craftSort.value)
+
+    fun setSort(int: Int) {
+        sortBy.value = int
+        viewModelScope.launch {
+            UserSettingsModel.craftSort.update(int)
+        }
+    }
+
+    var filterAvailable = MutableLiveData(false)
+
+    fun setFilterAvailable(boolean: Boolean) {
+        filterAvailable.value = boolean
+    }
 
     private val _view = MutableLiveData(HideoutFilter.CURRENT)
     val view = _view

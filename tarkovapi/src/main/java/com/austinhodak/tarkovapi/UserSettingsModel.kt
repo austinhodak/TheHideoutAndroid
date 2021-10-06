@@ -23,6 +23,22 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val mapMarkerCategories by intSetPref(emptySet(), "mapMarkerCategories")
 
     val playerIGN by stringPref(key = "playerIGN")
+
+    val fleaVisiblePrice by enumPref(FleaVisiblePrice.AVG, "fleaVisiblePrice")
+
+    // Sorting and filtering
+    val fleaSort by intPref(2, "fleaSort")
+    val ammoSort by intPref(0, "ammoSort")
+    val gearSort by intPref(0, "gearSort")
+    val keySort by intPref(0, "keySort")
+    val craftSort by intPref(0, "craftSort")
+}
+
+enum class FleaVisiblePrice {
+    LAST,
+    LOW,
+    AVG,
+    HIGH
 }
 
 enum class Levels {

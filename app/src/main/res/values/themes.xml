@@ -26,4 +26,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.Settings" parent="Theme.TheHideout">
+        <item name="colorPrimary">@color/md_red_400</item>
+        <item name="android:fontFamily">@font/bender</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#1F1F1F</item>
+    </style>
+
 </resources>

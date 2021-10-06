@@ -70,7 +70,7 @@ data class User(
         return ids
     }
 
-    fun isHideoutModuleComplete(id: Int): Boolean {
+    fun isHideoutModuleComplete(id: Int?): Boolean {
         val h = hideoutModules?.values?.find { it?.id == id }
         return h?.complete == true
     }
