@@ -217,7 +217,7 @@ class SettingsActivity : GodActivity() {
                                 }
                                 button {
                                     title = "Upgrade or Donate".asText()
-                                    icon = R.drawable.ic_baseline_upgrade_24.asIcon()
+                                    icon = R.drawable.icons8_buy_upgrade_24.asIcon()
                                     onClick = {
                                         context.openActivity(PremiumActivity::class.java)
                                     }

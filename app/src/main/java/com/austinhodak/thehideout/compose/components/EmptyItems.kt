@@ -11,10 +11,11 @@ import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun EmptyText(
-    text: String
+    text: String,
+    modifier: Modifier = Modifier
 ) {
     Box(
-        Modifier.fillMaxSize()
+        modifier.fillMaxSize()
     ) {
 
         Text(text = text, modifier = Modifier.align(Alignment.Center), style = MaterialTheme.typography.caption, textAlign = TextAlign.Center)

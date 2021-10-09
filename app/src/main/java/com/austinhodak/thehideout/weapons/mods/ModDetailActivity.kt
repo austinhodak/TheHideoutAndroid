@@ -193,7 +193,7 @@ class ModDetailActivity : GodActivity() {
                                                 }
                                             } else {
                                                 item {
-                                                    EmptyText(text = "No Child Mods")
+                                                    EmptyText(text = "No Child Mods", modifier = Modifier.padding(top = 16.dp))
                                                 }
                                             }
                                         }
