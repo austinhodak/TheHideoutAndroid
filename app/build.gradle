@@ -40,9 +40,9 @@ android {
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 11010
+        versionCode 11011
         // [1]-[0].[2].[0].[0]
-        versionName "1.0.0 Beta 10"
+        versionName "1.0.0 Beta 11"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -99,7 +99,7 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.21'
+        kotlinCompilerVersion '1.5.30'
     }
     packagingOptions {
         resources {
@@ -150,7 +150,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
     implementation "androidx.fragment:fragment-ktx:1.3.6"
 
-    implementation "androidx.navigation:navigation-compose:2.4.0-alpha09"
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha10"
 
     //END AndroidX
 

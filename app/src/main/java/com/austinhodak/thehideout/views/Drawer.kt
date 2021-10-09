@@ -15,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -23,6 +22,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import coil.annotation.ExperimentalCoilApi
 import com.adapty.Adapty
+import com.adapty.listeners.OnPurchaserInfoUpdatedListener
+import com.adapty.models.PurchaserInfoModel
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
@@ -33,16 +34,12 @@ import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.settings.SettingsActivity
-import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.mikepenz.materialdrawer.holder.BadgeStyle
-import com.mikepenz.materialdrawer.holder.ColorHolder
 import com.mikepenz.materialdrawer.model.*
-import com.mikepenz.materialdrawer.model.interfaces.badgeText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
 import com.mikepenz.materialdrawer.util.*
@@ -360,17 +357,29 @@ fun MainDrawer(
                         }
                     }
 
-                    //if (isDebug()) {
-                        Firebase.auth.addAuthStateListener {
-                            val isLoggedIn = it.currentUser != null && it.currentUser?.isAnonymous == false
-                            if (!isLoggedIn) {
-                                drawer.removeAllStickyFooterItems()
-                                drawer.addStickyDrawerItems(drawerLogin)
+                    Firebase.auth.addAuthStateListener {
+                        val isLoggedIn = it.currentUser != null && it.currentUser?.isAnonymous == false
+                        if (!isLoggedIn) {
+                            drawer.removeAllStickyFooterItems()
+                            drawer.addStickyDrawerItems(drawerLogin)
+                        } else {
+                            drawer.removeAllStickyFooterItems()
+                        }
+                    }
+
+                    /*Adapty.setOnPurchaserInfoUpdatedListener(object : OnPurchaserInfoUpdatedListener {
+                        override fun onPurchaserInfoReceived(purchaserInfo: PurchaserInfoModel) {
+                            if (purchaserInfo.accessLevels["premium"]?.isActive == true) {
+                                //Active premium
+                                drawer.removeItems(9999, 998)
                             } else {
-                                drawer.removeAllStickyFooterItems()
+                                drawer.removeItems(9999, 998)
+                                //No premium.
+                                drawer.addItemAtPosition(14, DividerDrawerItem().apply { identifier = 9999 })
+                                drawer.addItemAtPosition(15, drawerUpgrade)
                             }
                         }
-                    //}
+                    })*/
 
                     Adapty.getPurchaserInfo { purchaserInfo, error ->
                         if (error == null) {
