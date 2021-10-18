@@ -40,9 +40,9 @@ android {
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 11011
+        versionCode 11012
         // [1]-[0].[2].[0].[0]
-        versionName "1.0.0 Beta 11"
+        versionName "1.0.0 Beta 12"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -99,7 +99,6 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.30'
     }
     packagingOptions {
         resources {

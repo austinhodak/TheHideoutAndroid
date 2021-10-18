@@ -3,6 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.fromDtoR
 import com.austinhodak.tarkovapi.utils.getTraderLevel
 import com.austinhodak.tarkovapi.utils.sourceTitle
 import java.io.Serializable
@@ -34,7 +35,7 @@ data class Pricing(
 
     fun getCheapestBuyRequirements(): BuySellPrice? {
         return buyFor?.minByOrNull {
-            if (!it.isRequirementMet()) Int.MAX_VALUE else it.price ?: Int.MAX_VALUE
+            if (!it.isRequirementMet()) Int.MAX_VALUE else it.getPriceAsRoubles()
             //it.price ?: Int.MAX_VALUE
         }
     }
@@ -44,7 +45,11 @@ data class Pricing(
     }
 
     fun getHighestSell(): BuySellPrice? {
-        return sellFor?.maxByOrNull { it.price ?: Int.MIN_VALUE }!!
+        return sellFor?.maxByOrNull { it.price ?: Int.MIN_VALUE }
+    }
+
+    fun getHighestSellTrader(): BuySellPrice? {
+        return sellFor?.filterNot { it.isFleaMarket() }?.maxByOrNull { it.price ?: Int.MIN_VALUE }
     }
 
     fun getPrice(): Int {
@@ -64,6 +69,22 @@ data class Pricing(
             val type: String,
             val value: Int
         ) : Serializable
+
+        fun getPriceAsCurrency(): String? {
+            return if (source == "peacekeeper") {
+                price?.asCurrency("D")
+            } else {
+                price?.asCurrency()
+            }
+        }
+
+        fun getPriceAsRoubles(): Int {
+            return if (source == "peacekeeper") {
+                price?.fromDtoR()?.roundToInt()
+            } else {
+                price
+            } ?: 0
+        }
 
         fun isRequirementMet(): Boolean {
             if (source == "fleaMarket") {

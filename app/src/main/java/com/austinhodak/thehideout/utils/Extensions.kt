@@ -75,6 +75,14 @@ fun Int.asColor(reverse: Boolean = false): Color {
     }
 }
 
+fun Number.asColor(reverse: Boolean = false): Color {
+    return when {
+        this.toDouble() > 0.0 -> if (!reverse) Green500 else Red500
+        this.toDouble() < 0.0 -> if (!reverse) Red500 else Green500
+        else -> Color.Unspecified
+    }
+}
+
 fun Boolean?.asBlocks(): String {
     return if (this == true) "YES" else "NO"
 }
@@ -124,12 +132,12 @@ fun Double.getColor(reverse: Boolean = false, surfaceColor: Color): Color {
     }
 }
 
-fun Pricing.BuySellPrice.traderImage(): String {
+fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
     //Flea Market Icon
     if (this.source == "fleaMarket") return "https://tarkov-tools.com/images/flea-market-icon.jpg"
     Timber.d(this.toString())
     when {
-        requirements.isNullOrEmpty() -> {
+        requirements.isNullOrEmpty() || showLevel == false -> {
             return when (this.source) {
                 ItemSourceName.prapor.rawValue -> "https://tarkov-tools.com/images/prapor-icon.jpg"
                 ItemSourceName.therapist.rawValue -> "https://tarkov-tools.com/images/therapist-icon.jpg"

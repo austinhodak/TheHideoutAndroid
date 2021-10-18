@@ -38,6 +38,7 @@ import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.DarkPrimary
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
@@ -202,9 +203,9 @@ class ModPickerActivity : GodActivity() {
         val doesConflict = conflicts?.contains(item.id) == true
         Card(
                 modifier = Modifier
-                        .fillMaxWidth()
-                        .height(72.dp)
-                        .padding(vertical = 4.dp),
+                    .fillMaxWidth()
+                    .height(72.dp)
+                    .padding(vertical = 4.dp),
                 border = BorderStroke(
                         1.dp,
                         if (doesConflict) Red400 else if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)
@@ -224,34 +225,35 @@ class ModPickerActivity : GodActivity() {
             ) {
                 Row(
                         modifier = Modifier
-                                .fillMaxHeight()
-                                .padding(start = 16.dp, end = 16.dp),
+                            .fillMaxHeight()
+                            .padding(start = 16.dp, end = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
                             rememberImagePainter(item.pricing?.iconLink),
                             contentDescription = null,
                             modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
-                                    .border(0.25.dp, BorderColor)
+                                .width(40.dp)
+                                .height(40.dp)
+                                .border(0.25.dp, BorderColor)
                     )
                     Column(
                             modifier = Modifier
-                                    .padding(start = 16.dp)
-                                    .weight(1f),
+                                .padding(start = 16.dp)
+                                .weight(1f),
                             verticalArrangement = Arrangement.Center
                     ) {
                         Text(
                                 text = "${item.ShortName}",
                                 style = MaterialTheme.typography.subtitle1
                         )
-                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                             Text(
                                     text = "Last Price: ${item.getPrice().asCurrency()}",
                                     style = MaterialTheme.typography.caption
                             )
-                        }
+                        }*/
+                        SmallBuyPrice(pricing = item.pricing)
                     }
                     Column(
                             Modifier.width(IntrinsicSize.Min),

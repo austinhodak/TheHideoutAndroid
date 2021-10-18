@@ -48,9 +48,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class PremiumActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var billingClientWrapper: BillingClientWrapper
-
     private val viewModel: BillingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,30 +55,8 @@ class PremiumActivity : AppCompatActivity() {
 
         setContent {
             TheHideoutTheme {
-                val items by viewModel.itemList.observeAsState(mutableListOf())
-                val subs by viewModel.subList.observeAsState(mutableListOf())
-
                 var itemslist by remember { mutableStateOf<List<ProductModel>?>(null) }
                 var subsList by remember { mutableStateOf<List<ProductModel>?>(null) }
-
-                //Timber.d(items.toString())
-                //Timber.d(subs.toString())
-
-                /* billingClientWrapper.queryProducts(object : BillingClientWrapper.OnQueryProductsListener {
-                     override fun onSuccess(products: List<SkuDetails>) {
-                         products.filter { it.type == BillingClient.SkuType.INAPP }.let {
-                             itemslist = it
-                         }
-
-                         products.filter { it.type == BillingClient.SkuType.SUBS }.let {
-                             subsList = it
-                         }
-                     }
-
-                     override fun onFailure(error: BillingClientWrapper.Error) {
-
-                     }
-                 })*/
 
                 Scaffold(
                     topBar = {

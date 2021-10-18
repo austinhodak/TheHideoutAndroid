@@ -21,6 +21,18 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.math.roundToInt
 
+const val currencyA = 114
+const val currencyB = 127
+const val currencyRatio = 0.897
+
+fun Number.fromRtoD(): Double {
+    return this.toDouble().div(currencyA)
+}
+
+fun Number.fromDtoR(): Double {
+    return this.toDouble().times(currencyA)
+}
+
 fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     val intent = Intent(this, it)
     intent.putExtras(Bundle().apply(extras))

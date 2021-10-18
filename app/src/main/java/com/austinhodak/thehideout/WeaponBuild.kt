@@ -55,7 +55,9 @@ data class WeaponBuild (
     }
 
     fun totalCostFleaMarket(): Int? {
-        return mods?.map { it.value.mod?.pricing }?.sumOf { it?.getPrice() ?: 0 }?.plus(parentWeapon?.pricing?.getPrice() ?: 0)
+        return mods?.map { it.value.mod?.pricing }?.sumOf {
+            it?.getCheapestBuyRequirements()?.getPriceAsRoubles() ?: 0
+        }?.plus(parentWeapon?.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() ?: 0)
     }
 
     fun totalVelocity(): Int? {

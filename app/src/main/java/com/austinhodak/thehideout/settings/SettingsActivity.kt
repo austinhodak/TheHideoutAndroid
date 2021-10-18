@@ -80,7 +80,10 @@ class SettingsActivity : GodActivity() {
 
                 isSignedIn = FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser?.isAnonymous == false
 
+
+                //TODO FIX CRASH
                 val gameInfo = JSONObject(FirebaseRemoteConfig.getInstance()["game_info"].asString())
+
                 val wipeDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val date = LocalDate.parse(gameInfo.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
                     val now = LocalDate.now()

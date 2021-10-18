@@ -36,7 +36,7 @@ class WeaponBuilderViewModel @Inject constructor(
             val loadouts = ArrayList<WeaponBuildFirestore>()
             for (doc in value!!) {
                 val loadout = doc.toObject<WeaponBuildFirestore>()
-                loadout.id = doc.id
+                doc.id.also { loadout.id = it }
                 loadouts.add(loadout)
             }
             _userLoadouts.value = loadouts

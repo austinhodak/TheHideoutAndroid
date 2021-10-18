@@ -77,8 +77,6 @@ class ModDetailActivity : GodActivity() {
 
         val modID = intent.getStringExtra("id") ?: "5ea172e498dacb342978818e"
 
-
-
         setContent {
             HideoutTheme {
                 val allMods by modRepo.getAllMods().collectAsState(initial = null)

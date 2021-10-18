@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -22,38 +23,46 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.adapty.Adapty
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Mod
+import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Weapon
+import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.WeaponBuild
+import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.WeaponBuildFirestore
-import com.austinhodak.thehideout.utils.getColor
-import com.austinhodak.thehideout.utils.isPremium
-import com.austinhodak.thehideout.utils.purchase
-import com.austinhodak.thehideout.utils.round
+import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.views.EditorProgress
 import com.austinhodak.thehideout.weapons.builder.viewmodel.WeaponBuilderViewModel
+import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModPickerActivity
 import com.austinhodak.thehideout.weapons.mods.StatItem
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.math.roundToInt
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
@@ -77,11 +86,90 @@ class WeaponBuilderActivity : AppCompatActivity() {
         }
     }
 
+    @Composable
+    fun BuildCostItem(
+        pricing: Pricing,
+        type: ItemTypes?
+    ) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .padding(start = 0.dp, top = 2.dp, bottom = 2.dp)
+                    .fillMaxWidth()
+                    .clickable {
+                        type?.let {
+                            if (it == ItemTypes.WEAPON) {
+                                openWeaponDetail(pricing.id)
+                            } else {
+                                openActivity(ModDetailActivity::class.java) {
+                                    putString("id", pricing.id)
+                                }
+                            }
+                        }
+
+                        if (type == null) {
+                            openActivity(ModDetailActivity::class.java) {
+                                putString("id", pricing.id)
+                            }
+                        }
+                    },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    rememberImagePainter(
+                        pricing.iconLink ?: ""
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(38.dp)
+                        .height(38.dp)
+                        .border((0.25).dp, color = BorderColor)
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 8.dp)
+                        .weight(1f)
+                ) {
+                    Text(
+                        text = "${pricing.shortName}",
+                        style = MaterialTheme.typography.body2,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    /*CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                    Text(
+                        text = item.getPrice().asCurrency(),
+                        style = MaterialTheme.typography.caption,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Light,
+                    )
+                 }*/
+                }
+                Spacer(Modifier.weight(1f))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(top = 0.dp)
+                ) {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = pricing.getCheapestBuyRequirements()?.getPriceAsCurrency() ?: "",
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 13.sp,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                    }
+                    Image(
+                        painter = rememberImagePainter(data = pricing.getCheapestBuyRequirements()?.traderImage(true)),
+                        contentDescription = "Trader",
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
         setContent {
             HideoutTheme {
 
@@ -126,6 +214,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                             Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp, vertical = 8.dp)
+                                .verticalScroll(rememberScrollState())
                         ) {
                             Column(
                                 Modifier
@@ -133,38 +222,80 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                     .padding(bottom = 4.dp, top = 4.dp)
                                     .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomEnd = 0.dp, bottomStart = 0.dp))
                                     .background(Color(0xFF282828))
-                                    .clickable {
-                                        //totalPriceOpen = !totalPriceOpen
-                                        if (scaffoldState.bottomSheetState.isCollapsed) {
-                                            scope.launch {
-                                                scaffoldState.bottomSheetState.expand()
+                                    .combinedClickable(
+                                        onClick = {
+                                            if (scaffoldState.bottomSheetState.isCollapsed) {
+                                                scope.launch {
+                                                    scaffoldState.bottomSheetState.expand()
+                                                }
+                                            } else {
+                                                scope.launch {
+                                                    scaffoldState.bottomSheetState.collapse()
+                                                }
                                             }
-                                        } else {
-                                            scope.launch {
-                                                scaffoldState.bottomSheetState.collapse()
+                                        },
+                                        onLongClick = {
+                                            MaterialDialog(this@WeaponBuilderActivity).show {
+                                                title(text = "Add to Shopping Cart?")
+                                                message(text = "This will add these items to the shopping cart on the Flea Market screen.")
+                                                positiveButton(text = "ADD") {
+                                                    build?.parentWeapon?.pricing?.addToCart()
+                                                    build?.mods?.values?.forEach { mod ->
+                                                        val pricing = mod.mod?.pricing
+                                                        pricing?.addToCart()
+                                                    }
+
+                                                    /*module.require
+                                                        ?.filter { it?.type == "item" }
+                                                        ?.forEach {
+                                                            val itemID = it?.name
+                                                            val quantity = it?.quantity ?: 0
+                                                            if (quantity > 500) return@forEach
+                                                            userRefTracker("items/$itemID/hideoutObjective/${it?.id?.addQuotes()}").setValue(quantity)
+                                                        }*/
+                                                }
+                                                negativeButton(text = "CANCEL")
                                             }
                                         }
-                                    }
-                                    .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 12.dp)
+                                    )
+                                    .padding(bottom = 0.dp)
                             ) {
-                                Text("Total Build Cost: ${build?.totalCostFleaMarket()?.asCurrency()}", style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Medium)
-                                /*Row (
+                                Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier,
                                 ) {
-
-                                   *//* Icon(
+                                    Text(
+                                        "Total Build Cost: ~${build?.totalCostFleaMarket()?.asCurrency()}",
+                                        style = MaterialTheme.typography.subtitle1,
+                                        fontWeight = FontWeight.Medium,
+                                        modifier = Modifier.padding(start = 16.dp)
+                                    )
+                                    Spacer(Modifier.weight(1f))
+                                    Icon(
                                         painter = if (totalPriceOpen) painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24) else painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24),
-                                        contentDescription = ""
-                                    )*//*
-                                }*/
-                                /*AnimatedVisibility(visible = totalPriceOpen) {
-                                    Column {
-                                        build?.mods?.forEach {
-
+                                        contentDescription = "",
+                                        modifier = Modifier.clickable {
+                                            totalPriceOpen = !totalPriceOpen
+                                        }.padding(end = 16.dp, top = 16.dp, start = 16.dp, bottom = 16.dp)
+                                    )
+                                }
+                                AnimatedVisibility(visible = totalPriceOpen) {
+                                    Column(
+                                        Modifier.padding(top = 0.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
+                                    ) {
+                                        build?.parentWeapon?.pricing?.let {
+                                            BuildCostItem(pricing = it, ItemTypes.WEAPON)
+                                        }
+                                        build?.mods?.values?.sortedBy {
+                                            it.mod?.pricing?.getCheapestBuyRequirements()?.source
+                                        }?.forEach { mod ->
+                                            val pricing = mod.mod?.pricing
+                                            pricing?.let {
+                                                BuildCostItem(pricing = pricing, mod.mod?.itemType)
+                                            }
                                         }
                                     }
-                                }*/
+                                }
                             }
                             //Text("WEIGHT: ${build?.totalWeight()} KG")
                             AndroidView(modifier = Modifier
@@ -284,7 +415,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                 }
                                 OutlinedButton(
                                     onClick = {
-                                        if (userLoadouts?.size ?: 0 >= 5) {
+                                        if (userLoadouts?.size ?: 0 >= 5 && intent.getSerializableExtra("build") == null) {
                                             isPremium {
                                                 if (it) {
                                                     viewModel.saveBuild {
@@ -471,12 +602,13 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                 text = mod?.ShortName ?: "None",
                                 style = MaterialTheme.typography.subtitle1
                             )
-                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            SmallBuyPrice(mod?.pricing)
+                            /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                                 Text(
                                     text = "Last Price: ${mod?.getPrice()?.asCurrency() ?: "-"}",
                                     style = MaterialTheme.typography.caption
                                 )
-                            }
+                            }*/
                         }
                         mod?.let {
                             Column(
@@ -580,15 +712,20 @@ class WeaponBuilderActivity : AppCompatActivity() {
                             verticalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = "${buildSlot?.mod?.ShortName ?: "None"}",
-                                style = MaterialTheme.typography.subtitle1
+                                text = "${buildSlot?.mod?.Name ?: "None"}",
+                                style = MaterialTheme.typography.subtitle1,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
-                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            buildSlot?.mod?.pricing?.let {
+                                SmallBuyPrice(buildSlot?.mod?.pricing)
+                            }
+                            /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                                 Text(
                                     text = "Last Price: ${buildSlot?.mod?.getPrice()?.asCurrency() ?: "-"}",
                                     style = MaterialTheme.typography.caption
                                 )
-                            }
+                            }*/
                         }
                         buildSlot?.mod?.let {
                             val item = it
