@@ -2,7 +2,6 @@ package com.austinhodak.thehideout
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -17,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
+import com.austinhodak.thehideout.bitcoin.BitcoinPriceScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.flea_market.FleaMarketScreen
@@ -266,6 +266,9 @@ class NavActivity : GodActivity() {
                                 navViewModel,
                                 tarkovRepo
                             )
+                        }
+                        composable("bitcoin") {
+                            BitcoinPriceScreen(navViewModel, tarkovRepo)
                         }
                     }
 

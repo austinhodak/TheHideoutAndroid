@@ -36,6 +36,7 @@ import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.utils.getColor
 import com.austinhodak.thehideout.utils.modParent
@@ -359,6 +360,7 @@ fun ModsListScreen(
     )
 }
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun ModsBasicCard(
@@ -387,7 +389,7 @@ fun ModsBasicCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.gridImageLink),
+                    rememberImagePainter(item.pricing?.iconLink),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)
@@ -403,12 +405,13 @@ fun ModsBasicCard(
                         text = "${item.ShortName}",
                         style = MaterialTheme.typography.subtitle1
                     )
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
                             text = "Last Price: ${item.getPrice().asCurrency()}",
                             style = MaterialTheme.typography.caption
                         )
-                    }
+                    }*/
+                    SmallBuyPrice(pricing = item.pricing)
                 }
                 Column(
                     Modifier.width(IntrinsicSize.Min),

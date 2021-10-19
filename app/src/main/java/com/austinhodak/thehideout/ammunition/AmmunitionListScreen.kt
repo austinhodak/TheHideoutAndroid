@@ -29,10 +29,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.components.EmptyText
-import com.austinhodak.thehideout.compose.components.LoadingItem
-import com.austinhodak.thehideout.compose.components.MainToolbar
-import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
@@ -190,8 +187,12 @@ fun AmmunitionListScreen(
                         Timber.d(items.size.toString())
                         items = when (sort.value) {
                             0 -> items.sortedBy { it.shortName }
-                            1 -> items.sortedBy { it.pricing?.lastLowPrice }
-                            2 -> items.sortedByDescending { it.pricing?.lastLowPrice }
+                            1 -> items.sortedBy {
+                                it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
+                            }
+                            2 -> items.sortedByDescending {
+                                it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
+                            }
                             3 -> items.sortedByDescending { it.ballistics?.damage }
                             4 -> items.sortedByDescending { it.ballistics?.penetrationPower }
                             5 -> items.sortedByDescending { it.getArmorValues() }
@@ -324,12 +325,13 @@ fun AmmoCard(
                         text = "${ammo.shortName}",
                         style = MaterialTheme.typography.subtitle1
                     )
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
                             text = "Last Price: ${ammo.getPrice()}",
                             style = MaterialTheme.typography.caption
                         )
-                    }
+                    }*/
+                    SmallBuyPrice(pricing = ammo.pricing)
                 }
                 Column(
                     Modifier.padding(horizontal = 16.dp),

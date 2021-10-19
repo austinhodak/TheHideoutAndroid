@@ -196,6 +196,27 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
     }
 
 
+    private val drawerCurrencyConverter = SecondaryDrawerItem().apply {
+        tag = "currency_converter"; level = 2; identifier = 402; nameText = "Currency Converter"; iconRes = R.drawable.icons8_currency_exchange_96; isIconTinted =
+        true; typeface = benderFont; isEnabled = false
+    }
+
+    private val drawerBitcoin = SecondaryDrawerItem().apply {
+        tag = "bitcoin"; level = 2; identifier = 401; nameText = "Bitcoin Price"; iconRes = R.drawable.icons8_bitcoin_96; isIconTinted =
+        true; typeface = benderFont; isEnabled = true
+    }
+
+    private val drawerExtraTools = ExpandableDrawerItem().apply {
+        nameText = "Tools"
+        iconRes = R.drawable.icons8_wrench_96; isIconTinted = true
+        typeface = benderFont
+        isSelectable = false
+        subItems = mutableListOf(
+            drawerBitcoin,
+            drawerCurrencyConverter
+        )
+    }
+
     private val drawerSettings = SecondaryDrawerItem().apply {
         tag = "settings"
         nameText = "Settings"; iconRes = R.drawable.ic_baseline_settings_24; isIconTinted = true; isSelectable = false; isEnabled = true
@@ -220,6 +241,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             drawerMaps,
             drawerQuests,
             drawerDamageSimulator,
+            drawerExtraTools,
             drawerSectionJoinUs,
             drawerJoinUsDiscord,
             drawerJoinUsTwitch,
@@ -390,8 +412,8 @@ fun MainDrawer(
                             } else {
                                 drawer.removeItems(9999, 998)
                                 //No premium.
-                                drawer.addItemAtPosition(14, DividerDrawerItem().apply { identifier = 9999 })
-                                drawer.addItemAtPosition(15, drawerUpgrade)
+                                drawer.addItemAtPosition(15, DividerDrawerItem().apply { identifier = 9999 })
+                                drawer.addItemAtPosition(16, drawerUpgrade)
                             }
                         }
                     }

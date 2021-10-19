@@ -665,9 +665,12 @@ class WeaponBuilderActivity : AppCompatActivity() {
                 }, onLongClick = {
                     buildSlot?.let {
                         MaterialDialog(this).show {
-                            listItems(items = listOf("Remove")) { dialog, index, text ->
+                            listItems(items = listOf("View Mod Details", "Remove")) { dialog, index, text ->
                                 when (index) {
                                     0 -> {
+                                        it.mod?.id?.let { it1 -> openModDetail(it1) }
+                                    }
+                                    1 -> {
                                         loaded = true
                                         viewModel.removeMod(it.mod, slot._id, slot._parent, slot)
                                     }
