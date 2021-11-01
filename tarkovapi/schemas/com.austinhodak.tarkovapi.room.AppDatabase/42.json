@@ -1,0 +1,1260 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 42,
+    "identityHash": "c8c9fcc22725475615c4150ab5bcc03a",
+    "entities": [
+      {
+        "tableName": "ammo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `itemType` TEXT, `parent` TEXT, `name` TEXT, `shortName` TEXT, `description` TEXT, `weight` REAL, `Caliber` TEXT, `pricing` TEXT, `damage` INTEGER, `armorDamage` INTEGER, `fragmentationChance` REAL, `ricochetChance` REAL, `penetrationChance` REAL, `penetrationPower` REAL, `accuracy` REAL, `recoil` REAL, `initialSpeed` INTEGER, `tracer` INTEGER, `tracerColor` TEXT, `ammoType` TEXT, `projectileCount` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemType",
+            "columnName": "itemType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "parent",
+            "columnName": "parent",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shortName",
+            "columnName": "shortName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Caliber",
+            "columnName": "Caliber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pricing",
+            "columnName": "pricing",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.damage",
+            "columnName": "damage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.armorDamage",
+            "columnName": "armorDamage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.fragmentationChance",
+            "columnName": "fragmentationChance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.ricochetChance",
+            "columnName": "ricochetChance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.penetrationChance",
+            "columnName": "penetrationChance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.penetrationPower",
+            "columnName": "penetrationPower",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.accuracy",
+            "columnName": "accuracy",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.recoil",
+            "columnName": "recoil",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.initialSpeed",
+            "columnName": "initialSpeed",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.tracer",
+            "columnName": "tracer",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.tracerColor",
+            "columnName": "tracerColor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.ammoType",
+            "columnName": "ammoType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ballistics.projectileCount",
+            "columnName": "projectileCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "items",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `itemType` TEXT, `parent` TEXT, `Name` TEXT, `ShortName` TEXT, `Description` TEXT, `Weight` REAL, `Width` INTEGER, `Height` INTEGER, `StackMaxSize` INTEGER, `Rarity` TEXT, `SpawnChance` REAL, `BackgroundColor` TEXT, `LootExperience` INTEGER, `ExamineExperience` INTEGER, `RepairCost` INTEGER, `Durability` INTEGER, `MaxDurability` INTEGER, `pricing` TEXT, `Slots` TEXT, `BlocksEarpiece` INTEGER, `BlocksEyewear` INTEGER, `BlocksHeadwear` INTEGER, `BlocksFaceCover` INTEGER, `BlocksArmorVest` INTEGER, `RigLayoutName` TEXT, `armorClass` TEXT, `speedPenaltyPercent` REAL, `mousePenalty` REAL, `weaponErgonomicPenalty` REAL, `armorZone` TEXT, `Indestructibility` REAL, `headSegments` TEXT, `FaceShieldComponent` INTEGER, `FaceShieldMask` TEXT, `HasHinge` INTEGER, `DeafStrength` TEXT, `BluntThroughput` REAL, `ArmorMaterial` TEXT, `BlindnessProtection` REAL, `Grids` TEXT, `Accuracy` REAL, `Recoil` REAL, `Loudness` REAL, `EffectiveDistance` REAL, `Ergonomics` REAL, `Velocity` REAL, `RaidModdable` INTEGER, `ToolModdable` INTEGER, `SightingRange` REAL, `muzzleModType` TEXT, `medUseTime` REAL, `medEffectType` TEXT, `MaxHpResource` REAL, `hpResourceRate` REAL, `StimulatorBuffs` TEXT, `effects_health` TEXT, `effects_damage` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemType",
+            "columnName": "itemType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "parent",
+            "columnName": "parent",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Name",
+            "columnName": "Name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ShortName",
+            "columnName": "ShortName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Description",
+            "columnName": "Description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Weight",
+            "columnName": "Weight",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Width",
+            "columnName": "Width",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Height",
+            "columnName": "Height",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "StackMaxSize",
+            "columnName": "StackMaxSize",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Rarity",
+            "columnName": "Rarity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SpawnChance",
+            "columnName": "SpawnChance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BackgroundColor",
+            "columnName": "BackgroundColor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LootExperience",
+            "columnName": "LootExperience",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ExamineExperience",
+            "columnName": "ExamineExperience",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RepairCost",
+            "columnName": "RepairCost",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Durability",
+            "columnName": "Durability",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MaxDurability",
+            "columnName": "MaxDurability",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pricing",
+            "columnName": "pricing",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Slots",
+            "columnName": "Slots",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BlocksEarpiece",
+            "columnName": "BlocksEarpiece",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BlocksEyewear",
+            "columnName": "BlocksEyewear",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BlocksHeadwear",
+            "columnName": "BlocksHeadwear",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BlocksFaceCover",
+            "columnName": "BlocksFaceCover",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BlocksArmorVest",
+            "columnName": "BlocksArmorVest",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RigLayoutName",
+            "columnName": "RigLayoutName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "armorClass",
+            "columnName": "armorClass",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speedPenaltyPercent",
+            "columnName": "speedPenaltyPercent",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mousePenalty",
+            "columnName": "mousePenalty",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weaponErgonomicPenalty",
+            "columnName": "weaponErgonomicPenalty",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "armorZone",
+            "columnName": "armorZone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Indestructibility",
+            "columnName": "Indestructibility",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "headSegments",
+            "columnName": "headSegments",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FaceShieldComponent",
+            "columnName": "FaceShieldComponent",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FaceShieldMask",
+            "columnName": "FaceShieldMask",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HasHinge",
+            "columnName": "HasHinge",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "DeafStrength",
+            "columnName": "DeafStrength",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BluntThroughput",
+            "columnName": "BluntThroughput",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ArmorMaterial",
+            "columnName": "ArmorMaterial",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BlindnessProtection",
+            "columnName": "BlindnessProtection",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Grids",
+            "columnName": "Grids",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Accuracy",
+            "columnName": "Accuracy",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Recoil",
+            "columnName": "Recoil",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Loudness",
+            "columnName": "Loudness",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "EffectiveDistance",
+            "columnName": "EffectiveDistance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Ergonomics",
+            "columnName": "Ergonomics",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Velocity",
+            "columnName": "Velocity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RaidModdable",
+            "columnName": "RaidModdable",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ToolModdable",
+            "columnName": "ToolModdable",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SightingRange",
+            "columnName": "SightingRange",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "muzzleModType",
+            "columnName": "muzzleModType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "medUseTime",
+            "columnName": "medUseTime",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "medEffectType",
+            "columnName": "medEffectType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MaxHpResource",
+            "columnName": "MaxHpResource",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hpResourceRate",
+            "columnName": "hpResourceRate",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "StimulatorBuffs",
+            "columnName": "StimulatorBuffs",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "effects_health",
+            "columnName": "effects_health",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "effects_damage",
+            "columnName": "effects_damage",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "weapons",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `AllowMisfire` INTEGER, `BackgroundColor` TEXT, `BaseMalfunctionChance` REAL, `BoltAction` INTEGER, `BurstShotsCount` REAL, `Chambers` TEXT, `CreditsPrice` REAL, `Description` TEXT, `Durability` REAL, `Ergonomics` REAL, `ExamineExperience` REAL, `Foldable` INTEGER, `FoldedSlot` TEXT, `Height` REAL, `IronSightRange` REAL, `LootExperience` REAL, `Name` TEXT, `RagFairCommissionModifier` REAL, `Rarity` TEXT, `ReloadMode` TEXT, `RepairComplexity` REAL, `RepairCost` REAL, `RepairSpeed` REAL, `ShortName` TEXT, `Slots` TEXT, `SpawnChance` REAL, `Velocity` REAL, `Weight` REAL, `Width` REAL, `ammoCaliber` TEXT, `bEffDist` REAL, `bFirerate` REAL, `bHearDist` REAL, `chamberAmmoCount` REAL, `defAmmo` TEXT, `defMagType` TEXT, `isBoltCatch` INTEGER, `isChamberLoad` INTEGER, `isFastReload` INTEGER, `shotgunDispersion` REAL, `weapClass` TEXT, `weapFireType` TEXT, `weapUseType` TEXT, `RecoilForceUp` INTEGER, `RecoilForceBack` INTEGER, `pricing` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "AllowMisfire",
+            "columnName": "AllowMisfire",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BackgroundColor",
+            "columnName": "BackgroundColor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BaseMalfunctionChance",
+            "columnName": "BaseMalfunctionChance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BoltAction",
+            "columnName": "BoltAction",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BurstShotsCount",
+            "columnName": "BurstShotsCount",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Chambers",
+            "columnName": "Chambers",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CreditsPrice",
+            "columnName": "CreditsPrice",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Description",
+            "columnName": "Description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Durability",
+            "columnName": "Durability",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Ergonomics",
+            "columnName": "Ergonomics",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ExamineExperience",
+            "columnName": "ExamineExperience",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Foldable",
+            "columnName": "Foldable",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FoldedSlot",
+            "columnName": "FoldedSlot",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Height",
+            "columnName": "Height",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "IronSightRange",
+            "columnName": "IronSightRange",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LootExperience",
+            "columnName": "LootExperience",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Name",
+            "columnName": "Name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RagFairCommissionModifier",
+            "columnName": "RagFairCommissionModifier",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Rarity",
+            "columnName": "Rarity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ReloadMode",
+            "columnName": "ReloadMode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RepairComplexity",
+            "columnName": "RepairComplexity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RepairCost",
+            "columnName": "RepairCost",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RepairSpeed",
+            "columnName": "RepairSpeed",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ShortName",
+            "columnName": "ShortName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Slots",
+            "columnName": "Slots",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SpawnChance",
+            "columnName": "SpawnChance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Velocity",
+            "columnName": "Velocity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Weight",
+            "columnName": "Weight",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Width",
+            "columnName": "Width",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ammoCaliber",
+            "columnName": "ammoCaliber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bEffDist",
+            "columnName": "bEffDist",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bFirerate",
+            "columnName": "bFirerate",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bHearDist",
+            "columnName": "bHearDist",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "chamberAmmoCount",
+            "columnName": "chamberAmmoCount",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defAmmo",
+            "columnName": "defAmmo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defMagType",
+            "columnName": "defMagType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isBoltCatch",
+            "columnName": "isBoltCatch",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isChamberLoad",
+            "columnName": "isChamberLoad",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isFastReload",
+            "columnName": "isFastReload",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "shotgunDispersion",
+            "columnName": "shotgunDispersion",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weapClass",
+            "columnName": "weapClass",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weapFireType",
+            "columnName": "weapFireType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weapUseType",
+            "columnName": "weapUseType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RecoilForceUp",
+            "columnName": "RecoilForceUp",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RecoilForceBack",
+            "columnName": "RecoilForceBack",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pricing",
+            "columnName": "pricing",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "quests",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT, `wikiLink` TEXT, `exp` INTEGER, `giver` TEXT, `turnin` TEXT, `unlocks` TEXT, `requirement` TEXT, `objective` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "wikiLink",
+            "columnName": "wikiLink",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "exp",
+            "columnName": "exp",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "giver",
+            "columnName": "giver",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "turnin",
+            "columnName": "turnin",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "unlocks",
+            "columnName": "unlocks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "requirement",
+            "columnName": "requirement",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "objective",
+            "columnName": "objective",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "traders",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `level` INTEGER, PRIMARY KEY(`name`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "level",
+            "columnName": "level",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "crafts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `duration` INTEGER, `requiredItems` TEXT, `rewardItems` TEXT, `source` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "requiredItems",
+            "columnName": "requiredItems",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rewardItems",
+            "columnName": "rewardItems",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "barters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `requiredItems` TEXT, `rewardItems` TEXT, `source` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "requiredItems",
+            "columnName": "requiredItems",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rewardItems",
+            "columnName": "rewardItems",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "mods",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `itemType` TEXT, `parent` TEXT, `Name` TEXT, `ShortName` TEXT, `Description` TEXT, `Weight` REAL, `Width` INTEGER, `Height` INTEGER, `StackMaxSize` INTEGER, `Rarity` TEXT, `SpawnChance` REAL, `BackgroundColor` TEXT, `LootExperience` INTEGER, `ExamineExperience` INTEGER, `RepairCost` INTEGER, `Durability` INTEGER, `MaxDurability` INTEGER, `pricing` TEXT, `Accuracy` REAL, `Recoil` REAL, `Loudness` REAL, `EffectiveDistance` REAL, `Ergonomics` REAL, `Velocity` REAL, `RaidModdable` INTEGER, `ToolModdable` INTEGER, `SightingRange` REAL, `muzzleModType` TEXT, `ExtraSizeLeft` INTEGER, `ExtraSizeRight` INTEGER, `ExtraSizeUp` INTEGER, `ExtraSizeDown` INTEGER, `MergesWithChildren` INTEGER, `ConflictingItems` TEXT, `Slots` TEXT, `Cartridges` TEXT, `sightModType` TEXT, `aimingSensitivity` REAL, `sighModesCount` INTEGER, `OpticCalibrationDistances` TEXT, `ScopesCount` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemType",
+            "columnName": "itemType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "parent",
+            "columnName": "parent",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Name",
+            "columnName": "Name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ShortName",
+            "columnName": "ShortName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Description",
+            "columnName": "Description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Weight",
+            "columnName": "Weight",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Width",
+            "columnName": "Width",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Height",
+            "columnName": "Height",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "StackMaxSize",
+            "columnName": "StackMaxSize",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Rarity",
+            "columnName": "Rarity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SpawnChance",
+            "columnName": "SpawnChance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BackgroundColor",
+            "columnName": "BackgroundColor",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LootExperience",
+            "columnName": "LootExperience",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ExamineExperience",
+            "columnName": "ExamineExperience",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RepairCost",
+            "columnName": "RepairCost",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Durability",
+            "columnName": "Durability",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MaxDurability",
+            "columnName": "MaxDurability",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pricing",
+            "columnName": "pricing",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Accuracy",
+            "columnName": "Accuracy",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Recoil",
+            "columnName": "Recoil",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Loudness",
+            "columnName": "Loudness",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "EffectiveDistance",
+            "columnName": "EffectiveDistance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Ergonomics",
+            "columnName": "Ergonomics",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Velocity",
+            "columnName": "Velocity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RaidModdable",
+            "columnName": "RaidModdable",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ToolModdable",
+            "columnName": "ToolModdable",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SightingRange",
+            "columnName": "SightingRange",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "muzzleModType",
+            "columnName": "muzzleModType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ExtraSizeLeft",
+            "columnName": "ExtraSizeLeft",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ExtraSizeRight",
+            "columnName": "ExtraSizeRight",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ExtraSizeUp",
+            "columnName": "ExtraSizeUp",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ExtraSizeDown",
+            "columnName": "ExtraSizeDown",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MergesWithChildren",
+            "columnName": "MergesWithChildren",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ConflictingItems",
+            "columnName": "ConflictingItems",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Slots",
+            "columnName": "Slots",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Cartridges",
+            "columnName": "Cartridges",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sightModType",
+            "columnName": "sightModType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "aimingSensitivity",
+            "columnName": "aimingSensitivity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sighModesCount",
+            "columnName": "sighModesCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "OpticCalibrationDistances",
+            "columnName": "OpticCalibrationDistances",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ScopesCount",
+            "columnName": "ScopesCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c8c9fcc22725475615c4150ab5bcc03a')"
+    ]
+  }
+}

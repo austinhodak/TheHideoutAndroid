@@ -7,6 +7,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -16,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -824,7 +826,7 @@ fun CraftItem(craft: Craft, userData: User?) {
 
                 Row(
                     Modifier
-                        .padding(start = 16.dp, end = 16.dp)
+                        .padding(16.dp)
                         .height(IntrinsicSize.Min),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -835,10 +837,20 @@ fun CraftItem(craft: Craft, userData: User?) {
                             ),
                             contentDescription = null,
                             modifier = Modifier
-                                .padding(vertical = 16.dp)
                                 .width(38.dp)
                                 .height(38.dp)
                                 .border((0.25).dp, color = BorderColor)
+                        )
+                        Text(
+                            text = "${reward?.count}",
+                            Modifier
+                                .clip(RoundedCornerShape(topStart = 5.dp))
+                                .background(BorderColor)
+                                .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                                .align(Alignment.BottomEnd),
+                            style = MaterialTheme.typography.caption,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 9.sp
                         )
                     }
                     Column(
@@ -918,16 +930,29 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
             },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            rememberImagePainter(
-                item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
-            ),
-            contentDescription = null,
-            modifier = Modifier
-                .width(38.dp)
-                .height(38.dp)
-                .border((0.25).dp, color = BorderColor)
-        )
+        Box {
+            Image(
+                rememberImagePainter(
+                    item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                ),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(38.dp)
+                    .height(38.dp)
+                    .border((0.25).dp, color = BorderColor)
+            )
+            Text(
+                text = "${taskItem?.count}",
+                Modifier
+                    .clip(RoundedCornerShape(topStart = 5.dp))
+                    .background(BorderColor)
+                    .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                    .align(Alignment.BottomEnd),
+                style = MaterialTheme.typography.caption,
+                fontWeight = FontWeight.Medium,
+                fontSize = 9.sp
+            )
+        }
         Column(
             modifier = Modifier.padding(start = 16.dp)
         ) {

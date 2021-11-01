@@ -25,6 +25,7 @@ import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
+import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
@@ -174,12 +175,7 @@ private fun MedCard(
                         text = "${item.ShortName}",
                         style = MaterialTheme.typography.subtitle1
                     )
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(
-                            text = "Last Price: ${item.getPrice().asCurrency()}",
-                            style = MaterialTheme.typography.caption
-                        )
-                    }
+                    SmallBuyPrice(pricing = item.pricing)
                 }
                 Row {
                     if (item.effects_damage != null) {

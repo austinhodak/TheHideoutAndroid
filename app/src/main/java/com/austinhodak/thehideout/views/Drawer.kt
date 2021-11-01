@@ -198,7 +198,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
 
     private val drawerCurrencyConverter = SecondaryDrawerItem().apply {
         tag = "currency_converter"; level = 2; identifier = 402; nameText = "Currency Converter"; iconRes = R.drawable.icons8_currency_exchange_96; isIconTinted =
-        true; typeface = benderFont; isEnabled = false
+        true; typeface = benderFont; isEnabled = true
     }
 
     private val drawerBitcoin = SecondaryDrawerItem().apply {
@@ -408,12 +408,12 @@ fun MainDrawer(
                             //Check for premium
                             if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
                                 //Active premium
-                                drawer.removeItems(9999, 998)
+                                //drawer.removeItems(9999, 998)
                             } else {
-                                drawer.removeItems(9999, 998)
+                                //drawer.removeItems(9999, 998)
                                 //No premium.
-                                drawer.addItemAtPosition(15, DividerDrawerItem().apply { identifier = 9999 })
-                                drawer.addItemAtPosition(16, drawerUpgrade)
+                                //drawer.addItemAtPosition(15, DividerDrawerItem().apply { identifier = 9999 })
+                                //drawer.addItemAtPosition(16, drawerUpgrade)
                             }
                         }
                     }

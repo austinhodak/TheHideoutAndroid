@@ -38,6 +38,7 @@ import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
@@ -187,8 +188,8 @@ fun GearListScreen(
                 }.let { data ->
                     when (sort) {
                         0 -> data.sortedBy { it.ShortName }
-                        1 -> data.sortedBy { it.getPrice() }
-                        2 -> data.sortedByDescending { it.getPrice() }
+                        1 -> data.sortedBy { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
+                        2 -> data.sortedByDescending { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
                         3 -> data.sortedByDescending { it.armorClass }
                         4 -> data.sortedByDescending { it.Durability }
                         5 -> data.sortedByDescending { it.getInternalSlots()?.toDouble()?.div(it.getTotalSlots().toDouble()) }
@@ -201,21 +202,13 @@ fun GearListScreen(
                     modifier = Modifier.fillMaxHeight()
                 ) {
                     items(items = items) { item ->
-                        val visibleState = remember { MutableTransitionState(false) }
-                        visibleState.targetState = true
-                        AnimatedVisibility(
-                            visibleState,
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            when {
-                                type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item)
-                                type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item)
-                                type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item)
-                                else -> GearCard(item = item) {
-                                    context.openActivity(GearDetailActivity::class.java) {
-                                        putString("id", item.pricing?.id)
-                                    }
+                        when {
+                            type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item)
+                            type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item)
+                            type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item)
+                            else -> GearCard(item = item) {
+                                context.openActivity(GearDetailActivity::class.java) {
+                                    putString("id", item.pricing?.id)
                                 }
                             }
                         }
@@ -238,8 +231,8 @@ fun GearListScreen(
                 }.let { data ->
                     when (sort) {
                         0 -> data.sortedBy { it.ShortName }
-                        1 -> data.sortedBy { it.getPrice() }
-                        2 -> data.sortedByDescending { it.getPrice() }
+                        1 -> data.sortedBy { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
+                        2 -> data.sortedByDescending { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
                         3 -> data.sortedByDescending { it.armorClass }
                         4 -> data.sortedByDescending { it.Durability }
                         5 -> data.sortedByDescending { it.getInternalSlots()?.toDouble()?.div(it.getTotalSlots().toDouble()) }
@@ -248,21 +241,13 @@ fun GearListScreen(
                 }
 
                 items(items = items) { item ->
-                    val visibleState = remember { MutableTransitionState(false) }
-                    visibleState.targetState = true
-                    AnimatedVisibility(
-                        visibleState,
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        when (type) {
-                            ItemTypes.BACKPACK -> BackpackCard(item = item)
-                            ItemTypes.FACECOVER,
-                            ItemTypes.HEADSET -> HeadsetCard(item = item)
-                            else -> GearCard(item = item) {
-                                context.openActivity(GearDetailActivity::class.java) {
-                                    putString("id", item.pricing?.id)
-                                }
+                    when (type) {
+                        ItemTypes.BACKPACK -> BackpackCard(item = item)
+                        ItemTypes.FACECOVER,
+                        ItemTypes.HEADSET -> HeadsetCard(item = item)
+                        else -> GearCard(item = item) {
+                            context.openActivity(GearDetailActivity::class.java) {
+                                putString("id", item.pricing?.id)
                             }
                         }
                     }
@@ -314,12 +299,13 @@ fun GearCard(
                         text = "${item.ShortName}",
                         style = MaterialTheme.typography.subtitle1
                     )
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    SmallBuyPrice(pricing = item.pricing)
+                    /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
                             text = "Last Price: ${item.getPrice().asCurrency()}",
                             style = MaterialTheme.typography.caption
                         )
-                    }
+                    }*/
                 }
                 Column(
                     Modifier.padding(horizontal = 16.dp),
@@ -409,12 +395,7 @@ private fun BackpackCard(
                         text = "${item.ShortName}",
                         style = MaterialTheme.typography.subtitle1
                     )
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(
-                            text = "Last Price: ${item.getPrice().asCurrency()}",
-                            style = MaterialTheme.typography.caption
-                        )
-                    }
+                    SmallBuyPrice(pricing = item.pricing)
                 }
                 Column(
                     Modifier.padding(horizontal = 16.dp),
@@ -504,12 +485,7 @@ private fun HeadsetCard(
                         text = "${item.ShortName}",
                         style = MaterialTheme.typography.subtitle1
                     )
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(
-                            text = "Last Price: ${item.getPrice().asCurrency()}",
-                            style = MaterialTheme.typography.caption
-                        )
-                    }
+                    SmallBuyPrice(pricing = item.pricing)
                 }
             }
         }

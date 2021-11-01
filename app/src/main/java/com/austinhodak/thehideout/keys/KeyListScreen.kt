@@ -33,6 +33,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
@@ -119,8 +120,8 @@ fun KeyListScreen(
 
         val data = when (sort) {
             0 -> keys.sortedBy { it.Name }
-            1 -> keys.sortedBy { it.getPrice() }
-            2 -> keys.sortedByDescending { it.getPrice() }
+            1 -> keys.sortedBy { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
+            2 -> keys.sortedByDescending { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
             else -> keys
         }.filter {
             it.ShortName?.contains(searchKey, ignoreCase = true) == true || it.Name?.contains(searchKey, ignoreCase = true) == true ||
@@ -218,12 +219,7 @@ fun KeyCard(
                         text = "${item.Name}",
                         style = MaterialTheme.typography.subtitle1
                     )
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(
-                            text = "Last Price: ${item.getPrice().asCurrency()}",
-                            style = MaterialTheme.typography.caption
-                        )
-                    }
+                    SmallBuyPrice(pricing = item.pricing)
                 }
                 Column(
                     Modifier

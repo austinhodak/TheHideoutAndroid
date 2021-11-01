@@ -19,6 +19,7 @@ import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.bitcoin.BitcoinPriceScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.currency.CurrenyConverterScreen
 import com.austinhodak.thehideout.flea_market.FleaMarketScreen
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.gear.GearListScreen
@@ -269,6 +270,9 @@ class NavActivity : GodActivity() {
                         }
                         composable("bitcoin") {
                             BitcoinPriceScreen(navViewModel, tarkovRepo)
+                        }
+                        composable("currency_converter") {
+                            CurrenyConverterScreen(navViewModel, tarkovRepo)
                         }
                     }
 

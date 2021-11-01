@@ -27,7 +27,7 @@ import java.lang.reflect.Type
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 41)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 43)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -80,7 +80,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun loadItemsFile() {
             scope.launch(Dispatchers.IO) {
-                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_082521).bufferedReader().use { it.readText() }))
+                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_110121).bufferedReader().use { it.readText() }))
             }
         }
 

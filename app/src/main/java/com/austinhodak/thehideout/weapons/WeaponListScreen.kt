@@ -25,10 +25,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
-import com.austinhodak.thehideout.compose.components.EmptyText
-import com.austinhodak.thehideout.compose.components.LoadingItem
-import com.austinhodak.thehideout.compose.components.MainToolbar
-import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.utils.getCaliberShortName
 import com.austinhodak.thehideout.views.weaponCategories
@@ -91,16 +88,8 @@ fun WeaponListScreen(
                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                 ) {
                     items(items = data.sortedBy { it.Name }) { weapon ->
-                        val visibleState = remember { MutableTransitionState(false) }
-                        visibleState.targetState = true
-                        AnimatedVisibility(
-                            visibleState,
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            WeaponCard(weapon) {
-                                weaponClicked(it)
-                            }
+                        WeaponCard(weapon) {
+                            weaponClicked(it)
                         }
                     }
                 }
@@ -203,12 +192,7 @@ fun WeaponCard(
                             )
                         }
                     }
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(
-                            text = "Last Price: ${weapon.pricing?.getPrice()?.asCurrency()}",
-                            style = MaterialTheme.typography.caption
-                        )
-                    }
+                    SmallBuyPrice(pricing = weapon.pricing)
                 }
             }
         }

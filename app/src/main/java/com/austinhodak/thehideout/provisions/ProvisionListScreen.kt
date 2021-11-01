@@ -35,6 +35,7 @@ import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.utils.asColor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -147,12 +148,7 @@ fun ProvisionCard(
                         text = "${item.Name}",
                         style = MaterialTheme.typography.subtitle1
                     )
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(
-                            text = "Last Price: ${item.getPrice().asCurrency()}",
-                            style = MaterialTheme.typography.caption
-                        )
-                    }
+                    SmallBuyPrice(pricing = item.pricing)
                 }
                 Column(
                     Modifier.width(IntrinsicSize.Min),
