@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 
 private const val FAVORITE_ITEMS = "FAVORITE_ITEMS"
-private const val OPENING_PAGE = "OPENING_PAGE"
-private const val OPENING_PAGE_TAG = "OPENING_PAGE_TAG"
+private const val OPENING_PAGE = "OPENING_PAGE_N"
+private const val OPENING_PAGE_TAG = "OPENING_PAGE_TAG_N"
 
 class Prefs(context: Context) {
 
@@ -17,11 +17,11 @@ class Prefs(context: Context) {
         set(value) = preference.edit().putStringSet(FAVORITE_ITEMS, value).apply()
 
     var openingPage: Long
-        get() = 107 //preference.getLong(OPENING_PAGE, 107)
+        get() = preference.getLong(OPENING_PAGE, 107)
         set(value) = preference.edit().putLong(OPENING_PAGE, value).apply()
 
     var openingPageTag: String
-        get() = "flea" // preference.getString(OPENING_PAGE_TAG, "flea")?.replace("Caliber762x35", "{caliber}") ?: "flea"
+        get() = preference.getString(OPENING_PAGE_TAG, "flea") ?: "flea"
         set(value) = preference.edit().putString(OPENING_PAGE_TAG, value).apply()
 
     fun setOpeningItem(item: IDrawerItem<*>) {
@@ -33,6 +33,19 @@ class Prefs(context: Context) {
             else -> {
                 openingPage = item.identifier
                 openingPageTag = item.tag.toString()
+            }
+        }
+    }
+
+    fun setOpeningItem(identifier: Int, tag: String) {
+        when (identifier) {
+            101 -> {
+                openingPage = identifier.toLong()
+                openingPageTag = tag
+            }
+            else -> {
+                openingPage = identifier.toLong()
+                openingPageTag = tag
             }
         }
     }

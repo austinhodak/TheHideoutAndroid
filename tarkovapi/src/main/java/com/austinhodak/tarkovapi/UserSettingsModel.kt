@@ -18,6 +18,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val ragmanLevel by enumPref(Levels.`4`, "ragmanLevel")
     val jaegerLevel by enumPref(Levels.`4`, "jaegerLevel")
 
+    val openingScreen by enumPref(OpeningScreen.FLEA, "openingScreen")
+
     val playerLevel by intPref(71, "playerLevel")
 
     val mapMarkerCategories by intSetPref(emptySet(), "mapMarkerCategories")
@@ -32,6 +34,17 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val gearSort by intPref(0, "gearSort")
     val keySort by intPref(0, "keySort")
     val craftSort by intPref(0, "craftSort")
+}
+
+enum class OpeningScreen {
+    AMMO,
+    FLEA,
+    KEYS,
+    HIDEOUT,
+    QUESTS,
+    WEAPONS,
+    LOADOUTS,
+    MODS
 }
 
 enum class FleaVisiblePrice {

@@ -2,6 +2,7 @@ package com.austinhodak.thehideout
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -136,6 +137,7 @@ class NavActivity : GodActivity() {
         }
 
         val appUpdateManager = AppUpdateManagerFactory.create(this)
+
 
 
         val data = intent.extras

@@ -16,14 +16,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.Levels
+import com.austinhodak.tarkovapi.OpeningScreen
 import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
-import com.austinhodak.thehideout.GodActivity
-import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.billing.PremiumActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
@@ -44,6 +45,7 @@ import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.json.JSONObject
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -65,6 +67,35 @@ class SettingsActivity : GodActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        UserSettingsModel.openingScreen.observe(lifecycleScope) {
+            Timber.d(it.toString())
+            when (it) {
+                OpeningScreen.AMMO -> {
+                    questPrefs.setOpeningItem(101, "ammunition/{caliber}")
+                }
+                OpeningScreen.KEYS -> {
+                    questPrefs.setOpeningItem(104, "keys")
+                }
+                OpeningScreen.FLEA -> {
+                    questPrefs.setOpeningItem(107, "flea")
+                }
+                OpeningScreen.HIDEOUT -> {
+                    questPrefs.setOpeningItem(108, "hideout")
+                }
+                OpeningScreen.QUESTS -> {
+                    questPrefs.setOpeningItem(109, "quests")
+                }
+                OpeningScreen.LOADOUTS -> {
+                    questPrefs.setOpeningItem(115, "weaponloadouts")
+                }
+                OpeningScreen.MODS -> {
+                    questPrefs.setOpeningItem(114, "weaponmods")
+                }
+                OpeningScreen.WEAPONS -> {
+                    questPrefs.setOpeningItem(301, "assaultRifle")
+                }
+            }
+        }
         setContent {
             HideoutTheme {
 
@@ -195,6 +226,22 @@ class SettingsActivity : GodActivity() {
                                     switch(UserSettingsModel.keepScreenOn) {
                                         title = "Keep Screen On".asText()
                                         icon = R.drawable.ic_baseline_screen_lock_portrait_24.asIcon()
+                                    }
+                                    singleChoice(UserSettingsModel.openingScreen, OpeningScreen.values(), {
+                                        when (it) {
+                                            OpeningScreen.AMMO -> "Ammunition"
+                                            OpeningScreen.KEYS -> "Keys"
+                                            OpeningScreen.LOADOUTS -> "Weapon Loadouts"
+                                            OpeningScreen.FLEA -> "Flea Market"
+                                            OpeningScreen.HIDEOUT -> "Hideout"
+                                            OpeningScreen.QUESTS -> "Quests"
+                                            OpeningScreen.MODS -> "Weapon Mods"
+                                            OpeningScreen.WEAPONS -> "Weapons"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "Opening Screen".asText()
+                                        icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
                                     }
                                 }
                                 /*subScreen {
