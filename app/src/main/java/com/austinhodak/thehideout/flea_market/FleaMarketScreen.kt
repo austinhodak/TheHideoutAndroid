@@ -49,7 +49,6 @@ import com.austinhodak.thehideout.flea_market.components.ShoppingCartScreen
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.questPrefs
-import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
@@ -389,21 +388,12 @@ fun FleaMarketListScreen(
 fun FleaBottomNav(
     navController: NavController
 ) {
-    val items = if (isDebug()) {
-        listOf(
-            FleaMarketScreens.Items,
-            FleaMarketScreens.Needed,
-            FleaMarketScreens.Favorites,
-            FleaMarketScreens.ShoppingCart
-        )
-    } else {
-        listOf(
-            FleaMarketScreens.Items,
-            FleaMarketScreens.Needed,
-            FleaMarketScreens.Favorites,
-            FleaMarketScreens.ShoppingCart
-        )
-    }
+    val items = listOf(
+        FleaMarketScreens.Items,
+        FleaMarketScreens.Needed,
+        FleaMarketScreens.Favorites,
+        FleaMarketScreens.ShoppingCart
+    )
 
     BottomNavigation(
         backgroundColor = Color(0xFE1F1F1F)

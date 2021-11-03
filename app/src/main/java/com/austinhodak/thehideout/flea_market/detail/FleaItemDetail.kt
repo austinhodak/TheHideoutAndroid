@@ -1092,7 +1092,11 @@ class FleaItemDetail : GodActivity() {
             )
             Text(
                 text = if (item.source == ItemSourceName.peacekeeper.rawValue) {
-                    item.price?.asCurrency("D") ?: ""
+                    if (isBuy) {
+                        item.price?.asCurrency("D") ?: ""
+                    } else {
+                        item.price?.roubleToDollar()?.asCurrency("D") ?: ""
+                    }
                 } else {
                     item.price?.asCurrency() ?: ""
                 },

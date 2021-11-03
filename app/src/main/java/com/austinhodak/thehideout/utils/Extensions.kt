@@ -76,6 +76,10 @@ fun Int.asColor(reverse: Boolean = false): Color {
     }
 }
 
+fun Int.roubleToDollar(): Int {
+    return this / 121
+}
+
 fun Number.asColor(reverse: Boolean = false): Color {
     return when {
         this.toDouble() > 0.0 -> if (!reverse) Green500 else Red500

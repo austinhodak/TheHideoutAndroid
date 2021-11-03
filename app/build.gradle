@@ -40,9 +40,9 @@ android {
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 11012
+        versionCode 11013
         // [1]-[0].[2].[0].[0]
-        versionName "1.0.0 Beta 12"
+        versionName "1.0.0 Beta 13"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -105,6 +105,10 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    /*lintOptions {
+        checkReleaseBuilds false
+    }*/
 }
 
 dependencies {
