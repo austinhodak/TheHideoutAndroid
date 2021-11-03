@@ -9,21 +9,17 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.*
 import com.austinhodak.tarkovapi.di.ApplicationScope
-import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.room.dao.*
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.*
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import timber.log.Timber
-import java.lang.reflect.Type
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -193,14 +189,14 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    enum class Traders (var id: String) {
-        PRAPOR      ("Prapor"),
-        THERAPIST   ("Therapist"),
-        FENCE       ("Fence"),
-        SKIER       ("Skier"),
-        PEACEKEEPER ("Peacekeeper"),
-        MECHANIC    ("Mechanic"),
-        RAGMAN      ("Ragman"),
-        JAEGER      ("Jaeger"),
+    enum class Traders(var id: String) {
+        PRAPOR("Prapor"),
+        THERAPIST("Therapist"),
+        FENCE("Fence"),
+        SKIER("Skier"),
+        PEACEKEEPER("Peacekeeper"),
+        MECHANIC("Mechanic"),
+        RAGMAN("Ragman"),
+        JAEGER("Jaeger"),
     }
 }

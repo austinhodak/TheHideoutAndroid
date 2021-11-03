@@ -51,7 +51,10 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.convertRtoUSD
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.OverflowMenu
+import com.austinhodak.thehideout.compose.components.OverflowMenuItem
 import com.austinhodak.thehideout.compose.components.Rectangle
+import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
@@ -133,6 +136,9 @@ class FleaItemDetail : GodActivity() {
                             FleaDetailToolbar(
                                 item = item.value,
                                 actions = {
+                                    /*IconButton(onClick = {}) {
+                                        Icon(painter = painterResource(id = R.drawable.icons8_add_list_96), contentDescription = "Add to List")
+                                    }*/
                                     IconButton(onClick = {
                                         isFavorited = if (isFavorited == true) {
                                             questPrefs.removeFavorite(itemID)
@@ -146,6 +152,12 @@ class FleaItemDetail : GodActivity() {
                                             Icon(Icons.Filled.Favorite, contentDescription = null, tint = Pink500)
                                         } else {
                                             Icon(Icons.Filled.FavoriteBorder, contentDescription = null, tint = Color.White)
+                                        }
+                                    }
+                                    OverflowMenu {
+                                        item.value?.pricing?.wikiLink?.let { WikiItem(url = it) }
+                                        OverflowMenuItem(text = "Add to Needed Items") {
+                                            item.value?.pricing?.addToNeededItemsDialog(this@FleaItemDetail)
                                         }
                                     }
                                 }

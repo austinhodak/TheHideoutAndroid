@@ -48,6 +48,7 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -609,8 +610,37 @@ fun Pricing.addToCartDialog(context: Context) {
     }
 }
 
+@SuppressLint("CheckResult")
+fun Pricing.addToNeededItemsDialog(context: Context) {
+    val pricing = this
+    MaterialDialog(context).show {
+        var total: Long = pricing.getPrice().toLong()
+        title(text = "Add to Needed Items")
+        message(text = "Total: ${total.toInt().asCurrency()}")
+        input(inputType = InputType.TYPE_CLASS_NUMBER, maxLength = 6, prefill = "1", hint = "Quantity", waitForPositiveButton = false) { dialog, text ->
+            val quantity = text.toString().toLongOrNull()
+            total = pricing.getPrice().times(quantity ?: 1) ?: 0
+            dialog.message(text = "Total: ${total.toInt().asCurrency()}")
+        }
+        positiveButton(text = "ADD TO NEEDED ITEMS") {
+            val text = it.getInputField().text
+            try {
+                val quantity = text.toString().toLong()
+                pricing.addToNeededItems(quantity)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+}
+
 fun Pricing.addToCart(quantity: Long? = 1) {
     userRefTracker("cart/${this.id}").setValue(ServerValue.increment(quantity ?: 1))
+}
+
+fun Pricing.addToNeededItems(quantity: Long? = 1) {
+    val token = FirebaseDatabase.getInstance().reference.push()
+    userRefTracker("items/${this.id}/user/${token.key}/quantity").setValue(quantity)
 }
 
 fun ProductModel.purchase(activity: Activity, adaptyCallback: (purchaserInfo: PurchaserInfoModel?, purchaseToken: String?, googleValidationResult: GoogleValidationResult?, product: ProductModel, error: AdaptyError?) -> Unit) {
