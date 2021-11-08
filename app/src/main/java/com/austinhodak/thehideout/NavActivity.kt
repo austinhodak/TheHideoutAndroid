@@ -2,10 +2,10 @@ package com.austinhodak.thehideout
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
@@ -16,6 +16,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.bitcoin.BitcoinPriceScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
@@ -34,6 +36,8 @@ import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
+import com.austinhodak.thehideout.tools.SensitivityCalculatorScreen
+import com.austinhodak.thehideout.tools.viewmodels.SensitivityViewModel
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.utils.restartNavActivity
@@ -75,6 +79,7 @@ class NavActivity : GodActivity() {
     private val keysViewModel: KeysViewModel by viewModels()
     private val gearViewModel: GearViewModel by viewModels()
     private val loadoutViewModel: WeaponLoadoutViewModel by viewModels()
+    private val sensitivityViewModel: SensitivityViewModel by viewModels()
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo
@@ -276,6 +281,9 @@ class NavActivity : GodActivity() {
                         composable("currency_converter") {
                             CurrenyConverterScreen(navViewModel, tarkovRepo)
                         }
+                        composable("sensitivity") {
+                            SensitivityCalculatorScreen(navViewModel, tarkovRepo, sensitivityViewModel, armorPickerLauncher)
+                        }
                     }
 
                     navViewModel.selectedDrawerItem.observe(lifeCycleOwner) { selectedItem ->
@@ -337,6 +345,21 @@ class NavActivity : GodActivity() {
                     }
 
                     //navViewModel.updateCurrentNavRoute(navBackStackEntry?.destination?.route.toString())
+                }
+            }
+        }
+    }
+
+    private val armorPickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            val intent = result.data
+            intent?.getSerializableExtra("item")?.let {
+                if (it is Item) {
+                    if (it.itemType == ItemTypes.HELMET) {
+                        sensitivityViewModel.selectHelmet(it)
+                    } else {
+                        sensitivityViewModel.selectArmor(it)
+                    }
                 }
             }
         }

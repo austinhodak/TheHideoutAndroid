@@ -24,6 +24,8 @@
         <item name="md_font_body">@font/bender</item>
         <item name="md_font_button">@font/bender_bold</item>
 
+        <item name="listPreferredItemPaddingStart">72dp</item>
+
     </style>
 
 

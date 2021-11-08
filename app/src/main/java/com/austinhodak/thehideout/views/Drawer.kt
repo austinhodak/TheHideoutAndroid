@@ -206,6 +206,11 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
         true; typeface = benderFont; isEnabled = true
     }
 
+    private val drawerSensitivity = SecondaryDrawerItem().apply {
+        tag = "sensitivity"; level = 2; identifier = 403; nameText = "Sensitivity Calculator"; iconRes = R.drawable.ic_baseline_calculate_24; isIconTinted =
+        true; typeface = benderFont; isEnabled = true
+    }
+
     private val drawerExtraTools = ExpandableDrawerItem().apply {
         nameText = "Tools"
         iconRes = R.drawable.icons8_wrench_96; isIconTinted = true
@@ -213,7 +218,8 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
         isSelectable = false
         subItems = mutableListOf(
             drawerBitcoin,
-            drawerCurrencyConverter
+            drawerCurrencyConverter,
+            drawerSensitivity
         )
     }
 

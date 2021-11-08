@@ -34,6 +34,10 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val gearSort by intPref(0, "gearSort")
     val keySort by intPref(0, "keySort")
     val craftSort by intPref(0, "craftSort")
+
+    val dpi by intPref(400, "userDPI")
+    val hipfireSens by stringPref("0.50", "hipfireSens")
+    val aimSens by stringPref("0.50", "aimSens")
 }
 
 enum class OpeningScreen {

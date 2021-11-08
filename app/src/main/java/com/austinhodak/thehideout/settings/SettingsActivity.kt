@@ -159,7 +159,6 @@ class SettingsActivity : GodActivity() {
 
                             PreferenceScreenConfig.apply {
                                 alignIconsWithBackArrow = true
-
                             }
 
                             screen = screen {
@@ -214,6 +213,24 @@ class SettingsActivity : GodActivity() {
                                         singleChoice(UserSettingsModel.jaegerLevel, Levels.values(), { "Level $it" }) {
                                             title = "Jaeger".asText()
                                         }
+                                    }
+                                    category {
+                                        title = "Mouse Settings".asText()
+                                    }
+                                    input(UserSettingsModel.dpi) {
+                                        title = "Mouse DPI".asText()
+                                        summary = "%s".asText()
+                                        hint = "DPI".asText()
+                                    }
+                                    input(UserSettingsModel.hipfireSens) {
+                                        title = "In Game Mouse Sensitivity".asText()
+                                        summary = "%s".asText()
+                                        hint = "Mouse Sens".asText()
+                                    }
+                                    input(UserSettingsModel.aimSens) {
+                                        title = "In Game Aim Sensitivity".asText()
+                                        summary = "%s".asText()
+                                        hint = "Aim Sens".asText()
                                     }
                                 }
                                 /*subScreen {

@@ -33,6 +33,4 @@ class WeaponLoadoutViewModel @Inject constructor(
             _userLoadouts.value = loadouts
         }
     }
-
-
 }
