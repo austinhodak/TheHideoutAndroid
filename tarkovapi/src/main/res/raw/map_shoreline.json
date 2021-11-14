@@ -2,7 +2,7 @@
   "map": {
     "id": 72,
     "title": "Shoreline",
-    "url":  "https://tiles.mapgenie.io"
+    "url": "https://tiles.mapgenie.io"
   },
   "groups": [{
     "id": 200,
@@ -399,89 +399,11 @@
     }]
   }],
   "categories": {
-    "960": {
-      "id": 960,
-      "group_id": 200,
-      "title": "Ammo Box",
-      "icon": "ammo_box",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "971": {
-      "id": 971,
-      "group_id": 200,
-      "title": "Armor",
-      "icon": "armor",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "948": {
-      "id": 948,
-      "group_id": 200,
-      "title": "Cache",
-      "icon": "cache",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
     "941": {
       "id": 941,
       "group_id": 200,
       "title": "Crate",
       "icon": "crate",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "959": {
-      "id": 959,
-      "group_id": 200,
-      "title": "Dead SCAV",
-      "icon": "dead_scav",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "969": {
-      "id": 969,
-      "group_id": 200,
-      "title": "Duffle Bag",
-      "icon": "duffle_bag",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "1017": {
-      "id": 1017,
-      "group_id": 200,
-      "title": "Filing Cabinet",
-      "icon": "filing_cabinet",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -503,102 +425,11 @@
       "description": null,
       "premium": false
     },
-    "961": {
-      "id": 961,
-      "group_id": 200,
-      "title": "Jacket",
-      "icon": "clothes",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "947": {
-      "id": 947,
-      "group_id": 200,
-      "title": "Key",
-      "icon": "key",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "946": {
-      "id": 946,
-      "group_id": 200,
-      "title": "Loose Loot",
-      "icon": "loose_loot",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
     "943": {
       "id": 943,
       "group_id": 200,
       "title": "Meds",
       "icon": "meds",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "945": {
-      "id": 945,
-      "group_id": 200,
-      "title": "Money",
-      "icon": "money",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "949": {
-      "id": 949,
-      "group_id": 200,
-      "title": "Other Loot",
-      "icon": "other_loot",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "968": {
-      "id": 968,
-      "group_id": 200,
-      "title": "PC Block",
-      "icon": "pc_block",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "1016": {
-      "id": 1016,
-      "group_id": 200,
-      "title": "Provisions",
-      "icon": "provisions",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -620,11 +451,11 @@
       "description": null,
       "premium": false
     },
-    "970": {
-      "id": 970,
+    "945": {
+      "id": 945,
       "group_id": 200,
-      "title": "Toolbox",
-      "icon": "toolbox",
+      "title": "Money",
+      "icon": "money",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -633,11 +464,11 @@
       "description": null,
       "premium": false
     },
-    "1013": {
-      "id": 1013,
+    "946": {
+      "id": 946,
       "group_id": 200,
-      "title": "Valuable",
-      "icon": "valuable",
+      "title": "Loose Loot",
+      "icon": "loose_loot",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -646,11 +477,11 @@
       "description": null,
       "premium": false
     },
-    "958": {
-      "id": 958,
+    "947": {
+      "id": 947,
       "group_id": 200,
-      "title": "Weapon Box",
-      "icon": "weapon_box",
+      "title": "Key",
+      "icon": "key",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -659,11 +490,11 @@
       "description": null,
       "premium": false
     },
-    "1015": {
-      "id": 1015,
+    "948": {
+      "id": 948,
       "group_id": 200,
-      "title": "Weapon Mods",
-      "icon": "weapon_mods",
+      "title": "Cache",
+      "icon": "cache",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -672,11 +503,11 @@
       "description": null,
       "premium": false
     },
-    "951": {
-      "id": 951,
-      "group_id": 201,
-      "title": "Boss",
-      "icon": "boss",
+    "949": {
+      "id": 949,
+      "group_id": 200,
+      "title": "Other Loot",
+      "icon": "other_loot",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -698,37 +529,11 @@
       "description": null,
       "premium": false
     },
-    "1011": {
-      "id": 1011,
+    "951": {
+      "id": 951,
       "group_id": 201,
-      "title": "SCAV Sniper",
-      "icon": "scav_sniper",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "1014": {
-      "id": 1014,
-      "group_id": 202,
-      "title": "Easter Egg",
-      "icon": "easter_egg",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "954": {
-      "id": 954,
-      "group_id": 202,
-      "title": "Extraction",
-      "icon": "exit",
+      "title": "Boss",
+      "icon": "boss",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -750,11 +555,11 @@
       "description": null,
       "premium": false
     },
-    "957": {
-      "id": 957,
+    "953": {
+      "id": 953,
       "group_id": 202,
-      "title": "Locked Door",
-      "icon": "locked_door",
+      "title": "Spawn Point",
+      "icon": "spawn_point",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -763,11 +568,11 @@
       "description": null,
       "premium": false
     },
-    "956": {
-      "id": 956,
+    "954": {
+      "id": 954,
       "group_id": 202,
-      "title": "Miscellaneous",
-      "icon": "miscellaneous",
+      "title": "Extraction",
+      "icon": "exit",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -789,11 +594,206 @@
       "description": null,
       "premium": false
     },
-    "953": {
-      "id": 953,
+    "956": {
+      "id": 956,
       "group_id": 202,
-      "title": "Spawn Point",
-      "icon": "spawn_point",
+      "title": "Miscellaneous",
+      "icon": "miscellaneous",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "957": {
+      "id": 957,
+      "group_id": 202,
+      "title": "Locked Door",
+      "icon": "locked_door",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "958": {
+      "id": 958,
+      "group_id": 200,
+      "title": "Weapon Box",
+      "icon": "weapon_box",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "959": {
+      "id": 959,
+      "group_id": 200,
+      "title": "Dead SCAV",
+      "icon": "dead_scav",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "960": {
+      "id": 960,
+      "group_id": 200,
+      "title": "Ammo Box",
+      "icon": "ammo_box",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "961": {
+      "id": 961,
+      "group_id": 200,
+      "title": "Jacket",
+      "icon": "clothes",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "968": {
+      "id": 968,
+      "group_id": 200,
+      "title": "PC Block",
+      "icon": "pc_block",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "969": {
+      "id": 969,
+      "group_id": 200,
+      "title": "Duffle Bag",
+      "icon": "duffle_bag",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "970": {
+      "id": 970,
+      "group_id": 200,
+      "title": "Toolbox",
+      "icon": "toolbox",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "971": {
+      "id": 971,
+      "group_id": 200,
+      "title": "Armor",
+      "icon": "armor",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1011": {
+      "id": 1011,
+      "group_id": 201,
+      "title": "SCAV Sniper",
+      "icon": "scav_sniper",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1013": {
+      "id": 1013,
+      "group_id": 200,
+      "title": "Valuable",
+      "icon": "valuable",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1014": {
+      "id": 1014,
+      "group_id": 202,
+      "title": "Easter Egg",
+      "icon": "easter_egg",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1015": {
+      "id": 1015,
+      "group_id": 200,
+      "title": "Weapon Mods",
+      "icon": "weapon_mods",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1016": {
+      "id": 1016,
+      "group_id": 200,
+      "title": "Provisions",
+      "icon": "provisions",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1017": {
+      "id": 1017,
+      "group_id": 200,
+      "title": "Filing Cabinet",
+      "icon": "filing_cabinet",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -860,9 +860,9 @@
       "title": "",
       "file_name": "64aae97c-f562-45e0-8a53-0dfed990b8b5.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/64aae97c-f562-45e0-8a53-0dfed990b8b5.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/64aae97c-f562-45e0-8a53-0dfed990b8b5.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -895,9 +895,9 @@
       "title": "",
       "file_name": "b70a3dbe-354a-452e-ac73-db214288842f.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/b70a3dbe-354a-452e-ac73-db214288842f.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/b70a3dbe-354a-452e-ac73-db214288842f.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -917,9 +917,9 @@
       "title": "",
       "file_name": "f67f4e49-dace-4781-9202-ffed37eb6fc0.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f67f4e49-dace-4781-9202-ffed37eb6fc0.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/f67f4e49-dace-4781-9202-ffed37eb6fc0.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -939,9 +939,9 @@
       "title": "",
       "file_name": "5ff7f51f-1010-44de-9c29-d6e86311e83d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5ff7f51f-1010-44de-9c29-d6e86311e83d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5ff7f51f-1010-44de-9c29-d6e86311e83d.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -961,9 +961,9 @@
       "title": "shore road",
       "file_name": "6d982574-9772-419f-9506-65d321f3f058.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/6d982574-9772-419f-9506-65d321f3f058.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/6d982574-9772-419f-9506-65d321f3f058.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -983,9 +983,9 @@
       "title": "",
       "file_name": "81c729f3-d406-4e56-aafd-5d91f1a1d343.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/81c729f3-d406-4e56-aafd-5d91f1a1d343.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/81c729f3-d406-4e56-aafd-5d91f1a1d343.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1005,9 +1005,9 @@
       "title": "",
       "file_name": "ef4ec171-6d6c-40a9-a0e6-07c0620ba939.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/ef4ec171-6d6c-40a9-a0e6-07c0620ba939.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/ef4ec171-6d6c-40a9-a0e6-07c0620ba939.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1027,9 +1027,9 @@
       "title": "",
       "file_name": "39918be4-031b-4dee-a797-08949ce78653.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/39918be4-031b-4dee-a797-08949ce78653.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/39918be4-031b-4dee-a797-08949ce78653.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1049,9 +1049,9 @@
       "title": "",
       "file_name": "74675c83-56ab-4d30-91dd-5f336fbc9614.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/74675c83-56ab-4d30-91dd-5f336fbc9614.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/74675c83-56ab-4d30-91dd-5f336fbc9614.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1071,9 +1071,9 @@
       "title": "",
       "file_name": "efee716e-7cbd-4b88-b135-1209c5bab608.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/efee716e-7cbd-4b88-b135-1209c5bab608.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/efee716e-7cbd-4b88-b135-1209c5bab608.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1093,9 +1093,9 @@
       "title": "",
       "file_name": "433eb534-1685-41f0-a209-bd7cbe93a758.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/433eb534-1685-41f0-a209-bd7cbe93a758.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/433eb534-1685-41f0-a209-bd7cbe93a758.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1115,9 +1115,9 @@
       "title": "",
       "file_name": "6780394b-1ebf-48ed-a469-25808b6c63fb.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/6780394b-1ebf-48ed-a469-25808b6c63fb.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/6780394b-1ebf-48ed-a469-25808b6c63fb.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1137,9 +1137,9 @@
       "title": "",
       "file_name": "be7dd893-d1f6-4756-94f3-e3f46399d613.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/be7dd893-d1f6-4756-94f3-e3f46399d613.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/be7dd893-d1f6-4756-94f3-e3f46399d613.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1159,9 +1159,9 @@
       "title": "",
       "file_name": "28e4a162-22a3-4501-8cc2-9eacb4249399.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/28e4a162-22a3-4501-8cc2-9eacb4249399.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/28e4a162-22a3-4501-8cc2-9eacb4249399.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1181,9 +1181,9 @@
       "title": "",
       "file_name": "e13804aa-eb36-49b3-9999-ef013d60c6c9.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e13804aa-eb36-49b3-9999-ef013d60c6c9.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/e13804aa-eb36-49b3-9999-ef013d60c6c9.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1203,9 +1203,9 @@
       "title": "",
       "file_name": "a7caa1f6-c95f-45e9-ba53-2589ac8b5120.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a7caa1f6-c95f-45e9-ba53-2589ac8b5120.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/a7caa1f6-c95f-45e9-ba53-2589ac8b5120.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1225,9 +1225,9 @@
       "title": "",
       "file_name": "7f172ab3-d97a-4283-8eef-681665cf1045.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7f172ab3-d97a-4283-8eef-681665cf1045.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/7f172ab3-d97a-4283-8eef-681665cf1045.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1247,9 +1247,9 @@
       "title": "",
       "file_name": "47cb231f-6cdf-4ac7-9aaa-3daa4425be10.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/47cb231f-6cdf-4ac7-9aaa-3daa4425be10.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/47cb231f-6cdf-4ac7-9aaa-3daa4425be10.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1269,9 +1269,9 @@
       "title": "",
       "file_name": "e8145066-9594-4600-8036-28ed59431b88.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e8145066-9594-4600-8036-28ed59431b88.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/e8145066-9594-4600-8036-28ed59431b88.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1291,9 +1291,9 @@
       "title": "pond",
       "file_name": "0e07d821-80a9-4032-b366-a85d0b6ba05c.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/0e07d821-80a9-4032-b366-a85d0b6ba05c.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/0e07d821-80a9-4032-b366-a85d0b6ba05c.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1313,9 +1313,9 @@
       "title": "",
       "file_name": "081a2599-c0d3-49e7-a274-8f052eb6ce8d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/081a2599-c0d3-49e7-a274-8f052eb6ce8d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/081a2599-c0d3-49e7-a274-8f052eb6ce8d.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1335,9 +1335,9 @@
       "title": "",
       "file_name": "2933808b-3e80-4187-b88c-fd76dd405dae.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2933808b-3e80-4187-b88c-fd76dd405dae.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2933808b-3e80-4187-b88c-fd76dd405dae.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1357,9 +1357,9 @@
       "title": "",
       "file_name": "3bd99932-e09f-45e8-866d-77aa81dc728d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/3bd99932-e09f-45e8-866d-77aa81dc728d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/3bd99932-e09f-45e8-866d-77aa81dc728d.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1379,9 +1379,9 @@
       "title": "",
       "file_name": "62a0bb7b-9333-4ef4-8d89-61fba8e4ce47.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/62a0bb7b-9333-4ef4-8d89-61fba8e4ce47.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/62a0bb7b-9333-4ef4-8d89-61fba8e4ce47.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1390,7 +1390,7 @@
     "region_id": null,
     "category_id": 948,
     "title": "Barrel Cache",
-    "description": "On top of the hill near the [Campsite](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=66887), in between a small and a large tree",
+    "description": "On top of the hill near the [Campsite](https://mapgenie.io/tarkov/maps/shoreline?locationIds=66887), in between a small and a large tree",
     "latitude": "1.18716951699006",
     "longitude": "-0.87781148720524",
     "z": null,
@@ -1401,9 +1401,9 @@
       "title": "campsite",
       "file_name": "c3d5d5d0-5153-455a-ac2c-9ef60ce9edac.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c3d5d5d0-5153-455a-ac2c-9ef60ce9edac.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/c3d5d5d0-5153-455a-ac2c-9ef60ce9edac.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1423,9 +1423,9 @@
       "title": "unknown",
       "file_name": "9b243d8b-7107-41c5-90bb-61cdb50a31de.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/9b243d8b-7107-41c5-90bb-61cdb50a31de.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/9b243d8b-7107-41c5-90bb-61cdb50a31de.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -1445,9 +1445,9 @@
       "title": "river",
       "file_name": "fb51a7cf-8e80-4fa8-bda9-1d1680408f19.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/fb51a7cf-8e80-4fa8-bda9-1d1680408f19.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/fb51a7cf-8e80-4fa8-bda9-1d1680408f19.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1467,9 +1467,9 @@
       "title": "",
       "file_name": "32785648-f5f5-4e57-b491-b07e79aca782.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/32785648-f5f5-4e57-b491-b07e79aca782.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/32785648-f5f5-4e57-b491-b07e79aca782.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1489,9 +1489,9 @@
       "title": "log cabin",
       "file_name": "02b16c22-8d9c-404b-9af4-eb3f180fd45b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/02b16c22-8d9c-404b-9af4-eb3f180fd45b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/02b16c22-8d9c-404b-9af4-eb3f180fd45b.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1511,9 +1511,9 @@
       "title": "",
       "file_name": "2e8357ae-4208-48ed-ba0a-87272c9510d2.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2e8357ae-4208-48ed-ba0a-87272c9510d2.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2e8357ae-4208-48ed-ba0a-87272c9510d2.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1533,9 +1533,9 @@
       "title": "rail car",
       "file_name": "35aba7d1-ae9e-4be9-bb3f-7485a54dcc05.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/35aba7d1-ae9e-4be9-bb3f-7485a54dcc05.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/35aba7d1-ae9e-4be9-bb3f-7485a54dcc05.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1555,9 +1555,9 @@
       "title": "",
       "file_name": "aa4e0b63-7851-4fcc-94d0-e1bee0c2ea0b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/aa4e0b63-7851-4fcc-94d0-e1bee0c2ea0b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/aa4e0b63-7851-4fcc-94d0-e1bee0c2ea0b.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1577,9 +1577,9 @@
       "title": "",
       "file_name": "78b171ad-2b88-4cb4-adc9-077053c2b176.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/78b171ad-2b88-4cb4-adc9-077053c2b176.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/78b171ad-2b88-4cb4-adc9-077053c2b176.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1599,9 +1599,9 @@
       "title": "",
       "file_name": "a3d2eac8-97b1-47a6-8814-66023782662b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a3d2eac8-97b1-47a6-8814-66023782662b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/a3d2eac8-97b1-47a6-8814-66023782662b.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1621,18 +1621,18 @@
       "title": "village",
       "file_name": "927546bf-3562-4054-a0f0-fe58f52dde9e.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/927546bf-3562-4054-a0f0-fe58f52dde9e.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/927546bf-3562-4054-a0f0-fe58f52dde9e.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }, {
       "id": 4913,
       "title": "village 2",
       "file_name": "12d05c86-d1a0-4ff7-8a3c-e6389c5d3a3d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/12d05c86-d1a0-4ff7-8a3c-e6389c5d3a3d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/12d05c86-d1a0-4ff7-8a3c-e6389c5d3a3d.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1652,18 +1652,18 @@
       "title": "east cliff",
       "file_name": "d407c250-967e-42b2-b257-9f8dccba3b48.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d407c250-967e-42b2-b257-9f8dccba3b48.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/d407c250-967e-42b2-b257-9f8dccba3b48.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }, {
       "id": 4920,
       "title": "east cliff 2",
       "file_name": "7b0f1827-5578-4d1e-b21e-407692f0a1ad.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7b0f1827-5578-4d1e-b21e-407692f0a1ad.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/7b0f1827-5578-4d1e-b21e-407692f0a1ad.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1683,9 +1683,9 @@
       "title": "",
       "file_name": "a313d7ee-6b02-4319-935b-7616ec383b4b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a313d7ee-6b02-4319-935b-7616ec383b4b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/a313d7ee-6b02-4319-935b-7616ec383b4b.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1705,9 +1705,9 @@
       "title": "crane road",
       "file_name": "826f076b-be02-4896-840c-3762a53f3194.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/826f076b-be02-4896-840c-3762a53f3194.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/826f076b-be02-4896-840c-3762a53f3194.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1727,9 +1727,9 @@
       "title": "",
       "file_name": "8633c149-df8e-4801-9d73-a6ea7d6a7449.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/8633c149-df8e-4801-9d73-a6ea7d6a7449.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/8633c149-df8e-4801-9d73-a6ea7d6a7449.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1749,9 +1749,9 @@
       "title": "",
       "file_name": "c4adb32a-3489-4ce7-be55-9e4b8923e002.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c4adb32a-3489-4ce7-be55-9e4b8923e002.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/c4adb32a-3489-4ce7-be55-9e4b8923e002.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1771,18 +1771,18 @@
       "title": "south bus depot",
       "file_name": "b0f04f72-16d1-43fe-8166-3d3b4e736629.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/b0f04f72-16d1-43fe-8166-3d3b4e736629.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/b0f04f72-16d1-43fe-8166-3d3b4e736629.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }, {
       "id": 4916,
       "title": "south bus depot 2",
       "file_name": "f099ea41-d897-4c3f-96fc-6d2307e1db71.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f099ea41-d897-4c3f-96fc-6d2307e1db71.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/f099ea41-d897-4c3f-96fc-6d2307e1db71.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1932,9 +1932,9 @@
       "title": "",
       "file_name": "a9e7f1fe-c2ad-44ba-aaec-7dd5d017d802.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a9e7f1fe-c2ad-44ba-aaec-7dd5d017d802.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/a9e7f1fe-c2ad-44ba-aaec-7dd5d017d802.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -2190,7 +2190,7 @@
     "region_id": null,
     "category_id": 959,
     "title": "Dead Scav",
-    "description": "In the bath tub in the [Pig Room](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28154)",
+    "description": "In the bath tub in the [Pig Room](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28154)",
     "latitude": "0.11472895461056",
     "longitude": "-0.43949793713341",
     "z": null,
@@ -2240,9 +2240,9 @@
       "title": "",
       "file_name": "89efb3f1-5fd9-47ce-bbc5-7ec7e6d25582.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/89efb3f1-5fd9-47ce-bbc5-7ec7e6d25582.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/89efb3f1-5fd9-47ce-bbc5-7ec7e6d25582.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -2379,9 +2379,9 @@
       "title": "",
       "file_name": "d04ac86e-542f-462a-82bb-bca20be0aacc.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d04ac86e-542f-462a-82bb-bca20be0aacc.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/d04ac86e-542f-462a-82bb-bca20be0aacc.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -2546,7 +2546,7 @@
     "region_id": null,
     "category_id": 969,
     "title": "Duffle Bag",
-    "description": "Locked inside [Office 107 - East [San. 107]](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27975).",
+    "description": "Locked inside [Office 107 - East [San. 107]](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27975).",
     "latitude": "0.33450070384666",
     "longitude": "-0.46218684645123",
     "z": null,
@@ -2986,9 +2986,9 @@
       "title": "",
       "file_name": "6a9d7d01-d1aa-40a8-bdb5-24023dd7cd7c.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/6a9d7d01-d1aa-40a8-bdb5-24023dd7cd7c.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/6a9d7d01-d1aa-40a8-bdb5-24023dd7cd7c.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3008,9 +3008,9 @@
       "title": "",
       "file_name": "ec3b32cb-e3dc-4d9f-a650-f6689baf7240.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/ec3b32cb-e3dc-4d9f-a650-f6689baf7240.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/ec3b32cb-e3dc-4d9f-a650-f6689baf7240.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3225,9 +3225,9 @@
       "title": "",
       "file_name": "41918179-e6f9-4942-9330-3e5ea649d888.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/41918179-e6f9-4942-9330-3e5ea649d888.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/41918179-e6f9-4942-9330-3e5ea649d888.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -3444,7 +3444,7 @@
     "region_id": null,
     "category_id": 961,
     "title": "Jacket",
-    "description": "Inside the [Cottage](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27885).",
+    "description": "Inside the [Cottage](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27885).",
     "latitude": "1.07442546792514",
     "longitude": "-0.89340951670545",
     "z": null,
@@ -3689,9 +3689,9 @@
       "title": "",
       "file_name": "9f9cbd82-7129-41c4-8ad6-236ecac75d68.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/9f9cbd82-7129-41c4-8ad6-236ecac75d68.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/9f9cbd82-7129-41c4-8ad6-236ecac75d68.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3713,7 +3713,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "East Wing Room 206 Key",
-    "description": "In the back of the SUV on the road.\n\n**Unlocks:** [East Wing Room 206 (San.206)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28004)",
+    "description": "In the back of the SUV on the road.\n\n**Unlocks:** [East Wing Room 206 (San.206)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28004)",
     "latitude": "0.89887131876553",
     "longitude": "-0.71348915201486",
     "z": null,
@@ -3724,9 +3724,9 @@
       "title": "",
       "file_name": "5f236ea4-069a-45d1-992d-319a93030b8c.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5f236ea4-069a-45d1-992d-319a93030b8c.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5f236ea4-069a-45d1-992d-319a93030b8c.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3735,7 +3735,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "West Wing Room 205 Key",
-    "description": "Ground floor of the reception building - on the floor beside the filing cabinets.\n\n**Unlocks:** [West Wing Room 205](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27991)",
+    "description": "Ground floor of the reception building - on the floor beside the filing cabinets.\n\n**Unlocks:** [West Wing Room 205](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27991)",
     "latitude": "0.88724891531896",
     "longitude": "-0.69433699340766",
     "z": null,
@@ -3746,9 +3746,9 @@
       "title": "",
       "file_name": "71725bb2-a5a9-4650-a22f-7a9903956a91.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/71725bb2-a5a9-4650-a22f-7a9903956a91.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/71725bb2-a5a9-4650-a22f-7a9903956a91.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3757,7 +3757,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "West Wing Room 219 Key",
-    "description": "Inside the lighthouse, on a broken wooden crate\n\n**Unlocks:** [West Wing Room 219 (San.219)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28056)",
+    "description": "Inside the lighthouse, on a broken wooden crate\n\n**Unlocks:** [West Wing Room 219 (San.219)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28056)",
     "latitude": "0.84640460735769",
     "longitude": "-0.62172972896246",
     "z": null,
@@ -3768,9 +3768,9 @@
       "title": "",
       "file_name": "774e284e-17c9-46df-98c8-c43f79608a1d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/774e284e-17c9-46df-98c8-c43f79608a1d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/774e284e-17c9-46df-98c8-c43f79608a1d.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3790,9 +3790,9 @@
       "title": "",
       "file_name": "90452df5-b311-466a-81d7-fc39aab6bb08.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/90452df5-b311-466a-81d7-fc39aab6bb08.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/90452df5-b311-466a-81d7-fc39aab6bb08.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3801,7 +3801,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Office 104 West Wing Key",
-    "description": "Inside a locker in the small building at the entrance. First door.\n\n**Unlocks:** [Office 104 West Wing](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28024)",
+    "description": "Inside a locker in the small building at the entrance. First door.\n\n**Unlocks:** [Office 104 West Wing](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28024)",
     "latitude": "1.04574269886032",
     "longitude": "-0.73559840711084",
     "z": null,
@@ -3812,9 +3812,9 @@
       "title": "",
       "file_name": "80d726a8-ad77-45b1-b4b3-9b3c418a8086.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/80d726a8-ad77-45b1-b4b3-9b3c418a8086.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/80d726a8-ad77-45b1-b4b3-9b3c418a8086.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3823,7 +3823,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "East Wing Room 222 Key",
-    "description": "Ground Floor. On the chair by the jackets.\n\n**Unlocks:** [East Wing Room 222 (San.222)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28038)",
+    "description": "Ground Floor. On the chair by the jackets.\n\n**Unlocks:** [East Wing Room 222 (San.222)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28038)",
     "latitude": "1.03493935529210",
     "longitude": "-0.73043244914334",
     "z": null,
@@ -3834,9 +3834,9 @@
       "title": "",
       "file_name": "f12a341f-dd0b-4c3b-8512-73d5478c84e5.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f12a341f-dd0b-4c3b-8512-73d5478c84e5.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/f12a341f-dd0b-4c3b-8512-73d5478c84e5.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3856,9 +3856,9 @@
       "title": "",
       "file_name": "72ae1b01-2239-4a38-a213-f02dab0c9eab.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/72ae1b01-2239-4a38-a213-f02dab0c9eab.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/72ae1b01-2239-4a38-a213-f02dab0c9eab.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3867,7 +3867,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Cottage Safe Key",
-    "description": "**Unlocks:** [Locked Safe](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27893) inside the [Cottage](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27887).\n\nInside the bus, on a seat on the right side, about half way down the bus.",
+    "description": "**Unlocks:** [Locked Safe](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27893) inside the [Cottage](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27887).\n\nInside the bus, on a seat on the right side, about half way down the bus.",
     "latitude": "1.03097321364995",
     "longitude": "-1.03850404772004",
     "z": null,
@@ -3880,7 +3880,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "West Wing Room 220 Key",
-    "description": "Ground floor. In the key box in the utility room off the kitchen.\n\n**Unlocks:** [West Wing Room 220 (San.220)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28055)",
+    "description": "Ground floor. In the key box in the utility room off the kitchen.\n\n**Unlocks:** [West Wing Room 220 (San.220)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28055)",
     "latitude": "1.06769354398042",
     "longitude": "-0.91465249645478",
     "z": null,
@@ -3891,9 +3891,9 @@
       "title": "",
       "file_name": "2049bf26-dffe-4817-bbbd-50b875e7ea8f.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2049bf26-dffe-4817-bbbd-50b875e7ea8f.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2049bf26-dffe-4817-bbbd-50b875e7ea8f.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3902,7 +3902,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "SMW Car Key",
-    "description": "On a box beside the dumpster outside the blue fence.\n\n**Unlocks:** [SMW Car](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27895)",
+    "description": "On a box beside the dumpster outside the blue fence.\n\n**Unlocks:** [SMW Car](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27895)",
     "latitude": "1.07786269779181",
     "longitude": "-0.86478486644990",
     "z": null,
@@ -3913,9 +3913,9 @@
       "title": "",
       "file_name": "3d8f554b-5a94-4146-8329-b44765cd79b8.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/3d8f554b-5a94-4146-8329-b44765cd79b8.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/3d8f554b-5a94-4146-8329-b44765cd79b8.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3924,7 +3924,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "NecrusPharm Pharmacy Key (Pharmacy)",
-    "description": "West Wing Room 101 - On the desk.\n\n**Unlocks:** [NecrusPharm Pharmacy (Interchange)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28480)",
+    "description": "West Wing Room 101 - On the desk.\n\n**Unlocks:** [NecrusPharm Pharmacy (Interchange)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28480)",
     "latitude": "0.32412401374833",
     "longitude": "-0.99227810565674",
     "z": null,
@@ -3937,7 +3937,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Blue Keycard",
-    "description": "Inside [Office 104 West Wing](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28024). On the desk (sometimes under a folder).\n\n**Unlocks:** [Quarantine Zone (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31645)",
+    "description": "Inside [Office 104 West Wing](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28024). On the desk (sometimes under a folder).\n\n**Unlocks:** [Quarantine Zone (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31645)",
     "latitude": "0.36843159164365",
     "longitude": "-0.98133288474037",
     "z": null,
@@ -3950,7 +3950,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Blue Keycard",
-    "description": "Inside [Office 112 West Wing (San.112)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28012). On the TV stand.\n\n**Unlocks:** [Quarantine Zone (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31645)",
+    "description": "Inside [Office 112 West Wing (San.112)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28012). On the TV stand.\n\n**Unlocks:** [Quarantine Zone (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31645)",
     "latitude": "0.36363145229822",
     "longitude": "-0.87427410826820",
     "z": null,
@@ -3963,7 +3963,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Red Keycard",
-    "description": "On top of the blue barrel.\n\n**Unlocks:** [Security Room (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31791)",
+    "description": "On top of the blue barrel.\n\n**Unlocks:** [Security Room (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31791)",
     "latitude": "0.23404021952347",
     "longitude": "-0.93409357803534",
     "z": null,
@@ -3976,7 +3976,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Office 107 East Wing Key",
-    "description": "On the front chair closest to the wall in the band area.\n\n**Unlocks:** [Office 107 East Wing [San. 107]](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27975)",
+    "description": "On the front chair closest to the wall in the band area.\n\n**Unlocks:** [Office 107 East Wing [San. 107]](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27975)",
     "latitude": "0.45064879806487",
     "longitude": "-0.46436168151024",
     "z": null,
@@ -3987,9 +3987,9 @@
       "title": "",
       "file_name": "291f5ff0-a62b-421d-b870-af05e6e8761d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/291f5ff0-a62b-421d-b870-af05e6e8761d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/291f5ff0-a62b-421d-b870-af05e6e8761d.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3998,7 +3998,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "West Wing Room 218 Key",
-    "description": "Inside a locker in the bathroom next to the pool table.\n\n**Unlocks:** [West Wing Room 218](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28060)",
+    "description": "Inside a locker in the bathroom next to the pool table.\n\n**Unlocks:** [West Wing Room 218](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28060)",
     "latitude": "0.48126203988526",
     "longitude": "-0.48959590392235",
     "z": null,
@@ -4011,7 +4011,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "West Wing Room 216 Key",
-    "description": "On the desk.\n\n**Unlocks:** [West Wing Room 216](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28057)",
+    "description": "On the desk.\n\n**Unlocks:** [West Wing Room 216](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28057)",
     "latitude": "0.49211028658276",
     "longitude": "-0.38489994848567",
     "z": null,
@@ -4022,9 +4022,9 @@
       "title": "",
       "file_name": "cf9a2768-68e0-4ff7-bc0e-786111e6acc1.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/cf9a2768-68e0-4ff7-bc0e-786111e6acc1.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/cf9a2768-68e0-4ff7-bc0e-786111e6acc1.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4033,7 +4033,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "West Wing Room 203 Key",
-    "description": "On the chair beside the jackets.\n\n**Unlocks:** [West Wing Room 203](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28134)",
+    "description": "On the chair beside the jackets.\n\n**Unlocks:** [West Wing Room 203](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28134)",
     "latitude": "1.04397047163747",
     "longitude": "-1.05289772761375",
     "z": null,
@@ -4046,7 +4046,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "OLI Administrator Office Key",
-    "description": "**Unlocks:** [OLI Administrator Office (Interchange)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28430)",
+    "description": "**Unlocks:** [OLI Administrator Office (Interchange)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28430)",
     "latitude": "0.11406904223769",
     "longitude": "-0.42113016979943",
     "z": null,
@@ -4072,7 +4072,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "East Wing Room 226 Key",
-    "description": "In the keybox.\n\n**Unlocks:** [East Wing Room 226 (San.226)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28037)\n\n**Note:** This used to spawn on a table on Scav Island.",
+    "description": "In the keybox.\n\n**Unlocks:** [East Wing Room 226 (San.226)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28037)\n\n**Note:** This used to spawn on a table on Scav Island.",
     "latitude": "0.25964689266638",
     "longitude": "-0.54962512325983",
     "z": null,
@@ -4085,7 +4085,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "West Wing Room 221 Key",
-    "description": "On a deck chair.\n\n**Unlocks:** [West Wing Room 221 (San.221)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28058)",
+    "description": "On a deck chair.\n\n**Unlocks:** [West Wing Room 221 (San.221)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28058)",
     "latitude": "0.90532152172826",
     "longitude": "-0.76291487208334",
     "z": null,
@@ -4096,9 +4096,9 @@
       "title": "",
       "file_name": "a8c1f711-7b8b-44a1-86f3-171237238341.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a8c1f711-7b8b-44a1-86f3-171237238341.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/a8c1f711-7b8b-44a1-86f3-171237238341.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4107,7 +4107,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Office 112 West Wing Key",
-    "description": "Inside the bus - on a seat.\n\n**Unlocks:** [Office 112 West Wing (San.112)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28012)",
+    "description": "Inside the bus - on a seat.\n\n**Unlocks:** [Office 112 West Wing (San.112)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28012)",
     "latitude": "1.12646694074383",
     "longitude": "-0.79503337535539",
     "z": null,
@@ -4133,7 +4133,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "East Wing Room 328 Key",
-    "description": "On the table next to the motor.\n\n**Unlocks:** [East Wing Room 328 (San.328)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28131)",
+    "description": "On the table next to the motor.\n\n**Unlocks:** [East Wing Room 328 (San.328)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28131)",
     "latitude": "0.91194602626798",
     "longitude": "-0.95969100009381",
     "z": null,
@@ -4144,9 +4144,9 @@
       "title": "",
       "file_name": "7c6b4b6f-1d7d-4585-bb1d-7867dd660f9d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7c6b4b6f-1d7d-4585-bb1d-7867dd660f9d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/7c6b4b6f-1d7d-4585-bb1d-7867dd660f9d.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4155,7 +4155,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "East Wing Room 205 Key",
-    "description": "On a box next to the blue dumpster.\n\n**Unlocks:** [East Wing Room 205 (San.205)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28000)",
+    "description": "On a box next to the blue dumpster.\n\n**Unlocks:** [East Wing Room 205 (San.205)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28000)",
     "latitude": "1.23069060717675",
     "longitude": "-0.75939952424005",
     "z": null,
@@ -4166,9 +4166,9 @@
       "title": "",
       "file_name": "072c45f9-3983-462a-b798-682ad9acbe17.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/072c45f9-3983-462a-b798-682ad9acbe17.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/072c45f9-3983-462a-b798-682ad9acbe17.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4177,7 +4177,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Red Keycard",
-    "description": "Beside the laptop on the desk.\n\n**Unlocks:** [Security Room (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31791)",
+    "description": "Beside the laptop on the desk.\n\n**Unlocks:** [Security Room (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31791)",
     "latitude": "0.23571693061668",
     "longitude": "-0.44086665220880",
     "z": null,
@@ -4190,7 +4190,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Red Keycard",
-    "description": "In the gym - inside the lockers against the wall.\n\n**Unlocks:** [Security Room (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31791)",
+    "description": "In the gym - inside the lockers against the wall.\n\n**Unlocks:** [Security Room (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31791)",
     "latitude": "0.67547738863242",
     "longitude": "-0.77529121977989",
     "z": null,
@@ -4203,7 +4203,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Red Keycard",
-    "description": "On the floor in front of the nightstand beside the bed.\n\n**Unlocks:** [Security Room (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31791)",
+    "description": "On the floor in front of the nightstand beside the bed.\n\n**Unlocks:** [Security Room (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31791)",
     "latitude": "0.23234515513264",
     "longitude": "-0.76546437244178",
     "z": null,
@@ -4216,7 +4216,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Blue Keycard",
-    "description": "On the passenger seat of the ambulance.\n\n**Unlocks:** [Quarantine Zone (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31645)",
+    "description": "On the passenger seat of the ambulance.\n\n**Unlocks:** [Quarantine Zone (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31645)",
     "latitude": "1.17008726484384",
     "longitude": "-0.71663784693158",
     "z": null,
@@ -4229,7 +4229,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "RB-AO Key",
-    "description": "**Unlocks:** [Reserve - Barracks Weapon Room](https:\/\/mapgenie.io\/tarkov\/maps\/reserve?locationIds=39368)\n\nFound on top of the bed in the corner",
+    "description": "**Unlocks:** [Reserve - Barracks Weapon Room](https://mapgenie.io/tarkov/maps/reserve?locationIds=39368)\n\nFound on top of the bed in the corner",
     "latitude": "1.27401109127957",
     "longitude": "-0.77030022969132",
     "z": null,
@@ -4242,7 +4242,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Red Keycard",
-    "description": "Found under the ashtray on the table next to the potted plant in the corner.\n\n\n**Unlocks:** [Security Room (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31791)",
+    "description": "Found under the ashtray on the table next to the potted plant in the corner.\n\n\n**Unlocks:** [Security Room (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31791)",
     "latitude": "0.53223855519586",
     "longitude": "-0.41801264357673",
     "z": null,
@@ -4253,9 +4253,9 @@
       "title": "",
       "file_name": "74a51cc4-2001-490f-bbd6-f891c5e326af.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/74a51cc4-2001-490f-bbd6-f891c5e326af.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/74a51cc4-2001-490f-bbd6-f891c5e326af.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4498,7 +4498,7 @@
     "region_id": null,
     "category_id": 946,
     "title": "Loose Loot",
-    "description": "Locked inside [Office 107 - East [San. 107]](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27975).",
+    "description": "Locked inside [Office 107 - East [San. 107]](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27975).",
     "latitude": "0.32402953277602",
     "longitude": "-0.46527675123639",
     "z": null,
@@ -4511,7 +4511,7 @@
     "region_id": null,
     "category_id": 946,
     "title": "Loose Loot",
-    "description": "Locked inside [Office 107 - East [San. 107]](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27975).",
+    "description": "Locked inside [Office 107 - East [San. 107]](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27975).",
     "latitude": "0.32711938767589",
     "longitude": "-0.43935588331647",
     "z": null,
@@ -4537,7 +4537,7 @@
     "region_id": null,
     "category_id": 946,
     "title": "Loose Loot",
-    "description": "Inside [Office 112 West Wing (San.112)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28012). On the On the table.",
+    "description": "Inside [Office 112 West Wing (San.112)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28012). On the On the table.",
     "latitude": "0.35676513291150",
     "longitude": "-0.88277134642738",
     "z": null,
@@ -4925,9 +4925,9 @@
       "title": "",
       "file_name": "3c8d9907-b945-4701-929f-40f0d27b805e.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/3c8d9907-b945-4701-929f-40f0d27b805e.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/3c8d9907-b945-4701-929f-40f0d27b805e.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4947,9 +4947,9 @@
       "title": "",
       "file_name": "780f6171-b50a-4869-9c15-7bd49b6c8b38.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/780f6171-b50a-4869-9c15-7bd49b6c8b38.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/780f6171-b50a-4869-9c15-7bd49b6c8b38.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -5075,7 +5075,7 @@
     "region_id": null,
     "category_id": 943,
     "title": "Medcase",
-    "description": "Locked inside [Office 107 - East [San. 107]](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27975).",
+    "description": "Locked inside [Office 107 - East [San. 107]](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27975).",
     "latitude": "0.32454450865836",
     "longitude": "-0.45017055006451",
     "z": null,
@@ -5088,7 +5088,7 @@
     "region_id": null,
     "category_id": 943,
     "title": "Medbag SMU06",
-    "description": "Locked inside [Office 107 - East [San. 107]](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27975).",
+    "description": "Locked inside [Office 107 - East [San. 107]](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27975).",
     "latitude": "0.32711938767589",
     "longitude": "-0.45377543898053",
     "z": null,
@@ -5504,7 +5504,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "Roubles",
-    "description": "Inside the [Cottage](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27885).",
+    "description": "Inside the [Cottage](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27885).",
     "latitude": "1.07013468502333",
     "longitude": "-0.89641359080213",
     "z": null,
@@ -5608,7 +5608,7 @@
     "region_id": null,
     "category_id": 949,
     "title": "Folder With Intelligence",
-    "description": "Upper Floor. Inside the [Power Station Storage Room](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27850)",
+    "description": "Upper Floor. Inside the [Power Station Storage Room](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27850)",
     "latitude": "1.02966162468068",
     "longitude": "-0.72948831157009",
     "z": null,
@@ -5621,7 +5621,7 @@
     "region_id": null,
     "category_id": 949,
     "title": "LEDX Skin Transilluminator",
-    "description": "In [Office 104 West Wing](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28024), on the shelves.",
+    "description": "In [Office 104 West Wing](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28024), on the shelves.",
     "latitude": "0.36465511863175",
     "longitude": "-0.98253451437904",
     "z": null,
@@ -5814,9 +5814,9 @@
       "title": "",
       "file_name": "269cb553-6b4e-43f8-8695-1421d971a431.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/269cb553-6b4e-43f8-8695-1421d971a431.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/269cb553-6b4e-43f8-8695-1421d971a431.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -5825,7 +5825,7 @@
     "region_id": null,
     "category_id": 949,
     "title": "LEDX Skin Transilluminator",
-    "description": "On top of Washer\/Dryer",
+    "description": "On top of Washer/Dryer",
     "latitude": "0.24034094929310",
     "longitude": "-0.37653900895396",
     "z": null,
@@ -5836,9 +5836,9 @@
       "title": "",
       "file_name": "ace28660-56c5-4b07-9294-854fa75d158f.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/ace28660-56c5-4b07-9294-854fa75d158f.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/ace28660-56c5-4b07-9294-854fa75d158f.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -5886,7 +5886,7 @@
     "region_id": null,
     "category_id": 968,
     "title": "PC Block",
-    "description": "Inside the [Cottage](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27885).",
+    "description": "Inside the [Cottage](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27885).",
     "latitude": "1.07511199263079",
     "longitude": "-0.89572694529431",
     "z": null,
@@ -6287,9 +6287,9 @@
       "title": "",
       "file_name": "ed6f34b0-c974-4984-a2ee-453352789a2b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/ed6f34b0-c974-4984-a2ee-453352789a2b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/ed6f34b0-c974-4984-a2ee-453352789a2b.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -6298,7 +6298,7 @@
     "region_id": null,
     "category_id": 944,
     "title": "Safe",
-    "description": "Inside the [Cottage](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27885).",
+    "description": "Inside the [Cottage](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27885).",
     "latitude": "1.07073539499147",
     "longitude": "-0.89486863840955",
     "z": null,
@@ -6311,7 +6311,7 @@
     "region_id": null,
     "category_id": 944,
     "title": "Locked Safe",
-    "description": "**Key:** [Cottage Safe Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27894)\n\nInside the [Cottage](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27885). 2nd Floor",
+    "description": "**Key:** [Cottage Safe Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27894)\n\nInside the [Cottage](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27885). 2nd Floor",
     "latitude": "1.07245170853733",
     "longitude": "-0.89649942149060",
     "z": null,
@@ -6350,7 +6350,7 @@
     "region_id": null,
     "category_id": 944,
     "title": "Locked Safe",
-    "description": "**Key:** Health Resort Management Office Safe Key (Random spawn - Scavs\/Jackets)",
+    "description": "**Key:** Health Resort Management Office Safe Key (Random spawn - Scavs/Jackets)",
     "latitude": "0.51440377446177",
     "longitude": "-0.40625981853680",
     "z": null,
@@ -6376,7 +6376,7 @@
     "region_id": null,
     "category_id": 944,
     "title": "Locked Safe (Safe 321)",
-    "description": "**Key:** Health Resort Room 321 Safe Key (Random drop - Scavs\/Jackets)",
+    "description": "**Key:** Health Resort Room 321 Safe Key (Random drop - Scavs/Jackets)",
     "latitude": "0.11529911158772",
     "longitude": "-0.95542848733839",
     "z": null,
@@ -6621,9 +6621,9 @@
       "title": "",
       "file_name": "434c0e6b-4f76-46c0-8f90-bdcb91aaab09.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/434c0e6b-4f76-46c0-8f90-bdcb91aaab09.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/434c0e6b-4f76-46c0-8f90-bdcb91aaab09.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -6682,9 +6682,9 @@
       "title": "",
       "file_name": "026d17c4-e2fa-4917-937b-af21f458ede6.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/026d17c4-e2fa-4917-937b-af21f458ede6.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/026d17c4-e2fa-4917-937b-af21f458ede6.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -6925,9 +6925,9 @@
       "title": "",
       "file_name": "1c74f81d-61d9-4d9d-93da-16a86ccaa7eb.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/1c74f81d-61d9-4d9d-93da-16a86ccaa7eb.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/1c74f81d-61d9-4d9d-93da-16a86ccaa7eb.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -6947,9 +6947,9 @@
       "title": "",
       "file_name": "61650a1f-7a9c-44fd-8ce6-e322b981bb2a.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/61650a1f-7a9c-44fd-8ce6-e322b981bb2a.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/61650a1f-7a9c-44fd-8ce6-e322b981bb2a.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -7075,7 +7075,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [4x4]",
-    "description": "Upper Floor. Inside the [Power Station Storage Room](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27850)",
+    "description": "Upper Floor. Inside the [Power Station Storage Room](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27850)",
     "latitude": "1.03116341883546",
     "longitude": "-0.72983163432400",
     "z": null,
@@ -7088,7 +7088,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [6x3]",
-    "description": "Upper Floor. Inside the [Power Station Storage Room](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27850)",
+    "description": "Upper Floor. Inside the [Power Station Storage Room](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27850)",
     "latitude": "1.03107760204568",
     "longitude": "-0.72871583537381",
     "z": null,
@@ -7112,9 +7112,9 @@
       "title": "",
       "file_name": "745744f4-5181-4b5c-b96e-73b184c5cf96.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/745744f4-5181-4b5c-b96e-73b184c5cf96.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/745744f4-5181-4b5c-b96e-73b184c5cf96.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -7123,7 +7123,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Gun Cabinet",
-    "description": "Inside the [Cottage](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27885).",
+    "description": "Inside the [Cottage](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27885).",
     "latitude": "1.07502617705103",
     "longitude": "-0.89340951670545",
     "z": null,
@@ -7147,9 +7147,9 @@
       "title": "",
       "file_name": "9b846005-7ae4-4da3-b54e-461b700a0d85.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/9b846005-7ae4-4da3-b54e-461b700a0d85.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/9b846005-7ae4-4da3-b54e-461b700a0d85.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -7860,7 +7860,7 @@
     "region_id": null,
     "category_id": 1015,
     "title": "Loose Weapon Mod",
-    "description": "Upper Floor. Inside the [Power Station Storage Room](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27850)",
+    "description": "Upper Floor. Inside the [Power Station Storage Room](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27850)",
     "latitude": "1.02983325833419",
     "longitude": "-0.72841542796414",
     "z": null,
@@ -8198,7 +8198,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Tunnel [PMC]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.97391545885410",
     "longitude": "-1.03721957206608",
     "z": null,
@@ -8211,7 +8211,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Svetliy Dead End [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "1.06722697706961",
     "longitude": "-1.07602922821877",
     "z": null,
@@ -8224,7 +8224,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Ruined House Fence [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "1.15807219977647",
     "longitude": "-1.08272402191994",
     "z": null,
@@ -8237,7 +8237,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Rock Passage [PMC]",
-    "description": "**Always Open:** \u2718  \n**Single Use:** \u2718  \n**Requirements:** Green flares will be illuminated if active",
+    "description": "**Always Open:** ✘  \n**Single Use:** ✘  \n**Requirements:** Green flares will be illuminated if active",
     "latitude": "1.31137221770449",
     "longitude": "-0.75091313256291",
     "z": null,
@@ -8250,7 +8250,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "South Fence Passage [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "1.32119379136622",
     "longitude": "-0.58722379653921",
     "z": null,
@@ -8263,7 +8263,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Road To Customs [ALL]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "1.13542398687318",
     "longitude": "-0.42351281900335",
     "z": null,
@@ -8276,7 +8276,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "CCP Temporary [PMC]",
-    "description": "**Always Open:** \u2718  \n**Single Use:** \u2718  \n**Requirements:** Search lights are on if active",
+    "description": "**Always Open:** ✘  \n**Single Use:** ✘  \n**Requirements:** Search lights are on if active",
     "latitude": "0.89097191977243",
     "longitude": "-0.42781563901497",
     "z": null,
@@ -8289,7 +8289,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Lighthouse [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.84591924690650",
     "longitude": "-0.61992719460000",
     "z": null,
@@ -8302,7 +8302,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Pier Boat [PMC]",
-    "description": "**Always Open:** \u2718  \n**Single Use:** \u2718  \n**Requirements:** Light must be on",
+    "description": "**Always Open:** ✘  \n**Single Use:** ✘  \n**Requirements:** Light must be on",
     "latitude": "0.84328794956239",
     "longitude": "-0.67987590593202",
     "z": null,
@@ -8315,7 +8315,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Ruined Road [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.96190431226458",
     "longitude": "-1.02455662615012",
     "z": null,
@@ -8328,7 +8328,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Adm Basement [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.51999210652379",
     "longitude": "-0.92127855787589",
     "z": null,
@@ -8341,7 +8341,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "RWing Gym Entrance [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.67136288489668",
     "longitude": "-0.55584979326670",
     "z": null,
@@ -8534,9 +8534,9 @@
       "title": "",
       "file_name": "fdbde40d-afe3-4ca9-be3e-71f58e43d033.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/fdbde40d-afe3-4ca9-be3e-71f58e43d033.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/fdbde40d-afe3-4ca9-be3e-71f58e43d033.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -8766,7 +8766,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Cottage",
-    "description": "**Key:** [Cottage Back Entrance Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27885)",
+    "description": "**Key:** [Cottage Back Entrance Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27885)",
     "latitude": "1.07639922603775",
     "longitude": "-0.89868810404676",
     "z": null,
@@ -8779,7 +8779,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "SMW Car",
-    "description": "**Key:** [SMW Car Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27904)\n\nIn the trunk you'll find a weapon and some roubles.",
+    "description": "**Key:** [SMW Car Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27904)\n\nIn the trunk you'll find a weapon and some roubles.",
     "latitude": "1.06138607722541",
     "longitude": "-0.92623963939911",
     "z": null,
@@ -8790,18 +8790,18 @@
       "title": "",
       "file_name": "b8932a2a-22d9-4599-a73d-7e64bfff032a.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/b8932a2a-22d9-4599-a73d-7e64bfff032a.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/b8932a2a-22d9-4599-a73d-7e64bfff032a.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }, {
       "id": 1140,
       "title": "",
       "file_name": "3a0e1f91-d6f0-41ed-b35c-0ca98769f8fa.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/3a0e1f91-d6f0-41ed-b35c-0ca98769f8fa.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/3a0e1f91-d6f0-41ed-b35c-0ca98769f8fa.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -8810,7 +8810,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Office 107 East Wing [San. 107]",
-    "description": "**Key:** [Office 107 East Wing Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28103)",
+    "description": "**Key:** [Office 107 East Wing Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28103)",
     "latitude": "0.33656060504828",
     "longitude": "-0.44587901564068",
     "z": null,
@@ -8823,7 +8823,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 205 (San.205)",
-    "description": "**Key:** [West Wing Room 205 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=26334)",
+    "description": "**Key:** [West Wing Room 205 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=26334)",
     "latitude": "0.24882472556209",
     "longitude": "-0.78266615114092",
     "z": null,
@@ -8836,7 +8836,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 205 (San.205)",
-    "description": "**Key:** [East Wing Room 205 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28249)",
+    "description": "**Key:** [East Wing Room 205 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28249)",
     "latitude": "0.24932481361355",
     "longitude": "-0.60050153074042",
     "z": null,
@@ -8849,7 +8849,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 206 (San.206)",
-    "description": "**Key:** [East Wing Room 206 Key (San.206)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=26332)",
+    "description": "**Key:** [East Wing Room 206 Key (San.206)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=26332)",
     "latitude": "0.24961571903494",
     "longitude": "-0.58765987167214",
     "z": null,
@@ -8862,7 +8862,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Office 112 West Wing (San.112)",
-    "description": "**Key:** [Office 112 West Wing Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28244)",
+    "description": "**Key:** [Office 112 West Wing Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28244)",
     "latitude": "0.35504885199258",
     "longitude": "-0.87860313153305",
     "z": null,
@@ -8875,7 +8875,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Office 104 West Wing",
-    "description": "**Key:** [Office 104 West Wing Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27842)",
+    "description": "**Key:** [Office 104 West Wing Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27842)",
     "latitude": "0.35521392920689",
     "longitude": "-0.97583972067787",
     "z": null,
@@ -8888,7 +8888,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 226 (San.226)",
-    "description": "**Key:** [East Wing Room 226 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28242)",
+    "description": "**Key:** [East Wing Room 226 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28242)",
     "latitude": "0.22347579259295",
     "longitude": "-0.39108122310222",
     "z": null,
@@ -8901,7 +8901,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 222 (San.222)",
-    "description": "**Key:** [East Wing Room 222 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27849)",
+    "description": "**Key:** [East Wing Room 222 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27849)",
     "latitude": "0.22330413252072",
     "longitude": "-0.41713314270896",
     "z": null,
@@ -8914,7 +8914,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Health Resort Utility Room",
-    "description": "**Key:** [Health Resort Utility Room Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28245)",
+    "description": "**Key:** [Health Resort Utility Room Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28245)",
     "latitude": "0.21035971428615",
     "longitude": "-1.02118386188931",
     "z": null,
@@ -8927,7 +8927,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 220 (San.220)",
-    "description": "**Key:** [West Wing Room 220 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=27899)",
+    "description": "**Key:** [West Wing Room 220 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=27899)",
     "latitude": "0.21310627756316",
     "longitude": "-0.94651116291470",
     "z": null,
@@ -8940,7 +8940,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 219 (San.219)",
-    "description": "**Key:** [West Wing Room 219 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=26341)",
+    "description": "**Key:** [West Wing Room 219 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=26341)",
     "latitude": "0.21310627756313",
     "longitude": "-0.93432320515103",
     "z": null,
@@ -8953,7 +8953,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 216 (San.216)",
-    "description": "**Key:** [West Wing Room 216 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28113)",
+    "description": "**Key:** [West Wing Room 216 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28113)",
     "latitude": "0.21344959793845",
     "longitude": "-0.90857399860806",
     "z": null,
@@ -8966,7 +8966,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 221 (San.221)",
-    "description": "**Key:** [West Wing Room 221 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28243)",
+    "description": "**Key:** [West Wing Room 221 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28243)",
     "latitude": "0.22374920557898",
     "longitude": "-0.95347476784025",
     "z": null,
@@ -8979,7 +8979,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 222 (San.222)",
-    "description": "**Key:** West Wing Room 222 Key (Random Drop - Scavs\/Jackets)",
+    "description": "**Key:** West Wing Room 222 Key (Random Drop - Scavs/Jackets)",
     "latitude": "0.22374920557902",
     "longitude": "-0.96583438698087",
     "z": null,
@@ -8992,7 +8992,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 218 (San.218)",
-    "description": "**Key:** [West Wing Room 218 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28105)",
+    "description": "**Key:** [West Wing Room 218 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28105)",
     "latitude": "0.22392086564601",
     "longitude": "-0.92772556129728",
     "z": null,
@@ -9005,7 +9005,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 306 (San.306)",
-    "description": "**Key:** [East Wing Room 306 Key (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30052)",
+    "description": "**Key:** [East Wing Room 306 Key (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30052)",
     "latitude": "0.12825349324133",
     "longitude": "-0.58735340794669",
     "z": null,
@@ -9018,7 +9018,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 308 (San.308)",
-    "description": "**Key:** [East Wing Room 308 Key (Woods)](https:\/\/mapgenie.io\/tarkov\/maps\/woods?locationIds=28122)",
+    "description": "**Key:** [East Wing Room 308 Key (Woods)](https://mapgenie.io/tarkov/maps/woods?locationIds=28122)",
     "latitude": "0.12808183229388",
     "longitude": "-0.56246250828849",
     "z": null,
@@ -9044,7 +9044,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 310 (San.310)",
-    "description": "**Key:** [East Wing Room 310 Key (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30041)",
+    "description": "**Key:** [East Wing Room 310 Key (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30041)",
     "latitude": "0.09480940652823",
     "longitude": "-0.53526150682217",
     "z": null,
@@ -9057,7 +9057,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 313 (San.313)",
-    "description": "**Key:** East Wing Room 313 Key (Random Drop - Scavs\/Jackets)",
+    "description": "**Key:** East Wing Room 313 Key (Random Drop - Scavs/Jackets)",
     "latitude": "0.10270581813188",
     "longitude": "-0.50659405687099",
     "z": null,
@@ -9070,7 +9070,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 314 (San.314)",
-    "description": "**Key:** [East Wing Room 314 Key (Woods)](https:\/\/mapgenie.io\/tarkov\/maps\/woods?locationIds=28248)",
+    "description": "**Key:** [East Wing Room 314 Key (Woods)](https://mapgenie.io/tarkov/maps/woods?locationIds=28248)",
     "latitude": "0.10270581813188",
     "longitude": "-0.49457776048428",
     "z": null,
@@ -9083,7 +9083,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 328 (San.328)",
-    "description": "**Key:** [East Wing Room 328 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28247)",
+    "description": "**Key:** [East Wing Room 328 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28247)",
     "latitude": "0.08880126605024",
     "longitude": "-0.37235486009365",
     "z": null,
@@ -9096,7 +9096,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Health Resort Utility Room",
-    "description": "**Key:** [Health Resort Utility Room Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28245)",
+    "description": "**Key:** [Health Resort Utility Room Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28245)",
     "latitude": "0.08845794370709",
     "longitude": "-0.36222683885342",
     "z": null,
@@ -9109,7 +9109,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 203 (San.203)",
-    "description": "**Key:** [West Wing Room 203 Key (San.203)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28133)",
+    "description": "**Key:** [West Wing Room 203 Key (San.203)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28133)",
     "latitude": "0.24925365137230",
     "longitude": "-0.75696713428260",
     "z": null,
@@ -9122,7 +9122,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 301 (San.301)",
-    "description": "**Key:** [West Wing Room 301 Key](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28173)",
+    "description": "**Key:** [West Wing Room 301 Key](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28173)",
     "latitude": "0.15192341220926",
     "longitude": "-0.75978772031056",
     "z": null,
@@ -9135,7 +9135,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "West Wing Room 306 (San.306)",
-    "description": "**Key:** [West Wing Room 306 Key (Factory)](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=28175)",
+    "description": "**Key:** [West Wing Room 306 Key (Factory)](https://mapgenie.io/tarkov/maps/factory?locationIds=28175)",
     "latitude": "0.12842899985469",
     "longitude": "-0.79557720303046",
     "z": null,
@@ -9161,7 +9161,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "East Wing Room 110 (Tape Key)",
-    "description": "**Key:** Key with Tape (Dropped by [Sanitar](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=41297)). Also has a small chance to spawn in jackets.",
+    "description": "**Key:** Key with Tape (Dropped by [Sanitar](https://mapgenie.io/tarkov/maps/shoreline?locationIds=41297)). Also has a small chance to spawn in jackets.",
     "latitude": "0.33757279669389",
     "longitude": "-0.47708508821108",
     "z": null,
@@ -9278,7 +9278,7 @@
     "region_id": null,
     "category_id": 956,
     "title": "Hole - To 1st Floor West",
-    "description": "**To:** [Hole - From 2nd Floor West](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28115)",
+    "description": "**To:** [Hole - From 2nd Floor West](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28115)",
     "latitude": "0.27094493361394",
     "longitude": "-0.75053703010781",
     "z": null,
@@ -9304,7 +9304,7 @@
     "region_id": null,
     "category_id": 956,
     "title": "Hole - From 2nd Floor West",
-    "description": "Drops From: [Hole - To 1st Floor West](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28040)",
+    "description": "Drops From: [Hole - To 1st Floor West](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28040)",
     "latitude": "0.39851583619700",
     "longitude": "-0.75149212944325",
     "z": null,
@@ -9317,7 +9317,7 @@
     "region_id": null,
     "category_id": 956,
     "title": "Hole - To 2nd Floor East",
-    "description": "**To:** [2nd Floor East](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28117)",
+    "description": "**To:** [2nd Floor East](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28117)",
     "latitude": "0.14914318058777",
     "longitude": "-0.63387857263160",
     "z": null,
@@ -9330,7 +9330,7 @@
     "region_id": null,
     "category_id": 956,
     "title": "Hole - From 3rd Floor East",
-    "description": "**From:** [3nd Floor East](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28116)",
+    "description": "**From:** [3nd Floor East](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28116)",
     "latitude": "0.26982319968772",
     "longitude": "-0.63267131961550",
     "z": null,
@@ -9478,15 +9478,16 @@
     "longitude": "-0.75741975569429",
     "z": null,
     "features": null,
+    "quests": [57],
     "tags": [],
     "media": [{
       "id": 1179,
       "title": "",
       "file_name": "d60ac872-b677-4112-a57f-e88ff3ded4da.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d60ac872-b677-4112-a57f-e88ff3ded4da.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/d60ac872-b677-4112-a57f-e88ff3ded4da.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -9501,7 +9502,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [76]
   }, {
     "id": 26344,
     "map_id": 72,
@@ -9514,7 +9516,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [75]
   }, {
     "id": 26348,
     "map_id": 72,
@@ -9527,7 +9530,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [141]
   }, {
     "id": 26349,
     "map_id": 72,
@@ -9540,7 +9544,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [141]
   }, {
     "id": 26350,
     "map_id": 72,
@@ -9558,11 +9563,12 @@
       "title": "",
       "file_name": "6d260fd3-33b4-447b-bd36-e418651084cd.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/6d260fd3-33b4-447b-bd36-e418651084cd.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/6d260fd3-33b4-447b-bd36-e418651084cd.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [141]
   }, {
     "id": 26361,
     "map_id": 72,
@@ -9580,11 +9586,12 @@
       "title": "",
       "file_name": "4546d503-c312-4485-b4e6-9162fcac0c63.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/4546d503-c312-4485-b4e6-9162fcac0c63.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/4546d503-c312-4485-b4e6-9162fcac0c63.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [61]
   }, {
     "id": 26373,
     "map_id": 72,
@@ -9602,11 +9609,12 @@
       "title": "",
       "file_name": "6251012a-1aea-45d4-82b4-55b5a4518968.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/6251012a-1aea-45d4-82b4-55b5a4518968.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/6251012a-1aea-45d4-82b4-55b5a4518968.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [28]
   }, {
     "id": 26375,
     "map_id": 72,
@@ -9619,7 +9627,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [65]
   }, {
     "id": 26387,
     "map_id": 72,
@@ -9632,7 +9641,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [65]
   }, {
     "id": 27814,
     "map_id": 72,
@@ -9650,11 +9660,12 @@
       "title": "",
       "file_name": "cc3a754e-190b-44ea-a598-ad149ca2471d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/cc3a754e-190b-44ea-a598-ad149ca2471d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/cc3a754e-190b-44ea-a598-ad149ca2471d.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [61]
   }, {
     "id": 27819,
     "map_id": 72,
@@ -9672,11 +9683,12 @@
       "title": "",
       "file_name": "9ebc6639-c992-4c63-ab46-a375ba598d47.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/9ebc6639-c992-4c63-ab46-a375ba598d47.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/9ebc6639-c992-4c63-ab46-a375ba598d47.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [60]
   }, {
     "id": 27825,
     "map_id": 72,
@@ -9689,7 +9701,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [100]
   }, {
     "id": 27836,
     "map_id": 72,
@@ -9707,11 +9720,12 @@
       "title": "",
       "file_name": "fb7022d0-420a-4199-96fe-b083bd8cc0a1.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/fb7022d0-420a-4199-96fe-b083bd8cc0a1.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/fb7022d0-420a-4199-96fe-b083bd8cc0a1.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [98, 100]
   }, {
     "id": 27839,
     "map_id": 72,
@@ -9729,11 +9743,12 @@
       "title": "",
       "file_name": "db79555c-e2ca-49a8-9b7d-9c5e7d46341f.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/db79555c-e2ca-49a8-9b7d-9c5e7d46341f.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/db79555c-e2ca-49a8-9b7d-9c5e7d46341f.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [59]
   }, {
     "id": 27864,
     "map_id": 72,
@@ -9746,7 +9761,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [60]
   }, {
     "id": 27880,
     "map_id": 72,
@@ -9759,7 +9775,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [62]
   }, {
     "id": 27935,
     "map_id": 72,
@@ -9777,11 +9794,12 @@
       "title": "",
       "file_name": "12983111-d1d6-4bf9-a0ab-810492459f1e.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/12983111-d1d6-4bf9-a0ab-810492459f1e.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/12983111-d1d6-4bf9-a0ab-810492459f1e.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
-    }]
+    }],
+    "quests": [68]
   }, {
     "id": 27936,
     "map_id": 72,
@@ -9794,7 +9812,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [59]
   }, {
     "id": 27937,
     "map_id": 72,
@@ -9807,7 +9826,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [59]
   }, {
     "id": 27981,
     "map_id": 72,
@@ -9820,7 +9840,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [72]
   }, {
     "id": 28015,
     "map_id": 72,
@@ -9833,7 +9854,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [44]
   }, {
     "id": 28076,
     "map_id": 72,
@@ -9846,7 +9868,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [48]
   }, {
     "id": 28077,
     "map_id": 72,
@@ -9859,7 +9882,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [67]
   }, {
     "id": 28154,
     "map_id": 72,
@@ -9877,11 +9901,12 @@
       "title": "",
       "file_name": "82c98538-70ba-44ed-a9d0-aad2396a6533.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/82c98538-70ba-44ed-a9d0-aad2396a6533.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/82c98538-70ba-44ed-a9d0-aad2396a6533.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [63]
   }, {
     "id": 28162,
     "map_id": 72,
@@ -9894,20 +9919,22 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [98, 100]
   }, {
     "id": 28191,
     "map_id": 72,
     "region_id": null,
     "category_id": 955,
     "title": "Terragroup Research Info #1",
-    "description": "**Quest:** Health Care Privacy - Part 2\n\n**Note:** Locked inside [West Wing Room 306 (San.306)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28174). On the windowsill",
+    "description": "**Quest:** Health Care Privacy - Part 2\n\n**Note:** Locked inside [West Wing Room 306 (San.306)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28174). On the windowsill",
     "latitude": "0.10966562975413",
     "longitude": "-0.80679663625324",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [29]
   }, {
     "id": 28211,
     "map_id": 72,
@@ -9920,7 +9947,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [48]
   }, {
     "id": 28212,
     "map_id": 72,
@@ -9933,7 +9961,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [48]
   }, {
     "id": 28217,
     "map_id": 72,
@@ -9946,7 +9975,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [71]
   }, {
     "id": 34695,
     "map_id": 72,
@@ -9959,7 +9989,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [142]
   }, {
     "id": 35948,
     "map_id": 72,
@@ -9972,7 +10003,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [28]
   }, {
     "id": 35949,
     "map_id": 72,
@@ -9985,7 +10017,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [28]
   }, {
     "id": 41300,
     "map_id": 72,
@@ -9998,7 +10031,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [152]
   }, {
     "id": 41303,
     "map_id": 72,
@@ -10011,7 +10045,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [67]
   }, {
     "id": 41560,
     "map_id": 72,
@@ -10024,7 +10059,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [77]
   }, {
     "id": 41574,
     "map_id": 72,
@@ -10037,7 +10073,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [184]
   }, {
     "id": 41575,
     "map_id": 72,
@@ -10050,7 +10087,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [184]
   }, {
     "id": 41576,
     "map_id": 72,
@@ -10063,7 +10101,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [184]
   }, {
     "id": 47968,
     "map_id": 72,
@@ -10076,7 +10115,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [185]
   }, {
     "id": 47969,
     "map_id": 72,
@@ -10089,7 +10129,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [185]
   }, {
     "id": 47970,
     "map_id": 72,
@@ -10102,7 +10143,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [185]
   }, {
     "id": 51677,
     "map_id": 72,
@@ -10115,7 +10157,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [73]
   }, {
     "id": 51678,
     "map_id": 72,
@@ -10128,7 +10171,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [73]
   }, {
     "id": 54353,
     "map_id": 72,
@@ -10141,7 +10185,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [152]
   }, {
     "id": 57925,
     "map_id": 72,
@@ -10154,7 +10199,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [78]
   }, {
     "id": 64656,
     "map_id": 72,
@@ -10167,7 +10213,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [187]
   }, {
     "id": 72338,
     "map_id": 72,
@@ -10180,7 +10227,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [186]
   }, {
     "id": 72339,
     "map_id": 72,
@@ -10193,7 +10241,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [186]
   }, {
     "id": 72340,
     "map_id": 72,
@@ -10206,7 +10255,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [186]
   }, {
     "id": 26130,
     "map_id": 72,
@@ -10629,11 +10679,31 @@
     "overzoom": false,
     "tile_sets": [{
       "name": "Default",
-      "path": "\/games\/tarkov\/shoreline\/default-v1",
+      "path": "/games/tarkov/shoreline/default-v1",
       "min_zoom": 9,
       "max_zoom": 15,
       "extension": "png",
       "bounds": {
+        "8": {
+          "x": {
+            "min": 127,
+            "max": 127
+          },
+          "y": {
+            "min": 127,
+            "max": 128
+          }
+        },
+        "9": {
+          "x": {
+            "min": 254,
+            "max": 255
+          },
+          "y": {
+            "min": 254,
+            "max": 256
+          }
+        },
         "10": {
           "x": {
             "min": 508,
@@ -10702,26 +10772,6 @@
           "y": {
             "min": 32512,
             "max": 32768
-          }
-        },
-        "8": {
-          "x": {
-            "min": 127,
-            "max": 127
-          },
-          "y": {
-            "min": 127,
-            "max": 128
-          }
-        },
-        "9": {
-          "x": {
-            "min": 254,
-            "max": 255
-          },
-          "y": {
-            "min": 254,
-            "max": 256
           }
         }
       }

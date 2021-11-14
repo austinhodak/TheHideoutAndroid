@@ -411,89 +411,11 @@
     }]
   }],
   "categories": {
-    "960": {
-      "id": 960,
-      "group_id": 200,
-      "title": "Ammo Box",
-      "icon": "ammo_box",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "971": {
-      "id": 971,
-      "group_id": 200,
-      "title": "Armor",
-      "icon": "armor",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "948": {
-      "id": 948,
-      "group_id": 200,
-      "title": "Cache",
-      "icon": "cache",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
     "941": {
       "id": 941,
       "group_id": 200,
       "title": "Crate",
       "icon": "crate",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "959": {
-      "id": 959,
-      "group_id": 200,
-      "title": "Dead SCAV",
-      "icon": "dead_scav",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "969": {
-      "id": 969,
-      "group_id": 200,
-      "title": "Duffle Bag",
-      "icon": "duffle_bag",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "1017": {
-      "id": 1017,
-      "group_id": 200,
-      "title": "Filing Cabinet",
-      "icon": "filing_cabinet",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -515,102 +437,11 @@
       "description": null,
       "premium": false
     },
-    "961": {
-      "id": 961,
-      "group_id": 200,
-      "title": "Jacket",
-      "icon": "clothes",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "947": {
-      "id": 947,
-      "group_id": 200,
-      "title": "Key",
-      "icon": "key",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "946": {
-      "id": 946,
-      "group_id": 200,
-      "title": "Loose Loot",
-      "icon": "loose_loot",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
     "943": {
       "id": 943,
       "group_id": 200,
       "title": "Meds",
       "icon": "meds",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "945": {
-      "id": 945,
-      "group_id": 200,
-      "title": "Money",
-      "icon": "money",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "949": {
-      "id": 949,
-      "group_id": 200,
-      "title": "Other Loot",
-      "icon": "other_loot",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "968": {
-      "id": 968,
-      "group_id": 200,
-      "title": "PC Block",
-      "icon": "pc_block",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "1016": {
-      "id": 1016,
-      "group_id": 200,
-      "title": "Provisions",
-      "icon": "provisions",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -632,11 +463,11 @@
       "description": null,
       "premium": false
     },
-    "970": {
-      "id": 970,
+    "945": {
+      "id": 945,
       "group_id": 200,
-      "title": "Toolbox",
-      "icon": "toolbox",
+      "title": "Money",
+      "icon": "money",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -645,11 +476,11 @@
       "description": null,
       "premium": false
     },
-    "1013": {
-      "id": 1013,
+    "946": {
+      "id": 946,
       "group_id": 200,
-      "title": "Valuable",
-      "icon": "valuable",
+      "title": "Loose Loot",
+      "icon": "loose_loot",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -658,11 +489,11 @@
       "description": null,
       "premium": false
     },
-    "958": {
-      "id": 958,
+    "947": {
+      "id": 947,
       "group_id": 200,
-      "title": "Weapon Box",
-      "icon": "weapon_box",
+      "title": "Key",
+      "icon": "key",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -671,11 +502,37 @@
       "description": null,
       "premium": false
     },
-    "1015": {
-      "id": 1015,
+    "948": {
+      "id": 948,
       "group_id": 200,
-      "title": "Weapon Mods",
-      "icon": "weapon_mods",
+      "title": "Cache",
+      "icon": "cache",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "949": {
+      "id": 949,
+      "group_id": 200,
+      "title": "Other Loot",
+      "icon": "other_loot",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "950": {
+      "id": 950,
+      "group_id": 201,
+      "title": "SCAV",
+      "icon": "scav",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -697,11 +554,180 @@
       "description": null,
       "premium": false
     },
-    "950": {
-      "id": 950,
-      "group_id": 201,
-      "title": "SCAV",
-      "icon": "scav",
+    "952": {
+      "id": 952,
+      "group_id": 202,
+      "title": "Location",
+      "icon": "location",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "953": {
+      "id": 953,
+      "group_id": 202,
+      "title": "Spawn Point",
+      "icon": "spawn_point",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "954": {
+      "id": 954,
+      "group_id": 202,
+      "title": "Extraction",
+      "icon": "exit",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "955": {
+      "id": 955,
+      "group_id": 202,
+      "title": "Quest Item",
+      "icon": "quest_item",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "956": {
+      "id": 956,
+      "group_id": 202,
+      "title": "Miscellaneous",
+      "icon": "miscellaneous",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "957": {
+      "id": 957,
+      "group_id": 202,
+      "title": "Locked Door",
+      "icon": "locked_door",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "958": {
+      "id": 958,
+      "group_id": 200,
+      "title": "Weapon Box",
+      "icon": "weapon_box",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "959": {
+      "id": 959,
+      "group_id": 200,
+      "title": "Dead SCAV",
+      "icon": "dead_scav",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "960": {
+      "id": 960,
+      "group_id": 200,
+      "title": "Ammo Box",
+      "icon": "ammo_box",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "961": {
+      "id": 961,
+      "group_id": 200,
+      "title": "Jacket",
+      "icon": "clothes",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "968": {
+      "id": 968,
+      "group_id": 200,
+      "title": "PC Block",
+      "icon": "pc_block",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "969": {
+      "id": 969,
+      "group_id": 200,
+      "title": "Duffle Bag",
+      "icon": "duffle_bag",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "970": {
+      "id": 970,
+      "group_id": 200,
+      "title": "Toolbox",
+      "icon": "toolbox",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "971": {
+      "id": 971,
+      "group_id": 200,
+      "title": "Armor",
+      "icon": "armor",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -736,6 +762,19 @@
       "description": null,
       "premium": false
     },
+    "1013": {
+      "id": 1013,
+      "group_id": 200,
+      "title": "Valuable",
+      "icon": "valuable",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
     "1014": {
       "id": 1014,
       "group_id": 202,
@@ -749,11 +788,11 @@
       "description": null,
       "premium": false
     },
-    "954": {
-      "id": 954,
-      "group_id": 202,
-      "title": "Extraction",
-      "icon": "exit",
+    "1015": {
+      "id": 1015,
+      "group_id": 200,
+      "title": "Weapon Mods",
+      "icon": "weapon_mods",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -762,11 +801,11 @@
       "description": null,
       "premium": false
     },
-    "952": {
-      "id": 952,
-      "group_id": 202,
-      "title": "Location",
-      "icon": "location",
+    "1016": {
+      "id": 1016,
+      "group_id": 200,
+      "title": "Provisions",
+      "icon": "provisions",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -775,50 +814,11 @@
       "description": null,
       "premium": false
     },
-    "957": {
-      "id": 957,
-      "group_id": 202,
-      "title": "Locked Door",
-      "icon": "locked_door",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "956": {
-      "id": 956,
-      "group_id": 202,
-      "title": "Miscellaneous",
-      "icon": "miscellaneous",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "955": {
-      "id": 955,
-      "group_id": 202,
-      "title": "Quest Item",
-      "icon": "quest_item",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "953": {
-      "id": 953,
-      "group_id": 202,
-      "title": "Spawn Point",
-      "icon": "spawn_point",
+    "1017": {
+      "id": 1017,
+      "group_id": 200,
+      "title": "Filing Cabinet",
+      "icon": "filing_cabinet",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -861,7 +861,7 @@
     "region_id": null,
     "category_id": 960,
     "title": "Wooden Ammo Box",
-    "description": "Inside the [Military Base Checkpoint Gatehouse](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30201)",
+    "description": "Inside the [Military Base Checkpoint Gatehouse](https://mapgenie.io/tarkov/maps/customs?locationIds=30201)",
     "latitude": "0.62449387141240",
     "longitude": "-0.26672020103865",
     "z": null,
@@ -874,7 +874,7 @@
     "region_id": null,
     "category_id": 960,
     "title": "Wooden Ammo Box",
-    "description": "Inside the [Military Base Checkpoint Gatehouse](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30201)",
+    "description": "Inside the [Military Base Checkpoint Gatehouse](https://mapgenie.io/tarkov/maps/customs?locationIds=30201)",
     "latitude": "0.62028841581181",
     "longitude": "-0.26526107933455",
     "z": null,
@@ -1158,9 +1158,9 @@
       "title": "",
       "file_name": "748a2a4f-73e5-4dbf-bd4a-539a8a67ae8b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/748a2a4f-73e5-4dbf-bd4a-539a8a67ae8b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/748a2a4f-73e5-4dbf-bd4a-539a8a67ae8b.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1180,9 +1180,9 @@
       "title": "",
       "file_name": "474d3f71-c56a-4ff8-897f-3146ead21f39.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/474d3f71-c56a-4ff8-897f-3146ead21f39.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/474d3f71-c56a-4ff8-897f-3146ead21f39.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1202,9 +1202,9 @@
       "title": "",
       "file_name": "2a12f41f-bfd7-48e6-9e27-d4c25ea7a410.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2a12f41f-bfd7-48e6-9e27-d4c25ea7a410.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2a12f41f-bfd7-48e6-9e27-d4c25ea7a410.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1224,9 +1224,9 @@
       "title": "",
       "file_name": "15820c55-2331-45b3-92ff-965683653138.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/15820c55-2331-45b3-92ff-965683653138.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/15820c55-2331-45b3-92ff-965683653138.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1246,9 +1246,9 @@
       "title": "",
       "file_name": "5cc2276f-d740-4947-bd10-9d42458a2a8b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5cc2276f-d740-4947-bd10-9d42458a2a8b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5cc2276f-d740-4947-bd10-9d42458a2a8b.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1268,9 +1268,9 @@
       "title": "",
       "file_name": "10ad9630-f487-4bec-afad-2b1da76f8480.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/10ad9630-f487-4bec-afad-2b1da76f8480.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/10ad9630-f487-4bec-afad-2b1da76f8480.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1290,9 +1290,9 @@
       "title": "blue dumpster",
       "file_name": "5262afb6-bc47-42b1-8d85-fbce12c597fc.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5262afb6-bc47-42b1-8d85-fbce12c597fc.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5262afb6-bc47-42b1-8d85-fbce12c597fc.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1312,9 +1312,9 @@
       "title": "",
       "file_name": "314d8c92-b193-4d8e-85b4-8987f1f16109.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/314d8c92-b193-4d8e-85b4-8987f1f16109.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/314d8c92-b193-4d8e-85b4-8987f1f16109.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1334,9 +1334,9 @@
       "title": "",
       "file_name": "49790029-36b8-47e7-95ae-f2144c8d4381.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/49790029-36b8-47e7-95ae-f2144c8d4381.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/49790029-36b8-47e7-95ae-f2144c8d4381.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1345,7 +1345,7 @@
     "region_id": null,
     "category_id": 948,
     "title": "Ground Cache",
-    "description": "Beside the fallen over logs.  The easiest way to get to it is by starting at the wall to the south-west and then go in a straight line 45\u00b0 north-west.",
+    "description": "Beside the fallen over logs.  The easiest way to get to it is by starting at the wall to the south-west and then go in a straight line 45° north-west.",
     "latitude": "0.69059560268633",
     "longitude": "-0.58822860862688",
     "z": null,
@@ -1356,9 +1356,9 @@
       "title": "",
       "file_name": "7c74ee3c-d630-48c6-ac82-9e7cdab509c6.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7c74ee3c-d630-48c6-ac82-9e7cdab509c6.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/7c74ee3c-d630-48c6-ac82-9e7cdab509c6.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1378,9 +1378,9 @@
       "title": "",
       "file_name": "b6899917-345d-43f3-8130-ab17d038b332.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/b6899917-345d-43f3-8130-ab17d038b332.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/b6899917-345d-43f3-8130-ab17d038b332.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1400,9 +1400,9 @@
       "title": "",
       "file_name": "e674ff46-d679-46ef-8dbb-28bb30dfd839.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e674ff46-d679-46ef-8dbb-28bb30dfd839.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/e674ff46-d679-46ef-8dbb-28bb30dfd839.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1422,9 +1422,9 @@
       "title": "",
       "file_name": "2931eef2-c6b9-4890-84c5-37b95385e3f7.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2931eef2-c6b9-4890-84c5-37b95385e3f7.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2931eef2-c6b9-4890-84c5-37b95385e3f7.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1444,9 +1444,9 @@
       "title": "",
       "file_name": "402eec33-8423-4858-885c-c6c40d44ee0a.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/402eec33-8423-4858-885c-c6c40d44ee0a.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/402eec33-8423-4858-885c-c6c40d44ee0a.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1466,18 +1466,18 @@
       "title": "blue containers og compass",
       "file_name": "f3d30c45-c0ed-4947-b723-6a075ae42ec6.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f3d30c45-c0ed-4947-b723-6a075ae42ec6.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/f3d30c45-c0ed-4947-b723-6a075ae42ec6.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }, {
       "id": 4924,
       "title": "blue containers",
       "file_name": "beb43819-e782-4701-90da-6c40e87d271b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/beb43819-e782-4701-90da-6c40e87d271b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/beb43819-e782-4701-90da-6c40e87d271b.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1497,9 +1497,9 @@
       "title": "",
       "file_name": "e233f600-eea5-47ed-a13a-f5198cf404a9.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e233f600-eea5-47ed-a13a-f5198cf404a9.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/e233f600-eea5-47ed-a13a-f5198cf404a9.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1519,9 +1519,9 @@
       "title": "",
       "file_name": "024573ef-ca9a-4370-95f2-fbc12fc50f35.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/024573ef-ca9a-4370-95f2-fbc12fc50f35.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/024573ef-ca9a-4370-95f2-fbc12fc50f35.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1541,9 +1541,9 @@
       "title": "",
       "file_name": "748c9368-309c-4b1c-b91e-712a35edaca4.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/748c9368-309c-4b1c-b91e-712a35edaca4.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/748c9368-309c-4b1c-b91e-712a35edaca4.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1563,18 +1563,18 @@
       "title": "smoke stacks",
       "file_name": "879b138f-07b3-465d-ab6d-c23a5881ec50.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/879b138f-07b3-465d-ab6d-c23a5881ec50.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/879b138f-07b3-465d-ab6d-c23a5881ec50.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }, {
       "id": 4929,
       "title": "smoke stacks 2",
       "file_name": "1c38be07-5c29-4b14-ba39-4ee48b409613.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/1c38be07-5c29-4b14-ba39-4ee48b409613.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/1c38be07-5c29-4b14-ba39-4ee48b409613.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1594,9 +1594,9 @@
       "title": "between trains",
       "file_name": "eac55cea-ace7-4875-87cb-464d07434b83.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/eac55cea-ace7-4875-87cb-464d07434b83.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/eac55cea-ace7-4875-87cb-464d07434b83.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1616,9 +1616,9 @@
       "title": "gas station",
       "file_name": "a2741fe6-7698-4fe8-8b35-6e8500101634.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a2741fe6-7698-4fe8-8b35-6e8500101634.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/a2741fe6-7698-4fe8-8b35-6e8500101634.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1638,9 +1638,9 @@
       "title": "tallest tree",
       "file_name": "a5648ac0-3eed-41f6-9b65-e9c5355baefa.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a5648ac0-3eed-41f6-9b65-e9c5355baefa.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/a5648ac0-3eed-41f6-9b65-e9c5355baefa.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1660,9 +1660,9 @@
       "title": "east trains",
       "file_name": "31ef191d-5707-4672-940c-3d4f2cf769fb.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/31ef191d-5707-4672-940c-3d4f2cf769fb.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/31ef191d-5707-4672-940c-3d4f2cf769fb.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -2620,7 +2620,7 @@
     "region_id": null,
     "category_id": 942,
     "title": "Grenade Box",
-    "description": "Inside the [Military Base Checkpoint Gatehouse](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30201)",
+    "description": "Inside the [Military Base Checkpoint Gatehouse](https://mapgenie.io/tarkov/maps/customs?locationIds=30201)",
     "latitude": "0.62500882492865",
     "longitude": "-0.26757850792342",
     "z": null,
@@ -3335,7 +3335,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Dorm Room 214 Key",
-    "description": "**Unlocks:** [Dorm Room 214](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30134)\n\nSitting inside one of the wooden pallets, in the gap between the two pallets.",
+    "description": "**Unlocks:** [Dorm Room 214](https://mapgenie.io/tarkov/maps/customs?locationIds=30134)\n\nSitting inside one of the wooden pallets, in the gap between the two pallets.",
     "latitude": "0.46789491483643",
     "longitude": "-1.19205272579120",
     "z": null,
@@ -3346,9 +3346,9 @@
       "title": "",
       "file_name": "3fae5ce4-1121-45ca-9f02-baeea2e7720a.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/3fae5ce4-1121-45ca-9f02-baeea2e7720a.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/3fae5ce4-1121-45ca-9f02-baeea2e7720a.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3357,7 +3357,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "East Wing Room 310 Key",
-    "description": "**Unlocks:** [East Wing Room 310 (Shoreline)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28128)  \n**Location:** In the driver's seat of the blue mini-van.",
+    "description": "**Unlocks:** [East Wing Room 310 (Shoreline)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28128)  \n**Location:** In the driver's seat of the blue mini-van.",
     "latitude": "0.52045914980249",
     "longitude": "-1.23145924807534",
     "z": null,
@@ -3368,9 +3368,9 @@
       "title": "",
       "file_name": "beda1426-5623-47de-8549-6c6d0abe4f2f.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/beda1426-5623-47de-8549-6c6d0abe4f2f.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/beda1426-5623-47de-8549-6c6d0abe4f2f.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -3379,7 +3379,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "East Wing Room 310 Key",
-    "description": "**Unlocks:** [East Wing Room 310 (Shoreline)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28128)  \n**Location:** Inside the bus on the first row of seats.",
+    "description": "**Unlocks:** [East Wing Room 310 (Shoreline)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28128)  \n**Location:** Inside the bus on the first row of seats.",
     "latitude": "0.37871359767568",
     "longitude": "-1.13386074248228",
     "z": null,
@@ -3390,9 +3390,9 @@
       "title": "",
       "file_name": "7de558da-6276-4db6-9247-fd08f1f2e4c0.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7de558da-6276-4db6-9247-fd08f1f2e4c0.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/7de558da-6276-4db6-9247-fd08f1f2e4c0.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3401,7 +3401,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "East Wing Room 306 Key",
-    "description": "**Unlocks:** [East Wing Room 306 (Shoreline)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28121)",
+    "description": "**Unlocks:** [East Wing Room 306 (Shoreline)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28121)",
     "latitude": "0.51091810261749",
     "longitude": "-1.09519198729163",
     "z": null,
@@ -3414,7 +3414,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Key. Arsenal Storage Room",
-    "description": "**Unlocks:** [Arsenal Storage Room (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31792)  \n**Location:** On the chair opposite the med case inside the cabin.",
+    "description": "**Unlocks:** [Arsenal Storage Room (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31792)  \n**Location:** On the chair opposite the med case inside the cabin.",
     "latitude": "0.71804024474346",
     "longitude": "-0.34835758161603",
     "z": null,
@@ -3425,9 +3425,9 @@
       "title": "",
       "file_name": "180f2792-19a7-435d-881c-e5825fb8d1f7.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/180f2792-19a7-435d-881c-e5825fb8d1f7.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/180f2792-19a7-435d-881c-e5825fb8d1f7.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3436,7 +3436,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Key to EMERCOM Medical Unit",
-    "description": "**Unlocks:** [EMERCOM Medical Unit (Interchange)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28527)  \n**Location:** Inside the ambulance on the seat in the back.",
+    "description": "**Unlocks:** [EMERCOM Medical Unit (Interchange)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28527)  \n**Location:** Inside the ambulance on the seat in the back.",
     "latitude": "0.64975595761821",
     "longitude": "-0.47424040049157",
     "z": null,
@@ -3447,9 +3447,9 @@
       "title": "",
       "file_name": "7906bdfe-f3a2-4925-8ef9-05fbf71af60e.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7906bdfe-f3a2-4925-8ef9-05fbf71af60e.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/7906bdfe-f3a2-4925-8ef9-05fbf71af60e.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3458,7 +3458,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Unknown Key",
-    "description": "**Unlocks:** [Unknown Cabin](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30168)  \n**Location:** On the body of a dead scav in the bushes.",
+    "description": "**Unlocks:** [Unknown Cabin](https://mapgenie.io/tarkov/maps/customs?locationIds=30168)  \n**Location:** On the body of a dead scav in the bushes.",
     "latitude": "0.49935423591769",
     "longitude": "-0.85076189832716",
     "z": null,
@@ -3469,9 +3469,9 @@
       "title": "",
       "file_name": "527d0294-a8c1-422b-8af0-921bc2af2a47.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/527d0294-a8c1-422b-8af0-921bc2af2a47.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/527d0294-a8c1-422b-8af0-921bc2af2a47.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3491,9 +3491,9 @@
       "title": "",
       "file_name": "c263b0fe-297e-4afd-a7fc-cab8d7c47032.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c263b0fe-297e-4afd-a7fc-cab8d7c47032.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/c263b0fe-297e-4afd-a7fc-cab8d7c47032.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3502,7 +3502,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Military Base Checkpoint Key",
-    "description": "**Unlocks:**  [Military Base Checkpoint Gatehouse (Checkpoint)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30201)  \n**Location:** On the couch with the dead scav. Between the scav and his bag.",
+    "description": "**Unlocks:**  [Military Base Checkpoint Gatehouse (Checkpoint)](https://mapgenie.io/tarkov/maps/customs?locationIds=30201)  \n**Location:** On the couch with the dead scav. Between the scav and his bag.",
     "latitude": "0.49951491514326",
     "longitude": "-0.27563162759895",
     "z": null,
@@ -3513,9 +3513,9 @@
       "title": "",
       "file_name": "c499fa45-3c08-4509-a45a-04f95e93e215.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c499fa45-3c08-4509-a45a-04f95e93e215.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/c499fa45-3c08-4509-a45a-04f95e93e215.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3535,9 +3535,9 @@
       "title": "",
       "file_name": "5ed965a4-29cb-4c40-abb3-804148301a23.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5ed965a4-29cb-4c40-abb3-804148301a23.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5ed965a4-29cb-4c40-abb3-804148301a23.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3546,7 +3546,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Dorm Room 220 Key",
-    "description": "**Unlocks:** [Dorm Room 220](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30136)  \n**Location:** In the train carriage - between the blue jeans and the books.",
+    "description": "**Unlocks:** [Dorm Room 220](https://mapgenie.io/tarkov/maps/customs?locationIds=30136)  \n**Location:** In the train carriage - between the blue jeans and the books.",
     "latitude": "0.47250222896834",
     "longitude": "-0.36469737052619",
     "z": null,
@@ -3557,9 +3557,9 @@
       "title": "",
       "file_name": "ac6a6232-160e-483d-bd25-f74a88936db1.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/ac6a6232-160e-483d-bd25-f74a88936db1.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/ac6a6232-160e-483d-bd25-f74a88936db1.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3568,7 +3568,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Dorm Guard Desk Key",
-    "description": "**Unlocks:** [Dorm Guard Desk](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30148)  \n**Location:** In the hand of a dead scav in the showers.",
+    "description": "**Unlocks:** [Dorm Guard Desk](https://mapgenie.io/tarkov/maps/customs?locationIds=30148)  \n**Location:** In the hand of a dead scav in the showers.",
     "latitude": "0.96239719341626",
     "longitude": "-0.53958464418463",
     "z": null,
@@ -3579,9 +3579,9 @@
       "title": "",
       "file_name": "5efed96c-63a8-409e-b4f1-39c36475b13b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5efed96c-63a8-409e-b4f1-39c36475b13b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5efed96c-63a8-409e-b4f1-39c36475b13b.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3590,7 +3590,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Key to OLI Logistics Department Office",
-    "description": "**Unlocks:** [OLI Logisitcs Department Office [Interchange]](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28622)    \n**Location:** Inside the trunk of the blue car (2nd from the left).",
+    "description": "**Unlocks:** [OLI Logisitcs Department Office [Interchange]](https://mapgenie.io/tarkov/maps/interchange?locationIds=28622)    \n**Location:** Inside the trunk of the blue car (2nd from the left).",
     "latitude": "0.61059724029234",
     "longitude": "-0.51782986616445",
     "z": null,
@@ -3601,9 +3601,9 @@
       "title": "",
       "file_name": "0d7b2ff3-4f48-4689-94e6-d62421fb54e4.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/0d7b2ff3-4f48-4689-94e6-d62421fb54e4.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/0d7b2ff3-4f48-4689-94e6-d62421fb54e4.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3612,7 +3612,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Key to Goshan Cash Register",
-    "description": "**Unlocks:** [28 Goshan Cash Registers (Interchange)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28546)  \n**Location:** On a seat in the white bus",
+    "description": "**Unlocks:** [28 Goshan Cash Registers (Interchange)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28546)  \n**Location:** On a seat in the white bus",
     "latitude": "0.62205080946053",
     "longitude": "-0.44080156957273",
     "z": null,
@@ -3625,7 +3625,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Key. Arsenal Storage Room",
-    "description": "**Unlocks:** [Arsenal Storage Room (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31792)  \n**Location:** On top of the counter in the corner.",
+    "description": "**Unlocks:** [Arsenal Storage Room (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31792)  \n**Location:** On top of the counter in the corner.",
     "latitude": "0.65350540866826",
     "longitude": "-0.43930009510041",
     "z": null,
@@ -3636,9 +3636,9 @@
       "title": "",
       "file_name": "dff48af2-de22-4874-a807-d9adcc77aac7.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/dff48af2-de22-4874-a807-d9adcc77aac7.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/dff48af2-de22-4874-a807-d9adcc77aac7.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3647,7 +3647,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "The Key To The Gas Station Storage Room",
-    "description": "**Unlocks:** [Gas Station Storage Room](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30183)  \n**Location:** Under the desk inside the [Gas Station Manager's Office](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30184)",
+    "description": "**Unlocks:** [Gas Station Storage Room](https://mapgenie.io/tarkov/maps/customs?locationIds=30183)  \n**Location:** Under the desk inside the [Gas Station Manager's Office](https://mapgenie.io/tarkov/maps/customs?locationIds=30184)",
     "latitude": "0.66002811244191",
     "longitude": "-0.43869928028107",
     "z": null,
@@ -3658,9 +3658,9 @@
       "title": "",
       "file_name": "ce704879-2377-4e7d-8403-dfc1af84d483.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/ce704879-2377-4e7d-8403-dfc1af84d483.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/ce704879-2377-4e7d-8403-dfc1af84d483.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3669,7 +3669,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Dorm Room 114 Key",
-    "description": "**Unlocks:** [Dorm Room 114](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30145)  \n**Location:** Inside the jacket in the trunk of the blue car.",
+    "description": "**Unlocks:** [Dorm Room 114](https://mapgenie.io/tarkov/maps/customs?locationIds=30145)  \n**Location:** Inside the jacket in the trunk of the blue car.",
     "latitude": "0.61539226664181",
     "longitude": "-0.26803772998881",
     "z": null,
@@ -3682,7 +3682,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Dorm Room 110 Key",
-    "description": "**Unlocks:** [Dorm Room 110](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30144)  \n**Location:** Inside the blue locker",
+    "description": "**Unlocks:** [Dorm Room 110](https://mapgenie.io/tarkov/maps/customs?locationIds=30144)  \n**Location:** Inside the blue locker",
     "latitude": "0.53291758048735",
     "longitude": "-0.27658557761333",
     "z": null,
@@ -3693,9 +3693,9 @@
       "title": "",
       "file_name": "61c4931f-2e7f-4b9e-8e02-6bdd52b2fd7f.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/61c4931f-2e7f-4b9e-8e02-6bdd52b2fd7f.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/61c4931f-2e7f-4b9e-8e02-6bdd52b2fd7f.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3704,7 +3704,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Machinery Key",
-    "description": "**Unlocks:** [This truck](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=29995) (required for the _Checking_ quest).   \n**Location:** In room 205. In the brown jacket hanging on the wall.",
+    "description": "**Unlocks:** [This truck](https://mapgenie.io/tarkov/maps/customs?locationIds=29995) (required for the _Checking_ quest).   \n**Location:** In room 205. In the brown jacket hanging on the wall.",
     "latitude": "0.93128009583302",
     "longitude": "-0.74121474742537",
     "z": null,
@@ -3717,7 +3717,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Lab. Key. Arsenal Storage Room",
-    "description": "**Unlocks:** [Arsenal Storage Room (The Lab)](https:\/\/mapgenie.io\/tarkov\/maps\/lab?locationIds=31792)  \n**Location:** Dorm Room 215 - inside the small cabinet next to some books.",
+    "description": "**Unlocks:** [Arsenal Storage Room (The Lab)](https://mapgenie.io/tarkov/maps/lab?locationIds=31792)  \n**Location:** Dorm Room 215 - inside the small cabinet next to some books.",
     "latitude": "1.00094034263208",
     "longitude": "-0.74069976329451",
     "z": null,
@@ -3728,9 +3728,9 @@
       "title": "",
       "file_name": "ef27131a-0d09-481e-99aa-e6902e24aa8f.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/ef27131a-0d09-481e-99aa-e6902e24aa8f.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/ef27131a-0d09-481e-99aa-e6902e24aa8f.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3739,7 +3739,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Dorm Room 203 Key",
-    "description": "**Unlocks:** [Dorm Room 203](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30137)  \n**Location:** Inside a red mug in [Dorm Room 214](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30134)",
+    "description": "**Unlocks:** [Dorm Room 203](https://mapgenie.io/tarkov/maps/customs?locationIds=30137)  \n**Location:** Inside a red mug in [Dorm Room 214](https://mapgenie.io/tarkov/maps/customs?locationIds=30134)",
     "latitude": "1.00377232192598",
     "longitude": "-0.76370238780623",
     "z": null,
@@ -3752,7 +3752,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "ZB-014 Key",
-    "description": "**Unlocks:** [ZB-014 Extraction (Woods)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=24862)  \n**Location:** On the desk in [Dorm Room 220](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30136)",
+    "description": "**Unlocks:** [ZB-014 Extraction (Woods)](https://mapgenie.io/tarkov/maps/customs?locationIds=24862)  \n**Location:** On the desk in [Dorm Room 220](https://mapgenie.io/tarkov/maps/customs?locationIds=30136)",
     "latitude": "0.97997288932480",
     "longitude": "-0.71606503549003",
     "z": null,
@@ -3765,7 +3765,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Dorm Room 104 Key",
-    "description": "**Unlocks:** [Dorm Room 104](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30147)  \n**Location:** [Dorm Guard Desk](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30148) - inside the key cabinet.",
+    "description": "**Unlocks:** [Dorm Room 104](https://mapgenie.io/tarkov/maps/customs?locationIds=30147)  \n**Location:** [Dorm Guard Desk](https://mapgenie.io/tarkov/maps/customs?locationIds=30148) - inside the key cabinet.",
     "latitude": "0.93815640032646",
     "longitude": "-0.55829223106912",
     "z": null,
@@ -3778,7 +3778,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "RB-MP11 Key",
-    "description": "**Unlocks:** [RB-MP11 Room (Reserve)](https:\/\/mapgenie.io\/tarkov\/maps\/reserve?locationIds=40168)\n\nSpawns on top of the desk",
+    "description": "**Unlocks:** [RB-MP11 Room (Reserve)](https://mapgenie.io/tarkov/maps/reserve?locationIds=40168)\n\nSpawns on top of the desk",
     "latitude": "0.55360237927181",
     "longitude": "-0.38967874124603",
     "z": null,
@@ -3791,7 +3791,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "RB-ORB3 Key",
-    "description": "**Unlocks:** [RB-ORB3 Room (Reserve)](https:\/\/mapgenie.io\/tarkov\/maps\/reserve?locationIds=40835)\n\nOn the passenger seat of the Tigr LAV (UN Humvee)",
+    "description": "**Unlocks:** [RB-ORB3 Room (Reserve)](https://mapgenie.io/tarkov/maps/reserve?locationIds=40835)\n\nOn the passenger seat of the Tigr LAV (UN Humvee)",
     "latitude": "0.62129039147231",
     "longitude": "-0.86101621341697",
     "z": null,
@@ -4753,7 +4753,7 @@
     "region_id": null,
     "category_id": 946,
     "title": "Loose Loot",
-    "description": "DIY items on the shelves + potential fuel tank\/motor\/filter spawn",
+    "description": "DIY items on the shelves + potential fuel tank/motor/filter spawn",
     "latitude": "0.42363648569971",
     "longitude": "-0.45075489991791",
     "z": null,
@@ -5076,9 +5076,9 @@
       "title": "",
       "file_name": "37b85fce-c363-4dc4-bc39-434b764b4d9f.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/37b85fce-c363-4dc4-bc39-434b764b4d9f.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/37b85fce-c363-4dc4-bc39-434b764b4d9f.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -5555,7 +5555,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "Money",
-    "description": "Under the radiator\/bed.",
+    "description": "Under the radiator/bed.",
     "latitude": "0.96799987291867",
     "longitude": "-0.50446514024327",
     "z": null,
@@ -5581,7 +5581,7 @@
     "region_id": null,
     "category_id": 949,
     "title": "Secure Flash Drive",
-    "description": "On a bed in [Dorm Room 110](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30144)",
+    "description": "On a bed in [Dorm Room 110](https://mapgenie.io/tarkov/maps/customs?locationIds=30144)",
     "latitude": "0.98687521607701",
     "longitude": "-0.56051839687211",
     "z": null,
@@ -6541,9 +6541,9 @@
       "title": "",
       "file_name": "2c0bf3e5-8e00-45ad-bb45-695626ff8d9a.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2c0bf3e5-8e00-45ad-bb45-695626ff8d9a.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2c0bf3e5-8e00-45ad-bb45-695626ff8d9a.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -6825,7 +6825,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Rack",
-    "description": "Inside the [Military Base Checkpoint Gatehouse](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30201)",
+    "description": "Inside the [Military Base Checkpoint Gatehouse](https://mapgenie.io/tarkov/maps/customs?locationIds=30201)",
     "latitude": "0.62097502103670",
     "longitude": "-0.26225700523787",
     "z": null,
@@ -7188,7 +7188,7 @@
     "map_id": 67,
     "region_id": null,
     "category_id": 958,
-    "title": "MP-133\/MP-153 12g Shotgun",
+    "title": "MP-133/MP-153 12g Shotgun",
     "description": "Spawns under the counter in the \"ice-cream shop\".",
     "latitude": "0.65752150055081",
     "longitude": "-0.86213575339514",
@@ -7746,9 +7746,9 @@
       "title": "",
       "file_name": "5ef22999-561e-4dcc-b217-d88ff1591234.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5ef22999-561e-4dcc-b217-d88ff1591234.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5ef22999-561e-4dcc-b217-d88ff1591234.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -7781,9 +7781,9 @@
       "title": "",
       "file_name": "940b4133-4508-4a69-b7ce-6b4b4b267712.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/940b4133-4508-4a69-b7ce-6b4b4b267712.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/940b4133-4508-4a69-b7ce-6b4b4b267712.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -7792,7 +7792,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Railroad To Port [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.67175474496228",
     "longitude": "-1.03222770059324",
     "z": null,
@@ -7805,7 +7805,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Smuggler's Boat [PMC]",
-    "description": "**Always Open:** \u2718  \n**Single Use:** \u2718  \n**Requirements:** Campfire lit means it's open",
+    "description": "**Always Open:** ✘  \n**Single Use:** ✘  \n**Requirements:** Campfire lit means it's open",
     "latitude": "0.75050423637940",
     "longitude": "-0.92281994430414",
     "z": null,
@@ -7818,7 +7818,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Crossroads [ALL]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -\n\n**Note:** The Scav extract is just around the corner on the south wall.",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -\n\n**Note:** The Scav extract is just around the corner on the south wall.",
     "latitude": "0.54267973117492",
     "longitude": "-1.22550733595270",
     "z": null,
@@ -7831,7 +7831,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Trailer Park [PMC]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.39162278423875",
     "longitude": "-1.20731122999564",
     "z": null,
@@ -7844,7 +7844,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Railroad To Tarkov [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.38731068083872",
     "longitude": "-1.05001103130098",
     "z": null,
@@ -7857,7 +7857,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Trailer Park Workers' Shack [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.36980160262756",
     "longitude": "-1.14459645000215",
     "z": null,
@@ -7870,7 +7870,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "RUAF Roadblock [ALL]",
-    "description": "**Always Open:** \u2718    \n**Single Use:** \u2718  \n**Requirements:** Search light needs to be on",
+    "description": "**Always Open:** ✘    \n**Single Use:** ✘  \n**Requirements:** Search light needs to be on",
     "latitude": "0.47059039808979",
     "longitude": "-0.89318893817381",
     "z": null,
@@ -7883,7 +7883,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Old Gas Station [PMC]",
-    "description": "**Always Open:** \u2718  \n**Single Use:** \u2718  \n**Requirements:** Green Flares outside means it's open",
+    "description": "**Always Open:** ✘  \n**Single Use:** ✘  \n**Requirements:** Green Flares outside means it's open",
     "latitude": "0.42086548751238",
     "longitude": "-0.54950790940643",
     "z": null,
@@ -7896,7 +7896,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Factory Far Corner [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.44358875268790",
     "longitude": "-0.19023705953009",
     "z": null,
@@ -7909,7 +7909,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Administration Gate [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.56387128065293",
     "longitude": "-0.17174076453671",
     "z": null,
@@ -7922,7 +7922,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Scav Checkpoint [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.58910422556619",
     "longitude": "-0.18667530433163",
     "z": null,
@@ -7935,7 +7935,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Military Base CP [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.75266534685742",
     "longitude": "-0.20082016711194",
     "z": null,
@@ -7948,7 +7948,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Passage Between Rocks [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.83262851570490",
     "longitude": "-0.31032454312708",
     "z": null,
@@ -7961,7 +7961,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Railroad To Military Base [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.85528535918992",
     "longitude": "-0.35838972867396",
     "z": null,
@@ -7974,7 +7974,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Old Road Gate [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.84649670072623",
     "longitude": "-0.67897422550573",
     "z": null,
@@ -7987,7 +7987,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Dorms V-Ex [PMC]",
-    "description": "**Always Open:** \u2718  \n**Single Use:** \u2714  \n**Requirements:** 7000 Rubles, Max 4 players",
+    "description": "**Always Open:** ✘  \n**Single Use:** ✔  \n**Requirements:** 7000 Rubles, Max 4 players",
     "latitude": "0.85404896962212",
     "longitude": "-0.69236381290807",
     "z": null,
@@ -8000,7 +8000,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Sniper Roadblack [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.75896972108341",
     "longitude": "-0.86616707758105",
     "z": null,
@@ -8013,7 +8013,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Factory Shacks [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.63052666858564",
     "longitude": "-0.66191906261338",
     "z": null,
@@ -8026,7 +8026,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Warehouse 17 [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.54168990659476",
     "longitude": "-0.83316193667906",
     "z": null,
@@ -8039,7 +8039,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "ZB-1011 [PMC]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.48039490309436",
     "longitude": "-0.20943995827804",
     "z": null,
@@ -8052,7 +8052,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "ZB-1012 [PMC]",
-    "description": "**Always Open:** \u2718  \n**Single Use:** \u2718  \n**Requirements:** Search light on means it's open",
+    "description": "**Always Open:** ✘  \n**Single Use:** ✘  \n**Requirements:** Search light on means it's open",
     "latitude": "0.49749978508929",
     "longitude": "-0.38244470442555",
     "z": null,
@@ -8065,7 +8065,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Warehouse 4 [SCAV]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.58982735348941",
     "longitude": "-0.52203556989980",
     "z": null,
@@ -8078,7 +8078,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "ZB-013 [PMC]",
-    "description": "**Always Open:** \u2718    \n**Single Use:** \u2718  \n**Requirements:** \n- Activate [Lever in Warehouse 4](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=43282)\n- Factory Exit Key (to unlock gate)",
+    "description": "**Always Open:** ✘    \n**Single Use:** ✘  \n**Requirements:** \n- Activate [Lever in Warehouse 4](https://mapgenie.io/tarkov/maps/customs?locationIds=43282)\n- Factory Exit Key (to unlock gate)",
     "latitude": "0.35449466601099",
     "longitude": "-0.81899697701135",
     "z": null,
@@ -8091,7 +8091,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Old Gas Station [SCAV]",
-    "description": "**Always Open:** \u2718  \n**Single Use:** \u2718  \n**Requirements:** (?)",
+    "description": "**Always Open:** ✘  \n**Single Use:** ✘  \n**Requirements:** (?)",
     "latitude": "0.40563032369301",
     "longitude": "-0.55568200139737",
     "z": null,
@@ -8390,7 +8390,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Trailer Park Cabin",
-    "description": "**Key:** Trailer Park Cabin Key (Random - Jackets\/Scavs). Also received upon starting the _Golden Swag_ quest.",
+    "description": "**Key:** Trailer Park Cabin Key (Random - Jackets/Scavs). Also received upon starting the _Golden Swag_ quest.",
     "latitude": "0.40046343616445",
     "longitude": "-1.08644530562287",
     "z": null,
@@ -8403,7 +8403,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Tarcone Director's Office (Customs)",
-    "description": "**Key:** Tarcone Director's Key (Random - Jackets\/Scavs\/Drawers)\n\n**Note:** This key was previously called \"Customs Office Key\", but was changed in 0.12.11",
+    "description": "**Key:** Tarcone Director's Key (Random - Jackets/Scavs/Drawers)\n\n**Note:** This key was previously called \"Customs Office Key\", but was changed in 0.12.11",
     "latitude": "0.50327947053362",
     "longitude": "-1.09811023069980",
     "z": null,
@@ -8429,7 +8429,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 108 (108 Key)",
-    "description": "**Key:** Dorm Room 108 Key (Random - Jackets\/Scavs)",
+    "description": "**Key:** Dorm Room 108 Key (Random - Jackets/Scavs)",
     "latitude": "0.98810359550455",
     "longitude": "-0.84555609186111",
     "z": null,
@@ -8442,7 +8442,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 118 (118 Key)",
-    "description": "**Key:** Dorm Room 118 Key (Random - Jackets\/Scavs)",
+    "description": "**Key:** Dorm Room 118 Key (Random - Jackets/Scavs)",
     "latitude": "0.98570069273007",
     "longitude": "-0.80885113089278",
     "z": null,
@@ -8455,7 +8455,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 103 (103 Key)",
-    "description": "**Key:** Dorm Room 103 Key (Random - Jackets\/Scavs)",
+    "description": "**Key:** Dorm Room 103 Key (Random - Jackets/Scavs)",
     "latitude": "0.92647840987481",
     "longitude": "-0.83932632255903",
     "z": null,
@@ -8468,7 +8468,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Portable Cabin of Customs Factory Zone (Key)",
-    "description": "**Key:** [Portable Cabin Key of Customs Factory Zone (Factory)](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=25096)",
+    "description": "**Key:** [Portable Cabin Key of Customs Factory Zone (Factory)](https://mapgenie.io/tarkov/maps/factory?locationIds=25096)",
     "latitude": "0.63173076442834",
     "longitude": "-0.66707511843947",
     "z": null,
@@ -8481,7 +8481,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 214 (Room 214)",
-    "description": "**Key:** [Dorm Room 214 Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30022)",
+    "description": "**Key:** [Dorm Room 214 Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30022)",
     "latitude": "1.00200278755617",
     "longitude": "-0.75502666922557",
     "z": null,
@@ -8507,7 +8507,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 220 (Room 220)",
-    "description": "**Key:** [Dorm Room 220 Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30130)",
+    "description": "**Key:** [Dorm Room 220 Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30130)",
     "latitude": "0.98621231799122",
     "longitude": "-0.71811947318065",
     "z": null,
@@ -8520,7 +8520,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 203 (Room 203)",
-    "description": "**Key:** [Dorm Room 203 Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30267) (also a random drop)",
+    "description": "**Key:** [Dorm Room 203 Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30267) (also a random drop)",
     "latitude": "0.92680509170080",
     "longitude": "-0.74914442273439",
     "z": null,
@@ -8533,7 +8533,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 204 (Room 204)",
-    "description": "**Key:** Dorm Room 204 Key (Random - Jackets\/Scavs)",
+    "description": "**Key:** Dorm Room 204 Key (Random - Jackets/Scavs)",
     "latitude": "0.92697673061592",
     "longitude": "-0.75515257092775",
     "z": null,
@@ -8546,7 +8546,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 306 (Room 306)",
-    "description": "**Key:** Dorm Room 306 Key (Random - Jackets\/Scavs)",
+    "description": "**Key:** Dorm Room 306 Key (Random - Jackets/Scavs)",
     "latitude": "0.94122273142304",
     "longitude": "-0.66782514412171",
     "z": null,
@@ -8559,7 +8559,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 303 (Room 303)",
-    "description": "**Key:** Dorm Room 303 Key - (Random  - Jackets\/Scavs)",
+    "description": "**Key:** Dorm Room 303 Key - (Random  - Jackets/Scavs)",
     "latitude": "0.92680509170080",
     "longitude": "-0.66181699592835",
     "z": null,
@@ -8572,7 +8572,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 315 (Room 315)",
-    "description": "**Key:** Dorm Room 315 Key (Random - Jackets\/Scavs\/Drawers)",
+    "description": "**Key:** Dorm Room 315 Key (Random - Jackets/Scavs/Drawers)",
     "latitude": "0.98121420301075",
     "longitude": "-0.66181699592835",
     "z": null,
@@ -8585,7 +8585,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 308 (Room 308)",
-    "description": "**Key:** Dorm Room 308 Key (Random - Jackets\/Scavs\/Drawers)",
+    "description": "**Key:** Dorm Room 308 Key (Random - Jackets/Scavs/Drawers)",
     "latitude": "0.98790800829931",
     "longitude": "-0.66782514412171",
     "z": null,
@@ -8598,7 +8598,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 314 (Mark. Key)",
-    "description": "**Key:** Marked Key (Random - Jackets\/Scavs)",
+    "description": "**Key:** Marked Key (Random - Jackets/Scavs)",
     "latitude": "1.00215375403849",
     "longitude": "-0.66181699592835",
     "z": null,
@@ -8611,7 +8611,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 110 (110 Key)",
-    "description": "**Key:** [Dorm Room 110 Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30218) (also a random drop)",
+    "description": "**Key:** [Dorm Room 110 Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30218) (also a random drop)",
     "latitude": "0.98745612611521",
     "longitude": "-0.55044698300696",
     "z": null,
@@ -8624,7 +8624,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 114 (Room 114)",
-    "description": "**Key:** [Dorm Room 114 Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30193)",
+    "description": "**Key:** [Dorm Room 114 Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30193)",
     "latitude": "0.98762776199465",
     "longitude": "-0.54495381894446",
     "z": null,
@@ -8637,7 +8637,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 105 (105) Key",
-    "description": "**Key:** Dorm Room 105 Key (Random - Jackets\/Scavs\/Drawers)",
+    "description": "**Key:** Dorm Room 105 Key (Random - Jackets/Scavs/Drawers)",
     "latitude": "0.93373366822966",
     "longitude": "-0.55079030576087",
     "z": null,
@@ -8650,7 +8650,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 104 (Room 104)",
-    "description": "**Key:** [Dorm Room 104 Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30296)",
+    "description": "**Key:** [Dorm Room 104 Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30296)",
     "latitude": "0.93373366822966",
     "longitude": "-0.54495381894446",
     "z": null,
@@ -8663,7 +8663,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Guard Desk (Gdesk)",
-    "description": "**Key:** [Dorm Guard Desk Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30150)",
+    "description": "**Key:** [Dorm Guard Desk Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30150)",
     "latitude": "0.93939773687208",
     "longitude": "-0.55594014706946",
     "z": null,
@@ -8676,7 +8676,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Dorm Room 206 (Room 206)",
-    "description": "**Key:** Dorm Room 206 Key (Random - Jackets\/Scavs)",
+    "description": "**Key:** Dorm Room 206 Key (Random - Jackets/Scavs)",
     "latitude": "0.94042756654954",
     "longitude": "-0.48590230527259",
     "z": null,
@@ -8689,7 +8689,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Factory Exit (Factory)",
-    "description": "**Key Locations:** \n- [Factory Exit Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30090) \n- [Factory Exit Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30122)",
+    "description": "**Key Locations:** \n- [Factory Exit Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30090) \n- [Factory Exit Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30122)",
     "latitude": "0.60338786704961",
     "longitude": "-0.50409695600820",
     "z": null,
@@ -8702,7 +8702,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Factory Exit (Factory)",
-    "description": "**Key Locations:** \n- [Factory Exit Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30090) \n- [Factory Exit Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30122)",
+    "description": "**Key Locations:** \n- [Factory Exit Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30090) \n- [Factory Exit Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30122)",
     "latitude": "0.61006445120664",
     "longitude": "-0.50288789258434",
     "z": null,
@@ -8715,7 +8715,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Unknown Cabin (Unk. Key)",
-    "description": "**Key:** [Unknown Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30078)",
+    "description": "**Key:** [Unknown Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30078)",
     "latitude": "0.56581622823092",
     "longitude": "-0.48959992989217",
     "z": null,
@@ -8728,7 +8728,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Gas Station Storage Room (Storage)",
-    "description": "**Key:** [The Key To The Gas Station Storage Room](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30187) (also a random drop)",
+    "description": "**Key:** [The Key To The Gas Station Storage Room](https://mapgenie.io/tarkov/maps/customs?locationIds=30187) (also a random drop)",
     "latitude": "0.65745336196953",
     "longitude": "-0.44170335437775",
     "z": null,
@@ -8741,7 +8741,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Gas Station Manager's Office (Gas Station)",
-    "description": "**Key:** Cabinet Key (Random - Jackets\/Scavs\/Drawers)",
+    "description": "**Key:** Cabinet Key (Random - Jackets/Scavs/Drawers)",
     "latitude": "0.66045723739120",
     "longitude": "-0.44136003162384",
     "z": null,
@@ -8754,7 +8754,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Military Base Checkpoint Gatehouse (Checkpoint)",
-    "description": "**Key:** [Military Base Checkpoint Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30119)",
+    "description": "**Key:** [Military Base Checkpoint Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30119)",
     "latitude": "0.62457969700196",
     "longitude": "-0.26946678306990",
     "z": null,
@@ -8767,7 +8767,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "USEC Stash Door #1",
-    "description": "**Key:** USEC Stash on Customs Key (Random - Jackets\/Scavs)",
+    "description": "**Key:** USEC Stash on Customs Key (Random - Jackets/Scavs)",
     "latitude": "0.56509094524107",
     "longitude": "-0.27927952265668",
     "z": null,
@@ -8780,7 +8780,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "USEC Stash Door #2",
-    "description": "**Key:** USEC Stash on Customs Key (Random - Jackets\/Scavs)",
+    "description": "**Key:** USEC Stash on Customs Key (Random - Jackets/Scavs)",
     "latitude": "0.55685159408097",
     "longitude": "-0.28545933222699",
     "z": null,
@@ -8806,7 +8806,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "ZB-013 Gate (Factory)",
-    "description": "**Key Locations:** \n- [Factory Exit Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30090) \n- [Factory Exit Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30122)",
+    "description": "**Key Locations:** \n- [Factory Exit Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30090) \n- [Factory Exit Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30122)",
     "latitude": "0.36530911938706",
     "longitude": "-0.81865365425745",
     "z": null,
@@ -8819,7 +8819,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Portable Cabin",
-    "description": "**Key:** Portable Cabin Key (Random - Jackets\/Scavs\/Drawers)",
+    "description": "**Key:** Portable Cabin Key (Random - Jackets/Scavs/Drawers)",
     "latitude": "0.38512907337785",
     "longitude": "-1.14645149646412",
     "z": null,
@@ -8845,7 +8845,7 @@
     "region_id": null,
     "category_id": 956,
     "title": "ZB-1013 Lever",
-    "description": "This lever needs to be pulled in order to unlock the [ZB-1013](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=43360) extract.",
+    "description": "This lever needs to be pulled in order to unlock the [ZB-1013](https://mapgenie.io/tarkov/maps/customs?locationIds=43360) extract.",
     "latitude": "0.44078332596158",
     "longitude": "-0.42019282506055",
     "z": null,
@@ -9025,50 +9025,54 @@
       "title": "",
       "file_name": "f7a951cc-5d79-4c21-aefd-075e387f8e1d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f7a951cc-5d79-4c21-aefd-075e387f8e1d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/f7a951cc-5d79-4c21-aefd-075e387f8e1d.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [58]
   }, {
     "id": 29995,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Bronze Pocket Watch on a Chain",
-    "description": "**Quest:** Checking  \n**Location:** Inside the truck. Requires the [Machinery Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30255) to unlock the truck door",
+    "description": "**Quest:** Checking  \n**Location:** Inside the truck. Requires the [Machinery Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30255) to unlock the truck door",
     "latitude": "0.61220556661637",
     "longitude": "-0.77292052534597",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [1]
   }, {
     "id": 30053,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Graphics Card Package",
-    "description": "**Quest:** Farming - Part 3  \n**Location:** Inside the [Customs Office](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30045) by the metal shelves.",
+    "description": "**Quest:** Farming - Part 3  \n**Location:** Inside the [Customs Office](https://mapgenie.io/tarkov/maps/customs?locationIds=30045) by the metal shelves.",
     "latitude": "0.51529529219932",
     "longitude": "-1.09467700316077",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [106]
   }, {
     "id": 30054,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Secure Case For Documents 0022",
-    "description": "**Quest:** Delivery From The Past  \n**Location:** Inside the [Customs Office](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30045) by the metal shelves.",
+    "description": "**Quest:** Delivery From The Past  \n**Location:** Inside the [Customs Office](https://mapgenie.io/tarkov/maps/customs?locationIds=30045) by the metal shelves.",
     "latitude": "0.51091810261749",
     "longitude": "-1.09579280211096",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [3]
   }, {
     "id": 30074,
     "map_id": 67,
@@ -9086,11 +9090,12 @@
       "title": "",
       "file_name": "7c5d291d-024a-401c-a96f-4ae4a83412ce.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7c5d291d-024a-401c-a96f-4ae4a83412ce.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/7c5d291d-024a-401c-a96f-4ae4a83412ce.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [58]
   }, {
     "id": 30075,
     "map_id": 67,
@@ -9108,24 +9113,26 @@
       "title": "",
       "file_name": "923b9aea-d55f-4355-9002-cc5fa4e1e556.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/923b9aea-d55f-4355-9002-cc5fa4e1e556.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/923b9aea-d55f-4355-9002-cc5fa4e1e556.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [58]
   }, {
     "id": 30112,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Secure Case For Documents 0031",
-    "description": "**Quest:** Bad Rep Evidence  \n**Location:** Inside the [Portable Cabin of Customs Factory Zone](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30110)",
+    "description": "**Quest:** Bad Rep Evidence  \n**Location:** Inside the [Portable Cabin of Customs Factory Zone](https://mapgenie.io/tarkov/maps/customs?locationIds=30110)",
     "latitude": "0.63224571723122",
     "longitude": "-0.66467185916213",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [5]
   }, {
     "id": 30129,
     "map_id": 67,
@@ -9143,9 +9150,9 @@
       "title": "",
       "file_name": "8f74e016-9943-4e33-ab08-88035e25b026.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/8f74e016-9943-4e33-ab08-88035e25b026.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/8f74e016-9943-4e33-ab08-88035e25b026.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -9154,13 +9161,14 @@
     "region_id": null,
     "category_id": 955,
     "title": "Secure Case For Documents 0048",
-    "description": "**Quest:** The Extortionist  \n**Location:** Inside the [Unknown Cabin](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30168) - requires the [Unknown Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30078) to unlock.",
+    "description": "**Quest:** The Extortionist  \n**Location:** Inside the [Unknown Cabin](https://mapgenie.io/tarkov/maps/customs?locationIds=30168) - requires the [Unknown Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30078) to unlock.",
     "latitude": "0.56418552443942",
     "longitude": "-0.49131654366170",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [37]
   }, {
     "id": 30248,
     "map_id": 67,
@@ -9173,85 +9181,92 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [55]
   }, {
     "id": 30252,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Bank Case",
-    "description": "**Quest:** Shaking Up Teller  \n**Location:** Under the bed in [Dorm Room 203 (Room 203)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30137)",
+    "description": "**Quest:** Shaking Up Teller  \n**Location:** Under the bed in [Dorm Room 203 (Room 203)](https://mapgenie.io/tarkov/maps/customs?locationIds=30137)",
     "latitude": "0.92501527765885",
     "longitude": "-0.74413299083358",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [8]
   }, {
     "id": 30270,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Sealed Letter (TerraGroup)",
-    "description": "**Quest:** Chemical - Part 2   \n**Location:** [Dorm Room 220](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30136)",
+    "description": "**Quest:** Chemical - Part 2   \n**Location:** [Dorm Room 220](https://mapgenie.io/tarkov/maps/customs?locationIds=30136)",
     "latitude": "0.98306234073683",
     "longitude": "-0.71623669686699",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [41]
   }, {
     "id": 30271,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Sliderkey Secure Flash Drive",
-    "description": "**Quest:** Chemical - Part 2   \n**Location:** [Dorm Room 220](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30136)",
+    "description": "**Quest:** Chemical - Part 2   \n**Location:** [Dorm Room 220](https://mapgenie.io/tarkov/maps/customs?locationIds=30136)",
     "latitude": "0.97396561454115",
     "longitude": "-0.71658001962089",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [41]
   }, {
     "id": 30284,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Gilded Zibbo Lighter",
-    "description": "**Quest:** Golden Swag  \n**Location:** [Dorm Room 303](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30140) - on the desk beside the candles.",
+    "description": "**Quest:** Golden Swag  \n**Location:** [Dorm Room 303](https://mapgenie.io/tarkov/maps/customs?locationIds=30140) - on the desk beside the candles.",
     "latitude": "0.92870991047207",
     "longitude": "-0.64980309394184",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [39]
   }, {
     "id": 30291,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Hidden Water",
-    "description": "**Quest:** Operation Aquarius - Part 1  \n**Location:** [Dorm Room 206 (Room 206)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30149)",
+    "description": "**Quest:** Operation Aquarius - Part 1  \n**Location:** [Dorm Room 206 (Room 206)](https://mapgenie.io/tarkov/maps/customs?locationIds=30149)",
     "latitude": "0.94070968993069",
     "longitude": "-0.47609377074912",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [169]
   }, {
     "id": 30316,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Carbon Case",
-    "description": "**Quest:** Pharmacist  \n**Location:** [Dorm Room 114](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30145) - on top of the safe.",
+    "description": "**Quest:** Pharmacist  \n**Location:** [Dorm Room 114](https://mapgenie.io/tarkov/maps/customs?locationIds=30145) - on top of the safe.",
     "latitude": "0.99022072894628",
     "longitude": "-0.53668930662252",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [23]
   }, {
     "id": 30428,
     "map_id": 67,
@@ -9264,7 +9279,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [4]
   }, {
     "id": 30429,
     "map_id": 67,
@@ -9277,7 +9293,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [4]
   }, {
     "id": 30430,
     "map_id": 67,
@@ -9290,7 +9307,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [4]
   }, {
     "id": 30431,
     "map_id": 67,
@@ -9303,7 +9321,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [4]
   }, {
     "id": 37425,
     "map_id": 67,
@@ -9316,7 +9335,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [63]
   }, {
     "id": 37428,
     "map_id": 67,
@@ -9328,6 +9348,7 @@
     "longitude": "-0.37296879097960",
     "z": null,
     "features": null,
+    "quests": [43, 179, 180],
     "tags": [],
     "media": []
   }, {
@@ -9342,7 +9363,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [52]
   }, {
     "id": 45867,
     "map_id": 67,
@@ -9355,7 +9377,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [51]
   }, {
     "id": 50462,
     "map_id": 67,
@@ -9368,33 +9391,36 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [55]
   }, {
     "id": 50463,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Golden Swag Cabin",
-    "description": "**Quest:** Golden Swag  \n**Location:** Inside the cabin.   \n**NB:** Requires the [Trailer Park Cabin Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30038).",
+    "description": "**Quest:** Golden Swag  \n**Location:** Inside the cabin.   \n**NB:** Requires the [Trailer Park Cabin Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30038).",
     "latitude": "0.40186498347644",
     "longitude": "-1.08472843817367",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [39]
   }, {
     "id": 116481,
     "map_id": 67,
     "region_id": null,
     "category_id": 955,
     "title": "Messenger's Body",
-    "description": "**Quest:** The Extortionist \n\nYou'll find the [Unknown Key](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30078) on the body in the bushes.",
+    "description": "**Quest:** The Extortionist \n\nYou'll find the [Unknown Key](https://mapgenie.io/tarkov/maps/customs?locationIds=30078) on the body in the bushes.",
     "latitude": "0.50055581981020",
     "longitude": "-0.85015974986914",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [37]
   }, {
     "id": 29966,
     "map_id": 67,
@@ -9785,11 +9811,31 @@
     "overzoom": false,
     "tile_sets": [{
       "name": "0.12.7",
-      "path": "\/images\/tiles\/tarkov\/customs\/default-v3",
+      "path": "/images/tiles/tarkov/customs/default-v3",
       "min_zoom": 8,
       "max_zoom": 15,
       "extension": "png",
       "bounds": {
+        "8": {
+          "x": {
+            "min": 127,
+            "max": 127
+          },
+          "y": {
+            "min": 127,
+            "max": 127
+          }
+        },
+        "9": {
+          "x": {
+            "min": 254,
+            "max": 255
+          },
+          "y": {
+            "min": 254,
+            "max": 255
+          }
+        },
         "10": {
           "x": {
             "min": 508,
@@ -9848,26 +9894,6 @@
           "y": {
             "min": 16256,
             "max": 16383
-          }
-        },
-        "8": {
-          "x": {
-            "min": 127,
-            "max": 127
-          },
-          "y": {
-            "min": 127,
-            "max": 127
-          }
-        },
-        "9": {
-          "x": {
-            "min": 254,
-            "max": 255
-          },
-          "y": {
-            "min": 254,
-            "max": 255
           }
         }
       }

@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Pair
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContent
@@ -36,21 +37,22 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.adapty.Adapty
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.MapInteractive
 import com.austinhodak.tarkovapi.models.QuestExtra
+import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.map.viewmodels.MapViewModel
 import com.austinhodak.thehideout.quests.QuestDetailActivity
+import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.utils.Map
-import com.austinhodak.thehideout.utils.isDebug
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.rememberMapViewWithLifecycle
 import com.bumptech.glide.Glide
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -68,6 +70,25 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.net.MalformedURLException
 import java.net.URL
+import javax.inject.Inject
+import kotlin.collections.List
+import kotlin.collections.MutableList
+import kotlin.collections.arrayListOf
+import kotlin.collections.contains
+import kotlin.collections.emptyList
+import kotlin.collections.emptySet
+import kotlin.collections.filter
+import kotlin.collections.find
+import kotlin.collections.first
+import kotlin.collections.flatMap
+import kotlin.collections.forEach
+import kotlin.collections.indexOf
+import kotlin.collections.isNullOrEmpty
+import kotlin.collections.listOf
+import kotlin.collections.map
+import kotlin.collections.setOf
+import kotlin.collections.toMutableList
+import kotlin.collections.toSet
 
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
@@ -80,6 +101,9 @@ class MapsActivity : GodActivity() {
     private var markers: MutableList<Marker> = arrayListOf()
 
     lateinit var map: GoogleMap
+
+    @Inject
+    lateinit var tarkovRepo: TarkovRepo
 
     @ExperimentalAnimationApi
     @SuppressLint("CheckResult", "PotentialBehaviorOverride")
@@ -96,6 +120,8 @@ class MapsActivity : GodActivity() {
             val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
             val scope = rememberCoroutineScope()
 
+            val userData by mapViewModel.userData.observeAsState()
+
             var isDistanceToolActive by remember {
                 mutableStateOf(false)
             }
@@ -106,7 +132,11 @@ class MapsActivity : GodActivity() {
 
             val selectedCats by UserSettingsModel.mapMarkerCategories.flow.collectAsState(initial = emptySet())
 
+            val selectedUserQuests by UserSettingsModel.mapQuestSelection.flow.collectAsState(initial = setOf("Active", "Locked", "Completed"))
+
             var selectedPoints: Pair<LatLng?, LatLng?>? = null
+
+            val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
 
             scope.launch {
                 selectedMap?.let {
@@ -114,6 +144,7 @@ class MapsActivity : GodActivity() {
                         it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
                     )
                     updateMarkers(selectedCats.toMutableList())
+                    updateQuestMarkers(selectedUserQuests.toList(), userData, quests)
                 }
             }
 
@@ -173,7 +204,7 @@ class MapsActivity : GodActivity() {
                                         }
                                         .padding(16.dp)
                                 ) {
-                                    Row (
+                                    Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier,
                                     ) {
@@ -222,7 +253,9 @@ class MapsActivity : GodActivity() {
                                                 val groupCategories = group?.categories
 
                                                 FlowRow(crossAxisSpacing = 8.dp, mainAxisSpacing = 0.dp) {
-                                                    groupCategories?.forEach { category ->
+                                                    groupCategories?.filter {
+                                                        it?.id != 955
+                                                    }?.forEach { category ->
                                                         Chip(
                                                             string = category?.title ?: "",
                                                             selected = selectedCats.contains(category?.id)
@@ -249,7 +282,7 @@ class MapsActivity : GodActivity() {
                                         }
                                     }
                                 }
-                                /*Column(
+                                Column(
                                     Modifier
                                         .fillMaxWidth()
                                         .padding(bottom = 8.dp)
@@ -260,11 +293,11 @@ class MapsActivity : GodActivity() {
                                         }
                                         .padding(16.dp)
                                 ) {
-                                    Row (
+                                    Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier,
                                     ) {
-                                        Text("Settings", modifier = Modifier.weight(1f), style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Medium)
+                                        Text("Quests", modifier = Modifier.weight(1f), style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Medium)
                                         Icon(
                                             painter = if (isSettingsVisible) painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24) else painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24),
                                             contentDescription = ""
@@ -272,10 +305,68 @@ class MapsActivity : GodActivity() {
                                     }
                                     AnimatedVisibility(visible = isSettingsVisible) {
                                         Column {
+                                            val t = listOf("You")
+                                            t.forEach {
+                                                Row(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {
 
+                                                        }
+                                                        .padding(top = 16.dp, bottom = 12.dp),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Text(
+                                                        text = it,
+                                                        style = MaterialTheme.typography.subtitle2,
+                                                        modifier = Modifier.weight(1f)
+                                                    )
+                                                }
+
+                                                val questSettings = listOf("Active", "Locked", "Completed")
+
+                                                FlowRow(crossAxisSpacing = 8.dp, mainAxisSpacing = 0.dp) {
+                                                    questSettings.forEach { category ->
+                                                        Chip(
+                                                            string = category,
+                                                            selected = selectedUserQuests.contains(category)
+                                                        ) {
+                                                            isPremium {
+                                                                if (it) {
+                                                                    val list = selectedUserQuests.toMutableList()
+                                                                    if (selectedUserQuests.contains(category)) {
+                                                                        category.let {
+                                                                            list.remove(it)
+                                                                        }
+                                                                    } else {
+                                                                        category.let {
+                                                                            list.add(it)
+                                                                        }
+                                                                    }
+
+                                                                    scope.launch {
+                                                                        UserSettingsModel.mapQuestSelection.update(list.toSet())
+                                                                    }
+                                                                    updateQuestMarkers(list, userData, quests)
+                                                                } else {
+                                                                    Adapty.getPaywalls { paywalls, products, error ->
+                                                                        val premium = products?.find { it.skuDetails?.sku == "premium_1" }?.let {
+                                                                            it.purchase(this@MapsActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
+                                                                                if (error != null) {
+                                                                                    Toast.makeText(this@MapsActivity, "Error upgrading.", Toast.LENGTH_SHORT).show()
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
-                                }*/
+                                }
                             }
                         },
                         frontLayerContent = {
@@ -291,14 +382,19 @@ class MapsActivity : GodActivity() {
                                                 mutableStateOf<QuestExtra.QuestExtraItem?>(null)
                                             }
                                             if (location.category_id == 955) {
-                                                try {
+                                                quest = if (!location.quests.isNullOrEmpty()) {
+                                                    questsExtra?.find { it.id == location.quests!!.first() }
+                                                } else {
+                                                    null
+                                                }
+                                                /*try {
                                                     val questTitle = location.description?.split("**Quest:** ")?.get(1)?.substringBefore("\n")?.trim()
                                                     questTitle?.let { title ->
                                                         quest = questsExtra?.find { it.title.equals(title, true) }
                                                     }
                                                 } catch (e: Exception) {
                                                     quest = null
-                                                }
+                                                }*/
 
                                             } else {
                                                 quest = null
@@ -441,7 +537,14 @@ class MapsActivity : GodActivity() {
                                                      }*/
                                                 }
 
-                                                setupMarkers(selectedMap, map, selectedCats.toMutableList())
+                                                setupMarkers(
+                                                    selectedMap,
+                                                    map,
+                                                    selectedCats.toMutableList(),
+                                                    selectedUserQuests,
+                                                    userData,
+                                                    quests
+                                                )
                                             }
                                         }
                                     }
@@ -600,14 +703,16 @@ class MapsActivity : GodActivity() {
         map.uiSettings.isZoomControlsEnabled = false
     }
 
-    private fun setupMarkers(selectedMap: MapInteractive?, map: GoogleMap, selectedCategories: List<Int>?) {
+    private fun setupMarkers(selectedMap: MapInteractive?, map: GoogleMap, selectedCategories: List<Int>?, selectedUserQuests: Set<String>, userData: User?, quests: List<Quest>) {
         if (selectedMap == null) return
+        markers.clear()
         Timber.d(selectedCategories.toString())
         selectedMap.locations?.forEach {
             addMarkerToMap(it, map)
         }
 
         updateMarkers(selectedCategories)
+        updateQuestMarkers(selectedUserQuests.toList(), userData, quests)
     }
 
     private fun addMarkerToMap(it: MapInteractive.Location?, map: GoogleMap) {
@@ -710,6 +815,7 @@ class MapsActivity : GodActivity() {
         markers.forEach {
             if (it.tag is MapInteractive.Location) {
                 val location = it.tag as MapInteractive.Location
+                if (location.category_id == 955) return@forEach
                 it.isVisible = selectedCategories?.contains(location.category_id) != false
             }
         }
@@ -721,6 +827,56 @@ class MapsActivity : GodActivity() {
                 selectedCategories?.contains(catID ?: 0)
             }
             false
+        }
+    }
+
+    private fun updateQuestMarkers(selected: List<String> = emptyList(), userData: User?, quests: List<Quest>) {
+        Timber.d(selected.toString())
+        markers.filter {
+            if (it.tag is MapInteractive.Location) {
+                val location = it.tag as MapInteractive.Location
+                location.category_id == 955 && !location.quests.isNullOrEmpty()
+            } else {
+                false
+            }
+        }.forEach { marker ->
+            val location = marker.tag as MapInteractive.Location
+            val locationQuests = location.quests
+
+            if (locationQuests.isNullOrEmpty() || selected.isNullOrEmpty()) {
+                marker.isVisible = false
+                return@forEach
+            }
+
+            locationQuests.first { questID ->
+                val quest = quests.find { it.id.toInt() == questID }
+                quest?.let { quest ->
+                    if (userData?.isQuestCompleted(quest) == true) {
+                        if (selected.contains("Completed")) {
+                            marker.isVisible = true
+                            return@forEach
+                        }
+                    }
+
+                    if (quest.isLocked(userData)) {
+                        if (selected.contains("Locked")) {
+                            marker.isVisible = true
+                            return@forEach
+                        }
+                    }
+
+                    if (quest.isAvailable(userData)) {
+                        if (selected.contains("Active")) {
+                            marker.isVisible = true
+                            return@forEach
+                        }
+                    }
+
+                    marker.isVisible = false
+                }
+
+                true
+            }
         }
     }
 

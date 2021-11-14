@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
@@ -49,6 +50,8 @@ import kotlin.math.roundToInt
 @Composable
 fun SensitivityCalculatorScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRepo, sensitivityViewModel: SensitivityViewModel, armorPickerLauncher: ActivityResultLauncher<Intent>) {
 
+    val context = LocalContext.current
+
     val selectedArmor by sensitivityViewModel.selectedArmor.observeAsState()
     val selectedHelmet by sensitivityViewModel.selectedHelmet.observeAsState()
 
@@ -57,7 +60,7 @@ fun SensitivityCalculatorScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRe
     val newHipfire by sensitivityViewModel.newHipfire.observeAsState()
 
     val userDPI = UserSettingsModel.dpi.value
-    val userHipfire = UserSettingsModel.hipfireSens.value
+    val userHipfire = UserSettingsModel.hipfireSens.value.replace("[^0-9.]".toRegex(), "")
 
     Scaffold(
         topBar = {
@@ -76,8 +79,11 @@ fun SensitivityCalculatorScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRe
                 elevation = 0.dp,
                 actions = {
                     IconButton(onClick = {
-                        //Reset health.
-
+                        MaterialDialog(context).show {
+                            title(text = "Help")
+                            message(text = "Make sure to set your current DPI and Mouse Settings in the Settings Menu first!\n\nYou only need to change one setting, either DPI or in game, not both.\n\nVisors and Face Plates coming soon!")
+                            positiveButton(text = "GOT IT")
+                        }
                     }) {
                         Icon(Icons.Filled.Info, contentDescription = null, tint = Color.White)
                     }

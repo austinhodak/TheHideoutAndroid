@@ -387,45 +387,6 @@
     }]
   }],
   "categories": {
-    "960": {
-      "id": 960,
-      "group_id": 200,
-      "title": "Ammo Box",
-      "icon": "ammo_box",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "971": {
-      "id": 971,
-      "group_id": 200,
-      "title": "Armor",
-      "icon": "armor",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "948": {
-      "id": 948,
-      "group_id": 200,
-      "title": "Cache",
-      "icon": "cache",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
     "941": {
       "id": 941,
       "group_id": 200,
@@ -439,89 +400,11 @@
       "description": null,
       "premium": false
     },
-    "959": {
-      "id": 959,
-      "group_id": 200,
-      "title": "Dead SCAV",
-      "icon": "dead_scav",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "969": {
-      "id": 969,
-      "group_id": 200,
-      "title": "Duffle Bag",
-      "icon": "duffle_bag",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "1017": {
-      "id": 1017,
-      "group_id": 200,
-      "title": "Filing Cabinet",
-      "icon": "filing_cabinet",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
     "942": {
       "id": 942,
       "group_id": 200,
       "title": "Grenade",
       "icon": "grenade",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "961": {
-      "id": 961,
-      "group_id": 200,
-      "title": "Jacket",
-      "icon": "clothes",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "947": {
-      "id": 947,
-      "group_id": 200,
-      "title": "Key",
-      "icon": "key",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "946": {
-      "id": 946,
-      "group_id": 200,
-      "title": "Loose Loot",
-      "icon": "loose_loot",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -556,102 +439,50 @@
       "description": null,
       "premium": false
     },
+    "946": {
+      "id": 946,
+      "group_id": 200,
+      "title": "Loose Loot",
+      "icon": "loose_loot",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "947": {
+      "id": 947,
+      "group_id": 200,
+      "title": "Key",
+      "icon": "key",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "948": {
+      "id": 948,
+      "group_id": 200,
+      "title": "Cache",
+      "icon": "cache",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
     "949": {
       "id": 949,
       "group_id": 200,
       "title": "Other Loot",
       "icon": "other_loot",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "968": {
-      "id": 968,
-      "group_id": 200,
-      "title": "PC Block",
-      "icon": "pc_block",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "1016": {
-      "id": 1016,
-      "group_id": 200,
-      "title": "Provisions",
-      "icon": "provisions",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "970": {
-      "id": 970,
-      "group_id": 200,
-      "title": "Toolbox",
-      "icon": "toolbox",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "1013": {
-      "id": 1013,
-      "group_id": 200,
-      "title": "Valuable",
-      "icon": "valuable",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "958": {
-      "id": 958,
-      "group_id": 200,
-      "title": "Weapon Box",
-      "icon": "weapon_box",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "1015": {
-      "id": 1015,
-      "group_id": 200,
-      "title": "Weapon Mods",
-      "icon": "weapon_mods",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "951": {
-      "id": 951,
-      "group_id": 201,
-      "title": "Boss",
-      "icon": "boss",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -673,24 +504,11 @@
       "description": null,
       "premium": false
     },
-    "1014": {
-      "id": 1014,
-      "group_id": 202,
-      "title": "Easter Egg",
-      "icon": "easter_egg",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
-    "954": {
-      "id": 954,
-      "group_id": 202,
-      "title": "Extraction",
-      "icon": "exit",
+    "951": {
+      "id": 951,
+      "group_id": 201,
+      "title": "Boss",
+      "icon": "boss",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -712,11 +530,11 @@
       "description": null,
       "premium": false
     },
-    "957": {
-      "id": 957,
+    "953": {
+      "id": 953,
       "group_id": 202,
-      "title": "Locked Door",
-      "icon": "locked_door",
+      "title": "Spawn Point",
+      "icon": "spawn_point",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -725,11 +543,11 @@
       "description": null,
       "premium": false
     },
-    "956": {
-      "id": 956,
+    "954": {
+      "id": 954,
       "group_id": 202,
-      "title": "Miscellaneous",
-      "icon": "miscellaneous",
+      "title": "Extraction",
+      "icon": "exit",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -751,11 +569,128 @@
       "description": null,
       "premium": false
     },
-    "953": {
-      "id": 953,
+    "956": {
+      "id": 956,
       "group_id": 202,
-      "title": "Spawn Point",
-      "icon": "spawn_point",
+      "title": "Miscellaneous",
+      "icon": "miscellaneous",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "957": {
+      "id": 957,
+      "group_id": 202,
+      "title": "Locked Door",
+      "icon": "locked_door",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "958": {
+      "id": 958,
+      "group_id": 200,
+      "title": "Weapon Box",
+      "icon": "weapon_box",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "959": {
+      "id": 959,
+      "group_id": 200,
+      "title": "Dead SCAV",
+      "icon": "dead_scav",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "960": {
+      "id": 960,
+      "group_id": 200,
+      "title": "Ammo Box",
+      "icon": "ammo_box",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "961": {
+      "id": 961,
+      "group_id": 200,
+      "title": "Jacket",
+      "icon": "clothes",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "968": {
+      "id": 968,
+      "group_id": 200,
+      "title": "PC Block",
+      "icon": "pc_block",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "969": {
+      "id": 969,
+      "group_id": 200,
+      "title": "Duffle Bag",
+      "icon": "duffle_bag",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "970": {
+      "id": 970,
+      "group_id": 200,
+      "title": "Toolbox",
+      "icon": "toolbox",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "971": {
+      "id": 971,
+      "group_id": 200,
+      "title": "Armor",
+      "icon": "armor",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -769,6 +704,71 @@
       "group_id": 202,
       "title": "Transition",
       "icon": "transition",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1013": {
+      "id": 1013,
+      "group_id": 200,
+      "title": "Valuable",
+      "icon": "valuable",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1014": {
+      "id": 1014,
+      "group_id": 202,
+      "title": "Easter Egg",
+      "icon": "easter_egg",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1015": {
+      "id": 1015,
+      "group_id": 200,
+      "title": "Weapon Mods",
+      "icon": "weapon_mods",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1016": {
+      "id": 1016,
+      "group_id": 200,
+      "title": "Provisions",
+      "icon": "provisions",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1017": {
+      "id": 1017,
+      "group_id": 200,
+      "title": "Filing Cabinet",
+      "icon": "filing_cabinet",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -848,9 +848,9 @@
       "title": "",
       "file_name": "79bd28d3-6edb-4891-8581-75fd42f63a59.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/79bd28d3-6edb-4891-8581-75fd42f63a59.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/79bd28d3-6edb-4891-8581-75fd42f63a59.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -884,7 +884,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 971,
-    "title": "Armor\/Clothes",
+    "title": "Armor/Clothes",
     "description": "In the container up above (?). Use the truck and barrels to the south to climb up.",
     "latitude": "0.52866864156031",
     "longitude": "-0.63649686688245",
@@ -898,7 +898,7 @@
     "region_id": null,
     "category_id": 971,
     "title": "Armor",
-    "description": "Inside the [Object 21WS Container (#21WS)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28909)",
+    "description": "Inside the [Object 21WS Container (#21WS)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28909)",
     "latitude": "0.51095385452092",
     "longitude": "-0.65974650003920",
     "z": null,
@@ -948,9 +948,9 @@
       "title": "",
       "file_name": "5fad3d03-d348-41e6-a3fc-74f6dc24ff69.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5fad3d03-d348-41e6-a3fc-74f6dc24ff69.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5fad3d03-d348-41e6-a3fc-74f6dc24ff69.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -983,9 +983,9 @@
       "title": "",
       "file_name": "b1bb4dfb-1141-4c4d-a7b9-00d19551c1cb.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/b1bb4dfb-1141-4c4d-a7b9-00d19551c1cb.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/b1bb4dfb-1141-4c4d-a7b9-00d19551c1cb.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1005,9 +1005,9 @@
       "title": "",
       "file_name": "1727bc17-4c86-4b9c-9825-ef5473f98995.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/1727bc17-4c86-4b9c-9825-ef5473f98995.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/1727bc17-4c86-4b9c-9825-ef5473f98995.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1027,9 +1027,9 @@
       "title": "",
       "file_name": "c1c89156-a841-4d7c-9170-cf1299c4ccb4.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c1c89156-a841-4d7c-9170-cf1299c4ccb4.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/c1c89156-a841-4d7c-9170-cf1299c4ccb4.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1049,18 +1049,18 @@
       "title": "highway",
       "file_name": "fb73213d-61b5-43cc-a31a-331cfde9a1a6.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/fb73213d-61b5-43cc-a31a-331cfde9a1a6.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/fb73213d-61b5-43cc-a31a-331cfde9a1a6.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }, {
       "id": 4857,
       "title": "highway 2",
       "file_name": "a17ab010-e499-4ce1-a6a6-7e0a2fc42931.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a17ab010-e499-4ce1-a6a6-7e0a2fc42931.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/a17ab010-e499-4ce1-a6a6-7e0a2fc42931.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1080,9 +1080,9 @@
       "title": "",
       "file_name": "00c2b3a9-2646-4bc4-bbe6-585eb9a7dbe9.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/00c2b3a9-2646-4bc4-bbe6-585eb9a7dbe9.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/00c2b3a9-2646-4bc4-bbe6-585eb9a7dbe9.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1102,9 +1102,9 @@
       "title": "",
       "file_name": "09dea7ec-5054-48be-9cb6-624f729d3429.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/09dea7ec-5054-48be-9cb6-624f729d3429.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/09dea7ec-5054-48be-9cb6-624f729d3429.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1124,9 +1124,9 @@
       "title": "",
       "file_name": "aa716267-7354-41a2-b9bc-e49adef00bbb.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/aa716267-7354-41a2-b9bc-e49adef00bbb.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/aa716267-7354-41a2-b9bc-e49adef00bbb.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1146,9 +1146,9 @@
       "title": "",
       "file_name": "404f2319-bd57-4456-a35b-7e91effa4b11.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/404f2319-bd57-4456-a35b-7e91effa4b11.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/404f2319-bd57-4456-a35b-7e91effa4b11.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1168,9 +1168,9 @@
       "title": "",
       "file_name": "2d906143-ad29-43b2-a0eb-3ca4a07544ce.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2d906143-ad29-43b2-a0eb-3ca4a07544ce.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2d906143-ad29-43b2-a0eb-3ca4a07544ce.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1190,9 +1190,9 @@
       "title": "",
       "file_name": "e5ffd790-43ad-474d-bacd-b7be2f8b5672.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e5ffd790-43ad-474d-bacd-b7be2f8b5672.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/e5ffd790-43ad-474d-bacd-b7be2f8b5672.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1212,9 +1212,9 @@
       "title": "",
       "file_name": "2bd76a8f-7d9e-4249-a014-17a700146034.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2bd76a8f-7d9e-4249-a014-17a700146034.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2bd76a8f-7d9e-4249-a014-17a700146034.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1234,9 +1234,9 @@
       "title": "",
       "file_name": "db1fa11f-6d2a-438c-ab54-4e35574c3978.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/db1fa11f-6d2a-438c-ab54-4e35574c3978.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/db1fa11f-6d2a-438c-ab54-4e35574c3978.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1256,9 +1256,9 @@
       "title": "",
       "file_name": "061dbb52-21c4-4770-8937-c3319a2ac7c8.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/061dbb52-21c4-4770-8937-c3319a2ac7c8.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/061dbb52-21c4-4770-8937-c3319a2ac7c8.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1278,9 +1278,9 @@
       "title": "minivan",
       "file_name": "c7ead8ec-5ddb-41fd-bd0e-41a93b6c9d70.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c7ead8ec-5ddb-41fd-bd0e-41a93b6c9d70.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/c7ead8ec-5ddb-41fd-bd0e-41a93b6c9d70.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1300,9 +1300,9 @@
       "title": "",
       "file_name": "5e204ae6-9ce6-4e47-9cc2-06a217832672.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5e204ae6-9ce6-4e47-9cc2-06a217832672.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5e204ae6-9ce6-4e47-9cc2-06a217832672.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1322,9 +1322,9 @@
       "title": "",
       "file_name": "d1d6a7eb-442c-4609-9aaa-097a00d3963c.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d1d6a7eb-442c-4609-9aaa-097a00d3963c.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/d1d6a7eb-442c-4609-9aaa-097a00d3963c.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1344,9 +1344,9 @@
       "title": "",
       "file_name": "43433cfa-88fc-4580-9981-652345d84b1e.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/43433cfa-88fc-4580-9981-652345d84b1e.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/43433cfa-88fc-4580-9981-652345d84b1e.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1366,9 +1366,9 @@
       "title": "",
       "file_name": "8042bcfc-7d99-4aad-b5a6-c9911d4e3a6a.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/8042bcfc-7d99-4aad-b5a6-c9911d4e3a6a.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/8042bcfc-7d99-4aad-b5a6-c9911d4e3a6a.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1388,9 +1388,9 @@
       "title": "8718d-clip-1968kb",
       "file_name": "2e2be19c-3e4a-4c86-8817-2706022a3bf1.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2e2be19c-3e4a-4c86-8817-2706022a3bf1.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2e2be19c-3e4a-4c86-8817-2706022a3bf1.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -1412,7 +1412,7 @@
     "region_id": null,
     "category_id": 941,
     "title": "Wooden Crate [5x2]",
-    "description": "Inside the [Power Substation Utility Room (Pow. Ut.)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28414)",
+    "description": "Inside the [Power Substation Utility Room (Pow. Ut.)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28414)",
     "latitude": "0.86315778630262",
     "longitude": "-0.42540207203490",
     "z": null,
@@ -1618,9 +1618,9 @@
       "title": "",
       "file_name": "617d8bb0-927e-48f5-83d5-5c5757140928.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/617d8bb0-927e-48f5-83d5-5c5757140928.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/617d8bb0-927e-48f5-83d5-5c5757140928.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -2329,9 +2329,9 @@
       "title": "",
       "file_name": "7cfdcebc-c5fd-4075-b512-f95e695d9b9e.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7cfdcebc-c5fd-4075-b512-f95e695d9b9e.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/7cfdcebc-c5fd-4075-b512-f95e695d9b9e.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -2364,9 +2364,9 @@
       "title": "",
       "file_name": "3d130093-a7e7-430d-a710-5a7749c23038.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/3d130093-a7e7-430d-a710-5a7749c23038.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/3d130093-a7e7-430d-a710-5a7749c23038.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -2399,9 +2399,9 @@
       "title": "",
       "file_name": "d1ec581e-d045-43f3-b74b-5fdc6a789cef.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d1ec581e-d045-43f3-b74b-5fdc6a789cef.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/d1ec581e-d045-43f3-b74b-5fdc6a789cef.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -2837,9 +2837,9 @@
       "title": "",
       "file_name": "468506f7-8218-47c5-a818-99cf75f74b5f.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/468506f7-8218-47c5-a818-99cf75f74b5f.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/468506f7-8218-47c5-a818-99cf75f74b5f.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -2848,7 +2848,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Key to OLI Cash Register",
-    "description": "**Unlocks:** [18 x OLI Cash Registers](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28627)\n\nOn the desk in the room _without_ the computer monitor.",
+    "description": "**Unlocks:** [18 x OLI Cash Registers](https://mapgenie.io/tarkov/maps/interchange?locationIds=28627)\n\nOn the desk in the room _without_ the computer monitor.",
     "latitude": "0.60295920846748",
     "longitude": "-0.62980454611488",
     "z": null,
@@ -2861,7 +2861,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Object 11SR keycard (#11SR)",
-    "description": "Flush the urinal to access\n\n**NB:** Requires the power to be turned on. [Power Switch location](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28424)",
+    "description": "Flush the urinal to access\n\n**NB:** Requires the power to be turned on. [Power Switch location](https://mapgenie.io/tarkov/maps/interchange?locationIds=28424)",
     "latitude": "0.77054798933366",
     "longitude": "-0.23203879236632",
     "z": null,
@@ -2874,7 +2874,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Key to KIBA Store Outlet",
-    "description": "**Unlocks:** [KIBA Store](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28684)  \n**Location:** On the metal shelves with the brown jacket hanging from them.",
+    "description": "**Unlocks:** [KIBA Store](https://mapgenie.io/tarkov/maps/interchange?locationIds=28684)  \n**Location:** On the metal shelves with the brown jacket hanging from them.",
     "latitude": "0.92150200022750",
     "longitude": "-0.43190304716165",
     "z": null,
@@ -2887,7 +2887,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "RB-MP21 Key",
-    "description": "**Unlocks:** [Repair Warehouse Room (Reserve)](https:\/\/mapgenie.io\/tarkov\/maps\/reserve?locationIds=40155)  \n\nOn the wooden cabinet right behind the door in the bathrooms.",
+    "description": "**Unlocks:** [Repair Warehouse Room (Reserve)](https://mapgenie.io/tarkov/maps/reserve?locationIds=40155)  \n\nOn the wooden cabinet right behind the door in the bathrooms.",
     "latitude": "0.91380812239800",
     "longitude": "-0.43918228589882",
     "z": null,
@@ -2900,7 +2900,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "RB-OP Key",
-    "description": "**Unlocks:** [Bunker Commandant's Office (Reserve)](https:\/\/mapgenie.io\/tarkov\/maps\/reserve?locationIds=45041)\n\nInside the small wooden desk beside the coat rack.",
+    "description": "**Unlocks:** [Bunker Commandant's Office (Reserve)](https://mapgenie.io/tarkov/maps/reserve?locationIds=45041)\n\nInside the small wooden desk beside the coat rack.",
     "latitude": "0.69334080194406",
     "longitude": "-0.55144560627218",
     "z": null,
@@ -2913,7 +2913,7 @@
     "region_id": null,
     "category_id": 947,
     "title": "Key to KIBA Store Outlet",
-    "description": "**Unlocks:** [KIBA Store](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28684)  \n**Location:** Behind the tents at the scav camp.",
+    "description": "**Unlocks:** [KIBA Store](https://mapgenie.io/tarkov/maps/interchange?locationIds=28684)  \n**Location:** Behind the tents at the scav camp.",
     "latitude": "0.75240976724297",
     "longitude": "-0.49139748167499",
     "z": null,
@@ -3029,7 +3029,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 946,
-    "title": "Loose Provisions\/Ammo",
+    "title": "Loose Provisions/Ammo",
     "description": "On top of the wooden crate",
     "latitude": "0.50768498237239",
     "longitude": "-0.58500409936505",
@@ -3055,7 +3055,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 946,
-    "title": "Loose Provisions\/Ammo",
+    "title": "Loose Provisions/Ammo",
     "description": "On top of the barrels by fence",
     "latitude": "0.50270699595627",
     "longitude": "-0.59839368676739",
@@ -3628,7 +3628,7 @@
     "region_id": null,
     "category_id": 946,
     "title": "Loose Loot",
-    "description": "[OLI Logistics Office (Log. Office)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28622)",
+    "description": "[OLI Logistics Office (Log. Office)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28622)",
     "latitude": "0.60853789142683",
     "longitude": "-0.62791627096840",
     "z": null,
@@ -3641,7 +3641,7 @@
     "region_id": null,
     "category_id": 946,
     "title": "Loose Loot",
-    "description": "[OLI Administration Office (OLI Office)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28430)",
+    "description": "[OLI Administration Office (OLI Office)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28430)",
     "latitude": "0.62081097355501",
     "longitude": "-0.62808793234535",
     "z": null,
@@ -3743,9 +3743,9 @@
       "title": "",
       "file_name": "bfd5f65b-b92e-4795-a702-b125b880cf12.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/bfd5f65b-b92e-4795-a702-b125b880cf12.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/bfd5f65b-b92e-4795-a702-b125b880cf12.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -3791,9 +3791,9 @@
       "title": "",
       "file_name": "d6a2b5b2-670d-41b0-8d28-c7e8335f69d1.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d6a2b5b2-670d-41b0-8d28-c7e8335f69d1.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/d6a2b5b2-670d-41b0-8d28-c7e8335f69d1.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4333,9 +4333,9 @@
       "title": "",
       "file_name": "6b050051-7426-4cd8-8ebf-083c45dbf5d2.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/6b050051-7426-4cd8-8ebf-083c45dbf5d2.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/6b050051-7426-4cd8-8ebf-083c45dbf5d2.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4422,7 +4422,7 @@
     "region_id": null,
     "category_id": 946,
     "title": "Loose Provisions",
-    "description": "Inside the [Safe Room](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28342) extraction. On the shelves",
+    "description": "Inside the [Safe Room](https://mapgenie.io/tarkov/maps/interchange?locationIds=28342) extraction. On the shelves",
     "latitude": "0.66240237221683",
     "longitude": "-1.04349654257055",
     "z": null,
@@ -4434,7 +4434,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 946,
-    "title": "Loose Provisions\/Ammo",
+    "title": "Loose Provisions/Ammo",
     "description": "On the box near the fence",
     "latitude": "0.82653414731407",
     "longitude": "-1.00212318483420",
@@ -4487,7 +4487,7 @@
     "region_id": null,
     "category_id": 946,
     "title": "Loose Loot",
-    "description": "In the cabin. On the small table add\/or on the mattress.",
+    "description": "In the cabin. On the small table add/or on the mattress.",
     "latitude": "0.91349506274969",
     "longitude": "-0.67622876098210",
     "z": null,
@@ -4538,7 +4538,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 946,
-    "title": "Loose Loot\/Ammo",
+    "title": "Loose Loot/Ammo",
     "description": "On the table",
     "latitude": "0.71944856298632",
     "longitude": "-1.07146267678877",
@@ -4940,9 +4940,9 @@
       "title": "",
       "file_name": "d56e96ed-47c7-42c7-92e8-6998936ed0d9.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d56e96ed-47c7-42c7-92e8-6998936ed0d9.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/d56e96ed-47c7-42c7-92e8-6998936ed0d9.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4962,9 +4962,9 @@
       "title": "",
       "file_name": "b932d114-aca1-419c-8a47-98d2d36c78e3.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/b932d114-aca1-419c-8a47-98d2d36c78e3.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/b932d114-aca1-419c-8a47-98d2d36c78e3.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -4984,9 +4984,9 @@
       "title": "",
       "file_name": "45b6f66e-b7e7-4185-9d59-6e63ca837605.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/45b6f66e-b7e7-4185-9d59-6e63ca837605.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/45b6f66e-b7e7-4185-9d59-6e63ca837605.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -5006,9 +5006,9 @@
       "title": "",
       "file_name": "0d56c9f2-13ec-40ad-96c5-2da075a0c4ad.png",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/0d56c9f2-13ec-40ad-96c5-2da075a0c4ad.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/0d56c9f2-13ec-40ad-96c5-2da075a0c4ad.png",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -5056,7 +5056,7 @@
     "region_id": null,
     "category_id": 943,
     "title": "Loose Meds",
-    "description": "Inside the [Pharmacy](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28480).",
+    "description": "Inside the [Pharmacy](https://mapgenie.io/tarkov/maps/interchange?locationIds=28480).",
     "latitude": "0.85534885598011",
     "longitude": "-1.11200862312160",
     "z": null,
@@ -5069,7 +5069,7 @@
     "region_id": null,
     "category_id": 943,
     "title": "Loose Meds",
-    "description": "Inside the [Pharmacy](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28480).",
+    "description": "Inside the [Pharmacy](https://mapgenie.io/tarkov/maps/interchange?locationIds=28480).",
     "latitude": "0.85461937635392",
     "longitude": "-1.11093573951564",
     "z": null,
@@ -5160,7 +5160,7 @@
     "region_id": null,
     "category_id": 943,
     "title": "Loose Meds",
-    "description": "Inside [ULTRA Medical Storage](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28798) room.",
+    "description": "Inside [ULTRA Medical Storage](https://mapgenie.io/tarkov/maps/interchange?locationIds=28798) room.",
     "latitude": "0.66208915527824",
     "longitude": "-0.30846148260525",
     "z": null,
@@ -5316,7 +5316,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "Cash Register",
-    "description": "Inside the [Pharmacy](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28480).",
+    "description": "Inside the [Pharmacy](https://mapgenie.io/tarkov/maps/interchange?locationIds=28480).",
     "latitude": "0.85678727067741",
     "longitude": "-1.11557545661799",
     "z": null,
@@ -5329,7 +5329,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "Cash Register",
-    "description": "Inside the [Pharmacy](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28480).",
+    "description": "Inside the [Pharmacy](https://mapgenie.io/tarkov/maps/interchange?locationIds=28480).",
     "latitude": "0.85577796157785",
     "longitude": "-1.11557059669337",
     "z": null,
@@ -5342,7 +5342,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "20 x Locked Cash Register",
-    "description": "**Key:** [Key to IDEA Cash Register](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28370)",
+    "description": "**Key:** [Key to IDEA Cash Register](https://mapgenie.io/tarkov/maps/interchange?locationIds=28370)",
     "latitude": "0.85106653017212",
     "longitude": "-0.58730321734436",
     "z": null,
@@ -5407,7 +5407,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "4 x Locked Cash Register",
-    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30171)",
+    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30171)",
     "latitude": "0.76841669948891",
     "longitude": "-0.51525049636075",
     "z": null,
@@ -5420,7 +5420,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "5 x Locked Cash Register",
-    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30171)",
+    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30171)",
     "latitude": "0.75426157068174",
     "longitude": "-0.51534201204402",
     "z": null,
@@ -5433,7 +5433,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "3 x Locked Cash Register",
-    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30171)",
+    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30171)",
     "latitude": "0.73312121473957",
     "longitude": "-0.51498479546399",
     "z": null,
@@ -5446,7 +5446,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "2 x Locked Cash Register",
-    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30171)",
+    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30171)",
     "latitude": "0.72049129001242",
     "longitude": "-0.51464147271008",
     "z": null,
@@ -5459,7 +5459,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "8 x Locked Cash Register",
-    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30171)",
+    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30171)",
     "latitude": "0.70349812589725",
     "longitude": "-0.51567144097180",
     "z": null,
@@ -5472,7 +5472,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "5 x Locked Cash Register",
-    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30171)",
+    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30171)",
     "latitude": "0.68513170725941",
     "longitude": "-0.51552310485363",
     "z": null,
@@ -5485,7 +5485,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "3 x Locked Cash Register",
-    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30171)",
+    "description": "**Key:** [Key to Goshan Cash Register (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30171)",
     "latitude": "0.66562304821725",
     "longitude": "-0.50957433908764",
     "z": null,
@@ -5524,7 +5524,7 @@
     "region_id": null,
     "category_id": 945,
     "title": "18 x Locked Cash Register",
-    "description": "**Key:** [Key to OLI Cash Register](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28621)",
+    "description": "**Key:** [Key to OLI Cash Register](https://mapgenie.io/tarkov/maps/interchange?locationIds=28621)",
     "latitude": "0.62265577954904",
     "longitude": "-0.56106969451480",
     "z": null,
@@ -6146,9 +6146,9 @@
       "title": "",
       "file_name": "cdb701a3-752e-4fe9-9a02-e8bd2554f745.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/cdb701a3-752e-4fe9-9a02-e8bd2554f745.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/cdb701a3-752e-4fe9-9a02-e8bd2554f745.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -6183,7 +6183,7 @@
     "region_id": null,
     "category_id": 949,
     "title": "LEDX Skin Transilluminator",
-    "description": "Inside [ULTRA Medical Storage](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28798) room.",
+    "description": "Inside [ULTRA Medical Storage](https://mapgenie.io/tarkov/maps/interchange?locationIds=28798) room.",
     "latitude": "0.66294740478333",
     "longitude": "-0.30871897467068",
     "z": null,
@@ -6196,7 +6196,7 @@
     "region_id": null,
     "category_id": 949,
     "title": "Portable Defibrillator",
-    "description": "Inside [ULTRA Medical Storage](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28798) room.",
+    "description": "Inside [ULTRA Medical Storage](https://mapgenie.io/tarkov/maps/interchange?locationIds=28798) room.",
     "latitude": "0.66268992994740",
     "longitude": "-0.30768900640896",
     "z": null,
@@ -6285,9 +6285,9 @@
       "title": "",
       "file_name": "e383653f-824d-41fd-bd5a-e9ec70165fb5.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e383653f-824d-41fd-bd5a-e9ec70165fb5.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/e383653f-824d-41fd-bd5a-e9ec70165fb5.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -6582,7 +6582,7 @@
     "region_id": null,
     "category_id": 968,
     "title": "PC Block",
-    "description": "[OLI Logistics Office (Log. Office)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28622)",
+    "description": "[OLI Logistics Office (Log. Office)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28622)",
     "latitude": "0.60896702064693",
     "longitude": "-0.63040536093422",
     "z": null,
@@ -6595,7 +6595,7 @@
     "region_id": null,
     "category_id": 968,
     "title": "PC Block",
-    "description": "[OLI Administration Office (OLI Office)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28430)",
+    "description": "[OLI Administration Office (OLI Office)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28430)",
     "latitude": "0.62063932225181",
     "longitude": "-0.63031953024574",
     "z": null,
@@ -7139,9 +7139,9 @@
       "title": "",
       "file_name": "70e6f2d1-e2cc-49a7-bf60-67d14719b148.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/70e6f2d1-e2cc-49a7-bf60-67d14719b148.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/70e6f2d1-e2cc-49a7-bf60-67d14719b148.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -7161,9 +7161,9 @@
       "title": "",
       "file_name": "aed9a27d-d688-4c68-871b-e8e623d5e249.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/aed9a27d-d688-4c68-871b-e8e623d5e249.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/aed9a27d-d688-4c68-871b-e8e623d5e249.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -7276,7 +7276,7 @@
     "region_id": null,
     "category_id": 1013,
     "title": "Loose Valuables",
-    "description": "Inside the [Safe Room](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28342) extraction. On the couch.",
+    "description": "Inside the [Safe Room](https://mapgenie.io/tarkov/maps/interchange?locationIds=28342) extraction. On the couch.",
     "latitude": "0.66042839791623",
     "longitude": "-1.03903334676980",
     "z": null,
@@ -7289,7 +7289,7 @@
     "region_id": null,
     "category_id": 1013,
     "title": "Loose Valuables",
-    "description": "Inside the [Object 21WS Container (#21WS)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28909)",
+    "description": "Inside the [Object 21WS Container (#21WS)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28909)",
     "latitude": "0.51451568546634",
     "longitude": "-0.65970358469497",
     "z": null,
@@ -7315,7 +7315,7 @@
     "region_id": null,
     "category_id": 1013,
     "title": "Loose Valuables",
-    "description": "Graphics Card\/LEDX\/Ophthalmoscope\/Portable Defibrilator\n\nExact location (?)",
+    "description": "Graphics Card/LEDX/Ophthalmoscope/Portable Defibrilator\n\nExact location (?)",
     "latitude": "0.75567495173043",
     "longitude": "-0.58070550868911",
     "z": null,
@@ -7392,7 +7392,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 1013,
-    "title": "Graphics Card\/Tetriz",
+    "title": "Graphics Card/Tetriz",
     "description": "A GPU or Graphics card spawn frequently on shelf to right and left in the office to the door next to the power switch.",
     "latitude": "0.92212076572147",
     "longitude": "-0.43636387167817",
@@ -7418,7 +7418,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 1013,
-    "title": "Graphics Card\/Tetriz",
+    "title": "Graphics Card/Tetriz",
     "description": "A graphics card or Tetriz fequently spawn on back left U formation shelves.",
     "latitude": "0.64678376496194",
     "longitude": "-0.32931873869927",
@@ -7457,7 +7457,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 1013,
-    "title": "Graphics Card\/Tetriz Spawn",
+    "title": "Graphics Card/Tetriz Spawn",
     "description": "On the wooden shelves of store across from dark medical",
     "latitude": "0.77237442150596",
     "longitude": "-0.58669709559138",
@@ -7521,9 +7521,9 @@
       "title": "",
       "file_name": "9350dc42-ff06-4f95-bed2-bdebe7b23e19.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/9350dc42-ff06-4f95-bed2-bdebe7b23e19.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/9350dc42-ff06-4f95-bed2-bdebe7b23e19.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -7532,7 +7532,7 @@
     "region_id": null,
     "category_id": 1013,
     "title": "Loose Valuables",
-    "description": "On the shelf behind the tents (Bitcoin\/Gold Chain\/Chainlet)",
+    "description": "On the shelf behind the tents (Bitcoin/Gold Chain/Chainlet)",
     "latitude": "0.74826286518858",
     "longitude": "-0.48878480233850",
     "z": null,
@@ -7556,9 +7556,9 @@
       "title": "",
       "file_name": "687dfa6d-4478-4b2b-a246-e8c40b42ce9d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/687dfa6d-4478-4b2b-a246-e8c40b42ce9d.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/687dfa6d-4478-4b2b-a246-e8c40b42ce9d.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -7566,7 +7566,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 1013,
-    "title": "Bitcoin\/Rolers\/Chainlets",
+    "title": "Bitcoin/Rolers/Chainlets",
     "description": "BTC & other valuables spawn in the lockers.",
     "latitude": "0.68981958954528",
     "longitude": "-0.52536101116448",
@@ -7632,7 +7632,7 @@
     "region_id": null,
     "category_id": 1013,
     "title": "Loose Valuables",
-    "description": "Inside the open lockers.\n\n**Loot:** Bitcoin\/Roller\/Gold Chain",
+    "description": "Inside the open lockers.\n\n**Loot:** Bitcoin/Roller/Gold Chain",
     "latitude": "0.63898087810451",
     "longitude": "-0.55779148955867",
     "z": null,
@@ -7645,7 +7645,7 @@
     "region_id": null,
     "category_id": 1013,
     "title": "Loose Statue",
-    "description": "Lion\/Cat\/Horse - chance to spawn on top of the TV stand.",
+    "description": "Lion/Cat/Horse - chance to spawn on top of the TV stand.",
     "latitude": "0.84313650077659",
     "longitude": "-0.55156178215861",
     "z": null,
@@ -7708,9 +7708,9 @@
       "title": "",
       "file_name": "d2740c9a-2654-4c7d-afc6-c554f6304baa.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d2740c9a-2654-4c7d-afc6-c554f6304baa.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/d2740c9a-2654-4c7d-afc6-c554f6304baa.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -7719,7 +7719,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [4x4]",
-    "description": "Inside the [Power Substation Utility Room (Pow. Ut.)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28414)",
+    "description": "Inside the [Power Substation Utility Room (Pow. Ut.)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28414)",
     "latitude": "0.86573241389761",
     "longitude": "-0.42540207203490",
     "z": null,
@@ -7743,9 +7743,9 @@
       "title": "",
       "file_name": "f33cafeb-164a-4a85-8636-ed66cdf8f3a8.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f33cafeb-164a-4a85-8636-ed66cdf8f3a8.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/f33cafeb-164a-4a85-8636-ed66cdf8f3a8.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -7778,9 +7778,9 @@
       "title": "",
       "file_name": "840ce617-6b4c-4bb3-87e7-707b363ea7dd.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/840ce617-6b4c-4bb3-87e7-707b363ea7dd.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/840ce617-6b4c-4bb3-87e7-707b363ea7dd.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -8270,7 +8270,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [6x3]",
-    "description": "Inside the [Safe Room](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28342) extraction",
+    "description": "Inside the [Safe Room](https://mapgenie.io/tarkov/maps/interchange?locationIds=28342) extraction",
     "latitude": "0.66284920780313",
     "longitude": "-1.04128302755873",
     "z": null,
@@ -8283,7 +8283,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [5x2]",
-    "description": "Inside the [Safe Room](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28342) extraction. On the couch.",
+    "description": "Inside the [Safe Room](https://mapgenie.io/tarkov/maps/interchange?locationIds=28342) extraction. On the couch.",
     "latitude": "0.66025674793997",
     "longitude": "-1.04169409811254",
     "z": null,
@@ -8296,7 +8296,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [4x4]",
-    "description": "Inside the [Safe Room](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28342) extraction. On the couch.",
+    "description": "Inside the [Safe Room](https://mapgenie.io/tarkov/maps/interchange?locationIds=28342) extraction. On the couch.",
     "latitude": "0.66034257292886",
     "longitude": "-1.04435484945532",
     "z": null,
@@ -8309,7 +8309,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Locker",
-    "description": "Inside [Object 14 Container (\"Killa's Stash\")](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28903)",
+    "description": "Inside [Object 14 Container (\"Killa's Stash\")](https://mapgenie.io/tarkov/maps/interchange?locationIds=28903)",
     "latitude": "0.87897010580397",
     "longitude": "-1.03281643654475",
     "z": null,
@@ -8322,7 +8322,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Locker",
-    "description": "Inside [Object 14 Container (\"Killa's Stash\")](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28903)",
+    "description": "Inside [Object 14 Container (\"Killa's Stash\")](https://mapgenie.io/tarkov/maps/interchange?locationIds=28903)",
     "latitude": "0.87673876982887",
     "longitude": "-1.03358891274104",
     "z": null,
@@ -8335,7 +8335,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [6x3]",
-    "description": "Inside [Object 14 Container (\"Killa's Stash\")](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28903)",
+    "description": "Inside [Object 14 Container (\"Killa's Stash\")](https://mapgenie.io/tarkov/maps/interchange?locationIds=28903)",
     "latitude": "0.87886283006642",
     "longitude": "-1.03341725136409",
     "z": null,
@@ -8348,7 +8348,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Loose Weapon",
-    "description": "Inside the [Object 21WS Container (#21WS)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28909)",
+    "description": "Inside the [Object 21WS Container (#21WS)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28909)",
     "latitude": "0.51327119054203",
     "longitude": "-0.65970358469497",
     "z": null,
@@ -8361,7 +8361,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [4x4]",
-    "description": "Inside the [Object 21WS Container (#21WS)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28909)",
+    "description": "Inside the [Object 21WS Container (#21WS)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28909)",
     "latitude": "0.51279914067978",
     "longitude": "-0.65983233072768",
     "z": null,
@@ -8374,7 +8374,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [6x3]",
-    "description": "Inside the [Object 21WS Container (#21WS)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28909)",
+    "description": "Inside the [Object 21WS Container (#21WS)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28909)",
     "latitude": "0.50958061796562",
     "longitude": "-0.65867361643325",
     "z": null,
@@ -8387,7 +8387,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [5x2]",
-    "description": "Inside the [Object 21WS Container (#21WS)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28909)",
+    "description": "Inside the [Object 21WS Container (#21WS)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28909)",
     "latitude": "0.51061054540957",
     "longitude": "-0.65875944712172",
     "z": null,
@@ -8725,7 +8725,7 @@
     "region_id": null,
     "category_id": 958,
     "title": "Weapon Box [4x4]",
-    "description": "Under the wooden shed\/gazebo",
+    "description": "Under the wooden shed/gazebo",
     "latitude": "0.60385377582027",
     "longitude": "-0.55763974769752",
     "z": null,
@@ -8736,9 +8736,9 @@
       "title": "",
       "file_name": "95ab2d24-cad8-4f1c-9feb-0db21d7e6265.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/95ab2d24-cad8-4f1c-9feb-0db21d7e6265.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/95ab2d24-cad8-4f1c-9feb-0db21d7e6265.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -8771,9 +8771,9 @@
       "title": "",
       "file_name": "e22c630e-dd2f-4478-ad60-212bbf5e5ffc.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e22c630e-dd2f-4478-ad60-212bbf5e5ffc.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/e22c630e-dd2f-4478-ad60-212bbf5e5ffc.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -8806,9 +8806,9 @@
       "title": "",
       "file_name": "4d7af3d1-f9fb-4a95-94d2-88aaf13076e7.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/4d7af3d1-f9fb-4a95-94d2-88aaf13076e7.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/4d7af3d1-f9fb-4a95-94d2-88aaf13076e7.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -8828,9 +8828,9 @@
       "title": "",
       "file_name": "f079a8a9-c1b5-467e-8003-64fd6c8be366.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f079a8a9-c1b5-467e-8003-64fd6c8be366.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/f079a8a9-c1b5-467e-8003-64fd6c8be366.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -8876,9 +8876,9 @@
       "title": "",
       "file_name": "5a52e265-3745-4843-8cd9-1a39922b7669.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5a52e265-3745-4843-8cd9-1a39922b7669.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/5a52e265-3745-4843-8cd9-1a39922b7669.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -8965,7 +8965,7 @@
     "region_id": null,
     "category_id": 1015,
     "title": "Loose Weapon Mods",
-    "description": "Inside the [Safe Room](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28342) extraction. On the couch.",
+    "description": "Inside the [Safe Room](https://mapgenie.io/tarkov/maps/interchange?locationIds=28342) extraction. On the couch.",
     "latitude": "0.66248819716859",
     "longitude": "-1.03800337850805",
     "z": null,
@@ -8978,7 +8978,7 @@
     "region_id": null,
     "category_id": 1015,
     "title": "3 x Loose Weapon Mods",
-    "description": "Inside [Object 14 Container (\"Killa's Stash\")](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28903)",
+    "description": "Inside [Object 14 Container (\"Killa's Stash\")](https://mapgenie.io/tarkov/maps/interchange?locationIds=28903)",
     "latitude": "0.87819936836964",
     "longitude": "-1.03368411179520",
     "z": null,
@@ -8991,7 +8991,7 @@
     "region_id": null,
     "category_id": 1015,
     "title": "Loose Weapon Mods",
-    "description": "Inside the [Object 21WS Container (#21WS)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28909)",
+    "description": "Inside the [Object 21WS Container (#21WS)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28909)",
     "latitude": "0.51567435293627",
     "longitude": "-0.65944609262954",
     "z": null,
@@ -9004,7 +9004,7 @@
     "region_id": null,
     "category_id": 1015,
     "title": "Loose Weapon Mods",
-    "description": "Inside the [Object 21WS Container (#21WS)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28909)",
+    "description": "Inside the [Object 21WS Container (#21WS)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28909)",
     "latitude": "0.51305662242715",
     "longitude": "-0.65863070108901",
     "z": null,
@@ -9316,7 +9316,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Power Station [PMC]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2714  \n**Requirements:** 3000 Roubles, Maximum of 4 players",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✔  \n**Requirements:** 3000 Roubles, Maximum of 4 players",
     "latitude": "0.92678784334920",
     "longitude": "-0.40342510891571",
     "z": null,
@@ -9329,7 +9329,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Emercom Checkpoint [ALL]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.50891361740655",
     "longitude": "-0.36368760774167",
     "z": null,
@@ -9342,7 +9342,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Railway Exfil [ALL]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
     "latitude": "0.98351339594898",
     "longitude": "-0.87804529309096",
     "z": null,
@@ -9355,7 +9355,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Safe Room [ALL]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2714  \n**Requirements:** \n- Turn on the power switch in the Power Station\n- Flush the toilet in Burger Spot\n- Swipe Object 11SR Keycard",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✔  \n**Requirements:** \n- Turn on the power switch in the Power Station\n- Flush the toilet in Burger Spot\n- Swipe Object 11SR Keycard",
     "latitude": "0.65879772290261",
     "longitude": "-1.03808920919653",
     "z": null,
@@ -9368,7 +9368,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "SCAV Camp [ALL]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** A SCAV and PMC must extract together",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** A SCAV and PMC must extract together",
     "latitude": "0.70722244261061",
     "longitude": "-0.75469657063422",
     "z": null,
@@ -9381,7 +9381,7 @@
     "region_id": null,
     "category_id": 954,
     "title": "Hole in Fence [ALL]",
-    "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** You must remove your backpack",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** You must remove your backpack",
     "latitude": "0.71389244461080",
     "longitude": "-0.42342235824231",
     "z": null,
@@ -9392,9 +9392,9 @@
       "title": "",
       "file_name": "7e8a8ac4-d7c5-4437-8a4a-745efee4dbcd.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7e8a8ac4-d7c5-4437-8a4a-745efee4dbcd.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/7e8a8ac4-d7c5-4437-8a4a-745efee4dbcd.jpg",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -9792,7 +9792,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 952,
-    "title": "\u0410\u041f\u0422\u0415\u041a\u0410",
+    "title": "АПТЕКА",
     "description": null,
     "latitude": "0.65955300683548",
     "longitude": "-0.31167954036584",
@@ -9844,7 +9844,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 952,
-    "title": "\u0421\u041a\u041e\u0420\u041e \u041e\u0422\u041a\u0420\u042b\u0422\u0418\u0415",
+    "title": "СКОРО ОТКРЫТИЕ",
     "description": "Translation: \"Coming Soon\"",
     "latitude": "0.67028112043000",
     "longitude": "-0.30172318050256",
@@ -9857,7 +9857,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 952,
-    "title": "\u0417\u0410\u041a\u0420\u044b\u0422\u041e \u041d\u0410 \u0420\u0415\u041c\u041e\u041d\u0422",
+    "title": "ЗАКРыТО НА РЕМОНТ",
     "description": "Translation: \"Closed for Repair\"",
     "latitude": "0.68174453646167",
     "longitude": "-0.30193721831370",
@@ -9909,7 +9909,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 952,
-    "title": "\u041d\u0410-\u0421\u0412\u042f\u0417\u0418",
+    "title": "НА-СВЯЗИ",
     "description": "",
     "latitude": "0.67005968781739",
     "longitude": "-0.31157258671317",
@@ -9922,7 +9922,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 952,
-    "title": "\u041c\u0423\u0417\u0415\u0419 \u0418\u0421\u0422\u041e\u0420\u0418\u0418",
+    "title": "МУЗЕЙ ИСТОРИИ",
     "description": "**Translation:** \"History Museum\"",
     "latitude": "0.69117254735293",
     "longitude": "-0.27930024784598",
@@ -10065,7 +10065,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 952,
-    "title": "\u041f\u0423\u0428\u041a\u0418\u041d",
+    "title": "ПУШКИН",
     "description": null,
     "latitude": "0.74171138957700",
     "longitude": "-0.24384051203185",
@@ -10130,7 +10130,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 952,
-    "title": "\u041c\u0415\u0411\u0415\u041b\u042c \u041c\u041a",
+    "title": "МЕБЕЛЬ МК",
     "description": null,
     "latitude": "0.77701994745230",
     "longitude": "-0.27820592606076",
@@ -10143,7 +10143,7 @@
     "map_id": 66,
     "region_id": null,
     "category_id": 952,
-    "title": "\u0422\u0410\u0420\u0417\u0414\u0420\u0410\u0412",
+    "title": "ТАРЗДРАВ",
     "description": null,
     "latitude": "0.77831585670167",
     "longitude": "-0.29932027542600",
@@ -10274,7 +10274,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Power Substation Utility Room (Pow. Ut.)",
-    "description": "**Key:** [Key to Utility Room of Power Substation [Factory]](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=28413)",
+    "description": "**Key:** [Key to Utility Room of Power Substation [Factory]](https://mapgenie.io/tarkov/maps/factory?locationIds=28413)",
     "latitude": "0.86457141935352",
     "longitude": "-0.42459887761379",
     "z": null,
@@ -10287,7 +10287,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "OLI Administration Office (OLI Office)",
-    "description": "**Key:** [Key to OLI Administrator Office (Shoreline)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28156)",
+    "description": "**Key:** [Key to OLI Administrator Office (Shoreline)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28156)",
     "latitude": "0.61848927801008",
     "longitude": "-0.62706391051154",
     "z": null,
@@ -10300,7 +10300,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "NecrusPharm Pharmacy (Pharmacy)",
-    "description": "**Key:** [NecrusPharm Pharmacy Key (Shoreline)](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28020)",
+    "description": "**Key:** [NecrusPharm Pharmacy Key (Shoreline)](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28020)",
     "latitude": "0.85440573463088",
     "longitude": "-1.11604752540460",
     "z": null,
@@ -10313,7 +10313,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "EMERCOM Medical Unit (MES)",
-    "description": "**Key:** [Key to EMERCOM Medical Unit (Customs)](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30076)",
+    "description": "**Key:** [Key to EMERCOM Medical Unit (Customs)](https://mapgenie.io/tarkov/maps/customs?locationIds=30076)",
     "latitude": "0.76201044163526",
     "longitude": "-0.58593999285949",
     "z": null,
@@ -10326,7 +10326,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "OLI Logistics Office (Log. Office)",
-    "description": "**Key:** [Key to OLI Logistics Department Office [Customs]](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30160)",
+    "description": "**Key:** [Key to OLI Logistics Department Office [Customs]](https://mapgenie.io/tarkov/maps/customs?locationIds=30160)",
     "latitude": "0.61119849204031",
     "longitude": "-0.62602799582191",
     "z": null,
@@ -10339,7 +10339,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "KIBA Store",
-    "description": "**Requirements:**\n- [Key to KIBA Store Outlet](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=32005)\n- Key to KIBA Outlet Grate Door (Quest reward - _Gunsmith - Part 11_)\n- Requires power to be turned on - [Power Switch location](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28424).\n\n**Note:** The alarm will go off after entering - you can disable it by deactivating the alarm in two places:\n- [Kiba Alarm #1](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28724)\n- [Kiba Alarm #2](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28725)",
+    "description": "**Requirements:**\n- [Key to KIBA Store Outlet](https://mapgenie.io/tarkov/maps/interchange?locationIds=32005)\n- Key to KIBA Outlet Grate Door (Quest reward - _Gunsmith - Part 11_)\n- Requires power to be turned on - [Power Switch location](https://mapgenie.io/tarkov/maps/interchange?locationIds=28424).\n\n**Note:** The alarm will go off after entering - you can disable it by deactivating the alarm in two places:\n- [Kiba Alarm #1](https://mapgenie.io/tarkov/maps/interchange?locationIds=28724)\n- [Kiba Alarm #2](https://mapgenie.io/tarkov/maps/interchange?locationIds=28725)",
     "latitude": "0.70854770807082",
     "longitude": "-0.56415991402798",
     "z": null,
@@ -10352,7 +10352,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "ULTRA Medical Storage (Med. St.)",
-    "description": "**Key:** ULTRA Medical Storage Key (Random drop - Scavs\/Jackets)\n\n**NB:** Requires power to be turned on - [Power Switch location](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28424).",
+    "description": "**Key:** ULTRA Medical Storage Key (Random drop - Scavs/Jackets)\n\n**NB:** Requires power to be turned on - [Power Switch location](https://mapgenie.io/tarkov/maps/interchange?locationIds=28424).",
     "latitude": "0.66192053921028",
     "longitude": "-0.30983566598957",
     "z": null,
@@ -10365,7 +10365,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "Object 14 Container (\"Killa's Stash\")",
-    "description": "**Requirements:** To access, turn on the [Object 14 Power Switch](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28902) inside the [Safe Room](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28342).\n\n**Note:** The entrance to the container is around the back, in the middle of all the containers",
+    "description": "**Requirements:** To access, turn on the [Object 14 Power Switch](https://mapgenie.io/tarkov/maps/interchange?locationIds=28902) inside the [Safe Room](https://mapgenie.io/tarkov/maps/interchange?locationIds=28342).\n\n**Note:** The entrance to the container is around the back, in the middle of all the containers",
     "latitude": "0.87545146000738",
     "longitude": "-1.03324558998713",
     "z": null,
@@ -10391,7 +10391,7 @@
     "region_id": null,
     "category_id": 957,
     "title": "OLI Utility Room (OLI Ut.)",
-    "description": "**Key:** Key to Utility Room of OLI Outlet (Jackets\/Scavs)",
+    "description": "**Key:** Key to Utility Room of OLI Outlet (Jackets/Scavs)",
     "latitude": "0.63485866341100",
     "longitude": "-0.50013424203974",
     "z": null,
@@ -10428,9 +10428,9 @@
       "title": "",
       "file_name": "bcf7b6d5-9adb-4c4b-a4d3-ece2886dfcd1.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/bcf7b6d5-9adb-4c4b-a4d3-ece2886dfcd1.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/bcf7b6d5-9adb-4c4b-a4d3-ece2886dfcd1.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -10502,9 +10502,9 @@
       "title": "",
       "file_name": "d731b0c6-fdc4-441b-8ede-2ed30259b21d.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d731b0c6-fdc4-441b-8ede-2ed30259b21d.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/d731b0c6-fdc4-441b-8ede-2ed30259b21d.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -10578,7 +10578,7 @@
     "region_id": null,
     "category_id": 956,
     "title": "Car Park Door",
-    "description": "[Car Park Door](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28844)",
+    "description": "[Car Park Door](https://mapgenie.io/tarkov/maps/interchange?locationIds=28844)",
     "latitude": "0.84838784406562",
     "longitude": "-1.11982271306306",
     "z": null,
@@ -10591,7 +10591,7 @@
     "region_id": null,
     "category_id": 956,
     "title": "Object 14 Power Switch",
-    "description": "Inside the [Safe Room](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28342) extraction. On the wall above the weapon box.\n\nUsed to unlock [Object 14 Container (\"Killa's Stash\")](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28903)",
+    "description": "Inside the [Safe Room](https://mapgenie.io/tarkov/maps/interchange?locationIds=28342) extraction. On the wall above the weapon box.\n\nUsed to unlock [Object 14 Container (\"Killa's Stash\")](https://mapgenie.io/tarkov/maps/interchange?locationIds=28903)",
     "latitude": "0.66291732190517",
     "longitude": "-1.03989165365454",
     "z": null,
@@ -10641,11 +10641,12 @@
       "title": "",
       "file_name": "a0f28a37-f165-43dd-9dfd-7b68e0cb3005.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a0f28a37-f165-43dd-9dfd-7b68e0cb3005.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/a0f28a37-f165-43dd-9dfd-7b68e0cb3005.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [113]
   }, {
     "id": 28385,
     "map_id": 66,
@@ -10663,11 +10664,12 @@
       "title": "",
       "file_name": "9b8cbe1f-99d2-4aaf-a08d-067d8020995b.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/9b8cbe1f-99d2-4aaf-a08d-067d8020995b.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/9b8cbe1f-99d2-4aaf-a08d-067d8020995b.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [123]
   }, {
     "id": 28411,
     "map_id": 66,
@@ -10685,11 +10687,12 @@
       "title": "",
       "file_name": "618bc88b-ca6a-49d1-9ea5-31036816c320.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/618bc88b-ca6a-49d1-9ea5-31036816c320.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/618bc88b-ca6a-49d1-9ea5-31036816c320.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [113]
   }, {
     "id": 28412,
     "map_id": 66,
@@ -10707,11 +10710,12 @@
       "title": "",
       "file_name": "1afb5d0f-2989-4a6d-88fe-fd411b1ba2c9.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/1afb5d0f-2989-4a6d-88fe-fd411b1ba2c9.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/1afb5d0f-2989-4a6d-88fe-fd411b1ba2c9.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
-    }]
+    }],
+    "quests": [113]
   }, {
     "id": 28771,
     "map_id": 66,
@@ -10724,7 +10728,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [123]
   }, {
     "id": 28772,
     "map_id": 66,
@@ -10737,7 +10742,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [123]
   }, {
     "id": 33707,
     "map_id": 66,
@@ -10750,7 +10756,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [115]
   }, {
     "id": 33708,
     "map_id": 66,
@@ -10763,7 +10770,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [115]
   }, {
     "id": 33709,
     "map_id": 66,
@@ -10776,20 +10784,22 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [115]
   }, {
     "id": 33890,
     "map_id": 66,
     "region_id": null,
     "category_id": 955,
     "title": "OLI Cargo Route Documents",
-    "description": "**Quest:** Database - Part 2\n\n**NB:** Requires the [Key to OLI Logistics Office (Log. Office)](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28622)",
+    "description": "**Quest:** Database - Part 2\n\n**NB:** Requires the [Key to OLI Logistics Office (Log. Office)](https://mapgenie.io/tarkov/maps/interchange?locationIds=28622)",
     "latitude": "0.60794099287315",
     "longitude": "-0.62796826951285",
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [116]
   }, {
     "id": 35259,
     "map_id": 66,
@@ -10802,7 +10812,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [51]
   }, {
     "id": 37022,
     "map_id": 66,
@@ -10815,7 +10826,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [120]
   }, {
     "id": 37040,
     "map_id": 66,
@@ -10828,7 +10840,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [120]
   }, {
     "id": 37161,
     "map_id": 66,
@@ -10841,7 +10854,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [44]
   }, {
     "id": 37162,
     "map_id": 66,
@@ -10854,7 +10868,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [44]
   }, {
     "id": 37166,
     "map_id": 66,
@@ -10867,7 +10882,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [176]
   }, {
     "id": 37167,
     "map_id": 66,
@@ -10880,7 +10896,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [176]
   }, {
     "id": 41243,
     "map_id": 66,
@@ -10893,7 +10910,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [52]
   }, {
     "id": 42401,
     "map_id": 66,
@@ -10906,7 +10924,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [112]
   }, {
     "id": 42402,
     "map_id": 66,
@@ -10919,7 +10938,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [112]
   }, {
     "id": 42403,
     "map_id": 66,
@@ -10932,7 +10952,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [112]
   }, {
     "id": 42404,
     "map_id": 66,
@@ -10945,7 +10966,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [112]
   }, {
     "id": 42405,
     "map_id": 66,
@@ -10958,7 +10980,8 @@
     "z": null,
     "features": null,
     "tags": [],
-    "media": []
+    "media": [],
+    "quests": [112]
   }, {
     "id": 28338,
     "map_id": 66,
@@ -11028,9 +11051,9 @@
       "title": "2021-07-09",
       "file_name": "fa3c8a46-6893-4b55-89a1-6f0cb44fdd80.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/fa3c8a46-6893-4b55-89a1-6f0cb44fdd80.jpg",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/fa3c8a46-6893-4b55-89a1-6f0cb44fdd80.jpg",
       "type": "image",
-      "mime_type": "image\/png",
+      "mime_type": "image/png",
       "order": 10
     }]
   }, {
@@ -11128,9 +11151,9 @@
       "title": "",
       "file_name": "58ed4812-2b35-48e4-ae83-f6b11cbd7bb1.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/58ed4812-2b35-48e4-ae83-f6b11cbd7bb1.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/58ed4812-2b35-48e4-ae83-f6b11cbd7bb1.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -11267,9 +11290,9 @@
       "title": "",
       "file_name": "2aae8509-2faa-4323-af04-92d2acdf954e.jpg",
       "attribution": "",
-      "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2aae8509-2faa-4323-af04-92d2acdf954e.png",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/2aae8509-2faa-4323-af04-92d2acdf954e.png",
       "type": "image",
-      "mime_type": "image\/jpeg",
+      "mime_type": "image/jpeg",
       "order": 10
     }]
   }, {
@@ -11304,7 +11327,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Escalator #2 - Down",
-    "description": "[Escalator #2 - Up](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28565)",
+    "description": "[Escalator #2 - Up](https://mapgenie.io/tarkov/maps/interchange?locationIds=28565)",
     "latitude": "0.80364025946745",
     "longitude": "-0.56515227597004",
     "z": null,
@@ -11317,7 +11340,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Escalator #2 - Up",
-    "description": "**To:** [Escalator #2 - Down](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28564)",
+    "description": "**To:** [Escalator #2 - Down](https://mapgenie.io/tarkov/maps/interchange?locationIds=28564)",
     "latitude": "0.80460924028755",
     "longitude": "-1.06613129736797",
     "z": null,
@@ -11343,7 +11366,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Car Park Door",
-    "description": "[Car Park Door](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28843)",
+    "description": "[Car Park Door](https://mapgenie.io/tarkov/maps/interchange?locationIds=28843)",
     "latitude": "0.85317620759220",
     "longitude": "-0.62456594610876",
     "z": null,
@@ -11356,7 +11379,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Central Escalator #1 - Level 1",
-    "description": "**To:** [Central Escalator #1 - Level 2](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28848)",
+    "description": "**To:** [Central Escalator #1 - Level 2](https://mapgenie.io/tarkov/maps/interchange?locationIds=28848)",
     "latitude": "0.72373457178666",
     "longitude": "-0.60710645073232",
     "z": null,
@@ -11369,7 +11392,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Central Escalator #1 - Level 2",
-    "description": "**To:** [Central Escalator #1 - Level 1](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28847)",
+    "description": "**To:** [Central Escalator #1 - Level 1](https://mapgenie.io/tarkov/maps/interchange?locationIds=28847)",
     "latitude": "0.72478221264128",
     "longitude": "-0.29873448501576",
     "z": null,
@@ -11382,7 +11405,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Central Escalator #2 - Level 2",
-    "description": "**To:** [Central Escalator #2 - Level 1](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28851)",
+    "description": "**To:** [Central Escalator #2 - Level 1](https://mapgenie.io/tarkov/maps/interchange?locationIds=28851)",
     "latitude": "0.72512550791358",
     "longitude": "-0.27985173355091",
     "z": null,
@@ -11395,7 +11418,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Central Escalator #3 - Level 2",
-    "description": "**To:** [Central Escalator #3 - Level 1](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28852)",
+    "description": "**To:** [Central Escalator #3 - Level 1](https://mapgenie.io/tarkov/maps/interchange?locationIds=28852)",
     "latitude": "0.72495386028070",
     "longitude": "-0.24483281265248",
     "z": null,
@@ -11408,7 +11431,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Central Escalator #2 - Level 1",
-    "description": "**To:** [Central Escalator #2 - Level 2](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28849)",
+    "description": "**To:** [Central Escalator #2 - Level 2](https://mapgenie.io/tarkov/maps/interchange?locationIds=28849)",
     "latitude": "0.72395472758053",
     "longitude": "-0.58166230445545",
     "z": null,
@@ -11421,7 +11444,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Central Escalator #3 - Level 1",
-    "description": "**To:** [Central Escalator #3 - Level 2](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28850)",
+    "description": "**To:** [Central Escalator #3 - Level 2](https://mapgenie.io/tarkov/maps/interchange?locationIds=28850)",
     "latitude": "0.72361143221954",
     "longitude": "-0.55471146827381",
     "z": null,
@@ -11434,7 +11457,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "South Escalator - Level 2",
-    "description": "**To:** [South Escalator - Level 1](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28888)",
+    "description": "**To:** [South Escalator - Level 1](https://mapgenie.io/tarkov/maps/interchange?locationIds=28888)",
     "latitude": "0.64972807677438",
     "longitude": "-0.30614710857617",
     "z": null,
@@ -11447,7 +11470,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "North Escalator - Level 2",
-    "description": "**To:** [North Escalator - Level 1](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28889)",
+    "description": "**To:** [North Escalator - Level 1](https://mapgenie.io/tarkov/maps/interchange?locationIds=28889)",
     "latitude": "0.80010219532769",
     "longitude": "-0.30649043133008",
     "z": null,
@@ -11460,7 +11483,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "South Escalator - Level 1",
-    "description": "**To:** [South Escalator - Level 2](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28886)",
+    "description": "**To:** [South Escalator - Level 2](https://mapgenie.io/tarkov/maps/interchange?locationIds=28886)",
     "latitude": "0.64848843283903",
     "longitude": "-0.60572202140861",
     "z": null,
@@ -11473,7 +11496,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "North Escalator - Level 1",
-    "description": "**To:** [North Escalator - Level 2](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28887)",
+    "description": "**To:** [North Escalator - Level 2](https://mapgenie.io/tarkov/maps/interchange?locationIds=28887)",
     "latitude": "0.79854013478624",
     "longitude": "-0.60483457314422",
     "z": null,
@@ -11486,7 +11509,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Goshan Office Stairwell - Up",
-    "description": "To [Goshan Office Stairwell - Down](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=46362)",
+    "description": "To [Goshan Office Stairwell - Down](https://mapgenie.io/tarkov/maps/interchange?locationIds=46362)",
     "latitude": "0.80140961173247",
     "longitude": "-0.52755689029345",
     "z": null,
@@ -11499,7 +11522,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Goshan Office Stairwell - Down",
-    "description": "To [Goshan Office Stairwell - Up](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=46361)",
+    "description": "To [Goshan Office Stairwell - Up](https://mapgenie.io/tarkov/maps/interchange?locationIds=46361)",
     "latitude": "0.80336570140354",
     "longitude": "-0.21739246790094",
     "z": null,
@@ -11512,7 +11535,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Collapsed Floor - Parking Garage",
-    "description": "[To Collapsed Floor - Level 1](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=65881)",
+    "description": "[To Collapsed Floor - Level 1](https://mapgenie.io/tarkov/maps/interchange?locationIds=65881)",
     "latitude": "0.67904608072723",
     "longitude": "-1.07063880806584",
     "z": null,
@@ -11525,7 +11548,7 @@
     "region_id": null,
     "category_id": 972,
     "title": "Collapsed Floor - Floor 1",
-    "description": "[To Collapsed Floor - Parking Garage](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=65880)",
+    "description": "[To Collapsed Floor - Parking Garage](https://mapgenie.io/tarkov/maps/interchange?locationIds=65880)",
     "latitude": "0.67784532504825",
     "longitude": "-0.57022188794394",
     "z": null,
@@ -11590,11 +11613,31 @@
     "overzoom": false,
     "tile_sets": [{
       "name": "Light",
-      "path": "\/games\/tarkov\/interchange\/default-v1",
+      "path": "/games/tarkov/interchange/default-v1",
       "min_zoom": 8,
       "max_zoom": 16,
       "extension": "png",
       "bounds": {
+        "8": {
+          "x": {
+            "min": 127,
+            "max": 127
+          },
+          "y": {
+            "min": 127,
+            "max": 127
+          }
+        },
+        "9": {
+          "x": {
+            "min": 254,
+            "max": 255
+          },
+          "y": {
+            "min": 254,
+            "max": 255
+          }
+        },
         "10": {
           "x": {
             "min": 508,
@@ -11673,36 +11716,36 @@
           "y": {
             "min": 65024,
             "max": 65535
-          }
-        },
-        "8": {
-          "x": {
-            "min": 127,
-            "max": 127
-          },
-          "y": {
-            "min": 127,
-            "max": 127
-          }
-        },
-        "9": {
-          "x": {
-            "min": 254,
-            "max": 255
-          },
-          "y": {
-            "min": 254,
-            "max": 255
           }
         }
       }
     }, {
       "name": "Dark",
-      "path": "\/games\/tarkov\/interchange\/dark-v2",
+      "path": "/games/tarkov/interchange/dark-v2",
       "min_zoom": 8,
       "max_zoom": 16,
       "extension": "png",
       "bounds": {
+        "8": {
+          "x": {
+            "min": 127,
+            "max": 127
+          },
+          "y": {
+            "min": 127,
+            "max": 127
+          }
+        },
+        "9": {
+          "x": {
+            "min": 254,
+            "max": 255
+          },
+          "y": {
+            "min": 254,
+            "max": 255
+          }
+        },
         "10": {
           "x": {
             "min": 508,
@@ -11781,26 +11824,6 @@
           "y": {
             "min": 65024,
             "max": 65535
-          }
-        },
-        "8": {
-          "x": {
-            "min": 127,
-            "max": 127
-          },
-          "y": {
-            "min": 127,
-            "max": 127
-          }
-        },
-        "9": {
-          "x": {
-            "min": 254,
-            "max": 255
-          },
-          "y": {
-            "min": 254,
-            "max": 255
           }
         }
       }

@@ -224,12 +224,12 @@ class SettingsActivity : GodActivity() {
                                     }
                                     input(UserSettingsModel.hipfireSens) {
                                         title = "In Game Mouse Sensitivity".asText()
-                                        summary = "%s".asText()
+                                        summary = "%s".replace("[^0-9.]".toRegex(), "").asText()
                                         hint = "Mouse Sens".asText()
                                     }
                                     input(UserSettingsModel.aimSens) {
                                         title = "In Game Aim Sensitivity".asText()
-                                        summary = "%s".asText()
+                                        summary = "%s".replace("[^0-9.]".toRegex(), "").asText()
                                         hint = "Aim Sens".asText()
                                     }
                                 }

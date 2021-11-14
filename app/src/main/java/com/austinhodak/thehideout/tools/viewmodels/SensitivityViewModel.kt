@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.SearchViewModel
+import com.austinhodak.thehideout.utils.round
 import com.austinhodak.thehideout.utils.toSimArmor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
@@ -37,12 +38,12 @@ class SensitivityViewModel @Inject constructor(
     private val _newDPI = MutableLiveData(UserSettingsModel.dpi.value)
     val newDPI = _newDPI
 
-    private val _newHipfire = MutableLiveData(UserSettingsModel.hipfireSens.value.toDouble())
+    private val _newHipfire = MutableLiveData(UserSettingsModel.hipfireSens.value.replace("[^0-9.]".toRegex(), "").toDouble())
     val newHipfire = _newHipfire
 
     private fun updateChange() {
         val userDPI = UserSettingsModel.dpi.value
-        val userHipfire = UserSettingsModel.hipfireSens.value
+        val userHipfire = UserSettingsModel.hipfireSens.value.replace("[^0-9.]".toRegex(), "")
 
         val helmet = _selectedHelmet.value
         val armor = _selectedArmor.value
@@ -61,7 +62,7 @@ class SensitivityViewModel @Inject constructor(
         Timber.d(newHipfire.toString())
 
         _newDPI.value = newDPI.roundToInt()
-        _newHipfire.value = newHipfire
+        _newHipfire.value = newHipfire.round(2)
     }
 
     init {

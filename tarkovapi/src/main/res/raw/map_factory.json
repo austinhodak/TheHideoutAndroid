@@ -2,299 +2,15 @@
   "map": {
     "id": 68,
     "title": "Factory",
-    "url":  "https://tiles.mapgenie.io"
+    "url": "https://tiles.mapgenie.io"
   },
-  "groups": [
-    {
-      "id": 200,
-      "game_id": 20,
-      "title": "Loot",
-      "order": 10,
-      "color": "386150",
-      "categories": [
-        {
-          "id": 971,
-          "group_id": 200,
-          "title": "Armor",
-          "icon": "armor",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 941,
-          "group_id": 200,
-          "title": "Crate",
-          "icon": "crate",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 959,
-          "group_id": 200,
-          "title": "Dead SCAV",
-          "icon": "dead_scav",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 969,
-          "group_id": 200,
-          "title": "Duffle Bag",
-          "icon": "duffle_bag",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 1017,
-          "group_id": 200,
-          "title": "Filing Cabinet",
-          "icon": "filing_cabinet",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 961,
-          "group_id": 200,
-          "title": "Jacket",
-          "icon": "clothes",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 947,
-          "group_id": 200,
-          "title": "Key",
-          "icon": "key",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 946,
-          "group_id": 200,
-          "title": "Loose Loot",
-          "icon": "loose_loot",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 943,
-          "group_id": 200,
-          "title": "Meds",
-          "icon": "meds",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 949,
-          "group_id": 200,
-          "title": "Other Loot",
-          "icon": "other_loot",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 944,
-          "group_id": 200,
-          "title": "Safe",
-          "icon": "safe",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 970,
-          "group_id": 200,
-          "title": "Toolbox",
-          "icon": "toolbox",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 958,
-          "group_id": 200,
-          "title": "Weapon Box",
-          "icon": "weapon_box",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        }
-      ]
-    },
-    {
-      "id": 201,
-      "game_id": 20,
-      "title": "Enemies",
-      "order": 10,
-      "color": "9c3443",
-      "categories": [
-        {
-          "id": 951,
-          "group_id": 201,
-          "title": "Boss",
-          "icon": "boss",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        }
-      ]
-    },
-    {
-      "id": 202,
-      "game_id": 20,
-      "title": "Locations",
-      "order": 10,
-      "color": "453A49",
-      "categories": [
-        {
-          "id": 954,
-          "group_id": 202,
-          "title": "Extraction",
-          "icon": "exit",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 952,
-          "group_id": 202,
-          "title": "Location",
-          "icon": "location",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 957,
-          "group_id": 202,
-          "title": "Locked Door",
-          "icon": "locked_door",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 956,
-          "group_id": 202,
-          "title": "Miscellaneous",
-          "icon": "miscellaneous",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 955,
-          "group_id": 202,
-          "title": "Quest Item",
-          "icon": "quest_item",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 953,
-          "group_id": 202,
-          "title": "Spawn Point",
-          "icon": "spawn_point",
-          "info": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        }
-      ]
-    }
-  ],
-  "categories": {
-    "971": {
+  "groups": [{
+    "id": 200,
+    "game_id": 20,
+    "title": "Loot",
+    "order": 10,
+    "color": "386150",
+    "categories": [{
       "id": 971,
       "group_id": 200,
       "title": "Armor",
@@ -306,8 +22,7 @@
       "visible": true,
       "description": null,
       "premium": false
-    },
-    "941": {
+    }, {
       "id": 941,
       "group_id": 200,
       "title": "Crate",
@@ -319,8 +34,7 @@
       "visible": true,
       "description": null,
       "premium": false
-    },
-    "959": {
+    }, {
       "id": 959,
       "group_id": 200,
       "title": "Dead SCAV",
@@ -332,8 +46,7 @@
       "visible": true,
       "description": null,
       "premium": false
-    },
-    "969": {
+    }, {
       "id": 969,
       "group_id": 200,
       "title": "Duffle Bag",
@@ -345,8 +58,7 @@
       "visible": true,
       "description": null,
       "premium": false
-    },
-    "1017": {
+    }, {
       "id": 1017,
       "group_id": 200,
       "title": "Filing Cabinet",
@@ -358,8 +70,7 @@
       "visible": true,
       "description": null,
       "premium": false
-    },
-    "961": {
+    }, {
       "id": 961,
       "group_id": 200,
       "title": "Jacket",
@@ -371,8 +82,7 @@
       "visible": true,
       "description": null,
       "premium": false
-    },
-    "947": {
+    }, {
       "id": 947,
       "group_id": 200,
       "title": "Key",
@@ -384,12 +94,184 @@
       "visible": true,
       "description": null,
       "premium": false
-    },
-    "946": {
+    }, {
       "id": 946,
       "group_id": 200,
       "title": "Loose Loot",
       "icon": "loose_loot",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 943,
+      "group_id": 200,
+      "title": "Meds",
+      "icon": "meds",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 949,
+      "group_id": 200,
+      "title": "Other Loot",
+      "icon": "other_loot",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 944,
+      "group_id": 200,
+      "title": "Safe",
+      "icon": "safe",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 970,
+      "group_id": 200,
+      "title": "Toolbox",
+      "icon": "toolbox",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 958,
+      "group_id": 200,
+      "title": "Weapon Box",
+      "icon": "weapon_box",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }]
+  }, {
+    "id": 201,
+    "game_id": 20,
+    "title": "Enemies",
+    "order": 10,
+    "color": "9c3443",
+    "categories": [{
+      "id": 951,
+      "group_id": 201,
+      "title": "Boss",
+      "icon": "boss",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }]
+  }, {
+    "id": 202,
+    "game_id": 20,
+    "title": "Locations",
+    "order": 10,
+    "color": "453A49",
+    "categories": [{
+      "id": 954,
+      "group_id": 202,
+      "title": "Extraction",
+      "icon": "exit",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 952,
+      "group_id": 202,
+      "title": "Location",
+      "icon": "location",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 957,
+      "group_id": 202,
+      "title": "Locked Door",
+      "icon": "locked_door",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 956,
+      "group_id": 202,
+      "title": "Miscellaneous",
+      "icon": "miscellaneous",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 955,
+      "group_id": 202,
+      "title": "Quest Item",
+      "icon": "quest_item",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }, {
+      "id": 953,
+      "group_id": 202,
+      "title": "Spawn Point",
+      "icon": "spawn_point",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    }]
+  }],
+  "categories": {
+    "941": {
+      "id": 941,
+      "group_id": 200,
+      "title": "Crate",
+      "icon": "crate",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -411,19 +293,6 @@
       "description": null,
       "premium": false
     },
-    "949": {
-      "id": 949,
-      "group_id": 200,
-      "title": "Other Loot",
-      "icon": "other_loot",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
     "944": {
       "id": 944,
       "group_id": 200,
@@ -437,11 +306,11 @@
       "description": null,
       "premium": false
     },
-    "970": {
-      "id": 970,
+    "946": {
+      "id": 946,
       "group_id": 200,
-      "title": "Toolbox",
-      "icon": "toolbox",
+      "title": "Loose Loot",
+      "icon": "loose_loot",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -450,11 +319,24 @@
       "description": null,
       "premium": false
     },
-    "958": {
-      "id": 958,
+    "947": {
+      "id": 947,
       "group_id": 200,
-      "title": "Weapon Box",
-      "icon": "weapon_box",
+      "title": "Key",
+      "icon": "key",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "949": {
+      "id": 949,
+      "group_id": 200,
+      "title": "Other Loot",
+      "icon": "other_loot",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -476,19 +358,6 @@
       "description": null,
       "premium": false
     },
-    "954": {
-      "id": 954,
-      "group_id": 202,
-      "title": "Extraction",
-      "icon": "exit",
-      "info": null,
-      "order": 1,
-      "has_heatmap": false,
-      "features_enabled": false,
-      "visible": true,
-      "description": null,
-      "premium": false
-    },
     "952": {
       "id": 952,
       "group_id": 202,
@@ -502,11 +371,11 @@
       "description": null,
       "premium": false
     },
-    "957": {
-      "id": 957,
+    "953": {
+      "id": 953,
       "group_id": 202,
-      "title": "Locked Door",
-      "icon": "locked_door",
+      "title": "Spawn Point",
+      "icon": "spawn_point",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -515,11 +384,11 @@
       "description": null,
       "premium": false
     },
-    "956": {
-      "id": 956,
+    "954": {
+      "id": 954,
       "group_id": 202,
-      "title": "Miscellaneous",
-      "icon": "miscellaneous",
+      "title": "Extraction",
+      "icon": "exit",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -541,11 +410,115 @@
       "description": null,
       "premium": false
     },
-    "953": {
-      "id": 953,
+    "956": {
+      "id": 956,
       "group_id": 202,
-      "title": "Spawn Point",
-      "icon": "spawn_point",
+      "title": "Miscellaneous",
+      "icon": "miscellaneous",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "957": {
+      "id": 957,
+      "group_id": 202,
+      "title": "Locked Door",
+      "icon": "locked_door",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "958": {
+      "id": 958,
+      "group_id": 200,
+      "title": "Weapon Box",
+      "icon": "weapon_box",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "959": {
+      "id": 959,
+      "group_id": 200,
+      "title": "Dead SCAV",
+      "icon": "dead_scav",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "961": {
+      "id": 961,
+      "group_id": 200,
+      "title": "Jacket",
+      "icon": "clothes",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "969": {
+      "id": 969,
+      "group_id": 200,
+      "title": "Duffle Bag",
+      "icon": "duffle_bag",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "970": {
+      "id": 970,
+      "group_id": 200,
+      "title": "Toolbox",
+      "icon": "toolbox",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "971": {
+      "id": 971,
+      "group_id": 200,
+      "title": "Armor",
+      "icon": "armor",
+      "info": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "1017": {
+      "id": 1017,
+      "group_id": 200,
+      "title": "Filing Cabinet",
+      "icon": "filing_cabinet",
       "info": null,
       "order": 1,
       "has_heatmap": false,
@@ -556,1718 +529,1597 @@
     }
   },
   "regions": [],
-  "locations": [
-    {
-      "id": 33687,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 971,
-      "title": "PACA Armor Spawn",
-      "description": "Inside the container on the metal platform",
-      "latitude": "0.80626412182284",
-      "longitude": "-0.81854982915456",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": [
-        {
-          "id": 1499,
-          "title": "",
-          "file_name": "33350699-5e49-4d6d-9f12-fd6fa8e7dc70.jpg",
-          "attribution": "",
-          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/33350699-5e49-4d6d-9f12-fd6fa8e7dc70.jpg",
-          "type": "image",
-          "mime_type": "image\/png",
-          "order": 10
-        }
-      ]
-    },
-    {
-      "id": 41544,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 971,
-      "title": "3M Body Armor",
-      "description": "Potential spawn on top of the filing cabinets",
-      "latitude": "0.71695892144016",
-      "longitude": "-1.10238343384360",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25065,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "By the fence - where it's partially collapsed",
-      "latitude": "0.79840523031682",
-      "longitude": "-0.72279097033288",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25072,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "By the the blue fence and the container",
-      "latitude": "0.86307800622303",
-      "longitude": "-0.76108846802936",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25075,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "Beside the window",
-      "latitude": "0.67005758770019",
-      "longitude": "-0.95066610035997",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25076,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "Beside the window",
-      "latitude": "0.66387819683461",
-      "longitude": "-0.95066610035997",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25078,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "Beside the large wooden box",
-      "latitude": "0.65318210001068",
-      "longitude": "-0.81748553829846",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25083,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "By the servers, to the east side of the stack of wooden crates",
-      "latitude": "0.57027895268287",
-      "longitude": "-0.75661485383091",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25110,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "Just outside the door, by the stairs",
-      "latitude": "0.60935370855171",
-      "longitude": "-0.75085859151000",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25111,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "Just under the stairs",
-      "latitude": "0.71189885007444",
-      "longitude": "-0.82277538703386",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25122,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "In the alcove by the small vehicle",
-      "latitude": "0.79974655843191",
-      "longitude": "-0.75385093422108",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25123,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "In the alcove by the small vehicle",
-      "latitude": "0.80180629377093",
-      "longitude": "-0.75985908241444",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 33686,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "On the metal platform",
-      "latitude": "0.83034794202252",
-      "longitude": "-0.82472963872488",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88019,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": null,
-      "latitude": "0.64180749153095",
-      "longitude": "-0.30128669101009",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88024,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 941,
-      "title": "Wooden Crate",
-      "description": "On the back of a small truck between the forklifts.",
-      "latitude": "0.73763784087089",
-      "longitude": "-0.59226008414873",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25061,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 959,
-      "title": "Dead SCAV",
-      "description": "Inside the small bunker",
-      "latitude": "0.62211788709672",
-      "longitude": "-0.76170450536620",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 118062,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 969,
-      "title": "Duffle Bag (?)",
-      "description": null,
-      "latitude": "0.77467904623109",
-      "longitude": "-0.82757202563437",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25070,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 1017,
-      "title": "Filing Cabinet",
-      "description": "",
-      "latitude": "0.72185309143132",
-      "longitude": "-1.10259483105890",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25071,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 1017,
-      "title": "Filing Cabinet",
-      "description": "",
-      "latitude": "0.71945002224898",
-      "longitude": "-1.10259483105890",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25066,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 961,
-      "title": "Jacket",
-      "description": "At the bottom of the stairs, next to the blue lockers.",
-      "latitude": "0.76871058945547",
-      "longitude": "-0.74785353136804",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25067,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 961,
-      "title": "Jacket",
-      "description": "At the bottom of the stairs, next to the blue lockers.",
-      "latitude": "0.76838712616506",
-      "longitude": "-0.75193255387057",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25088,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 961,
-      "title": "Jacket",
-      "description": "Hanging on the wall",
-      "latitude": "0.91671721737639",
-      "longitude": "-0.57928865143833",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25089,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 961,
-      "title": "Jacket",
-      "description": "Hanging on the wall",
-      "latitude": "0.91671721737639",
-      "longitude": "-0.58409516999302",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25095,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 961,
-      "title": "Jacket",
-      "description": "Inside the [Locked Room](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=25092)",
-      "latitude": "0.78582536962331",
-      "longitude": "-1.10196570701260",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25119,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 961,
-      "title": "Jacket",
-      "description": "On the wall inside the room",
-      "latitude": "0.73602998586574",
-      "longitude": "-1.10222728605120",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25120,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 961,
-      "title": "Jacket",
-      "description": "On the wall inside the room",
-      "latitude": "0.73345527692736",
-      "longitude": "-1.10222728605120",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 118058,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 961,
-      "title": "Jacket",
-      "description": "In the inner room on the south wall.",
-      "latitude": "0.76713671706972",
-      "longitude": "-0.83466957020914",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 118059,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 961,
-      "title": "Jacket",
-      "description": "In the inner room on the south wall.",
-      "latitude": "0.76696507107572",
-      "longitude": "-0.83724449086344",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25096,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 947,
-      "title": "Portable Cabin Key of Customs Factory Zone",
-      "description": "Inside the [Locked Room](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=25092)\n\n**Unlocks:** [Portable Cabin of Customs Factory Zone [Customs]](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30110)",
-      "latitude": "0.79269117323585",
-      "longitude": "-1.11655692405360",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25112,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 947,
-      "title": "Door Key (Pumping Station)",
-      "description": "On the bench outside the showers.\n\n**Unlocks:** [Pumping Station Door](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=25113)",
-      "latitude": "0.74408170971104",
-      "longitude": "-0.96808259134764",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 28175,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 947,
-      "title": "West Wing Room 306 Key",
-      "description": "In a locker.\n\n**Unlocks:** [West Wing Room 306 [Shoreline]](https:\/\/mapgenie.io\/tarkov\/maps\/shoreline?locationIds=28174)",
-      "latitude": "0.79445610000250",
-      "longitude": "-0.97447233383207",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 28413,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 947,
-      "title": "Key to Utility Room of Power Substation",
-      "description": "Inside the blue lockers\n\n**Unlocks:** [Power Substation Utility Room [Interchange]](https:\/\/mapgenie.io\/tarkov\/maps\/interchange?locationIds=28414)",
-      "latitude": "0.91652277723864",
-      "longitude": "-0.57403056947157",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25063,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot (Propane Tank?)",
-      "description": "On the yellow truck by the wall",
-      "latitude": "0.70216120443588",
-      "longitude": "-0.68995004979979",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25064,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "In the lockers by the wall",
-      "latitude": "0.74147239386989",
-      "longitude": "-0.68995004979979",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25073,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On the blue barrels in the corner",
-      "latitude": "0.80437603319408",
-      "longitude": "-0.82528982300983",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25074,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On the barrels by the door",
-      "latitude": "0.79373406282642",
-      "longitude": "-0.79919729371295",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25077,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On top of the wooden box",
-      "latitude": "0.64328017191330",
-      "longitude": "-0.81710007857180",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25079,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On top of the barrels",
-      "latitude": "0.69889343975299",
-      "longitude": "-0.86898106403873",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25080,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On top of the barrels on the south side of the blue shipping container. Directly under the overhead walkway.",
-      "latitude": "0.61445343523577",
-      "longitude": "-0.85563407036761",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25090,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "Inside the blue lockers by the jackets",
-      "latitude": "0.91688885677776",
-      "longitude": "-0.58907334992466",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25094,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "Inside the [Locked Room](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=25092)",
-      "latitude": "0.77278031175150",
-      "longitude": "-1.11775855369230",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25115,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "Inside the Pumping Station",
-      "latitude": "0.81263429612305",
-      "longitude": "-0.64228527014643",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25117,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "Inside the lockers",
-      "latitude": "0.71831502604165",
-      "longitude": "-0.96613504429070",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25118,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On the wooden shelves",
-      "latitude": "0.72761926452492",
-      "longitude": "-1.09415920133440",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25124,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On top of the wooden box",
-      "latitude": "0.89863303052992",
-      "longitude": "-0.61243716063905",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 28332,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On the back of the yellow vehicle",
-      "latitude": "0.72694026342633",
-      "longitude": "-0.72173520061517",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 33688,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On the wooden crates inside the shipping container",
-      "latitude": "0.86239143855537",
-      "longitude": "-0.75469179692800",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 33689,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On the blue cover on top of the wooden crates",
-      "latitude": "0.60945440079513",
-      "longitude": "-0.74815715726800",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 33691,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On the chair \n\nPossible morphine spawn.",
-      "latitude": "0.76116856545090",
-      "longitude": "-1.10486000045030",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 41563,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "On top of the barrels.",
-      "latitude": "0.78554304890417",
-      "longitude": "-0.74303763542036",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 73383,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "At the bottom of the open locker",
-      "latitude": "0.60918487954159",
-      "longitude": "-0.76574864960730",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88065,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "Potential propane tank spawn on top of the boxes",
-      "latitude": "0.67224415727521",
-      "longitude": "-0.24118071568671",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 118061,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Graphics Card",
-      "description": "On top of the office desk to the left",
-      "latitude": "0.76772739024091",
-      "longitude": "-0.82293716845663",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88020,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 943,
-      "title": "Medical Supply Crate",
-      "description": null,
-      "latitude": "0.61064407493636",
-      "longitude": "-0.63998194694170",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88021,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 943,
-      "title": "Medbag SMU06",
-      "description": "Inside the medical tent - on the table surrounded by blue curtains.",
-      "latitude": "0.63261543784892",
-      "longitude": "-0.60633631705889",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 33690,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 949,
-      "title": "MBSS",
-      "description": "On the floor on the right as you enter\n\n**NB:** This is a new type of loot container post-wipe. Does not always spawn.",
-      "latitude": "0.76389294667492",
-      "longitude": "-1.10262840255000",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": [
-        {
-          "id": 1498,
-          "title": "",
-          "file_name": "b6fb29af-0aed-4a41-865a-d3c913878514.jpg",
-          "attribution": "",
-          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/b6fb29af-0aed-4a41-865a-d3c913878514.jpg",
-          "type": "image",
-          "mime_type": "image\/png",
-          "order": 10
-        }
-      ]
-    },
-    {
-      "id": 25069,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 944,
-      "title": "Safe",
-      "description": "Under the computer desk",
-      "latitude": "0.74708524036948",
-      "longitude": "-1.12044761426200",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88018,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 970,
-      "title": "Technical Supply Crate",
-      "description": null,
-      "latitude": "0.68025708015493",
-      "longitude": "-0.21785926181087",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88022,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 970,
-      "title": "Toolbox",
-      "description": "Under the large truck (down the small stairs).",
-      "latitude": "0.77302384494104",
-      "longitude": "-0.65302821159014",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 118063,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 970,
-      "title": "Toolbox",
-      "description": "On the pallet at the back of the room",
-      "latitude": "0.74177847382704",
-      "longitude": "-0.82748765230281",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25062,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 958,
-      "title": "Weapon Box [5x2]",
-      "description": "On the barrels in the corner, by the wrecked wall,",
-      "latitude": "0.61078889198522",
-      "longitude": "-0.69235330907713",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25068,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 958,
-      "title": "Loose Weapon",
-      "description": "A loose weapon or attachment will spawn by the shelves here",
-      "latitude": "0.75034652806090",
-      "longitude": "-1.09916160351990",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25082,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 958,
-      "title": "Weapon Box [6x3]",
-      "description": "At the base of the column",
-      "latitude": "0.66603196952529",
-      "longitude": "-0.84662551401334",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25091,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 958,
-      "title": "Weapon Box [5x2]",
-      "description": "On top of the blue crates just next to the ramp",
-      "latitude": "0.80398677318750",
-      "longitude": "-0.61190431305943",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25093,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 958,
-      "title": "Loose Weapon",
-      "description": "Inside the [Locked Room](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=25092)\n\n**Note:** May not always spawn",
-      "latitude": "0.79269117323585",
-      "longitude": "-1.10763053245200",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25121,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 958,
-      "title": "Weapon Box [5x2]",
-      "description": "On top of some boxes by the edge of the Silo Pit",
-      "latitude": "0.75594410162626",
-      "longitude": "-0.76289235456534",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 118060,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 958,
-      "title": "Weapon Box (?)",
-      "description": null,
-      "latitude": "0.76971140615292",
-      "longitude": "-0.83836028981364",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 85804,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 951,
-      "title": "Tagilla",
-      "description": "Appears to spawn around this area.\n\n**Loot:**\n- Superfors DB 2020 Dead Blow Hammer [Melee Weapon]\n- Tagilla's Welding Mask \"UBEY\" [Headgear]\n- Tagilla's welding mask \"Gorilla\" [Headgear]\n-\n\n**Note:** New in 0.12.11",
-      "latitude": "0.69246513635590",
-      "longitude": "-0.76835632324219",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": [
-        {
-          "id": 7986,
-          "title": "tagilla",
-          "file_name": "f26163c4-8a7e-4c57-afaa-8e30d93ed5f3.jpg",
-          "attribution": "",
-          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f26163c4-8a7e-4c57-afaa-8e30d93ed5f3.jpg",
-          "type": "image",
-          "mime_type": "image\/jpeg",
-          "order": 10
-        }
-      ]
-    },
-    {
-      "id": 25056,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 954,
-      "title": "Gate 3 [ALL]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
-      "latitude": "0.86642105422022",
-      "longitude": "-0.89967278115535",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25057,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 954,
-      "title": "Gate 0 [ALL]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** Factory Exit Key",
-      "latitude": "0.48890683159319",
-      "longitude": "-0.87106327560866",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25058,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 954,
-      "title": "Camera Bunker Door [SCAV]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
-      "latitude": "0.63737589788597",
-      "longitude": "-0.46088215112013",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25059,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 954,
-      "title": "Cellars [PMC]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** Factory Exit Key",
-      "latitude": "0.90075345682641",
-      "longitude": "-0.23875232934279",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25060,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 954,
-      "title": "Office Window [SCAV]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
-      "latitude": "0.73251428376186",
-      "longitude": "-1.12299964024240",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88025,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 954,
-      "title": "Med Tent Gates [PMC]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** Factory Emergency Exit Key",
-      "latitude": "0.62087468320462",
-      "longitude": "-0.51220323058794",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25097,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Forklifts",
-      "description": "",
-      "latitude": "0.89223638380226",
-      "longitude": "-0.56055642452282",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25098,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Glass Hall",
-      "description": "",
-      "latitude": "0.90837056116066",
-      "longitude": "-0.68689919796032",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25099,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Unloading Area",
-      "description": "",
-      "latitude": "0.85687826009905",
-      "longitude": "-0.71264840450328",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25100,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Engine Room",
-      "description": "",
-      "latitude": "0.81671378266758",
-      "longitude": "-0.72397805538219",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25101,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Changing Rooms",
-      "description": "",
-      "latitude": "0.78059041690972",
-      "longitude": "-0.96814472617575",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25103,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Processing Room",
-      "description": "",
-      "latitude": "0.73251283720414",
-      "longitude": "-0.77899642266880",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25104,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Bunker Red Light",
-      "description": "",
-      "latitude": "0.62440093601327",
-      "longitude": "-0.45919798686214",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25116,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Pumping Station",
-      "description": "",
-      "latitude": "0.80971634517647",
-      "longitude": "-0.65790645544917",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25125,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Foreman's Office",
-      "description": "",
-      "latitude": "0.73310290267500",
-      "longitude": "-1.11180234976800",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25126,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Engineer's Office [Locked Room]",
-      "description": "",
-      "latitude": "0.78202211727449",
-      "longitude": "-1.11266065665280",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25128,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Upper Platform",
-      "description": "",
-      "latitude": "0.65637088479280",
-      "longitude": "-0.95652358326754",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25129,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Lower Platform",
-      "description": "",
-      "latitude": "0.67213236525936",
-      "longitude": "-0.80982626452055",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25130,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Bridge",
-      "description": "",
-      "latitude": "0.79950455953161",
-      "longitude": "-1.06648149738150",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25131,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Holding Area",
-      "description": "",
-      "latitude": "0.65806706328205",
-      "longitude": "-0.87498568615933",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25132,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Secretary's Office",
-      "description": "",
-      "latitude": "0.75867828028523",
-      "longitude": "-1.11201195748200",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25133,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Silos",
-      "description": "",
-      "latitude": "0.70363449130149",
-      "longitude": "-0.72546700495968",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25134,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Silo Pit",
-      "description": "",
-      "latitude": "0.68869676059845",
-      "longitude": "-0.38151844259880",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 65851,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Server Room",
-      "description": "",
-      "latitude": "0.56535637608034",
-      "longitude": "-0.76179865211930",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88027,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 952,
-      "title": "Scav Bunker",
-      "description": "",
-      "latitude": "0.61444210404215",
-      "longitude": "-0.76539391090284",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25092,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 957,
-      "title": "Locked Room",
-      "description": "**Requires:** Factory Exit Key\n- [Spawn #1 [Customs]](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30122)\n- [Spawn #2 [Customs]](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30090)\n- Random Drop",
-      "latitude": "0.77539825869530",
-      "longitude": "-1.10069987930360",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25102,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 957,
-      "title": "Back Exit [Factory Key]",
-      "description": "**Requires:** Factory Emergency Exit Key\n- [Spawn #1 [Customs]](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30122)\n- [Spawn #2 [Customs]](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30090)",
-      "latitude": "0.51173449916082",
-      "longitude": "-0.87611796704402",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25113,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 957,
-      "title": "Pumping Station Door",
-      "description": "**Key:** [Door Key (Pumping Station)](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=25112)",
-      "latitude": "0.81606717689040",
-      "longitude": "-0.67218481183193",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25114,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 957,
-      "title": "Pumping Station Door (Alt)",
-      "description": "**Key:** Door Key (Random drop from dead Scavs)",
-      "latitude": "0.81958399122351",
-      "longitude": "-0.64571849768549",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88026,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 957,
-      "title": "Med Tent Gate Door (Factory)",
-      "description": "**Requires:** Factory Emergency Exit Key\n- [Spawn #1 [Customs]](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30122)\n- [Spawn #2 [Customs]](https:\/\/mapgenie.io\/tarkov\/maps\/customs?locationIds=30090)",
-      "latitude": "0.62104633450015",
-      "longitude": "-0.53666775160968",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88023,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 956,
-      "title": "Map Edit: Missing Staircase to Catwalk",
-      "description": null,
-      "latitude": "0.61492356889401",
-      "longitude": "-0.68152400016436",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 30432,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 955,
-      "title": "Gas Analyzer",
-      "description": "**Quest:** Sanitary Standards - Part 1\n\n**Note:** The Gas Analyzer is a random spawn inside the [Pumping Station](https:\/\/mapgenie.io\/tarkov\/maps\/factory?locationIds=25113). But you're more likely to find one in the Electronics stores on Interchange.",
-      "latitude": "0.80949589216608",
-      "longitude": "-0.64325024630875",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 33740,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 955,
-      "title": "Control Board #1",
-      "description": "**Quest:** Farming - Part 1",
-      "latitude": "0.89929934689595",
-      "longitude": "-0.71250320518152",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 33741,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 955,
-      "title": "Control Board #2",
-      "description": "**Quest:** Farming - Part 1",
-      "latitude": "0.87417840286919",
-      "longitude": "-0.53110147602524",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 41543,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 955,
-      "title": "Factory Swing Room",
-      "description": "**Quest:** Delivery From the Past  \n\nThis is where you need to drop off the _Secure Case For Documents 0022_",
-      "latitude": "0.81352350398353",
-      "longitude": "-0.82078503838329",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 54351,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 955,
-      "title": "Syringe with a Chemical",
-      "description": "**Quest:** Chemical - Part 3 \n\nInside the filing cabinet",
-      "latitude": "0.76615300211573",
-      "longitude": "-1.11204714635620",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 54352,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 955,
-      "title": "Postman Pat Letter",
-      "description": "**Quest:** Postman Pat - Part 1\n\nOn the neck of the dead scav",
-      "latitude": "0.61848834978852",
-      "longitude": "-0.76119320833607",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 118057,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 955,
-      "title": "Gunpowder \"Kite\" Drop Spot",
-      "description": "**Quest:** Health Care Privacy - Part 5  \n**Quest Giver:** Therapist",
-      "latitude": "0.75970815813061",
-      "longitude": "-1.11442643315210",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25081,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "Spawn Point",
-      "description": "",
-      "latitude": "0.52021596994309",
-      "longitude": "-0.87753876776219",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25105,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "Spawn Point",
-      "description": "",
-      "latitude": "0.61255699109288",
-      "longitude": "-0.45919798686214",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25106,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "Spawn Point",
-      "description": "",
-      "latitude": "0.54097618107120",
-      "longitude": "-0.84144002314747",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25107,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "Spawn - Barrel Room",
-      "description": "",
-      "latitude": "0.62220172348261",
-      "longitude": "-0.90333649540594",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25108,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "Spawn Point",
-      "description": "",
-      "latitude": "0.75201749315088",
-      "longitude": "-0.32817821579408",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25109,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "Spawn - Forklifts",
-      "description": "",
-      "latitude": "0.90757962271205",
-      "longitude": "-0.51433300380688",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25127,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "Spawn - Death Box",
-      "description": "",
-      "latitude": "0.80687587348481",
-      "longitude": "-0.58848778608990",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 25170,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "Spawn Point [PMC]",
-      "description": "",
-      "latitude": "0.86504730745275",
-      "longitude": "-0.77420787254323",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 28331,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "PMC Spawn",
-      "description": "",
-      "latitude": "0.59634001938667",
-      "longitude": "-0.71692607799650",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 41558,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "PMC Spawn",
-      "description": "",
-      "latitude": "0.79390846244733",
-      "longitude": "-0.81089142505789",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 61743,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "PMC Spawn",
-      "description": "",
-      "latitude": "0.90121473600735",
-      "longitude": "-0.66707808710339",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 88559,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "Spawn Point",
-      "description": null,
-      "latitude": "0.67650359994763",
-      "longitude": "-0.27393469977540",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": [
-        {
-          "id": 8653,
-          "title": "",
-          "file_name": "cc9a9e90-b831-4f0e-b117-3263f2587b35.jpg",
-          "attribution": "",
-          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/cc9a9e90-b831-4f0e-b117-3263f2587b35.png",
-          "type": "image",
-          "mime_type": "image\/jpeg",
-          "order": 10
-        }
-      ]
-    },
-    {
-      "id": 88576,
-      "map_id": 68,
-      "region_id": null,
-      "category_id": 953,
-      "title": "PMC Spawn",
-      "description": null,
-      "latitude": "0.65607544502860",
-      "longitude": "-0.65368652343750",
-      "z": null,
-      "features": null,
-      "tags": [],
-      "media": []
-    }
-  ],
+  "locations": [{
+    "id": 33687,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 971,
+    "title": "PACA Armor Spawn",
+    "description": "Inside the container on the metal platform",
+    "latitude": "0.80626412182284",
+    "longitude": "-0.81854982915456",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [{
+      "id": 1499,
+      "title": "",
+      "file_name": "33350699-5e49-4d6d-9f12-fd6fa8e7dc70.jpg",
+      "attribution": "",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/33350699-5e49-4d6d-9f12-fd6fa8e7dc70.jpg",
+      "type": "image",
+      "mime_type": "image/png",
+      "order": 10
+    }]
+  }, {
+    "id": 41544,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 971,
+    "title": "3M Body Armor",
+    "description": "Potential spawn on top of the filing cabinets",
+    "latitude": "0.71695892144016",
+    "longitude": "-1.10238343384360",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25065,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "By the fence - where it's partially collapsed",
+    "latitude": "0.79840523031682",
+    "longitude": "-0.72279097033288",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25072,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "By the the blue fence and the container",
+    "latitude": "0.86307800622303",
+    "longitude": "-0.76108846802936",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25075,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "Beside the window",
+    "latitude": "0.67005758770019",
+    "longitude": "-0.95066610035997",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25076,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "Beside the window",
+    "latitude": "0.66387819683461",
+    "longitude": "-0.95066610035997",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25078,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "Beside the large wooden box",
+    "latitude": "0.65318210001068",
+    "longitude": "-0.81748553829846",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25083,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "By the servers, to the east side of the stack of wooden crates",
+    "latitude": "0.57027895268287",
+    "longitude": "-0.75661485383091",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25110,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "Just outside the door, by the stairs",
+    "latitude": "0.60935370855171",
+    "longitude": "-0.75085859151000",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25111,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "Just under the stairs",
+    "latitude": "0.71189885007444",
+    "longitude": "-0.82277538703386",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25122,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "In the alcove by the small vehicle",
+    "latitude": "0.79974655843191",
+    "longitude": "-0.75385093422108",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25123,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "In the alcove by the small vehicle",
+    "latitude": "0.80180629377093",
+    "longitude": "-0.75985908241444",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 33686,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "On the metal platform",
+    "latitude": "0.83034794202252",
+    "longitude": "-0.82472963872488",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88019,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": null,
+    "latitude": "0.64180749153095",
+    "longitude": "-0.30128669101009",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88024,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 941,
+    "title": "Wooden Crate",
+    "description": "On the back of a small truck between the forklifts.",
+    "latitude": "0.73763784087089",
+    "longitude": "-0.59226008414873",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25061,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 959,
+    "title": "Dead SCAV",
+    "description": "Inside the small bunker",
+    "latitude": "0.62211788709672",
+    "longitude": "-0.76170450536620",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 118062,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 969,
+    "title": "Duffle Bag (?)",
+    "description": null,
+    "latitude": "0.77467904623109",
+    "longitude": "-0.82757202563437",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25070,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 1017,
+    "title": "Filing Cabinet",
+    "description": "",
+    "latitude": "0.72185309143132",
+    "longitude": "-1.10259483105890",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25071,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 1017,
+    "title": "Filing Cabinet",
+    "description": "",
+    "latitude": "0.71945002224898",
+    "longitude": "-1.10259483105890",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25066,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 961,
+    "title": "Jacket",
+    "description": "At the bottom of the stairs, next to the blue lockers.",
+    "latitude": "0.76871058945547",
+    "longitude": "-0.74785353136804",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25067,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 961,
+    "title": "Jacket",
+    "description": "At the bottom of the stairs, next to the blue lockers.",
+    "latitude": "0.76838712616506",
+    "longitude": "-0.75193255387057",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25088,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 961,
+    "title": "Jacket",
+    "description": "Hanging on the wall",
+    "latitude": "0.91671721737639",
+    "longitude": "-0.57928865143833",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25089,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 961,
+    "title": "Jacket",
+    "description": "Hanging on the wall",
+    "latitude": "0.91671721737639",
+    "longitude": "-0.58409516999302",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25095,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 961,
+    "title": "Jacket",
+    "description": "Inside the [Locked Room](https://mapgenie.io/tarkov/maps/factory?locationIds=25092)",
+    "latitude": "0.78582536962331",
+    "longitude": "-1.10196570701260",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25119,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 961,
+    "title": "Jacket",
+    "description": "On the wall inside the room",
+    "latitude": "0.73602998586574",
+    "longitude": "-1.10222728605120",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25120,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 961,
+    "title": "Jacket",
+    "description": "On the wall inside the room",
+    "latitude": "0.73345527692736",
+    "longitude": "-1.10222728605120",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 118058,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 961,
+    "title": "Jacket",
+    "description": "In the inner room on the south wall.",
+    "latitude": "0.76713671706972",
+    "longitude": "-0.83466957020914",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 118059,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 961,
+    "title": "Jacket",
+    "description": "In the inner room on the south wall.",
+    "latitude": "0.76696507107572",
+    "longitude": "-0.83724449086344",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25096,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 947,
+    "title": "Portable Cabin Key of Customs Factory Zone",
+    "description": "Inside the [Locked Room](https://mapgenie.io/tarkov/maps/factory?locationIds=25092)\n\n**Unlocks:** [Portable Cabin of Customs Factory Zone [Customs]](https://mapgenie.io/tarkov/maps/customs?locationIds=30110)",
+    "latitude": "0.79269117323585",
+    "longitude": "-1.11655692405360",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25112,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 947,
+    "title": "Door Key (Pumping Station)",
+    "description": "On the bench outside the showers.\n\n**Unlocks:** [Pumping Station Door](https://mapgenie.io/tarkov/maps/factory?locationIds=25113)",
+    "latitude": "0.74408170971104",
+    "longitude": "-0.96808259134764",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 28175,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 947,
+    "title": "West Wing Room 306 Key",
+    "description": "In a locker.\n\n**Unlocks:** [West Wing Room 306 [Shoreline]](https://mapgenie.io/tarkov/maps/shoreline?locationIds=28174)",
+    "latitude": "0.79445610000250",
+    "longitude": "-0.97447233383207",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 28413,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 947,
+    "title": "Key to Utility Room of Power Substation",
+    "description": "Inside the blue lockers\n\n**Unlocks:** [Power Substation Utility Room [Interchange]](https://mapgenie.io/tarkov/maps/interchange?locationIds=28414)",
+    "latitude": "0.91652277723864",
+    "longitude": "-0.57403056947157",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25063,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot (Propane Tank?)",
+    "description": "On the yellow truck by the wall",
+    "latitude": "0.70216120443588",
+    "longitude": "-0.68995004979979",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25064,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "In the lockers by the wall",
+    "latitude": "0.74147239386989",
+    "longitude": "-0.68995004979979",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25073,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On the blue barrels in the corner",
+    "latitude": "0.80437603319408",
+    "longitude": "-0.82528982300983",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25074,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On the barrels by the door",
+    "latitude": "0.79373406282642",
+    "longitude": "-0.79919729371295",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25077,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On top of the wooden box",
+    "latitude": "0.64328017191330",
+    "longitude": "-0.81710007857180",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25079,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On top of the barrels",
+    "latitude": "0.69889343975299",
+    "longitude": "-0.86898106403873",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25080,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On top of the barrels on the south side of the blue shipping container. Directly under the overhead walkway.",
+    "latitude": "0.61445343523577",
+    "longitude": "-0.85563407036761",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25090,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "Inside the blue lockers by the jackets",
+    "latitude": "0.91688885677776",
+    "longitude": "-0.58907334992466",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25094,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "Inside the [Locked Room](https://mapgenie.io/tarkov/maps/factory?locationIds=25092)",
+    "latitude": "0.77278031175150",
+    "longitude": "-1.11775855369230",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25115,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "Inside the Pumping Station",
+    "latitude": "0.81263429612305",
+    "longitude": "-0.64228527014643",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25117,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "Inside the lockers",
+    "latitude": "0.71831502604165",
+    "longitude": "-0.96613504429070",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25118,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On the wooden shelves",
+    "latitude": "0.72761926452492",
+    "longitude": "-1.09415920133440",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25124,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On top of the wooden box",
+    "latitude": "0.89863303052992",
+    "longitude": "-0.61243716063905",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 28332,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On the back of the yellow vehicle",
+    "latitude": "0.72694026342633",
+    "longitude": "-0.72173520061517",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 33688,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On the wooden crates inside the shipping container",
+    "latitude": "0.86239143855537",
+    "longitude": "-0.75469179692800",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 33689,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On the blue cover on top of the wooden crates",
+    "latitude": "0.60945440079513",
+    "longitude": "-0.74815715726800",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 33691,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On the chair \n\nPossible morphine spawn.",
+    "latitude": "0.76116856545090",
+    "longitude": "-1.10486000045030",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 41563,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "On top of the barrels.",
+    "latitude": "0.78554304890417",
+    "longitude": "-0.74303763542036",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 73383,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "At the bottom of the open locker",
+    "latitude": "0.60918487954159",
+    "longitude": "-0.76574864960730",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88065,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Loose Loot",
+    "description": "Potential propane tank spawn on top of the boxes",
+    "latitude": "0.67224415727521",
+    "longitude": "-0.24118071568671",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 118061,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 946,
+    "title": "Graphics Card",
+    "description": "On top of the office desk to the left",
+    "latitude": "0.76772739024091",
+    "longitude": "-0.82293716845663",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88020,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 943,
+    "title": "Medical Supply Crate",
+    "description": null,
+    "latitude": "0.61064407493636",
+    "longitude": "-0.63998194694170",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88021,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 943,
+    "title": "Medbag SMU06",
+    "description": "Inside the medical tent - on the table surrounded by blue curtains.",
+    "latitude": "0.63261543784892",
+    "longitude": "-0.60633631705889",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 33690,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 949,
+    "title": "MBSS",
+    "description": "On the floor on the right as you enter\n\n**NB:** This is a new type of loot container post-wipe. Does not always spawn.",
+    "latitude": "0.76389294667492",
+    "longitude": "-1.10262840255000",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [{
+      "id": 1498,
+      "title": "",
+      "file_name": "b6fb29af-0aed-4a41-865a-d3c913878514.jpg",
+      "attribution": "",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/b6fb29af-0aed-4a41-865a-d3c913878514.jpg",
+      "type": "image",
+      "mime_type": "image/png",
+      "order": 10
+    }]
+  }, {
+    "id": 25069,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 944,
+    "title": "Safe",
+    "description": "Under the computer desk",
+    "latitude": "0.74708524036948",
+    "longitude": "-1.12044761426200",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88018,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 970,
+    "title": "Technical Supply Crate",
+    "description": null,
+    "latitude": "0.68025708015493",
+    "longitude": "-0.21785926181087",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88022,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 970,
+    "title": "Toolbox",
+    "description": "Under the large truck (down the small stairs).",
+    "latitude": "0.77302384494104",
+    "longitude": "-0.65302821159014",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 118063,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 970,
+    "title": "Toolbox",
+    "description": "On the pallet at the back of the room",
+    "latitude": "0.74177847382704",
+    "longitude": "-0.82748765230281",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25062,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 958,
+    "title": "Weapon Box [5x2]",
+    "description": "On the barrels in the corner, by the wrecked wall,",
+    "latitude": "0.61078889198522",
+    "longitude": "-0.69235330907713",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25068,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 958,
+    "title": "Loose Weapon",
+    "description": "A loose weapon or attachment will spawn by the shelves here",
+    "latitude": "0.75034652806090",
+    "longitude": "-1.09916160351990",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25082,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 958,
+    "title": "Weapon Box [6x3]",
+    "description": "At the base of the column",
+    "latitude": "0.66603196952529",
+    "longitude": "-0.84662551401334",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25091,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 958,
+    "title": "Weapon Box [5x2]",
+    "description": "On top of the blue crates just next to the ramp",
+    "latitude": "0.80398677318750",
+    "longitude": "-0.61190431305943",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25093,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 958,
+    "title": "Loose Weapon",
+    "description": "Inside the [Locked Room](https://mapgenie.io/tarkov/maps/factory?locationIds=25092)\n\n**Note:** May not always spawn",
+    "latitude": "0.79269117323585",
+    "longitude": "-1.10763053245200",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25121,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 958,
+    "title": "Weapon Box [5x2]",
+    "description": "On top of some boxes by the edge of the Silo Pit",
+    "latitude": "0.75594410162626",
+    "longitude": "-0.76289235456534",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 118060,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 958,
+    "title": "Weapon Box (?)",
+    "description": null,
+    "latitude": "0.76971140615292",
+    "longitude": "-0.83836028981364",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 85804,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 951,
+    "title": "Tagilla",
+    "description": "Appears to spawn around this area.\n\n**Loot:**\n- Superfors DB 2020 Dead Blow Hammer [Melee Weapon]\n- Tagilla's Welding Mask \"UBEY\" [Headgear]\n- Tagilla's welding mask \"Gorilla\" [Headgear]\n-\n\n**Note:** New in 0.12.11",
+    "latitude": "0.69246513635590",
+    "longitude": "-0.76835632324219",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [{
+      "id": 7986,
+      "title": "tagilla",
+      "file_name": "f26163c4-8a7e-4c57-afaa-8e30d93ed5f3.jpg",
+      "attribution": "",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/f26163c4-8a7e-4c57-afaa-8e30d93ed5f3.jpg",
+      "type": "image",
+      "mime_type": "image/jpeg",
+      "order": 10
+    }]
+  }, {
+    "id": 25056,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 954,
+    "title": "Gate 3 [ALL]",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
+    "latitude": "0.86642105422022",
+    "longitude": "-0.89967278115535",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25057,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 954,
+    "title": "Gate 0 [ALL]",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** Factory Exit Key",
+    "latitude": "0.48890683159319",
+    "longitude": "-0.87106327560866",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25058,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 954,
+    "title": "Camera Bunker Door [SCAV]",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
+    "latitude": "0.63737589788597",
+    "longitude": "-0.46088215112013",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25059,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 954,
+    "title": "Cellars [PMC]",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** Factory Exit Key",
+    "latitude": "0.90075345682641",
+    "longitude": "-0.23875232934279",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25060,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 954,
+    "title": "Office Window [SCAV]",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** -",
+    "latitude": "0.73251428376186",
+    "longitude": "-1.12299964024240",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88025,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 954,
+    "title": "Med Tent Gates [PMC]",
+    "description": "**Always Open:** ✔  \n**Single Use:** ✘  \n**Requirements:** Factory Emergency Exit Key",
+    "latitude": "0.62087468320462",
+    "longitude": "-0.51220323058794",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25097,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Forklifts",
+    "description": "",
+    "latitude": "0.89223638380226",
+    "longitude": "-0.56055642452282",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25098,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Glass Hall",
+    "description": "",
+    "latitude": "0.90837056116066",
+    "longitude": "-0.68689919796032",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25099,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Unloading Area",
+    "description": "",
+    "latitude": "0.85687826009905",
+    "longitude": "-0.71264840450328",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25100,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Engine Room",
+    "description": "",
+    "latitude": "0.81671378266758",
+    "longitude": "-0.72397805538219",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25101,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Changing Rooms",
+    "description": "",
+    "latitude": "0.78059041690972",
+    "longitude": "-0.96814472617575",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25103,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Processing Room",
+    "description": "",
+    "latitude": "0.73251283720414",
+    "longitude": "-0.77899642266880",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25104,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Bunker Red Light",
+    "description": "",
+    "latitude": "0.62440093601327",
+    "longitude": "-0.45919798686214",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25116,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Pumping Station",
+    "description": "",
+    "latitude": "0.80971634517647",
+    "longitude": "-0.65790645544917",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25125,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Foreman's Office",
+    "description": "",
+    "latitude": "0.73310290267500",
+    "longitude": "-1.11180234976800",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25126,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Engineer's Office [Locked Room]",
+    "description": "",
+    "latitude": "0.78202211727449",
+    "longitude": "-1.11266065665280",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25128,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Upper Platform",
+    "description": "",
+    "latitude": "0.65637088479280",
+    "longitude": "-0.95652358326754",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25129,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Lower Platform",
+    "description": "",
+    "latitude": "0.67213236525936",
+    "longitude": "-0.80982626452055",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25130,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Bridge",
+    "description": "",
+    "latitude": "0.79950455953161",
+    "longitude": "-1.06648149738150",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25131,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Holding Area",
+    "description": "",
+    "latitude": "0.65806706328205",
+    "longitude": "-0.87498568615933",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25132,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Secretary's Office",
+    "description": "",
+    "latitude": "0.75867828028523",
+    "longitude": "-1.11201195748200",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25133,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Silos",
+    "description": "",
+    "latitude": "0.70363449130149",
+    "longitude": "-0.72546700495968",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25134,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Silo Pit",
+    "description": "",
+    "latitude": "0.68869676059845",
+    "longitude": "-0.38151844259880",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 65851,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Server Room",
+    "description": "",
+    "latitude": "0.56535637608034",
+    "longitude": "-0.76179865211930",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88027,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 952,
+    "title": "Scav Bunker",
+    "description": "",
+    "latitude": "0.61444210404215",
+    "longitude": "-0.76539391090284",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25092,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 957,
+    "title": "Locked Room",
+    "description": "**Requires:** Factory Exit Key\n- [Spawn #1 [Customs]](https://mapgenie.io/tarkov/maps/customs?locationIds=30122)\n- [Spawn #2 [Customs]](https://mapgenie.io/tarkov/maps/customs?locationIds=30090)\n- Random Drop",
+    "latitude": "0.77539825869530",
+    "longitude": "-1.10069987930360",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25102,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 957,
+    "title": "Back Exit [Factory Key]",
+    "description": "**Requires:** Factory Emergency Exit Key\n- [Spawn #1 [Customs]](https://mapgenie.io/tarkov/maps/customs?locationIds=30122)\n- [Spawn #2 [Customs]](https://mapgenie.io/tarkov/maps/customs?locationIds=30090)",
+    "latitude": "0.51173449916082",
+    "longitude": "-0.87611796704402",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25113,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 957,
+    "title": "Pumping Station Door",
+    "description": "**Key:** [Door Key (Pumping Station)](https://mapgenie.io/tarkov/maps/factory?locationIds=25112)",
+    "latitude": "0.81606717689040",
+    "longitude": "-0.67218481183193",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25114,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 957,
+    "title": "Pumping Station Door (Alt)",
+    "description": "**Key:** Door Key (Random drop from dead Scavs)",
+    "latitude": "0.81958399122351",
+    "longitude": "-0.64571849768549",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88026,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 957,
+    "title": "Med Tent Gate Door (Factory)",
+    "description": "**Requires:** Factory Emergency Exit Key\n- [Spawn #1 [Customs]](https://mapgenie.io/tarkov/maps/customs?locationIds=30122)\n- [Spawn #2 [Customs]](https://mapgenie.io/tarkov/maps/customs?locationIds=30090)",
+    "latitude": "0.62104633450015",
+    "longitude": "-0.53666775160968",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88023,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 956,
+    "title": "Map Edit: Missing Staircase to Catwalk",
+    "description": null,
+    "latitude": "0.61492356889401",
+    "longitude": "-0.68152400016436",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 30432,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 955,
+    "title": "Gas Analyzer",
+    "description": "**Quest:** Sanitary Standards - Part 1\n\n**Note:** The Gas Analyzer is a random spawn inside the [Pumping Station](https://mapgenie.io/tarkov/maps/factory?locationIds=25113). But you're more likely to find one in the Electronics stores on Interchange.",
+    "latitude": "0.80949589216608",
+    "longitude": "-0.64325024630875",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [],
+    "quests": [20]
+  }, {
+    "id": 33740,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 955,
+    "title": "Control Board #1",
+    "description": "**Quest:** Farming - Part 1",
+    "latitude": "0.89929934689595",
+    "longitude": "-0.71250320518152",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [],
+    "quests": [104]
+  }, {
+    "id": 33741,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 955,
+    "title": "Control Board #2",
+    "description": "**Quest:** Farming - Part 1",
+    "latitude": "0.87417840286919",
+    "longitude": "-0.53110147602524",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [],
+    "quests": [104]
+  }, {
+    "id": 41543,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 955,
+    "title": "Factory Swing Room",
+    "description": "**Quest:** Delivery From the Past  \n\nThis is where you need to drop off the _Secure Case For Documents 0022_",
+    "latitude": "0.81352350398353",
+    "longitude": "-0.82078503838329",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [],
+    "quests": [3]
+  }, {
+    "id": 54351,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 955,
+    "title": "Syringe with a Chemical",
+    "description": "**Quest:** Chemical - Part 3 \n\nInside the filing cabinet",
+    "latitude": "0.76615300211573",
+    "longitude": "-1.11204714635620",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [],
+    "quests": [42]
+  }, {
+    "id": 54352,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 955,
+    "title": "Postman Pat Letter",
+    "description": "**Quest:** Postman Pat - Part 1\n\nOn the neck of the dead scav",
+    "latitude": "0.61848834978852",
+    "longitude": "-0.76119320833607",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [],
+    "quests": [7]
+  }, {
+    "id": 118057,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 955,
+    "title": "Gunpowder \"Kite\" Drop Spot",
+    "description": "**Quest:** Health Care Privacy - Part 5  \n**Quest Giver:** Therapist",
+    "latitude": "0.75970815813061",
+    "longitude": "-1.11442643315210",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [],
+    "quests": [32]
+  }, {
+    "id": 25081,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "Spawn Point",
+    "description": "",
+    "latitude": "0.52021596994309",
+    "longitude": "-0.87753876776219",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25105,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "Spawn Point",
+    "description": "",
+    "latitude": "0.61255699109288",
+    "longitude": "-0.45919798686214",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25106,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "Spawn Point",
+    "description": "",
+    "latitude": "0.54097618107120",
+    "longitude": "-0.84144002314747",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25107,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "Spawn - Barrel Room",
+    "description": "",
+    "latitude": "0.62220172348261",
+    "longitude": "-0.90333649540594",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25108,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "Spawn Point",
+    "description": "",
+    "latitude": "0.75201749315088",
+    "longitude": "-0.32817821579408",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25109,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "Spawn - Forklifts",
+    "description": "",
+    "latitude": "0.90757962271205",
+    "longitude": "-0.51433300380688",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25127,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "Spawn - Death Box",
+    "description": "",
+    "latitude": "0.80687587348481",
+    "longitude": "-0.58848778608990",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 25170,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "Spawn Point [PMC]",
+    "description": "",
+    "latitude": "0.86504730745275",
+    "longitude": "-0.77420787254323",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 28331,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "PMC Spawn",
+    "description": "",
+    "latitude": "0.59634001938667",
+    "longitude": "-0.71692607799650",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 41558,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "PMC Spawn",
+    "description": "",
+    "latitude": "0.79390846244733",
+    "longitude": "-0.81089142505789",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 61743,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "PMC Spawn",
+    "description": "",
+    "latitude": "0.90121473600735",
+    "longitude": "-0.66707808710339",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }, {
+    "id": 88559,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "Spawn Point",
+    "description": null,
+    "latitude": "0.67650359994763",
+    "longitude": "-0.27393469977540",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": [{
+      "id": 8653,
+      "title": "",
+      "file_name": "cc9a9e90-b831-4f0e-b117-3263f2587b35.jpg",
+      "attribution": "",
+      "url": "https://storage-cdn.mapgenie.io/storage/media/cc9a9e90-b831-4f0e-b117-3263f2587b35.png",
+      "type": "image",
+      "mime_type": "image/jpeg",
+      "order": 10
+    }]
+  }, {
+    "id": 88576,
+    "map_id": 68,
+    "region_id": null,
+    "category_id": 953,
+    "title": "PMC Spawn",
+    "description": null,
+    "latitude": "0.65607544502860",
+    "longitude": "-0.65368652343750",
+    "z": null,
+    "features": null,
+    "tags": [],
+    "media": []
+  }],
   "heatmapGroups": [],
   "heatmapCategories": [],
   "notes": [],
@@ -2280,20 +2132,16 @@
     "lineStyle": {
       "strokeColor": "#fdf3cf"
     },
-    "speeds": [
-      {
-        "name": "Sprinting - Pistol",
-        "speedMps": 7
-      },
-      {
-        "name": "Sprinting",
-        "speedMps": 6.2
-      },
-      {
-        "name": "Walking",
-        "speedMps": 3.1
-      }
-    ]
+    "speeds": [{
+      "name": "Sprinting - Pistol",
+      "speedMps": 7
+    }, {
+      "name": "Sprinting",
+      "speedMps": 6.2
+    }, {
+      "name": "Walking",
+      "speedMps": 3.1
+    }]
   },
   "mapConfig": {
     "initial_zoom": 11,
@@ -2301,335 +2149,331 @@
     "start_lng": -0.83770751953125,
     "overlay": null,
     "overzoom": false,
-    "tile_sets": [
-      {
-        "name": "Light",
-        "path": "\/games\/tarkov\/factory\/default-v2",
-        "min_zoom": 9,
-        "max_zoom": 15,
-        "extension": "png",
-        "bounds": {
-          "10": {
-            "x": {
-              "min": 508,
-              "max": 511
-            },
-            "y": {
-              "min": 508,
-              "max": 511
-            }
+    "tile_sets": [{
+      "name": "Light",
+      "path": "/games/tarkov/factory/default-v2",
+      "min_zoom": 9,
+      "max_zoom": 15,
+      "extension": "png",
+      "bounds": {
+        "8": {
+          "x": {
+            "min": 127,
+            "max": 127
           },
-          "11": {
-            "x": {
-              "min": 1016,
-              "max": 1023
-            },
-            "y": {
-              "min": 1016,
-              "max": 1023
-            }
-          },
-          "12": {
-            "x": {
-              "min": 2032,
-              "max": 2047
-            },
-            "y": {
-              "min": 2032,
-              "max": 2047
-            }
-          },
-          "13": {
-            "x": {
-              "min": 4064,
-              "max": 4095
-            },
-            "y": {
-              "min": 4064,
-              "max": 4095
-            }
-          },
-          "14": {
-            "x": {
-              "min": 8128,
-              "max": 8191
-            },
-            "y": {
-              "min": 8128,
-              "max": 8191
-            }
-          },
-          "15": {
-            "x": {
-              "min": 16256,
-              "max": 16383
-            },
-            "y": {
-              "min": 16256,
-              "max": 16383
-            }
-          },
-          "16": {
-            "x": {
-              "min": 32512,
-              "max": 32767
-            },
-            "y": {
-              "min": 32512,
-              "max": 32767
-            }
-          },
-          "17": {
-            "x": {
-              "min": 65024,
-              "max": 65535
-            },
-            "y": {
-              "min": 65024,
-              "max": 65535
-            }
-          },
-          "8": {
-            "x": {
-              "min": 127,
-              "max": 127
-            },
-            "y": {
-              "min": 127,
-              "max": 127
-            }
-          },
-          "9": {
-            "x": {
-              "min": 254,
-              "max": 255
-            },
-            "y": {
-              "min": 254,
-              "max": 255
-            }
+          "y": {
+            "min": 127,
+            "max": 127
           }
-        }
-      },
-      {
-        "name": "Dark",
-        "path": "\/games\/tarkov\/factory\/dark-v2",
-        "min_zoom": 9,
-        "max_zoom": 15,
-        "extension": "png",
-        "bounds": {
-          "10": {
-            "x": {
-              "min": 508,
-              "max": 511
-            },
-            "y": {
-              "min": 508,
-              "max": 511
-            }
+        },
+        "9": {
+          "x": {
+            "min": 254,
+            "max": 255
           },
-          "11": {
-            "x": {
-              "min": 1016,
-              "max": 1023
-            },
-            "y": {
-              "min": 1016,
-              "max": 1023
-            }
-          },
-          "12": {
-            "x": {
-              "min": 2032,
-              "max": 2047
-            },
-            "y": {
-              "min": 2032,
-              "max": 2047
-            }
-          },
-          "13": {
-            "x": {
-              "min": 4064,
-              "max": 4095
-            },
-            "y": {
-              "min": 4064,
-              "max": 4095
-            }
-          },
-          "14": {
-            "x": {
-              "min": 8128,
-              "max": 8191
-            },
-            "y": {
-              "min": 8128,
-              "max": 8191
-            }
-          },
-          "15": {
-            "x": {
-              "min": 16256,
-              "max": 16383
-            },
-            "y": {
-              "min": 16256,
-              "max": 16383
-            }
-          },
-          "16": {
-            "x": {
-              "min": 32512,
-              "max": 32767
-            },
-            "y": {
-              "min": 32512,
-              "max": 32767
-            }
-          },
-          "17": {
-            "x": {
-              "min": 65024,
-              "max": 65535
-            },
-            "y": {
-              "min": 65024,
-              "max": 65535
-            }
-          },
-          "8": {
-            "x": {
-              "min": 127,
-              "max": 127
-            },
-            "y": {
-              "min": 127,
-              "max": 127
-            }
-          },
-          "9": {
-            "x": {
-              "min": 254,
-              "max": 255
-            },
-            "y": {
-              "min": 254,
-              "max": 255
-            }
+          "y": {
+            "min": 254,
+            "max": 255
           }
-        }
-      },
-      {
-        "name": "0.12.10",
-        "path": "\/games\/tarkov\/factory\/default-v1",
-        "min_zoom": 9,
-        "max_zoom": 15,
-        "extension": "png",
-        "bounds": {
-          "10": {
-            "x": {
-              "min": 508,
-              "max": 511
-            },
-            "y": {
-              "min": 508,
-              "max": 511
-            }
+        },
+        "10": {
+          "x": {
+            "min": 508,
+            "max": 511
           },
-          "11": {
-            "x": {
-              "min": 1016,
-              "max": 1023
-            },
-            "y": {
-              "min": 1016,
-              "max": 1023
-            }
+          "y": {
+            "min": 508,
+            "max": 511
+          }
+        },
+        "11": {
+          "x": {
+            "min": 1016,
+            "max": 1023
           },
-          "12": {
-            "x": {
-              "min": 2032,
-              "max": 2047
-            },
-            "y": {
-              "min": 2032,
-              "max": 2047
-            }
+          "y": {
+            "min": 1016,
+            "max": 1023
+          }
+        },
+        "12": {
+          "x": {
+            "min": 2032,
+            "max": 2047
           },
-          "13": {
-            "x": {
-              "min": 4064,
-              "max": 4095
-            },
-            "y": {
-              "min": 4064,
-              "max": 4095
-            }
+          "y": {
+            "min": 2032,
+            "max": 2047
+          }
+        },
+        "13": {
+          "x": {
+            "min": 4064,
+            "max": 4095
           },
-          "14": {
-            "x": {
-              "min": 8128,
-              "max": 8191
-            },
-            "y": {
-              "min": 8128,
-              "max": 8191
-            }
+          "y": {
+            "min": 4064,
+            "max": 4095
+          }
+        },
+        "14": {
+          "x": {
+            "min": 8128,
+            "max": 8191
           },
-          "15": {
-            "x": {
-              "min": 16256,
-              "max": 16383
-            },
-            "y": {
-              "min": 16256,
-              "max": 16383
-            }
+          "y": {
+            "min": 8128,
+            "max": 8191
+          }
+        },
+        "15": {
+          "x": {
+            "min": 16256,
+            "max": 16383
           },
-          "16": {
-            "x": {
-              "min": 32512,
-              "max": 32767
-            },
-            "y": {
-              "min": 32512,
-              "max": 32767
-            }
+          "y": {
+            "min": 16256,
+            "max": 16383
+          }
+        },
+        "16": {
+          "x": {
+            "min": 32512,
+            "max": 32767
           },
-          "17": {
-            "x": {
-              "min": 65024,
-              "max": 65535
-            },
-            "y": {
-              "min": 65024,
-              "max": 65535
-            }
+          "y": {
+            "min": 32512,
+            "max": 32767
+          }
+        },
+        "17": {
+          "x": {
+            "min": 65024,
+            "max": 65535
           },
-          "8": {
-            "x": {
-              "min": 127,
-              "max": 127
-            },
-            "y": {
-              "min": 127,
-              "max": 127
-            }
-          },
-          "9": {
-            "x": {
-              "min": 254,
-              "max": 255
-            },
-            "y": {
-              "min": 254,
-              "max": 255
-            }
+          "y": {
+            "min": 65024,
+            "max": 65535
           }
         }
       }
-    ]
+    }, {
+      "name": "Dark",
+      "path": "/games/tarkov/factory/dark-v2",
+      "min_zoom": 9,
+      "max_zoom": 15,
+      "extension": "png",
+      "bounds": {
+        "8": {
+          "x": {
+            "min": 127,
+            "max": 127
+          },
+          "y": {
+            "min": 127,
+            "max": 127
+          }
+        },
+        "9": {
+          "x": {
+            "min": 254,
+            "max": 255
+          },
+          "y": {
+            "min": 254,
+            "max": 255
+          }
+        },
+        "10": {
+          "x": {
+            "min": 508,
+            "max": 511
+          },
+          "y": {
+            "min": 508,
+            "max": 511
+          }
+        },
+        "11": {
+          "x": {
+            "min": 1016,
+            "max": 1023
+          },
+          "y": {
+            "min": 1016,
+            "max": 1023
+          }
+        },
+        "12": {
+          "x": {
+            "min": 2032,
+            "max": 2047
+          },
+          "y": {
+            "min": 2032,
+            "max": 2047
+          }
+        },
+        "13": {
+          "x": {
+            "min": 4064,
+            "max": 4095
+          },
+          "y": {
+            "min": 4064,
+            "max": 4095
+          }
+        },
+        "14": {
+          "x": {
+            "min": 8128,
+            "max": 8191
+          },
+          "y": {
+            "min": 8128,
+            "max": 8191
+          }
+        },
+        "15": {
+          "x": {
+            "min": 16256,
+            "max": 16383
+          },
+          "y": {
+            "min": 16256,
+            "max": 16383
+          }
+        },
+        "16": {
+          "x": {
+            "min": 32512,
+            "max": 32767
+          },
+          "y": {
+            "min": 32512,
+            "max": 32767
+          }
+        },
+        "17": {
+          "x": {
+            "min": 65024,
+            "max": 65535
+          },
+          "y": {
+            "min": 65024,
+            "max": 65535
+          }
+        }
+      }
+    }, {
+      "name": "0.12.10",
+      "path": "/games/tarkov/factory/default-v1",
+      "min_zoom": 9,
+      "max_zoom": 15,
+      "extension": "png",
+      "bounds": {
+        "8": {
+          "x": {
+            "min": 127,
+            "max": 127
+          },
+          "y": {
+            "min": 127,
+            "max": 127
+          }
+        },
+        "9": {
+          "x": {
+            "min": 254,
+            "max": 255
+          },
+          "y": {
+            "min": 254,
+            "max": 255
+          }
+        },
+        "10": {
+          "x": {
+            "min": 508,
+            "max": 511
+          },
+          "y": {
+            "min": 508,
+            "max": 511
+          }
+        },
+        "11": {
+          "x": {
+            "min": 1016,
+            "max": 1023
+          },
+          "y": {
+            "min": 1016,
+            "max": 1023
+          }
+        },
+        "12": {
+          "x": {
+            "min": 2032,
+            "max": 2047
+          },
+          "y": {
+            "min": 2032,
+            "max": 2047
+          }
+        },
+        "13": {
+          "x": {
+            "min": 4064,
+            "max": 4095
+          },
+          "y": {
+            "min": 4064,
+            "max": 4095
+          }
+        },
+        "14": {
+          "x": {
+            "min": 8128,
+            "max": 8191
+          },
+          "y": {
+            "min": 8128,
+            "max": 8191
+          }
+        },
+        "15": {
+          "x": {
+            "min": 16256,
+            "max": 16383
+          },
+          "y": {
+            "min": 16256,
+            "max": 16383
+          }
+        },
+        "16": {
+          "x": {
+            "min": 32512,
+            "max": 32767
+          },
+          "y": {
+            "min": 32512,
+            "max": 32767
+          }
+        },
+        "17": {
+          "x": {
+            "min": 65024,
+            "max": 65535
+          },
+          "y": {
+            "min": 65024,
+            "max": 65535
+          }
+        }
+      }
+    }]
   },
   "proCategoryLocationCounts": [],
   "searchQuery": null

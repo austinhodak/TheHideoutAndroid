@@ -61,7 +61,8 @@ data class MapInteractive(
         var region_id: Any? = null,
         var tags: List<Any?>? = null,
         var title: String? = null,
-        var z: Any? = null
+        var z: Any? = null,
+        var quests: List<Int>? = null
     ) {
         data class Media(
             var attribution: String? = null,
@@ -77,6 +78,8 @@ data class MapInteractive(
         fun getFormattedDescription(): String {
             return description ?: ""
         }
+        
+        fun isQuest(): Boolean = category_id == 955
     }
 
     data class Map(

@@ -85,6 +85,11 @@ data class User(
         return q?.completed == true
     }
 
+    fun isQuestCompleted(id: Int): Boolean {
+        val q = quests?.values?.find { it?.id == id }
+        return q?.completed == true
+    }
+
     fun isObjectiveCompleted(objective: Quest.QuestObjective): Boolean {
         val o = questObjectives?.values?.find { it?.id == objective.id?.toInt() }
         return objective.number == o?.progress
