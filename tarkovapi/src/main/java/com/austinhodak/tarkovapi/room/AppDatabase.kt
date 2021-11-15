@@ -177,7 +177,7 @@ abstract class AppDatabase : RoomDatabase() {
                 //val itemsChunked = items.chunked(900)
 
                 for (item in items) {
-                    Timber.d("UPDATE PRICING")
+                    Timber.d("UPDATE PRICING | ${item?.shortName} | ${item?.id} | ${items.indexOf(item)}/${items.count()}")
                     if (item != null)
                         itemDao.updateAllPricing(item.id, item)
                 }

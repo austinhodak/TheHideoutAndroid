@@ -44,6 +44,8 @@ import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.MapInteractive
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
@@ -136,7 +138,16 @@ class MapsActivity : GodActivity() {
 
             var selectedPoints: Pair<LatLng?, LatLng?>? = null
 
-            val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
+            //val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
+
+            var quests by remember {
+                mutableStateOf(listOf<Quest>())
+            }
+
+            LaunchedEffect("quests") {
+                val list = tarkovRepo.getAllQuestsOnce()
+                quests = list
+            }
 
             scope.launch {
                 selectedMap?.let {
@@ -331,7 +342,8 @@ class MapsActivity : GodActivity() {
                                                             string = category,
                                                             selected = selectedUserQuests.contains(category)
                                                         ) {
-                                                            isPremium {
+                                                            isPremium { premium ->
+                                                                val it = true
                                                                 if (it) {
                                                                     val list = selectedUserQuests.toMutableList()
                                                                     if (selectedUserQuests.contains(category)) {
@@ -820,14 +832,14 @@ class MapsActivity : GodActivity() {
             }
         }
 
-        val isMarkerOnMap = markers.find {
+        /*val isMarkerOnMap = markers.find {
             if (it.tag is MapInteractive.Location) {
                 val location = it.tag as MapInteractive.Location
                 val catID = location.category_id
                 selectedCategories?.contains(catID ?: 0)
             }
             false
-        }
+        }*/
     }
 
     private fun updateQuestMarkers(selected: List<String> = emptyList(), userData: User?, quests: List<Quest>) {
@@ -840,6 +852,7 @@ class MapsActivity : GodActivity() {
                 false
             }
         }.forEach { marker ->
+            //Timber.d("TEST!")
             val location = marker.tag as MapInteractive.Location
             val locationQuests = location.quests
 
