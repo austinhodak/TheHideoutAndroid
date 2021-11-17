@@ -27,6 +27,7 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val mapQuestSelection by stringSetPref(setOf("Active", "Locked", "Completed"), "mapQuestSelection")
 
     val playerIGN by stringPref(key = "playerIGN")
+    val discordName by stringPref(key = "discordName")
 
     val fleaVisiblePrice by enumPref(FleaVisiblePrice.AVG, "fleaVisiblePrice")
 

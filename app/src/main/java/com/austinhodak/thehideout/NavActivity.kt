@@ -70,7 +70,8 @@ import javax.inject.Inject
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @AndroidEntryPoint
-class NavActivity : GodActivity() {
+class
+NavActivity : GodActivity() {
 
     private val navViewModel: NavViewModel by viewModels()
     private val fleaViewModel: FleaViewModel by viewModels()

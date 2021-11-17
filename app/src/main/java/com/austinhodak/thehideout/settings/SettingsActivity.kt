@@ -177,6 +177,11 @@ class SettingsActivity : GodActivity() {
                                         summary = "%s".asText()
                                         hint = "Name".asText()
                                     }
+                                    input(UserSettingsModel.discordName) {
+                                        title = "Discord Name".asText()
+                                        summary = "%s".asText()
+                                        hint = "Username#0000".asText()
+                                    }
                                     input(UserSettingsModel.playerLevel) {
                                         title = "Player Level".asText()
                                         summary = "Level %s".asText()
