@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.quests
 
+import android.content.Intent
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -11,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -48,6 +50,8 @@ import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
+import com.austinhodak.thehideout.pickers.PickerActivity
+import com.austinhodak.thehideout.quests.inraid.QuestInRaidActivity
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
 import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.pager.*
@@ -69,6 +73,7 @@ fun QuestMainScreen(
 ) {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -79,125 +84,262 @@ fun QuestMainScreen(
     val userData by questViewModel.userData.observeAsState()
 
     HideoutTheme {
-        Scaffold(
-            scaffoldState = scaffoldState,
-            bottomBar = {
-                QuestBottomNav(navController = navController)
-            },
-            floatingActionButton = {
-                /*FloatingActionButton(onClick = { }) {
-                    Icon(Icons.Filled.PlayArrow, contentDescription = "")
-                }*/
-            },
-            topBar = {
-                if (isSearchOpen) {
-                    SearchToolbar(
-                        onClosePressed = {
-                            questViewModel.setSearchOpen(false)
-                            questViewModel.clearSearch()
-                        },
-                        onValue = {
-                            questViewModel.setSearchKey(it)
-                        }
-                    )
-                } else {
-                    TopAppBar(
-                        title = {
-                            val selected by questViewModel.view.observeAsState()
-                            val scrollState = rememberScrollState()
-                            Row(
-                                Modifier.horizontalScroll(scrollState),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-
-                                when (navBackStackEntry?.destination?.route) {
-                                    BottomNavigationScreens.Overview.route,
-                                    BottomNavigationScreens.Items.route -> {
-                                        Text(
-                                            "Quests",
-                                            modifier = Modifier.padding(end = 16.dp)
-                                        )
-                                    }
-                                    BottomNavigationScreens.Quests.route,
-                                    BottomNavigationScreens.Maps.route -> {
-                                        Chip(text = "Available", selected = selected == QuestFilter.AVAILABLE) {
-                                            questViewModel.setView(QuestFilter.AVAILABLE)
-                                        }
-                                        Chip(text = "Locked", selected = selected == QuestFilter.LOCKED) {
-                                            questViewModel.setView(QuestFilter.LOCKED)
-                                        }
-                                        Chip(text = "Completed", selected = selected == QuestFilter.COMPLETED) {
-                                            questViewModel.setView(QuestFilter.COMPLETED)
-                                        }
-                                        Chip(text = "All", selected = selected == QuestFilter.ALL) {
-                                            questViewModel.setView(QuestFilter.ALL)
-                                        }
-                                    }
-                                    else -> {
-                                        Text(
-                                            "Quests",
-                                            modifier = Modifier.padding(end = 16.dp)
-                                        )
-                                    }
-                                }
-                            }
-                        },
-                        navigationIcon = {
-                            IconButton(onClick = {
-                                navViewModel.isDrawerOpen.value = true
-                            }) {
-                                Icon(Icons.Filled.Menu, contentDescription = null, tint = White)
-                            }
-                        },
-                        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-                        elevation = 0.dp,
-                        actions = {
-                            when (navBackStackEntry?.destination?.route) {
-                                BottomNavigationScreens.Maps.route,
-                                BottomNavigationScreens.Quests.route -> {
-                                    IconButton(onClick = {
-                                        questViewModel.setSearchOpen(true)
-                                    }) {
-                                        Icon(Icons.Filled.Search, contentDescription = null, tint = White)
-                                    }
-                                }
-                            }
-                        }
-                    )
-                }
-            }
-        ) { padding ->
-            if (isSearchOpen) {
-                QuestSearchBody(searchKey, quests, userData, questViewModel, scope)
-                return@Scaffold
-            }
-
-            if (quests.isNullOrEmpty()) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 32.dp)
+        BottomSheetScaffold(
+            sheetContent = {
+                Column(
+                    Modifier
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    CircularProgressIndicator(
-                        color = MaterialTheme.colors.secondary
+                    MapCard(
+                        mapName = "Customs",
+                        mapSubtitle = "8-12 Players • 45 Minutes",
+                        icon = R.drawable.icons8_structural_96
                     )
-                }
-            } else {
-                NavHost(navController = navController, startDestination = BottomNavigationScreens.Overview.route) {
-                    composable(BottomNavigationScreens.Overview.route) {
-                        QuestOverviewScreen(questViewModel = questViewModel, tarkovRepo = tarkovRepo, quests)
-                    }
-                    composable(BottomNavigationScreens.Quests.route) {
-                        QuestTradersScreen(questViewModel = questViewModel, scope = scope, quests = quests, padding = padding, isMapTab = false)
-                    }
-                    composable(BottomNavigationScreens.Items.route) {
+                    MapCard(
+                        mapName = "Factory",
+                        mapSubtitle = "4-6 Players • 20-25 Minutes",
+                        icon = R.drawable.icons8_factory_breakdown_96
+                    )
+                    MapCard(
+                        mapName = "Interchange",
+                        mapSubtitle = "10-14 Players • 50 Minutes",
+                        icon = R.drawable.icons8_shopping_mall_96
+                    )
+                    MapCard(
+                        mapName = "Reserve",
+                        mapSubtitle = "9-12 Players • 50 Minutes",
+                        icon = R.drawable.icons8_knight_96
+                    )
+                    MapCard(
+                        mapName = "Shoreline",
+                        mapSubtitle = "10-13 Players • 50 Minutes",
+                        icon = R.drawable.icons8_bay_96
+                    )
+                    MapCard(
+                        mapName = "The Lab",
+                        mapSubtitle = "6-10 Players • 40 Minutes",
+                        icon = R.drawable.icons8_laboratory_96
+                    )
+                    MapCard(
+                        mapName = "Woods",
+                        mapSubtitle = "8-14 Players • 50 Minutes",
+                        icon = R.drawable.icons8_forest_96
+                    )
 
+                }
+            },
+            scaffoldState = bottomSheetScaffoldState,
+            sheetPeekHeight = 0.dp,
+            sheetBackgroundColor = Color(0xFF303030),
+            sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+        ) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                bottomBar = {
+                    QuestBottomNav(navController = navController)
+                },
+                floatingActionButton = {
+                    FloatingActionButton(onClick = {
+                        scope.launch {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        }
+                    }) {
+                        Icon(Icons.Filled.PlayArrow, contentDescription = "", tint = Color.Black)
                     }
-                    composable(BottomNavigationScreens.Maps.route) {
-                        QuestTradersScreen(questViewModel = questViewModel, scope = scope, quests = quests, padding = padding, isMapTab = true)
+                },
+                topBar = {
+                    if (isSearchOpen) {
+                        SearchToolbar(
+                            onClosePressed = {
+                                questViewModel.setSearchOpen(false)
+                                questViewModel.clearSearch()
+                            },
+                            onValue = {
+                                questViewModel.setSearchKey(it)
+                            }
+                        )
+                    } else {
+                        TopAppBar(
+                            title = {
+                                val selected by questViewModel.view.observeAsState()
+                                val scrollState = rememberScrollState()
+                                Row(
+                                    Modifier.horizontalScroll(scrollState),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+
+                                    when (navBackStackEntry?.destination?.route) {
+                                        BottomNavigationScreens.Overview.route,
+                                        BottomNavigationScreens.Items.route -> {
+                                            Text(
+                                                "Quests",
+                                                modifier = Modifier.padding(end = 16.dp)
+                                            )
+                                        }
+                                        BottomNavigationScreens.Quests.route,
+                                        BottomNavigationScreens.Maps.route -> {
+                                            Chip(
+                                                text = "Available",
+                                                selected = selected == QuestFilter.AVAILABLE
+                                            ) {
+                                                questViewModel.setView(QuestFilter.AVAILABLE)
+                                            }
+                                            Chip(
+                                                text = "Locked",
+                                                selected = selected == QuestFilter.LOCKED
+                                            ) {
+                                                questViewModel.setView(QuestFilter.LOCKED)
+                                            }
+                                            Chip(
+                                                text = "Completed",
+                                                selected = selected == QuestFilter.COMPLETED
+                                            ) {
+                                                questViewModel.setView(QuestFilter.COMPLETED)
+                                            }
+                                            Chip(
+                                                text = "All",
+                                                selected = selected == QuestFilter.ALL
+                                            ) {
+                                                questViewModel.setView(QuestFilter.ALL)
+                                            }
+                                        }
+                                        else -> {
+                                            Text(
+                                                "Quests",
+                                                modifier = Modifier.padding(end = 16.dp)
+                                            )
+                                        }
+                                    }
+                                }
+                            },
+                            navigationIcon = {
+                                IconButton(onClick = {
+                                    navViewModel.isDrawerOpen.value = true
+                                }) {
+                                    Icon(Icons.Filled.Menu, contentDescription = null, tint = White)
+                                }
+                            },
+                            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+                            elevation = 0.dp,
+                            actions = {
+                                when (navBackStackEntry?.destination?.route) {
+                                    BottomNavigationScreens.Maps.route,
+                                    BottomNavigationScreens.Quests.route -> {
+                                        IconButton(onClick = {
+                                            questViewModel.setSearchOpen(true)
+                                        }) {
+                                            Icon(
+                                                Icons.Filled.Search,
+                                                contentDescription = null,
+                                                tint = White
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        )
+                    }
+                },
+                isFloatingActionButtonDocked = true
+            ) { padding ->
+                if (isSearchOpen) {
+                    QuestSearchBody(searchKey, quests, userData, questViewModel, scope)
+                    return@Scaffold
+                }
+
+                if (quests.isNullOrEmpty()) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 32.dp)
+                    ) {
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colors.secondary
+                        )
+                    }
+                } else {
+                    NavHost(
+                        navController = navController,
+                        startDestination = BottomNavigationScreens.Overview.route
+                    ) {
+                        composable(BottomNavigationScreens.Overview.route) {
+                            QuestOverviewScreen(
+                                questViewModel = questViewModel,
+                                tarkovRepo = tarkovRepo,
+                                quests
+                            )
+                        }
+                        composable(BottomNavigationScreens.Quests.route) {
+                            QuestTradersScreen(
+                                questViewModel = questViewModel,
+                                scope = scope,
+                                quests = quests,
+                                padding = padding,
+                                isMapTab = false
+                            )
+                        }
+                        composable(BottomNavigationScreens.Items.route) {
+
+                        }
+                        composable(BottomNavigationScreens.Maps.route) {
+                            QuestTradersScreen(
+                                questViewModel = questViewModel,
+                                scope = scope,
+                                quests = quests,
+                                padding = padding,
+                                isMapTab = true
+                            )
+                        }
                     }
                 }
+            }
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun MapCard(
+    mapName: String,
+    mapSubtitle: String,
+    @DrawableRes icon: Int
+) {
+
+    val context = LocalContext.current
+
+    BottomCard({
+        context.startActivity(
+            Intent(context, QuestInRaidActivity::class.java).apply {
+                putExtra("type", "ammo")
+            })
+    }) {
+        Row(
+            Modifier.padding(all = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = icon),
+                contentDescription = "",
+                modifier = Modifier.size(40.dp)
+            )
+            Column(
+                Modifier.padding(start = 16.dp)
+            ) {
+                Text(
+                    text = mapName,
+                    style = MaterialTheme.typography.subtitle1,
+                    fontWeight = FontWeight.Medium,
+                    color = White
+                )
+                Text(
+                    text = mapSubtitle,
+                    style = MaterialTheme.typography.caption,
+                    fontSize = 10.sp,
+                    color = White
+                )
             }
         }
     }
@@ -341,7 +483,10 @@ private fun QuestTradersScreen(
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
+                contentPadding = PaddingValues(
+                    top = 4.dp,
+                    bottom = padding.calculateBottomPadding()
+                )
             ) {
                 data.forEach {
                     item {
@@ -384,7 +529,9 @@ private fun QuestCard(
                                 "collect", "find", "key", "build" -> {
                                     val itemID = requirement.target?.first()
                                     itemID?.let {
-                                        userRefTracker("items/${it}/questObjective/${requirement.id?.addQuotes()}").setValue(requirement.number)
+                                        userRefTracker("items/${it}/questObjective/${requirement.id?.addQuotes()}").setValue(
+                                            requirement.number
+                                        )
                                     }
                                 }
                             }
@@ -410,7 +557,8 @@ private fun QuestCard(
                 )
                 Text(
                     modifier = Modifier.padding(start = 16.dp),
-                    text = "${quest.trader().id}", style = MaterialTheme.typography.caption)
+                    text = "${quest.trader().id}", style = MaterialTheme.typography.caption
+                )
             }
             Row(
                 Modifier.padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 16.dp)
@@ -560,7 +708,10 @@ private fun TraderTabs(
         modifier = Modifier.fillMaxWidth(),
         selectedTabIndex = pagerState.currentPage,
         indicator = { tabPositions ->
-            TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = Red400)
+            TabRowDefaults.Indicator(
+                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
+                color = Red400
+            )
         },
     ) {
         Traders.values().forEachIndexed { index, trader ->
@@ -599,7 +750,10 @@ private fun MapsTab(
         modifier = Modifier.fillMaxWidth(),
         selectedTabIndex = pagerState.currentPage,
         indicator = { tabPositions ->
-            TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = Red400)
+            TabRowDefaults.Indicator(
+                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
+                color = Red400
+            )
         },
     ) {
         Maps.values().forEachIndexed { index, map ->
@@ -657,7 +811,8 @@ private fun QuestOverviewScreen(
                 color = Green500,
                 s1 = "Quests Completed",
                 s2 = "$questTotalCompletedUser/$questTotal",
-                progress = (questTotalCompletedUser?.toDouble()?.div(questTotal.toDouble()))?.toFloat(),
+                progress = (questTotalCompletedUser?.toDouble()
+                    ?.div(questTotal.toDouble()))?.toFloat(),
             )
         }
         item {
@@ -665,7 +820,8 @@ private fun QuestOverviewScreen(
                 color = Red500,
                 s1 = "PMC Eliminations",
                 s2 = "$pmcElimsTotalUser/$pmcElimsTotal",
-                progress = (pmcElimsTotalUser?.toDouble()?.div(pmcElimsTotal?.toDouble() ?: 1.0))?.toFloat(),
+                progress = (pmcElimsTotalUser?.toDouble()
+                    ?.div(pmcElimsTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.icons8_sniper_96
             )
         }
@@ -674,7 +830,8 @@ private fun QuestOverviewScreen(
                 color = Color(0xFFFF9800),
                 s1 = "Scav Eliminations",
                 s2 = "$scavElimsTotalUser/$scavElimsTotal",
-                progress = (scavElimsTotalUser?.toDouble()?.div(scavElimsTotal?.toDouble() ?: 1.0))?.toFloat(),
+                progress = (scavElimsTotalUser?.toDouble()
+                    ?.div(scavElimsTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.icons8_target_96
             )
         }
@@ -683,7 +840,8 @@ private fun QuestOverviewScreen(
                 color = Color(0xFF03A9F4),
                 s1 = "Quest Items",
                 s2 = "$questItemsTotalUser/$questItemsTotal",
-                progress = (questItemsTotalUser?.toDouble()?.div(questItemsTotal?.toDouble() ?: 1.0))?.toFloat(),
+                progress = (questItemsTotalUser?.toDouble()
+                    ?.div(questItemsTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.ic_search_black_24dp
             )
         }
@@ -710,7 +868,8 @@ private fun QuestOverviewScreen(
                 color = Color(0xFF9C27B0),
                 s1 = "Placed Objectives",
                 s2 = "$placedTotalUser/$placedTotal",
-                progress = (placedTotalUser?.toDouble()?.div(placedTotal?.toDouble() ?: 1.0))?.toFloat(),
+                progress = (placedTotalUser?.toDouble()
+                    ?.div(placedTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.icons8_low_importance_96
             )
         }
@@ -719,7 +878,8 @@ private fun QuestOverviewScreen(
                 color = Color(0xFF9C27B0),
                 s1 = "Pickup Objectives",
                 s2 = "$pickupTotalUser/$pickupTotal",
-                progress = (pickupTotalUser?.toDouble()?.div(pickupTotal?.toDouble() ?: 1.0))?.toFloat(),
+                progress = (pickupTotalUser?.toDouble()
+                    ?.div(pickupTotal?.toDouble() ?: 1.0))?.toFloat(),
                 icon = R.drawable.icons8_upward_arrow_96
             )
         }
@@ -848,7 +1008,10 @@ private fun QuestBottomNav(
                     if (item.icon != null) {
                         Icon(item.icon, "")
                     } else {
-                        Icon(painter = painterResource(id = item.iconDrawable!!), contentDescription = item.resourceId)
+                        Icon(
+                            painter = painterResource(id = item.iconDrawable!!),
+                            contentDescription = item.resourceId
+                        )
                     }
                 },
                 label = { Text(item.resourceId) },
@@ -872,7 +1035,26 @@ private fun QuestBottomNav(
                 unselectedContentColor = Color(0x99FFFFFF),
             )
         }
+        BottomNavigationItem(selected = false, onClick = {}, icon = {}, enabled = false)
     }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun BottomCard(
+    onClick: () -> Unit,
+    color: Color = Color(0xFF212121),
+    content: @Composable () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .padding(vertical = 4.dp)
+            .fillMaxWidth(),
+        backgroundColor = color,
+        shape = RoundedCornerShape(16.dp),
+        onClick = onClick,
+        content = content
+    )
 }
 
 sealed class BottomNavigationScreens(
@@ -881,9 +1063,19 @@ sealed class BottomNavigationScreens(
     val icon: ImageVector? = null,
     @DrawableRes val iconDrawable: Int? = null
 ) {
-    object Overview : BottomNavigationScreens("Overview", "Overview", null, R.drawable.ic_baseline_dashboard_24)
-    object Quests : BottomNavigationScreens("Quests", "Quests", null, R.drawable.ic_baseline_assignment_turned_in_24)
-    object Items : BottomNavigationScreens("Items", "Items", null, R.drawable.ic_baseline_assignment_24)
+    object Overview :
+        BottomNavigationScreens("Overview", "Overview", null, R.drawable.ic_baseline_dashboard_24)
+
+    object Quests : BottomNavigationScreens(
+        "Quests",
+        "Quests",
+        null,
+        R.drawable.ic_baseline_assignment_turned_in_24
+    )
+
+    object Items :
+        BottomNavigationScreens("Items", "Items", null, R.drawable.ic_baseline_assignment_24)
+
     object Maps : BottomNavigationScreens("Maps", "Maps", null, R.drawable.ic_baseline_map_24)
 }
 
