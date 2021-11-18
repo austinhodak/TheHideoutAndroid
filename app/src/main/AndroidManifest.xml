@@ -120,6 +120,11 @@
             android:name=".pickers.PickerActivity"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
 
+        <activity
+            android:name=".quests.inraid.QuestInRaidActivity"
+            android:exported="true"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"/>
+
     </application>
 
 </manifest>
