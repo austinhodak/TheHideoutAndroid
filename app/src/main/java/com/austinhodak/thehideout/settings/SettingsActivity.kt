@@ -155,7 +155,7 @@ class SettingsActivity : GodActivity() {
                         modifier = Modifier.fillMaxSize(),
                         factory = { context ->
                             val recyclerView = RecyclerView(context)
-                            recyclerView.layoutManager = LinearLayoutManager(context)
+                            recyclerView.layoutManager = LinearLayoutManager(context) 
 
                             PreferenceScreenConfig.apply {
                                 alignIconsWithBackArrow = true

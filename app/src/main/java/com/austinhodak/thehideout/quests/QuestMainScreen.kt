@@ -118,7 +118,7 @@ fun QuestMainScreen(
                         icon = R.drawable.icons8_bay_96
                     )
                     MapCard(
-                        mapName = "The Lab",
+                        mapName = "Labs",
                         mapSubtitle = "6-10 Players • 40 Minutes",
                         icon = R.drawable.icons8_laboratory_96
                     )
