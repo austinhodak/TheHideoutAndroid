@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
@@ -22,6 +25,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,7 +38,7 @@ class QuestInRaidActivity : GodActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val mapString = intent.getStringExtra("map")
+        val mapString = intent.getStringExtra("map") ?: "Customs"
 
         setContent {
             HideoutTheme {
@@ -46,7 +50,7 @@ class QuestInRaidActivity : GodActivity() {
                     scaffoldState = scaffoldState,
                     topBar = {
                         AmmoDetailToolbar(
-                            title = "In Raid at Customs",
+                            title = "In Raid at $mapString",
                             onBackPressed = {
                                 finish()
                             }
@@ -54,7 +58,16 @@ class QuestInRaidActivity : GodActivity() {
                     },
                     bottomBar = {
                         QuestBottomNav(navController = navController)
-                    }
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(onClick = {
+
+                        }) {
+                            Icon(Icons.Filled.Check, contentDescription = "", tint = Color.Black)
+                        }
+                    },
+                    isFloatingActionButtonDocked = true,
+                    floatingActionButtonPosition = FabPosition.Center
                 ) {
                     NavHost(navController = navController, startDestination = BottomNavigationScreens.Tasks.route) {
                         composable(BottomNavigationScreens.Tasks.route) {
@@ -76,7 +89,7 @@ class QuestInRaidActivity : GodActivity() {
         @DrawableRes val iconDrawable: Int? = null
     ) {
         object Tasks : BottomNavigationScreens("Tasks", "Tasks", null, R.drawable.ic_baseline_fact_check_24)
-        object Items : BottomNavigationScreens("Items", "Items", null, R.drawable.ic_round_check_circle_outline_24)
+        object Items : BottomNavigationScreens("Items", "Items", null, R.drawable.icons8_box_96)
     }
 
     @Composable

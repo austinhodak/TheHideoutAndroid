@@ -313,7 +313,7 @@ private fun MapCard(
     BottomCard({
         context.startActivity(
             Intent(context, QuestInRaidActivity::class.java).apply {
-                putExtra("type", "ammo")
+                putExtra("map", mapName)
             })
     }) {
         Row(

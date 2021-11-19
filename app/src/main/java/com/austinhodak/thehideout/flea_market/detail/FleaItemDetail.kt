@@ -424,6 +424,8 @@ class FleaItemDetail : GodActivity() {
     ) {
         val context = LocalContext.current
 
+        val objectiveTypes = quest.objective?.groupBy { it.type }
+
         Card(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -435,40 +437,45 @@ class FleaItemDetail : GodActivity() {
                 }
             }
         ) {
-            Row(
-                Modifier.padding(16.dp)
+            Column(
+
             ) {
-                Column(
-                    modifier = Modifier.weight(1f)
+                Row(
+                    Modifier.padding(16.dp)
                 ) {
-                    CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                            Text(
+                                text = "LEVEL ${quest.requirement?.level}",
+                                style = MaterialTheme.typography.overline
+                            )
+                        }
                         Text(
-                            text = "LEVEL ${quest.requirement?.level}",
-                            style = MaterialTheme.typography.overline
+                            text = quest.title ?: "",
+                            style = MaterialTheme.typography.h6,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                        Text(
+                            text = "${quest.getObjective(item?.id)?.number ?: "Key"} Needed",
+                            style = MaterialTheme.typography.body2,
+                            modifier = Modifier.padding(top = 0.dp)
                         )
                     }
-                    Text(
-                        text = quest.title ?: "",
-                        style = MaterialTheme.typography.h6,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-                    Text(
-                        text = "${quest.getObjective(item?.id)?.number ?: "Key"} Needed",
-                        style = MaterialTheme.typography.body2,
-                        modifier = Modifier.padding(top = 0.dp)
-                    )
-                }
-                Column {
-                    Box {
-                        Image(
-                            rememberImagePainter(quest.trader().icon),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(72.dp)
-                                .height(72.dp)
-                        )
+                    Column {
+                        Box {
+                            Image(
+                                rememberImagePainter(quest.trader().icon),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .width(72.dp)
+                                    .height(72.dp)
+                            )
+                        }
                     }
                 }
+
             }
         }
     }
@@ -905,7 +912,10 @@ class FleaItemDetail : GodActivity() {
                                 .border((0.25).dp, color = BorderColor)
                                 .clickable {
                                     StfalconImageViewer
-                                        .Builder(context, listOf(item?.pricing?.imageLink)) { view, image ->
+                                        .Builder(
+                                            context,
+                                            listOf(item?.pricing?.imageLink)
+                                        ) { view, image ->
                                             Glide
                                                 .with(view)
                                                 .load(image)
