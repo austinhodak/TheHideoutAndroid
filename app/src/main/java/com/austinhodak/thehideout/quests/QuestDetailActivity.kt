@@ -37,6 +37,7 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.OverflowMenu
+import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.quests.QuestDetailActivity.Types.*
@@ -167,6 +168,9 @@ class QuestDetailActivity : GodActivity() {
                                         elevation = 0.dp,
                                         actions = {
                                             OverflowMenu {
+                                                quest?.wikiLink?.let {
+                                                    WikiItem(url = it)
+                                                }
                                                 //weapon?.pricing?.wikiLink?.let { WikiItem(url = it) }
                                             }
                                         }
@@ -574,7 +578,9 @@ class QuestDetailActivity : GodActivity() {
                             title(text = "Add to Needed Items?")
                             message(text = "This will add these items to the needed items list on the Flea Market screen.")
                             positiveButton(text = "ADD") {
-                                userRefTracker("items/${pricing?.id}/questObjective/${objective.id?.addQuotes()}").setValue(objective.number)
+                                userRefTracker("items/${pricing?.id}/questObjective/${objective.id?.addQuotes()}").setValue(
+                                    objective.number
+                                )
                             }
                             negativeButton(text = "CANCEL")
                         }
