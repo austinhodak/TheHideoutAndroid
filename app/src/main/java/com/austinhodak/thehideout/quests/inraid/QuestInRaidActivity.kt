@@ -41,6 +41,8 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
+import com.austinhodak.thehideout.compose.components.EmptyText
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.compose.theme.White
@@ -83,7 +85,7 @@ class QuestInRaidActivity : GodActivity() {
                 val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
                 val questExtra = questViewModel.questsExtra.observeAsState().value?.flatMap { it.objectives ?: emptyList() }
 
-                val availableQuests = quests.filter {
+                var availableQuests: Map<String?, List<Quest.QuestObjective>>? = quests.filter {
                     it.isAvailable(userData)
                 }.flatMap {
                     it.objective ?: emptyList()
@@ -91,6 +93,10 @@ class QuestInRaidActivity : GodActivity() {
                     userData?.isObjectiveCompleted(it) == false && it.location == mapID.toString()
                 }.groupBy {
                     it.type
+                }
+
+                if (quests.isNullOrEmpty()) {
+                    availableQuests = null
                 }
 
                 Timber.d(availableQuests.toString())
@@ -110,7 +116,7 @@ class QuestInRaidActivity : GodActivity() {
                     },
                     floatingActionButton = {
                         FloatingActionButton(onClick = {
-
+                            finish()
                         }) {
                             Icon(Icons.Filled.Check, contentDescription = "", tint = Color.Black)
                         }
@@ -120,21 +126,37 @@ class QuestInRaidActivity : GodActivity() {
                 ) {
                     NavHost(navController = navController, startDestination = BottomNavigationScreens.Tasks.route) {
                         composable(BottomNavigationScreens.Tasks.route) {
-                            LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = 64.dp)) {
-                                availableQuests.forEach { entry ->
-                                    val type = entry.key
-                                    val objectives = entry.value
-                                    if (type == null) return@forEach
-                                    item {
-                                        ObjectiveCategoryCard(type = valueOf(type.uppercase()), objectives, questExtra, quests)
-                                    }
-                                }
-                            }
+                            TasksScreen(availableQuests, questExtra, quests)
                         }
                         composable(BottomNavigationScreens.Items.route) {
 
                         }
                     }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun TasksScreen(
+        availableQuests: Map<String?, List<Quest.QuestObjective>>?,
+        questExtra: List<QuestExtra.QuestExtraItem.Objective?>?,
+        quests: List<Quest>
+    ) {
+        if (availableQuests?.isEmpty() == true) {
+            EmptyText(text = "No tasks for this map.")
+            return
+        } else if (availableQuests == null) {
+            LoadingItem()
+            return
+        }
+        LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = 64.dp)) {
+            availableQuests.forEach { entry ->
+                val type = entry.key
+                val objectives = entry.value
+                if (type == null) return@forEach
+                item {
+                    ObjectiveCategoryCard(type = valueOf(type.uppercase()), objectives, questExtra, quests)
                 }
             }
         }
@@ -287,12 +309,16 @@ class QuestInRaidActivity : GodActivity() {
         quest: Quest?
     ) {
 
-        val sub = if (subtitle is String) {
-            subtitle.toString()
-        } else if (subtitle is List<*>) {
-            subtitle.joinToString(", ")
-        } else {
-            subtitle.toString()
+        val sub = when (subtitle) {
+            is String -> {
+                subtitle.toString()
+            }
+            is List<*> -> {
+                subtitle.joinToString(", ")
+            }
+            else -> {
+                subtitle.toString()
+            }
         }
         Row(
             modifier = Modifier
@@ -349,7 +375,9 @@ class QuestInRaidActivity : GodActivity() {
                             title(text = "Add to Needed Items?")
                             message(text = "This will add these items to the needed items list on the Flea Market screen.")
                             positiveButton(text = "ADD") {
-                                userRefTracker("items/${pricing?.id}/questObjective/${objective.id?.addQuotes()}").setValue(objective.number)
+                                userRefTracker("items/${pricing?.id}/questObjective/${objective.id?.addQuotes()}").setValue(
+                                    objective.number
+                                )
                             }
                             negativeButton(text = "CANCEL")
                         }

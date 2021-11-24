@@ -242,6 +242,10 @@ class SettingsActivity : GodActivity() {
                                     title = "Flea Market".asText()
                                     icon = R.drawable.ic_baseline_storefront_24.asIcon()
                                 }*/
+                                /*subScreen {
+                                    title = "Data".asText()
+                                    icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
+                                }*/
                                 subScreen {
                                     title = "Display".asText()
                                     icon = R.drawable.ic_baseline_wb_sunny_24.asIcon()
@@ -289,7 +293,7 @@ class SettingsActivity : GodActivity() {
                                 }
                                 button {
                                     title = "Upgrade or Donate".asText()
-                                    icon = R.drawable.icons8_buy_upgrade_24.asIcon()
+                                    icon = R.drawable.ic_baseline_attach_money_24.asIcon()
                                     onClick = {
                                         context.openActivity(PremiumActivity::class.java)
                                     }

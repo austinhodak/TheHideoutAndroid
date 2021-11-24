@@ -414,12 +414,12 @@ fun MainDrawer(
                             //Check for premium
                             if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
                                 //Active premium
-                                //drawer.removeItems(9999, 998)
+                                drawer.removeItems(9999, 998)
                             } else {
-                                //drawer.removeItems(9999, 998)
+                                drawer.removeItems(9999, 998)
                                 //No premium.
-                                //drawer.addItemAtPosition(15, DividerDrawerItem().apply { identifier = 9999 })
-                                //drawer.addItemAtPosition(16, drawerUpgrade)
+                                drawer.addItemAtPosition(15, DividerDrawerItem().apply { identifier = 9999 })
+                                drawer.addItemAtPosition(16, drawerUpgrade)
                             }
                         }
                     }

@@ -24,7 +24,7 @@ buildscript {
                 ktx               : '1.7.0',
                 mDialogs          : "3.3.0",
                 epoxy             : "4.1.0",
-                room              : "2.3.0",
+                room              : "2.4.0-alpha05",
                 hilt              : "2.31.2-alpha"
         ]
         compose_version = '1.0.4'

@@ -136,6 +136,8 @@ class MapsActivity : GodActivity() {
 
             val selectedUserQuests by UserSettingsModel.mapQuestSelection.flow.collectAsState(initial = setOf("Active", "Locked", "Completed"))
 
+
+
             var selectedPoints: Pair<LatLng?, LatLng?>? = null
 
             //val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())

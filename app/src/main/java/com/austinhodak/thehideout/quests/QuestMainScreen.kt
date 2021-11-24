@@ -300,6 +300,9 @@ fun QuestMainScreen(
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 private fun MapCard(

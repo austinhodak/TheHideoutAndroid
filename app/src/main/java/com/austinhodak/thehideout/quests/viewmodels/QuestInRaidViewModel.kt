@@ -155,18 +155,18 @@ class QuestInRaidViewModel @Inject constructor(
 
         return when (questObjective.type) {
             "key" -> "$itemName needed"
-            "pickup" -> "Pick-up $itemName"
+            "pickup" -> "$itemName"
             "kill" -> "${questObjective.number} $itemName"
-            "collect" -> "Hand over ${questObjective.number} $itemName"
-            "place" -> "Place $itemName"
+            "collect" -> "${questObjective.number} $itemName"
+            "place" -> "$itemName"
             "mark" -> "Place MS2000 marker"
-            "locate" -> "Locate $itemName"
-            "find" -> "Find in raid ${questObjective.number} $itemName"
-            "reputation" -> "Reach loyalty level ${questObjective.number} with ${Traders.values().find { it.int == questObjective.target?.first()?.toInt() ?: 0}?.id}"
+            "locate" -> "$itemName"
+            "find" -> "${questObjective.number} $itemName"
+            "reputation" -> "Loyalty level ${questObjective.number} with ${Traders.values().find { it.int == questObjective.target?.first()?.toInt() ?: 0}?.id}"
             "warning" -> "$itemName"
-            "skill" -> "Reach skill level ${questObjective.number} with $itemName"
-            "survive" -> "Survive in the raid at $location ${questObjective.number} times."
-            "build" -> "Build $itemName"
+            "skill" -> "Skill level ${questObjective.number} with $itemName"
+            "survive" -> "$location ${questObjective.number} times."
+            "build" -> "$itemName"
             else -> ""
         }
     }
