@@ -555,8 +555,20 @@ private fun QuestCard(
                     painter = painterResource(id = quest.trader().icon),
                     contentDescription = "",
                     modifier = Modifier
+                        .border(
+                            width = 1.dp,
+                            color = when {
+                                userData?.isQuestCompleted(quest) == true -> {
+                                    Green400
+                                }
+                                quest.isLocked(userData) -> Red400
+                                else -> Color.Transparent
+                            },
+                            shape = CircleShape
+                        )
                         .clip(CircleShape)
                         .size(24.dp)
+
                 )
                 Text(
                     modifier = Modifier.padding(start = 16.dp),
@@ -681,22 +693,40 @@ private fun QuestObjectiveItem(
         scope.launch {
             text = questViewModel.getObjectiveText(questObjective)
         }
-        Icon(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .size(20.dp),
-            painter = painterResource(id = questObjective.getIcon()),
-            contentDescription = "",
-            tint = if (userData?.isObjectiveCompleted(questObjective) == true) Green500 else White
-        )
-        Text(
-            text = text,
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 8.dp, end = 16.dp),
-            style = MaterialTheme.typography.body2,
-            color = if (userData?.isObjectiveCompleted(questObjective) == true) Green500 else White
-        )
+        Box {
+            if (userData?.isObjectiveCompleted(questObjective) == true) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(2.dp)
+                        .background(color = Green400)
+                )
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.height(36.dp)
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .size(20.dp),
+                    painter = painterResource(id = questObjective.getIcon()),
+                    contentDescription = "",
+                    tint = if (userData?.isObjectiveCompleted(questObjective) == true) Green400 else White
+                )
+                Text(
+                    text = text,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 8.dp, end = 16.dp),
+                    style = MaterialTheme.typography.body2,
+                    color = if (userData?.isObjectiveCompleted(questObjective) == true) Green400 else White,
+                    fontWeight = if (userData?.isObjectiveCompleted(questObjective) == true) FontWeight.Normal else FontWeight.Normal
+                )
+            }
+        }
+
+
     }
 }
 

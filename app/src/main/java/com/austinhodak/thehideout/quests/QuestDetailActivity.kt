@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,13 +17,22 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
@@ -39,6 +49,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.quests.QuestDetailActivity.Types.*
 import com.austinhodak.thehideout.quests.viewmodels.QuestDetailViewModel
@@ -52,6 +63,7 @@ import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -67,6 +79,8 @@ class QuestDetailActivity : GodActivity() {
     @Inject
     lateinit var tarkovRepo: TarkovRepo
 
+    var quest: Quest? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -79,6 +93,8 @@ class QuestDetailActivity : GodActivity() {
                 ProvideWindowInsets {
                     val quest by questViewModel.questDetails.observeAsState()
                     questViewModel.getQuest(questID)
+
+                    this.quest = quest
 
                     val questExtra = questViewModel.questsExtra.observeAsState().value?.find { it.id == questID.toInt() }
 
@@ -94,6 +110,8 @@ class QuestDetailActivity : GodActivity() {
                     )
 
                     systemUiController.setNavigationBarColor(DarkPrimary)
+
+                    val navController = rememberNavController()
 
                     Scaffold(
                         topBar = {
@@ -215,15 +233,54 @@ class QuestDetailActivity : GodActivity() {
                                         onClick = {
                                             it.completed()
                                         },
-                                        modifier = Modifier.navigationBarsPadding()
+                                        //modifier = Modifier.navigationBarsPadding()
+                                    )
+                                }
+
+                                if (userData?.isQuestCompleted(it) == true) {
+                                    ExtendedFloatingActionButton(
+                                        icon = {
+                                            Icon(
+                                                painterResource(id = R.drawable.ic_baseline_assignment_return_24),
+                                                contentDescription = null,
+                                                tint = Color.Black
+                                            )
+                                        },
+                                        text = { Text("UNDO", color = Color.Black, style = MaterialTheme.typography.button) },
+                                        onClick = {
+                                            it.undo(true)
+                                        },
+                                        //modifier = Modifier.navigationBarsPadding()
+                                    )
+                                }
+
+                                if (it.isLocked(userData)) {
+                                    ExtendedFloatingActionButton(
+                                        icon = {
+                                            Icon(
+                                                painterResource(id = R.drawable.ic_baseline_lock_24),
+                                                contentDescription = null,
+                                                tint = Color.White
+                                            )
+                                        },
+                                        text = { Text("LOCKED", color = Color.White, style = MaterialTheme.typography.button) },
+                                        onClick = {
+
+                                        },
+                                        backgroundColor = Color.DarkGray
+                                        //modifier = Modifier.navigationBarsPadding()
                                     )
                                 }
                             }
-
-                        }
+                        },
+                        bottomBar = {
+                            QuestDetailBottomNav(navController)
+                        },
+                        isFloatingActionButtonDocked = true,
+                        floatingActionButtonPosition = FabPosition.Center
                     ) {
                         if (quest == null) return@Scaffold
-                        LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = 64.dp)) {
+                        LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = it.calculateBottomPadding() + 64.dp)) {
                             item {
                                 DetailCardTop(quest!!, questExtra)
                             }
@@ -232,14 +289,14 @@ class QuestDetailActivity : GodActivity() {
                                 val objectives = entry.value
                                 if (type == null) return@forEach
                                 item {
-                                    ObjectiveCategoryCard(type = Types.valueOf(type.uppercase()), objectives, questExtra)
+                                    ObjectiveCategoryCard(type = Types.valueOf(type.uppercase()), objectives, questExtra, userData)
                                 }
                             }
                             if (quest!!.requirement?.quests?.isNotEmpty() == true) {
                                 val preQuests = quest!!.requirement?.quests?.flatMap { it ?: emptyList() }
                                 preQuests?.let {
                                     item {
-                                        PreQuestCard(it)
+                                        PreQuestCard(it, userData)
                                     }
                                 }
                             }
@@ -247,6 +304,12 @@ class QuestDetailActivity : GodActivity() {
                                 item {
                                     GuideImages(questExtra)
                                 }
+                            }
+                        }
+
+                        NavHost(navController = navController, startDestination = BottomNavigationScreens.You.route) {
+                            composable("You") {
+
                             }
                         }
                     }
@@ -328,7 +391,8 @@ class QuestDetailActivity : GodActivity() {
 
     @Composable
     fun PreQuestCard(
-        list: List<Int?>
+        list: List<Int?>,
+        userData: User?
     ) {
         Card(
             modifier = Modifier
@@ -361,7 +425,7 @@ class QuestDetailActivity : GodActivity() {
                 list.forEach {
                     val quest by tarkovRepo.getQuestByID(it.toString()).collectAsState(initial = null)
                     quest?.let { quest ->
-                        SmallQuestItem(quest = quest)
+                        SmallQuestItem(quest, userData)
                     }
                 }
             }
@@ -369,7 +433,9 @@ class QuestDetailActivity : GodActivity() {
     }
 
     @Composable
-    fun SmallQuestItem(quest: Quest) {
+    fun SmallQuestItem(quest: Quest, userData: User?) {
+
+        val isCompleted = userData?.isQuestCompleted(quest) == true
 
         Row(
             Modifier
@@ -395,7 +461,7 @@ class QuestDetailActivity : GodActivity() {
                 )
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "Unlocks at Level ${quest.requirement?.level}",
+                        text = if (!isCompleted) "Unlocks at Level ${quest.requirement?.level}" else "✓ Completed",
                         style = MaterialTheme.typography.caption,
                         fontSize = 10.sp
                     )
@@ -448,13 +514,20 @@ class QuestDetailActivity : GodActivity() {
     fun ObjectiveCategoryCard(
         type: Types,
         objectives: List<Quest.QuestObjective>,
-        questExtra: QuestExtra.QuestExtraItem?
+        questExtra: QuestExtra.QuestExtraItem?,
+        userData: User?
     ) {
+
+        val isAllObjectivesCompleted = objectives.all {
+            userData?.isObjectiveCompleted(it) == true
+        }
+
         Card(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 4.dp)
                 .fillMaxWidth(),
-            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+            border = BorderStroke(width = 1.dp, color = if (isAllObjectivesCompleted) Green400 else Color.Transparent)
         ) {
             Column(
                 Modifier.padding(bottom = 12.dp)
@@ -479,7 +552,7 @@ class QuestDetailActivity : GodActivity() {
                     }
                 }
                 objectives.forEach { objective ->
-                    ObjectiveItem(objective, type, questExtra)
+                    ObjectiveItem(objective, type, questExtra, userData)
                 }
             }
         }
@@ -490,7 +563,8 @@ class QuestDetailActivity : GodActivity() {
     private fun ObjectiveItem(
         objective: Quest.QuestObjective,
         type: Types,
-        questExtra: QuestExtra.QuestExtraItem?
+        questExtra: QuestExtra.QuestExtraItem?,
+        userData: User?
     ) {
         var text by remember { mutableStateOf("") }
         val scope = rememberCoroutineScope()
@@ -503,14 +577,26 @@ class QuestDetailActivity : GodActivity() {
 
         when (type) {
             KILL, PICKUP, PLACE -> {
-                ObjectiveItemBasic(title = text, icon = Maps.values().find { it.int == objective.location?.toInt() }?.icon, subtitle = subtitle)
+                ObjectiveItemBasic(
+                    title = text,
+                    subtitle = subtitle,
+                    icon = Maps.values().find { it.int == objective.location?.toInt() }?.icon,
+                    userData = userData,
+                    objective = objective
+                )
             }
             COLLECT, FIND, KEY, BUILD -> {
                 val item: Item? by tarkovRepo.getItemByID(objective.target?.first() ?: "").collectAsState(initial = null)
                 if (item != null)
                     ObjectiveItemPricing(objective = objective, pricing = item?.pricing)
             }
-            else -> ObjectiveItemBasic(title = text, icon = Maps.values().find { it.int == objective.location?.toInt() }?.icon, subtitle = subtitle)
+            else -> ObjectiveItemBasic(
+                title = text,
+                subtitle = subtitle,
+                icon = Maps.values().find { it.int == objective.location?.toInt() }?.icon,
+                userData = userData,
+                objective = objective
+            )
         }
     }
 
@@ -518,8 +604,12 @@ class QuestDetailActivity : GodActivity() {
     private fun ObjectiveItemBasic(
         title: String,
         subtitle: Any? = null,
-        icon: Int? = null
+        icon: Int? = null,
+        userData: User?,
+        objective: Quest.QuestObjective
     ) {
+
+        val isCompleted = userData?.isObjectiveCompleted(objective) ?: false
 
         val sub = if (subtitle is String) {
             subtitle.toString()
@@ -528,13 +618,68 @@ class QuestDetailActivity : GodActivity() {
         } else {
             subtitle.toString()
         }
+
         Row(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-                .defaultMinSize(minHeight = 24.dp),
+                .clickable {
+                    quest?.let {
+                        questViewModel.toggleObjective(it, objective)
+                    }
+                }
+                .padding(end = 16.dp)
+                .defaultMinSize(minHeight = 18.dp)
+                .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(Modifier.weight(1f)) {
+            Box {
+                if (isCompleted) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(2.dp)
+                            .background(color = Green400)
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 4.dp, bottom = 4.dp)
+                        .height(36.dp)
+
+                ) {
+
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            text = title,
+                            modifier = Modifier
+                                .padding(start = 0.dp, end = 16.dp),
+                            style = MaterialTheme.typography.body2,
+                            color = if (isCompleted) Green400 else White,
+                            fontWeight = if (isCompleted) FontWeight.Normal else FontWeight.Normal
+                        )
+                        if (subtitle != null) {
+                            Text(
+                                text = "$sub",
+                                style = MaterialTheme.typography.caption
+                            )
+                        }
+                    }
+
+                    if (icon != null && icon != R.drawable.icons8_map_96) {
+                        Image(
+                            painter = painterResource(id = icon),
+                            contentDescription = title,
+                            modifier = Modifier
+                                .padding(start = 16.dp)
+                                .size(24.dp)
+                        )
+                    }
+                }
+            }
+
+            ////
+
+            /*Column(Modifier.weight(1f)) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.body2
@@ -554,7 +699,7 @@ class QuestDetailActivity : GodActivity() {
                         .padding(start = 16.dp)
                         .size(24.dp)
                 )
-            }
+            }*/
         }
     }
 
@@ -639,5 +784,72 @@ class QuestDetailActivity : GodActivity() {
         REPUTATION("YOU NEED TO REACH"),
         BUILD("YOU NEED TO BUILD"),
         SKILL("YOU NEED TO REACH")
+    }
+
+    sealed class BottomNavigationScreens(
+        val route: String,
+        val resourceId: String,
+        val icon: ImageVector? = null,
+        @DrawableRes val iconDrawable: Int? = null
+    ) {
+        object You : BottomNavigationScreens("You", "You", null, R.drawable.ic_baseline_person_24)
+
+        object Team : BottomNavigationScreens("Team", "Team", null, R.drawable.ic_groups_white_24dp)
+    }
+
+    @Composable
+    private fun QuestDetailBottomNav(
+        navController: NavController
+    ) {
+        val items = listOf(
+            BottomNavigationScreens.You,
+            BottomNavigationScreens.Team
+        )
+
+        BottomNavigation(
+            backgroundColor = Color(0xFE1F1F1F),
+            modifier = Modifier.navigationBarsPadding()
+        ) {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
+
+            items.forEachIndexed { i, item ->
+                if (i == 1) {
+                    BottomNavigationItem(selected = false, onClick = {}, icon = {}, enabled = false)
+                }
+                BottomNavigationItem(
+                    icon = {
+                        if (item.icon != null) {
+                            Icon(item.icon, "")
+                        } else {
+                            Icon(
+                                painter = painterResource(id = item.iconDrawable!!),
+                                contentDescription = item.resourceId
+                            )
+                        }
+                    },
+                    label = { Text(item.resourceId) },
+                    selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
+                    alwaysShowLabel = true, // This hides the title for the unselected items
+                    onClick = {
+                        try {
+                            if (currentDestination?.route == item.route) return@BottomNavigationItem
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        } catch (e: Exception) {
+                            Timber.e(e)
+                        }
+                    },
+                    selectedContentColor = MaterialTheme.colors.secondary,
+                    unselectedContentColor = Color(0x99FFFFFF),
+                    enabled = i != 1
+                )
+            }
+        }
     }
 }

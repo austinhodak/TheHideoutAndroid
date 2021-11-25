@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -44,10 +45,11 @@ import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.theme.BorderColor
+import com.austinhodak.thehideout.compose.theme.Green400
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.compose.theme.White
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
-import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.quests.viewmodels.QuestInRaidViewModel
 import com.austinhodak.thehideout.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -126,7 +128,7 @@ class QuestInRaidActivity : GodActivity() {
                 ) {
                     NavHost(navController = navController, startDestination = BottomNavigationScreens.Tasks.route) {
                         composable(BottomNavigationScreens.Tasks.route) {
-                            TasksScreen(availableQuests, questExtra, quests)
+                            TasksScreen(availableQuests, questExtra, quests, userData)
                         }
                         composable(BottomNavigationScreens.Items.route) {
 
@@ -141,7 +143,8 @@ class QuestInRaidActivity : GodActivity() {
     private fun TasksScreen(
         availableQuests: Map<String?, List<Quest.QuestObjective>>?,
         questExtra: List<QuestExtra.QuestExtraItem.Objective?>?,
-        quests: List<Quest>
+        quests: List<Quest>,
+        userData: User?
     ) {
         if (availableQuests?.isEmpty() == true) {
             EmptyText(text = "No tasks for this map.")
@@ -156,7 +159,7 @@ class QuestInRaidActivity : GodActivity() {
                 val objectives = entry.value
                 if (type == null) return@forEach
                 item {
-                    ObjectiveCategoryCard(type = valueOf(type.uppercase()), objectives, questExtra, quests)
+                    ObjectiveCategoryCard(type = valueOf(type.uppercase()), objectives, questExtra, quests, userData)
                 }
             }
         }
@@ -169,7 +172,7 @@ class QuestInRaidActivity : GodActivity() {
         @DrawableRes val iconDrawable: Int? = null
     ) {
         object Tasks : BottomNavigationScreens("Tasks", "Tasks", null, R.drawable.ic_baseline_fact_check_24)
-        object Items : BottomNavigationScreens("Items", "Items", null, R.drawable.icons8_box_96)
+        object Items : BottomNavigationScreens("Items", "Items", null, R.drawable.ic_round_ballot_24)
     }
 
     @Composable
@@ -225,7 +228,8 @@ class QuestInRaidActivity : GodActivity() {
         type: Types,
         objectives: List<Quest.QuestObjective>,
         questExtra: List<QuestExtra.QuestExtraItem.Objective?>?,
-        quests: List<Quest>
+        quests: List<Quest>,
+        userData: User?
     ) {
         Card(
             modifier = Modifier
@@ -256,7 +260,7 @@ class QuestInRaidActivity : GodActivity() {
                     }
                 }
                 objectives.forEach { objective ->
-                    ObjectiveItem(objective, type, questExtra?.find { it?.id.toString() == objective.id }, quests)
+                    ObjectiveItem(objective, type, questExtra?.find { it?.id.toString() == objective.id }, quests, userData)
                 }
             }
         }
@@ -268,7 +272,8 @@ class QuestInRaidActivity : GodActivity() {
         objective: Quest.QuestObjective,
         type: Types,
         questExtra: QuestExtra.QuestExtraItem.Objective?,
-        quests: List<Quest>
+        quests: List<Quest>,
+        userData: User?
     ) {
         var text by remember { mutableStateOf("") }
         val scope = rememberCoroutineScope()
@@ -285,7 +290,7 @@ class QuestInRaidActivity : GodActivity() {
 
         when (type) {
             KILL, PICKUP, PLACE -> {
-                ObjectiveItemBasic(title = text, icon = null, subtitle = subtitle, quest = quest)
+                ObjectiveItemBasic(title = text, icon = null, subtitle = subtitle, quest = quest, userData = userData, objective = objective)
             }
             COLLECT, FIND, KEY, BUILD -> {
                 val item: Item? by tarkovRepo.getItemByID(objective.target?.first() ?: "").collectAsState(initial = null)
@@ -296,7 +301,9 @@ class QuestInRaidActivity : GodActivity() {
                 title = text,
                 subtitle = subtitle,
                 icon = null,
-                quest = quest
+                quest = quest,
+                userData = userData,
+                objective = objective
             )
         }
     }
@@ -306,32 +313,88 @@ class QuestInRaidActivity : GodActivity() {
         title: String,
         subtitle: Any? = null,
         icon: Int? = null,
+        userData: User?,
+        objective: Quest.QuestObjective,
         quest: Quest?
     ) {
 
-        val sub = when (subtitle) {
-            is String -> {
-                subtitle.toString()
-            }
-            is List<*> -> {
-                subtitle.joinToString(", ")
-            }
-            else -> {
-                subtitle.toString()
-            }
+        val isCompleted = userData?.isObjectiveCompleted(objective) ?: false
+
+        val sub = if (subtitle is String) {
+            subtitle.toString()
+        } else if (subtitle is List<*>) {
+            subtitle.joinToString(", ")
+        } else {
+            subtitle.toString()
         }
+
         Row(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-                .defaultMinSize(minHeight = 24.dp)
                 .clickable {
-                    openActivity(QuestDetailActivity::class.java) {
-                        putString("questID", quest?.id)
+                    quest?.let {
+                        MaterialDialog(this).show {
+                            title(text = "Mark Objective as Completed?")
+                            //message(text = "")
+                            positiveButton(text = "Complete") { dialog ->
+                                questViewModel.toggleObjective(it, objective)
+                            }
+                            negativeButton(text = "Cancel")
+                        }
                     }
-                },
+                }
+                .padding(end = 16.dp)
+                .defaultMinSize(minHeight = 24.dp)
+                .height(IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(Modifier.weight(1f)) {
+            Box {
+                if (isCompleted) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(2.dp)
+                            .background(color = Green400)
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .height(36.dp)
+                        .padding(start = 16.dp)
+                ) {
+
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            text = title,
+                            modifier = Modifier
+                                .padding(start = 0.dp, end = 16.dp),
+                            style = MaterialTheme.typography.body2,
+                            color = if (isCompleted) Green400 else White,
+                            fontWeight = if (isCompleted) FontWeight.Normal else FontWeight.Normal
+                        )
+                        if (subtitle != null) {
+                            Text(
+                                text = "With $sub",
+                                style = MaterialTheme.typography.caption
+                            )
+                        }
+                    }
+
+                    if (icon != null && icon != R.drawable.icons8_map_96) {
+                        Image(
+                            painter = painterResource(id = icon),
+                            contentDescription = title,
+                            modifier = Modifier
+                                .padding(start = 16.dp)
+                                .size(24.dp)
+                        )
+                    }
+                }
+            }
+
+            ////
+
+            /*Column(Modifier.weight(1f)) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.body2
@@ -351,7 +414,7 @@ class QuestInRaidActivity : GodActivity() {
                         .padding(start = 16.dp)
                         .size(24.dp)
                 )
-            }
+            }*/
         }
     }
 
