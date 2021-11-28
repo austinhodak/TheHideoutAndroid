@@ -90,6 +90,8 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/quest_overview.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/tarkovapi/src/main/res/layout/item_flea_api.xml" value="0.21584699453551912" />
         <entry key="..\:/Users/ahoda/.gradle/caches/transforms-3/5a6e19a61c42670f4005d12c1a3a9e92/transformed/jetified-screen-0.5.2/res/drawable/icon_settings_expand.xml" value="0.15694444444444444" />
+        <entry key="app/src/main/res/drawable/ic_baseline_backup_24.xml" value="0.5161458333333333" />
+        <entry key="app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.5161458333333333" />
       </map>
     </option>
   </component>

@@ -5,6 +5,11 @@ import com.michaelflisar.materialpreferences.datastore.DataStoreStorage
 
 object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
+    val ttAPIKey by stringPref("", "ttAPIKey")
+    val ttSync by boolPref(true, "ttSync")
+    val ttSyncQuest by boolPref(true, "ttSyncQuest")
+    val ttSyncHideout by boolPref(true, "ttSyncHideout")
+
     val test by boolPref(true, "test")
 
     val keepScreenOn by boolPref(false, "keepScreenOn")

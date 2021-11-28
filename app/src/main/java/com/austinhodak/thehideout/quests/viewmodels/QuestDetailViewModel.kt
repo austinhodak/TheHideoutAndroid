@@ -1,6 +1,12 @@
 package com.austinhodak.thehideout.quests.viewmodels
 
 import android.content.Context
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +16,7 @@ import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.utils.QuestExtraHelper
+import com.austinhodak.thehideout.firebase.Team
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.utils.*
@@ -25,6 +32,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,11 +47,34 @@ class QuestDetailViewModel @Inject constructor(
     private val _userData = MutableLiveData<User?>(null)
     val userData = _userData
 
+    private val _teamsData = MutableLiveData<List<Team>>()
+    val teamsData = _teamsData
+
     init {
         if (uid() != null) {
             questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    _userData.value = snapshot.getValue<User>()
+                    val user = snapshot.getValue<User>()
+                    _userData.value = user
+
+                    var teams: MutableList<Team>? = mutableListOf()
+
+                    user?.teams?.forEach {
+                        val teamID = it.key
+                        questsFirebase.child("teams/$teamID").addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val team = snapshot.getValue(Team::class.java)
+                                team?.let { team ->
+                                    teams?.add(team)
+                                    _teamsData.value = teams?.toList()
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+
+                            }
+                        })
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {

@@ -49,6 +49,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.firebase.Team
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.quests.QuestDetailActivity.Types.*
@@ -59,6 +60,10 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -101,6 +106,9 @@ class QuestDetailActivity : GodActivity() {
                     val objectiveTypes = quest?.objective?.groupBy { it.type }
 
                     val userData by questViewModel.userData.observeAsState()
+                    val teamData by questViewModel.teamsData.observeAsState()
+
+                    Timber.d(teamData.toString())
 
                     val systemUiController = rememberSystemUiController()
 
@@ -280,41 +288,48 @@ class QuestDetailActivity : GodActivity() {
                         floatingActionButtonPosition = FabPosition.Center
                     ) {
                         if (quest == null) return@Scaffold
-                        LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = it.calculateBottomPadding() + 64.dp)) {
-                            item {
-                                DetailCardTop(quest!!, questExtra)
-                            }
-                            objectiveTypes?.forEach { entry ->
-                                val type = entry.key
-                                val objectives = entry.value
-                                if (type == null) return@forEach
-                                item {
-                                    ObjectiveCategoryCard(type = Types.valueOf(type.uppercase()), objectives, questExtra, userData)
-                                }
-                            }
-                            if (quest!!.requirement?.quests?.isNotEmpty() == true) {
-                                val preQuests = quest!!.requirement?.quests?.flatMap { it ?: emptyList() }
-                                preQuests?.let {
+                        NavHost(navController = navController, startDestination = BottomNavigationScreens.You.route) {
+                            composable("You") { _ ->
+                                LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = it.calculateBottomPadding() + 64.dp)) {
                                     item {
-                                        PreQuestCard(it, userData)
+                                        DetailCardTop(quest!!, questExtra)
+                                    }
+                                    objectiveTypes?.forEach { entry ->
+                                        val type = entry.key
+                                        val objectives = entry.value
+                                        if (type == null) return@forEach
+                                        item {
+                                            ObjectiveCategoryCard(type = Types.valueOf(type.uppercase()), objectives, questExtra, userData)
+                                        }
+                                    }
+                                    if (quest!!.requirement?.quests?.isNotEmpty() == true) {
+                                        val preQuests = quest!!.requirement?.quests?.flatMap { it ?: emptyList() }
+                                        preQuests?.let {
+                                            item {
+                                                PreQuestCard(it, userData)
+                                            }
+                                        }
+                                    }
+                                    if (questExtra?.guideImages?.isNullOrEmpty() == false) {
+                                        item {
+                                            GuideImages(questExtra)
+                                        }
                                     }
                                 }
                             }
-                            if (questExtra?.guideImages?.isNullOrEmpty() == false) {
-                                item {
-                                    GuideImages(questExtra)
+                            composable("Team") { _ ->
+                                LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = it.calculateBottomPadding() + 64.dp)) {
+                                    teamData?.forEach {
+                                        Timber.d(it.toString())
+                                        item {
+                                            Text("${it.name}")
+                                        }
+                                    }
                                 }
-                            }
-                        }
-
-                        NavHost(navController = navController, startDestination = BottomNavigationScreens.You.route) {
-                            composable("You") {
-
                             }
                         }
                     }
                 }
-
             }
         }
     }
@@ -847,7 +862,7 @@ class QuestDetailActivity : GodActivity() {
                     },
                     selectedContentColor = MaterialTheme.colors.secondary,
                     unselectedContentColor = Color(0x99FFFFFF),
-                    enabled = i != 1
+                    enabled = true
                 )
             }
         }
