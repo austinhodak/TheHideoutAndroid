@@ -241,7 +241,7 @@ class QuestDetailActivity : GodActivity() {
                                         onClick = {
                                             it.completed()
                                         },
-                                        //modifier = Modifier.navigationBarsPadding()
+                                        modifier = Modifier.navigationBarsPadding()
                                     )
                                 }
 
@@ -258,7 +258,7 @@ class QuestDetailActivity : GodActivity() {
                                         onClick = {
                                             it.undo(true)
                                         },
-                                        //modifier = Modifier.navigationBarsPadding()
+                                        modifier = Modifier.navigationBarsPadding()
                                     )
                                 }
 
@@ -275,16 +275,16 @@ class QuestDetailActivity : GodActivity() {
                                         onClick = {
 
                                         },
-                                        backgroundColor = Color.DarkGray
-                                        //modifier = Modifier.navigationBarsPadding()
+                                        backgroundColor = Color.DarkGray,
+                                        modifier = Modifier.navigationBarsPadding()
                                     )
                                 }
                             }
                         },
                         bottomBar = {
-                            QuestDetailBottomNav(navController)
+                            //QuestDetailBottomNav(navController)
                         },
-                        isFloatingActionButtonDocked = true,
+                        isFloatingActionButtonDocked = false,
                         floatingActionButtonPosition = FabPosition.Center
                     ) {
                         if (quest == null) return@Scaffold

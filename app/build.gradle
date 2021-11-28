@@ -25,13 +25,13 @@ android {
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
-        /*release {
+        release {
             //storeFile file('C:/Development/Keys/TheHideoutKeystore.jks')
-            *//*keyAlias 'key0'
+            keyAlias 'key0'
             storePassword 'dg3hGsRvyUkBiHt67xkLgktK'
             keyPassword 'dg3hGsRvyUkBiHt67xkLgktK'
-            storeFile file('C:\\Development\\Keys\\TheHideoutKeystore.jks')*//*
-        }*/
+            storeFile file('C:\\Development\\Keys\\TheHideoutKeystore.jks')
+        }
     }
 
     defaultConfig {
@@ -40,9 +40,9 @@ android {
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 11014
+        versionCode 11015
         // [1]-[0].[2].[0].[0]
-        versionName "1.0.0 Beta 14"
+        versionName "1.0.0 Beta 15"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -69,7 +69,7 @@ android {
 
     buildTypes {
         release {
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -153,9 +153,9 @@ dependencies {
     implementation "androidx.annotation:annotation:${versions.annotation}"
     implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
-    implementation "androidx.fragment:fragment-ktx:1.3.6"
+    implementation "androidx.fragment:fragment-ktx:1.4.0"
 
-    implementation "androidx.navigation:navigation-compose:2.4.0-beta01"
+    implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
 
     //END AndroidX
 
@@ -196,7 +196,7 @@ dependencies {
         exclude group: "com.android.support"
     }
 
-    implementation "androidx.browser:browser:1.3.0"
+    implementation "androidx.browser:browser:1.4.0"
 
     implementation "com.github.skydoves:only:1.0.8"
 

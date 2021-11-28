@@ -50,6 +50,7 @@ import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.quests.viewmodels.QuestInRaidViewModel
 import com.austinhodak.thehideout.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,7 +86,9 @@ class QuestInRaidActivity : GodActivity() {
 
                 val userData by questViewModel.userData.observeAsState()
                 val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
-                val questExtra = questViewModel.questsExtra.observeAsState().value?.flatMap { it.objectives ?: emptyList() }
+                val questExtra = questViewModel.questsExtra.observeAsState().value?.flatMap {
+                    it.objectives ?: emptyList()
+                }
 
                 var availableQuests: Map<String?, List<Quest.QuestObjective>>? = quests.filter {
                     it.isAvailable(userData)
@@ -114,7 +117,7 @@ class QuestInRaidActivity : GodActivity() {
                         )
                     },
                     bottomBar = {
-                        QuestBottomNav(navController = navController)
+                        InRaidBottomNav(navController = navController)
                     },
                     floatingActionButton = {
                         FloatingActionButton(onClick = {
@@ -126,12 +129,15 @@ class QuestInRaidActivity : GodActivity() {
                     isFloatingActionButtonDocked = true,
                     floatingActionButtonPosition = FabPosition.Center
                 ) {
-                    NavHost(navController = navController, startDestination = BottomNavigationScreens.Tasks.route) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = BottomNavigationScreens.Tasks.route
+                    ) {
                         composable(BottomNavigationScreens.Tasks.route) {
                             TasksScreen(availableQuests, questExtra, quests, userData)
                         }
                         composable(BottomNavigationScreens.Items.route) {
-
+                            EmptyText(text = "Coming soon.")
                         }
                     }
                 }
@@ -159,7 +165,13 @@ class QuestInRaidActivity : GodActivity() {
                 val objectives = entry.value
                 if (type == null) return@forEach
                 item {
-                    ObjectiveCategoryCard(type = valueOf(type.uppercase()), objectives, questExtra, quests, userData)
+                    ObjectiveCategoryCard(
+                        type = valueOf(type.uppercase()),
+                        objectives,
+                        questExtra,
+                        quests,
+                        userData
+                    )
                 }
             }
         }
@@ -171,12 +183,15 @@ class QuestInRaidActivity : GodActivity() {
         val icon: ImageVector? = null,
         @DrawableRes val iconDrawable: Int? = null
     ) {
-        object Tasks : BottomNavigationScreens("Tasks", "Tasks", null, R.drawable.ic_baseline_fact_check_24)
-        object Items : BottomNavigationScreens("Items", "Items", null, R.drawable.ic_round_ballot_24)
+        object Tasks :
+            BottomNavigationScreens("Tasks", "Tasks", null, R.drawable.ic_baseline_fact_check_24)
+
+        object Items :
+            BottomNavigationScreens("Items", "Items", null, R.drawable.ic_round_ballot_24)
     }
 
     @Composable
-    private fun QuestBottomNav(
+    private fun InRaidBottomNav(
         navController: NavController
     ) {
         val items = listOf(
@@ -196,7 +211,10 @@ class QuestInRaidActivity : GodActivity() {
                         if (item.icon != null) {
                             Icon(item.icon, "")
                         } else {
-                            Icon(painter = painterResource(id = item.iconDrawable!!), contentDescription = item.resourceId)
+                            Icon(
+                                painter = painterResource(id = item.iconDrawable!!),
+                                contentDescription = item.resourceId
+                            )
                         }
                     },
                     label = { Text(item.resourceId) },
@@ -260,7 +278,13 @@ class QuestInRaidActivity : GodActivity() {
                     }
                 }
                 objectives.forEach { objective ->
-                    ObjectiveItem(objective, type, questExtra?.find { it?.id.toString() == objective.id }, quests, userData)
+                    ObjectiveItem(
+                        objective,
+                        type,
+                        questExtra?.find { it?.id.toString() == objective.id },
+                        quests,
+                        userData
+                    )
                 }
             }
         }
@@ -290,10 +314,18 @@ class QuestInRaidActivity : GodActivity() {
 
         when (type) {
             KILL, PICKUP, PLACE -> {
-                ObjectiveItemBasic(title = text, icon = null, subtitle = subtitle, quest = quest, userData = userData, objective = objective)
+                ObjectiveItemBasic(
+                    title = text,
+                    icon = null,
+                    subtitle = subtitle,
+                    quest = quest,
+                    userData = userData,
+                    objective = objective
+                )
             }
             COLLECT, FIND, KEY, BUILD -> {
-                val item: Item? by tarkovRepo.getItemByID(objective.target?.first() ?: "").collectAsState(initial = null)
+                val item: Item? by tarkovRepo.getItemByID(objective.target?.first() ?: "")
+                    .collectAsState(initial = null)
                 if (item != null)
                     ObjectiveItemPricing(objective = objective, pricing = item?.pricing)
             }
@@ -330,18 +362,27 @@ class QuestInRaidActivity : GodActivity() {
 
         Row(
             modifier = Modifier
-                .clickable {
-                    quest?.let {
-                        MaterialDialog(this).show {
-                            title(text = "Mark Objective as Completed?")
-                            //message(text = "")
-                            positiveButton(text = "Complete") { dialog ->
-                                questViewModel.toggleObjective(it, objective)
+                .combinedClickable(
+                    onClick = {
+                        quest?.let {
+                            MaterialDialog(this).show {
+                                title(text = "Mark Objective as Completed?")
+                                //message(text = "")
+                                positiveButton(text = "Complete") { dialog ->
+                                    questViewModel.toggleObjective(it, objective)
+                                }
+                                negativeButton(text = "Cancel")
                             }
-                            negativeButton(text = "Cancel")
+                        }
+                    },
+                    onLongClick = {
+                        quest?.let {
+                            openActivity(QuestDetailActivity::class.java) {
+                                putString("questID", it.id)
+                            }
                         }
                     }
-                }
+                )
                 .padding(end = 16.dp)
                 .defaultMinSize(minHeight = 24.dp)
                 .height(IntrinsicSize.Min),
@@ -474,7 +515,10 @@ class QuestInRaidActivity : GodActivity() {
                     }
                 }
                 Image(
-                    rememberImagePainter(pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
+                    rememberImagePainter(
+                        pricing?.iconLink
+                            ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                    ),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)

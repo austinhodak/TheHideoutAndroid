@@ -254,6 +254,26 @@ class SettingsActivity : GodActivity() {
                                         summary = "%s".replace("[^0-9.]".toRegex(), "").asText()
                                         hint = "Aim Sens".asText()
                                     }
+                                    category {
+                                        title = "Other".asText()
+                                    }
+                                    button {
+                                        title = "Log out".asText()
+                                        icon = R.drawable.ic_baseline_logout_24.asIcon()
+                                        enabled = isSignedIn
+                                        onClick = {
+                                            MaterialDialog(this@SettingsActivity).show {
+                                                title(text = "Log Out?")
+                                                message(text = "Are you sure? Progress will be saved.")
+                                                positiveButton(text = "LOGOUT") {
+                                                    Firebase.auth.signOut()
+                                                    Toast.makeText(this@SettingsActivity, "Logged out!", Toast.LENGTH_SHORT).show()
+                                                    restartNavActivity()
+                                                }
+                                                negativeButton(text = "NEVERMIND")
+                                            }
+                                        }
+                                    }
                                 }
                                 /*subScreen {
                                     title = "Flea Market".asText()
@@ -287,7 +307,7 @@ class SettingsActivity : GodActivity() {
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
                                     }
                                 }
-                                category {
+                                /*category {
                                     title = "Integrations".asText()
                                 }
                                 subScreen {
@@ -367,7 +387,7 @@ class SettingsActivity : GodActivity() {
 
                                         }
                                     }
-                                }
+                                }*/
                                 /*subScreen {
                                     title = "Hideout".asText()
                                     //icon = R.drawable.icons8_tent_96.asIcon()
@@ -389,24 +409,7 @@ class SettingsActivity : GodActivity() {
                                 category {
                                     title = "About".asText()
                                 }
-                                button {
-                                    title = "Log out".asText()
-                                    icon = R.drawable.ic_baseline_logout_24.asIcon()
-                                    enabled = isSignedIn
-                                    onClick = {
-                                        MaterialDialog(this@SettingsActivity).show {
-                                            title(text = "Log Out?")
-                                            message(text = "Are you sure? Progress will be saved.")
-                                            positiveButton(text = "LOGOUT") {
-                                                Firebase.auth.signOut()
-                                                Toast.makeText(this@SettingsActivity, "Logged out!", Toast.LENGTH_SHORT).show()
-                                                restartNavActivity()
-                                            }
-                                            negativeButton(text = "NEVERMIND")
-                                        }
-                                    }
-                                }
-                                subScreen {
+                                /*subScreen {
                                     title = "Reset".asText()
                                     icon = R.drawable.ic_baseline_settings_backup_restore_24.asIcon()
                                     button {
@@ -455,7 +458,7 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                     }
-                                }
+                                }*/
                                 button {
                                     title = "The Hideout".asText()
                                     summary = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})".asText()
