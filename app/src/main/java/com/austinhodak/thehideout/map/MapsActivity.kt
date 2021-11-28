@@ -134,22 +134,25 @@ class MapsActivity : GodActivity() {
 
             val selectedCats by UserSettingsModel.mapMarkerCategories.flow.collectAsState(initial = emptySet())
 
-            val selectedUserQuests by UserSettingsModel.mapQuestSelection.flow.collectAsState(initial = setOf("Active", "Locked", "Completed"))
-
-
+            //val selectedUserQuests by UserSettingsModel.mapQuestSelection.flow.collectAsState(initial = setOf("Active", "Locked", "Completed"))
+            var selectedUserQuests by remember {
+                mutableStateOf(setOf("Active", "Locked", "Completed"))
+            }
 
             var selectedPoints: Pair<LatLng?, LatLng?>? = null
 
             //val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
 
-            var quests by remember {
+            /*var quests by remember {
                 mutableStateOf(listOf<Quest>())
-            }
+            }*/
 
-            LaunchedEffect("quests") {
+            val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
+
+            /*LaunchedEffect("quests") {
                 val list = tarkovRepo.getAllQuestsOnce()
                 quests = list
-            }
+            }*/
 
             scope.launch {
                 selectedMap?.let {
@@ -157,7 +160,14 @@ class MapsActivity : GodActivity() {
                         it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
                     )
                     updateMarkers(selectedCats.toMutableList())
-                    updateQuestMarkers(selectedUserQuests.toList(), userData, quests)
+
+                    if (quests.isNotEmpty()) {
+                        userData?.let {
+                            updateQuestMarkers(selectedUserQuests.toList(), userData, quests)
+                        }
+                    }
+
+                    Timber.d("Scope Launch")
                 }
             }
 
@@ -233,7 +243,9 @@ class MapsActivity : GodActivity() {
                                                 Row(
                                                     Modifier
                                                         .fillMaxWidth()
-                                                        .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {
+                                                        .clickable(
+                                                            indication = null,
+                                                            interactionSource = remember { MutableInteractionSource() }) {
                                                             val list = selectedCats.toMutableList()
 
                                                             group?.categories?.forEach { category ->
@@ -249,7 +261,9 @@ class MapsActivity : GodActivity() {
                                                             }
 
                                                             scope.launch {
-                                                                UserSettingsModel.mapMarkerCategories.update(list.toSet())
+                                                                UserSettingsModel.mapMarkerCategories.update(
+                                                                    list.toSet()
+                                                                )
                                                             }
                                                             updateMarkers(list)
                                                         }
@@ -310,7 +324,9 @@ class MapsActivity : GodActivity() {
                                         verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier,
                                     ) {
-                                        Text("Quests", modifier = Modifier.weight(1f), style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Medium)
+                                        Text("Quests", modifier = Modifier.padding(end = 8.dp), style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Medium)
+                                        Icon(painter = painterResource(id = R.drawable.icons8_crown_96), contentDescription = "", modifier = Modifier.size(16.dp))
+                                        Spacer(modifier = Modifier.weight(1f))
                                         Icon(
                                             painter = if (isSettingsVisible) painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24) else painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24),
                                             contentDescription = ""
@@ -323,7 +339,9 @@ class MapsActivity : GodActivity() {
                                                 Row(
                                                     Modifier
                                                         .fillMaxWidth()
-                                                        .clickable(indication = null, interactionSource = remember { MutableInteractionSource() }) {
+                                                        .clickable(
+                                                            indication = null,
+                                                            interactionSource = remember { MutableInteractionSource() }) {
 
                                                         }
                                                         .padding(top = 16.dp, bottom = 12.dp),
@@ -345,7 +363,7 @@ class MapsActivity : GodActivity() {
                                                             selected = selectedUserQuests.contains(category)
                                                         ) {
                                                             isPremium { premium ->
-                                                                val it = true
+                                                                val it = premium
                                                                 if (it) {
                                                                     val list = selectedUserQuests.toMutableList()
                                                                     if (selectedUserQuests.contains(category)) {
@@ -359,7 +377,8 @@ class MapsActivity : GodActivity() {
                                                                     }
 
                                                                     scope.launch {
-                                                                        UserSettingsModel.mapQuestSelection.update(list.toSet())
+                                                                        selectedUserQuests = list.toSet()
+                                                                        //UserSettingsModel.mapQuestSelection.update(list.toSet())
                                                                     }
                                                                     updateQuestMarkers(list, userData, quests)
                                                                 } else {
@@ -421,15 +440,26 @@ class MapsActivity : GodActivity() {
                                                 if (quest != null) {
                                                     Row(
                                                         Modifier
-                                                            .padding(start = 0.dp, top = 8.dp, bottom = 0.dp, end = 0.dp)
+                                                            .padding(
+                                                                start = 0.dp,
+                                                                top = 8.dp,
+                                                                bottom = 0.dp,
+                                                                end = 0.dp
+                                                            )
                                                             .clip(RoundedCornerShape(8.dp))
                                                             .background(itemDefault)
                                                             .clickable {
                                                                 openActivity(QuestDetailActivity::class.java) {
-                                                                    putString("questID", quest!!.id.toString())
+                                                                    putString(
+                                                                        "questID",
+                                                                        quest!!.id.toString()
+                                                                    )
                                                                 }
                                                             }
-                                                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                                                            .padding(
+                                                                horizontal = 16.dp,
+                                                                vertical = 8.dp
+                                                            )
                                                             .height(IntrinsicSize.Min),
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
@@ -482,7 +512,9 @@ class MapsActivity : GodActivity() {
                                                                                     .load(image)
                                                                                     .into(view)
                                                                             }
-                                                                            .withHiddenStatusBar(false)
+                                                                            .withHiddenStatusBar(
+                                                                                false
+                                                                            )
                                                                             .show()
                                                                     },
                                                                 contentScale = ContentScale.FillHeight
@@ -854,7 +886,6 @@ class MapsActivity : GodActivity() {
                 false
             }
         }.forEach { marker ->
-            //Timber.d("TEST!")
             val location = marker.tag as MapInteractive.Location
             val locationQuests = location.quests
 
