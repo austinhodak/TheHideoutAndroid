@@ -33,6 +33,7 @@ import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.billing.PremiumActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.utils.restartNavActivity
@@ -305,6 +306,14 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = "Opening Screen".asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
+                                    }
+                                }
+                                button {
+                                    title = "Team Management".asText()
+                                    //summary = "Join, leave, and manage your teams.".asText()
+                                    icon = R.drawable.ic_baseline_group_24.asIcon()
+                                    onClick = {
+                                        openActivity(TeamManagementActivity::class.java)
                                     }
                                 }
                                 /*category {

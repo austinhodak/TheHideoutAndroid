@@ -126,6 +126,9 @@
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"/>
 
+        <activity android:name=".team.TeamManagementActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
