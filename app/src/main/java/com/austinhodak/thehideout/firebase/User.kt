@@ -16,8 +16,16 @@ data class User(
     var items: Map<String, UNeededItem>? = null,
     var cart: Map<String, Int>? = null,
     var ttApiKey: String? = null,
-    var teams: Map<String, Boolean>? = null
+    var teams: Map<String, Boolean>? = null,
+    var discordUsername: String? = null,
+    var token: String? = null,
+    var displayName: String? = null,
+    var uid: String? = null
 ) {
+    fun getUsername(): String {
+        return if (!displayName.isNullOrEmpty()) displayName!! else if (!discordUsername.isNullOrEmpty()) discordUsername!! else "$uid"
+    }
+
     data class UNeededItem (
         var hideoutObjective: Map<String, Int>? = null,
         var questObjective: Map<String, Int>? = null,

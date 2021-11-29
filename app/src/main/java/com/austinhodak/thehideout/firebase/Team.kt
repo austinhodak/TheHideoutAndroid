@@ -6,5 +6,6 @@ data class Team (
 ) {
     data class MemberSettings (
         var color: String? = null,
+        var owner: Boolean? = null
     )
 }

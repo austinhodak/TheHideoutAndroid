@@ -51,6 +51,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
@@ -658,6 +659,15 @@ fun isPremium (isPremium: (Boolean) -> Unit) {
         if (error == null) {
             //Check for premium
             isPremium.invoke(purchaserInfo?.accessLevels?.get("premium")?.isActive == true)
+        }
+    }
+}
+
+fun Uri.acceptTeamInvite(joined: () -> Unit) {
+    val teamID = this.lastPathSegment
+    userRefTracker("teams/$teamID").setValue(true).addOnSuccessListener {
+        questsFirebase.child("teams/$teamID/members/${uid()}/color").setValue("#F44336").addOnSuccessListener {
+            joined()
         }
     }
 }

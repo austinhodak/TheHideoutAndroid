@@ -32,6 +32,7 @@ open class GodActivity : AppCompatActivity() {
 
                 if (user.displayName != name) {
                     user.updateProfile(profileUpdate)
+                    userRefTracker("displayName").setValue(name)
                 }
             }
         }
@@ -39,6 +40,7 @@ open class GodActivity : AppCompatActivity() {
         Firebase.auth.currentUser?.let {
             lifecycleScope.launch(Dispatchers.IO) {
                 UserSettingsModel.playerIGN.update(it.displayName ?: "")
+                userRefTracker("displayName").setValue(it.displayName)
             }
         }
 
