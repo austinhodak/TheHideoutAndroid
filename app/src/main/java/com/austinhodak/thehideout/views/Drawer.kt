@@ -229,6 +229,86 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
         typeface = benderFont
     }
 
+    private val drawerTraderPrapor = SecondaryDrawerItem().apply {
+        tag = "trader/prapor"
+        level = 2
+        nameText = "Prapor"
+        iconRes = R.drawable.prapor_portrait
+        typeface = benderFont
+        identifier = 501
+    }
+
+    private val drawerTraderTherapist = SecondaryDrawerItem().apply {
+        tag = "trader/therapist"
+        level = 2
+        nameText = "Therapist"
+        iconRes = R.drawable.therapist_portrait
+        typeface = benderFont
+        identifier = 502
+    }
+
+    private val drawerTraderSkier = SecondaryDrawerItem().apply {
+        tag = "trader/skier"
+        level = 2
+        nameText = "Skier"
+        iconRes = R.drawable.skier_portrait
+        typeface = benderFont
+        identifier = 503
+    }
+
+    private val drawerTraderPeacekeeper = SecondaryDrawerItem().apply {
+        tag = "trader/peacekeeper"
+        level = 2
+        nameText = "Peacekeeper"
+        iconRes = R.drawable.peacekeeper_portrait
+        typeface = benderFont
+        identifier = 504
+    }
+
+    private val drawerTraderMechanic = SecondaryDrawerItem().apply {
+        tag = "trader/mechanic"
+        level = 2
+        nameText = "Mechanic"
+        iconRes = R.drawable.mechanic_portrait
+        typeface = benderFont
+        identifier = 505
+    }
+
+    private val drawerTraderRagman = SecondaryDrawerItem().apply {
+        tag = "trader/ragman"
+        level = 2
+        nameText = "Ragman"
+        iconRes = R.drawable.ragman_portrait
+        typeface = benderFont
+        identifier = 506
+    }
+
+    private val drawerTraderJaeger = SecondaryDrawerItem().apply {
+        tag = "trader/jaeger"
+        level = 2
+        nameText = "Jaeger"
+        iconRes = R.drawable.jaeger_portrait
+        typeface = benderFont
+        identifier = 507
+    }
+
+    private val drawerTraders = ExpandableDrawerItem().apply {
+        nameText = "Traders"
+        iconRes = R.drawable.ic_groups_white_24dp
+        isIconTinted = true
+        typeface = benderFont
+        subItems = mutableListOf(
+            drawerTraderPrapor,
+            drawerTraderTherapist,
+            drawerTraderSkier,
+            drawerTraderPeacekeeper,
+            drawerTraderMechanic,
+            drawerTraderRagman,
+            drawerTraderJaeger
+        )
+        isSelectable = false
+    }
+
     init {
         itemAdapter.add(
             //drawerDivider,
@@ -248,6 +328,8 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             drawerQuests,
             drawerDamageSimulator,
             drawerExtraTools,
+            drawerDivider,
+            drawerTraders,
             drawerSectionJoinUs,
             drawerJoinUsDiscord,
             drawerJoinUsTwitch,
@@ -409,7 +491,7 @@ fun MainDrawer(
                         }
                     })*/
 
-                    Adapty.getPurchaserInfo { purchaserInfo, error ->
+                    /*Adapty.getPurchaserInfo { purchaserInfo, error ->
                         if (error == null) {
                             //Check for premium
                             if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
@@ -422,7 +504,7 @@ fun MainDrawer(
                                 drawer.addItemAtPosition(16, drawerUpgrade)
                             }
                         }
-                    }
+                    }*/
                 }
             )
         }

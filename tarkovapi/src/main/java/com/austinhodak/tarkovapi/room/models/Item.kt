@@ -107,8 +107,8 @@ data class Item(
         return pricing?.getPrice() ?: 0
     }
 
-    fun getPricePerSlot(): Int {
-        return getPrice() / getTotalSlots()
+    fun getPricePerSlot(price: Int = getPrice()): Int {
+        return price / getTotalSlots()
     }
 
     fun getUpdatedTime(): String {

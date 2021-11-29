@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface BarterDao {
 
     @Query("SELECT * FROM barters")
-    fun getAllCrafts(): List<Barter>
+    fun getAllBarters(): Flow<List<Barter>>
 
     @Query("SELECT * FROM barters WHERE requiredItems LIKE :id OR rewardItems LIKE :id")
     fun getBartersWithItemID(id: String): Flow<List<Barter>>

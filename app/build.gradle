@@ -30,7 +30,7 @@ android {
             keyAlias 'key0'
             storePassword 'dg3hGsRvyUkBiHt67xkLgktK'
             keyPassword 'dg3hGsRvyUkBiHt67xkLgktK'
-            storeFile file('C:\\Development\\Keys\\TheHideoutKeystore.jks')
+            //storeFile file('C:\\Development\\Keys\\TheHideoutKeystore.jks')
         }
     }
 

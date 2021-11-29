@@ -38,6 +38,7 @@ import com.austinhodak.thehideout.quests.QuestMainScreen
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
 import com.austinhodak.thehideout.tools.SensitivityCalculatorScreen
 import com.austinhodak.thehideout.tools.viewmodels.SensitivityViewModel
+import com.austinhodak.thehideout.traders.TraderScreen
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.utils.restartNavActivity
@@ -70,8 +71,7 @@ import javax.inject.Inject
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @AndroidEntryPoint
-class
-NavActivity : GodActivity() {
+class NavActivity : GodActivity() {
 
     private val navViewModel: NavViewModel by viewModels()
     private val fleaViewModel: FleaViewModel by viewModels()
@@ -284,6 +284,13 @@ NavActivity : GodActivity() {
                         }
                         composable("sensitivity") {
                             SensitivityCalculatorScreen(navViewModel, tarkovRepo, sensitivityViewModel, armorPickerLauncher)
+                        }
+                        composable("trader/{trader}") {
+                            TraderScreen(
+                                it.arguments?.getString("trader"),
+                                navViewModel,
+                                tarkovRepo
+                            )
                         }
                     }
 
