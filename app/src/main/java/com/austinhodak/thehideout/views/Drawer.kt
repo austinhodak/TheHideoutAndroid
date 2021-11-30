@@ -409,7 +409,7 @@ fun MainDrawer(
                         }
                     })*/
 
-                    Adapty.getPurchaserInfo { purchaserInfo, error ->
+                    /*Adapty.getPurchaserInfo { purchaserInfo, error ->
                         if (error == null) {
                             //Check for premium
                             if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
@@ -422,7 +422,7 @@ fun MainDrawer(
                                 drawer.addItemAtPosition(16, drawerUpgrade)
                             }
                         }
-                    }
+                    }*/
                 }
             )
         }
