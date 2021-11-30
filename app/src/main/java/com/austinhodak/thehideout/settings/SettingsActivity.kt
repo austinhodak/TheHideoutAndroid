@@ -316,7 +316,7 @@ class SettingsActivity : GodActivity() {
                                         openActivity(TeamManagementActivity::class.java)
                                     }
                                 }
-                                /*category {
+                                category {
                                     title = "Integrations".asText()
                                 }
                                 subScreen {
@@ -396,7 +396,7 @@ class SettingsActivity : GodActivity() {
 
                                         }
                                     }
-                                }*/
+                                }
                                 /*subScreen {
                                     title = "Hideout".asText()
                                     //icon = R.drawable.icons8_tent_96.asIcon()
