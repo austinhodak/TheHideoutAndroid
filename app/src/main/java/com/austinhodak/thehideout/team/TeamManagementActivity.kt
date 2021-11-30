@@ -222,16 +222,18 @@ class TeamManagementActivity : GodActivity() {
                     .height(48.dp)
                     .combinedClickable(
                         onClick = {
-                            MaterialDialog(this).show {
-                                title(text = "Your Color")
-                                colorChooser(
-                                    colors = ColorPalette.Primary,
-                                    subColors = ColorPalette.PrimarySub,
-                                    initialSelection = android.graphics.Color.parseColor(value.color)
-                                ) { _, color ->
-                                    value.updateColor("#${Integer.toHexString(color).substring(2)}", teamID!!, id)
+                            if (it.uid == uid()) {
+                                MaterialDialog(this).show {
+                                    title(text = "Your Color")
+                                    colorChooser(
+                                        colors = ColorPalette.Primary,
+                                        subColors = ColorPalette.PrimarySub,
+                                        initialSelection = android.graphics.Color.parseColor(value.color)
+                                    ) { _, color ->
+                                        value.updateColor("#${Integer.toHexString(color).substring(2)}", teamID!!, id)
+                                    }
+                                    positiveButton(text = "SAVE")
                                 }
-                                positiveButton(text = "SAVE")
                             }
                         }
                     ),

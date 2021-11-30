@@ -16,7 +16,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -37,6 +39,8 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.color.ColorPalette
+import com.afollestad.materialdialogs.color.colorChooser
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
@@ -62,7 +66,6 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
@@ -241,7 +244,7 @@ class QuestDetailActivity : GodActivity() {
                                         onClick = {
                                             it.completed()
                                         },
-                                        modifier = Modifier.navigationBarsPadding()
+                                        //modifier = Modifier.navigationBarsPadding()
                                     )
                                 }
 
@@ -258,7 +261,7 @@ class QuestDetailActivity : GodActivity() {
                                         onClick = {
                                             it.undo(true)
                                         },
-                                        modifier = Modifier.navigationBarsPadding()
+                                        //modifier = Modifier.navigationBarsPadding()
                                     )
                                 }
 
@@ -276,15 +279,15 @@ class QuestDetailActivity : GodActivity() {
 
                                         },
                                         backgroundColor = Color.DarkGray,
-                                        modifier = Modifier.navigationBarsPadding()
+                                        //modifier = Modifier.navigationBarsPadding()
                                     )
                                 }
                             }
                         },
                         bottomBar = {
-                            //QuestDetailBottomNav(navController)
+                            QuestDetailBottomNav(navController)
                         },
-                        isFloatingActionButtonDocked = false,
+                        isFloatingActionButtonDocked = true,
                         floatingActionButtonPosition = FabPosition.Center
                     ) {
                         if (quest == null) return@Scaffold
@@ -322,7 +325,7 @@ class QuestDetailActivity : GodActivity() {
                                     teamData?.forEach {
                                         Timber.d(it.toString())
                                         item {
-                                            Text("${it.name}")
+                                            TeamCard(it)
                                         }
                                     }
                                 }
@@ -332,6 +335,111 @@ class QuestDetailActivity : GodActivity() {
                 }
             }
         }
+    }
+
+    @SuppressLint("CheckResult")
+    @Composable
+    private fun TeamCard(team: Team) {
+        team.let {
+            Card(
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
+                    .fillMaxWidth(),
+                backgroundColor = DarkGrey
+            ) {
+                Column(
+                    Modifier.padding(top = 16.dp, start = 0.dp, end = 0.dp, bottom = 0.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    ) {
+                        Text(text = it.name ?: "", style = MaterialTheme.typography.h6)
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+
+                    Divider(color = DividerDark)
+
+                    it.members?.forEach {
+                        TeamMemberItem(id = it.key, it.value)
+                    }
+                }
+            }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    @OptIn(ExperimentalFoundationApi::class)
+    @Composable
+    private fun TeamMemberItem(id: String, value: Team.MemberSettings) {
+        var teamMember by remember { mutableStateOf<User?>(null) }
+        questsFirebase.child("users/$id")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        teamMember = snapshot.getValue(User::class.java)
+                        teamMember?.uid = id
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+
+        teamMember?.let {
+            Row(
+                Modifier
+                    .height(48.dp)
+                    .combinedClickable(
+                        onClick = {
+
+                        }
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Rectangle(color = value.getColorM(), modifier = Modifier.fillMaxHeight())
+                Row(
+                    Modifier
+                        .padding(start = 16.dp, end = 16.dp)
+                        .fillMaxHeight(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "${it.getUsername()}${
+                            if (it.uid == uid()) {
+                                " (You)"
+                            } else ""
+                        }", fontWeight = if (it.uid == uid()) FontWeight.Bold else FontWeight.Normal
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    quest?.let {
+                        if (teamMember?.isQuestCompleted(quest!!) == true) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_check_circle_outline_24),
+                                contentDescription = "",
+                                Modifier.size(16.dp),
+                                tint = Green400
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    @Composable
+    fun Rectangle(
+        color: Color,
+        modifier: Modifier = Modifier
+    ) {
+        Box(
+            modifier = modifier
+                .width(2.dp)
+                .clip(RectangleShape)
+                .background(color)
+        )
     }
 
     @Composable
