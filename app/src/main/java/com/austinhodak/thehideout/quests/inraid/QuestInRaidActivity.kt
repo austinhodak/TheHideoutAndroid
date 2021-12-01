@@ -95,7 +95,9 @@ class QuestInRaidActivity : GodActivity() {
                 }.flatMap {
                     it.objective ?: emptyList()
                 }.filter {
-                    userData?.isObjectiveCompleted(it) == false && it.location == mapID.toString()
+                    userData?.isObjectiveCompleted(it) == false && (it.location == mapID.toString() || it.location == "-1")
+                }.filterNot {
+                    it.type == "collect" || it.type == "find" || it.type == "build" || it.type == "reputation"
                 }.groupBy {
                     it.type
                 }
@@ -323,12 +325,13 @@ class QuestInRaidActivity : GodActivity() {
                     objective = objective
                 )
             }
-            COLLECT, FIND, KEY, BUILD -> {
+            KEY -> {
                 val item: Item? by tarkovRepo.getItemByID(objective.target?.first() ?: "")
                     .collectAsState(initial = null)
                 if (item != null)
                     ObjectiveItemPricing(objective = objective, pricing = item?.pricing)
             }
+            COLLECT, FIND, BUILD -> return
             else -> ObjectiveItemBasic(
                 title = text,
                 subtitle = subtitle,
@@ -415,7 +418,7 @@ class QuestInRaidActivity : GodActivity() {
                         )
                         if (subtitle != null) {
                             Text(
-                                text = "With $sub",
+                                text = "$sub",
                                 style = MaterialTheme.typography.caption
                             )
                         }
