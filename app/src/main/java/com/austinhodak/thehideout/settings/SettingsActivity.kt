@@ -407,6 +407,30 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }*/
                                 category {
+                                    title = "Join Us On".asText()
+                                }
+                                button {
+                                    title = "Discord".asText()
+                                    icon = R.drawable.ic_icons8_discord_svg.asIcon()
+                                    onClick = {
+                                        "https://discord.gg/YQW36z29z6".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
+                                button {
+                                    title = "Twitch".asText()
+                                    icon = R.drawable.ic_icons8_twitch.asIcon()
+                                    onClick = {
+                                        "https://www.twitch.tv/theeeelegend".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
+                                button {
+                                    title = "Twitter".asText()
+                                    icon = R.drawable.ic_icons8_twitter.asIcon()
+                                    onClick = {
+                                        "https://twitter.com/austin6561".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
+                                category {
                                     title = "About".asText()
                                 }
                                 /*subScreen {
