@@ -11,10 +11,10 @@ data class Barter(
     val source: String? = null
 ) {
     fun totalCost(): Int {
-        return requiredItems?.sumOf { (it?.count!!.times((it.item?.avg24hPrice ?: 0))) } ?: 0
+        return requiredItems?.sumOf { (it?.count!!.times((it.item?.getCheapestBuyRequirements()?.price ?: 0))) } ?: 0
     }
 
     fun estimatedProfit(): Int? {
-        return rewardItems?.first()?.item?.avg24hPrice?.minus(totalCost())
+        return rewardItems?.first()?.item?.getHighestSell()?.price?.minus(totalCost())
     }
 }

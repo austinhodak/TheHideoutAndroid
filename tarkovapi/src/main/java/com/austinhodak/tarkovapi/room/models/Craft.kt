@@ -32,11 +32,11 @@ data class Craft(
     }
 
     fun totalCost(): Int {
-        return requiredItems?.sumOf { (it?.count!!.times((it.item?.avg24hPrice ?: 0))) } ?: 0
+        return requiredItems?.sumOf { (it?.count!!.times((it.item?.getCheapestBuyRequirements()?.price ?: 0))) } ?: 0
     }
 
     fun estimatedProfit(): Int? {
-        val price = rewardItem()?.item?.avg24hPrice?.times(rewardQuantity())
+        val price = rewardItem()?.item?.getHighestSell()?.price?.times(rewardQuantity())
         return price?.minus(totalCost())
     }
 
