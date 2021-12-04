@@ -47,7 +47,7 @@ class QuestDetailViewModel @Inject constructor(
     private val _userData = MutableLiveData<User?>(null)
     val userData = _userData
 
-    private val _teamsData = MutableLiveData<List<Team>>()
+    private val _teamsData = MutableLiveData<List<Team>>(null)
     val teamsData = _teamsData
 
     init {
@@ -57,16 +57,20 @@ class QuestDetailViewModel @Inject constructor(
                     val user = snapshot.getValue<User>()
                     _userData.value = user
 
-                    var teams: MutableList<Team>? = mutableListOf()
+                    val teams: MutableList<Team> = mutableListOf()
 
                     user?.teams?.forEach {
                         val teamID = it.key
                         questsFirebase.child("teams/$teamID").addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                if (!snapshot.exists()) {
+                                    _teamsData.value = emptyList()
+                                    return
+                                }
                                 val team = snapshot.getValue(Team::class.java)
                                 team?.let { team ->
-                                    teams?.add(team)
-                                    _teamsData.value = teams?.toList()
+                                    teams.add(team)
+                                    _teamsData.value = teams.toList()
                                 }
                             }
 
@@ -74,6 +78,10 @@ class QuestDetailViewModel @Inject constructor(
 
                             }
                         })
+                    }
+
+                    if (user?.teams == null) {
+                        _teamsData.value = emptyList()
                     }
                 }
 

@@ -50,6 +50,8 @@ import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.EmptyText
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
@@ -321,11 +323,22 @@ class QuestDetailActivity : GodActivity() {
                                 }
                             }
                             composable("Team") { _ ->
-                                LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = it.calculateBottomPadding() + 64.dp)) {
-                                    teamData?.forEach {
-                                        Timber.d(it.toString())
-                                        item {
-                                            TeamCard(it)
+                                if (teamData == null) {
+                                    LoadingItem()
+                                } else if (teamData?.isEmpty() == true) {
+                                    EmptyText(text = "No teams.")
+                                } else {
+                                    LazyColumn(
+                                        contentPadding = PaddingValues(
+                                            top = 4.dp,
+                                            bottom = it.calculateBottomPadding() + 64.dp
+                                        )
+                                    ) {
+                                        teamData?.forEach {
+                                            Timber.d(it.toString())
+                                            item {
+                                                TeamCard(it)
+                                            }
                                         }
                                     }
                                 }
