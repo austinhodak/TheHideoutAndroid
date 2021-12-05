@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,7 +57,9 @@ import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.questPrefs
+import com.austinhodak.thehideout.quests.Chip
 import com.austinhodak.thehideout.quests.QuestDetailActivity
+import com.austinhodak.thehideout.quests.QuestFilter
 import com.austinhodak.thehideout.utils.*
 import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.LineChart
@@ -254,24 +257,93 @@ class FleaItemDetail : GodActivity() {
     }
 
     @Composable
+    fun Chip(
+        selected: Boolean = false,
+        text: String,
+        onClick: () -> Unit
+    ) {
+        Surface(
+            color = when {
+                selected -> Red400
+                else -> Color(0xFF2F2F2F)
+            },
+            contentColor = when {
+                selected -> Color.Black
+                else -> Color.White
+            },
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .clickable {
+                    onClick()
+                }
+        ) {
+            Text(
+                text = text,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier.padding(8.dp),
+                fontWeight = FontWeight.Medium,
+                fontSize = 9.sp
+            )
+        }
+    }
+
+    @Composable
     private fun Chart() {
         val benderFont = ResourcesCompat.getFont(this, R.font.bender)
 
         Column {
-            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                Text(
-                    text = "PRICE HISTORY",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Light,
-                    fontFamily = Bender,
-                    modifier = Modifier.padding(
-                        bottom = 8.dp,
-                        top = 16.dp,
-                        start = 16.dp,
-                        end = 16.dp
-                    )
+            Row(
+                Modifier.padding(
+                    bottom = 0.dp,
+                    top = 8.dp,
+                    start = 16.dp,
+                    end = 4.dp
                 )
+            ) {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "PRICE HISTORY",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(
+                            bottom = 0.dp,
+                            top = 8.dp,
+                            start = 0.dp,
+                            end = 16.dp
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Chip(
+                    text = "1Y",
+                    selected = false
+                ) {
+
+                }
+                Chip(
+                    text = "6M",
+                    selected = false
+                ) {
+
+                }
+                Chip(
+                    text = "1M",
+                    selected = false
+                ) {
+
+                }
+                Chip(
+                    text = "7D",
+                    selected = true
+                ) {
+
+                }
             }
+
 
             AndroidView(factory = {
                 val chart = LineChart(it)
@@ -320,7 +392,7 @@ class FleaItemDetail : GodActivity() {
                 //chart.invalidate()
                 chart
             },  modifier = Modifier
-                .padding(start = 8.dp, end = 4.dp, bottom = 16.dp)
+                .padding(start = 8.dp, end = 0.dp, bottom = 16.dp)
                 .fillMaxWidth()
                 .height(200.dp)
             ) { chart ->
@@ -331,10 +403,10 @@ class FleaItemDetail : GodActivity() {
                         }
 
                         val dataSet = LineDataSet(data, "Prices")
-                        dataSet.fillColor = resources.getColor(R.color.pastel_orange)
+                        dataSet.fillColor = resources.getColor(R.color.md_red_400)
                         dataSet.setDrawFilled(true)
-                        dataSet.color = resources.getColor(R.color.pastel_orange)
-                        dataSet.setCircleColor(resources.getColor(R.color.md_orange_400))
+                        dataSet.color = resources.getColor(R.color.md_red_400)
+                        dataSet.setCircleColor(resources.getColor(R.color.md_red_500))
                         dataSet.valueTypeface = benderFont
                         dataSet.setDrawValues(false)
 
