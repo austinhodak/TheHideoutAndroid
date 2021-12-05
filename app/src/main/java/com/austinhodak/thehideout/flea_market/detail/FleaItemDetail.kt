@@ -455,7 +455,7 @@ class FleaItemDetail : GodActivity() {
                             modifier = Modifier.padding(top = 8.dp)
                         )
                         Text(
-                            text = "${quest.getObjective(item?.id)?.number ?: "Key"} Needed",
+                            text = "${quest.getObjective(item?.id)?.number ?: "Item"} Needed",
                             style = MaterialTheme.typography.body2,
                             modifier = Modifier.padding(top = 0.dp)
                         )
