@@ -233,6 +233,4 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:8.1.0'
 
     implementation 'com.github.adaptyteam:AdaptySDK-Android:1.2.0'
-
-    implementation 'com.github.tehras:charts:0.1.5-alpha'
 }
