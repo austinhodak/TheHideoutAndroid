@@ -521,6 +521,7 @@ fun String.modParent(): String {
 }
 
 val questsFirebase = Firebase.database("https://hideout-tracker.firebaseio.com").reference
+val fleaFirebase = Firebase.database("https://hideout-flea-market.firebaseio.com").reference
 
 fun Activity.keepScreenOn(keepOn: Boolean) {
     if (keepOn) {
