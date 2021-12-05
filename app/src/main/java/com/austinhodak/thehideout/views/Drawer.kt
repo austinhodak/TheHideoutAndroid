@@ -309,6 +309,10 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
         isSelectable = false
     }
 
+    private val drawerNews = PrimaryDrawerItem().apply {
+        tag = "news"; identifier = 601; nameText = "News"; iconRes = R.drawable.ic_baseline_rss_feed_24; isIconTinted = true; typeface = benderFont
+    }
+
     init {
         itemAdapter.add(
             //drawerDivider,
@@ -328,12 +332,9 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             drawerQuests,
             drawerDamageSimulator,
             drawerExtraTools,
-            //drawerSectionJoinUs,
-            //drawerJoinUsDiscord,
-            //drawerJoinUsTwitch,
-            //drawerJoinUsTwitter,
-            //drawerDivider,
             drawerTraders,
+            drawerDivider,
+            drawerNews,
             drawerDivider,
             //drawerLogin,
             drawerSettings,
