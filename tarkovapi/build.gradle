@@ -84,4 +84,7 @@ dependencies {
     api "com.github.MFlisar.MaterialPreferences:screen-input:$prefs"
     api "com.github.MFlisar.MaterialPreferences:screen-choice:$prefs"
     api "com.github.MFlisar.MaterialPreferences:screen-color:$prefs"
+
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api "com.squareup.retrofit2:converter-gson:2.0.0"
 }
