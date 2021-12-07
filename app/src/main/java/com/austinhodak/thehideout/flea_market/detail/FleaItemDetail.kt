@@ -57,14 +57,13 @@ import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.questPrefs
-import com.austinhodak.thehideout.quests.Chip
 import com.austinhodak.thehideout.quests.QuestDetailActivity
-import com.austinhodak.thehideout.quests.QuestFilter
 import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.views.PriceChartMarkerView
 import com.bumptech.glide.Glide
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -83,8 +82,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import javax.inject.Inject
-import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -351,8 +348,7 @@ class FleaItemDetail : GodActivity() {
                 val formatter: ValueFormatter = object : ValueFormatter() {
                     override fun getAxisLabel(value: Float, axis: AxisBase): String {
                         val simpleDateFormat = SimpleDateFormat("MM/dd")
-                        val dateString = simpleDateFormat.format(value)
-                        return dateString
+                        return simpleDateFormat.format(value)
                     }
                 }
 
@@ -379,17 +375,18 @@ class FleaItemDetail : GodActivity() {
                 chart.legend.typeface = benderFont
                 chart.xAxis.typeface = benderFont
                 chart.axisLeft.typeface = benderFont
+                chart.setNoDataTextTypeface(benderFont)
 
                 chart.axisLeft.valueFormatter = object : ValueFormatter() {
                     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                         val format = DecimalFormat("###,##0")
-
                         return "${format.format(value)}₽"
                     }
                 }
 
-                //chart.data = lineData
-                //chart.invalidate()
+                val mv = PriceChartMarkerView(this@FleaItemDetail, R.layout.price_chart_marker_view)
+                chart.marker = mv
+
                 chart
             },  modifier = Modifier
                 .padding(start = 8.dp, end = 0.dp, bottom = 16.dp)
@@ -399,7 +396,9 @@ class FleaItemDetail : GodActivity() {
                 fleaFirebase.child("items/${itemID}/").orderByKey().limitToLast(20).addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val data = snapshot.children.map {
-                            Entry(it.key?.toFloat() ?: 0f, (it.value as Long).toFloat())
+                            val entry = Entry(it.key?.toFloat() ?: 0f, (it.value as Long).toFloat())
+                            entry.data = it
+                            entry
                         }
 
                         val dataSet = LineDataSet(data, "Prices")
@@ -409,13 +408,13 @@ class FleaItemDetail : GodActivity() {
                         dataSet.setCircleColor(resources.getColor(R.color.md_red_500))
                         dataSet.valueTypeface = benderFont
                         dataSet.setDrawValues(false)
-
+                        dataSet.setDrawCircles(false)
 
                         val lineData = LineData(dataSet)
                         lineData.setValueTextColor(resources.getColor(R.color.white))
 
                         chart.data = lineData
-                        chart.invalidate()
+                        chart.animateY(250,  Easing.EaseOutQuad)
                     }
 
                     override fun onCancelled(error: DatabaseError) {
