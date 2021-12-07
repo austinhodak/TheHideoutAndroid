@@ -302,7 +302,7 @@ class FleaItemDetail : GodActivity() {
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "PRICE HISTORY",
+                        text = "PRICE HISTORY (7D)",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -314,7 +314,7 @@ class FleaItemDetail : GodActivity() {
                         )
                     )
                 }
-                Spacer(modifier = Modifier.weight(1f))
+                /*Spacer(modifier = Modifier.weight(1f))
                 Chip(
                     text = "1Y",
                     selected = false
@@ -338,7 +338,7 @@ class FleaItemDetail : GodActivity() {
                     selected = true
                 ) {
 
-                }
+                }*/
             }
 
 
