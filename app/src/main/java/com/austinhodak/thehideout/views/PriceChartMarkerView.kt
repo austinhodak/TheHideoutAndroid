@@ -23,7 +23,7 @@ class PriceChartMarkerView(context: Context?, layoutResource: Int) :
         val dataSnapshot = e.data as DataSnapshot
 
         val simpleDateFormat = SimpleDateFormat("MM/dd hh:mm")
-        val dateString = simpleDateFormat.format(dataSnapshot.key?.toFloat())
+        val dateString = simpleDateFormat.format(dataSnapshot.key?.removeSurrounding("\"")?.toFloat())
 
         tvPrice.text = (dataSnapshot.value as Long).toInt().asCurrency()
 
