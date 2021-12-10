@@ -40,14 +40,13 @@ android {
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 11015
+        versionCode 11019
         // [1]-[0].[2].[0].[0]
-        versionName "1.0.0 Beta 15"
+        versionName "1.0.0 Beta 19"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
         }
-
     }
 
     flavorDimensions "version"
@@ -235,4 +234,6 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:8.1.0'
 
     implementation 'com.github.adaptyteam:AdaptySDK-Android:1.2.0'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

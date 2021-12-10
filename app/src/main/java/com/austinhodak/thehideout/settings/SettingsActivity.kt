@@ -275,6 +275,56 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                     }
+                                    subScreen {
+                                        title = "Reset".asText()
+                                        icon = R.drawable.ic_baseline_settings_backup_restore_24.asIcon()
+                                        button {
+                                            title = "Reset Hideout Progress".asText()
+                                            onClick = {
+                                                MaterialDialog(this@SettingsActivity).show {
+                                                    title(text = "Reset Hideout Progress?")
+                                                    message(text = "Are you sure?")
+                                                    positiveButton(text = "RESET") {
+                                                        userRefTracker("hideoutModules").removeValue()
+                                                        userRefTracker("hideoutObjectives").removeValue()
+                                                    }
+                                                    negativeButton(text = "NEVERMIND")
+                                                }
+                                            }
+                                        }
+                                        button {
+                                            title = "Reset Quest Progress".asText()
+                                            onClick = {
+                                                MaterialDialog(this@SettingsActivity).show {
+                                                    title(text = "Reset Quest Progress?")
+                                                    message(text = "Are you sure?")
+                                                    positiveButton(text = "RESET") {
+                                                        userRefTracker("questObjectives").removeValue()
+                                                        userRefTracker("quests").removeValue()
+                                                    }
+                                                    negativeButton(text = "NEVERMIND")
+                                                }
+                                            }
+                                        }
+                                        button {
+                                            title = "Reset All Progress".asText()
+                                            onClick = {
+                                                MaterialDialog(this@SettingsActivity).show {
+                                                    title(text = "Reset All Progress?")
+                                                    message(text = "This is typically used after a wipe or reset.\n\nTeam settings will not be affected.")
+                                                    positiveButton(text = "RESET") {
+                                                        userRefTracker("hideoutModules").removeValue()
+                                                        userRefTracker("hideoutObjectives").removeValue()
+                                                        userRefTracker("items").removeValue()
+                                                        userRefTracker("keysHave").removeValue()
+                                                        userRefTracker("questObjectives").removeValue()
+                                                        userRefTracker("quests").removeValue()
+                                                    }
+                                                    negativeButton(text = "NEVERMIND")
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 /*subScreen {
                                     title = "Flea Market".asText()
@@ -416,58 +466,32 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }*/
                                 category {
+                                    title = "Join Us On".asText()
+                                }
+                                button {
+                                    title = "Discord".asText()
+                                    icon = R.drawable.ic_icons8_discord_svg.asIcon()
+                                    onClick = {
+                                        "https://discord.gg/YQW36z29z6".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
+                                button {
+                                    title = "Twitch".asText()
+                                    icon = R.drawable.ic_icons8_twitch.asIcon()
+                                    onClick = {
+                                        "https://www.twitch.tv/theeeelegend".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
+                                button {
+                                    title = "Twitter".asText()
+                                    icon = R.drawable.ic_icons8_twitter.asIcon()
+                                    onClick = {
+                                        "https://twitter.com/austin6561".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
+                                category {
                                     title = "About".asText()
                                 }
-                                /*subScreen {
-                                    title = "Reset".asText()
-                                    icon = R.drawable.ic_baseline_settings_backup_restore_24.asIcon()
-                                    button {
-                                        title = "Reset Hideout Progress".asText()
-                                        onClick = {
-                                            MaterialDialog(this@SettingsActivity).show {
-                                                title(text = "Reset Hideout Progress?")
-                                                message(text = "Are you sure?")
-                                                positiveButton(text = "RESET") {
-                                                    userRefTracker("hideoutModules").removeValue()
-                                                    userRefTracker("hideoutObjectives").removeValue()
-                                                }
-                                                negativeButton(text = "NEVERMIND")
-                                            }
-                                        }
-                                    }
-                                    button {
-                                        title = "Reset Quest Progress".asText()
-                                        onClick = {
-                                            MaterialDialog(this@SettingsActivity).show {
-                                                title(text = "Reset Quest Progress?")
-                                                message(text = "Are you sure?")
-                                                positiveButton(text = "RESET") {
-                                                    userRefTracker("questObjectives").removeValue()
-                                                    userRefTracker("quests").removeValue()
-                                                }
-                                                negativeButton(text = "NEVERMIND")
-                                            }
-                                        }
-                                    }
-                                    button {
-                                        title = "Reset All Progress".asText()
-                                        onClick = {
-                                            MaterialDialog(this@SettingsActivity).show {
-                                                title(text = "Reset All Progress?")
-                                                message(text = "This is typically used after a wipe or reset.\n\nTeam settings will not be affected.")
-                                                positiveButton(text = "RESET") {
-                                                    userRefTracker("hideoutModules").removeValue()
-                                                    userRefTracker("hideoutObjectives").removeValue()
-                                                    userRefTracker("items").removeValue()
-                                                    userRefTracker("keysHave").removeValue()
-                                                    userRefTracker("questObjectives").removeValue()
-                                                    userRefTracker("quests").removeValue()
-                                                }
-                                                negativeButton(text = "NEVERMIND")
-                                            }
-                                        }
-                                    }
-                                }*/
                                 button {
                                     title = "The Hideout".asText()
                                     summary = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})".asText()

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -522,6 +523,7 @@ fun String.modParent(): String {
 }
 
 val questsFirebase = Firebase.database("https://hideout-tracker.firebaseio.com").reference
+val fleaFirebase = Firebase.database("https://hideout-flea-market.firebaseio.com").reference
 
 fun Activity.keepScreenOn(keepOn: Boolean) {
     if (keepOn) {
@@ -651,6 +653,20 @@ fun Pricing.addToNeededItems(quantity: Long? = 1) {
 fun ProductModel.purchase(activity: Activity, adaptyCallback: (purchaserInfo: PurchaserInfoModel?, purchaseToken: String?, googleValidationResult: GoogleValidationResult?, product: ProductModel, error: AdaptyError?) -> Unit) {
     Adapty.makePurchase(activity, this) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
         adaptyCallback.invoke(purchaserInfo, purchaseToken, googleValidationResult, product, error)
+    }
+}
+
+fun startPremiumPurchase(activity: Activity) {
+    Adapty.getPaywalls { paywalls, products, error ->
+        products?.find { it.skuDetails?.sku == "premium_1" }?.let {
+            it.purchase(activity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
+                if (error != null) {
+                    Toast.makeText(activity, "Error upgrading.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(activity, "Thank You! Premium features unlocked!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }
 

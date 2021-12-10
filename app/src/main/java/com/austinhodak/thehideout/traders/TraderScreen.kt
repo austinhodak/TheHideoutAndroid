@@ -261,10 +261,8 @@ private fun BarterItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberGlidePainter(
-                        request = rewardItem?.iconLink
-                            ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
-                    ),
+                    rememberImagePainter(data = rewardItem?.iconLink
+                        ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)
@@ -292,8 +290,10 @@ private fun BarterItem(
                         )
                     }
                     CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                        val highestSell = rewardItem?.getHighestSell()
+
                         Text(
-                            text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",
+                            text = "${highestSell?.getPriceAsCurrency()} @ ${highestSell?.getTitle()}",
                             style = MaterialTheme.typography.caption,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Light,
@@ -341,6 +341,8 @@ private fun BarterItem(
 private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     val item = taskItem?.item
     val context = LocalContext.current
+    val cheapestBuy = item?.getCheapestBuyRequirements()
+
     Row(
         modifier = Modifier
             .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
@@ -384,12 +386,21 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
                 style = MaterialTheme.typography.body1
             )
             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
-                Text(
+                Row {
+                    SmallBuyPrice(pricing = taskItem?.item)
+                    Text(
+                        text = " (${(taskItem?.count?.times(cheapestBuy?.price ?: 0))?.asCurrency()})",
+                        style = MaterialTheme.typography.caption,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Light,
+                    )
+                }
+                /*Text(
                     text = item?.getTotalCostWithExplanation(taskItem.count ?: 1) ?: "",
                     style = MaterialTheme.typography.caption,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Light,
-                )
+                )*/
             }
         }
     }

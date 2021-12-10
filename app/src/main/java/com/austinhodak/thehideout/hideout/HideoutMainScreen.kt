@@ -47,6 +47,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
+import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
@@ -873,8 +874,10 @@ fun CraftItem(craft: Craft, userData: User?) {
                             )
                         }
                         CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                            val highestSell = rewardItem?.getHighestSell()
+
                             Text(
-                                text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",
+                                text = "${highestSell?.getPriceAsCurrency()} @ ${highestSell?.getTitle()} (${highestSell?.price?.times(reward?.count ?: 1)?.asCurrency()})",
                                 style = MaterialTheme.typography.caption,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Light,
@@ -919,6 +922,8 @@ fun CraftItem(craft: Craft, userData: User?) {
 private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     val item = taskItem?.item
     val context = LocalContext.current
+
+    val cheapestBuy = item?.getCheapestBuyRequirements()
     Row(
         modifier = Modifier
             .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
@@ -961,14 +966,15 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
                 style = MaterialTheme.typography.body1
             )
             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
-                Text(
-                    text = "${taskItem?.count} x ${item?.avg24hPrice?.asCurrency()} = ${
-                        (taskItem?.count?.times(item?.avg24hPrice!!))?.asCurrency()
-                    }",
-                    style = MaterialTheme.typography.caption,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Light,
-                )
+                Row {
+                    SmallBuyPrice(pricing = taskItem?.item)
+                    Text(
+                        text = " (${(taskItem?.count?.times(cheapestBuy?.price ?: 0))?.asCurrency()})",
+                        style = MaterialTheme.typography.caption,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Light,
+                    )
+                }
             }
         }
     }

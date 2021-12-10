@@ -7,7 +7,6 @@ import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -34,9 +33,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.res.ResourcesCompat
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
@@ -44,33 +46,41 @@ import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.austinhodak.tarkovapi.repository.TarkovRepo
-import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
-import com.austinhodak.tarkovapi.utils.convertRtoUSD
-import com.austinhodak.thehideout.*
+import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.components.OverflowMenu
-import com.austinhodak.thehideout.compose.components.OverflowMenuItem
-import com.austinhodak.thehideout.compose.components.Rectangle
-import com.austinhodak.thehideout.compose.components.WikiItem
+import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
+import com.austinhodak.thehideout.hideoutList
+import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.views.PriceChartMarkerView
 import com.bumptech.glide.Glide
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.accompanist.glide.rememberGlidePainter
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ServerValue
+import com.google.firebase.database.ValueEventListener
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
-import java.lang.Exception
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @ExperimentalCoilApi
@@ -93,7 +103,7 @@ class FleaItemDetail : GodActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         //WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        itemID = intent.getStringExtra("id") ?: "59e35abd86f7741778269d82"
+        itemID = intent.getStringExtra("id") ?: "5447a9cd4bdc2dbd208b4567"
         viewModel.getItemByID(itemID)
 
         setContent {
@@ -205,6 +215,14 @@ class FleaItemDetail : GodActivity() {
 
                                                     NeededCard(title = "NEEDED", item = item.value, needed, tarkovRepo)
                                                 }
+                                                Card(
+                                                    modifier = Modifier
+                                                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                                                        .fillMaxWidth(),
+                                                    backgroundColor = Color(0xFE1F1F1F)
+                                                ) {
+                                                    Chart()
+                                                }
                                                 //FleaFeeCalc(item.value)
                                             }
                                             item {
@@ -233,6 +251,222 @@ class FleaItemDetail : GodActivity() {
                 }
             }
         }
+    }
+
+    @Composable
+    fun Chip(
+        selected: Boolean = false,
+        text: String,
+        onClick: () -> Unit
+    ) {
+        Surface(
+            color = when {
+                selected -> Red400
+                else -> Color(0xFF2F2F2F)
+            },
+            contentColor = when {
+                selected -> Color.Black
+                else -> Color.White
+            },
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .clickable {
+                    onClick()
+                }
+        ) {
+            Text(
+                text = text,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier.padding(8.dp),
+                fontWeight = FontWeight.Medium,
+                fontSize = 9.sp
+            )
+        }
+    }
+
+    @Composable
+    private fun Chart() {
+        val benderFont = ResourcesCompat.getFont(this, R.font.bender)
+        val ms7D = (604800000).toLong()
+        val ms1M = 2629800000
+        val ms3M = 7889400000
+        val ms6M = 15778800000
+        val ms1Y = 31557600000
+
+        var selectedRange by remember {
+            mutableStateOf((604800000).toLong())
+        }
+
+        Column {
+            Row(
+                Modifier.padding(
+                    bottom = 0.dp,
+                    top = 8.dp,
+                    start = 16.dp,
+                    end = 4.dp
+                )
+            ) {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "PRICE HISTORY",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(
+                            bottom = 0.dp,
+                            top = 8.dp,
+                            start = 0.dp,
+                            end = 16.dp
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Chip(
+                    text = "1Y",
+                    selected = selectedRange == ms1Y
+                ) {
+                    isPremium {
+                        if (it) {
+                            selectedRange = ms1Y
+                        } else {
+                            launchPremiumPusher()
+                        }
+                    }
+                }
+                Chip(
+                    text = "6M",
+                    selected = selectedRange == ms6M
+                ) {
+                    isPremium {
+                        if (it) {
+                            selectedRange = ms6M
+                        } else {
+                            launchPremiumPusher()
+                        }
+                    }
+                }
+                Chip(
+                    text = "3M",
+                    selected = selectedRange == ms3M
+                ) {
+                    isPremium {
+                        if (it) {
+                            selectedRange = ms3M
+                        } else {
+                            launchPremiumPusher()
+                        }
+                    }
+                }
+                Chip(
+                    text = "1M",
+                    selected = selectedRange == ms1M
+                ) {
+                    isPremium {
+                        if (it) {
+                            selectedRange = ms1M
+                        } else {
+                            launchPremiumPusher()
+                        }
+                    }
+                }
+                Chip(
+                    text = "7D",
+                    selected = selectedRange == ms7D
+                ) {
+                    selectedRange = ms7D
+                }
+            }
+
+            AndroidView(factory = {
+                val chart = LineChart(it)
+
+                val formatter: ValueFormatter = object : ValueFormatter() {
+                    override fun getAxisLabel(value: Float, axis: AxisBase): String {
+                        val simpleDateFormat = SimpleDateFormat("MM/dd")
+                        return simpleDateFormat.format(value)
+                    }
+                }
+
+                chart.xAxis.valueFormatter = formatter
+                chart.xAxis.textColor = resources.getColor(R.color.white)
+                chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+                chart.axisLeft.textColor = resources.getColor(R.color.white)
+                chart.axisRight.isEnabled = false
+
+                chart.setDrawGridBackground(false)
+                //chart.xAxis.setDrawGridLines(false)
+                chart.xAxis.setCenterAxisLabels(true)
+                //chart.axisLeft.setDrawGridLines(false)
+                //chart.setTouchEnabled(false)
+                chart.isScaleYEnabled = false
+                chart.description.isEnabled = false
+                chart.legend.textColor = resources.getColor(R.color.white)
+
+                chart.setNoDataText("No price history found.")
+                chart.legend.isEnabled = false
+
+                //chart.xAxis.setDrawAxisLine(false)
+
+                //Set fonts
+                chart.legend.typeface = benderFont
+                chart.xAxis.typeface = benderFont
+                chart.axisLeft.typeface = benderFont
+                chart.setNoDataTextTypeface(benderFont)
+
+                chart.axisLeft.valueFormatter = object : ValueFormatter() {
+                    override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+                        val format = DecimalFormat("###,##0")
+                        return "${format.format(value)}₽"
+                    }
+                }
+
+                val mv = PriceChartMarkerView(this@FleaItemDetail, R.layout.price_chart_marker_view)
+                chart.marker = mv
+
+                chart
+            },  modifier = Modifier
+                .padding(start = 8.dp, end = 0.dp, bottom = 16.dp)
+                .fillMaxWidth()
+                .height(200.dp)
+            ) { chart ->
+                fleaFirebase.child("priceHistory/${itemID}").orderByKey().startAt("\"${(System.currentTimeMillis() - selectedRange)}\"").endAt(System.currentTimeMillis().addQuotes()).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (!snapshot.exists()) return
+                        val data = snapshot.children.map {
+                            val entry = Entry(it.key?.removeSurrounding("\"")?.toFloat() ?: 0f, (it.value as Long).toFloat())
+                            entry.data = it
+                            entry
+                        }
+
+                        val dataSet = LineDataSet(data, "Prices")
+                        dataSet.fillColor = resources.getColor(R.color.md_red_400)
+                        dataSet.setDrawFilled(true)
+                        dataSet.color = resources.getColor(R.color.md_red_400)
+                        dataSet.setCircleColor(resources.getColor(R.color.md_red_500))
+                        dataSet.valueTypeface = benderFont
+                        dataSet.setDrawValues(false)
+                        dataSet.setDrawCircles(false)
+
+                        val lineData = LineData(dataSet)
+                        lineData.setValueTextColor(resources.getColor(R.color.white))
+
+                        chart.data = lineData
+                        chart.animateY(250,  Easing.EaseOutQuad)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+                })
+            }
+        }
+    }
+
+    private fun launchPremiumPusher() {
+        startPremiumPurchase(this)
     }
 
     @Composable
@@ -458,7 +692,7 @@ class FleaItemDetail : GodActivity() {
                             modifier = Modifier.padding(top = 8.dp)
                         )
                         Text(
-                            text = "${quest.getObjective(item?.id)?.number ?: "Key"} Needed",
+                            text = "${quest.getObjective(item?.id)?.number ?: "Item"} Needed",
                             style = MaterialTheme.typography.body2,
                             modifier = Modifier.padding(top = 0.dp)
                         )
@@ -680,9 +914,8 @@ class FleaItemDetail : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberGlidePainter(
-                            request = rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
-                        ),
+                        rememberImagePainter(data = rewardItem?.iconLink
+                            ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)
@@ -710,8 +943,10 @@ class FleaItemDetail : GodActivity() {
                             )
                         }
                         CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                            val highestSell = rewardItem?.getHighestSell()
+
                             Text(
-                                text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",
+                                text = "${highestSell?.getPriceAsCurrency()} @ ${highestSell?.getTitle()}",
                                 style = MaterialTheme.typography.caption,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Light,
@@ -750,6 +985,8 @@ class FleaItemDetail : GodActivity() {
     private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
         val item = taskItem?.item
         val context = LocalContext.current
+        val cheapestBuy = item?.getCheapestBuyRequirements()
+
         Row(
             modifier = Modifier
                 .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
@@ -794,12 +1031,15 @@ class FleaItemDetail : GodActivity() {
                     style = MaterialTheme.typography.body1
                 )
                 CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
-                    Text(
-                        text = item?.getTotalCostWithExplanation(taskItem.count ?: 1) ?: "",
-                        style = MaterialTheme.typography.caption,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Light,
-                    )
+                    Row {
+                        SmallBuyPrice(pricing = taskItem?.item)
+                        Text(
+                            text = " (${(taskItem?.count?.times(cheapestBuy?.price ?: 0))?.asCurrency()})",
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Light,
+                        )
+                    }
                 }
             }
         }
