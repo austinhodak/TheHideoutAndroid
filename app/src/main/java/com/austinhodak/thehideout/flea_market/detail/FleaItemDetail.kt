@@ -290,6 +290,15 @@ class FleaItemDetail : GodActivity() {
     @Composable
     private fun Chart() {
         val benderFont = ResourcesCompat.getFont(this, R.font.bender)
+        val ms7D = (604800000).toLong()
+        val ms1M = 2629800000
+        val ms3M = 7889400000
+        val ms6M = 15778800000
+        val ms1Y = 31557600000
+
+        var selectedRange by remember {
+            mutableStateOf((604800000).toLong())
+        }
 
         Column {
             Row(
@@ -317,30 +326,59 @@ class FleaItemDetail : GodActivity() {
                 Spacer(modifier = Modifier.weight(1f))
                 Chip(
                     text = "1Y",
-                    selected = false
+                    selected = selectedRange == ms1Y
                 ) {
-
+                    isPremium {
+                        if (it) {
+                            selectedRange = ms1Y
+                        } else {
+                            launchPremiumPusher()
+                        }
+                    }
                 }
                 Chip(
                     text = "6M",
-                    selected = false
+                    selected = selectedRange == ms6M
                 ) {
-
+                    isPremium {
+                        if (it) {
+                            selectedRange = ms6M
+                        } else {
+                            launchPremiumPusher()
+                        }
+                    }
+                }
+                Chip(
+                    text = "3M",
+                    selected = selectedRange == ms3M
+                ) {
+                    isPremium {
+                        if (it) {
+                            selectedRange = ms3M
+                        } else {
+                            launchPremiumPusher()
+                        }
+                    }
                 }
                 Chip(
                     text = "1M",
-                    selected = false
+                    selected = selectedRange == ms1M
                 ) {
-
+                    isPremium {
+                        if (it) {
+                            selectedRange = ms1M
+                        } else {
+                            launchPremiumPusher()
+                        }
+                    }
                 }
                 Chip(
                     text = "7D",
-                    selected = true
+                    selected = selectedRange == ms7D
                 ) {
-
+                    selectedRange = ms7D
                 }
             }
-
 
             AndroidView(factory = {
                 val chart = LineChart(it)
@@ -363,6 +401,7 @@ class FleaItemDetail : GodActivity() {
                 chart.xAxis.setCenterAxisLabels(true)
                 //chart.axisLeft.setDrawGridLines(false)
                 //chart.setTouchEnabled(false)
+                chart.isScaleYEnabled = false
                 chart.description.isEnabled = false
                 chart.legend.textColor = resources.getColor(R.color.white)
 
@@ -393,10 +432,11 @@ class FleaItemDetail : GodActivity() {
                 .fillMaxWidth()
                 .height(200.dp)
             ) { chart ->
-                fleaFirebase.child("items/${itemID}/").orderByKey().limitToLast(20).addListenerForSingleValueEvent(object : ValueEventListener {
+                fleaFirebase.child("priceHistory/${itemID}").orderByKey().startAt("\"${(System.currentTimeMillis() - selectedRange)}\"").endAt(System.currentTimeMillis().addQuotes()).addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
+                        if (!snapshot.exists()) return
                         val data = snapshot.children.map {
-                            val entry = Entry(it.key?.toFloat() ?: 0f, (it.value as Long).toFloat())
+                            val entry = Entry(it.key?.removeSurrounding("\"")?.toFloat() ?: 0f, (it.value as Long).toFloat())
                             entry.data = it
                             entry
                         }
@@ -423,6 +463,10 @@ class FleaItemDetail : GodActivity() {
                 })
             }
         }
+    }
+
+    private fun launchPremiumPusher() {
+        startPremiumPurchase(this)
     }
 
     @Composable
