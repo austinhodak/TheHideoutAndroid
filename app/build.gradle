@@ -40,9 +40,9 @@ android {
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
         //versionCode 100801
-        versionCode 11017
+        versionCode 11019
         // [1]-[0].[2].[0].[0]
-        versionName "1.0.0 Beta 17"
+        versionName "1.0.0 Beta 19"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -234,4 +234,5 @@ dependencies {
 
     implementation 'com.github.adaptyteam:AdaptySDK-Android:1.2.0'
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
