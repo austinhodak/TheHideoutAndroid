@@ -1,7 +1,9 @@
 package com.austinhodak.thehideout
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -15,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
+import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
@@ -36,9 +39,11 @@ import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
+import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.tools.SensitivityCalculatorScreen
 import com.austinhodak.thehideout.tools.viewmodels.SensitivityViewModel
 import com.austinhodak.thehideout.traders.TraderScreen
+import com.austinhodak.thehideout.utils.acceptTeamInvite
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.utils.restartNavActivity
@@ -57,6 +62,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.skydoves.only.only
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -144,11 +151,28 @@ class NavActivity : GodActivity() {
 
         val appUpdateManager = AppUpdateManagerFactory.create(this)
 
-
-
         val data = intent.extras
         data?.let {
             it.getString("url")?.openWithCustomTab(this)
+        }
+
+        Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
+            if (pendingDynamicLinkData != null) {
+                var deepLink = pendingDynamicLinkData.link
+                MaterialDialog(this).show {
+                    title(text = "Join Team?")
+                    message(text = "You've clicked an invite link, do you want to join this team?")
+                    positiveButton(text = "JOIN") {
+                        deepLink?.acceptTeamInvite {
+                            Toast.makeText(this@NavActivity, "Team joined successfully!", Toast.LENGTH_SHORT).show()
+                            openActivity(TeamManagementActivity::class.java)
+                        }
+                    }
+                    negativeButton(text = "NEVERMIND")
+                }
+
+                Timber.d(deepLink?.lastPathSegment)
+            }
         }
 
         setContent {

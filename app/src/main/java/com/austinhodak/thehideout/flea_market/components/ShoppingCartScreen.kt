@@ -52,7 +52,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
-fun ShoppingCartScreen(data: List<Item>?, userData: User?, fleaViewModel: FleaViewModel, paddingValues: PaddingValues) {
+fun ShoppingCartScreen(
+    data: List<Item>?,
+    userData: User?,
+    fleaViewModel: FleaViewModel,
+    paddingValues: PaddingValues
+) {
     val searchKey by fleaViewModel.searchKey.observeAsState("")
 
     val context = LocalContext.current
@@ -103,13 +108,24 @@ fun ShoppingCartScreen(data: List<Item>?, userData: User?, fleaViewModel: FleaVi
                         context.openFleaDetail(it)
                     }, longClick = {
                         MaterialDialog(context).show {
-                            listItems(items = listOf("Edit Quantity", "Remove from Cart")) { _, index, _ ->
+                            listItems(
+                                items = listOf(
+                                    "Edit Quantity",
+                                    "Remove from Cart"
+                                )
+                            ) { _, index, _ ->
                                 when (index) {
                                     0 -> {
                                         MaterialDialog(context).show {
                                             title(text = "Item Quantity")
-                                            input(prefill = quantity.toString(), hint = "Quantity", inputType = InputType.TYPE_CLASS_NUMBER) { _, text2 ->
-                                                userRefTracker("cart/${item.id}").setValue(text2.toString().toInt())
+                                            input(
+                                                prefill = quantity.toString(),
+                                                hint = "Quantity",
+                                                inputType = InputType.TYPE_CLASS_NUMBER
+                                            ) { _, text2 ->
+                                                userRefTracker("cart/${item.id}").setValue(
+                                                    text2.toString().toInt()
+                                                )
                                             }
                                             positiveButton(text = "Save")
                                         }
@@ -178,9 +194,15 @@ private fun ShoppingFleaItem(
                     .fillMaxHeight()
             )
             Column {
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 16.dp)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
                     Image(
-                        rememberImagePainter(item.pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
+                        rememberImagePainter(
+                            item.pricing?.iconLink
+                                ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                        ),
                         contentDescription = null,
                         modifier = Modifier
                             .width(48.dp)
@@ -210,14 +232,23 @@ private fun ShoppingFleaItem(
                         horizontalAlignment = Alignment.End,
                         modifier = Modifier.padding(vertical = 16.dp)
                     ) {
+                        val cheapest = item.pricing?.getCheapestBuyRequirements()
                         Text(
-                            text = (item.pricing?.getCheapestBuyRequirements()?.price?.times(quantity))?.asCurrency() ?: "",
+                            text = if (cheapest?.source == ItemSourceName.peacekeeper.rawValue) {
+                                (cheapest.price?.times(quantity))?.asCurrency("D")
+                            } else {
+                                (cheapest?.price?.times(quantity))?.asCurrency()
+                            } ?: "",
                             style = MaterialTheme.typography.h6,
                             fontSize = 15.sp
                         )
                         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                             Text(
-                                text = "${item.pricing?.getCheapestBuyRequirements()?.price?.asCurrency()}/each",
+                                text = if (cheapest?.source == ItemSourceName.peacekeeper.rawValue) {
+                                    "${cheapest.price?.asCurrency("D")}/each"
+                                } else {
+                                    "${cheapest?.price?.asCurrency()}/each"
+                                },
                                 style = MaterialTheme.typography.caption,
                                 fontSize = 10.sp
                             )
@@ -233,7 +264,15 @@ private fun ShoppingFleaItem(
                     }
                 }
                 Divider(color = DividerDark)
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 12.dp,
+                        bottom = 12.dp
+                    )
+                ) {
                     val buy = item.pricing?.getCheapestBuyRequirements()
                     Image(
                         rememberImagePainter(buy?.traderImage()),

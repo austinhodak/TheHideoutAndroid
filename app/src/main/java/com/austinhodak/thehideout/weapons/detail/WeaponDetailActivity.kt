@@ -160,7 +160,8 @@ class WeaponDetailActivity : GodActivity() {
                                                                     style = MaterialTheme.typography.h6,
                                                                     maxLines = 1,
                                                                     fontSize = 18.sp,
-                                                                    overflow = TextOverflow.Ellipsis
+                                                                    overflow = TextOverflow.Ellipsis,
+                                                                modifier = Modifier.padding(end = 16.dp)
                                                             )
                                                             Text(
                                                                     text = "(${weapon?.ShortName})",

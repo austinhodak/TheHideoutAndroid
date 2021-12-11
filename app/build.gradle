@@ -171,6 +171,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-config-ktx'
     implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx'
     //implementation 'com.google.android.gms:play-services-ads'
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'

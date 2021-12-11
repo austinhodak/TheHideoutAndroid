@@ -24,7 +24,7 @@ open class GodActivity : AppCompatActivity() {
             keepScreenOn(keepOn)
         }
 
-        UserSettingsModel.playerIGN.observe(lifecycleScope) { name ->
+        /*UserSettingsModel.playerIGN.observe(lifecycleScope) { name ->
             Firebase.auth.currentUser?.let { user ->
                 val profileUpdate = userProfileChangeRequest {
                     displayName = name
@@ -32,15 +32,37 @@ open class GodActivity : AppCompatActivity() {
 
                 if (user.displayName != name) {
                     user.updateProfile(profileUpdate)
+                    userRefTracker("displayName").setValue(name)
                 }
             }
-        }
+        }*/
 
-        Firebase.auth.currentUser?.let {
+        /*Firebase.auth.currentUser?.let {
             lifecycleScope.launch(Dispatchers.IO) {
                 UserSettingsModel.playerIGN.update(it.displayName ?: "")
+                userRefTracker("displayName").setValue(it.displayName)
             }
-        }
+        }*/
+
+        userRefTracker("displayName").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if (snapshot.value != null) {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        UserSettingsModel.playerIGN.update(snapshot.value as String)
+                    }
+                }
+
+                UserSettingsModel.playerIGN.observe(lifecycleScope) { name ->
+                    userRefTracker("displayName").setValue(name)
+                    updateDisplayName(name)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
 
         userRefTracker("discordUsername").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -61,5 +83,17 @@ open class GodActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    private fun updateDisplayName(name: String) {
+        Firebase.auth.currentUser?.let { user ->
+            val profileUpdate = userProfileChangeRequest {
+                displayName = name
+            }
+
+            if (user.displayName != name) {
+                user.updateProfile(profileUpdate)
+            }
+        }
     }
 }
