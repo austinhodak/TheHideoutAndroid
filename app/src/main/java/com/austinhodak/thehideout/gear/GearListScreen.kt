@@ -364,8 +364,14 @@ private fun BackpackCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
-            context.openActivity(FleaItemDetail::class.java) {
-                putString("id", item.pricing?.id)
+            if (item.itemType == ItemTypes.RIG) {
+                context.openActivity(GearDetailActivity::class.java) {
+                    putString("id", item.pricing?.id)
+                }
+            } else {
+                context.openActivity(FleaItemDetail::class.java) {
+                    putString("id", item.pricing?.id)
+                }
             }
         }
     ) {

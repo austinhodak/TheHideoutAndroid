@@ -2,7 +2,6 @@ package com.austinhodak.thehideout.gear
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -17,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import coil.size.OriginalSize
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
@@ -41,6 +42,7 @@ import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.gear.viewmodels.GearViewModel
 import com.austinhodak.thehideout.pickers.PickerActivity
+import com.austinhodak.thehideout.rigsList
 import com.austinhodak.thehideout.utils.*
 import com.bumptech.glide.Glide
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -136,6 +138,7 @@ class GearDetailActivity : GodActivity() {
                                 ArmorPenCard(gear = gear!!, selectedAmmo)
                             }
                         }
+
                     }
                 }
             }
@@ -146,6 +149,7 @@ class GearDetailActivity : GodActivity() {
     private fun GearInfoCard(
         item: Item
     ) {
+        val url = rigsList.getRig(item.id)?.gridUrl
         val itemType = item.itemType
         val context = LocalContext.current
         val color = when (item.BackgroundColor) {
@@ -185,7 +189,10 @@ class GearDetailActivity : GodActivity() {
                             .border((0.25).dp, color = BorderColor)
                             .clickable {
                                 StfalconImageViewer
-                                    .Builder(context, listOf(item.pricing?.imageLink)) { view, image ->
+                                    .Builder(
+                                        context,
+                                        listOf(item.pricing?.imageLink)
+                                    ) { view, image ->
                                         Glide
                                             .with(view)
                                             .load(image)
@@ -234,6 +241,17 @@ class GearDetailActivity : GodActivity() {
                                 )
                             }
                         }
+                    }
+                    url?.let {
+                        Image(
+                            painter = rememberImagePainter(data = url, builder = {
+                                size(OriginalSize)
+                            }),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .defaultMinSize(minHeight = 1.dp).padding(vertical = 4.dp),
+                            contentScale = ContentScale.FillHeight
+                        )
                     }
                 }
                 Divider(color = DividerDark)
