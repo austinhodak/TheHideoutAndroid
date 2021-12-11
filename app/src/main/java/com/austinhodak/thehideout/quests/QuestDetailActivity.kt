@@ -17,8 +17,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -171,7 +173,13 @@ class QuestDetailActivity : GodActivity() {
                                         Text(
                                             text = quest?.title ?: "Loading...",
                                             color = MaterialTheme.colors.onPrimary,
-                                            style = MaterialTheme.typography.h6,
+                                            style = MaterialTheme.typography.h6.copy(
+                                                shadow = Shadow(
+                                                    color = Color.Black,
+                                                    offset = Offset(4f, 4f),
+                                                    blurRadius = 8f
+                                                )
+                                            ),
                                             maxLines = 1,
                                             fontSize = 22.sp,
                                             overflow = TextOverflow.Ellipsis
@@ -179,7 +187,13 @@ class QuestDetailActivity : GodActivity() {
                                         Text(
                                             text = "Unlocks at Level ${quest?.requirement?.level}",
                                             color = MaterialTheme.colors.onPrimary,
-                                            style = MaterialTheme.typography.caption,
+                                            style = MaterialTheme.typography.caption.copy(
+                                                shadow = Shadow(
+                                                    color = Color.Black,
+                                                    offset = Offset(4f, 4f),
+                                                    blurRadius = 8f
+                                                )
+                                            ),
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis
                                         )
@@ -403,12 +417,7 @@ class QuestDetailActivity : GodActivity() {
         teamMember?.let {
             Row(
                 Modifier
-                    .height(48.dp)
-                    .combinedClickable(
-                        onClick = {
-
-                        }
-                    ),
+                    .height(48.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Rectangle(color = value.getColorM(), modifier = Modifier.fillMaxHeight())
@@ -433,6 +442,21 @@ class QuestDetailActivity : GodActivity() {
                                 contentDescription = "",
                                 Modifier.size(16.dp),
                                 tint = Green400
+                            )
+                        }
+                        if (quest?.isLocked(teamMember) == true || teamMember?.quests == null) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_lock_24),
+                                contentDescription = "",
+                                Modifier.size(16.dp),
+                                tint = Red400
+                            )
+                        } else if (quest?.isAvailable(teamMember) == true) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_lock_open_24),
+                                contentDescription = "",
+                                Modifier.size(16.dp),
+                                tint = Amber500
                             )
                         }
                     }
