@@ -37,6 +37,8 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.austinhodak.tarkovapi.FleaVisiblePrice
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.NavViewModel
@@ -207,7 +209,6 @@ fun FleaMarketNeededScreen(
             } else {
                 BorderColor
             }
-            val context = LocalContext.current
             Box(
                 Modifier.combinedClickable(
                     onClick = {
@@ -282,11 +283,38 @@ fun FleaMarketFavoritesList(
     val sortBy = fleaViewModel.sortBy.observeAsState()
     val searchKey by fleaViewModel.searchKey.observeAsState("")
 
+    val priceDisplay = UserSettingsModel.fleaVisiblePrice.value
+
     val list = when (sortBy.value) {
         0 -> data?.sortedBy { it.Name }
-        1 -> data?.sortedBy { it.getPrice() }
-        2 -> data?.sortedByDescending { it.getPrice() }
-        3 -> data?.sortedByDescending { it.getPricePerSlot() }
+        1 -> data?.sortedBy {
+            when (priceDisplay) {
+                FleaVisiblePrice.DEFAULT -> it.getPrice()
+                FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
+                FleaVisiblePrice.HIGH -> it.pricing?.high24hPrice
+                FleaVisiblePrice.LOW -> it.pricing?.low24hPrice
+                FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
+            }
+        }
+        2 -> data?.sortedByDescending {
+            when (priceDisplay) {
+                FleaVisiblePrice.DEFAULT -> it.getPrice()
+                FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
+                FleaVisiblePrice.HIGH -> it.pricing?.high24hPrice
+                FleaVisiblePrice.LOW -> it.pricing?.low24hPrice
+                FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
+            }
+        }
+        3 -> data?.sortedByDescending {
+            val price = when (priceDisplay) {
+                FleaVisiblePrice.DEFAULT -> it.getPrice()
+                FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
+                FleaVisiblePrice.HIGH -> it.pricing?.high24hPrice
+                FleaVisiblePrice.LOW -> it.pricing?.low24hPrice
+                FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
+            }
+            it.getPricePerSlot(price ?: 0)
+        }
         4 -> data?.sortedBy { it.pricing?.changeLast48h }
         5 -> data?.sortedByDescending { it.pricing?.changeLast48h }
         6 -> data?.sortedBy { it.pricing?.getInstaProfit() }
@@ -305,8 +333,8 @@ fun FleaMarketFavoritesList(
         return
     }
 
-    when {
-        data == null -> {
+    when (data) {
+        null -> {
             LoadingItem()
         }
         else -> {
@@ -316,7 +344,7 @@ fun FleaMarketFavoritesList(
                 contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
             ) {
                 items(items = list ?: emptyList()) { item ->
-                    FleaItem(item = item) {
+                    FleaItem(item = item, priceDisplay = priceDisplay) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", item.id)
                         }
@@ -339,12 +367,38 @@ fun FleaMarketListScreen(
 ) {
     val sortBy = fleaViewModel.sortBy.observeAsState()
     val searchKey by fleaViewModel.searchKey.observeAsState("")
+    val priceDisplay = UserSettingsModel.fleaVisiblePrice.value
 
     val list = when (sortBy.value) {
         0 -> data?.sortedBy { it.Name }
-        1 -> data?.sortedBy { it.getPrice() }
-        2 -> data?.sortedByDescending { it.getPrice() }
-        3 -> data?.sortedByDescending { it.getPricePerSlot() }
+        1 -> data?.sortedBy {
+            when (priceDisplay) {
+                FleaVisiblePrice.DEFAULT -> it.getPrice()
+                FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
+                FleaVisiblePrice.HIGH -> it.pricing?.high24hPrice
+                FleaVisiblePrice.LOW -> it.pricing?.low24hPrice
+                FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
+            }
+        }
+        2 -> data?.sortedByDescending {
+            when (priceDisplay) {
+                FleaVisiblePrice.DEFAULT -> it.getPrice()
+                FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
+                FleaVisiblePrice.HIGH -> it.pricing?.high24hPrice
+                FleaVisiblePrice.LOW -> it.pricing?.low24hPrice
+                FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
+            }
+        }
+        3 -> data?.sortedByDescending {
+            val price = when (priceDisplay) {
+                FleaVisiblePrice.DEFAULT -> it.getPrice()
+                FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
+                FleaVisiblePrice.HIGH -> it.pricing?.high24hPrice
+                FleaVisiblePrice.LOW -> it.pricing?.low24hPrice
+                FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
+            }
+            it.getPricePerSlot(price ?: 0)
+        }
         4 -> data?.sortedBy { it.pricing?.changeLast48h }
         5 -> data?.sortedByDescending { it.pricing?.changeLast48h }
         6 -> data?.sortedBy { it.pricing?.getInstaProfit() }
@@ -374,7 +428,7 @@ fun FleaMarketListScreen(
             contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
         ) {
             items(items = list ?: emptyList()) { item ->
-                FleaItem(item = item) {
+                FleaItem(item = item, priceDisplay) {
                     context.openActivity(FleaItemDetail::class.java) {
                         putString("id", item.id)
                     }

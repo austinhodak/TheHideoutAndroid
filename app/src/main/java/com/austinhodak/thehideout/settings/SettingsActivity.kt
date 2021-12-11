@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
+import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.Levels
 import com.austinhodak.tarkovapi.OpeningScreen
 import com.austinhodak.tarkovapi.UserSettingsModel
@@ -326,10 +327,23 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                 }
-                                /*subScreen {
+                                subScreen {
                                     title = "Flea Market".asText()
                                     icon = R.drawable.ic_baseline_storefront_24.asIcon()
-                                }*/
+                                    singleChoice(UserSettingsModel.fleaVisiblePrice, FleaVisiblePrice.values(), {
+                                        when (it) {
+                                            FleaVisiblePrice.DEFAULT -> "Default (Original Method)"
+                                            FleaVisiblePrice.AVG -> "Average 24 Hour Price"
+                                            FleaVisiblePrice.HIGH -> "Highest 24 Hour Price"
+                                            FleaVisiblePrice.LOW -> "Lowest 24 Hour Price"
+                                            FleaVisiblePrice.LAST -> "Last Scanned Price"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "List Price".asText()
+                                        icon = R.drawable.ic_blank.asIcon()
+                                    }
+                                }
                                 /*subScreen {
                                     title = "Data".asText()
                                     icon = R.drawable.ic_baseline_cloud_download_24.asIcon()

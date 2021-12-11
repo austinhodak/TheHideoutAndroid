@@ -34,7 +34,7 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val playerIGN by stringPref(key = "playerIGN")
     val discordName by stringPref(key = "discordName")
 
-    val fleaVisiblePrice by enumPref(FleaVisiblePrice.AVG, "fleaVisiblePrice")
+    val fleaVisiblePrice by enumPref(FleaVisiblePrice.DEFAULT, "fleaVisiblePrice")
 
     // Sorting and filtering
     val fleaSort by intPref(2, "fleaSort")
@@ -60,6 +60,7 @@ enum class OpeningScreen {
 }
 
 enum class FleaVisiblePrice {
+    DEFAULT,
     LAST,
     LOW,
     AVG,

@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import com.adapty.Adapty
 import com.android.billingclient.api.BillingClient
+import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.Hideout
 import com.austinhodak.tarkovapi.utils.Maps
 import com.austinhodak.tarkovapi.utils.Rigs
+import com.austinhodak.tarkovapi.utils.WeaponPresets
 import com.austinhodak.thehideout.utils.Prefs
 import com.austinhodak.thehideout.utils.uid
 import com.google.firebase.analytics.ktx.analytics
@@ -32,6 +34,7 @@ class Application : android.app.Application() {
         var questPrefs: Prefs? = null
         var maps: Maps? = null
         var rigs: Rigs? = null
+        var presets: WeaponPresets? = null
         var hideout: Hideout? = null
         lateinit var instance: Application
             private set
@@ -46,6 +49,7 @@ class Application : android.app.Application() {
         questPrefs = Prefs(applicationContext)
         maps = Maps(applicationContext)
         rigs = Rigs(applicationContext)
+        presets = WeaponPresets(applicationContext)
         hideout = Hideout(applicationContext)
 
         //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
@@ -118,6 +122,8 @@ val questPrefs: Prefs by lazy {
 val mapsList: Maps = Application.maps!!
 
 val rigsList: Rigs = Application.rigs!!
+
+val presetList: WeaponPresets = Application.presets!!
 
 val hideoutList: Hideout by lazy {
     Application.hideout!!
