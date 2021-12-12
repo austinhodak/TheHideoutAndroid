@@ -7,7 +7,11 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -15,8 +19,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,10 +50,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
-import com.austinhodak.thehideout.compose.theme.BorderColor
-import com.austinhodak.thehideout.compose.theme.Green400
-import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.compose.theme.White
+import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.quests.QuestDetailActivity
@@ -59,6 +62,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import com.austinhodak.thehideout.quests.inraid.QuestInRaidActivity.Types.*
+import com.google.firebase.database.ServerValue
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -89,6 +93,8 @@ class QuestInRaidActivity : GodActivity() {
                 val questExtra = questViewModel.questsExtra.observeAsState().value?.flatMap {
                     it.objectives ?: emptyList()
                 }
+
+                val items by tarkovRepo.getAllItems().collectAsState(initial = emptyList())
 
                 var availableQuests: Map<String?, List<Quest.QuestObjective>>? = quests.filter {
                     it.isAvailable(userData)
@@ -140,8 +146,98 @@ class QuestInRaidActivity : GodActivity() {
                         }
                         composable(BottomNavigationScreens.Items.route) {
                             EmptyText(text = "Coming soon.")
+                            //ItemsScreen(questExtra, quests, userData, items)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ItemsScreen(
+        questExtra: List<QuestExtra.QuestExtraItem.Objective?>?,
+        quests: List<Quest>,
+        userData: User?,
+        items: List<Item>
+    ) {
+        var neededItems: List<Item>? = quests.filter {
+            it.isAvailable(userData)
+        }.flatMap {
+            it.objective ?: emptyList()
+        }.filter {
+            userData?.isObjectiveCompleted(it) == false
+        }.filterNot {
+            it.type == "build" || it.type == "reputation"
+        }.mapNotNull { obj ->
+            items.find { it.id == obj.target?.first() }
+        }
+
+        if (neededItems?.isEmpty() == true) {
+            EmptyText(text = "No items needed.")
+            return
+        } else if (neededItems == null) {
+            LoadingItem()
+            return
+        }
+
+        LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
+            items(items = neededItems) {
+                val needed = userData?.items?.get(it.id)
+                //val userObj = userData?.questObjectives?.get()
+                val color = if (needed?.has == needed?.getTotalNeeded()) {
+                    Green500
+                } else {
+                    BorderColor
+                }
+                val context = LocalContext.current
+                Box(
+                    Modifier.combinedClickable(
+                        onClick = {
+
+                        },
+                        onDoubleClick = {
+
+                        },
+                        onLongClick = {
+                            context.openActivity(FleaItemDetail::class.java) {
+                                putString("id", it.id)
+                            }
+                        }
+                    )
+                ) {
+                    Image(
+                        rememberImagePainter(it.pricing?.iconLink ?: ""),
+                        contentDescription = "",
+                        Modifier
+                            .layout { measurable, constraints ->
+                                val tileSize = constraints.maxWidth
+
+                                val placeable = measurable.measure(
+                                    constraints.copy(
+                                        minWidth = tileSize,
+                                        maxWidth = tileSize,
+                                        minHeight = tileSize,
+                                        maxHeight = tileSize,
+                                    )
+                                )
+                                layout(placeable.width, placeable.width) {
+                                    placeable.place(x = 0, y = 0, zIndex = 0f)
+                                }
+                            }
+                            .border(0.1.dp, color),
+                    )
+                    Text(
+                        text = "${needed?.has ?: 0}/${needed?.getTotalNeeded()}",
+                        Modifier
+                            .clip(RoundedCornerShape(topStart = 5.dp))
+                            .background(color)
+                            .padding(horizontal = 2.dp, vertical = 1.dp)
+                            .align(Alignment.BottomEnd),
+                        style = MaterialTheme.typography.caption,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 9.sp
+                    )
                 }
             }
         }
