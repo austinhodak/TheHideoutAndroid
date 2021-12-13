@@ -196,7 +196,7 @@ fun Int.asCurrency(currency: String = "R"): String {
 }
 
 fun String.traderIcon(): String {
-    return when (this) {
+    return when (this.lowercase()) {
         "prapor" -> "https://tarkov-tools.com/images/prapor-icon.jpg"
         "therapist" -> "https://tarkov-tools.com/images/therapist-icon.jpg"
         "fence" -> "https://tarkov-tools.com/images/fence-icon.jpg"

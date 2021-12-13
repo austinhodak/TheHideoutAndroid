@@ -83,6 +83,26 @@ open class GodActivity : AppCompatActivity() {
 
             }
         })
+
+        userRefTracker("playerLevel").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if (snapshot.value != null) {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        UserSettingsModel.playerLevel.update((snapshot.value as Long).toInt())
+                    }
+                }
+
+
+                UserSettingsModel.playerLevel.observe(lifecycleScope) { name ->
+                    userRefTracker("playerLevel").setValue(name)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
     }
 
     private fun updateDisplayName(name: String) {

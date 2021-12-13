@@ -153,7 +153,7 @@ fun SmallBuyPrice(pricing: Pricing?) {
         modifier = Modifier.padding(top = 0.dp)
     ) {
         Image(
-            painter = rememberImagePainter(data = i?.traderImage(false)),
+            painter = rememberImagePainter(data = i.traderImage(false)),
             contentDescription = "Trader",
             modifier = Modifier.size(16.dp)
         )

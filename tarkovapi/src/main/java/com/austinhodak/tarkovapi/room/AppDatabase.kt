@@ -163,6 +163,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private suspend fun updatePricing() {
             val oneHour = 1000 * 60 * 60
+
             if (preferences.getLong("lastPriceUpdate", 0) + oneHour > System.currentTimeMillis()) {
                 return
             }

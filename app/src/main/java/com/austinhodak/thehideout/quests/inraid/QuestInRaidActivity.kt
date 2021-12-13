@@ -94,7 +94,13 @@ class QuestInRaidActivity : GodActivity() {
                     it.objectives ?: emptyList()
                 }
 
-                val items by tarkovRepo.getAllItems().collectAsState(initial = emptyList())
+                val itemIDs = quests.flatMap {
+                    it.objective ?: emptyList()
+                }.map {
+                    it.target?.first()
+                }
+
+                val items by tarkovRepo.getItemByID(itemIDs.filterNotNull()).collectAsState(initial = emptyList())
 
                 var availableQuests: Map<String?, List<Quest.QuestObjective>>? = quests.filter {
                     it.isAvailable(userData)
@@ -145,8 +151,8 @@ class QuestInRaidActivity : GodActivity() {
                             TasksScreen(availableQuests, questExtra, quests, userData)
                         }
                         composable(BottomNavigationScreens.Items.route) {
-                            EmptyText(text = "Coming soon.")
-                            //ItemsScreen(questExtra, quests, userData, items)
+                            //EmptyText(text = "Coming soon.")
+                            ItemsScreen(questExtra, quests, userData, items)
                         }
                     }
                 }
@@ -161,7 +167,7 @@ class QuestInRaidActivity : GodActivity() {
         userData: User?,
         items: List<Item>
     ) {
-        var neededItems: List<Item>? = quests.filter {
+        val objectives = quests.filter {
             it.isAvailable(userData)
         }.flatMap {
             it.objective ?: emptyList()
@@ -169,7 +175,9 @@ class QuestInRaidActivity : GodActivity() {
             userData?.isObjectiveCompleted(it) == false
         }.filterNot {
             it.type == "build" || it.type == "reputation"
-        }.mapNotNull { obj ->
+        }
+
+        val neededItems: List<Item> = objectives.mapNotNull { obj ->
             items.find { it.id == obj.target?.first() }
         }
 
@@ -182,14 +190,14 @@ class QuestInRaidActivity : GodActivity() {
         }
 
         LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
-            items(items = neededItems) {
-                val needed = userData?.items?.get(it.id)
-                //val userObj = userData?.questObjectives?.get()
-                val color = if (needed?.has == needed?.getTotalNeeded()) {
-                    Green500
-                } else {
-                    BorderColor
+            items(items = neededItems) { item ->
+                val totalNeeded = objectives.filter {
+                    it.target?.first() == item.id
+                }.sumOf {
+                    it.number ?: 0
                 }
+
+                val color = BorderColor
                 val context = LocalContext.current
                 Box(
                     Modifier.combinedClickable(
@@ -201,13 +209,13 @@ class QuestInRaidActivity : GodActivity() {
                         },
                         onLongClick = {
                             context.openActivity(FleaItemDetail::class.java) {
-                                putString("id", it.id)
+                                putString("id", item.id)
                             }
                         }
                     )
                 ) {
                     Image(
-                        rememberImagePainter(it.pricing?.iconLink ?: ""),
+                        rememberImagePainter(item.pricing?.iconLink ?: ""),
                         contentDescription = "",
                         Modifier
                             .layout { measurable, constraints ->
@@ -228,11 +236,11 @@ class QuestInRaidActivity : GodActivity() {
                             .border(0.1.dp, color),
                     )
                     Text(
-                        text = "${needed?.has ?: 0}/${needed?.getTotalNeeded()}",
+                        text = "${totalNeeded}",
                         Modifier
                             .clip(RoundedCornerShape(topStart = 5.dp))
                             .background(color)
-                            .padding(horizontal = 2.dp, vertical = 1.dp)
+                            .padding(horizontal = 3.dp, vertical = 1.dp)
                             .align(Alignment.BottomEnd),
                         style = MaterialTheme.typography.caption,
                         fontWeight = FontWeight.Medium,

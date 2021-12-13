@@ -41,6 +41,7 @@ import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red500
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -52,7 +53,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ktx.database
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
@@ -267,6 +267,16 @@ fun <T> Context.openWeaponPicker(it: Class<T>, extras: Bundle.() -> Unit = {}) {
     intent.putExtras(Bundle().apply(extras))
     intent.action = "loadoutBuild"
     startActivity(intent)
+}
+
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+fun Context.openQuestDetail(id: String) {
+    this.openActivity(QuestDetailActivity::class.java) {
+        putString("questID", id)
+    }
 }
 
 @ExperimentalCoroutinesApi
@@ -686,4 +696,14 @@ fun Uri.acceptTeamInvite(joined: () -> Unit) {
             joined()
         }
     }
+}
+
+fun Quest.QuestObjective.increment() {
+    userRefTracker("questObjectives/${this.id?.addQuotes()}/id").setValue(this.id?.toInt())
+    userRefTracker("questObjectives/${this.id?.addQuotes()}/progress").setValue(ServerValue.increment(1))
+}
+
+fun Quest.QuestObjective.decrement() {
+    userRefTracker("questObjectives/${this.id?.addQuotes()}/id").setValue(this.id?.toInt())
+    userRefTracker("questObjectives/${this.id?.addQuotes()}/progress").setValue(ServerValue.increment(-1))
 }

@@ -80,6 +80,8 @@ data class Item(
     var effects_damage: JSONObject? = null,
 ) : Serializable {
 
+    fun getCleanIcon(): String? = pricing?.iconLink
+
     fun getEnergy(): Int? {
         return effects_health?.optJSONObject("Energy")?.optInt("value")
     }

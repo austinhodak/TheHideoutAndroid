@@ -1,11 +1,14 @@
 package com.austinhodak.thehideout.quests.viewmodels
 
 import android.content.Context
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.utils.QuestExtraHelper
@@ -37,6 +40,8 @@ class QuestMainViewModel @Inject constructor(
     val questsExtra = _questsExtras
 
     val questsList = MutableLiveData<List<Quest>>()
+
+    val itemsList = MutableLiveData<List<Item>>()
 
     private val _view = MutableLiveData(QuestFilter.AVAILABLE)
     val view = _view
@@ -194,10 +199,24 @@ class QuestMainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllQuests().collect {
                 viewModelScope.launch {
+
+                    val itemIDs = it.flatMap {
+                        it.objective ?: emptyList()
+                    }.map {
+                        it.target?.first()
+                    }
+
+                    Timber.d(itemIDs.toString())
+
+                    repository.getItemByID(itemIDs.filterNotNull()).collect {
+                        itemsList.value = it
+                    }
                     //Timber.d(it.toString())
                     questsList.value = it
                     quests = it
                     updateTotals(it)
+
+
                 }
             }
         }
