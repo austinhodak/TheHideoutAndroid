@@ -89,7 +89,8 @@ fun QuestMainScreen(
                 Column(
                     Modifier
                         .padding(horizontal = 8.dp, vertical = 4.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     MapCard(
@@ -106,6 +107,11 @@ fun QuestMainScreen(
                         mapName = "Interchange",
                         mapSubtitle = "10-14 Players • 50 Minutes",
                         icon = R.drawable.icons8_shopping_mall_96
+                    )
+                    MapCard(
+                        mapName = "Lighthouse",
+                        mapSubtitle = "10-14 Players • 50 Minutes",
+                        icon = R.drawable.icons8_lighthouse_96
                     )
                     MapCard(
                         mapName = "Reserve",
