@@ -793,7 +793,7 @@ private fun QuestCard(
         backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
     ) {
         Column {
-            /*Row(
+            Row(
                 Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -817,39 +817,17 @@ private fun QuestCard(
 
                 )
                 Text(
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .weight(1f),
-                    text = "Level ${quest.requirement?.level}", style = MaterialTheme.typography.caption
+                    modifier = Modifier.padding(start = 16.dp),
+                    text = "${quest.trader().id}", style = MaterialTheme.typography.caption
                 )
-            }*/
+            }
             Row(
-                Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                Modifier.padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 16.dp)
             ) {
-                Image(
-                    painter = painterResource(id = quest.trader().icon),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .border(
-                            width = 1.dp,
-                            color = when {
-                                userData?.isQuestCompleted(quest) == true -> {
-                                    Green400
-                                }
-                                quest.isLocked(userData) -> Red400
-                                else -> Color.Transparent
-                            },
-                            shape = CircleShape
-                        )
-                        .clip(CircleShape)
-                        .size(32.dp)
-
-                )
                 Column(
                     Modifier
                         .weight(1f)
-                        .padding(start = 16.dp, end = 16.dp)
+                        .padding(end = 16.dp)
                 ) {
                     Text(
                         text = quest.title.toString(),
@@ -863,15 +841,15 @@ private fun QuestCard(
                         )
                     }
                 }
-                /*Column(
-                    Modifier.height(0.dp)
+                Column(
+                    Modifier.fillMaxHeight()
                 ) {
-                    *//*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
                             text = "Level ${quest.requirement?.level}",
                             style = MaterialTheme.typography.overline
                         )
-                    }*//*
+                    }*/
                     when {
                         quest.isLocked(userData) -> {
                             OutlinedButton(
@@ -926,7 +904,7 @@ private fun QuestCard(
                             }
                         }
                     }
-                }*/
+                }
             }
             Divider(color = DividerDark)
             Column(
@@ -935,10 +913,6 @@ private fun QuestCard(
                 quest.objective?.forEach {
                     QuestObjectiveItem(it, questViewModel, scope, userData, quest)
                 }
-            }
-            Divider(color = DividerDark)
-            TextButton(onClick = {}, modifier = Modifier.padding(8.dp).align(Alignment.End)) {
-                Text(text = "COMPLETE", color = Red400)
             }
         }
     }

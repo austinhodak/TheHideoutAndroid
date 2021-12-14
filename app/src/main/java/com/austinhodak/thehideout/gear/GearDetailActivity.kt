@@ -180,7 +180,7 @@ class GearDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(item.pricing?.iconLink ?: ""),
+                        rememberImagePainter(item.pricing?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)

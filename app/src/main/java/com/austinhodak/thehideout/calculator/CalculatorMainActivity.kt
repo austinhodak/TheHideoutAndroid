@@ -281,7 +281,7 @@ class CalculatorMainActivity : GodActivity() {
             ) {
                 if (selectedAmmo?.pricing?.iconLink != null) {
                     Image(
-                        painter = rememberImagePainter(data = selectedAmmo.pricing?.iconLink),
+                        painter = rememberImagePainter(data = selectedAmmo.pricing?.getCleanIcon()),
                         contentDescription = "",
                         modifier = Modifier.size(40.dp)
                     )
@@ -328,7 +328,7 @@ class CalculatorMainActivity : GodActivity() {
             ) {
                 if (selectedArmor?.pricing?.iconLink != null) {
                     Image(
-                        painter = rememberImagePainter(data = selectedArmor.pricing?.iconLink),
+                        painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
                         contentDescription = "",
                         modifier = Modifier.size(40.dp)
                     )
@@ -375,7 +375,7 @@ class CalculatorMainActivity : GodActivity() {
             ) {
                 if (selectedArmor?.pricing?.iconLink != null) {
                     Image(
-                        painter = rememberImagePainter(data = selectedArmor.pricing?.iconLink),
+                        painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
                         contentDescription = "",
                         modifier = Modifier.size(40.dp)
                     )

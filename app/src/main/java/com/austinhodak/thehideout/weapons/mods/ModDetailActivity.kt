@@ -296,7 +296,7 @@ class ModDetailActivity : GodActivity() {
             ) {
                 Image(
                     rememberImagePainter(
-                        item.pricing?.iconLink ?: ""
+                        item.pricing?.getCleanIcon()
                     ),
                     contentDescription = null,
                     modifier = Modifier
@@ -344,7 +344,7 @@ class ModDetailActivity : GodActivity() {
             ) {
                 Image(
                     rememberImagePainter(
-                        item.pricing?.iconLink ?: ""
+                        item.pricing?.getCleanIcon()
                     ),
                     contentDescription = null,
                     modifier = Modifier
@@ -435,7 +435,7 @@ class ModDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(mod.pricing?.iconLink ?: ""),
+                        rememberImagePainter(mod.pricing?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)

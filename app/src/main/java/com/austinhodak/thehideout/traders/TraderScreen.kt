@@ -261,8 +261,7 @@ private fun BarterItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(data = rewardItem?.iconLink
-                        ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
+                    rememberImagePainter(data = rewardItem?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)
@@ -357,8 +356,7 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
         Box {
             Image(
                 rememberImagePainter(
-                    item?.iconLink
-                        ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                    item?.getCleanIcon()
                 ),
                 contentDescription = null,
                 modifier = Modifier
@@ -520,7 +518,7 @@ fun TraderFleaItem(
                     .fillMaxHeight()
                     .padding(end = 16.dp))
                 Image(
-                    rememberImagePainter(item.pricing?.iconLink ?: "https://tarkov-tools.com/images/flea-market-icon.jpg"),
+                    rememberImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(48.dp)

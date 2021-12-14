@@ -221,7 +221,7 @@ class QuestInRaidActivity : GodActivity() {
                     )
                 ) {
                     Image(
-                        rememberImagePainter(item.pricing?.iconLink ?: ""),
+                        rememberImagePainter(item.pricing?.getCleanIcon()),
                         contentDescription = "",
                         Modifier
                             .layout { measurable, constraints ->
@@ -629,8 +629,7 @@ class QuestInRaidActivity : GodActivity() {
                 }
                 Image(
                     rememberImagePainter(
-                        pricing?.iconLink
-                            ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                        pricing?.getCleanIcon()
                     ),
                     contentDescription = null,
                     modifier = Modifier

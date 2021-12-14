@@ -2,7 +2,6 @@ package com.austinhodak.thehideout.ammunition
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -16,7 +15,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -168,7 +166,7 @@ class AmmoDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(ammo.pricing?.iconLink ?: ""),
+                        rememberImagePainter(ammo.pricing?.getIcon() ?: ""),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)

@@ -919,7 +919,7 @@ class QuestDetailActivity : GodActivity() {
                     }
                 }
                 Image(
-                    rememberImagePainter(pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
+                    rememberImagePainter(pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)

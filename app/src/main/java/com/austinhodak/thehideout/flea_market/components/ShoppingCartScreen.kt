@@ -200,8 +200,7 @@ private fun ShoppingFleaItem(
                 ) {
                     Image(
                         rememberImagePainter(
-                            item.pricing?.iconLink
-                                ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                            item.pricing?.getCleanIcon()
                         ),
                         contentDescription = null,
                         modifier = Modifier

@@ -392,7 +392,7 @@ class WeaponDetailActivity : GodActivity() {
             ) {
                 Image(
                         rememberImagePainter(
-                                item.pricing?.iconLink ?: ""
+                                item.pricing?.getCleanIcon()
                         ),
                         contentDescription = null,
                         modifier = Modifier

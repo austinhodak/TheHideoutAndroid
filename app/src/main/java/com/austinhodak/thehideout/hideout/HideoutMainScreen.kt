@@ -610,7 +610,7 @@ private fun HideoutRequirementItem(
     ) {
         Image(
             rememberImagePainter(
-                pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                pricing?.getCleanIcon()
             ),
             contentDescription = null,
             modifier = Modifier
@@ -834,7 +834,7 @@ fun CraftItem(craft: Craft, userData: User?) {
                     Box {
                         Image(
                             rememberImagePainter(
-                                rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                                rewardItem?.getCleanIcon()
                             ),
                             contentDescription = null,
                             modifier = Modifier
@@ -938,7 +938,7 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
         Box {
             Image(
                 rememberImagePainter(
-                    item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                    item?.getCleanIcon()
                 ),
                 contentDescription = null,
                 modifier = Modifier

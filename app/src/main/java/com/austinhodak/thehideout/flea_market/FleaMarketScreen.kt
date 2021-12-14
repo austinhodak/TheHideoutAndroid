@@ -233,7 +233,7 @@ fun FleaMarketNeededScreen(
                 )
             ) {
                 Image(
-                    rememberImagePainter(it.pricing?.iconLink ?: ""),
+                    rememberImagePainter(it.pricing?.getCleanIcon() ?: ""),
                     contentDescription = "",
                     Modifier
                         .layout { measurable, constraints ->

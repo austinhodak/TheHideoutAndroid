@@ -791,7 +791,7 @@ class FleaItemDetail : GodActivity() {
                         Box {
                             Image(
                                 rememberImagePainter(
-                                    rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                                    rewardItem?.getCleanIcon()
                                 ),
                                 contentDescription = null,
                                 modifier = Modifier
@@ -914,8 +914,7 @@ class FleaItemDetail : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(data = rewardItem?.iconLink
-                            ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
+                        rememberImagePainter(data = rewardItem?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)
@@ -1003,7 +1002,7 @@ class FleaItemDetail : GodActivity() {
             Box {
                 Image(
                     rememberImagePainter(
-                        item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                        item?.getCleanIcon()
                     ),
                     contentDescription = null,
                     modifier = Modifier
@@ -1143,7 +1142,7 @@ class FleaItemDetail : GodActivity() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            rememberImagePainter(item?.pricing?.iconLink ?: ""),
+                            rememberImagePainter(item?.pricing?.getCleanIcon()),
                             contentDescription = null,
                             modifier = Modifier
                                 .padding(vertical = 16.dp)

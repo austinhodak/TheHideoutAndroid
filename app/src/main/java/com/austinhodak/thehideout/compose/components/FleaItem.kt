@@ -67,7 +67,7 @@ fun FleaItem(
                     .fillMaxHeight()
                     .padding(end = 16.dp))
                 Image(
-                    rememberImagePainter(item.pricing?.iconLink ?: "https://tarkov-tools.com/images/flea-market-icon.jpg"),
+                    rememberImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(48.dp)
