@@ -197,6 +197,12 @@ class QuestInRaidActivity : GodActivity() {
                     it.number ?: 0
                 }
 
+                val totalProgress = objectives.filter {
+                    it.target?.first() == item.id
+                }.sumOf {
+                    userData?.getObjectiveProgress(it) ?: 0
+                }
+
                 val color = BorderColor
                 val context = LocalContext.current
                 Box(
@@ -236,7 +242,7 @@ class QuestInRaidActivity : GodActivity() {
                             .border(0.1.dp, color),
                     )
                     Text(
-                        text = "${totalNeeded}",
+                        text = "$totalProgress/$totalNeeded",
                         Modifier
                             .clip(RoundedCornerShape(topStart = 5.dp))
                             .background(color)

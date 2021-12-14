@@ -74,8 +74,8 @@ class QuestMainViewModel @Inject constructor(
     val placedTotalUser = MutableLiveData(0)
     val pickupTotalUser = MutableLiveData(0)
 
-    private suspend fun updateTotals(quests: List<Quest>) {
-        Timber.d(quests.size.toString())
+    private suspend fun updateTotals() {
+       // Timber.d(quests.size.toString())
 
         repository.getAllQuests().collect { quests ->
             pmcElimsTotal.value = quests.sumOf { quest ->
@@ -197,26 +197,23 @@ class QuestMainViewModel @Inject constructor(
         var quests: List<Quest>? = null
 
         viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
+                updateTotals()
+            }
             repository.getAllQuests().collect {
                 viewModelScope.launch {
-
+                    questsList.value = it
+                    quests = it
+                }
+                viewModelScope.launch {
                     val itemIDs = it.flatMap {
                         it.objective ?: emptyList()
                     }.map {
                         it.target?.first()
                     }
-
-                    Timber.d(itemIDs.toString())
-
                     repository.getItemByID(itemIDs.filterNotNull()).collect {
                         itemsList.value = it
                     }
-                    //Timber.d(it.toString())
-                    questsList.value = it
-                    quests = it
-                    updateTotals(it)
-
-
                 }
             }
         }
