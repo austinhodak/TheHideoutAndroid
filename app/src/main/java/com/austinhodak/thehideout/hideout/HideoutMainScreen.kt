@@ -148,10 +148,12 @@ fun HideoutMainScreen(
                         backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                         elevation = 4.dp,
                         actions = {
-                            IconButton(onClick = {
-                                hideoutViewModel.setSearchOpen(true)
-                            }) {
-                                Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
+                            if (navBackStackEntry?.destination?.route != HideoutNavigationScreens.Stations.route) {
+                                IconButton(onClick = {
+                                    hideoutViewModel.setSearchOpen(true)
+                                }) {
+                                    Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
+                                }
                             }
                             if (navBackStackEntry?.destination?.route == HideoutNavigationScreens.Crafts.route) {
                                 IconButton(onClick = {
