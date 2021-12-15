@@ -16,6 +16,7 @@ enum class ItemTypes {
     HELMET,
     KEY,
     MED,
+    MELEE,
     MOD,
     PROVISION,
     RIG,

@@ -254,6 +254,7 @@ fun JSONObject.getItemType(): ItemTypes {
         this.getString("_parent").equals("5448f3a14bdc2d27728b4569") -> ItemTypes.MED
         this.getString("_parent").equals("5448e8d04bdc2ddf718b4569") -> ItemTypes.FOOD
         this.getString("_parent").equals("5448e8d64bdc2dce718b4568") -> ItemTypes.FOOD
+        this.getString("_parent").equals("5447e1d04bdc2dff2f8b4567") -> ItemTypes.MELEE
         else -> ItemTypes.NONE
     }
 }
