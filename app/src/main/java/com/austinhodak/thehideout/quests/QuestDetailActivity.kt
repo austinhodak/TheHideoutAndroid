@@ -444,7 +444,7 @@ class QuestDetailActivity : GodActivity() {
                                 tint = Green400
                             )
                         }
-                        if (quest?.isLocked(teamMember) == true || teamMember?.quests == null) {
+                        if (quest?.isLocked(teamMember) == true) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_lock_24),
                                 contentDescription = "",
