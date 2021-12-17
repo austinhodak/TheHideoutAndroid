@@ -45,6 +45,8 @@ import com.austinhodak.thehideout.pickers.PickerActivity
 import com.austinhodak.thehideout.rigsList
 import com.austinhodak.thehideout.utils.*
 import com.bumptech.glide.Glide
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -76,6 +78,8 @@ class GearDetailActivity : GodActivity() {
 
         val gearID = intent.getStringExtra("id") ?: "5e4abb5086f77406975c9342"
         gearViewModel.getGear(gearID)
+
+        Firebase.crashlytics.setCustomKey("gearID", gearID)
 
         setContent {
             HideoutTheme {

@@ -68,9 +68,11 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -99,6 +101,8 @@ class QuestDetailActivity : GodActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val questID = intent.getStringExtra("questID") ?: "8"
+
+        Firebase.crashlytics.setCustomKey("questID", questID)
 
         setContent {
             HideoutTheme {

@@ -42,6 +42,7 @@ import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
@@ -57,6 +58,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import org.json.JSONObject
 import timber.log.Timber
+import java.lang.Exception
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -121,13 +123,16 @@ class SettingsActivity : GodActivity() {
                 }
 
                 isSignedIn = FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser?.isAnonymous == false
-
-
-                //TODO FIX CRASH
-                val gameInfo = JSONObject(FirebaseRemoteConfig.getInstance()["game_info"].asString())
+                
+                val gameInfo = try {
+                    JSONObject(FirebaseRemoteConfig.getInstance()["game_info"].asString())
+                } catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
+                }
 
                 val wipeDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val date = LocalDate.parse(gameInfo.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                    val date = LocalDate.parse(gameInfo?.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
                     val now = LocalDate.now()
 
                     val between = ChronoUnit.DAYS.between(date, now)
@@ -135,16 +140,16 @@ class SettingsActivity : GodActivity() {
                     val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
                     "${date.format(formatter)} ($between Days Ago)"
                 } else {
-                    gameInfo.getString("wipe_date")
+                    gameInfo?.getString("wipe_date")
                 }
 
                 val versionDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val date = LocalDate.parse(gameInfo.getString("version_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                    val date = LocalDate.parse(gameInfo?.getString("version_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
 
                     val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    "${date.format(formatter)}"
+                    date.format(formatter)
                 } else {
-                    gameInfo.getString("version_date")
+                    gameInfo?.getString("version_date")
                 }
 
                 Scaffold(
@@ -514,7 +519,7 @@ class SettingsActivity : GodActivity() {
                                 }
                                 button {
                                     title = "Game Version".asText()
-                                    summary = "${gameInfo.getString("version")} ($versionDate)".asText()
+                                    summary = "${gameInfo?.getString("version")} ($versionDate)".asText()
                                     icon = R.drawable.ic_baseline_info_24.asIcon()
                                     enabled = false
                                     onClick= {
@@ -523,7 +528,7 @@ class SettingsActivity : GodActivity() {
                                 }
                                 button {
                                     title = "Last Wipe".asText()
-                                    summary = wipeDate.asText()
+                                    summary = (wipeDate ?: "").asText()
                                     icon = R.drawable.icons8_toilet_paper_24.asIcon()
                                     enabled = false
                                 }

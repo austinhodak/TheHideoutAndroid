@@ -461,11 +461,19 @@ fun FleaBottomNav(
                     if (item.icon != null) {
                         Icon(item.icon, "")
                     } else {
-                        Icon(
-                            painter = painterResource(id = item.iconDrawable!!),
-                            contentDescription = item.resourceId,
-                            modifier = Modifier.size(24.dp)
-                        )
+                        if (currentDestination?.hierarchy?.any { it.route == item.route } == true) {
+                            Icon(
+                                painter = painterResource(id = item.iconDrawable!!),
+                                contentDescription = item.resourceId,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(id = item.unselectedDrawable ?: item.iconDrawable!!),
+                                contentDescription = item.resourceId,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
                     }
                 },
                 label = { Text(item.resourceId) },
@@ -493,7 +501,8 @@ sealed class FleaMarketScreens(
     val route: String,
     val resourceId: String,
     val icon: ImageVector? = null,
-    @DrawableRes val iconDrawable: Int? = null
+    @DrawableRes val iconDrawable: Int? = null,
+    @DrawableRes val unselectedDrawable: Int? = null
 ) {
     object Items : FleaMarketScreens("Items", "Items", null, R.drawable.ic_baseline_storefront_24)
     object Needed : FleaMarketScreens("Needed", "Needed", null, R.drawable.icons8_wish_list_96)

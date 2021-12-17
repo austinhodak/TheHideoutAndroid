@@ -120,7 +120,7 @@ class PremiumActivity : AppCompatActivity() {
             Column(
             ) {
                 Text(
-                    text = json.getString("name"),
+                    text = json.optString("name", "Premium"),
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                 )
@@ -163,7 +163,7 @@ class PremiumActivity : AppCompatActivity() {
             Column(
             ) {
                 Text(
-                    text = json.getString("name"),
+                    text = json.optString("name", "Error"),
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                 )

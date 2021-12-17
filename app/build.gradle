@@ -39,9 +39,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 11100
+        versionCode 11101
         // [1]-[0].[2].[0].[0]
-        versionName "1.1.0"
+        versionName "1.1.1"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -172,7 +172,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
     implementation 'com.google.firebase:firebase-dynamic-links-ktx'
     //implementation 'com.google.android.gms:play-services-ads'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.1'
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
     //END Firebase
 
@@ -220,7 +220,7 @@ dependencies {
 
     implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
 
-    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.1'
 
     implementation 'com.google.maps.android:maps-ktx:3.1.0'
     implementation 'com.google.maps.android:maps-utils-ktx:3.2.0'
