@@ -69,6 +69,7 @@ class CalculatorMainActivity : GodActivity() {
         setContent {
             HideoutTheme {
                 if (intent != null) {
+                    //TODO FIX THIS, INTENT OVERRIDING SELECTED VALUES
                     intent.getSerializableExtra("ammo")?.let {
                         if (it is Ammo) {
                             simViewModel.selectAmmo(it)
@@ -86,6 +87,7 @@ class CalculatorMainActivity : GodActivity() {
                             simViewModel.selectHelmet(it)
                         }
                     }
+                    intent = null
                 }
 
                 val scaffoldState = rememberBottomSheetScaffoldState()
