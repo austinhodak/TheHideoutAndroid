@@ -59,6 +59,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.text.DecimalFormat
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -1082,8 +1083,13 @@ private fun QuestOverviewScreen(
     val placedTotalUser by questViewModel.placedTotalUser.observeAsState()
     val pickupTotalUser by questViewModel.pickupTotalUser.observeAsState()
 
+    val FIRItemsTotalUser by questViewModel.questFIRItemsTotalUser.observeAsState()
+    val handoverItemsTotalUser by questViewModel.handoverItemsTotalUser.observeAsState()
+
+    val expTotalUser by questViewModel.expTotal.observeAsState(0)
+
     LazyColumn(
-        contentPadding = PaddingValues(vertical = 4.dp)
+        contentPadding = PaddingValues(top = 4.dp, bottom = 92.dp),
     ) {
         item {
             OverviewItem(
@@ -1124,11 +1130,11 @@ private fun QuestOverviewScreen(
                 icon = R.drawable.ic_search_black_24dp
             )
         }
-        /*item {
+        item {
             OverviewItem(
                 color = Color(0xFF03A9F4),
                 s1 = "Found in Raid Items",
-                s2 = "0/$questFIRItemsTotal",
+                s2 = "$FIRItemsTotalUser/$questFIRItemsTotal",
                 progress = 0f,
                 icon = R.drawable.ic_baseline_check_circle_outline_24
             )
@@ -1137,11 +1143,11 @@ private fun QuestOverviewScreen(
             OverviewItem(
                 color = Color(0xFF03A9F4),
                 s1 = "Handover Items",
-                s2 = "0/$handoverItemsTotal",
+                s2 = "$handoverItemsTotalUser/$handoverItemsTotal",
                 progress = 0f,
                 icon = R.drawable.ic_baseline_swap_horizontal_circle_24
             )
-        }*/
+        }
         item {
             OverviewItem(
                 color = Color(0xFF9C27B0),
@@ -1162,6 +1168,15 @@ private fun QuestOverviewScreen(
                 icon = R.drawable.icons8_upward_arrow_96
             )
         }
+        item {
+            OverviewItem(
+                color = Color(0xFFE91E63),
+                s1 = "Total EXP",
+                s2 = DecimalFormat("#,###,###").format(expTotalUser),
+                progress = null,
+                icon = R.drawable.ic_baseline_star_half_24
+            )
+        }
     }
 }
 
@@ -1171,7 +1186,7 @@ private fun OverviewItem(
     icon: Int = R.drawable.ic_baseline_assignment_turned_in_24,
     s1: String = "",
     s2: String = "",
-    progress: Float? = 0.5f
+    progress: Float? = null
 ) {
     val p by remember { mutableStateOf(progress) }
     val animatedProgress by animateFloatAsState(
@@ -1199,6 +1214,7 @@ private fun OverviewItem(
             Column(
                 Modifier.weight(1f)
             ) {
+                if (progress != null)
                 LinearProgressIndicator(
                     modifier = Modifier
                         .height(1.dp)

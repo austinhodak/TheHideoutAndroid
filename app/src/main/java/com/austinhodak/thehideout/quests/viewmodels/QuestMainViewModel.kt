@@ -69,10 +69,14 @@ class QuestMainViewModel @Inject constructor(
     val pmcElimsTotalUser = MutableLiveData(0)
     val scavElimsTotalUser = MutableLiveData(0)
     val questItemsTotalUser = MutableLiveData(0)
-    //val questFIRItemsTotalUser = MutableLiveData(0)
-    //val handoverItemsTotalUser = MutableLiveData(0)
+
+    val questFIRItemsTotalUser = MutableLiveData(0)
+    val handoverItemsTotalUser = MutableLiveData(0)
+
     val placedTotalUser = MutableLiveData(0)
     val pickupTotalUser = MutableLiveData(0)
+
+    val expTotal = MutableLiveData((0).toLong())
 
     private suspend fun updateTotals() {
        // Timber.d(quests.size.toString())
@@ -121,7 +125,7 @@ class QuestMainViewModel @Inject constructor(
             handoverItemsTotal.value = quests.sumOf { quest ->
                 var total = 0
                 for (objective in quest.objective!!) {
-                    if (objective.number!! >= 500) total += 1
+                    //if (objective.number!! >= 500) total += 1
                     if (objective.type == "collect" && objective.number!! < 500) {
                         total += objective.number ?: 0
                     }
@@ -170,6 +174,9 @@ class QuestMainViewModel @Inject constructor(
         var place = 0
         var pickup = 0
 
+        var fir = 0
+        var handover = 0
+
         userData.questObjectives?.values?.forEach { obj ->
             val objective = allObjectives.find { it.id?.toInt() == obj?.id }?: return@forEach
 
@@ -180,6 +187,14 @@ class QuestMainViewModel @Inject constructor(
                 objective.type == "place" || objective.type == "mark" -> place += obj?.progress ?: 0
                 objective.type == "pickup" -> pickup += obj?.progress ?: 0
             }
+
+            if (objective.type == "find" && objective.number!! < 500) {
+                fir += obj?.progress ?: 0
+            }
+
+            if (objective.type == "collect" && objective.number!! < 500) {
+                handover += obj?.progress ?: 0
+            }
         }
 
         pmcElimsTotalUser.value = pmc
@@ -187,6 +202,14 @@ class QuestMainViewModel @Inject constructor(
         questItemsTotalUser.value = items
         placedTotalUser.value = place
         pickupTotalUser.value = pickup
+
+        questFIRItemsTotalUser.value = fir
+        handoverItemsTotalUser.value = handover
+
+        expTotal.value = userData.quests?.values?.sumOf {
+            val exp = quests.find { it.id == it.id }?.exp
+            exp?.toLong() ?: 0.toLong()
+        } ?: 0
     }
 
     private val _userData = MutableLiveData<User?>(null)
