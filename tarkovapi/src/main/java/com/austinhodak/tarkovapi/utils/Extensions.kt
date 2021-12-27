@@ -115,8 +115,10 @@ fun ItemFragment.toClass(): Pricing {
             Pricing.BuySellPrice(
                 s.source?.rawValue,
                 s.price,
-                s.requirements.map { requirement ->
-                    Pricing.BuySellPrice.Requirement(requirement?.type?.rawValue!!, requirement.value!!)
+                s.requirements.mapNotNull { requirement ->
+                    if (requirement?.type?.rawValue != null && requirement.value != null) {
+                        Pricing.BuySellPrice.Requirement(requirement.type.rawValue, requirement.value)
+                    } else null
                 }
             )
         },
@@ -125,8 +127,10 @@ fun ItemFragment.toClass(): Pricing {
             Pricing.BuySellPrice(
                 s.source?.rawValue,
                 s.price,
-                s.requirements.map { requirement ->
-                    Pricing.BuySellPrice.Requirement(requirement?.type?.rawValue!!, requirement.value!!)
+                s.requirements.mapNotNull { requirement ->
+                    if (requirement?.type?.rawValue != null && requirement.value != null) {
+                        Pricing.BuySellPrice.Requirement(requirement.type.rawValue, requirement.value)
+                    } else null
                 }
             )
         },
