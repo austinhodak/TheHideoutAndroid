@@ -387,7 +387,7 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
                 Row {
                     SmallBuyPrice(pricing = taskItem?.item)
                     Text(
-                        text = " (${(taskItem?.count?.times(cheapestBuy?.price ?: 0))?.asCurrency()})",
+                        text = " (${(taskItem?.count?.times(cheapestBuy?.price ?: item?.basePrice ?: 0))?.asCurrency()})",
                         style = MaterialTheme.typography.caption,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Light,

@@ -40,7 +40,11 @@ data class Pricing(
         return buyFor?.minByOrNull {
             if (!it.isRequirementMet()) Int.MAX_VALUE else it.getPriceAsRoubles()
             //it.price ?: Int.MAX_VALUE
-        }
+        } ?: BuySellPrice(
+            "fleaMarket",
+            price = basePrice,
+            requirements = emptyList()
+        )
     }
 
     fun getCheapestBuy(): BuySellPrice? {

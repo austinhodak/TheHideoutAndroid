@@ -131,25 +131,35 @@ class SettingsActivity : GodActivity() {
                     null
                 }
 
-                val wipeDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val date = LocalDate.parse(gameInfo?.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
-                    val now = LocalDate.now()
+                val wipeDate = try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val date = LocalDate.parse(gameInfo?.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                        val now = LocalDate.now()
 
-                    val between = ChronoUnit.DAYS.between(date, now)
+                        val between = ChronoUnit.DAYS.between(date, now)
 
-                    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    "${date.format(formatter)} ($between Days Ago)"
-                } else {
-                    gameInfo?.getString("wipe_date")
+                        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                        "${date.format(formatter)} ($between Days Ago)"
+                    } else {
+                        gameInfo?.getString("wipe_date")
+                    }
+                } catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
                 }
 
-                val versionDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val date = LocalDate.parse(gameInfo?.getString("version_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                val versionDate = try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val date = LocalDate.parse(gameInfo?.getString("version_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
 
-                    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    date.format(formatter)
-                } else {
-                    gameInfo?.getString("version_date")
+                        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                        date.format(formatter)
+                    } else {
+                        gameInfo?.getString("version_date")
+                    }
+                }  catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
                 }
 
                 Scaffold(

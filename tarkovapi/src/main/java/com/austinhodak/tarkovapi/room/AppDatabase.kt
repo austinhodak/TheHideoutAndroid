@@ -181,7 +181,7 @@ abstract class AppDatabase : RoomDatabase() {
             val oneHour = 1000 * 60 * 60
 
             if (preferences.getLong("lastPriceUpdate", 0) + oneHour > System.currentTimeMillis()) {
-                //return
+                return
             }
 
             populateQuests()

@@ -1239,7 +1239,8 @@ private fun OverviewItem(
                         modifier = Modifier,
                         text = s2,
                         style = MaterialTheme.typography.h5,
-                        color = Color.White
+                        color = Color.White,
+                        fontSize = 22.sp
                     )
                 }
             }
