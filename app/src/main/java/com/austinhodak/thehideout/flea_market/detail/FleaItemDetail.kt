@@ -1152,19 +1152,21 @@ class FleaItemDetail : GodActivity() {
                                 .height(52.dp)
                                 .border((0.25).dp, color = BorderColor)
                                 .clickable {
-                                    StfalconImageViewer
-                                        .Builder(
-                                            context,
-                                            listOf(item?.pricing?.imageLink)
-                                        ) { view, image ->
-                                            Glide
-                                                .with(view)
-                                                .load(image)
-                                                .into(view)
-                                        }
-                                        .withHiddenStatusBar(false)
-                                        .withBackgroundColor(color.toArgb())
-                                        .show()
+                                    item?.pricing?.imageLink?.let {
+                                        StfalconImageViewer
+                                            .Builder(
+                                                context,
+                                                listOf(it)
+                                            ) { view, image ->
+                                                Glide
+                                                    .with(view)
+                                                    .load(image)
+                                                    .into(view)
+                                            }
+                                            .withHiddenStatusBar(false)
+                                            .withBackgroundColor(color.toArgb())
+                                            .show()
+                                    }
                                 }
                         )
                         Column(

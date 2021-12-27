@@ -33,8 +33,8 @@ data class Pricing(
     val wikiLink: String?
 ) : Serializable {
 
-    fun getIcon(): String = gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
-    fun getCleanIcon(): String = iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
+    fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
+    fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
 
     fun getCheapestBuyRequirements(): BuySellPrice? {
         return buyFor?.minByOrNull {
