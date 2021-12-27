@@ -28,6 +28,7 @@ class TarkovRepo @Inject constructor(
 
     fun getAllItems(): Flow<List<Item>> = itemDao.getAllItems()
     fun getAllItemsSlots(id: String): Flow<List<Item>> = itemDao.getAllItemsSlots(id)
+    suspend fun getAllItemsOnce(): List<Item> = itemDao.getAllItemsOnce()
 
     fun getWeaponsByClass(classID: String): Flow<List<Weapon>> = weaponDao.getWeaponsByClass(classID)
     fun getWeaponByID(id: String): Flow<Weapon> = weaponDao.getWeapon(id)

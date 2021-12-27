@@ -79,6 +79,7 @@ import com.google.firebase.database.ValueEventListener
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import javax.inject.Inject
@@ -103,7 +104,7 @@ class FleaItemDetail : GodActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         //WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        itemID = intent.getStringExtra("id") ?: "5447a9cd4bdc2dbd208b4567"
+        itemID = intent.getStringExtra("id") ?: "5e42c81886f7742a01529f57"
         viewModel.getItemByID(itemID)
 
         setContent {
@@ -830,6 +831,7 @@ class FleaItemDetail : GodActivity() {
                                     fontWeight = FontWeight.Light,
                                 )
                             }
+                            Timber.d(rewardItem.toString())
                             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                                 Text(
                                     text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",

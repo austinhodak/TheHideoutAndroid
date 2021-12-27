@@ -40,6 +40,7 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
@@ -72,10 +73,18 @@ fun FleaMarketScreen(
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
 
-    val data by tarkovRepo.getAllItems().collectAsState(initial = null)
+    var data by remember {
+        mutableStateOf(listOf<Item>())
+    }
+
     val isSearchOpen by fleaViewModel.isSearchOpen.observeAsState(false)
     val sort by fleaViewModel.sortBy.observeAsState()
     val userData by fleaViewModel.userData.observeAsState()
+
+    LaunchedEffect("meds") {
+        val list = tarkovRepo.getAllItemsOnce()
+        data = list
+    }
 
     val context = LocalContext.current
 

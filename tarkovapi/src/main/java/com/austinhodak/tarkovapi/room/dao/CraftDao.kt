@@ -22,6 +22,6 @@ interface CraftDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(crafts: List<Craft>?)
 
-   /* @Query("DELETE FROM crafts")
-    fun nukeTable()*/
+    @Query("DELETE FROM crafts")
+    fun nukeTable()
 }

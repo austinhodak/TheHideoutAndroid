@@ -22,4 +22,6 @@ interface BarterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(barter: Barter)
 
+    @Query("DELETE FROM barters")
+    fun nukeTable()
 }

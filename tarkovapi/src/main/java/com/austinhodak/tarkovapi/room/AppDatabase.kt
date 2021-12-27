@@ -130,20 +130,29 @@ abstract class AppDatabase : RoomDatabase() {
 
             for (quest in quests) {
                 if (quest != null) {
+                    //Timber.d("Updating Quest")
                     questDao.insert(quest)
                 }
             }
         }
 
         private suspend fun populateCrafts() {
+
             val craftDao = database.get().CraftDao()
             val response = apolloClient.query(CraftsQuery())
             val crafts = response.data?.crafts?.map { craft ->
                 craft?.toCraft()
             } ?: emptyList()
-            for (craft in crafts) {
-                if (craft != null) {
-                    craftDao.insert(craft)
+
+            if (crafts.isNotEmpty()) {
+                Timber.d("NUKING CRAFT TABLE")
+                craftDao.nukeTable()
+
+                for (craft in crafts) {
+                    if (craft != null) {
+                        Timber.d("Updating Craft")
+                        craftDao.insert(craft)
+                    }
                 }
             }
         }
@@ -154,9 +163,16 @@ abstract class AppDatabase : RoomDatabase() {
             val barters = response.data?.barters?.map { barter ->
                 barter?.toBarter()
             } ?: emptyList()
-            for (barter in barters) {
-                if (barter != null) {
-                    barterDao.insert(barter)
+
+            if (barters.isNotEmpty()) {
+                Timber.d("NUKING BARTER TABLE")
+                barterDao.nukeTable()
+
+                for (barter in barters) {
+                    if (barter != null) {
+                        Timber.d("Updating Barter")
+                        barterDao.insert(barter)
+                    }
                 }
             }
         }
@@ -165,8 +181,12 @@ abstract class AppDatabase : RoomDatabase() {
             val oneHour = 1000 * 60 * 60
 
             if (preferences.getLong("lastPriceUpdate", 0) + oneHour > System.currentTimeMillis()) {
-                return
+                //return
             }
+
+            populateQuests()
+            populateCrafts()
+            populateBarters()
 
             try {
                 val itemDao = database.get().ItemDao()
@@ -187,6 +207,8 @@ abstract class AppDatabase : RoomDatabase() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+
+
         }
     }
 

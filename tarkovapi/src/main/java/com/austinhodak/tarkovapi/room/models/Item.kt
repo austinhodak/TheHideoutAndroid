@@ -78,6 +78,8 @@ data class Item(
     var effects_health: JSONObject? = null,
     @SerializedName("effects_damage_null")
     var effects_damage: JSONObject? = null,
+
+    //val SpawnFilter: List<String>? = null
 ) : Serializable {
 
     fun getCleanIcon(): String? = pricing?.iconLink
