@@ -197,6 +197,35 @@ class FleaItemDetail : GodActivity() {
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
                                             item {
+                                                if (item.value?.pricing?.noFlea == true) {
+                                                    Card(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(
+                                                                horizontal = 8.dp,
+                                                                vertical = 4.dp
+                                                            ),
+                                                        backgroundColor = Red400
+                                                    ) {
+                                                        Row(
+                                                            verticalAlignment = Alignment.CenterVertically,
+                                                            modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)
+                                                        ) {
+                                                            Icon(
+                                                                painter = painterResource(id = R.drawable.icons8_online_store_96),
+                                                                contentDescription = "",
+                                                                modifier = Modifier.size(24.dp),
+                                                                tint = Color.Black
+                                                            )
+                                                            Text(
+                                                                text = "Not Sold on Flea Market",
+                                                                modifier = Modifier.padding(start = 16.dp),
+                                                                color = Color.Black,
+                                                                style = MaterialTheme.typography.subtitle2
+                                                            )
+                                                        }
+                                                    }
+                                                }
                                                 Card1(item = item.value)
                                                 if (!item.value?.pricing?.sellFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersSellCard(
                                                     title = "SELL PRICES",
