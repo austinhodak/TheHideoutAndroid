@@ -15,6 +15,7 @@ import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.type.ItemType
 import org.json.JSONObject
 import java.io.IOException
 import java.text.NumberFormat
@@ -107,7 +108,7 @@ fun ItemFragment.toClass(): Pricing {
         item.low24hPrice,
         item.high24hPrice,
         item.updated,
-        item.types,
+        types = emptyList(),
         item.width,
         item.height,
         sellFor = item.sellFor?.map { s1 ->
@@ -134,7 +135,8 @@ fun ItemFragment.toClass(): Pricing {
                 }
             )
         },
-        item.wikiLink
+        item.wikiLink,
+        item.types.contains(ItemType.noFlea)
     )
 }
 

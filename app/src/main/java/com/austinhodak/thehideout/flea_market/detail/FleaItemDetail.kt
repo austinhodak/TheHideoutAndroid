@@ -1181,7 +1181,7 @@ class FleaItemDetail : GodActivity() {
                             //fontSize = 16.sp
                         )*/
                             Text(
-                                text = "Last Price: ${item?.pricing?.lastLowPrice?.asCurrency()}",
+                                text = "Last Price: ${item?.pricing?.getLastPrice()?.asCurrency()}",
                                 style = MaterialTheme.typography.subtitle1,
                                 fontSize = 16.sp
                             )

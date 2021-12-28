@@ -70,9 +70,11 @@ fun FleaItem(
                     rememberImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
+                        .padding(vertical = 16.dp)
                         .width(48.dp)
                         .height(48.dp)
                         .border((0.25).dp, color = BorderColor)
+
                 )
                 Column(
                     Modifier
@@ -86,13 +88,13 @@ fun FleaItem(
                         fontSize = 15.sp
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        val text = if (item.pricing?.isOnFlea() == true) {
+                        val text = if (item.pricing?.noFlea == false) {
                             item.getUpdatedTime()
                         } else {
-                            "${item.getUpdatedTime()} • No Flea"
+                            "${item.getUpdatedTime()} • Not on Flea"
                         }
                         Text(
-                            text = item.getUpdatedTime(),
+                            text = text,
                             style = MaterialTheme.typography.caption,
                             fontSize = 10.sp
                         )
@@ -241,7 +243,8 @@ fun TraderSmallPreview() {
                     )
                 )
             ),
-            wikiLink = null
+            wikiLink = null,
+            false
         )
     )
 }
