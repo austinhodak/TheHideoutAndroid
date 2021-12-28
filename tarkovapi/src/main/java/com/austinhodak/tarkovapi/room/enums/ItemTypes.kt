@@ -23,7 +23,8 @@ enum class ItemTypes {
     STIM,
     WEARABLE,
     WEAPON,
-    FOOD
+    FOOD,
+    NOFLEA
 }
 
 enum class Traders(var id: String, var icon: Int, var int: Int) {

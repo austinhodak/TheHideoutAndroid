@@ -46,6 +46,16 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val dpi by intPref(400, "userDPI")
     val hipfireSens by stringPref("0.50", "hipfireSens")
     val aimSens by stringPref("0.50", "aimSens")
+
+    val dataSyncFrequency by enumPref(DataSyncFrequency.`60`, "dataSyncFrequency")
+}
+
+enum class DataSyncFrequency {
+    `60`,
+    `120`,
+    `360`,
+    `720`,
+    `1440`
 }
 
 enum class OpeningScreen {

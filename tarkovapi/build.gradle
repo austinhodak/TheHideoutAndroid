@@ -82,4 +82,6 @@ dependencies {
     api "com.github.MFlisar.MaterialPreferences:screen-input:$prefs"
     api "com.github.MFlisar.MaterialPreferences:screen-choice:$prefs"
     api "com.github.MFlisar.MaterialPreferences:screen-color:$prefs"
+
+    api "androidx.work:work-runtime-ktx:2.7.1"
 }

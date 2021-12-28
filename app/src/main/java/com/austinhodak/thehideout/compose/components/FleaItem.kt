@@ -86,6 +86,11 @@ fun FleaItem(
                         fontSize = 15.sp
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        val text = if (item.pricing?.isOnFlea() == true) {
+                            item.getUpdatedTime()
+                        } else {
+                            "${item.getUpdatedTime()} • No Flea"
+                        }
                         Text(
                             text = item.getUpdatedTime(),
                             style = MaterialTheme.typography.caption,

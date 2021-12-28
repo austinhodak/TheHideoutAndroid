@@ -2,6 +2,7 @@ package com.austinhodak.tarkovapi.room.models
 
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.fromDtoR
 import com.austinhodak.tarkovapi.utils.getTraderLevel
@@ -25,13 +26,15 @@ data class Pricing(
     val low24hPrice: Int?,
     val high24hPrice: Int?,
     val updated: String?,
-    val types: List<ItemTypes?>,
+    val types: List<ItemType?>,
     val width: Int?,
     val height: Int?,
     val sellFor: List<BuySellPrice>?,
     val buyFor: List<BuySellPrice>?,
     val wikiLink: String?
 ) : Serializable {
+
+    fun isOnFlea(): Boolean = !types.contains(ItemType.noFlea)
 
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
     fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"

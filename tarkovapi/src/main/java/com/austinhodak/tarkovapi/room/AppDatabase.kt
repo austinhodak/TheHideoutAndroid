@@ -46,19 +46,6 @@ abstract class AppDatabase : RoomDatabase() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             loadItemsFile()
-            //setupTraders()
-        }
-
-        private fun setupTraders() {
-            val traderDao = database.get().TraderDao()
-
-            scope.launch(Dispatchers.IO) {
-                Traders.values().forEach {
-                    traderDao.insert(
-                        Trader(it.id, 1)
-                    )
-                }
-            }
         }
 
         override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
@@ -118,13 +105,7 @@ abstract class AppDatabase : RoomDatabase() {
         private suspend fun populateQuests() {
             val questDao = database.get().QuestDao()
             val response = apolloClient.query(QuestsQuery())
-            //val questsJSON = getJsonDataFromAsset(context, R.raw.quests)
-            //val questType: Type = object : TypeToken<ArrayList<QuestExtra.QuestExtraItem?>?>() {}.type
-
-            //val questsExtraData: List<QuestExtra.QuestExtraItem> = Gson().fromJson(questsJSON, questType)
-
             val quests = response.data?.quests?.map { quest ->
-                //val questExtra = questsExtraData.find { it.id.toString() == quest?.fragments?.questFragment?.id }
                 quest?.toQuest(null)
             } ?: emptyList()
 
@@ -207,8 +188,6 @@ abstract class AppDatabase : RoomDatabase() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
-
         }
     }
 

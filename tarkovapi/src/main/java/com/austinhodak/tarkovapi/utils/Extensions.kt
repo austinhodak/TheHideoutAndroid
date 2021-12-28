@@ -107,7 +107,7 @@ fun ItemFragment.toClass(): Pricing {
         item.low24hPrice,
         item.high24hPrice,
         item.updated,
-        types = emptyList(),
+        item.types,
         item.width,
         item.height,
         sellFor = item.sellFor?.map { s1 ->

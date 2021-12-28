@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.text.InputType
+import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -23,12 +24,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.tarkovapi.FleaVisiblePrice
-import com.austinhodak.tarkovapi.Levels
-import com.austinhodak.tarkovapi.OpeningScreen
-import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.*
+import com.austinhodak.tarkovapi.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
@@ -59,10 +60,12 @@ import kotlinx.coroutines.flow.first
 import org.json.JSONObject
 import timber.log.Timber
 import java.lang.Exception
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -77,8 +80,13 @@ class SettingsActivity : GodActivity() {
 
     var currentScreen = "Settings"
 
+    @Inject
+    lateinit var myWorkerFactory: PriceUpdateFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val preferences = getSharedPreferences("tarkov", MODE_PRIVATE)
 
         UserSettingsModel.openingScreen.observe(lifecycleScope) {
             Timber.d(it.toString())
@@ -161,6 +169,12 @@ class SettingsActivity : GodActivity() {
                     Firebase.crashlytics.recordException(e)
                     null
                 }
+
+                val roomUpdatesTime = DateUtils.getRelativeTimeSpanString(
+                    preferences.getLong("lastPriceUpdate", 0),
+                    System.currentTimeMillis(),
+                    DateUtils.MINUTE_IN_MILLIS
+                )
 
                 Scaffold(
                     topBar = {
@@ -393,6 +407,60 @@ class SettingsActivity : GodActivity() {
                                     icon = R.drawable.ic_baseline_group_24.asIcon()
                                     onClick = {
                                         openActivity(TeamManagementActivity::class.java)
+                                    }
+                                }
+                                subScreen {
+                                    title = "Data Sync".asText()
+                                    icon = R.drawable.ic_baseline_update_24.asIcon()
+                                    button {
+                                        title = "Last Price Sync".asText()
+                                        summary = "$roomUpdatesTime".asText()
+                                        icon = R.drawable.ic_baseline_access_time_24.asIcon()
+                                        enabled = false
+                                    }
+                                    singleChoice(UserSettingsModel.dataSyncFrequency, DataSyncFrequency.values(), {
+                                        when (it) {
+                                            DataSyncFrequency.`60` -> "1 Hour"
+                                            DataSyncFrequency.`120` -> "2 Hour"
+                                            DataSyncFrequency.`360` -> "6 Hour"
+                                            DataSyncFrequency.`720` -> "12 Hour"
+                                            DataSyncFrequency.`1440` -> "1 Day"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "Sync Frequency".asText()
+                                        icon = R.drawable.ic_baseline_update_24.asIcon()
+                                    }
+                                    button {
+                                        title = "Sync Now".asText()
+                                        summary = "".asText()
+                                        icon = R.drawable.ic_baseline_sync_24.asIcon()
+                                        onClick = {
+                                            Toast.makeText(this@SettingsActivity, "Updating...", Toast.LENGTH_SHORT).show()
+                                            val priceUpdateRequestTest = OneTimeWorkRequest.Builder(
+                                                PriceUpdateWorker::class.java).build()
+
+                                            WorkManager.getInstance(this@SettingsActivity).enqueue(priceUpdateRequestTest)
+                                        }
+                                    }
+                                    category {
+                                        title = "Data Provided By".asText()
+                                    }
+                                    button {
+                                        title = "Tarkov Tools".asText()
+                                        summary = "Created by kokarn".asText()
+                                        icon = R.drawable.ic_icons8_github.asIcon()
+                                        onClick = {
+                                            "https://tarkov-tools.com/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Tarkov Data".asText()
+                                        summary = "Maintained by Community Devs".asText()
+                                        icon = R.drawable.ic_icons8_github.asIcon()
+                                        onClick = {
+                                            "https://github.com/TarkovTracker/tarkovdata/".openWithCustomTab(this@SettingsActivity)
+                                        }
                                     }
                                 }
                                 /*category {
