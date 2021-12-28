@@ -1093,7 +1093,7 @@ private fun QuestOverviewScreen(
     ) {
         item {
             OverviewItem(
-                color = Color(0xFF4F8D23),
+                color = Green500,
                 s1 = "Quests Completed",
                 s2 = "$questTotalCompletedUser/$questTotal",
                 progress = (questTotalCompletedUser?.toDouble()
@@ -1102,7 +1102,7 @@ private fun QuestOverviewScreen(
         }
         item {
             OverviewItem(
-                color = Color(0xFFB9231F),
+                color = Red500,
                 s1 = "PMC Eliminations",
                 s2 = "$pmcElimsTotalUser/$pmcElimsTotal",
                 progress = (pmcElimsTotalUser?.toDouble()
@@ -1112,7 +1112,7 @@ private fun QuestOverviewScreen(
         }
         item {
             OverviewItem(
-                color = Color(0xFFB9231F),
+                color = Color(0xFFFF9800),
                 s1 = "Scav Eliminations",
                 s2 = "$scavElimsTotalUser/$scavElimsTotal",
                 progress = (scavElimsTotalUser?.toDouble()
@@ -1122,7 +1122,7 @@ private fun QuestOverviewScreen(
         }
         item {
             OverviewItem(
-                color = Color(0xFF2C5499),
+                color = Color(0xFF03A9F4),
                 s1 = "Quest Items",
                 s2 = "$questItemsTotalUser/$questItemsTotal",
                 progress = (questItemsTotalUser?.toDouble()
@@ -1132,7 +1132,7 @@ private fun QuestOverviewScreen(
         }
         item {
             OverviewItem(
-                color = Color(0xFF2C5499),
+                color = Color(0xFF03A9F4),
                 s1 = "Found in Raid Items",
                 s2 = "$FIRItemsTotalUser/$questFIRItemsTotal",
                 progress = 0f,
@@ -1141,7 +1141,7 @@ private fun QuestOverviewScreen(
         }
         item {
             OverviewItem(
-                color = Color(0xFF2C5499),
+                color = Color(0xFF03A9F4),
                 s1 = "Handover Items",
                 s2 = "$handoverItemsTotalUser/$handoverItemsTotal",
                 progress = 0f,
@@ -1150,7 +1150,7 @@ private fun QuestOverviewScreen(
         }
         item {
             OverviewItem(
-                color = Color(0xFF372780),
+                color = Color(0xFF9C27B0),
                 s1 = "Placed Objectives",
                 s2 = "$placedTotalUser/$placedTotal",
                 progress = (placedTotalUser?.toDouble()
@@ -1160,7 +1160,7 @@ private fun QuestOverviewScreen(
         }
         item {
             OverviewItem(
-                color = Color(0xFF372780),
+                color = Color(0xFF9C27B0),
                 s1 = "Pickup Objectives",
                 s2 = "$pickupTotalUser/$pickupTotal",
                 progress = (pickupTotalUser?.toDouble()
@@ -1170,7 +1170,7 @@ private fun QuestOverviewScreen(
         }
         item {
             OverviewItem(
-                color = Color(0xFFE05D1A),
+                color = Color(0xFFFF9800),
                 s1 = "Total EXP",
                 s2 = DecimalFormat("#,###,###").format(expTotalUser),
                 progress = null,
