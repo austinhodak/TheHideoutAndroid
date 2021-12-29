@@ -3,10 +3,17 @@ package com.austinhodak.thehideout
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.work.*
 import com.adapty.Adapty
 import com.android.billingclient.api.BillingClient
+import com.austinhodak.tarkovapi.PriceUpdateWorker
+import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.Hideout
 import com.austinhodak.tarkovapi.utils.Maps
+import com.austinhodak.tarkovapi.utils.Rigs
+import com.austinhodak.tarkovapi.utils.WeaponPresets
+import com.austinhodak.tarkovapi.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.utils.Prefs
 import com.austinhodak.thehideout.utils.uid
 import com.google.firebase.analytics.ktx.analytics
@@ -20,16 +27,25 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.MainScope
 import org.json.JSONObject
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @HiltAndroidApp
-class Application : android.app.Application() {
+class Application : android.app.Application(), Configuration.Provider {
+
+
+    @Inject
+    lateinit var myWorkerFactory: PriceUpdateFactory
 
     companion object {
         var questPrefs: Prefs? = null
         var maps: Maps? = null
+        var rigs: Rigs? = null
+        var presets: WeaponPresets? = null
         var hideout: Hideout? = null
         lateinit var instance: Application
             private set
@@ -43,6 +59,8 @@ class Application : android.app.Application() {
         instance = this
         questPrefs = Prefs(applicationContext)
         maps = Maps(applicationContext)
+        rigs = Rigs(applicationContext)
+        presets = WeaponPresets(applicationContext)
         hideout = Hideout(applicationContext)
 
         //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
@@ -80,6 +98,14 @@ class Application : android.app.Application() {
                 // successful restore
             }
         }
+
+        UserSettingsModel.dataSyncFrequency.observe(MainScope()) {
+            val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+
+            val priceUpdateRequest = PeriodicWorkRequestBuilder<PriceUpdateWorker>(it.toString().toLong(), TimeUnit.HOURS).setConstraints(constraints).build()
+
+            WorkManager.getInstance(this).enqueueUniquePeriodicWork("price_update", ExistingPeriodicWorkPolicy.KEEP, priceUpdateRequest)
+        }
     }
 
     /**
@@ -106,6 +132,11 @@ class Application : android.app.Application() {
         //Fetch and active.
         Firebase.remoteConfig.fetchAndActivate()
     }
+
+    override fun getWorkManagerConfiguration(): Configuration = Configuration.Builder()
+        .setMinimumLoggingLevel(android.util.Log.INFO)
+        .setWorkerFactory(myWorkerFactory)
+        .build()
 }
 
 val questPrefs: Prefs by lazy {
@@ -113,6 +144,10 @@ val questPrefs: Prefs by lazy {
 }
 
 val mapsList: Maps = Application.maps!!
+
+val rigsList: Rigs = Application.rigs!!
+
+val presetList: WeaponPresets = Application.presets!!
 
 val hideoutList: Hideout by lazy {
     Application.hideout!!

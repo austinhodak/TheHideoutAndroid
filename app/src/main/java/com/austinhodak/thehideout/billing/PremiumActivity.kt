@@ -120,12 +120,12 @@ class PremiumActivity : AppCompatActivity() {
             Column(
             ) {
                 Text(
-                    text = json.getString("name"),
+                    text = json.optString("name", "Premium"),
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                 )
                 MarkdownText(
-                    markdown = "\u2714  Save Unlimited Weapon Builds",
+                    markdown = "\u2714  Save Unlimited Weapon Builds<br>✔  Quest Tracker Integrated in Maps",
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                     style = MaterialTheme.typography.body1,
                     fontResource = R.font.bender
@@ -163,7 +163,7 @@ class PremiumActivity : AppCompatActivity() {
             Column(
             ) {
                 Text(
-                    text = json.getString("name"),
+                    text = json.optString("name", "Error"),
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                 )

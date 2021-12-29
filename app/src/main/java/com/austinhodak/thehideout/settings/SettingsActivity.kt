@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.text.InputType
+import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -23,11 +24,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.tarkovapi.Levels
-import com.austinhodak.tarkovapi.OpeningScreen
-import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.*
+import com.austinhodak.tarkovapi.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
@@ -41,6 +43,7 @@ import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
@@ -56,10 +59,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import org.json.JSONObject
 import timber.log.Timber
+import java.lang.Exception
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -74,8 +80,13 @@ class SettingsActivity : GodActivity() {
 
     var currentScreen = "Settings"
 
+    @Inject
+    lateinit var myWorkerFactory: PriceUpdateFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val preferences = getSharedPreferences("tarkov", MODE_PRIVATE)
 
         UserSettingsModel.openingScreen.observe(lifecycleScope) {
             Timber.d(it.toString())
@@ -120,31 +131,50 @@ class SettingsActivity : GodActivity() {
                 }
 
                 isSignedIn = FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser?.isAnonymous == false
-
-
-                //TODO FIX CRASH
-                val gameInfo = JSONObject(FirebaseRemoteConfig.getInstance()["game_info"].asString())
-
-                val wipeDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val date = LocalDate.parse(gameInfo.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
-                    val now = LocalDate.now()
-
-                    val between = ChronoUnit.DAYS.between(date, now)
-
-                    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    "${date.format(formatter)} ($between Days Ago)"
-                } else {
-                    gameInfo.getString("wipe_date")
+                
+                val gameInfo = try {
+                    JSONObject(FirebaseRemoteConfig.getInstance()["game_info"].asString())
+                } catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
                 }
 
-                val versionDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val date = LocalDate.parse(gameInfo.getString("version_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                val wipeDate = try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val date = LocalDate.parse(gameInfo?.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                        val now = LocalDate.now()
 
-                    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    "${date.format(formatter)}"
-                } else {
-                    gameInfo.getString("version_date")
+                        val between = ChronoUnit.DAYS.between(date, now)
+
+                        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                        "${date.format(formatter)} ($between Days Ago)"
+                    } else {
+                        gameInfo?.getString("wipe_date")
+                    }
+                } catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
                 }
+
+                val versionDate = try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val date = LocalDate.parse(gameInfo?.getString("version_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+
+                        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                        date.format(formatter)
+                    } else {
+                        gameInfo?.getString("version_date")
+                    }
+                }  catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
+                }
+
+                val roomUpdatesTime = DateUtils.getRelativeTimeSpanString(
+                    preferences.getLong("lastPriceUpdate", 0),
+                    System.currentTimeMillis(),
+                    DateUtils.MINUTE_IN_MILLIS
+                )
 
                 Scaffold(
                     topBar = {
@@ -275,11 +305,74 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                     }
+                                    subScreen {
+                                        title = "Reset".asText()
+                                        icon = R.drawable.ic_baseline_settings_backup_restore_24.asIcon()
+                                        button {
+                                            title = "Reset Hideout Progress".asText()
+                                            onClick = {
+                                                MaterialDialog(this@SettingsActivity).show {
+                                                    title(text = "Reset Hideout Progress?")
+                                                    message(text = "Are you sure?")
+                                                    positiveButton(text = "RESET") {
+                                                        userRefTracker("hideoutModules").removeValue()
+                                                        userRefTracker("hideoutObjectives").removeValue()
+                                                    }
+                                                    negativeButton(text = "NEVERMIND")
+                                                }
+                                            }
+                                        }
+                                        button {
+                                            title = "Reset Quest Progress".asText()
+                                            onClick = {
+                                                MaterialDialog(this@SettingsActivity).show {
+                                                    title(text = "Reset Quest Progress?")
+                                                    message(text = "Are you sure?")
+                                                    positiveButton(text = "RESET") {
+                                                        userRefTracker("questObjectives").removeValue()
+                                                        userRefTracker("quests").removeValue()
+                                                    }
+                                                    negativeButton(text = "NEVERMIND")
+                                                }
+                                            }
+                                        }
+                                        button {
+                                            title = "Reset All Progress".asText()
+                                            onClick = {
+                                                MaterialDialog(this@SettingsActivity).show {
+                                                    title(text = "Reset All Progress?")
+                                                    message(text = "This is typically used after a wipe or reset.\n\nTeam settings will not be affected.")
+                                                    positiveButton(text = "RESET") {
+                                                        userRefTracker("hideoutModules").removeValue()
+                                                        userRefTracker("hideoutObjectives").removeValue()
+                                                        userRefTracker("items").removeValue()
+                                                        userRefTracker("keysHave").removeValue()
+                                                        userRefTracker("questObjectives").removeValue()
+                                                        userRefTracker("quests").removeValue()
+                                                    }
+                                                    negativeButton(text = "NEVERMIND")
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                                /*subScreen {
+                                subScreen {
                                     title = "Flea Market".asText()
                                     icon = R.drawable.ic_baseline_storefront_24.asIcon()
-                                }*/
+                                    singleChoice(UserSettingsModel.fleaVisiblePrice, FleaVisiblePrice.values(), {
+                                        when (it) {
+                                            FleaVisiblePrice.DEFAULT -> "Default (Original Method)"
+                                            FleaVisiblePrice.AVG -> "Average 24 Hour Price"
+                                            FleaVisiblePrice.HIGH -> "Highest 24 Hour Price"
+                                            FleaVisiblePrice.LOW -> "Lowest 24 Hour Price"
+                                            FleaVisiblePrice.LAST -> "Last Scanned Price"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "List Price".asText()
+                                        icon = R.drawable.ic_blank.asIcon()
+                                    }
+                                }
                                 /*subScreen {
                                     title = "Data".asText()
                                     icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
@@ -316,7 +409,61 @@ class SettingsActivity : GodActivity() {
                                         openActivity(TeamManagementActivity::class.java)
                                     }
                                 }
-                                category {
+                                subScreen {
+                                    title = "Data Sync".asText()
+                                    icon = R.drawable.ic_baseline_update_24.asIcon()
+                                    button {
+                                        title = "Last Price Sync".asText()
+                                        summary = "$roomUpdatesTime".asText()
+                                        icon = R.drawable.ic_baseline_access_time_24.asIcon()
+                                        enabled = false
+                                    }
+                                    singleChoice(UserSettingsModel.dataSyncFrequency, DataSyncFrequency.values(), {
+                                        when (it) {
+                                            DataSyncFrequency.`60` -> "1 Hour"
+                                            DataSyncFrequency.`120` -> "2 Hour"
+                                            DataSyncFrequency.`360` -> "6 Hour"
+                                            DataSyncFrequency.`720` -> "12 Hour"
+                                            DataSyncFrequency.`1440` -> "1 Day"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "Sync Frequency".asText()
+                                        icon = R.drawable.ic_baseline_update_24.asIcon()
+                                    }
+                                    button {
+                                        title = "Sync Now".asText()
+                                        summary = "".asText()
+                                        icon = R.drawable.ic_baseline_sync_24.asIcon()
+                                        onClick = {
+                                            Toast.makeText(this@SettingsActivity, "Updating...", Toast.LENGTH_SHORT).show()
+                                            val priceUpdateRequestTest = OneTimeWorkRequest.Builder(
+                                                PriceUpdateWorker::class.java).build()
+
+                                            WorkManager.getInstance(this@SettingsActivity).enqueue(priceUpdateRequestTest)
+                                        }
+                                    }
+                                    category {
+                                        title = "Data Provided By".asText()
+                                    }
+                                    button {
+                                        title = "Tarkov Tools".asText()
+                                        summary = "Created by kokarn".asText()
+                                        icon = R.drawable.ic_icons8_github.asIcon()
+                                        onClick = {
+                                            "https://tarkov-tools.com/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Tarkov Data".asText()
+                                        summary = "Maintained by Community Devs".asText()
+                                        icon = R.drawable.ic_icons8_github.asIcon()
+                                        onClick = {
+                                            "https://github.com/TarkovTracker/tarkovdata/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                }
+                                /*category {
                                     title = "Integrations".asText()
                                 }
                                 subScreen {
@@ -396,7 +543,7 @@ class SettingsActivity : GodActivity() {
 
                                         }
                                     }
-                                }
+                                }*/
                                 /*subScreen {
                                     title = "Hideout".asText()
                                     //icon = R.drawable.icons8_tent_96.asIcon()
@@ -416,58 +563,32 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }*/
                                 category {
+                                    title = "Join Us On".asText()
+                                }
+                                button {
+                                    title = "Discord".asText()
+                                    icon = R.drawable.ic_icons8_discord_svg.asIcon()
+                                    onClick = {
+                                        "https://discord.gg/YQW36z29z6".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
+                                button {
+                                    title = "Twitch".asText()
+                                    icon = R.drawable.ic_icons8_twitch.asIcon()
+                                    onClick = {
+                                        "https://www.twitch.tv/theeeelegend".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
+                                button {
+                                    title = "Twitter".asText()
+                                    icon = R.drawable.ic_icons8_twitter.asIcon()
+                                    onClick = {
+                                        "https://twitter.com/austin6561".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
+                                category {
                                     title = "About".asText()
                                 }
-                                /*subScreen {
-                                    title = "Reset".asText()
-                                    icon = R.drawable.ic_baseline_settings_backup_restore_24.asIcon()
-                                    button {
-                                        title = "Reset Hideout Progress".asText()
-                                        onClick = {
-                                            MaterialDialog(this@SettingsActivity).show {
-                                                title(text = "Reset Hideout Progress?")
-                                                message(text = "Are you sure?")
-                                                positiveButton(text = "RESET") {
-                                                    userRefTracker("hideoutModules").removeValue()
-                                                    userRefTracker("hideoutObjectives").removeValue()
-                                                }
-                                                negativeButton(text = "NEVERMIND")
-                                            }
-                                        }
-                                    }
-                                    button {
-                                        title = "Reset Quest Progress".asText()
-                                        onClick = {
-                                            MaterialDialog(this@SettingsActivity).show {
-                                                title(text = "Reset Quest Progress?")
-                                                message(text = "Are you sure?")
-                                                positiveButton(text = "RESET") {
-                                                    userRefTracker("questObjectives").removeValue()
-                                                    userRefTracker("quests").removeValue()
-                                                }
-                                                negativeButton(text = "NEVERMIND")
-                                            }
-                                        }
-                                    }
-                                    button {
-                                        title = "Reset All Progress".asText()
-                                        onClick = {
-                                            MaterialDialog(this@SettingsActivity).show {
-                                                title(text = "Reset All Progress?")
-                                                message(text = "This is typically used after a wipe or reset.\n\nTeam settings will not be affected.")
-                                                positiveButton(text = "RESET") {
-                                                    userRefTracker("hideoutModules").removeValue()
-                                                    userRefTracker("hideoutObjectives").removeValue()
-                                                    userRefTracker("items").removeValue()
-                                                    userRefTracker("keysHave").removeValue()
-                                                    userRefTracker("questObjectives").removeValue()
-                                                    userRefTracker("quests").removeValue()
-                                                }
-                                                negativeButton(text = "NEVERMIND")
-                                            }
-                                        }
-                                    }
-                                }*/
                                 button {
                                     title = "The Hideout".asText()
                                     summary = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})".asText()
@@ -476,7 +597,7 @@ class SettingsActivity : GodActivity() {
                                 }
                                 button {
                                     title = "Game Version".asText()
-                                    summary = "${gameInfo.getString("version")} ($versionDate)".asText()
+                                    summary = "${gameInfo?.getString("version")} ($versionDate)".asText()
                                     icon = R.drawable.ic_baseline_info_24.asIcon()
                                     enabled = false
                                     onClick= {
@@ -485,7 +606,7 @@ class SettingsActivity : GodActivity() {
                                 }
                                 button {
                                     title = "Last Wipe".asText()
-                                    summary = wipeDate.asText()
+                                    summary = (wipeDate ?: "").asText()
                                     icon = R.drawable.icons8_toilet_paper_24.asIcon()
                                     enabled = false
                                 }

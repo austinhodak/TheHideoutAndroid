@@ -30,31 +30,44 @@ fun Quest.isLocked(userData: User?): Boolean {
     return if (userData?.isQuestCompleted(this) == true) {
         false
     } else {
-        if (requirement?.quests.isNullOrEmpty() && requirement?.level ?: 0 <= 15) {
+        if (requirement?.level ?: 0 > userData?.playerLevel ?: 71) return true
+        if (requirement?.quests.isNullOrEmpty()) {
+            false
+        } else if (requirement?.quests.isNullOrEmpty()) {
             false
         } else {
-            requirement?.quests?.forEach {
+            requirement?.quests?.any { l1 ->
+                l1?.all {
+                    completedQuests?.contains(it) == false
+                } == true
+            } == true
+            /*requirement?.quests?.forEach {
                 if (it != null)
                     return completedQuests?.containsAll(it) == false
             }
-            true
+            true*/
         }
     }
 }
 
 fun Quest.isAvailable(userData: User?): Boolean {
     val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
+    if (this.isLocked(userData)) return false
     return if (userData?.isQuestCompleted(this) == true) {
         false
     } else {
-        if (requirement?.quests.isNullOrEmpty() && requirement?.level ?: 0 <= 15) {
+        if (requirement?.quests.isNullOrEmpty()) {
             true
         } else {
-            requirement?.quests?.forEach {
-                if (it != null)
-                    return completedQuests?.containsAll(it) == true
+            if (userData?.playerLevel ?: 71 >= requirement?.level ?: 0) {
+                requirement?.quests?.all { l1 ->
+                    l1?.any {
+                        completedQuests?.contains(it) == true
+                    } == true
+                } == true
+            } else {
+                false
             }
-            false
         }
     }
 }

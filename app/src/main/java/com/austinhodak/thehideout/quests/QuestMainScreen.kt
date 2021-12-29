@@ -11,9 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -25,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -35,22 +34,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
 import com.austinhodak.tarkovapi.room.enums.Traders
-import com.austinhodak.tarkovapi.room.models.Ammo
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.traderIcon
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.AmmoCard
-import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.austinhodak.thehideout.compose.components.EmptyText
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
-import com.austinhodak.thehideout.pickers.PickerActivity
 import com.austinhodak.thehideout.quests.inraid.QuestInRaidActivity
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
 import com.austinhodak.thehideout.utils.*
@@ -59,6 +59,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.text.DecimalFormat
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -89,7 +90,8 @@ fun QuestMainScreen(
                 Column(
                     Modifier
                         .padding(horizontal = 8.dp, vertical = 4.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     MapCard(
@@ -106,6 +108,11 @@ fun QuestMainScreen(
                         mapName = "Interchange",
                         mapSubtitle = "10-14 Players • 50 Minutes",
                         icon = R.drawable.icons8_shopping_mall_96
+                    )
+                    MapCard(
+                        mapName = "Lighthouse",
+                        mapSubtitle = "9-12 Players • 45 Minutes",
+                        icon = R.drawable.icons8_lighthouse_96
                     )
                     MapCard(
                         mapName = "Reserve",
@@ -171,13 +178,13 @@ fun QuestMainScreen(
                                 ) {
 
                                     when (navBackStackEntry?.destination?.route) {
-                                        BottomNavigationScreens.Overview.route,
-                                        BottomNavigationScreens.Items.route -> {
+                                        BottomNavigationScreens.Overview.route -> {
                                             Text(
                                                 "Quests",
                                                 modifier = Modifier.padding(end = 16.dp)
                                             )
                                         }
+                                        BottomNavigationScreens.Items.route,
                                         BottomNavigationScreens.Quests.route,
                                         BottomNavigationScreens.Maps.route -> {
                                             Chip(
@@ -225,6 +232,7 @@ fun QuestMainScreen(
                             elevation = 0.dp,
                             actions = {
                                 when (navBackStackEntry?.destination?.route) {
+                                    BottomNavigationScreens.Items.route,
                                     BottomNavigationScreens.Maps.route,
                                     BottomNavigationScreens.Quests.route -> {
                                         IconButton(onClick = {
@@ -244,7 +252,7 @@ fun QuestMainScreen(
                 },
                 isFloatingActionButtonDocked = true
             ) { padding ->
-                if (isSearchOpen) {
+                if (isSearchOpen && navBackStackEntry?.destination?.route != BottomNavigationScreens.Items.route) {
                     QuestSearchBody(searchKey, quests, userData, questViewModel, scope)
                     return@Scaffold
                 }
@@ -263,7 +271,7 @@ fun QuestMainScreen(
                 } else {
                     NavHost(
                         navController = navController,
-                        startDestination = BottomNavigationScreens.Overview.route
+                        startDestination = BottomNavigationScreens.Quests.route
                     ) {
                         composable(BottomNavigationScreens.Overview.route) {
                             QuestOverviewScreen(
@@ -282,7 +290,13 @@ fun QuestMainScreen(
                             )
                         }
                         composable(BottomNavigationScreens.Items.route) {
-
+                            QuestItemsScreen(
+                                questViewModel = questViewModel,
+                                scope = scope,
+                                quests = quests,
+                                padding = padding,
+                                tarkovRepo = tarkovRepo
+                            )
                         }
                         composable(BottomNavigationScreens.Maps.route) {
                             QuestTradersScreen(
@@ -294,6 +308,263 @@ fun QuestMainScreen(
                             )
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun QuestItemsScreen(
+    questViewModel: QuestMainViewModel,
+    scope: CoroutineScope,
+    quests: List<Quest>,
+    padding: PaddingValues,
+    tarkovRepo: TarkovRepo
+) {
+
+    Timber.d("1")
+
+    val userData by questViewModel.userData.observeAsState()
+    val searchKey by questViewModel.searchKey.observeAsState("")
+    val selectedView by questViewModel.view.observeAsState()
+    val itemList by questViewModel.itemsList.observeAsState()
+
+    Timber.d("2")
+
+    val itemObjectives = quests.associateWith {
+        it.objective?.filterNot { obj ->
+            obj.type == "build" || obj.type == "reputation" || obj.number ?: 0 > 1000
+        } ?: emptyList()
+    }
+
+    Timber.d("3")
+
+    //TODO Fix this dumb bug, scrolling to bottom because of content padding, why???
+    if (itemList.isNullOrEmpty() || itemObjectives.isNullOrEmpty()) {
+        LoadingItem()
+    } else {
+        Timber.d("pre-LazyColumn")
+        LazyColumn(
+            contentPadding = PaddingValues(
+                top = 4.dp, bottom = padding.calculateBottomPadding() + 4.dp
+            ),
+        ) {
+            Timber.d("LazyColumn")
+            itemObjectives.values.toList().forEach { items ->
+                val quest = itemObjectives.entries.find { it.value == items }?.key
+                quest?.let { quest ->
+                    when (selectedView) {
+                        QuestFilter.ALL -> items
+                        QuestFilter.AVAILABLE -> {
+                            if (quest.isAvailable(userData)) {
+                                items.filterNot { userData?.isObjectiveCompleted(it) == true }
+                            } else {
+                                null
+                            }
+                        }
+                        QuestFilter.LOCKED -> {
+                            if (quest.isLocked(userData)) {
+                                items.filterNot { userData?.isObjectiveCompleted(it) == true }
+                            } else {
+                                null
+                            }
+                        }
+                        QuestFilter.COMPLETED -> {
+                            items.filter {
+                                userData?.isObjectiveCompleted(it) == true
+                            }
+                        }
+                        else -> items
+                    }?.forEach { objective ->
+                        itemList?.find { item ->
+                            item.id == objective.target?.first()
+                        }?.let { item ->
+                            if (quest.title?.contains(
+                                    searchKey,
+                                    true
+                                ) == true || item.ShortName?.contains(
+                                    searchKey,
+                                    true
+                                ) == true || item.Name?.contains(searchKey, true) == true
+                            ) {
+                                item {
+                                    QuestItemsScreenItem(
+                                        quest, objective, item, userData
+                                    )
+                                }
+                                //Timber.d("Pre-QuestItemsScreenItem")
+                            }
+
+                        }
+                    }
+                }
+            }
+            /*items(itemObjectives.values.toList()) { items ->
+            Timber.d("Pre-QuestLet")
+            val quest = itemObjectives.entries.find { it.value == items }?.key
+            quest?.let { quest ->
+                val data = when (selectedView) {
+                    QuestFilter.ALL -> items
+                    QuestFilter.AVAILABLE -> {
+                        if (quest.isAvailable(userData)) {
+                            items.filterNot { userData?.isObjectiveCompleted(it) == true }
+                        } else {
+                            null
+                        }
+                    }
+                    QuestFilter.LOCKED -> {
+                        if (quest.isLocked(userData)) {
+                            items.filterNot { userData?.isObjectiveCompleted(it) == true }
+                        } else {
+                            null
+                        }
+                    }
+                    QuestFilter.COMPLETED -> {
+                        items.filter {
+                            userData?.isObjectiveCompleted(it) == true
+                        }
+                    }
+                    else -> items
+                }?.forEach { objective ->
+                    itemList?.find { item ->
+                        item.id == objective.target?.first()
+                    }?.let { item ->
+                        if (quest.title?.contains(searchKey, true) == true || item.ShortName?.contains(searchKey, true) == true || item.Name?.contains(searchKey, true) == true) {
+                            QuestItemsScreenItem(
+                                quest, objective, item, userData
+                            )
+                            Timber.d("Pre-QuestItemsScreenItem")
+                        }
+
+                    }
+                }
+            }
+        }*/
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun QuestItemsScreenItem(
+    quest: Quest,
+    objective: Quest.QuestObjective,
+    item: Item,
+    userData: User?
+) {
+
+    val isComplete = userData?.isObjectiveCompleted(objective) ?: false
+    val context = LocalContext.current
+
+    Card(
+        modifier = Modifier
+            .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
+            .fillMaxWidth(),
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+        border = BorderStroke(
+            width = 0.5.dp,
+            color = if (isComplete) Green400 else Color.Transparent
+        ),
+        onClick = {
+            context.openQuestDetail(quest.id)
+        }
+    ) {
+        Column(
+            Modifier.padding(start = 16.dp, end = 16.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    rememberImagePainter(
+                        item.getCleanIcon()
+                            ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .width(38.dp)
+                        .height(38.dp)
+                        .border((0.25).dp, color = BorderColor)
+                        .clickable {
+                            context.openFleaDetail(item.id)
+                        }
+                )
+                Column(
+                    Modifier
+                        .padding(start = 16.dp, end = 16.dp)
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = item.Name ?: "",
+                        style = MaterialTheme.typography.h6,
+                        fontSize = 15.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(top = 1.dp)
+                        ) {
+                            Image(
+                                painter = rememberImagePainter(
+                                    data = quest.getGiverName()?.traderIcon()
+                                ),
+                                contentDescription = "Trader",
+                                modifier = Modifier
+                                    .border(
+                                        width = 0.5.dp,
+                                        color = when {
+                                            userData?.isQuestCompleted(quest) == true -> {
+                                                Green400
+                                            }
+                                            quest.isLocked(userData) -> Red400
+                                            else -> Color.Transparent
+                                        },
+                                        shape = CircleShape
+                                    )
+                                    .size(16.dp)
+                                    .clip(CircleShape)
+                            )
+                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                                Text(
+                                    text = quest.title ?: "",
+                                    style = MaterialTheme.typography.caption,
+                                    fontSize = 10.sp,
+                                    modifier = Modifier.padding(start = 8.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(Icons.Filled.KeyboardArrowUp, contentDescription = "", tint = Color.White,
+                        modifier = Modifier
+                            .clickable {
+                                if (!isComplete) {
+                                    objective.increment()
+                                }
+                            }
+                            .padding(top = 4.dp)
+                    )
+                    Text(
+                        "${userData?.getObjectiveProgress(objective) ?: 0}/${objective.number}",
+                        style = MaterialTheme.typography.h6,
+                        fontSize = 13.sp
+                    )
+                    Icon(
+                        Icons.Filled.KeyboardArrowDown,
+                        contentDescription = "",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .clickable {
+                                if (userData?.getObjectiveProgress(objective) ?: 0 > 0) {
+                                    objective.decrement()
+                                }
+                            }
+                            .padding(bottom = 4.dp)
+                    )
                 }
             }
         }
@@ -435,36 +706,12 @@ private fun QuestTradersScreen(
             val data = when (selectedView) {
                 QuestFilter.AVAILABLE -> {
                     questsList.filter {
-                        if (userData?.isQuestCompleted(it) == true) {
-                            false
-                        } else {
-                            if (it.requirement?.quests.isNullOrEmpty() && it.requirement?.level ?: 0 <= 15) {
-                                true
-                            } else {
-                                it.requirement?.quests?.forEach {
-                                    if (it != null)
-                                        return@filter completedQuests?.containsAll(it) == true
-                                }
-                                false
-                            }
-                        }
+                        it.isAvailable(userData)
                     }
                 }
                 QuestFilter.LOCKED -> {
-                    questsList.filterNot {
-                        if (userData?.isQuestCompleted(it) == true) {
-                            true
-                        } else {
-                            if (it.requirement?.quests.isNullOrEmpty() && it.requirement?.level ?: 0 <= 15) {
-                                true
-                            } else {
-                                it.requirement?.quests?.forEach {
-                                    if (it != null)
-                                        return@filterNot completedQuests?.containsAll(it) == true
-                                }
-                                false
-                            }
-                        }
+                    questsList.filter {
+                        it.isLocked(userData)
                     }
                 }
                 QuestFilter.ALL -> questsList
@@ -836,8 +1083,13 @@ private fun QuestOverviewScreen(
     val placedTotalUser by questViewModel.placedTotalUser.observeAsState()
     val pickupTotalUser by questViewModel.pickupTotalUser.observeAsState()
 
+    val FIRItemsTotalUser by questViewModel.questFIRItemsTotalUser.observeAsState()
+    val handoverItemsTotalUser by questViewModel.handoverItemsTotalUser.observeAsState()
+
+    val expTotalUser by questViewModel.expTotal.observeAsState(0)
+
     LazyColumn(
-        contentPadding = PaddingValues(vertical = 4.dp)
+        contentPadding = PaddingValues(top = 4.dp, bottom = 92.dp),
     ) {
         item {
             OverviewItem(
@@ -878,11 +1130,11 @@ private fun QuestOverviewScreen(
                 icon = R.drawable.ic_search_black_24dp
             )
         }
-        /*item {
+        item {
             OverviewItem(
                 color = Color(0xFF03A9F4),
                 s1 = "Found in Raid Items",
-                s2 = "0/$questFIRItemsTotal",
+                s2 = "$FIRItemsTotalUser/$questFIRItemsTotal",
                 progress = 0f,
                 icon = R.drawable.ic_baseline_check_circle_outline_24
             )
@@ -891,11 +1143,11 @@ private fun QuestOverviewScreen(
             OverviewItem(
                 color = Color(0xFF03A9F4),
                 s1 = "Handover Items",
-                s2 = "0/$handoverItemsTotal",
+                s2 = "$handoverItemsTotalUser/$handoverItemsTotal",
                 progress = 0f,
                 icon = R.drawable.ic_baseline_swap_horizontal_circle_24
             )
-        }*/
+        }
         item {
             OverviewItem(
                 color = Color(0xFF9C27B0),
@@ -916,6 +1168,15 @@ private fun QuestOverviewScreen(
                 icon = R.drawable.icons8_upward_arrow_96
             )
         }
+        item {
+            OverviewItem(
+                color = Color(0xFFFF9800),
+                s1 = "Total EXP",
+                s2 = DecimalFormat("#,###,###").format(expTotalUser),
+                progress = null,
+                icon = R.drawable.ic_baseline_star_half_24
+            )
+        }
     }
 }
 
@@ -925,7 +1186,7 @@ private fun OverviewItem(
     icon: Int = R.drawable.ic_baseline_assignment_turned_in_24,
     s1: String = "",
     s2: String = "",
-    progress: Float? = 0.5f
+    progress: Float? = null
 ) {
     val p by remember { mutableStateOf(progress) }
     val animatedProgress by animateFloatAsState(
@@ -953,6 +1214,7 @@ private fun OverviewItem(
             Column(
                 Modifier.weight(1f)
             ) {
+                if (progress != null)
                 LinearProgressIndicator(
                     modifier = Modifier
                         .height(1.dp)
@@ -977,7 +1239,8 @@ private fun OverviewItem(
                         modifier = Modifier,
                         text = s2,
                         style = MaterialTheme.typography.h5,
-                        color = Color.White
+                        color = Color.White,
+                        fontSize = 22.sp
                     )
                 }
             }
@@ -1025,7 +1288,7 @@ private fun QuestBottomNav(
     val items = listOf(
         BottomNavigationScreens.Overview,
         BottomNavigationScreens.Quests,
-        //BottomNavigationScreens.Items,
+        BottomNavigationScreens.Items,
         BottomNavigationScreens.Maps
     )
 

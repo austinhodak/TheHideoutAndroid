@@ -2,17 +2,23 @@ package com.austinhodak.tarkovapi.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.work.Worker
 import com.apollographql.apollo3.ApolloClient
+import com.austinhodak.tarkovapi.PriceUpdateWorker
 import com.austinhodak.tarkovapi.room.AppDatabase
+import dagger.Binds
+import dagger.MapKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Qualifier
 import javax.inject.Singleton
+import kotlin.reflect.KClass
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -31,7 +37,7 @@ object Module {
         @ApplicationContext appContext: Context,
         callback: AppDatabase.Callback
     ) = Room.databaseBuilder(appContext, AppDatabase::class.java, "hideout-database")
-        .createFromAsset("hideout_database_43.db")
+        .createFromAsset("hideout_database_44.db")
         .fallbackToDestructiveMigration()
         .addCallback(callback)
         .build()

@@ -1,11 +1,14 @@
 package com.austinhodak.thehideout.quests.viewmodels
 
 import android.content.Context
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.utils.QuestExtraHelper
@@ -38,6 +41,8 @@ class QuestMainViewModel @Inject constructor(
 
     val questsList = MutableLiveData<List<Quest>>()
 
+    val itemsList = MutableLiveData<List<Item>>()
+
     private val _view = MutableLiveData(QuestFilter.AVAILABLE)
     val view = _view
 
@@ -64,13 +69,17 @@ class QuestMainViewModel @Inject constructor(
     val pmcElimsTotalUser = MutableLiveData(0)
     val scavElimsTotalUser = MutableLiveData(0)
     val questItemsTotalUser = MutableLiveData(0)
-    //val questFIRItemsTotalUser = MutableLiveData(0)
-    //val handoverItemsTotalUser = MutableLiveData(0)
+
+    val questFIRItemsTotalUser = MutableLiveData(0)
+    val handoverItemsTotalUser = MutableLiveData(0)
+
     val placedTotalUser = MutableLiveData(0)
     val pickupTotalUser = MutableLiveData(0)
 
-    private suspend fun updateTotals(quests: List<Quest>) {
-        Timber.d(quests.size.toString())
+    val expTotal = MutableLiveData((0).toLong())
+
+    private suspend fun updateTotals() {
+       // Timber.d(quests.size.toString())
 
         repository.getAllQuests().collect { quests ->
             pmcElimsTotal.value = quests.sumOf { quest ->
@@ -116,7 +125,7 @@ class QuestMainViewModel @Inject constructor(
             handoverItemsTotal.value = quests.sumOf { quest ->
                 var total = 0
                 for (objective in quest.objective!!) {
-                    if (objective.number!! >= 500) total += 1
+                    //if (objective.number!! >= 500) total += 1
                     if (objective.type == "collect" && objective.number!! < 500) {
                         total += objective.number ?: 0
                     }
@@ -165,6 +174,9 @@ class QuestMainViewModel @Inject constructor(
         var place = 0
         var pickup = 0
 
+        var fir = 0
+        var handover = 0
+
         userData.questObjectives?.values?.forEach { obj ->
             val objective = allObjectives.find { it.id?.toInt() == obj?.id }?: return@forEach
 
@@ -175,6 +187,14 @@ class QuestMainViewModel @Inject constructor(
                 objective.type == "place" || objective.type == "mark" -> place += obj?.progress ?: 0
                 objective.type == "pickup" -> pickup += obj?.progress ?: 0
             }
+
+            if (objective.type == "find" && objective.number!! < 500) {
+                fir += obj?.progress ?: 0
+            }
+
+            if (objective.type == "collect" && objective.number!! < 500) {
+                handover += obj?.progress ?: 0
+            }
         }
 
         pmcElimsTotalUser.value = pmc
@@ -182,6 +202,14 @@ class QuestMainViewModel @Inject constructor(
         questItemsTotalUser.value = items
         placedTotalUser.value = place
         pickupTotalUser.value = pickup
+
+        questFIRItemsTotalUser.value = fir
+        handoverItemsTotalUser.value = handover
+
+        expTotal.value = userData.quests?.values?.sumOf {
+            val exp = quests.find { it.id == it.id }?.exp
+            exp?.toLong() ?: 0.toLong()
+        } ?: 0
     }
 
     private val _userData = MutableLiveData<User?>(null)
@@ -192,12 +220,23 @@ class QuestMainViewModel @Inject constructor(
         var quests: List<Quest>? = null
 
         viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
+                updateTotals()
+            }
             repository.getAllQuests().collect {
                 viewModelScope.launch {
-                    //Timber.d(it.toString())
                     questsList.value = it
                     quests = it
-                    updateTotals(it)
+                }
+                viewModelScope.launch {
+                    val itemIDs = it.flatMap {
+                        it.objective ?: emptyList()
+                    }.map {
+                        it.target?.first()
+                    }
+                    repository.getItemByID(itemIDs.filterNotNull()).collect {
+                        itemsList.value = it
+                    }
                 }
             }
         }

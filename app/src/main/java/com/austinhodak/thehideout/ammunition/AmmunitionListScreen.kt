@@ -309,7 +309,7 @@ fun AmmoCard(
                     ArmorBox(ammo.getColor(6), Modifier.weight(1f))
                 }
                 Image(
-                    rememberImagePainter(ammo.pricing?.gridImageLink),
+                    rememberImagePainter(ammo.pricing?.getIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)

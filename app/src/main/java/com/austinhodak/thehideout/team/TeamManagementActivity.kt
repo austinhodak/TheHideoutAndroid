@@ -31,6 +31,8 @@ import com.afollestad.materialdialogs.color.colorChooser
 import com.afollestad.materialdialogs.input.input
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.EmptyText
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.theme.DarkGrey
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
@@ -49,6 +51,7 @@ import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class TeamManagementActivity : GodActivity() {
@@ -86,13 +89,20 @@ class TeamManagementActivity : GodActivity() {
                         )*/
                     }
                 ) {
-                    LazyColumn(
-                        contentPadding = PaddingValues(vertical = 4.dp)
-                    ) {
-                        userData?.teams?.forEach {
-                            val teamID = it.key
-                            item {
-                                TeamCard(teamID)
+                    Timber.d(userData?.teams.toString())
+                    if (userData == null) {
+                        LoadingItem()
+                    } else if (userData?.teams == null) {
+                        EmptyText(text = "No teams, click the + to add one!")
+                    } else {
+                        LazyColumn(
+                            contentPadding = PaddingValues(vertical = 4.dp)
+                        ) {
+                            userData?.teams?.forEach {
+                                val teamID = it.key
+                                item {
+                                    TeamCard(teamID)
+                                }
                             }
                         }
                     }
@@ -230,7 +240,13 @@ class TeamManagementActivity : GodActivity() {
                                         subColors = ColorPalette.PrimarySub,
                                         initialSelection = android.graphics.Color.parseColor(value.color)
                                     ) { _, color ->
-                                        value.updateColor("#${Integer.toHexString(color).substring(2)}", teamID!!, id)
+                                        value.updateColor(
+                                            "#${
+                                                Integer
+                                                    .toHexString(color)
+                                                    .substring(2)
+                                            }", teamID!!, id
+                                        )
                                     }
                                     positiveButton(text = "SAVE")
                                 }
@@ -254,7 +270,7 @@ class TeamManagementActivity : GodActivity() {
                         }", fontWeight = if (it.uid == uid()) FontWeight.Bold else FontWeight.Normal
                     )
                     Spacer(modifier = Modifier.weight(1f))
-                    if (it.uid == uid()) {
+                    if (value.owner == true) {
                         Icon(
                             painterResource(id = R.drawable.icons8_crown_96),
                             contentDescription = "Owner",

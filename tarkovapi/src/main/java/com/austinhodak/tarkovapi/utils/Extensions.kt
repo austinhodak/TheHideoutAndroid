@@ -15,6 +15,7 @@ import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.type.ItemType
 import org.json.JSONObject
 import java.io.IOException
 import java.text.NumberFormat
@@ -115,8 +116,10 @@ fun ItemFragment.toClass(): Pricing {
             Pricing.BuySellPrice(
                 s.source?.rawValue,
                 s.price,
-                s.requirements.map { requirement ->
-                    Pricing.BuySellPrice.Requirement(requirement?.type?.rawValue!!, requirement.value!!)
+                s.requirements.mapNotNull { requirement ->
+                    if (requirement?.type?.rawValue != null && requirement.value != null) {
+                        Pricing.BuySellPrice.Requirement(requirement.type.rawValue, requirement.value)
+                    } else null
                 }
             )
         },
@@ -125,12 +128,15 @@ fun ItemFragment.toClass(): Pricing {
             Pricing.BuySellPrice(
                 s.source?.rawValue,
                 s.price,
-                s.requirements.map { requirement ->
-                    Pricing.BuySellPrice.Requirement(requirement?.type?.rawValue!!, requirement.value!!)
+                s.requirements.mapNotNull { requirement ->
+                    if (requirement?.type?.rawValue != null && requirement.value != null) {
+                        Pricing.BuySellPrice.Requirement(requirement.type.rawValue, requirement.value)
+                    } else null
                 }
             )
         },
-        item.wikiLink
+        item.wikiLink,
+        item.types.contains(ItemType.noFlea)
     )
 }
 
@@ -196,7 +202,7 @@ fun Int.asCurrency(currency: String = "R"): String {
 }
 
 fun String.traderIcon(): String {
-    return when (this) {
+    return when (this.lowercase()) {
         "prapor" -> "https://tarkov-tools.com/images/prapor-icon.jpg"
         "therapist" -> "https://tarkov-tools.com/images/therapist-icon.jpg"
         "fence" -> "https://tarkov-tools.com/images/fence-icon.jpg"
@@ -254,6 +260,7 @@ fun JSONObject.getItemType(): ItemTypes {
         this.getString("_parent").equals("5448f3a14bdc2d27728b4569") -> ItemTypes.MED
         this.getString("_parent").equals("5448e8d04bdc2ddf718b4569") -> ItemTypes.FOOD
         this.getString("_parent").equals("5448e8d64bdc2dce718b4568") -> ItemTypes.FOOD
+        this.getString("_parent").equals("5447e1d04bdc2dff2f8b4567") -> ItemTypes.MELEE
         else -> ItemTypes.NONE
     }
 }

@@ -11,7 +11,7 @@ query Crafts {
     }
 }
 
-fragment TaskItem on TaskItem {
+fragment TaskItem on ContainedItem {
     item {
         ...ItemFragment
     }

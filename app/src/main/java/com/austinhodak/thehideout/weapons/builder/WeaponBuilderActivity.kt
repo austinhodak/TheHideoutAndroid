@@ -117,7 +117,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
             ) {
                 Image(
                     rememberImagePainter(
-                        pricing.iconLink ?: ""
+                        pricing.getCleanIcon()
                     ),
                     contentDescription = null,
                     modifier = Modifier
@@ -585,7 +585,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                     ) {
                         if (mod != null) {
                             Image(
-                                rememberImagePainter(mod.pricing?.iconLink),
+                                rememberImagePainter(mod.pricing?.getCleanIcon()),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .padding(end = 16.dp)
@@ -700,7 +700,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                     ) {
                         if (buildSlot?.mod != null) {
                             Image(
-                                rememberImagePainter(buildSlot.mod?.pricing?.iconLink),
+                                rememberImagePainter(buildSlot.mod?.pricing?.getCleanIcon()),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .padding(end = 16.dp)

@@ -15,9 +15,9 @@ data class Pricing(
     val id: String,
     val name: String?,
     val shortName: String?,
-    val iconLink: String?,
+    val iconLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
     val imageLink: String?,
-    val gridImageLink: String?,
+    val gridImageLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
     val avg24hPrice: Int?,
     val basePrice: Int,
     val lastLowPrice: Int?,
@@ -30,14 +30,24 @@ data class Pricing(
     val height: Int?,
     val sellFor: List<BuySellPrice>?,
     val buyFor: List<BuySellPrice>?,
-    val wikiLink: String?
+    val wikiLink: String?,
+    val noFlea: Boolean?
 ) : Serializable {
+
+
+
+    fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
+    fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
 
     fun getCheapestBuyRequirements(): BuySellPrice? {
         return buyFor?.minByOrNull {
             if (!it.isRequirementMet()) Int.MAX_VALUE else it.getPriceAsRoubles()
             //it.price ?: Int.MAX_VALUE
-        }
+        } ?: BuySellPrice(
+            "fleaMarket",
+            price = basePrice,
+            requirements = emptyList()
+        )
     }
 
     fun getCheapestBuy(): BuySellPrice? {
@@ -57,6 +67,14 @@ data class Pricing(
             avg24hPrice ?: lastLowPrice ?: basePrice
         } else {
             lastLowPrice ?: basePrice
+        }
+    }
+
+    fun getLastPrice(): Int {
+        return if (lastLowPrice ?: 0 > 0) {
+            lastLowPrice ?: avg24hPrice ?: basePrice
+        } else {
+            avg24hPrice ?: basePrice
         }
     }
 

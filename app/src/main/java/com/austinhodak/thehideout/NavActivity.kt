@@ -3,6 +3,8 @@ package com.austinhodak.thehideout
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -125,12 +127,22 @@ class NavActivity : GodActivity() {
         }
     }
 
+    private var doubleBackToExitPressedOnce = false
+
     override fun onBackPressed() {
         //super.onBackPressed()
         if (navViewModel.isDrawerOpen.value == true) {
             navViewModel.setDrawerOpen(false)
         } else {
-            super.onBackPressed()
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                return
+            }
+
+            this.doubleBackToExitPressedOnce = true
+            Toast.makeText(this, "Press BACK again to exit.", Toast.LENGTH_SHORT).show()
+
+            Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
         }
     }
 
@@ -156,7 +168,7 @@ class NavActivity : GodActivity() {
             it.getString("url")?.openWithCustomTab(this)
         }
 
-        Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
+        /*Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
             if (pendingDynamicLinkData != null) {
                 var deepLink = pendingDynamicLinkData.link
                 MaterialDialog(this).show {
@@ -173,7 +185,7 @@ class NavActivity : GodActivity() {
 
                 Timber.d(deepLink?.lastPathSegment)
             }
-        }
+        }*/
 
         setContent {
             val scaffoldState = rememberScaffoldState()

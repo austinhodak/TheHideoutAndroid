@@ -2,7 +2,6 @@ package com.austinhodak.thehideout.ammunition
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -16,7 +15,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -47,6 +45,8 @@ import com.austinhodak.thehideout.pickers.PickerActivity
 import com.austinhodak.thehideout.utils.*
 import com.bumptech.glide.Glide
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -78,6 +78,8 @@ class AmmoDetailActivity : GodActivity() {
 
         val ammoID = intent.getStringExtra("ammoID") ?: "5fd20ff893a8961fc660a954"
         ammoViewModel.getAmmo(ammoID)
+
+        Firebase.crashlytics.setCustomKey("ammoID", ammoID)
 
         setContent {
             val ammo by ammoViewModel.ammoDetails.observeAsState()
@@ -124,13 +126,22 @@ class AmmoDetailActivity : GodActivity() {
                                 putSerializable("ammo", ammo)
                             }
                         }) {
-                            Icon(painter = painterResource(id = R.drawable.ic_baseline_calculate_24), contentDescription = "Open Calculator", tint = Color.Black)
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_calculate_24),
+                                contentDescription = "Open Calculator",
+                                tint = Color.Black
+                            )
                         }
                     }
                 ) {
                     if (ammo != null) {
                         LazyColumn(
-                            contentPadding = PaddingValues(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 64.dp)
+                            contentPadding = PaddingValues(
+                                top = 4.dp,
+                                start = 8.dp,
+                                end = 8.dp,
+                                bottom = 64.dp
+                            )
                         ) {
                             item {
                                 AmmoDetailCard(ammo = ammo!!)
@@ -168,7 +179,7 @@ class AmmoDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(ammo.pricing?.iconLink ?: ""),
+                        rememberImagePainter(ammo.pricing?.getIcon() ?: ""),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)
@@ -177,7 +188,10 @@ class AmmoDetailActivity : GodActivity() {
                             .border((0.25).dp, color = BorderColor)
                             .clickable {
                                 StfalconImageViewer
-                                    .Builder(context, listOf(ammo.pricing?.imageLink)) { view, image ->
+                                    .Builder(
+                                        context,
+                                        listOf(ammo.pricing?.imageLink)
+                                    ) { view, image ->
                                         Glide
                                             .with(view)
                                             .load(image)
@@ -210,7 +224,8 @@ class AmmoDetailActivity : GodActivity() {
                                     text = "${ammo.pricing?.changeLast48h}%",
                                     style = MaterialTheme.typography.caption,
                                     //color = if (ammo.pricing?.changeLast48h ?: 0.0 > 0.0) Green500 else if (ammo.pricing?.changeLast48h ?: 0.0 < 0.0) Red500 else Color.Unspecified,
-                                    color = ammo.pricing?.changeLast48h?.asColor() ?: Color.Unspecified,
+                                    color = ammo.pricing?.changeLast48h?.asColor()
+                                        ?: Color.Unspecified,
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Light
                                 )
@@ -327,7 +342,10 @@ class AmmoDetailActivity : GodActivity() {
                             )
                         }
                         Column {
-                            Text(text = selectedArmor?.MaxDurability?.toString() ?: "", style = MaterialTheme.typography.h5)
+                            Text(
+                                text = selectedArmor?.MaxDurability?.toString() ?: "",
+                                style = MaterialTheme.typography.h5
+                            )
                         }
                     }
                 }
@@ -384,7 +402,10 @@ class AmmoDetailActivity : GodActivity() {
                         fontFamily = Bender,
                         modifier = Modifier.weight(1f)
                     )
-                    Text(text = "${chance?.roundToInt() ?: "-"}%", style = MaterialTheme.typography.h5)
+                    Text(
+                        text = "${chance?.roundToInt() ?: "-"}%",
+                        style = MaterialTheme.typography.h5
+                    )
                 }
             }
         }

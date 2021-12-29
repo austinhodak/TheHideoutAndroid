@@ -195,7 +195,7 @@ private fun LoadoutItem(build: WeaponBuildFirestore, tarkovRepo: TarkovRepo) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(weapon?.pricing?.iconLink),
+                    rememberImagePainter(weapon?.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)

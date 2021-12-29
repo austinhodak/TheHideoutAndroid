@@ -14,7 +14,7 @@ interface ItemDao {
     fun getByID(id: String): Flow<Item>
 
     @Query("SELECT * FROM items WHERE id IN (:ids)")
-    suspend fun getByID(ids: List<String>): List<Item>
+    fun getByID(ids: List<String>): Flow<List<Item>>
 
     @Transaction
     @Query("SELECT * FROM items WHERE itemType = :type")
@@ -32,10 +32,12 @@ interface ItemDao {
     @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor FROM items WHERE pricing IS NOT NULL")
     fun getAllItems(): Flow<List<Item>>
 
+    @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor FROM items WHERE pricing IS NOT NULL")
+    suspend fun getAllItemsOnce(): List<Item>
+
     @Transaction
     @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor, Slots FROM items WHERE Slots LIKE :id")
     fun getAllItemsSlots(id: String): Flow<List<Item>>
-
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)

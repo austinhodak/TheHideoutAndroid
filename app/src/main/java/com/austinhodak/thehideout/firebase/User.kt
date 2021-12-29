@@ -20,7 +20,8 @@ data class User(
     var discordUsername: String? = null,
     var token: String? = null,
     var displayName: String? = null,
-    var uid: String? = null
+    var uid: String? = null,
+    var playerLevel: Int? = null
 ) {
     fun getUsername(): String {
         return if (!displayName.isNullOrEmpty()) displayName!! else if (!discordUsername.isNullOrEmpty()) discordUsername!! else "$uid"
@@ -101,6 +102,11 @@ data class User(
     fun isObjectiveCompleted(objective: Quest.QuestObjective): Boolean {
         val o = questObjectives?.values?.find { it?.id == objective.id?.toInt() }
         return objective.number == o?.progress
+    }
+
+    fun getObjectiveProgress(objective: Quest.QuestObjective): Int {
+        val o = questObjectives?.values?.find { it?.id == objective.id?.toInt() }
+        return o?.progress ?: 0
     }
 
     fun hasKey(id: String): Boolean {

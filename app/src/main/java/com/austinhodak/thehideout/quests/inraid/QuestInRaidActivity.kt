@@ -7,7 +7,11 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -15,8 +19,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,10 +50,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
-import com.austinhodak.thehideout.compose.theme.BorderColor
-import com.austinhodak.thehideout.compose.theme.Green400
-import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.compose.theme.White
+import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.quests.QuestDetailActivity
@@ -59,6 +62,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import com.austinhodak.thehideout.quests.inraid.QuestInRaidActivity.Types.*
+import com.google.firebase.database.ServerValue
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -90,12 +94,22 @@ class QuestInRaidActivity : GodActivity() {
                     it.objectives ?: emptyList()
                 }
 
+                val itemIDs = quests.flatMap {
+                    it.objective ?: emptyList()
+                }.map {
+                    it.target?.first()
+                }
+
+                val items by tarkovRepo.getItemByID(itemIDs.filterNotNull()).collectAsState(initial = emptyList())
+
                 var availableQuests: Map<String?, List<Quest.QuestObjective>>? = quests.filter {
                     it.isAvailable(userData)
                 }.flatMap {
                     it.objective ?: emptyList()
                 }.filter {
-                    userData?.isObjectiveCompleted(it) == false && it.location == mapID.toString()
+                    userData?.isObjectiveCompleted(it) == false && (it.location == mapID.toString() || it.location == "-1")
+                }.filterNot {
+                    it.type == "collect" || it.type == "find" || it.type == "build" || it.type == "reputation"
                 }.groupBy {
                     it.type
                 }
@@ -137,9 +151,107 @@ class QuestInRaidActivity : GodActivity() {
                             TasksScreen(availableQuests, questExtra, quests, userData)
                         }
                         composable(BottomNavigationScreens.Items.route) {
-                            EmptyText(text = "Coming soon.")
+                            //EmptyText(text = "Coming soon.")
+                            ItemsScreen(questExtra, quests, userData, items)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ItemsScreen(
+        questExtra: List<QuestExtra.QuestExtraItem.Objective?>?,
+        quests: List<Quest>,
+        userData: User?,
+        items: List<Item>
+    ) {
+        val objectives = quests.filter {
+            it.isAvailable(userData)
+        }.flatMap {
+            it.objective ?: emptyList()
+        }.filter {
+            userData?.isObjectiveCompleted(it) == false
+        }.filterNot {
+            it.type == "build" || it.type == "reputation"
+        }
+
+        val neededItems: List<Item> = objectives.mapNotNull { obj ->
+            items.find { it.id == obj.target?.first() }
+        }
+
+        if (neededItems?.isEmpty() == true) {
+            EmptyText(text = "No items needed.")
+            return
+        } else if (neededItems == null) {
+            LoadingItem()
+            return
+        }
+
+        LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
+            items(items = neededItems) { item ->
+                val totalNeeded = objectives.filter {
+                    it.target?.first() == item.id
+                }.sumOf {
+                    it.number ?: 0
+                }
+
+                val totalProgress = objectives.filter {
+                    it.target?.first() == item.id
+                }.sumOf {
+                    userData?.getObjectiveProgress(it) ?: 0
+                }
+
+                val color = BorderColor
+                val context = LocalContext.current
+                Box(
+                    Modifier.combinedClickable(
+                        onClick = {
+
+                        },
+                        onDoubleClick = {
+
+                        },
+                        onLongClick = {
+                            context.openActivity(FleaItemDetail::class.java) {
+                                putString("id", item.id)
+                            }
+                        }
+                    )
+                ) {
+                    Image(
+                        rememberImagePainter(item.pricing?.getCleanIcon()),
+                        contentDescription = "",
+                        Modifier
+                            .layout { measurable, constraints ->
+                                val tileSize = constraints.maxWidth
+
+                                val placeable = measurable.measure(
+                                    constraints.copy(
+                                        minWidth = tileSize,
+                                        maxWidth = tileSize,
+                                        minHeight = tileSize,
+                                        maxHeight = tileSize,
+                                    )
+                                )
+                                layout(placeable.width, placeable.width) {
+                                    placeable.place(x = 0, y = 0, zIndex = 0f)
+                                }
+                            }
+                            .border(0.1.dp, color),
+                    )
+                    Text(
+                        text = "$totalProgress/$totalNeeded",
+                        Modifier
+                            .clip(RoundedCornerShape(topStart = 5.dp))
+                            .background(color)
+                            .padding(horizontal = 3.dp, vertical = 1.dp)
+                            .align(Alignment.BottomEnd),
+                        style = MaterialTheme.typography.caption,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 9.sp
+                    )
                 }
             }
         }
@@ -323,12 +435,13 @@ class QuestInRaidActivity : GodActivity() {
                     objective = objective
                 )
             }
-            COLLECT, FIND, KEY, BUILD -> {
+            KEY -> {
                 val item: Item? by tarkovRepo.getItemByID(objective.target?.first() ?: "")
                     .collectAsState(initial = null)
                 if (item != null)
                     ObjectiveItemPricing(objective = objective, pricing = item?.pricing)
             }
+            COLLECT, FIND, BUILD -> return
             else -> ObjectiveItemBasic(
                 title = text,
                 subtitle = subtitle,
@@ -415,7 +528,7 @@ class QuestInRaidActivity : GodActivity() {
                         )
                         if (subtitle != null) {
                             Text(
-                                text = "With $sub",
+                                text = "$sub",
                                 style = MaterialTheme.typography.caption
                             )
                         }
@@ -516,8 +629,7 @@ class QuestInRaidActivity : GodActivity() {
                 }
                 Image(
                     rememberImagePainter(
-                        pricing?.iconLink
-                            ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                        pricing?.getCleanIcon()
                     ),
                     contentDescription = null,
                     modifier = Modifier

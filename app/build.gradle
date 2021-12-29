@@ -39,15 +39,13 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
-        //versionCode 100801
-        versionCode 11015
+        versionCode 11201
         // [1]-[0].[2].[0].[0]
-        versionName "1.0.0 Beta 15"
+        versionName "1.1.2"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
         }
-
     }
 
     flavorDimensions "version"
@@ -174,7 +172,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
     implementation 'com.google.firebase:firebase-dynamic-links-ktx'
     //implementation 'com.google.android.gms:play-services-ads'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.1'
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
     //END Firebase
 
@@ -222,7 +220,7 @@ dependencies {
 
     implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
 
-    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.1'
 
     implementation 'com.google.maps.android:maps-ktx:3.1.0'
     implementation 'com.google.maps.android:maps-utils-ktx:3.2.0'
@@ -235,4 +233,6 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:8.1.0'
 
     implementation 'com.github.adaptyteam:AdaptySDK-Android:1.2.0'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
