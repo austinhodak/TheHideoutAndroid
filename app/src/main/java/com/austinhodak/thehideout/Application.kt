@@ -8,10 +8,8 @@ import androidx.work.*
 import com.adapty.Adapty
 import com.austinhodak.tarkovapi.PriceUpdateWorker
 import com.austinhodak.tarkovapi.UserSettingsModel
-import com.austinhodak.tarkovapi.utils.Hideout
-import com.austinhodak.tarkovapi.utils.Maps
-import com.austinhodak.tarkovapi.utils.Rigs
-import com.austinhodak.tarkovapi.utils.WeaponPresets
+import com.austinhodak.tarkovapi.models.Skill
+import com.austinhodak.tarkovapi.utils.*
 import com.austinhodak.tarkovapi.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.utils.Prefs
 import com.austinhodak.thehideout.utils.isWorkRunning
@@ -50,6 +48,7 @@ class Application : android.app.Application(), Configuration.Provider {
         var questPrefs: Prefs? = null
         var maps: Maps? = null
         var rigs: Rigs? = null
+        var skills: Skills? = null
         var presets: WeaponPresets? = null
         var hideout: Hideout? = null
         lateinit var instance: Application
@@ -65,6 +64,7 @@ class Application : android.app.Application(), Configuration.Provider {
         questPrefs = Prefs(applicationContext)
         maps = Maps(applicationContext)
         rigs = Rigs(applicationContext)
+        skills = Skills(applicationContext)
         presets = WeaponPresets(applicationContext)
         hideout = Hideout(applicationContext)
 
@@ -167,6 +167,8 @@ val questPrefs: Prefs by lazy {
 val mapsList: Maps = Application.maps!!
 
 val rigsList: Rigs = Application.rigs!!
+
+val skillsList: Skills = Application.skills!!
 
 val presetList: WeaponPresets = Application.presets!!
 

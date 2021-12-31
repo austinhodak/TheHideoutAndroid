@@ -433,3 +433,4 @@ fun getJsonDataFromAsset(context: Context, fileName: Int): String? {
     return jsonString
 }
 
+val String.color get() = Color(android.graphics.Color.parseColor("#$this"))

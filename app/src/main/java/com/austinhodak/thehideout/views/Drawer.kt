@@ -317,7 +317,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             drawerKeys,
             drawerMedical,
             drawerProvisions,
-            //drawerSkills,
+            drawerSkills,
             drawerWeaponExpandable,
             drawerWeaponLoadouts,
             drawerWeaponMods,
@@ -328,16 +328,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             drawerQuests,
             drawerDamageSimulator,
             drawerExtraTools,
-            //drawerSectionJoinUs,
-            //drawerJoinUsDiscord,
-            //drawerJoinUsTwitch,
-            //drawerJoinUsTwitter,
-            //drawerDivider,
-            drawerTraders,
-            //drawerDivider,
-            //drawerLogin,
-            //drawerSettings,
-            //drawerVersion,
+            drawerTraders
         )
 
         addStickyFooterItem(drawerSettings)

@@ -41,6 +41,7 @@ import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
 import com.austinhodak.thehideout.quests.QuestMainScreen
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
+import com.austinhodak.thehideout.skills.CharacterSkillsScreen
 import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.tools.SensitivityCalculatorScreen
 import com.austinhodak.thehideout.tools.viewmodels.SensitivityViewModel
@@ -329,6 +330,9 @@ class NavActivity : GodActivity() {
                                 navViewModel,
                                 tarkovRepo
                             )
+                        }
+                        composable("skills") {
+                            CharacterSkillsScreen(navViewModel)
                         }
                     }
 
