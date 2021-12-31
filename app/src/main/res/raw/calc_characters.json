@@ -208,5 +208,17 @@
     },
     "image": "",
     "c_type": "guard"
+  },
+  {
+    "name": "Rogue",
+    "health": {
+      "head": 40,
+      "thorax": 180,
+      "stomach": 130,
+      "arms": 105,
+      "legs": 105
+    },
+    "image": "",
+    "c_type": "guard"
   }
 ]
