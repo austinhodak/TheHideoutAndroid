@@ -407,6 +407,11 @@ val ammoArmorPenValues = mutableMapOf(
     "5e85a9f4add9fe03027d9bf1" to "000000", //23x75mm "Zvezda" flashbang round
     "5e85a9a6eacf8c039e4e2ac1" to "643333", //23x75mm "Shrapnel-10" buckshot
     "5f647f31b6238e5dd066e196" to "643333", //23x75mm Shrapnel-25 buckshot
+    "619636be6db0f2477964e710" to "666542",
+    "6196364158ef8c428c287d9f" to "664310",
+    "6196365d58ef8c428c287da1" to "642100",
+    "61962b617c6c7b169525f168" to "666654",
+    "61962d879bb3d20b0946d385" to "666665",
 )
 
 val Armor0 = Color(0xffce0b04)
