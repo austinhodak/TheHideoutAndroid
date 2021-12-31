@@ -700,8 +700,8 @@ class MapsActivity : GodActivity() {
         val tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
             override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
                 val normalizedCords = getNormalizedCord(x, y, zoom, selectedMap) ?: return null
-                val url = "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.png"
-                //Timber.d(url)
+                val url = "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.${selectedMap.getFirstMap()?.extension}"
+                Timber.d(url)
 
                 return try {
                     URL(url)
@@ -785,12 +785,14 @@ class MapsActivity : GodActivity() {
                 958 -> R.drawable.icon_weapons
                 1015 -> R.drawable.icon_mods_2
                 951 -> R.drawable.icon_boss
+                4736,
                 950 -> R.drawable.icon_scav
                 1011 -> R.drawable.icon_sniper
                 1014 -> R.drawable.icon_easter_eggs
                 954 -> R.drawable.icon_extract
                 952 -> R.drawable.icon_location
                 957 -> R.drawable.icon_lock
+                2000 -> R.drawable.icon_gattling
                 956 -> R.drawable.icon_unknown
                 955 -> R.drawable.icon_quest
                 953 -> R.drawable.icon_spawn
