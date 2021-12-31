@@ -71,63 +71,81 @@ class PriceUpdateWorker constructor(
     }
 
     private suspend fun populateQuests(): Result {
-        val questDao = tarkovRepo.getQuestDao()
-        val response = apolloClient.query(QuestsQuery())
-        val quests = response.data?.quests?.map { quest ->
-            quest?.toQuest(null)
-        } ?: emptyList()
+        return try {
+            val questDao = tarkovRepo.getQuestDao()
+            val response = apolloClient.query(QuestsQuery())
+            val quests = response.data?.quests?.map { quest ->
+                quest?.toQuest(null)
+            } ?: emptyList()
 
-        for (quest in quests) {
-            if (quest != null) {
-                Timber.d("Updating Quest ${quest.id}")
-                questDao.insert(quest)
+            for (quest in quests) {
+                if (quest != null) {
+                    Timber.d("Updating Quest ${quest.id}")
+                    questDao.insert(quest)
+                }
             }
-        }
 
-        return Result.success()
+            return Result.success()
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            Result.failure()
+        }
     }
 
     private suspend fun populateCrafts(): Result {
-        val craftDao = tarkovRepo.getCraftDao()
-        val response = apolloClient.query(CraftsQuery())
-        val crafts = response.data?.crafts?.map { craft ->
-            craft?.toCraft()
-        } ?: emptyList()
+        return try {
+            val craftDao = tarkovRepo.getCraftDao()
+            val response = apolloClient.query(CraftsQuery())
+            val crafts = response.data?.crafts?.map { craft ->
+                craft?.toCraft()
+            } ?: emptyList()
 
-        return if (crafts.isNotEmpty()) {
-            Timber.d("NUKING CRAFT TABLE")
-            craftDao.nukeTable()
+            return if (crafts.isNotEmpty()) {
+                Timber.d("NUKING CRAFT TABLE")
+                craftDao.nukeTable()
 
-            for (craft in crafts) {
-                if (craft != null) {
-                    Timber.d("Updating Craft")
-                    craftDao.insert(craft)
+                for (craft in crafts) {
+                    if (craft != null) {
+                        Timber.d("Updating Craft")
+                        craftDao.insert(craft)
+                    }
                 }
-            }
 
-            Result.success()
-        } else Result.failure()
+                Result.success()
+            } else Result.failure()
+        }  catch (e: Exception) {
+            e.printStackTrace()
+
+            Result.failure()
+        }
     }
 
     private suspend fun populateBarters(): Result {
-        val barterDao = tarkovRepo.getBarterDao()
-        val response = apolloClient.query(BartersQuery())
-        val barters = response.data?.barters?.map { barter ->
-            barter?.toBarter()
-        } ?: emptyList()
+        return try {
+            val barterDao = tarkovRepo.getBarterDao()
+            val response = apolloClient.query(BartersQuery())
+            val barters = response.data?.barters?.map { barter ->
+                barter?.toBarter()
+            } ?: emptyList()
 
-        return if (barters.isNotEmpty()) {
-            Timber.d("NUKING BARTER TABLE")
-            barterDao.nukeTable()
+            return if (barters.isNotEmpty()) {
+                Timber.d("NUKING BARTER TABLE")
+                barterDao.nukeTable()
 
-            for (barter in barters) {
-                if (barter != null) {
-                    Timber.d("Updating Barter")
-                    barterDao.insert(barter)
+                for (barter in barters) {
+                    if (barter != null) {
+                        Timber.d("Updating Barter")
+                        barterDao.insert(barter)
+                    }
                 }
-            }
-            Result.success()
-        } else Result.failure()
+                Result.success()
+            } else Result.failure()
+        }  catch (e: Exception) {
+            e.printStackTrace()
+
+            Result.failure()
+        }
     }
 
     class Factory @Inject constructor(

@@ -14,6 +14,11 @@
         android:theme="@style/Theme.TheHideout.Launcher">
 
         <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+
+        <activity
             android:name=".billing.PremiumPusherActivity"
             android:exported="true"
             android:label="@string/title_activity_premium_pusher"

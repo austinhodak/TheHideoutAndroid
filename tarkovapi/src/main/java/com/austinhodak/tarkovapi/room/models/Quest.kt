@@ -98,8 +98,8 @@ data class Quest(
     fun getMaps(mapsList: Maps): String {
         val list = objective?.map {  it.location?.toInt() }?.distinct()
         val mapList = list?.map { mapsList.getMap(it) }
-        Timber.d(list.toString())
-        Timber.d(mapList.toString())
+        //Timber.d(list.toString())
+        //Timber.d(mapList.toString())
         return mapList?.joinToString(separator = ", ") { it?.locale?.en ?: "Any Map" } ?: ""
     }
 

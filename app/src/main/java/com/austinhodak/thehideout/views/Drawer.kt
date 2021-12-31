@@ -225,7 +225,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
 
     private val drawerSettings = SecondaryDrawerItem().apply {
         tag = "settings"
-        nameText = "Settings"; iconRes = R.drawable.ic_baseline_settings_24; isIconTinted = true; isSelectable = false; isEnabled = true
+        nameText = "Profile & Settings"; iconRes = R.drawable.ic_baseline_settings_24; isIconTinted = true; isSelectable = false; isEnabled = true
         typeface = benderFont
     }
 
@@ -334,11 +334,13 @@ class Drawer(context: Context, attrs: AttributeSet? = null) : MaterialDrawerSlid
             //drawerJoinUsTwitter,
             //drawerDivider,
             drawerTraders,
-            drawerDivider,
+            //drawerDivider,
             //drawerLogin,
-            drawerSettings,
+            //drawerSettings,
             //drawerVersion,
         )
+
+        addStickyFooterItem(drawerSettings)
 
         recyclerView.isVerticalFadingEdgeEnabled = false
         recyclerView.isVerticalScrollBarEnabled = false
@@ -470,10 +472,19 @@ fun MainDrawer(
                     Firebase.auth.addAuthStateListener {
                         val isLoggedIn = it.currentUser != null && it.currentUser?.isAnonymous == false
                         if (!isLoggedIn) {
-                            drawer.removeAllStickyFooterItems()
-                            drawer.addStickyDrawerItems(drawerLogin)
+                            //drawer.removeAllStickyFooterItems()
+                            try {
+                                drawer.removeStickyFooterItemAtPosition(1)
+                            } catch (e: Exception) {
+
+                            }
+                            drawer.addStickyFooterItemAtPosition(drawerLogin, 1)
                         } else {
-                            drawer.removeAllStickyFooterItems()
+                            try {
+                                drawer.removeStickyFooterItemAtPosition(1)
+                            } catch (e: Exception) {
+
+                            }
                         }
                     }
 

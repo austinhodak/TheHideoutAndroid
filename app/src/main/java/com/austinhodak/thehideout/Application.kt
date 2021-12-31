@@ -1,21 +1,23 @@
 package com.austinhodak.thehideout
 
+import android.content.Context
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.work.*
 import com.adapty.Adapty
-import com.android.billingclient.api.BillingClient
 import com.austinhodak.tarkovapi.PriceUpdateWorker
 import com.austinhodak.tarkovapi.UserSettingsModel
-import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.Hideout
 import com.austinhodak.tarkovapi.utils.Maps
 import com.austinhodak.tarkovapi.utils.Rigs
 import com.austinhodak.tarkovapi.utils.WeaponPresets
 import com.austinhodak.tarkovapi.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.utils.Prefs
+import com.austinhodak.thehideout.utils.isWorkRunning
+import com.austinhodak.thehideout.utils.isWorkScheduled
 import com.austinhodak.thehideout.utils.uid
+import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -28,11 +30,14 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
 
 @HiltAndroidApp
 class Application : android.app.Application(), Configuration.Provider {
@@ -100,11 +105,27 @@ class Application : android.app.Application(), Configuration.Provider {
         }
 
         UserSettingsModel.dataSyncFrequency.observe(MainScope()) {
-            val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+            val workManager = WorkManager.getInstance(this)
+            val oldFrequency = UserSettingsModel.dataSyncFrequencyPrevious.value
 
-            val priceUpdateRequest = PeriodicWorkRequestBuilder<PriceUpdateWorker>(it.toString().toLong(), TimeUnit.HOURS).setConstraints(constraints).build()
+            val isScheduled = isWorkScheduled(this, "price_update")
+            val isRunning = isWorkRunning(this, "price_update")
 
-            WorkManager.getInstance(this).enqueueUniquePeriodicWork("price_update", ExistingPeriodicWorkPolicy.KEEP, priceUpdateRequest)
+            Timber.d("Scheduled $isScheduled || Running $isRunning")
+
+            if (oldFrequency == it && isScheduled) {
+                //Do nothing, already set.
+            } else {
+                val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+
+                val priceUpdateRequest = PeriodicWorkRequestBuilder<PriceUpdateWorker>(it.toString().toLong(), TimeUnit.MINUTES).setConstraints(constraints).build()
+
+                workManager.enqueueUniquePeriodicWork("price_update", ExistingPeriodicWorkPolicy.REPLACE, priceUpdateRequest)
+
+                MainScope().launch {
+                    UserSettingsModel.dataSyncFrequencyPrevious.update(it)
+                }
+            }
         }
     }
 

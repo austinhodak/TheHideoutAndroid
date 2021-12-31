@@ -20,11 +20,11 @@ buildscript {
                 slidingpaneLayout : "1.1.0",
                 swiperefreshLayout: "1.1.0",
                 materialDrawer    : '8.4.3',
-                firebaseBOM       : "29.0.1",
+                firebaseBOM       : "29.0.3",
                 ktx               : '1.7.0',
                 mDialogs          : "3.3.0",
                 epoxy             : "4.1.0",
-                room              : "2.4.0-rc01",
+                room              : "2.4.0",
                 hilt              : "2.31.2-alpha"
         ]
         compose_version = '1.0.5'

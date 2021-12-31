@@ -48,6 +48,7 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val aimSens by stringPref("0.50", "aimSens")
 
     val dataSyncFrequency by enumPref(DataSyncFrequency.`60`, "dataSyncFrequency")
+    val dataSyncFrequencyPrevious by enumPref(DataSyncFrequency.`120`, "dataSyncFrequencyPrevious")
 }
 
 enum class DataSyncFrequency {

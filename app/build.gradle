@@ -39,9 +39,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 11201
+        versionCode 12001
         // [1]-[0].[2].[0].[0]
-        versionName "1.1.2"
+        versionName "1.2.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -153,27 +153,27 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
     implementation "androidx.fragment:fragment-ktx:1.4.0"
 
-    implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
+    implementation "androidx.navigation:navigation-compose:2.4.0-rc01"
 
     //END AndroidX
 
     //Firebase
-    implementation platform("com.google.firebase:firebase-bom:${versions.firebaseBOM}")
-    implementation "com.google.firebase:firebase-analytics-ktx"
-    implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'com.google.firebase:firebase-functions-ktx'
-    implementation 'com.google.firebase:firebase-messaging-ktx'
-    implementation 'com.google.firebase:firebase-storage-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    //implementation 'com.google.firebase:firebase-perf-ktx'
-    implementation 'com.google.firebase:firebase-database-ktx'
-    implementation 'com.google.firebase:firebase-config-ktx'
-    implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
-    implementation 'com.google.firebase:firebase-dynamic-links-ktx'
-    //implementation 'com.google.android.gms:play-services-ads'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.1'
-    implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
+    api platform("com.google.firebase:firebase-bom:${versions.firebaseBOM}")
+    api "com.google.firebase:firebase-analytics-ktx"
+    api 'com.google.firebase:firebase-auth-ktx'
+    api 'com.google.firebase:firebase-firestore-ktx'
+    api 'com.google.firebase:firebase-functions-ktx'
+    api 'com.google.firebase:firebase-messaging-ktx'
+    api 'com.google.firebase:firebase-storage-ktx'
+    api 'com.google.firebase:firebase-crashlytics-ktx'
+    //api 'com.google.firebase:firebase-perf-ktx'
+    api 'com.google.firebase:firebase-database-ktx'
+    api 'com.google.firebase:firebase-config-ktx'
+    api 'com.google.firebase:firebase-inappmessaging-display-ktx'
+    api 'com.google.firebase:firebase-dynamic-links-ktx'
+    //api 'com.google.android.gms:play-services-ads'
+    api 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.1'
+    api 'com.firebaseui:firebase-ui-auth:8.0.0'
     //END Firebase
 
     //Drawer

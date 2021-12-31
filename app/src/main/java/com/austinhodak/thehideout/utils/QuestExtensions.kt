@@ -27,13 +27,12 @@ fun Quest.QuestObjective.getIcon(): Int {
 
 fun Quest.isLocked(userData: User?): Boolean {
     val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
+
     return if (userData?.isQuestCompleted(this) == true) {
         false
     } else {
         if (requirement?.level ?: 0 > userData?.playerLevel ?: 71) return true
         if (requirement?.quests.isNullOrEmpty()) {
-            false
-        } else if (requirement?.quests.isNullOrEmpty()) {
             false
         } else {
             requirement?.quests?.any { l1 ->
@@ -41,11 +40,6 @@ fun Quest.isLocked(userData: User?): Boolean {
                     completedQuests?.contains(it) == false
                 } == true
             } == true
-            /*requirement?.quests?.forEach {
-                if (it != null)
-                    return completedQuests?.containsAll(it) == false
-            }
-            true*/
         }
     }
 }

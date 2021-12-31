@@ -6,6 +6,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.work.ListenableWorker
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.*
 import com.austinhodak.tarkovapi.di.ApplicationScope
@@ -15,15 +18,13 @@ import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.*
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 44)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 47)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -63,11 +64,12 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun loadItemsFile() {
             scope.launch(Dispatchers.IO) {
-                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_121221).bufferedReader().use { it.readText() }))
+                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_122921).bufferedReader().use { it.readText() }))
             }
         }
 
         private suspend fun populateDatabase(jsonArray: JSONArray) {
+            Timber.d("Populating Database")
             val ammoDao = database.get().AmmoDao()
             val itemDao = database.get().ItemDao()
             val weaponDao = database.get().WeaponDao()
@@ -89,87 +91,19 @@ abstract class AppDatabase : RoomDatabase() {
                 }
 
                 if (item.itemType() != ItemTypes.NULL)
+                    Timber.d("Item $i")
                     itemDao.insert(item.toItem())
             }
 
-            try {
-                updatePricing()
-                populateQuests()
-                populateCrafts()
-                populateBarters()
-            } catch (e: Exception) {
+            val priceUpdateRequestTest = OneTimeWorkRequest.Builder(
+                PriceUpdateWorker::class.java).build()
 
-            }
+            WorkManager.getInstance(context).enqueue(priceUpdateRequestTest)
         }
 
-        private suspend fun populateQuests() {
-            val questDao = database.get().QuestDao()
-            val response = apolloClient.query(QuestsQuery())
-            val quests = response.data?.quests?.map { quest ->
-                quest?.toQuest(null)
-            } ?: emptyList()
+        suspend fun updatePricing(): ListenableWorker.Result {
 
-            for (quest in quests) {
-                if (quest != null) {
-                    //Timber.d("Updating Quest")
-                    questDao.insert(quest)
-                }
-            }
-        }
-
-        private suspend fun populateCrafts() {
-
-            val craftDao = database.get().CraftDao()
-            val response = apolloClient.query(CraftsQuery())
-            val crafts = response.data?.crafts?.map { craft ->
-                craft?.toCraft()
-            } ?: emptyList()
-
-            if (crafts.isNotEmpty()) {
-                Timber.d("NUKING CRAFT TABLE")
-                craftDao.nukeTable()
-
-                for (craft in crafts) {
-                    if (craft != null) {
-                        Timber.d("Updating Craft")
-                        craftDao.insert(craft)
-                    }
-                }
-            }
-        }
-
-        private suspend fun populateBarters() {
-            val barterDao = database.get().BarterDao()
-            val response = apolloClient.query(BartersQuery())
-            val barters = response.data?.barters?.map { barter ->
-                barter?.toBarter()
-            } ?: emptyList()
-
-            if (barters.isNotEmpty()) {
-                Timber.d("NUKING BARTER TABLE")
-                barterDao.nukeTable()
-
-                for (barter in barters) {
-                    if (barter != null) {
-                        Timber.d("Updating Barter")
-                        barterDao.insert(barter)
-                    }
-                }
-            }
-        }
-
-        private suspend fun updatePricing() {
-            val oneHour = 1000 * 60 * 60
-
-            if (preferences.getLong("lastPriceUpdate", 0) + oneHour > System.currentTimeMillis()) {
-                return
-            }
-
-            populateQuests()
-            populateCrafts()
-            populateBarters()
-
-            try {
+            return try {
                 val itemDao = database.get().ItemDao()
                 val response = apolloClient.query(ItemsByTypeQuery(ItemType.any))
                 val items = response.data?.itemsByType?.map { fragments ->
@@ -184,9 +118,90 @@ abstract class AppDatabase : RoomDatabase() {
                         itemDao.updateAllPricing(item.id, item)
                 }
 
-                preferences.edit().putLong("lastPriceUpdate", System.currentTimeMillis()).apply()
+                ListenableWorker.Result.success()
+
             } catch (e: Exception) {
                 e.printStackTrace()
+
+                ListenableWorker.Result.failure()
+            }
+        }
+
+        suspend fun populateQuests(): ListenableWorker.Result {
+            return try {
+                val questDao = database.get().QuestDao()
+                val response = apolloClient.query(QuestsQuery())
+                val quests = response.data?.quests?.map { quest ->
+                    quest?.toQuest(null)
+                } ?: emptyList()
+
+                for (quest in quests) {
+                    if (quest != null) {
+                        Timber.d("Updating Quest ${quest.id}")
+                        questDao.insert(quest)
+                    }
+                }
+
+                return ListenableWorker.Result.success()
+            } catch (e: Exception) {
+                e.printStackTrace()
+
+                ListenableWorker.Result.failure()
+            }
+        }
+
+        suspend fun populateCrafts(): ListenableWorker.Result {
+            return try {
+                val craftDao = database.get().CraftDao()
+                val response = apolloClient.query(CraftsQuery())
+                val crafts = response.data?.crafts?.map { craft ->
+                    craft?.toCraft()
+                } ?: emptyList()
+
+                return if (crafts.isNotEmpty()) {
+                    Timber.d("NUKING CRAFT TABLE")
+                    craftDao.nukeTable()
+
+                    for (craft in crafts) {
+                        if (craft != null) {
+                            Timber.d("Updating Craft")
+                            craftDao.insert(craft)
+                        }
+                    }
+
+                    ListenableWorker.Result.success()
+                } else ListenableWorker.Result.failure()
+            }  catch (e: Exception) {
+                e.printStackTrace()
+
+                ListenableWorker.Result.failure()
+            }
+        }
+
+        suspend fun populateBarters(): ListenableWorker.Result {
+            return try {
+                val barterDao = database.get().BarterDao()
+                val response = apolloClient.query(BartersQuery())
+                val barters = response.data?.barters?.map { barter ->
+                    barter?.toBarter()
+                } ?: emptyList()
+
+                return if (barters.isNotEmpty()) {
+                    Timber.d("NUKING BARTER TABLE")
+                    barterDao.nukeTable()
+
+                    for (barter in barters) {
+                        if (barter != null) {
+                            Timber.d("Updating Barter")
+                            barterDao.insert(barter)
+                        }
+                    }
+                    ListenableWorker.Result.success()
+                } else ListenableWorker.Result.failure()
+            }  catch (e: Exception) {
+                e.printStackTrace()
+
+                ListenableWorker.Result.failure()
             }
         }
     }

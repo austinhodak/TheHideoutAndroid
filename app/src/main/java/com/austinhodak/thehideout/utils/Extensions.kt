@@ -15,6 +15,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
 import com.adapty.Adapty
 import com.adapty.errors.AdaptyError
@@ -24,10 +26,12 @@ import com.adapty.models.PurchaserInfoModel
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.BuildConfig
@@ -45,6 +49,7 @@ import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -58,6 +63,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
+import java.util.concurrent.ExecutionException
 import kotlin.math.round
 
 fun isDebug(): Boolean = BuildConfig.DEBUG
@@ -142,7 +148,7 @@ fun Double.getColor(reverse: Boolean = false, surfaceColor: Color): Color {
 fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
     //Flea Market Icon
     if (this.source == "fleaMarket") return "https://tarkov-tools.com/images/flea-market-icon.jpg"
-    Timber.d(this.toString())
+
     when {
         requirements.isNullOrEmpty() || showLevel == false -> {
             return when (this.source) {
@@ -706,4 +712,71 @@ fun Quest.QuestObjective.increment() {
 fun Quest.QuestObjective.decrement() {
     userRefTracker("questObjectives/${this.id?.addQuotes()}/id").setValue(this.id?.toInt())
     userRefTracker("questObjectives/${this.id?.addQuotes()}/progress").setValue(ServerValue.increment(-1))
+}
+
+fun TTUser.pushToDB() {
+    //Wipe data.
+    userRefTracker("quests").removeValue()
+    userRefTracker("questObjectives").removeValue()
+    userRefTracker("hideoutModules").removeValue()
+    userRefTracker("hideoutObjectives").removeValue()
+
+    quests.forEach {
+        userRefTracker("quests/${it.key.addQuotes()}").updateChildren(it.value.toMap(it.key))
+    }
+
+    objectives.forEach {
+        userRefTracker("questObjectives/${it.key.addQuotes()}").updateChildren(it.value.toMap(it.key))
+    }
+
+    hideout.forEach {
+        userRefTracker("hideoutModules/${it.key.addQuotes()}").updateChildren(it.value.toMap(it.key))
+    }
+
+    hideoutObjectives.forEach {
+        userRefTracker("hideoutObjectives/${it.key.addQuotes()}").updateChildren(it.value.toMap(it.key))
+    }
+
+}
+
+fun getTTApiKey(): String = UserSettingsModel.ttAPIKey.value
+
+fun isWorkScheduled(context: Context, tag: String): Boolean {
+    val instance = WorkManager.getInstance(context)
+    val statuses: ListenableFuture<List<WorkInfo>> = instance.getWorkInfosForUniqueWork(tag)
+    return try {
+        var running = false
+        val workInfoList: List<WorkInfo> = statuses.get()
+        for (workInfo in workInfoList) {
+            val state = workInfo.state
+            running = state == WorkInfo.State.RUNNING || state == WorkInfo.State.ENQUEUED
+        }
+        running
+    } catch (e: ExecutionException) {
+        e.printStackTrace()
+        false
+    } catch (e: InterruptedException) {
+        e.printStackTrace()
+        false
+    }
+}
+
+fun isWorkRunning(context: Context, tag: String): Boolean {
+    val instance = WorkManager.getInstance(context)
+    val statuses: ListenableFuture<List<WorkInfo>> = instance.getWorkInfosForUniqueWork(tag)
+    return try {
+        var running = false
+        val workInfoList: List<WorkInfo> = statuses.get()
+        for (workInfo in workInfoList) {
+            val state = workInfo.state
+            running = state == WorkInfo.State.RUNNING
+        }
+        running
+    } catch (e: ExecutionException) {
+        e.printStackTrace()
+        false
+    } catch (e: InterruptedException) {
+        e.printStackTrace()
+        false
+    }
 }

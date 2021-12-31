@@ -168,7 +168,9 @@ class NavActivity : GodActivity() {
             it.getString("url")?.openWithCustomTab(this)
         }
 
-        /*Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
+        //FUCK ME
+
+        Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
             if (pendingDynamicLinkData != null) {
                 var deepLink = pendingDynamicLinkData.link
                 MaterialDialog(this).show {
@@ -185,7 +187,7 @@ class NavActivity : GodActivity() {
 
                 Timber.d(deepLink?.lastPathSegment)
             }
-        }*/
+        }
 
         setContent {
             val scaffoldState = rememberScaffoldState()

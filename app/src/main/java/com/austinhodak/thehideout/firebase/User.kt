@@ -51,7 +51,8 @@ data class User(
 
     data class UQuestObjective(
         var progress: Int? = null,
-        var id: Int? = null
+        var id: Int? = null,
+        var completed: Boolean? = null
     )
 
     data class UQuest(
@@ -66,7 +67,8 @@ data class User(
 
     data class UHideoutObjective(
         var progress: Int? = null,
-        var id: Int? = null
+        var id: Int? = null,
+        var completed: Boolean? = null
     )
 
     fun completedHideoutIDs(): List<Int> {
@@ -86,7 +88,7 @@ data class User(
 
     fun isHideoutObjectiveComplete(requirement: Hideout.Module.Require): Boolean {
         val h = hideoutObjectives?.values?.find { it?.id == requirement.id }
-        return requirement.quantity == h?.progress
+        return requirement.quantity == h?.progress || h?.completed == true
     }
 
     fun isQuestCompleted(quest: Quest): Boolean {
@@ -101,7 +103,7 @@ data class User(
 
     fun isObjectiveCompleted(objective: Quest.QuestObjective): Boolean {
         val o = questObjectives?.values?.find { it?.id == objective.id?.toInt() }
-        return objective.number == o?.progress
+        return objective.number == o?.progress || o?.completed == true
     }
 
     fun getObjectiveProgress(objective: Quest.QuestObjective): Int {

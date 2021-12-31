@@ -281,8 +281,13 @@ private fun ShoppingFleaItem(
                             .height(24.dp)
                             .border((0.25).dp, color = BorderColor)
                     )
+                    val text = if (buy?.requirements?.isNotEmpty() == true) {
+                        "${buy.source?.sourceTitle()} ${buy.requirements.first().value.getTraderLevel()}"
+                    } else {
+                        "${buy?.source?.sourceTitle()}"
+                    }
                     Text(
-                        text = "${buy?.source?.sourceTitle()} ${buy?.requirements?.first()?.value?.getTraderLevel()}",
+                        text = text,
                         style = MaterialTheme.typography.body1,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(start = 16.dp)
