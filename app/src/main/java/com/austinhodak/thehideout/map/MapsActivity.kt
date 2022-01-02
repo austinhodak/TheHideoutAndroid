@@ -6,6 +6,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Pair
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -35,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.adapty.Adapty
@@ -65,10 +68,7 @@ import com.google.maps.android.ktx.awaitMap
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import dev.jeziellago.compose.markdowntext.MarkdownText
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.net.MalformedURLException
 import java.net.URL
@@ -107,6 +107,9 @@ class MapsActivity : GodActivity() {
     @Inject
     lateinit var tarkovRepo: TarkovRepo
 
+    private lateinit var backdropState: BackdropScaffoldState
+    private lateinit var coroutineScope: CoroutineScope
+
     @ExperimentalAnimationApi
     @SuppressLint("CheckResult", "PotentialBehaviorOverride")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,8 +122,10 @@ class MapsActivity : GodActivity() {
             val selectedMap by mapViewModel.mapData.observeAsState()
 
             val backdropScaffoldState = rememberBackdropScaffoldState(initialValue = BackdropValue.Concealed)
+            backdropState = backdropScaffoldState
             val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
             val scope = rememberCoroutineScope()
+            coroutineScope = scope
 
             val userData by mapViewModel.userData.observeAsState()
 
@@ -153,6 +158,11 @@ class MapsActivity : GodActivity() {
                 val list = tarkovRepo.getAllQuestsOnce()
                 quests = list
             }*/
+
+            if (intent.hasExtra("map")) {
+                val intentMap = intent.getStringExtra("map")
+                mapViewModel.setMap(intentMap.toString().lowercase(), this@MapsActivity)
+            }
 
             scope.launch {
                 selectedMap?.let {
@@ -688,6 +698,27 @@ class MapsActivity : GodActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private var doubleBackToExitPressedOnce = false
+
+    override fun onBackPressed() {
+
+        if (backdropState.isRevealed) {
+            coroutineScope.launch {
+                backdropState.conceal()
+            }
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                return
+            }
+
+            this.doubleBackToExitPressedOnce = true
+            Toast.makeText(this, "Press BACK again to exit.", Toast.LENGTH_SHORT).show()
+
+            Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
         }
     }
 

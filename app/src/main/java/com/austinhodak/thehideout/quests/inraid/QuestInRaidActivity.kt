@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -53,6 +54,7 @@ import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.quests.viewmodels.QuestInRaidViewModel
 import com.austinhodak.thehideout.utils.*
@@ -127,6 +129,15 @@ class QuestInRaidActivity : GodActivity() {
                             title = "In Raid at $mapString",
                             onBackPressed = {
                                 finish()
+                            },
+                            actions = {
+                                IconButton(onClick = {
+                                    openActivity(MapsActivity::class.java) {
+                                        putString("map", mapString)
+                                    }
+                                }) {
+                                    Icon(painterResource(id = R.drawable.ic_baseline_map_24), contentDescription = "Map", tint = Color.White)
+                                }
                             }
                         )
                     },
