@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -71,6 +72,8 @@ internal fun updateAppWidget(
     tarkovRepo: TarkovRepo
 ) {
 
+    Timber.d("Updating widgets!")
+
     val prefs = context.getSharedPreferences("widget", 0)
 
     CoroutineScope(Dispatchers.Main).launch {
@@ -92,6 +95,9 @@ internal fun updateAppWidget(
         Glide.with(context.applicationContext).asBitmap().load(item.pricing?.getCleanIcon()).apply(options).into(awt)
 
         views.setTextViewText(R.id.single_price_name, item.getPrice().asCurrency())
+        //views.setTextViewText(R.id.single_price_name, "${System.currentTimeMillis()}")
+
+        //156886
 
         val color = when (item.BackgroundColor) {
             "blue" -> itemBlue

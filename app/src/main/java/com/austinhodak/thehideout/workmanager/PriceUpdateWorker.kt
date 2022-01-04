@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.workmanager
 
 import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import androidx.work.CoroutineWorker
@@ -17,11 +18,13 @@ import com.austinhodak.tarkovapi.utils.toCraft
 import com.austinhodak.tarkovapi.utils.toPricing
 import com.austinhodak.tarkovapi.utils.toQuest
 import com.austinhodak.thehideout.widgets.SinglePriceWidget
+import dagger.hilt.android.internal.Contexts.getApplication
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
 import javax.inject.Inject
+
 
 class PriceUpdateWorker constructor(
     val tarkovRepo: TarkovRepo,
@@ -47,9 +50,12 @@ class PriceUpdateWorker constructor(
 
         preferences.edit().putLong("lastPriceUpdate", System.currentTimeMillis()).apply()
 
-        val widgetIntent = Intent(appContext, SinglePriceWidget::class.java).apply {
-            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        }
+        val widgetIntent = Intent(appContext, SinglePriceWidget::class.java)
+        widgetIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        val ids: IntArray = AppWidgetManager.getInstance(getApplication(appContext))
+            .getAppWidgetIds(ComponentName(getApplication(appContext), SinglePriceWidget::class.java))
+        widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+
         appContext.sendBroadcast(widgetIntent)
 
         return if (test.all { it == Result.success() }) Result.success() else Result.failure()
@@ -163,7 +169,6 @@ class PriceUpdateWorker constructor(
         val tarkovRepo: TarkovRepo,
         val apolloClient: ApolloClient,
     ): ChildWorkerFactory {
-
         override fun create(appContext: Context, params: WorkerParameters): CoroutineWorker {
             return PriceUpdateWorker(tarkovRepo, apolloClient, appContext, params)
         }
