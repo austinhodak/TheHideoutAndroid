@@ -347,6 +347,61 @@ fun GearCard(
     }
 }
 
+@ExperimentalCoilApi
+@ExperimentalMaterialApi
+@Composable
+fun ItemCard(
+    item: Item,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(72.dp)
+            .padding(vertical = 4.dp),
+        border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
+        elevation = 0.dp,
+        onClick = onClick
+    ) {
+        Column(
+            Modifier.fillMaxSize()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(start = 16.dp, end = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(40.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "${item.ShortName}",
+                        style = MaterialTheme.typography.subtitle1
+                    )
+                    SmallBuyPrice(pricing = item.pricing)
+                    /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = "Last Price: ${item.getPrice().asCurrency()}",
+                            style = MaterialTheme.typography.caption
+                        )
+                    }*/
+                }
+            }
+        }
+    }
+}
+
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalCoilApi

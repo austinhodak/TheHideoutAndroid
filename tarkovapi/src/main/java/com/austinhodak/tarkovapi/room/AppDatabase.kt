@@ -95,10 +95,6 @@ abstract class AppDatabase : RoomDatabase() {
                     Timber.d("Item $i")
                     itemDao.insert(item.toItem())
             }
-
-            val priceUpdateRequestTest = OneTimeWorkRequest.Builder(PriceUpdateWorker::class.java).build()
-
-            WorkManager.getInstance(context).enqueue(priceUpdateRequestTest)
         }
     }
 }

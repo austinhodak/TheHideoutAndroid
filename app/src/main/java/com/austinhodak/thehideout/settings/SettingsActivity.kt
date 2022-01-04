@@ -32,7 +32,7 @@ import com.austinhodak.tarkovapi.*
 import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
-import com.austinhodak.tarkovapi.workmanager.PriceUpdateFactory
+import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
@@ -41,6 +41,7 @@ import com.austinhodak.thehideout.calculator.models.Character
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth

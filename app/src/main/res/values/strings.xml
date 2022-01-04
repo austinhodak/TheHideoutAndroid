@@ -49,5 +49,9 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_premium">PremiumActivity</string>
     <string name="title_activity_premium_pusher">PremiumPusherActivity</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">Display a single item\'s price.</string>
 
 </resources>

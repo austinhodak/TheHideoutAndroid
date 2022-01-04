@@ -82,10 +82,13 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/price_chart_marker_view.xml" value="0.67" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_activity.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_trader_level_fragment.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/single_price_widget.xml" value="0.5" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/single_price_widget_configure.xml" value="0.19934143870314083" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_drawer_item_outdated.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_health_bar.xml" value="0.67" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_loadout_progressbar.xml" value="0.67" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/view_quest_objective.xml" value="0.5" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/widget_list_item.xml" value="0.6246958637469586" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/activity_damage_calculator.xml" value="0.12368421052631579" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/activity_flea_detail.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_ammo_list.xml" value="0.22467105263157894" />

@@ -1,21 +1,18 @@
 package com.austinhodak.thehideout
 
-import android.content.Context
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.work.*
 import com.adapty.Adapty
-import com.austinhodak.tarkovapi.PriceUpdateWorker
 import com.austinhodak.tarkovapi.UserSettingsModel
-import com.austinhodak.tarkovapi.models.Skill
 import com.austinhodak.tarkovapi.utils.*
-import com.austinhodak.tarkovapi.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.utils.Prefs
 import com.austinhodak.thehideout.utils.isWorkRunning
 import com.austinhodak.thehideout.utils.isWorkScheduled
 import com.austinhodak.thehideout.utils.uid
-import com.google.common.util.concurrent.ListenableFuture
+import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
+import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -32,7 +29,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
 import timber.log.Timber.DebugTree
-import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

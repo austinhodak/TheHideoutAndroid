@@ -34,8 +34,6 @@ data class Pricing(
     val noFlea: Boolean?
 ) : Serializable {
 
-
-
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
     fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
 

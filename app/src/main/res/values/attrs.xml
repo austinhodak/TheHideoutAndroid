@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="HealthBar">
-        <attr name="name" format="string"/>
-        <attr name="health" format="integer"/>
-        <attr name="maxHealth" format="integer"/>
+        <attr name="name" format="string" />
+        <attr name="health" format="integer" />
+        <attr name="maxHealth" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="LoadoutProgressBar">
@@ -14,5 +14,10 @@
         <attr name="lmax" format="integer" />
         <attr name="lprogressDrawable" format="reference" />
         <attr name="lendText" format="string" />
+    </declare-styleable>
+    <declare-styleable name="AppWidgetAttrs">
+        <attr name="appWidgetPadding" format="dimension" />
+        <attr name="appWidgetInnerRadius" format="dimension" />
+        <attr name="appWidgetRadius" format="dimension" />
     </declare-styleable>
 </resources>

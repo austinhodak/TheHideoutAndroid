@@ -1,10 +1,11 @@
 package com.austinhodak.thehideout.pickers
 
+import android.appwidget.AppWidgetManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -33,18 +34,19 @@ import com.austinhodak.thehideout.ammunition.AmmoCard
 import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.calculator.models.Character
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.DarkPrimary
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.gear.GearCard
+import com.austinhodak.thehideout.gear.ItemCard
 import com.austinhodak.thehideout.pickers.viewmodels.PickerViewModel
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.weapons.WeaponCard
 import com.austinhodak.thehideout.weapons.builder.WeaponBuilderActivity
+import com.austinhodak.thehideout.widgets.updateAppWidget
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import java.io.Serializable
 import javax.inject.Inject
 
@@ -59,9 +61,10 @@ class PickerActivity : GodActivity() {
     @Inject
     lateinit var tarkovRepo: TarkovRepo
 
-    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setResult(RESULT_CANCELED)
 
         setContent {
             HideoutTheme {
@@ -78,6 +81,13 @@ class PickerActivity : GodActivity() {
                 systemUiController.setNavigationBarColor(DarkPrimary)
 
                 LaunchedEffect(scope) {
+                    if (intent.getStringExtra("type") == null) {
+                        tarkovRepo.getAllItems().collect {
+                            list = it.filter {
+                                it.pricing != null
+                            }
+                        }
+                    }
                     intent.getStringExtra("type")?.let {
                         when (it) {
                             "ammo" -> tarkovRepo.getAllAmmo.collect { ammoList ->
@@ -124,7 +134,11 @@ class PickerActivity : GodActivity() {
                                 }
                             }
                             else -> {
-                                finish()
+                                tarkovRepo.getAllItems().collect {
+                                    list = it.filter {
+                                        it.pricing != null
+                                    }
+                                }
                             }
                         }
                     }
@@ -157,6 +171,9 @@ class PickerActivity : GodActivity() {
                         }
                     }
                 ) {
+                    if (list.isNullOrEmpty()) {
+                        LoadingItem()
+                    }
                     LazyColumn(
                         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
                     ) {
@@ -188,22 +205,22 @@ class PickerActivity : GodActivity() {
                                 when (it) {
                                     is Ammo -> {
                                         AmmoCard(ammo = it, Modifier.padding(vertical = 4.dp)) {
-                                            selectedItem(it)
+                                            selectedItem(it, it.id)
                                         }
                                     }
                                     is Item -> {
-                                        GearCard(item = it) {
-                                            selectedItem(it)
+                                        ItemCard(item = it) {
+                                            selectedItem(it, it.id)
                                         }
                                     }
                                     is Character -> {
                                         CharacterCard(character = it) {
-                                            selectedItem(it)
+                                            selectedItem(it, null)
                                         }
                                     }
                                     is Weapon -> {
                                         WeaponCard(weapon = it) { id ->
-                                            selectedItem(it)
+                                            selectedItem(it, it.id)
                                         }
                                     }
                                 }
@@ -247,8 +264,27 @@ class PickerActivity : GodActivity() {
         }
     }
 
+    private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+
     @ExperimentalAnimationApi
-    private fun selectedItem(item: Serializable) {
+    private fun selectedItem(item: Serializable, id: String?) {
+        val intent = intent
+        val extras = intent.extras
+        if (extras != null) {
+            appWidgetId = extras.getInt(
+                AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID
+            )
+
+            if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                val appWidgetManager = AppWidgetManager.getInstance(this)
+                updateAppWidget(this, appWidgetManager, appWidgetId, tarkovRepo)
+
+                id?.let {
+                    saveWidget(this, appWidgetId, id)
+                }
+            }
+        }
+
         if (item is Weapon && intent.action == "loadoutBuild") {
             this.openActivity(WeaponBuilderActivity::class.java) {
                 putSerializable("weapon", item)
@@ -256,10 +292,17 @@ class PickerActivity : GodActivity() {
             finish()
         } else {
             setResult(RESULT_OK, Intent().apply {
-                putExtra("item", item)
+                //putExtra("item", item)
+                putExtra("appWidgetId", appWidgetId)
             }).also {
                 finish()
             }
         }
+    }
+
+    internal fun saveWidget(context: Context, appWidgetId: Int, text: String) {
+        val prefs = context.getSharedPreferences("widget", 0).edit()
+        prefs.putString("widget_$appWidgetId", text)
+        prefs.apply()
     }
 }
