@@ -52,43 +52,45 @@ class QuestDetailViewModel @Inject constructor(
 
     init {
         if (uid() != null) {
-            questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val user = snapshot.getValue<User>()
-                    _userData.value = user
+            questsFirebase.child("users/${uid()}")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val user = snapshot.getValue<User>()
+                        _userData.value = user
 
-                    val teams: MutableList<Team> = mutableListOf()
+                        val teams: MutableList<Team> = mutableListOf()
 
-                    user?.teams?.forEach {
-                        val teamID = it.key
-                        questsFirebase.child("teams/$teamID").addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                if (!snapshot.exists()) {
-                                    _teamsData.value = emptyList()
-                                    return
-                                }
-                                val team = snapshot.getValue(Team::class.java)
-                                team?.let { team ->
-                                    teams.add(team)
-                                    _teamsData.value = teams.toList()
-                                }
-                            }
+                        user?.teams?.forEach {
+                            val teamID = it.key
+                            questsFirebase.child("teams/$teamID")
+                                .addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        if (!snapshot.exists()) {
+                                            _teamsData.value = emptyList()
+                                            return
+                                        }
+                                        val team = snapshot.getValue(Team::class.java)
+                                        team?.let { team ->
+                                            teams.add(team)
+                                            _teamsData.value = teams.toList()
+                                        }
+                                    }
 
-                            override fun onCancelled(error: DatabaseError) {
+                                    override fun onCancelled(error: DatabaseError) {
 
-                            }
-                        })
+                                    }
+                                })
+                        }
+
+                        if (user?.teams == null) {
+                            _teamsData.value = emptyList()
+                        }
                     }
 
-                    if (user?.teams == null) {
-                        _teamsData.value = emptyList()
+                    override fun onCancelled(error: DatabaseError) {
+
                     }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
+                })
         }
 
         _questsExtras.value = QuestExtraHelper.getQuests(context = context)
@@ -140,6 +142,14 @@ class QuestDetailViewModel @Inject constructor(
                 "progress" to objective.number
             )
         )
+        objective.target?.first()?.let {
+            when (objective.type) {
+                "collect", "find", "key", "build" -> {
+                    userRefTracker("items/${it}/questObjective/${objective.id?.addQuotes()}").removeValue()
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun unMarkObjectiveComplete(objective: Quest.QuestObjective) {
@@ -181,7 +191,8 @@ class QuestDetailViewModel @Inject constructor(
     suspend fun getObjectiveText(questObjective: Quest.QuestObjective): String {
         val location = mapsList.getMap(questObjective.location?.toInt()) ?: "Any Map"
         val item = if (questObjective.type == "key" || questObjective.targetItem == null) {
-            repository.getItemByID(questObjective.target?.get(0) ?: "").firstOrNull()?.pricing ?: questObjective.target?.first()
+            repository.getItemByID(questObjective.target?.get(0) ?: "").firstOrNull()?.pricing
+                ?: questObjective.target?.first()
         } else {
             questObjective.targetItem
         }
@@ -201,7 +212,9 @@ class QuestDetailViewModel @Inject constructor(
             "mark" -> "Place MS2000 marker at $location"
             "locate" -> "Locate $itemName on $location"
             "find" -> "Find in raid ${questObjective.number} $itemName"
-            "reputation" -> "Reach loyalty level ${questObjective.number} with ${Traders.values().find { it.int == questObjective.target?.first()?.toInt() ?: 0}?.id}"
+            "reputation" -> "Reach loyalty level ${questObjective.number} with ${
+                Traders.values().find { it.int == questObjective.target?.first()?.toInt() ?: 0 }?.id
+            }"
             "warning" -> "$itemName"
             "skill" -> "Reach skill level ${questObjective.number} with $itemName"
             "survive" -> "Survive in the raid at $location ${questObjective.number} times."

@@ -63,6 +63,15 @@ class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
                 )
             )
         }
+
+        module.require
+            ?.filter { it?.type == "item" }
+            ?.forEach {
+                val itemID = it?.name
+                val quantity = it?.quantity ?: 0
+                if (quantity > 500) return@forEach
+                userRefTracker("items/$itemID/hideoutObjective/${it?.id?.addQuotes()}").removeValue()
+            }
     }
 
     fun undoModule(module: Hideout.Module) {
@@ -75,15 +84,16 @@ class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
 
     init {
         if (uid() != null) {
-            questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    _userData.value = snapshot.getValue<User>()
-                }
+            questsFirebase.child("users/${uid()}")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        _userData.value = snapshot.getValue<User>()
+                    }
 
-                override fun onCancelled(error: DatabaseError) {
+                    override fun onCancelled(error: DatabaseError) {
 
-                }
-            })
+                    }
+                })
         }
     }
 }
