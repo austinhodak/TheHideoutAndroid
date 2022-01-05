@@ -198,7 +198,7 @@ class SkillDetailActivity : GodActivity() {
                         Text(
                             text = "• $it",
                             modifier = Modifier.padding(top = 4.dp),
-                            color = if (it.contains("Elite")) "c78b2c".color else Color.Unspecified,
+                            color = if (it.contains("Elite level:")) "c78b2c".color else Color.Unspecified,
                             style = MaterialTheme.typography.body2
                         )
                     }
@@ -232,7 +232,7 @@ class SkillDetailActivity : GodActivity() {
                         Text(
                             text = "• $it",
                             modifier = Modifier.padding(top = 4.dp),
-                            color = if (it.contains("Elite")) "c78b2c".color else Color.Unspecified,
+                            color = if (it.contains("Elite level:", false)) "c78b2c".color else Color.Unspecified,
                             style = MaterialTheme.typography.body2
                         )
                     }

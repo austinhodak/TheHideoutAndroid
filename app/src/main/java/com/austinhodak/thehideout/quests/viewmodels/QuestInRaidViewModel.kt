@@ -101,6 +101,14 @@ class QuestInRaidViewModel @Inject constructor(
                 "progress" to objective.number
             )
         )
+        objective.target?.first()?.let {
+            when (objective.type) {
+                "collect", "find", "key", "build" -> {
+                    userRefTracker("items/${it}/questObjective/${objective.id?.addQuotes()}").removeValue()
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun unMarkObjectiveComplete(objective: Quest.QuestObjective) {
