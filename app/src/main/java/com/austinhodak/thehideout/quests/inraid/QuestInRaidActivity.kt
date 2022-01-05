@@ -493,7 +493,7 @@ class QuestInRaidActivity : GodActivity() {
                                 title(text = "Mark Objective as Completed?")
                                 //message(text = "")
                                 positiveButton(text = "Complete") { dialog ->
-                                    questViewModel.toggleObjective(it, objective)
+                                    userData?.toggleObjective(it, objective)
                                 }
                                 negativeButton(text = "Cancel")
                             }

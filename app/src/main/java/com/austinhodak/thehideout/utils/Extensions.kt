@@ -30,7 +30,6 @@ import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
-import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
@@ -50,39 +49,13 @@ import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.common.util.concurrent.ListenableFuture
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
-import java.text.NumberFormat
-import java.util.*
 import java.util.concurrent.ExecutionException
 import kotlin.math.round
 
 fun isDebug(): Boolean = BuildConfig.DEBUG
-
-fun Double.asColor(reverse: Boolean = false): Color {
-    return when {
-        this > 0.0 -> if (!reverse) Green500 else Red500
-        this < 0.0 -> if (!reverse) Red500 else Green500
-        else -> Color.Unspecified
-    }
-}
-
-fun Int.asColor(reverse: Boolean = false): Color {
-    return when {
-        this > 0.0 -> if (!reverse) Green500 else Red500
-        this < 0.0 -> if (!reverse) Red500 else Green500
-        else -> Color.Unspecified
-    }
-}
 
 fun Int.roubleToDollar(): Int {
     return this / 121
@@ -225,29 +198,6 @@ fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
     }
 }
 
-fun AmmoCalibers(): List<String> = arrayListOf(
-    "Caliber762x35",
-    "Caliber86x70",
-    "Caliber366TKM",
-    "Caliber1143x23ACP",
-    "Caliber127x55",
-    "Caliber12g",
-    "Caliber20g",
-    "Caliber23x75",
-    "Caliber46x30",
-    "Caliber40x46",
-    "Caliber545x39",
-    "Caliber556x45NATO",
-    "Caliber57x28",
-    "Caliber762x25TT",
-    "Caliber762x39",
-    "Caliber762x51",
-    "Caliber762x54R",
-    "Caliber9x18PM",
-    "Caliber9x19PARA",
-    "Caliber9x21",
-    "Caliber9x39",
-)
 
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -347,6 +297,30 @@ fun Context.launchPremium() {
     this.openActivity(PremiumActivity::class.java)
 }
 
+fun AmmoCalibers(): List<String> = arrayListOf(
+    "Caliber762x35",
+    "Caliber86x70",
+    "Caliber366TKM",
+    "Caliber1143x23ACP",
+    "Caliber127x55",
+    "Caliber12g",
+    "Caliber20g",
+    "Caliber23x75",
+    "Caliber46x30",
+    "Caliber40x46",
+    "Caliber545x39",
+    "Caliber556x45NATO",
+    "Caliber57x28",
+    "Caliber762x25TT",
+    "Caliber762x39",
+    "Caliber762x51",
+    "Caliber762x54R",
+    "Caliber9x18PM",
+    "Caliber9x19PARA",
+    "Caliber9x21",
+    "Caliber9x39",
+)
+
 fun getCaliberName(caliber: String?): String {
     return when (caliber) {
         "Caliber762x35" -> ".300 Blackout"
@@ -374,56 +348,8 @@ fun getCaliberName(caliber: String?): String {
     }
 }
 
-fun Int.getPrice(c: String): String {
-    val currency = c.replace("R", "₽").replace("D", "$").replace("E", "€")
-    val format = NumberFormat.getCurrencyInstance()
-    format.maximumFractionDigits = 0
-    format.currency = Currency.getInstance(getCurrencyString(currency))
-    return if (currency == "₽") {
-        "${format.format(this).replace("RUB", "")}₽"
-    } else {
-        format.format(this)
-    }
-
-}
-
-fun Double.getPrice(c: String): String {
-    val currency = c.replace("R", "₽").replace("D", "$").replace("E", "€")
-    val format = NumberFormat.getCurrencyInstance()
-    format.maximumFractionDigits = 0
-    format.currency = Currency.getInstance(getCurrencyString(currency))
-    return if (currency == "₽") {
-        "${format.format(this).replace("RUB", "")}₽"
-    } else {
-        format.format(this)
-    }
-
-}
-
-fun Long.getPrice(c: String): String {
-    val currency = c.replace("R", "₽").replace("D", "$").replace("E", "€")
-    val format = NumberFormat.getCurrencyInstance()
-    format.maximumFractionDigits = 0
-    format.currency = Currency.getInstance(getCurrencyString(currency))
-    return if (currency == "₽") {
-        "${format.format(this).replace("RUB", "")}₽"
-    } else {
-        format.format(this)
-    }
-
-}
-
 fun String.openWithCustomTab(context: Context) {
     CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(this))
-}
-
-fun getCurrencyString(string: String): String {
-    return when (string) {
-        "$" -> "USD"
-        "€" -> "EURO"
-        "₽" -> "RUB"
-        else -> "RUB"
-    }
 }
 
 fun getCaliberShortName(caliber: String?): String {
@@ -450,35 +376,6 @@ fun getCaliberShortName(caliber: String?): String {
         "Caliber9x21" -> "9x21mm"
         "Caliber9x39" -> "9x39mm"
         else -> "Unknown Ammo Type"
-    }
-}
-
-fun userRefTracker(ref: String? = null): DatabaseReference {
-    return questsFirebase.child("users/${Firebase.auth.uid}/$ref/")
-}
-
-fun uid(): String? {
-    return Firebase.auth.uid
-}
-
-fun pushToken(token: String) {
-    if (Firebase.auth.currentUser != null) {
-        userRefTracker("token").setValue(token)
-    }
-}
-
-fun log(event: String, itemID: String, itemName: String, contentType: String) {
-    Firebase.analytics.logEvent(event) {
-        param(FirebaseAnalytics.Param.ITEM_ID, itemID)
-        param(FirebaseAnalytics.Param.ITEM_NAME, itemName)
-        param(FirebaseAnalytics.Param.CONTENT_TYPE, contentType)
-    }
-}
-
-fun logScreen(name: String) {
-    Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
-        param(FirebaseAnalytics.Param.SCREEN_NAME, name)
-        param(FirebaseAnalytics.Param.SCREEN_CLASS, name)
     }
 }
 
@@ -538,9 +435,6 @@ fun String.modParent(): String {
     }
 }
 
-val questsFirebase = Firebase.database("https://hideout-tracker.firebaseio.com").reference
-val fleaFirebase = Firebase.database("https://hideout-flea-market.firebaseio.com").reference
-
 fun Activity.keepScreenOn(keepOn: Boolean) {
     if (keepOn) {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -553,68 +447,6 @@ fun Double.round(decimals: Int): Double {
     var multiplier = 1.0
     repeat(decimals) { multiplier *= 10 }
     return round(this * multiplier) / multiplier
-}
-
-fun Quest.completed() {
-    val quest = this
-    log("quest_completed", quest.id, quest.title.toString(), "quest")
-    userRefTracker("quests/${quest.id.addQuotes()}").setValue(
-        mapOf(
-            "id" to quest.id.toInt(),
-            "completed" to true
-        )
-    )
-
-    //Mark quest objectives completed
-    for (obj in quest.objective!!) {
-        obj.completed()
-    }
-}
-
-fun Quest.skipTo() {
-
-}
-
-fun Quest.QuestObjective.completed() {
-    val objective = this
-    log("objective_complete", objective.toString(), objective.toString(), "quest_objective")
-    userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").setValue(
-        mapOf(
-            "id" to objective.id?.toInt(),
-            "progress" to objective.number
-        )
-    )
-    objective.target?.first()?.let {
-        when (objective.type) {
-            "collect", "find", "key", "build" -> {
-                userRefTracker("items/${it}/questObjective/${objective.id?.addQuotes()}").removeValue()
-            }
-            else -> {}
-        }
-    }
-}
-
-fun Quest.QuestObjective.undo() {
-    val objective = this
-    log("objective_un_complete", objective.toString(), objective.toString(), "quest_objective")
-    userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").removeValue()
-}
-
-fun Quest.undo(objectives: Boolean = false) {
-    val quest = this
-    log("quest_undo", quest.id, quest.title.toString(), "quest")
-
-    if (objectives)
-        for (obj in quest.objective!!) {
-            obj.undo()
-        }
-
-    userRefTracker("quests/${quest.id.addQuotes()}").setValue(
-        mapOf(
-            "id" to quest.id.toInt(),
-            "completed" to false
-        )
-    )
 }
 
 @SuppressLint("CheckResult")
@@ -712,16 +544,6 @@ fun Uri.acceptTeamInvite(joined: () -> Unit) {
     }
 }
 
-fun Quest.QuestObjective.increment() {
-    userRefTracker("questObjectives/${this.id?.addQuotes()}/id").setValue(this.id?.toInt())
-    userRefTracker("questObjectives/${this.id?.addQuotes()}/progress").setValue(ServerValue.increment(1))
-}
-
-fun Quest.QuestObjective.decrement() {
-    userRefTracker("questObjectives/${this.id?.addQuotes()}/id").setValue(this.id?.toInt())
-    userRefTracker("questObjectives/${this.id?.addQuotes()}/progress").setValue(ServerValue.increment(-1))
-}
-
 fun TTUser.pushToDB() {
     //Wipe data.
     userRefTracker("quests").removeValue()
@@ -744,7 +566,6 @@ fun TTUser.pushToDB() {
     hideoutObjectives.forEach {
         userRefTracker("hideoutObjectives/${it.key.addQuotes()}").updateChildren(it.value.toMap(it.key))
     }
-
 }
 
 fun getTTApiKey(): String = UserSettingsModel.ttAPIKey.value

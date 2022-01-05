@@ -42,6 +42,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.fromDtoR
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.EmptyText
@@ -62,6 +63,7 @@ import com.austinhodak.thehideout.utils.userRefTracker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 import java.util.*
+import kotlin.math.roundToInt
 
 @SuppressLint("CheckResult")
 @ExperimentalCoilApi
@@ -925,7 +927,10 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     val item = taskItem?.item
     val context = LocalContext.current
 
-    val cheapestBuy = item?.getCheapestBuyRequirements()
+    val cheapestBuy = item?.getCheapestBuyRequirements()?.copy()
+    if (cheapestBuy?.source == "peacekeeper") {
+        cheapestBuy.price =  cheapestBuy.price?.fromDtoR()?.roundToInt()
+    }
     Row(
         modifier = Modifier
             .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)

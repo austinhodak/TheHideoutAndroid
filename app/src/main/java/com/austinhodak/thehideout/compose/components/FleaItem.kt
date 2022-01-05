@@ -22,9 +22,12 @@ import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.convertRtoUSD
+import com.austinhodak.tarkovapi.utils.fromDtoR
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.utils.traderImage
+import kotlin.math.roundToInt
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -166,7 +169,7 @@ fun SmallBuyPrice(pricing: Pricing?) {
         )
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             Text(
-                text = i?.getPriceAsCurrency() ?: "",
+                text = i.getPriceAsCurrency() ?: "",
                 style = MaterialTheme.typography.caption,
                 fontSize = 10.sp,
                 modifier = Modifier.padding(start = 4.dp)

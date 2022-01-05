@@ -92,7 +92,7 @@ class PriceUpdateWorker constructor(
             val questDao = tarkovRepo.getQuestDao()
             val response = apolloClient.query(QuestsQuery())
             val quests = response.data?.quests?.map { quest ->
-                quest?.toQuest(null)
+                quest?.toQuest()
             } ?: emptyList()
 
             for (quest in quests) {

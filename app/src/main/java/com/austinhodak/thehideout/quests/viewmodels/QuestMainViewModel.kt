@@ -57,13 +57,6 @@ class QuestMainViewModel @Inject constructor(
         _view.value = int
     }
 
-    private val _selectedTrader = MutableLiveData(Traders.PRAPOR)
-    val selectedTrader = _selectedTrader
-
-    fun selectTrader(trader: Traders) {
-        _selectedTrader.value = trader
-    }
-
     val pmcElimsTotal = MutableLiveData(0)
     val scavElimsTotal = MutableLiveData(0)
     val questItemsTotal = MutableLiveData(0)
@@ -315,38 +308,6 @@ class QuestMainViewModel @Inject constructor(
                     skipToQuest(q)
                 }
             }
-        }
-    }
-
-    fun toggleObjective(quest: Quest, objective: Quest.QuestObjective) {
-        if (userData.value?.isObjectiveCompleted(objective) == true) {
-            objective.undo()
-            quest.undo()
-        } else {
-            objective.completed()
-            /*viewModelScope.launch {
-                getTTApiKey().let { key ->
-                    if (key.isNotEmpty()) {
-                        objective.id?.toInt()?.let { id ->
-                            Timber.d("$key $id")
-                            val update = TTUser.TTObjective(
-                                timeComplete = System.currentTimeMillis(),
-                                complete = true,
-                                have = null
-                            )
-
-                            val string = Gson().toJson(update)
-
-                            Timber.d(string)
-
-                            val result = ttApiRepo.updateQuestObjective(
-                                key, id, string.toRequestBody("application/json".toMediaTypeOrNull())
-                            )
-                            Timber.d("${result.code()}")
-                        }
-                    }
-                }
-            }*/
         }
     }
 }

@@ -3,6 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.austinhodak.tarkovapi.models.Hideout
+import com.austinhodak.tarkovapi.utils.fromDtoR
 import kotlin.math.roundToInt
 
 @Entity(tableName = "crafts")
@@ -32,7 +33,16 @@ data class Craft(
     }
 
     fun totalCost(): Int {
-        return requiredItems?.sumOf { (it?.count!!.times((it.item?.getCheapestBuyRequirements()?.price ?: 0))) } ?: 0
+        return requiredItems?.sumOf {
+            val cheapestBuy = it?.item?.getCheapestBuyRequirements()
+            val price = if (cheapestBuy?.source == "peacekeeper") {
+                cheapestBuy.price?.fromDtoR()?.roundToInt()
+            } else {
+                cheapestBuy?.price
+            }
+
+            (it?.count!!.times((price ?: 0)))
+        } ?: 0
     }
 
     fun estimatedProfit(): Int? {

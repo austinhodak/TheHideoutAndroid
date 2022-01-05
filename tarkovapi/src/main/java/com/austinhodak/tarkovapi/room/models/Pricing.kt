@@ -37,7 +37,7 @@ data class Pricing(
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
     fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
 
-    fun getCheapestBuyRequirements(): BuySellPrice? {
+    fun getCheapestBuyRequirements(): BuySellPrice {
         return buyFor?.minByOrNull {
             if (!it.isRequirementMet()) Int.MAX_VALUE else it.getPriceAsRoubles()
             //it.price ?: Int.MAX_VALUE
@@ -78,7 +78,7 @@ data class Pricing(
 
     data class BuySellPrice(
         val source: String?,
-        val price: Int?,
+        var price: Int?,
         val requirements: List<Requirement>
     ) : Serializable {
         data class Requirement(
@@ -86,7 +86,7 @@ data class Pricing(
             val value: Int
         ) : Serializable
 
-        fun getPriceAsCurrency(): String? {
+        fun getPriceAsCurrency(convertDtoR: Boolean? = null): String? {
             return if (source == "peacekeeper") {
                 price?.asCurrency("D")
             } else {

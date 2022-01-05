@@ -933,7 +933,7 @@ private fun QuestObjectiveItem(
         Modifier
             .height(36.dp)
             .clickable {
-                questViewModel.toggleObjective(quest, questObjective)
+                userData?.toggleObjective(quest, questObjective)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {

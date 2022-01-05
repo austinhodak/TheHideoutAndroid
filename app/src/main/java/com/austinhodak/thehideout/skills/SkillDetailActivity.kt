@@ -2,7 +2,10 @@ package com.austinhodak.thehideout.skills
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -13,32 +16,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.models.Skill
-import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.color
-import com.austinhodak.tarkovapi.utils.plusMinus
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.DataRow
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.WikiItem
-import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
-import com.austinhodak.thehideout.utils.asColor
-import com.austinhodak.thehideout.utils.getColor
-import com.austinhodak.thehideout.utils.openActivity
-import com.bumptech.glide.Glide
-import com.stfalcon.imageviewer.StfalconImageViewer
+import com.austinhodak.thehideout.compose.theme.Bender
+import com.austinhodak.thehideout.compose.theme.BorderColor
+import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlin.math.roundToInt
 
 @ExperimentalCoilApi
 @ExperimentalCoroutinesApi
