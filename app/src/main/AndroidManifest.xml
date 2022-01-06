@@ -28,6 +28,11 @@
             android:name=".pickers.PickerActivity"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"
             android:exported="true">
+        </activity>
+        <activity
+            android:name=".widgets.WidgetPickerActivity"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>

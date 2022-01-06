@@ -18,6 +18,9 @@ import com.austinhodak.tarkovapi.utils.toCraft
 import com.austinhodak.tarkovapi.utils.toPricing
 import com.austinhodak.tarkovapi.utils.toQuest
 import com.austinhodak.thehideout.widgets.SinglePriceWidget
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.internal.Contexts.getApplication
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -26,11 +29,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
-class PriceUpdateWorker constructor(
+class PriceUpdateWorker @AssistedInject constructor(
     val tarkovRepo: TarkovRepo,
     val apolloClient: ApolloClient,
-    val appContext: Context,
-    workerParameters: WorkerParameters
+    @Assisted private val appContext: Context,
+    @Assisted private val workerParameters: WorkerParameters,
 ): CoroutineWorker(appContext, workerParameters) {
     override suspend fun doWork(): Result {
         Timber.d("RUNNING!")
@@ -165,16 +168,12 @@ class PriceUpdateWorker constructor(
         }
     }
 
-    class Factory @Inject constructor(
-        val tarkovRepo: TarkovRepo,
-        val apolloClient: ApolloClient,
-    ): ChildWorkerFactory {
-        override fun create(appContext: Context, params: WorkerParameters): CoroutineWorker {
-            return PriceUpdateWorker(tarkovRepo, apolloClient, appContext, params)
-        }
+    /**
+     * class annotate with @AssistedFactory will available in the dependency graph, you don't need
+     * additional binding from [HelloWorldWorker_Factory_Impl] to [Factory].
+     */
+    @AssistedFactory
+    interface Factory {
+        fun create(appContext: Context, params: WorkerParameters): PriceUpdateWorker
     }
-}
-
-interface ChildWorkerFactory {
-    fun create(appContext: Context, params: WorkerParameters): CoroutineWorker
 }

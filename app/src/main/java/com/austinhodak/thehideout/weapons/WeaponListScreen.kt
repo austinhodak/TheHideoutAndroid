@@ -87,7 +87,7 @@ fun WeaponListScreen(
                 LazyColumn(
                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                 ) {
-                    items(items = data.sortedBy { it.Name }) { weapon ->
+                    items(items = data.sortedBy { it.ShortName }) { weapon ->
                         WeaponCard(weapon) {
                             weaponClicked(it)
                         }
