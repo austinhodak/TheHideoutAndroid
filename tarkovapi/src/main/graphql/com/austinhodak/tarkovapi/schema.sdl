@@ -1,97 +1,84 @@
-enum ItemType {
-    any
-    ammo
-    armor
-    backpack
-    barter
-    glasses
-    grenade
-    gun
-    helmet
-    keys
-    markedOnly
-    mods
-    noFlea
-    provisions
-    unLootable
-    wearable
-    rig
-    headphones
-    suppressor
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
 }
 
-enum TraderName {
-    prapor
-    therapist
-    fence
-    skier
-    peacekeeper
-    mechanic
-    ragman
-    jaeger
+type Barter {
+    requiredItems: [ContainedItem]!
+    rewardItems: [ContainedItem]!
+    source: String!
 }
 
-enum ItemSourceName {
-    prapor
-    therapist
-    fence
-    skier
-    peacekeeper
-    mechanic
-    ragman
-    jaeger
-    fleaMarket
+type ContainedItem {
+    count: Float!
+    item: Item!
+    quantity: Int!
 }
 
-enum RequirementType {
-    playerLevel
-    loyaltyLevel
-    questCompleted
+type Craft {
+    duration: Int!
+    requiredItems: [ContainedItem]!
+    rewardItems: [ContainedItem]!
+    source: String!
 }
 
 type GameProperty {
+    arrayValue: [String]
     key: String!
     numericValue: Float
-    stringValue: String
-    arrayValue: [String]
     objectValue: String
+    stringValue: String
+}
+
+type HideoutModule {
+    id: Int
+    itemRequirements: [ContainedItem]!
+    level: Int
+    moduleRequirements: [HideoutModule]!
+    name: String
 }
 
 type Item {
+    accuracyModifier: Float
+    avg24hPrice: Int
+    basePrice: Int!
+    blocksHeadphones: Boolean
+    buyFor: [ItemPrice!]
+    changeLast48h: Float
+    changeLast48hPercent: Float
+    containsItems: [ContainedItem]
+    ergonomicsModifier: Float
+    gridImageLink: String
+    gridImageLinkFallback: String!
+    hasGrid: Boolean
+    height: Int!
+    high24hPrice: Int
+    iconLink: String
+    iconLinkFallback: String!
     id: ID!
+    imageLink: String
+    imageLinkFallback: String!
+    lastLowPrice: Int
+    link: String
+    low24hPrice: Int
     name: String
     normalizedName: String
+    recoilModifier: Float
+    sellFor: [ItemPrice!]
     shortName: String
-    basePrice: Int!
+    traderPrices: [TraderPrice]!
+    types: [ItemType]!
     updated: String
     width: Int!
-    height: Int!
-    iconLink: String
     wikiLink: String
-    imageLink: String
-    gridImageLink: String
-    types: [ItemType]!
-    avg24hPrice: Int
-    accuracyModifier: Float
-    recoilModifier: Float
-    ergonomicsModifier: Float
-    hasGrid: Boolean
-    blocksHeadphones: Boolean
-    traderPrices: [TraderPrice]!
-    link: String
-    lastLowPrice: Int
-    changeLast48h: Float
-    low24hPrice: Int
-    high24hPrice: Int
-    sellFor: [ItemPrice!]
-    buyFor: [ItemPrice!]
 }
 
 type ItemPrice {
-    source: ItemSourceName
-    price: Int
     currency: String
+    price: Int
     requirements: [PriceRequirement]!
+    source: ItemSourceName
 }
 
 type PriceRequirement {
@@ -99,22 +86,68 @@ type PriceRequirement {
     value: Int
 }
 
-type TaskItem {
-    item: Item!
-    count: Float!
+type Query {
+    barters: [Barter]
+    crafts: [Craft]
+    hideoutModules: [HideoutModule]
+    historicalItemPrices(id: ID!): [historicalPricePoint]!
+    item(id: ID!): Item
+    itemsByName(name: String!): [Item]!
+    itemsByType(type: ItemType!): [Item]!
+    quests: [Quest]
+    status: ServerStatus!
 }
 
-type Barter {
-    source: String!
-    requiredItems: [TaskItem]!
-    rewardItems: [TaskItem]!
+type Quest {
+    exp: Int!
+    giver: Trader!
+    id: String!
+    objectives: [QuestObjective]!
+    reputation: [QuestRewardReputation!]
+    requirements: QuestRequirement
+    title: String!
+    turnin: Trader!
+    unlocks: [String]!
+    wikiLink: String!
 }
 
-type Craft {
-    source: String!
-    duration: Int!
-    requiredItems: [TaskItem]!
-    rewardItems: [TaskItem]!
+type QuestObjective {
+    id: String
+    location: String
+    number: Int
+    target: [String!]
+    targetItem: Item
+    type: String!
+}
+
+type QuestRequirement {
+    level: Int
+    prerequisiteQuests: [[Quest]]!
+    quests: [[Int]]!
+}
+
+type QuestRewardReputation {
+    amount: Float!
+    trader: Trader!
+}
+
+type ServerStatus {
+    currentStatuses: [Status]
+    generalStatus: Status
+    messages: [StatusMessage]
+}
+
+type Status {
+    message: String
+    name: String!
+    status: Int!
+}
+
+type StatusMessage {
+    content: String!
+    solveTime: String
+    time: String!
+    type: Int!
 }
 
 type Trader {
@@ -124,50 +157,17 @@ type Trader {
 
 type TraderInventory {
     id: String!
-    name: TraderName!
     items: [TraderInventoryItem!]
+    name: TraderName!
 }
 
 type TraderInventoryItem {
+    currency: String
     item: Item!
     minLevel: Int
     price: Int
-    updated: String
     questUnlockId: String
-    currency: String
-}
-
-type QuestRequirement {
-    level: Int
-    quests: [[Int]]!
-    prerequisiteQuests: [[Quest]]!
-}
-
-type QuestRewardReputation {
-    trader: Trader!
-    amount: Float!
-}
-
-type QuestObjective {
-    id: String
-    type: String!
-    target: [String!]
-    targetItem: Item
-    number: Int
-    location: String
-}
-
-type Quest {
-    id: String!
-    requirements: QuestRequirement
-    giver: Trader!
-    turnin: Trader!
-    title: String!
-    wikiLink: String!
-    exp: Int!
-    unlocks: [String]!
-    reputation: [QuestRewardReputation!]
-    objectives: [QuestObjective]!
+    updated: String
 }
 
 type TraderPrice {
@@ -175,24 +175,63 @@ type TraderPrice {
     trader: Trader!
 }
 
-type HideoutModuleItemRequirement {
-    item: Item!
-    quantity: Int!
+type historicalPricePoint {
+    price: Int
+    timestamp: String
 }
 
-type HideoutModule {
-    name: String
-    level: Int
-    itemRequirements: [HideoutModuleItemRequirement]!
-    moduleRequirements: [HideoutModule]!
+enum ItemSourceName {
+    fence
+    fleaMarket
+    jaeger
+    mechanic
+    peacekeeper
+    prapor
+    ragman
+    skier
+    therapist
 }
 
-type Query {
-    item(id: ID!): Item
-    itemsByType(type: ItemType!): [Item]!
-    itemsByName(name: String!): [Item]!
-    barters: [Barter]
-    crafts: [Craft]
-    quests: [Quest]
-    hideoutModules: [HideoutModule]
+enum ItemType {
+    ammo
+    ammoBox
+    any
+    armor
+    backpack
+    barter
+    container
+    disabled
+    glasses
+    grenade
+    gun
+    headphones
+    helmet
+    keys
+    markedOnly
+    mods
+    noFlea
+    pistolGrip
+    preset
+    provisions
+    rig
+    suppressor
+    unLootable
+    wearable
+}
+
+enum RequirementType {
+    loyaltyLevel
+    playerLevel
+    questCompleted
+}
+
+enum TraderName {
+    fence
+    jaeger
+    mechanic
+    peacekeeper
+    prapor
+    ragman
+    skier
+    therapist
 }

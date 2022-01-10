@@ -42,6 +42,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.fromDtoR
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.EmptyText
@@ -62,6 +63,7 @@ import com.austinhodak.thehideout.utils.userRefTracker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 import java.util.*
+import kotlin.math.roundToInt
 
 @SuppressLint("CheckResult")
 @ExperimentalCoilApi
@@ -148,10 +150,12 @@ fun HideoutMainScreen(
                         backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                         elevation = 4.dp,
                         actions = {
-                            IconButton(onClick = {
-                                hideoutViewModel.setSearchOpen(true)
-                            }) {
-                                Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
+                            if (navBackStackEntry?.destination?.route != HideoutNavigationScreens.Stations.route) {
+                                IconButton(onClick = {
+                                    hideoutViewModel.setSearchOpen(true)
+                                }) {
+                                    Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
+                                }
                             }
                             if (navBackStackEntry?.destination?.route == HideoutNavigationScreens.Crafts.route) {
                                 IconButton(onClick = {
@@ -610,7 +614,7 @@ private fun HideoutRequirementItem(
     ) {
         Image(
             rememberImagePainter(
-                pricing?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                pricing?.getCleanIcon()
             ),
             contentDescription = null,
             modifier = Modifier
@@ -834,7 +838,7 @@ fun CraftItem(craft: Craft, userData: User?) {
                     Box {
                         Image(
                             rememberImagePainter(
-                                rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                                rewardItem?.getCleanIcon()
                             ),
                             contentDescription = null,
                             modifier = Modifier
@@ -923,7 +927,10 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     val item = taskItem?.item
     val context = LocalContext.current
 
-    val cheapestBuy = item?.getCheapestBuyRequirements()
+    val cheapestBuy = item?.getCheapestBuyRequirements()?.copy()
+    if (cheapestBuy?.source == "peacekeeper") {
+        cheapestBuy.price =  cheapestBuy.price?.fromDtoR()?.roundToInt()
+    }
     Row(
         modifier = Modifier
             .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
@@ -938,7 +945,7 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
         Box {
             Image(
                 rememberImagePainter(
-                    item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                    item?.getCleanIcon()
                 ),
                 contentDescription = null,
                 modifier = Modifier

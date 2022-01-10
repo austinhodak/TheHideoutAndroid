@@ -1,0 +1,20 @@
+query ServerStatus {
+    status {
+        generalStatus {
+            name
+            message
+            status
+        }
+        currentStatuses {
+            name
+            message
+            status
+        }
+        messages {
+            content
+            time
+            type
+            solveTime
+        }
+    }
+}

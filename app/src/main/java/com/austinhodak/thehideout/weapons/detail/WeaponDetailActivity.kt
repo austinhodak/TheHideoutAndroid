@@ -56,6 +56,8 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
@@ -85,6 +87,8 @@ class WeaponDetailActivity : GodActivity() {
 
         val weaponID = intent.getStringExtra("weaponID") ?: "5bb2475ed4351e00853264e3"
         weaponViewModel.getWeapon(weaponID)
+
+        Firebase.crashlytics.setCustomKey("weaponID", weaponID)
 
         setContent {
             HideoutTheme {
@@ -160,7 +164,8 @@ class WeaponDetailActivity : GodActivity() {
                                                                     style = MaterialTheme.typography.h6,
                                                                     maxLines = 1,
                                                                     fontSize = 18.sp,
-                                                                    overflow = TextOverflow.Ellipsis
+                                                                    overflow = TextOverflow.Ellipsis,
+                                                                modifier = Modifier.padding(end = 16.dp)
                                                             )
                                                             Text(
                                                                     text = "(${weapon?.ShortName})",
@@ -391,7 +396,7 @@ class WeaponDetailActivity : GodActivity() {
             ) {
                 Image(
                         rememberImagePainter(
-                                item.pricing?.iconLink ?: ""
+                                item.pricing?.getCleanIcon()
                         ),
                         contentDescription = null,
                         modifier = Modifier

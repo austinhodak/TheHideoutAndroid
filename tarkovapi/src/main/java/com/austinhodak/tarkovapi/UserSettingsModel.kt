@@ -34,7 +34,7 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val playerIGN by stringPref(key = "playerIGN")
     val discordName by stringPref(key = "discordName")
 
-    val fleaVisiblePrice by enumPref(FleaVisiblePrice.AVG, "fleaVisiblePrice")
+    val fleaVisiblePrice by enumPref(FleaVisiblePrice.DEFAULT, "fleaVisiblePrice")
 
     // Sorting and filtering
     val fleaSort by intPref(2, "fleaSort")
@@ -46,6 +46,23 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val dpi by intPref(400, "userDPI")
     val hipfireSens by stringPref("0.50", "hipfireSens")
     val aimSens by stringPref("0.50", "aimSens")
+
+    val dataSyncFrequency by enumPref(DataSyncFrequency.`60`, "dataSyncFrequency")
+    val dataSyncFrequencyPrevious by enumPref(DataSyncFrequency.`120`, "dataSyncFrequencyPrevious")
+
+    val showStatusOnHomeScreen by boolPref(true, "showStatusOnHomeScreen")
+
+    val serverStatusNotifications by boolPref(false, "serverStatusNotifications")
+    val serverStatusUpdates by boolPref(true, "serverStatusUpdates")
+    val serverStatusMessages by boolPref(true, "serverStatusMessages")
+}
+
+enum class DataSyncFrequency {
+    `60`,
+    `120`,
+    `360`,
+    `720`,
+    `1440`
 }
 
 enum class OpeningScreen {
@@ -60,6 +77,7 @@ enum class OpeningScreen {
 }
 
 enum class FleaVisiblePrice {
+    DEFAULT,
     LAST,
     LOW,
     AVG,

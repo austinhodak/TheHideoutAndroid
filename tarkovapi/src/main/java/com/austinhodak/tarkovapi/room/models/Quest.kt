@@ -22,6 +22,8 @@ data class Quest(
     val objective: List<QuestObjective>? = null,
 ) {
 
+    fun getGiverName(): String? = giver?.name
+
     data class QuestRequirement(
         val level: Int? = null,
         val quests: List<List<Int?>?>? = null,
@@ -85,6 +87,8 @@ data class Quest(
         private fun getNumber(): String {
             return if (number ?: 0 <= 1) "" else "$number "
         }
+
+        fun isFIR(): Boolean = type == "find"
     }
 
     fun getObjective(itemID: String? = null): QuestObjective? {
@@ -94,8 +98,8 @@ data class Quest(
     fun getMaps(mapsList: Maps): String {
         val list = objective?.map {  it.location?.toInt() }?.distinct()
         val mapList = list?.map { mapsList.getMap(it) }
-        Timber.d(list.toString())
-        Timber.d(mapList.toString())
+        //Timber.d(list.toString())
+        //Timber.d(mapList.toString())
         return mapList?.joinToString(separator = ", ") { it?.locale?.en ?: "Any Map" } ?: ""
     }
 

@@ -16,13 +16,15 @@ enum class ItemTypes {
     HELMET,
     KEY,
     MED,
+    MELEE,
     MOD,
     PROVISION,
     RIG,
     STIM,
     WEARABLE,
     WEAPON,
-    FOOD
+    FOOD,
+    NOFLEA
 }
 
 enum class Traders(var id: String, var icon: Int, var int: Int) {
@@ -44,5 +46,6 @@ enum class Maps(var id: String, var int: Int, var icon: Int) {
     SHORELINE("Shoreline", 3, R.drawable.icons8_bay_96),
     INTERCHANGE("Interchange", 4, R.drawable.icons8_shopping_mall_96),
     RESERVE("Reserve", 6, R.drawable.icons8_knight_96),
-    THELAB("Labs", 5, R.drawable.icons8_laboratory_96)
+    THELAB("Labs", 5, R.drawable.icons8_laboratory_96),
+    LIGHTHOUSE("Lighthouse", 7, R.drawable.icons8_lighthouse_96),
 }

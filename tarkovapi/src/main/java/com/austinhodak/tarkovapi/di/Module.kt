@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.room.AppDatabase
+import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,12 @@ import javax.inject.Singleton
 object Module {
 
     @Provides
+    @Singleton
+    fun provideTTApiService(): TTApiService {
+        return TTApiService.getInstance()
+    }
+
+    @Provides
     fun provideApolloClient(): ApolloClient {
         return ApolloClient(
             serverUrl = "https://tarkov-tools.com/graphql"
@@ -31,7 +38,7 @@ object Module {
         @ApplicationContext appContext: Context,
         callback: AppDatabase.Callback
     ) = Room.databaseBuilder(appContext, AppDatabase::class.java, "hideout-database")
-        .createFromAsset("hideout_database_43.db")
+        .createFromAsset("hideout_database_47.db")
         .fallbackToDestructiveMigration()
         .addCallback(callback)
         .build()

@@ -6,6 +6,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.work.ListenableWorker
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.*
 import com.austinhodak.tarkovapi.di.ApplicationScope
@@ -15,15 +18,13 @@ import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.*
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 43)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 47)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -46,19 +47,6 @@ abstract class AppDatabase : RoomDatabase() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             loadItemsFile()
-            //setupTraders()
-        }
-
-        private fun setupTraders() {
-            val traderDao = database.get().TraderDao()
-
-            scope.launch(Dispatchers.IO) {
-                Traders.values().forEach {
-                    traderDao.insert(
-                        Trader(it.id, 1)
-                    )
-                }
-            }
         }
 
         override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
@@ -70,17 +58,18 @@ abstract class AppDatabase : RoomDatabase() {
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
             scope.launch(Dispatchers.IO) {
-                updatePricing()
+                //updatePricing()
             }
         }
 
         private fun loadItemsFile() {
             scope.launch(Dispatchers.IO) {
-                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_110121).bufferedReader().use { it.readText() }))
+                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_122921).bufferedReader().use { it.readText() }))
             }
         }
 
         private suspend fun populateDatabase(jsonArray: JSONArray) {
+            Timber.d("Populating Database")
             val ammoDao = database.get().AmmoDao()
             val itemDao = database.get().ItemDao()
             val weaponDao = database.get().WeaponDao()
@@ -98,105 +87,14 @@ abstract class AppDatabase : RoomDatabase() {
                         modDao.insert(item.toMod())
                     }
                     else -> {
+
                     }
                 }
 
                 if (item.itemType() != ItemTypes.NULL)
+                    Timber.d("Item $i")
                     itemDao.insert(item.toItem())
             }
-
-            try {
-                updatePricing()
-                populateQuests()
-                populateCrafts()
-                populateBarters()
-            } catch (e: Exception) {
-
-            }
         }
-
-        private suspend fun populateQuests() {
-            val questDao = database.get().QuestDao()
-            val response = apolloClient.query(QuestsQuery())
-            //val questsJSON = getJsonDataFromAsset(context, R.raw.quests)
-            //val questType: Type = object : TypeToken<ArrayList<QuestExtra.QuestExtraItem?>?>() {}.type
-
-            //val questsExtraData: List<QuestExtra.QuestExtraItem> = Gson().fromJson(questsJSON, questType)
-
-            val quests = response.data?.quests?.map { quest ->
-                //val questExtra = questsExtraData.find { it.id.toString() == quest?.fragments?.questFragment?.id }
-                quest?.toQuest(null)
-            } ?: emptyList()
-
-            for (quest in quests) {
-                if (quest != null) {
-                    questDao.insert(quest)
-                }
-            }
-        }
-
-        private suspend fun populateCrafts() {
-            val craftDao = database.get().CraftDao()
-            val response = apolloClient.query(CraftsQuery())
-            val crafts = response.data?.crafts?.map { craft ->
-                craft?.toCraft()
-            } ?: emptyList()
-            for (craft in crafts) {
-                if (craft != null) {
-                    craftDao.insert(craft)
-                }
-            }
-        }
-
-        private suspend fun populateBarters() {
-            val barterDao = database.get().BarterDao()
-            val response = apolloClient.query(BartersQuery())
-            val barters = response.data?.barters?.map { barter ->
-                barter?.toBarter()
-            } ?: emptyList()
-            for (barter in barters) {
-                if (barter != null) {
-                    barterDao.insert(barter)
-                }
-            }
-        }
-
-        private suspend fun updatePricing() {
-            val oneHour = 1000 * 60 * 60
-            if (preferences.getLong("lastPriceUpdate", 0) + oneHour > System.currentTimeMillis()) {
-                return
-            }
-
-            try {
-                val itemDao = database.get().ItemDao()
-                val response = apolloClient.query(ItemsByTypeQuery(ItemType.any))
-                val items = response.data?.itemsByType?.map { fragments ->
-                    fragments?.toPricing()
-                } ?: emptyList()
-
-                //val itemsChunked = items.chunked(900)
-
-                for (item in items) {
-                    Timber.d("UPDATE PRICING | ${item?.shortName} | ${item?.id} | ${items.indexOf(item)}/${items.count()}")
-                    if (item != null)
-                        itemDao.updateAllPricing(item.id, item)
-                }
-
-                preferences.edit().putLong("lastPriceUpdate", System.currentTimeMillis()).apply()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    enum class Traders(var id: String) {
-        PRAPOR("Prapor"),
-        THERAPIST("Therapist"),
-        FENCE("Fence"),
-        SKIER("Skier"),
-        PEACEKEEPER("Peacekeeper"),
-        MECHANIC("Mechanic"),
-        RAGMAN("Ragman"),
-        JAEGER("Jaeger"),
     }
 }

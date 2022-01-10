@@ -281,7 +281,7 @@ private fun HelmetCard(selectedArmor: Item?, armorPickerLauncher: ActivityResult
         ) {
             if (selectedArmor?.pricing?.iconLink != null) {
                 Image(
-                    painter = rememberImagePainter(data = selectedArmor.pricing?.iconLink),
+                    painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
                     contentDescription = "",
                     modifier = Modifier.size(40.dp)
                 )
@@ -353,7 +353,7 @@ private fun ArmorCard(selectedArmor: Item?, armorPickerLauncher: ActivityResultL
         ) {
             if (selectedArmor?.pricing?.iconLink != null) {
                 Image(
-                    painter = rememberImagePainter(data = selectedArmor.pricing?.iconLink),
+                    painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
                     contentDescription = "",
                     modifier = Modifier.size(40.dp)
                 )

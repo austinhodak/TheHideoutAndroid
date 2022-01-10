@@ -1,13 +1,18 @@
 package com.austinhodak.thehideout.quests.viewmodels
 
 import android.content.Context
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
+import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
 import com.austinhodak.tarkovapi.utils.QuestExtraHelper
 import com.austinhodak.thehideout.SearchViewModel
 import com.austinhodak.thehideout.firebase.User
@@ -18,19 +23,24 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class QuestMainViewModel @Inject constructor(
     private val repository: TarkovRepo,
-    @ApplicationContext context: Context
+    @ApplicationContext context: Context,
+    private val ttApiRepo: TTRepository
 ) : SearchViewModel() {
 
     private val _questsExtras = MutableLiveData<List<QuestExtra.QuestExtraItem>>()
@@ -38,18 +48,13 @@ class QuestMainViewModel @Inject constructor(
 
     val questsList = MutableLiveData<List<Quest>>()
 
+    val itemsList = MutableLiveData<List<Item>>()
+
     private val _view = MutableLiveData(QuestFilter.AVAILABLE)
     val view = _view
 
     fun setView(int: QuestFilter) {
         _view.value = int
-    }
-
-    private val _selectedTrader = MutableLiveData(Traders.PRAPOR)
-    val selectedTrader = _selectedTrader
-
-    fun selectTrader(trader: Traders) {
-        _selectedTrader.value = trader
     }
 
     val pmcElimsTotal = MutableLiveData(0)
@@ -64,13 +69,17 @@ class QuestMainViewModel @Inject constructor(
     val pmcElimsTotalUser = MutableLiveData(0)
     val scavElimsTotalUser = MutableLiveData(0)
     val questItemsTotalUser = MutableLiveData(0)
-    //val questFIRItemsTotalUser = MutableLiveData(0)
-    //val handoverItemsTotalUser = MutableLiveData(0)
+
+    val questFIRItemsTotalUser = MutableLiveData(0)
+    val handoverItemsTotalUser = MutableLiveData(0)
+
     val placedTotalUser = MutableLiveData(0)
     val pickupTotalUser = MutableLiveData(0)
 
-    private suspend fun updateTotals(quests: List<Quest>) {
-        Timber.d(quests.size.toString())
+    val expTotal = MutableLiveData((0).toLong())
+
+    private suspend fun updateTotals() {
+        // Timber.d(quests.size.toString())
 
         repository.getAllQuests().collect { quests ->
             pmcElimsTotal.value = quests.sumOf { quest ->
@@ -116,7 +125,7 @@ class QuestMainViewModel @Inject constructor(
             handoverItemsTotal.value = quests.sumOf { quest ->
                 var total = 0
                 for (objective in quest.objective!!) {
-                    if (objective.number!! >= 500) total += 1
+                    //if (objective.number!! >= 500) total += 1
                     if (objective.type == "collect" && objective.number!! < 500) {
                         total += objective.number ?: 0
                     }
@@ -149,7 +158,7 @@ class QuestMainViewModel @Inject constructor(
     }
 
     private fun updateUserTotals(quests: List<Quest>) {
-        Timber.d(quests.size.toString())
+        //Timber.d(quests.size.toString())
         //if (!this::quests.isInitialized) return
         val userData = _userData.value ?: return
         questTotalCompletedUser.value = userData.quests?.values?.sumOf {
@@ -165,15 +174,29 @@ class QuestMainViewModel @Inject constructor(
         var place = 0
         var pickup = 0
 
+        var fir = 0
+        var handover = 0
+
         userData.questObjectives?.values?.forEach { obj ->
-            val objective = allObjectives.find { it.id?.toInt() == obj?.id }?: return@forEach
+            val objective = allObjectives.find { it.id?.toInt() == obj?.id } ?: return@forEach
 
             when {
-                objective.type == "kill" && objective.target?.contains("PMCs") == true -> pmc += obj?.progress ?: 0
-                objective.type == "kill" && objective.target?.contains("Scavs") == true -> scav += obj?.progress ?: 0
-                objective.type == "find" || objective.type == "collect" && objective.number!! < 500 -> items += obj?.progress ?: 0
+                objective.type == "kill" && objective.target?.contains("PMCs") == true -> pmc += obj?.progress
+                    ?: 0
+                objective.type == "kill" && objective.target?.contains("Scavs") == true -> scav += obj?.progress
+                    ?: 0
+                objective.type == "find" || objective.type == "collect" && objective.number!! < 500 -> items += obj?.progress
+                    ?: 0
                 objective.type == "place" || objective.type == "mark" -> place += obj?.progress ?: 0
                 objective.type == "pickup" -> pickup += obj?.progress ?: 0
+            }
+
+            if (objective.type == "find" && objective.number!! < 500) {
+                fir += obj?.progress ?: 0
+            }
+
+            if (objective.type == "collect" && objective.number!! < 500) {
+                handover += obj?.progress ?: 0
             }
         }
 
@@ -182,6 +205,14 @@ class QuestMainViewModel @Inject constructor(
         questItemsTotalUser.value = items
         placedTotalUser.value = place
         pickupTotalUser.value = pickup
+
+        questFIRItemsTotalUser.value = fir
+        handoverItemsTotalUser.value = handover
+
+        expTotal.value = userData.quests?.values?.sumOf {
+            val exp = quests.find { it.id == it.id }?.exp
+            exp?.toLong() ?: 0.toLong()
+        } ?: 0
     }
 
     private val _userData = MutableLiveData<User?>(null)
@@ -192,30 +223,42 @@ class QuestMainViewModel @Inject constructor(
         var quests: List<Quest>? = null
 
         viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
+                updateTotals()
+            }
             repository.getAllQuests().collect {
                 viewModelScope.launch {
-                    //Timber.d(it.toString())
                     questsList.value = it
                     quests = it
-                    updateTotals(it)
+                }
+                viewModelScope.launch {
+                    val itemIDs = it.flatMap {
+                        it.objective ?: emptyList()
+                    }.map {
+                        it.target?.first()
+                    }
+                    repository.getItemByID(itemIDs.filterNotNull()).collect {
+                        itemsList.value = it
+                    }
                 }
             }
         }
 
         if (uid() != null) {
-            questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    _userData.value = snapshot.getValue<User>()
+            questsFirebase.child("users/${uid()}")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        _userData.value = snapshot.getValue<User>()
 
-                    viewModelScope.launch {
-                        quests?.let { updateUserTotals(it) }
+                        viewModelScope.launch {
+                            quests?.let { updateUserTotals(it) }
+                        }
                     }
-                }
 
-                override fun onCancelled(error: DatabaseError) {
+                    override fun onCancelled(error: DatabaseError) {
 
-                }
-            })
+                    }
+                })
         }
 
         _questsExtras.value = QuestExtraHelper.getQuests(context = context)
@@ -224,7 +267,8 @@ class QuestMainViewModel @Inject constructor(
     suspend fun getObjectiveText(questObjective: Quest.QuestObjective): String {
         val location = mapsList.getMap(questObjective.location?.toInt()) ?: "Any Map"
         val item = if (questObjective.type == "key" || questObjective.targetItem == null) {
-            repository.getItemByID(questObjective.target?.get(0) ?: "").firstOrNull()?.pricing ?: questObjective.target?.first()
+            repository.getItemByID(questObjective.target?.get(0) ?: "").firstOrNull()?.pricing
+                ?: questObjective.target?.first()
         } else {
             questObjective.targetItem
         }
@@ -244,7 +288,9 @@ class QuestMainViewModel @Inject constructor(
             "mark" -> "Place MS2000 marker at $location"
             "locate" -> "Locate $itemName on $location"
             "find" -> "Find in raid ${questObjective.number} $itemName"
-            "reputation" -> "Reach loyalty level ${questObjective.number} with ${Traders.values().find { it.int == questObjective.target?.first()?.toInt() ?: 0}?.id}"
+            "reputation" -> "Reach loyalty level ${questObjective.number} with ${
+                Traders.values().find { it.int == questObjective.target?.first()?.toInt() ?: 0 }?.id
+            }"
             "warning" -> "$itemName"
             "skill" -> "Reach skill level ${questObjective.number} with $itemName"
             "survive" -> "Survive in the raid at $location ${questObjective.number} times."
@@ -262,15 +308,6 @@ class QuestMainViewModel @Inject constructor(
                     skipToQuest(q)
                 }
             }
-        }
-    }
-
-    fun toggleObjective(quest: Quest, objective: Quest.QuestObjective) {
-        if (userData.value?.isObjectiveCompleted(objective) == true) {
-            objective.undo()
-            quest.undo()
-        } else {
-            objective.completed()
         }
     }
 }

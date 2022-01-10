@@ -1,6 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <item name="timeline_header_margin" type="integer" format="float">150.0</item>
+    <item name="timeline_header_margin" format="float" type="integer">150.0</item>
 
     <!-- font sizes lol -->
     <dimen name="font_gigantic">30sp</dimen>
@@ -25,5 +25,11 @@
     <dimen name="spacing_large">20dp</dimen>
     <dimen name="spacing_larger">24dp</dimen>
     <dimen name="spacing_largest">32dp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">0dp</dimen>
 
 </resources>

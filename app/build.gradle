@@ -39,10 +39,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
-        //versionCode 100801
-        versionCode 11019
+        versionCode 12401
         // [1]-[0].[2].[0].[0]
-        versionName "1.0.0 Beta 19"
+        versionName "1.2.4"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -154,26 +153,27 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
     implementation "androidx.fragment:fragment-ktx:1.4.0"
 
-    implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
+    implementation "androidx.navigation:navigation-compose:2.4.0-rc01"
 
     //END AndroidX
 
     //Firebase
-    implementation platform("com.google.firebase:firebase-bom:${versions.firebaseBOM}")
-    implementation "com.google.firebase:firebase-analytics-ktx"
-    implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'com.google.firebase:firebase-functions-ktx'
-    implementation 'com.google.firebase:firebase-messaging-ktx'
-    implementation 'com.google.firebase:firebase-storage-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    //implementation 'com.google.firebase:firebase-perf-ktx'
-    implementation 'com.google.firebase:firebase-database-ktx'
-    implementation 'com.google.firebase:firebase-config-ktx'
-    implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
-    //implementation 'com.google.android.gms:play-services-ads'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
-    implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
+    api platform("com.google.firebase:firebase-bom:${versions.firebaseBOM}")
+    api "com.google.firebase:firebase-analytics-ktx"
+    api 'com.google.firebase:firebase-auth-ktx'
+    api 'com.google.firebase:firebase-firestore-ktx'
+    api 'com.google.firebase:firebase-functions-ktx'
+    api 'com.google.firebase:firebase-messaging-ktx'
+    api 'com.google.firebase:firebase-storage-ktx'
+    api 'com.google.firebase:firebase-crashlytics-ktx'
+    //api 'com.google.firebase:firebase-perf-ktx'
+    api 'com.google.firebase:firebase-database-ktx'
+    api 'com.google.firebase:firebase-config-ktx'
+    api 'com.google.firebase:firebase-inappmessaging-display-ktx'
+    api 'com.google.firebase:firebase-dynamic-links-ktx'
+    //api 'com.google.android.gms:play-services-ads'
+    api 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.1'
+    api 'com.firebaseui:firebase-ui-auth:8.0.0'
     //END Firebase
 
     //Drawer
@@ -191,7 +191,7 @@ dependencies {
     implementation "com.afollestad.material-dialogs:input:${versions.mDialogs}"
     //END Dialogs
 
-    implementation ("com.github.bumptech.glide:glide:4.12.0") {
+    api ("com.github.bumptech.glide:glide:4.12.0") {
         exclude group: "com.android.support"
     }
 
@@ -207,20 +207,21 @@ dependencies {
 
     implementation 'com.airbnb.android:lottie-compose:4.1.0'
 
-    implementation "com.google.accompanist:accompanist-glide:0.15.0"
-    implementation "com.google.accompanist:accompanist-insets:$accompanist"
-    implementation "com.google.accompanist:accompanist-pager:$accompanist"
-    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist"
-    implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist"
-    implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
-    implementation "com.google.accompanist:accompanist-placeholder-material:$accompanist"
+    api "com.google.accompanist:accompanist-glide:0.15.0"
+    api "com.google.accompanist:accompanist-insets:$accompanist"
+    api "com.google.accompanist:accompanist-pager:$accompanist"
+    api "com.google.accompanist:accompanist-pager-indicators:$accompanist"
+    api "com.google.accompanist:accompanist-navigation-animation:$accompanist"
+    api "com.google.accompanist:accompanist-flowlayout:$accompanist"
+    api "com.google.accompanist:accompanist-placeholder-material:$accompanist"
+    api "com.google.accompanist:accompanist-swiperefresh:$accompanist"
 
     implementation("com.google.android.play:core:1.10.2")
     implementation("com.google.android.play:core-ktx:1.8.1")
 
     implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
 
-    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.1'
 
     implementation 'com.google.maps.android:maps-ktx:3.1.0'
     implementation 'com.google.maps.android:maps-utils-ktx:3.2.0'
@@ -230,9 +231,11 @@ dependencies {
     implementation("com.android.billingclient:billing:4.0.0")
     implementation("com.android.billingclient:billing-ktx:4.0.0")
 
-    implementation 'com.facebook.android:facebook-login:8.1.0'
+    implementation 'com.facebook.android:facebook-login:12.0.0'
 
     implementation 'com.github.adaptyteam:AdaptySDK-Android:1.2.0'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '+'
 }

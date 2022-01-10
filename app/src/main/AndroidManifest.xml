@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.austinhodak.thehideout">
 
     <application
@@ -11,31 +12,57 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
+        <activity
+            android:name=".status.ServerStatusActivity"
+            android:exported="true" />
 
+        <receiver
+            android:name=".widgets.SinglePriceWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/single_price_widget_info" />
+        </receiver>
+
+        <activity
+            android:name=".pickers.PickerActivity"
+            android:exported="true"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"></activity>
+        <activity
+            android:name=".widgets.WidgetPickerActivity"
+            android:exported="true"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
         <activity
             android:name=".billing.PremiumPusherActivity"
             android:exported="true"
             android:label="@string/title_activity_premium_pusher"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".billing.PremiumActivity"
             android:exported="true"
             android:label="@string/title_activity_premium"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".weapons.builder.WeaponBuilderActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".gear.GearDetailActivity"
             android:exported="true" />
-
         <activity
             android:name=".settings.SettingsActivity"
-
             android:exported="true" />
 
         <meta-data
@@ -46,13 +73,11 @@
             android:name=".map.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
-
         <activity
             android:name=".weapons.mods.ModDetailActivity"
             android:exported="true"
             android:label="@string/title_activity_mod_detail"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".NavActivity"
             android:exported="true"
@@ -60,38 +85,42 @@
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="thehideout.io/invite"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ammunition.AmmoDetailActivity"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".flea_market.detail.FleaItemDetail"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".quests.QuestDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".calculator.CalculatorMainActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".weapons.detail.WeaponDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".weapons.mods.ModPickerActivity"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
         <activity
             android:name=".login.LoginActivity"
             android:exported="true"
@@ -100,11 +129,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/hideout_shadow_1" />
-
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ocr" />
@@ -118,14 +145,28 @@
         </service>
 
         <activity
-            android:name=".pickers.PickerActivity"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-
-        <activity
             android:name=".quests.inraid.QuestInRaidActivity"
             android:exported="true"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"/>
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
+        <activity
+            android:name=".team.TeamManagementActivity"
+            android:exported="true" />
+        <activity
+            android:name=".skills.SkillDetailActivity"
+            android:exported="true" />
 
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+
+            <!-- If you are using androidx.startup to initialize other components -->
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
     </application>
 
 </manifest>

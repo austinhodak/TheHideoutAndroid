@@ -5,6 +5,7 @@ import com.austinhodak.tarkovapi.fragment.RepFragment
 import com.austinhodak.tarkovapi.fragment.TraderFragment
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
+import com.austinhodak.tarkovapi.type.ItemType
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject

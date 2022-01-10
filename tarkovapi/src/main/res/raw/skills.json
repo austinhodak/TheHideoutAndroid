@@ -1,0 +1,916 @@
+[
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Attention",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/57/Skill_mental_attention.png/revision/latest?cb=20170329164913",
+    "name": "Attention",
+    "description": "Attention is useful for looting containers. It increases the looting speed.",
+    "type": "Mental",
+    "effects": [
+      "Increases looting speed",
+      "Increases examine speed",
+      "Elite level: Chance of an instant find",
+      "Elite level: Doubles your looting EXP"
+    ],
+    "raise": [
+      "Uncovering Loot in Loot containers"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Shotguns",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fe/Skill_combat_shotguns.png/revision/latest?cb=20170329164950",
+    "name": "Shotguns",
+    "description": "Shotgun handling skill improves the overall handling and recoil of shotguns.",
+    "type": "Combat",
+    "effects": [
+      "Reduces weapon recoil",
+      "Increases reload speed",
+      "Increases weapon switching speed",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Shotguns",
+      "Reloading Shotguns",
+      "Completing the quest Night Sweep (+2 levels)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Rocket_Launchers",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/a4/Skill_combat_launchers.png/revision/latest?cb=20170329165023",
+    "name": "Rocket Launchers",
+    "description": "Launchers handling skill.",
+    "type": "Combat",
+    "effects": [
+      "Increases weapon performance"
+    ],
+    "raise": [],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Immunity",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/54/Skill_physical_immunity.png/revision/latest?cb=20170329164829",
+    "name": "Immunity",
+    "description": "Affects the susceptibility to illnesses and the effectiveness of their treatment.",
+    "type": "Physical",
+    "effects": [
+      "Immunity to poisons chance",
+      "Reduction of all negative effects of stimulants, food and water (+50% at elite level)",
+      "Painkiller action time increased (+25% at elite level)",
+      "Decrease of poison's action force (+50% at elite level)",
+      "Elite level: Chance to have immunity to negative effects from stimulants, food, water",
+      "Elite level: Chance to have immunity to poisons"
+    ],
+    "raise": [
+      "Using stimulants with negative effects",
+      "Surviving negative stimulant and food effects"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Mag_Drills",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1b/Skill_practical_magazineloadingplaceholder.png/revision/latest?cb=20180502024916",
+    "name": "Mag Drills",
+    "description": "Skill aimed at magazine handling - loading and unloading of ammo, checking for remaining cartridges.",
+    "type": "Practical",
+    "effects": [
+      "Increases ammo unloading speed",
+      "Increases ammo loading speed",
+      "Magazine loading is performed faster with every loaded round",
+      "Increases speed of magazine check using the context menu",
+      "Increases precision of magazine check through the context menu",
+      "Elite level: Magazine checked instantly when moved to your inventory"
+    ],
+    "raise": [
+      "Check magazines for remaining ammo (in raid)",
+      "Load and unload magazines (in raid)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Metabolism",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/7e/Skill_physical_metabolism.png/revision/latest?cb=20170329164823",
+    "name": "Metabolism",
+    "description": "Healthy metabolism improves and extends the effects of eating and drinking, and sustains the physical skills longer.",
+    "type": "Physical",
+    "effects": [
+      "Reduction of time of action of all negative effects of stimulants, food, water",
+      "Reduction of poisons' action time",
+      "Enhances food and drink positive effects",
+      "Elite level: Zero chance of dehydration and exhaustion effects"
+    ],
+    "raise": [
+      "Replenishing Energy and Hydration through provisions",
+      "For efficient leveling you need to eat dehydrating food and then drink something",
+      "Completing the quest The survivalist path - Junkie (+2 levels)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Heavy_Vests",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f3/Skill_practical_heavyarmor.png/revision/latest?cb=20170329164705",
+    "name": "Heavy Vests",
+    "description": "Heavy body armor wearing skill reduces amount of received penetration health damage, explosive damage to health and armor and improves mobility.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/BEAR_Raw_Power",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5d/Skill_special_bear_rawpower.png/revision/latest?cb=20170329164543",
+    "name": "BEAR Raw Power",
+    "description": "",
+    "type": "BEAR",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/USEC_AR_Systems",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d1/Skill_special_usec_arsystems.png/revision/latest?cb=20170329164536",
+    "name": "USEC AR Systems",
+    "description": "",
+    "type": "USEC",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Advanced_Modding",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/8a/Skill_practical_advancedweaponmodding.png/revision/latest?cb=20170329164805",
+    "name": "Advanced Modding",
+    "description": "Deft use of mutitool makes advanced modding quicker and less punishing for weapon mobility.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Pistols",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/15/Skill_combat_pistols.png/revision/latest?cb=20170329165007",
+    "name": "Pistols",
+    "description": "Pistol handling skill improves the overall handling, reduces recoil and reload time of pistols.",
+    "type": "Combat",
+    "effects": [
+      "Reduces weapon recoil",
+      "Increases reload speed",
+      "Increases weapon switching speed",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Pistols",
+      "Reloading Pistols"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/USEC_Long_Range_Optics",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/6e/Skill_special_usec_longrangeoptics.png/revision/latest?cb=20170329164526",
+    "name": "USEC Long Range Optics",
+    "description": "",
+    "type": "USEC",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/USEC_Tactics",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e9/Skill_special_usec_tactics.png/revision/latest?cb=20170329164515",
+    "name": "USEC Tactics",
+    "description": "",
+    "type": "USEC",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/USEC_Deep_Weapon_Modding",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/54/Skill_special_usec_deepweaponmodding.png/revision/latest?cb=20170329164530",
+    "name": "USEC Deep Weapon Modding",
+    "description": "",
+    "type": "USEC",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/BEAR_AK_Systems",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/42/Skill_special_bear_aksystems.png/revision/latest?cb=20170329164605",
+    "name": "BEAR AK Systems",
+    "description": "",
+    "type": "BEAR",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Auctions",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f4/Skill_practical_auctions.png/revision/latest?cb=20170329164800",
+    "name": "Auctions",
+    "description": "",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Prone_Movement",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5f/Skill_practical_pronemovement.png/revision/latest?cb=20170329164644",
+    "name": "Prone Movement",
+    "description": "Mastering the prone movement makes it faster and quieter.",
+    "type": "Practical",
+    "effects": [
+      "Decreases prone movement volume",
+      "Increases prone movement speed"
+    ],
+    "raise": [
+      "Crawling"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Sniper_Rifles",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/46/Skill_combat_sniperrifles.png/revision/latest?cb=20170329164940",
+    "name": "Sniper Rifles",
+    "description": "Sniper rifle handling skill improves the overall handling, reduces recoil and reload time of Sniper rifles.",
+    "type": "Combat",
+    "effects": [
+      "Reduces weapon recoil",
+      "Increases reload speed",
+      "Increases weapon switching speed",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Sniper rifles",
+      "Reloading Sniper rifles",
+      "Unloading the chamber of Sniper Rifles",
+      "Completing the quest A Shooter Born in Heaven (+1 level)",
+      "Completing the quest Mentor (+3 levels)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Light_Machine_Guns",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/dd/Skill_combat_lmgs.png/revision/latest?cb=20170329165017",
+    "name": "Light Machine Guns",
+    "description": "Light Machinegun handling skill improves the overall handling, reduces recoil and reload time of LMGs.",
+    "type": "Combat",
+    "effects": [
+      "Reduces weapon recoil",
+      "Increases reload speed",
+      "Increases weapon switching speed",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Light machine Guns",
+      "Reloading Light machine Guns"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Submachine_guns",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5f/Skill_combat_smgs.png/revision/latest?cb=20170329164945",
+    "name": "Submachine guns",
+    "description": "Submachine Gun handling skill improves the overall handling, reduces recoil and reload time of SMGs.",
+    "type": "Combat",
+    "effects": [
+      "Reduces weapon recoil",
+      "Increases reload speed",
+      "Increases weapon switching speed",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Submachine guns",
+      "Reloading Submachine guns"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Aim_Drills",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b2/Skill_combat_weapondrawing.png/revision/latest?cb=20170329164923",
+    "name": "Aim Drills",
+    "description": "Mastering aim reduces aiming time and barrel sway immediately after aiming.",
+    "type": "Practical",
+    "effects": [
+      "Increases aiming speed",
+      "Decrease the volume of aiming",
+      "Elite level: No hand shaking at any stamina value, first 2 seconds after aiming",
+      "Elite level: Reduced hands shaking during tremor and fracture, the first 2 seconds after aiming"
+    ],
+    "raise": [
+      "Land hits on enemies while aiming down sights."
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/BEAR_Assault_Operations",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d8/Skill_special_bear_assaultoperations.png/revision/latest?cb=20170329164600",
+    "name": "BEAR Assault Operations",
+    "description": "",
+    "type": "BEAR",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Intellect",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/98/Skill_mental_intellect.png/revision/latest?cb=20170329164902",
+    "name": "Intellect",
+    "description": "High intellect boosts the speed of item examination, lock picking, and improves the quality of weapon repairs.",
+    "type": "Mental",
+    "effects": [
+      "Increases item examination speed",
+      "Increases weapon repair quality",
+      "Elite level: You do not need a manual for item examination",
+      "Elite level: Ammo counter",
+      "Elite level: Guess container contents without searching"
+    ],
+    "raise": [
+      "Examining",
+      "Lockpicking",
+      "Repairing weapons",
+      "Completing the quest Psycho Sniper (+2 levels)",
+      "Crafting items in the hideout"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Stress_Resistance",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/4f/Skill_mental_stressresistance.png/revision/latest?cb=20170329164846",
+    "name": "Stress Resistance",
+    "description": "Stress resistance improves the chances of withstanding injury shock, shaking hands, and tremors.",
+    "type": "Physical",
+    "effects": [
+      "Decreases chance of getting pain shock (-50% at elite level)",
+      "Decreases tremor oscillation",
+      "Elite level: Berserk mode"
+    ],
+    "raise": [
+      "Breaking legs by falling.",
+      "Being on low health",
+      "Having the \"Pain\" debuff",
+      "Taking damage.",
+      "Completing the quest Psycho Sniper (+1 level)",
+      "Completing the quest The survivalist path - Cold blooded (+1 level)",
+      "Completing the quest The survivalist path - Wounded Beast (+1 level)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Lockpicking",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fb/Skill_practical_lockpicking.png/revision/latest?cb=20170329164654",
+    "name": "Lockpicking",
+    "description": "Lock picking skill.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Perception",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/14/Skill_mental_perception.png/revision/latest?cb=20170329164851",
+    "name": "Perception",
+    "description": "Mastering perception increases the hearing distance, improves aiming concentration and makes detection of nearby loot easier.",
+    "type": "Mental",
+    "effects": [
+      "Increases hearing distance",
+      "Enhanced aiming concentration",
+      "Increases loot detection radius",
+      "Elite level: Loot proximity notification"
+    ],
+    "raise": [
+      "Finding and picking up all kinds of Loot",
+      "Completing the quest The survivalist path - Eagle-owl (+0.5 level)",
+      "Completing the quest The survivalist path - Tough guy (+1 level)",
+      "Completing the quest Psycho Sniper (+2 level)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Revolvers",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/95/Skill_combat_revolvers.png/revision/latest?cb=20170329164956",
+    "name": "Revolvers",
+    "description": "Revolver handling skill.",
+    "type": "Combat",
+    "effects": [
+      "Reduces weapon recoil",
+      "Increases reload speed",
+      "Increases weapon switching speed",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Revolvers",
+      "Reloading Revolvers"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Free_Trading",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/ca/Skill_practical_freetrading.png/revision/latest?cb=20170329164711",
+    "name": "Free Trading",
+    "description": "",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Throwables",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/97/Skill_combat_grenades.png/revision/latest?cb=20170329164459",
+    "name": "Throwables",
+    "description": "The throwing weapons handling skills allow you to throw grenades farther and with less energy consumption.",
+    "type": "Combat",
+    "effects": [
+      "Less energy required to throw",
+      "Increased throw strength",
+      "Elite level: Throws do not require energy and fatigue does not affect accuracy"
+    ],
+    "raise": [
+      "Using Throwable weapons"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Barter",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3f/Skill_practical_barter.png/revision/latest?cb=20170329164754",
+    "name": "Barter",
+    "description": "",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/USEC_Negotiations",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/88/Skill_special_usec_negotiations.png/revision/latest?cb=20170329164520",
+    "name": "USEC Negotiations",
+    "description": "",
+    "type": "USEC",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Sniping",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f5/Skill_practical_sniping.png/revision/latest?cb=20170329164621",
+    "name": "Sniping",
+    "description": "Sniping skill reduces recoil when aiming, especially when prone, and allows to hold breath longer.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Charisma",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/7d/Skill_mental_charisma.png/revision/latest?cb=20170329164907",
+    "name": "Charisma",
+    "description": "Charisma affects the prices offered by merchants and the rate of gaining reputation with them.",
+    "type": "Mental",
+    "effects": [
+      "Decreases traders cash prices",
+      "Increases traders loyalty rate",
+      "Elite level: You are the first to know the latest trading news",
+      "Elite level: Increases profit from every transaction"
+    ],
+    "raise": [
+      "Whenever you gain EXP for Attention, Perception or Intellect you also gain EXP for Charisma."
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Assault_Rifles",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5b/Skill_combat_assaultrifles.png/revision/latest?cb=20170329164509",
+    "name": "Assault Rifles",
+    "description": "Assault rifles handling skill improves the overall handling, reduces recoil and reload time of Assault rifles.",
+    "type": "Combat",
+    "effects": [
+      "Reduces weapon recoil (-25% at elite level)",
+      "Increases reload speed (+20% at elite level)",
+      "Increases weapon switching speed (+40% at elite level)",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Assault rifles and Assault carbines",
+      "Reloading Assault rifles and Assault carbines"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Clean_Operations",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/87/Skill_practical_cleanoperations.png/revision/latest?cb=20190406194415",
+    "name": "Clean Operations",
+    "description": "",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Weapon_Maintenance",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/6c/Skill_practical_weapontreatment.png/revision/latest?cb=20170329164611",
+    "name": "Weapon Maintenance",
+    "description": "Weapon service and maintenance skills.",
+    "type": "Practical",
+    "effects": [
+      "Reduced gun wear (up to 50%) when firing",
+      "Reduced probability of wear during repair (up to 60%)",
+      "Elite level: No wear during a repair"
+    ],
+    "raise": [
+      "Repairing weapons in the stash."
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Melee",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/9b/Skill_combat_melee.png/revision/latest?cb=20170329165012",
+    "name": "Melee",
+    "description": "Melee weapons handling skill.",
+    "type": "Combat",
+    "effects": [
+      "Increases reload speed (+20% at elite level)",
+      "Increases weapon switching speed (+40% at elite level)",
+      "Reduces weapon recoil (+20% at elite level)",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Melee weapons"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Light_Vests",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/a6/Skill_practical_lightarmor.png/revision/latest?cb=20170329164659",
+    "name": "Light Vests",
+    "description": "Light body armor wearing skill improves mobility and reduces the amount of received penetration and melee damage to your health.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Searching",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/4/49/Skill_practical_search.png/revision/latest?cb=20170329164638",
+    "name": "Searching",
+    "description": "The search skill mastering allows you to search bodies and containers faster and more efficiently.",
+    "type": "Practical",
+    "effects": [
+      "Increases search speed",
+      "Elite level: Doubles searching speed",
+      "Elite level: Allows you to search multiple containers at once"
+    ],
+    "raise": [
+      "Searching Loot containers and corpses"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Troubleshooting",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d0/Skill_combat_troubleshooting.png/revision/latest?cb=20170329164935",
+    "name": "Troubleshooting",
+    "description": "Troubleshooting skill facilitates rectification of weapon malfunctions.",
+    "type": "Combat",
+    "effects": [
+      "Increases troubleshooting speed (up to 50%). 1% for each skill level.",
+      "Elite level: Reduces the chance of malfunctions based on the durability of weapons by 50% after fixing a malfunction caused by the same reason",
+      "Elite level: Reduces the chance of malfunctions from a cartridge by 50% after fixing a malfunction caused by the same reason",
+      "Elite level: Reduces the chance of malfunctions from the magazine by 50% after fixing a malfunction caused by the same reason",
+      "Elite level: Automatically detect the type of a weapon malfunction as soon as it occurs, without inspecting the weapon"
+    ],
+    "raise": [
+      "Clearing weapon misfires"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/First_Aid",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/cd/Skill_practical_basicmedical.png/revision/latest?cb=20170329164749",
+    "name": "First Aid",
+    "description": "First aid skills make use of first aid kits quicker and more effective.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Recoil_Control",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/18/Skill_combat_recoilcontrol.png/revision/latest?cb=20170329165002",
+    "name": "Recoil Control",
+    "description": "Greater control over recoil reduces horizontal spread, making the recoil more predictable.",
+    "type": "Combat",
+    "effects": [
+      "Improves recoil control (-20% at elite level)",
+      "Elite level: Improves recoil control"
+    ],
+    "raise": [
+      "Shoot with any Weapon, skill point gain is based only on number of times shot.\nFiring about 30-rounds during a raid will reach diminishing returns. This can be done right before exfil, preferably with cheap bullets.",
+      "Firing about 30-rounds during a raid will reach diminishing returns. This can be done right before exfil, preferably with cheap bullets."
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Hideout_management",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/57/Skill_practical_hideoutmanagement.png/revision/latest?cb=20201022193223",
+    "name": "Hideout management",
+    "description": "Efficient hideout management allows you to use less fuel and filters in production, and increases bonuses from different Hideout zones.",
+    "type": "Practical",
+    "effects": [
+      "Decreases fuel, air and water filter consumption rate (0.5% per level) (-25% at Elite Level)",
+      "Increasing all percentage bonuses from Hideout zones (1% per level) (+50% at Elite Level)",
+      "Elite level: +2 slots for fuel canisters",
+      "Elite level: +2 slots for water filters",
+      "Elite level: +2 slots for air filters",
+      "Elite level: +2 to the storage limit of coins in a bitcoin farm"
+    ],
+    "raise": [
+      "Crafting items in the hideout\n0.4 point per craft\n0.1 point per 10 resources spent on filters or fuel",
+      "0.4 point per craft",
+      "0.1 point per 10 resources spent on filters or fuel",
+      "Upgrading modules of the hideout (+8 points per upgrade)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Night_Operations",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/bd/Skill_practical_nightoperations.png/revision/latest?cb=20170329164650",
+    "name": "Night Operations",
+    "description": "Operating at night makes movement easier, and experience grows faster than usual. And, of course, it reflects on the prices of night vision devices.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Task_Performance",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/22/Skill_practical_taskperformance.png/revision/latest?cb=20170329164616",
+    "name": "Task Performance",
+    "description": "",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Vitality",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/67/Skill_physical_vitality.png/revision/latest?cb=20170329164811",
+    "name": "Vitality",
+    "description": "Vitality improves your chances of surviving a wound by decreasing the possibility of bleeding and instant death through critical damage of a body part.",
+    "type": "Physical",
+    "effects": [
+      "Decreases chance of bleeding (-60% at elite level)",
+      "Decreases chance of dying by losing a limb (-20% at elite level)",
+      "Elite level: All bleedings stop on their own (Note: This means after bleeding occurs, the bleeding will stop after a few seconds)"
+    ],
+    "raise": [
+      "Taking damage",
+      "Bloodloss",
+      "Completing the quest Ambulance (+1 level)",
+      "Completing the quest The survivalist path - Combat medic (+2 levels)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Underbarrel_Launchers",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2e/Skill_combat_ugls.png/revision/latest?cb=20170329164929",
+    "name": "Underbarrel Launchers",
+    "description": "Underbarrel grenade launcher handling skill.",
+    "type": "Combat",
+    "effects": [
+      "Increases weapon performance"
+    ],
+    "raise": [],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Surgery",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/73/Surgery.png/revision/latest?cb=20200727210831",
+    "name": "Surgery",
+    "description": "The ability to perform field surgery may save your life in critical situations. The better you learn this skill, the faster and better you will perform operations.",
+    "type": "Practical",
+    "effects": [
+      "Reduces HP penalty for surgery",
+      "Improved surgery speed",
+      "Elite level: No HP penalty for the restored body part",
+      "Elite level: Maximum increase in the speed of surgery (+40% at Elite Level)"
+    ],
+    "raise": [
+      "Use CMS or Surv12 field surgical kits on a blacked out limb."
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Health",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/12/Skill_physical_health.png/revision/latest?cb=20170329164834",
+    "name": "Health",
+    "description": "Good health speeds up the recovery from the damage sustained in the raids, decreases the probability of fractures and lowers the energy and dehydration rate.",
+    "type": "Physical",
+    "effects": [
+      "Decreases chance of fractures (-60% at elite level)",
+      "Increases offline regeneration",
+      "Decreases energy consumption (-30% at elite level)",
+      "Decreases dehydration rate (-30% at elite level)",
+      "Elite level: Damage absorption",
+      "Elite level: Poison immunity level"
+    ],
+    "raise": [
+      "Whenever you gain EXP for Strength, Endurance or Vitality you also gain EXP for Health.",
+      "Completing the quest An Apple a Day Keeps the Doctor Away (+2 levels)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Memory",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d9/Skill_mental_memory.png/revision/latest?cb=20170329164857",
+    "name": "Memory",
+    "description": "Trained skills last longer before they start to fade.",
+    "type": "Mental",
+    "effects": [
+      "Decreases the rate at which you forget skills",
+      "Decreases rollback of skill levels",
+      "Elite level: Now you won't forget any skills"
+    ],
+    "raise": [
+      "Whenever you gain EXP for a skill that is not physical or memory itself you also gain EXP for Memory."
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Crafting",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1c/Skill_practical_crafting.png/revision/latest?cb=20201022193217",
+    "name": "Crafting",
+    "description": "Improving the crafting skill reduces the production time of items, including those produced cyclically.",
+    "type": "Practical",
+    "effects": [
+      "Decreases item craft time",
+      "Decreases the time of all cyclic production except for the bitcoin farm",
+      "Elite level: The ability to craft up to two different objects in an area at once"
+    ],
+    "raise": [
+      "Craft items in the hideout\n1 point per 8 hours of crafting\n1 point per craft upon the end of production for alternating between 2 different crafting recipes in the same module\nCrafting a single recipe repeatedly in the same module will give no points.",
+      "1 point per 8 hours of crafting",
+      "1 point per craft upon the end of production for alternating between 2 different crafting recipes in the same module",
+      "Crafting a single recipe repeatedly in the same module will give no points."
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Shadow_Connections",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1e/Skill_practical_shadowconnections.png/revision/latest?cb=20170329164632",
+    "name": "Shadow Connections",
+    "description": "",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/BEAR_Authority",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2e/Skill_special_bear_authority.png/revision/latest?cb=20170329164554",
+    "name": "BEAR Authority",
+    "description": "",
+    "type": "BEAR",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Designated_Marksman_Rifles",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/21/Skill_combat_dmrs.png/revision/latest?cb=20170329164504",
+    "name": "Designated Marksman Rifles",
+    "description": "Designated Marksman Rifle handling skill improves the overall handling, reduces recoil and reload time of DMRs.",
+    "type": "Combat",
+    "effects": [
+      "Reduces weapon recoil",
+      "Increases reload speed",
+      "Increases weapon switching speed",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Designated marksman rifles",
+      "Reloading Designated marksman rifles"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Covert_Movement",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d1/Skill_practical_covertmovement.png/revision/latest?cb=20170329164733",
+    "name": "Covert Movement",
+    "description": "Covert movement makes your steps quieter and reduces the sound radius.",
+    "type": "Practical",
+    "effects": [
+      "Increases the speed of covert movement",
+      "Sound of steps on common surfaces is quieter",
+      "Decreases Covert Movement sound radius",
+      "Noises produced by weapons and equipment are quieter",
+      "Elite level: Covert movement becomes equally quiet on all surfaces"
+    ],
+    "raise": [
+      "Walking with less than 25% speed, the speaker icon needs to have no bar\nSkill points will be gained as long as any motion is occurring, gain is equal whether crouched or standing.",
+      "Skill points will be gained as long as any motion is occurring, gain is equal whether crouched or standing."
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Field_Medicine",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/37/Skill_practical_fieldmedical.png/revision/latest?cb=20170329164716",
+    "name": "Field Medicine",
+    "description": "Field surgery expertise facilitates application of splints and bandages and reduces the chance of repeated bleeding.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/BEAR_Heavy_Caliber",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/10/Skill_special_bear_heavycaliber.png/revision/latest?cb=20170329164548",
+    "name": "BEAR Heavy Caliber",
+    "description": "",
+    "type": "BEAR",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Weapon_Modding",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/33/Skill_practical_basicweaponmodding.png/revision/latest?cb=20170329164743",
+    "name": "Weapon Modding",
+    "description": "Skill of basic weapon modding on the go increases the mod ergonomics and reduces silencer wear.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Silent_Operations",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/89/Skill_practical_silentoperations.png/revision/latest?cb=20170329164627",
+    "name": "Silent Operations",
+    "description": "The skill of staying undetected in all aspects of the raid operation through improved melee speed and reduced volume of doors and looting sounds.",
+    "type": "Practical",
+    "effects": [],
+    "raise": [],
+    "live": false
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Heavy_Machine_Guns",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ec/Skill_combat_hmgs.png/revision/latest?cb=20170329164454",
+    "name": "Heavy Machine Guns",
+    "description": "Heavy machinegun handling skill improves the overall handling, reduces recoil and reload time of Heavy Machine Guns.",
+    "type": "Combat",
+    "effects": [
+      "Reduces weapon recoil",
+      "Increases reload speed",
+      "Increases weapon switching speed",
+      "Elite level: Doubles mastering gain"
+    ],
+    "raise": [
+      "Landing hits on enemies with Heavy Machine Guns",
+      "Reloading Heavy Machine Guns"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Endurance",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/63/Skill_physical_endurance.png/revision/latest?cb=20170329164840",
+    "name": "Endurance",
+    "description": "Endurance influences the amount of stamina and the rate of exhaustion while running or jumping, as well as holding and restoring breath.",
+    "type": "Physical",
+    "effects": [
+      "Increases stamina (+75% at Elite Level)",
+      "Decreases jump stamina drain (-30% at Elite Level)",
+      "Increases holding breath time (+100% at Elite Level)",
+      "Elite level: +75% stamina",
+      "Elite level: Increased hands Endurance",
+      "Elite level: Breathing is independent of energy"
+    ],
+    "raise": [
+      "Sprinting while  not being overweight",
+      "Walking while not being overweight (i.e yellow or red)"
+    ],
+    "live": true
+  },
+  {
+    "wiki": "https://escapefromtarkov.fandom.com/wiki/Strength",
+    "icon": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/ca/Skill_physical_strength.png/revision/latest?cb=20170329164817",
+    "name": "Strength",
+    "description": "Increasing strength allows you to jump higher, sprint faster, hit harder, throw farther, and carry more weight.",
+    "type": "Physical",
+    "effects": [
+      "Aiming drains less stamina (+20% at elite level)",
+      "Increases jump height (+20% at elite level)",
+      "Increases carrying weight (+30% at elite level → 91 kg)",
+      "Increases melee strike power (+30% at elite level)",
+      "Increases movement and sprint speed (+20% at elite level)",
+      "Increases throw distance (+20% at elite level)",
+      "Elite level: Weapons, body armor and chest rigs are now weightless",
+      "Elite level: Chance to deal critical melee damage (50%)"
+    ],
+    "raise": [
+      "Using throwable weapons (3 skill points limit per raid):\n129% progression speed: The first 7 grenades give 1.3 skill point (+0.195 skill point per grenade)\n100% progression speed: Once 1.3 skill points are earned, the next 7 grenades (8 to 14) give 1 skill point (+0.15 skill point per grenade)\n50% progression speed: Once 2.3 skill points are earned, every subsequent grenade gives +0.075 skill point per throw",
+      "129% progression speed: The first 7 grenades give 1.3 skill point (+0.195 skill point per grenade)",
+      "100% progression speed: Once 1.3 skill points are earned, the next 7 grenades (8 to 14) give 1 skill point (+0.15 skill point per grenade)",
+      "50% progression speed: Once 2.3 skill points are earned, every subsequent grenade gives +0.075 skill point per throw"
+    ],
+    "live": true
+  }
+]

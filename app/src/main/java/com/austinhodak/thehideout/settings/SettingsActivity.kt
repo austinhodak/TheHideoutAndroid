@@ -4,8 +4,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.text.InputType
+import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -14,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,42 +24,60 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.tarkovapi.Levels
-import com.austinhodak.tarkovapi.OpeningScreen
-import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.*
+import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
+import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
+import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
+import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.billing.PremiumActivity
+import com.austinhodak.thehideout.calculator.models.Character
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.openWithCustomTab
-import com.austinhodak.thehideout.utils.restartNavActivity
-import com.austinhodak.thehideout.utils.userRefTracker
+import com.austinhodak.thehideout.status.ServerStatusActivity
+import com.austinhodak.thehideout.team.TeamManagementActivity
+import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.zxing.client.android.Intents
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import com.michaelflisar.materialpreferences.preferencescreen.*
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
+import com.michaelflisar.materialpreferences.preferencescreen.classes.asBatch
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.Dependency
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDependency
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
+import io.gleap.Gleap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
+import java.lang.reflect.Type
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
+import javax.inject.Inject
+
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -73,8 +92,16 @@ class SettingsActivity : GodActivity() {
 
     var currentScreen = "Settings"
 
+    @Inject
+    lateinit var myWorkerFactory: PriceUpdateFactory
+
+    @Inject
+    lateinit var ttApiService: TTRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val preferences = getSharedPreferences("tarkov", MODE_PRIVATE)
 
         UserSettingsModel.openingScreen.observe(lifecycleScope) {
             Timber.d(it.toString())
@@ -119,31 +146,50 @@ class SettingsActivity : GodActivity() {
                 }
 
                 isSignedIn = FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser?.isAnonymous == false
-
-
-                //TODO FIX CRASH
-                val gameInfo = JSONObject(FirebaseRemoteConfig.getInstance()["game_info"].asString())
-
-                val wipeDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val date = LocalDate.parse(gameInfo.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
-                    val now = LocalDate.now()
-
-                    val between = ChronoUnit.DAYS.between(date, now)
-
-                    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    "${date.format(formatter)} ($between Days Ago)"
-                } else {
-                    gameInfo.getString("wipe_date")
+                
+                val gameInfo = try {
+                    JSONObject(FirebaseRemoteConfig.getInstance()["game_info"].asString())
+                } catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
                 }
 
-                val versionDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val date = LocalDate.parse(gameInfo.getString("version_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                val wipeDate = try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val date = LocalDate.parse(gameInfo?.getString("wipe_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                        val now = LocalDate.now()
 
-                    val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    "${date.format(formatter)}"
-                } else {
-                    gameInfo.getString("version_date")
+                        val between = ChronoUnit.DAYS.between(date, now)
+
+                        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                        "${date.format(formatter)} ($between Days Ago)"
+                    } else {
+                        gameInfo?.getString("wipe_date")
+                    }
+                } catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
                 }
+
+                val versionDate = try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val date = LocalDate.parse(gameInfo?.getString("version_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+
+                        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                        date.format(formatter)
+                    } else {
+                        gameInfo?.getString("version_date")
+                    }
+                }  catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
+                }
+
+                val roomUpdatesTime = DateUtils.getRelativeTimeSpanString(
+                    preferences.getLong("lastPriceUpdate", 0),
+                    System.currentTimeMillis(),
+                    DateUtils.MINUTE_IN_MILLIS
+                )
 
                 Scaffold(
                     topBar = {
@@ -325,14 +371,75 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                 }
-                                /*subScreen {
-                                    title = "Flea Market".asText()
-                                    icon = R.drawable.ic_baseline_storefront_24.asIcon()
-                                }*/
-                                /*subScreen {
-                                    title = "Data".asText()
-                                    icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
-                                }*/
+                                button {
+                                    title = "Team Management".asText()
+                                    //summary = "Join, leave, and manage your teams.".asText()
+                                    icon = R.drawable.ic_baseline_group_24.asIcon()
+                                    onClick = {
+                                        openActivity(TeamManagementActivity::class.java)
+                                    }
+                                }
+                                category {
+                                    title = "Settings".asText()
+                                }
+                                subScreen {
+                                    title = "Data Sync".asText()
+                                    icon = R.drawable.ic_baseline_update_24.asIcon()
+                                    val updateTime = if (isWorkRunning(this@SettingsActivity, "price_update")) {
+                                        "Updating now..."
+                                    } else roomUpdatesTime.toString()
+                                    button {
+                                        title = "Last Price Sync".asText()
+                                        summary = updateTime.asText()
+                                        icon = R.drawable.ic_baseline_access_time_24.asIcon()
+                                        enabled = false
+                                    }
+                                    singleChoice(UserSettingsModel.dataSyncFrequency, DataSyncFrequency.values(), {
+                                        when (it) {
+                                            DataSyncFrequency.`60` -> "1 Hour"
+                                            DataSyncFrequency.`120` -> "2 Hour"
+                                            DataSyncFrequency.`360` -> "6 Hour"
+                                            DataSyncFrequency.`720` -> "12 Hour"
+                                            DataSyncFrequency.`1440` -> "1 Day"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "Sync Frequency".asText()
+                                        icon = R.drawable.ic_baseline_update_24.asIcon()
+                                    }
+                                    button {
+                                        title = "Sync Now".asText()
+                                        summary = "".asText()
+                                        icon = R.drawable.ic_baseline_sync_24.asIcon()
+                                        //badge = "PRO".asBatch()
+                                        onClick = {
+                                            Toast.makeText(this@SettingsActivity, "Updating...", Toast.LENGTH_SHORT).show()
+                                            val priceUpdateRequestTest = OneTimeWorkRequest.Builder(
+                                                PriceUpdateWorker::class.java).build()
+
+                                            WorkManager.getInstance(this@SettingsActivity).enqueue(priceUpdateRequestTest)
+                                        }
+                                    }
+                                    category {
+                                        title = "Data Provided By".asText()
+                                    }
+                                    button {
+                                        title = "Tarkov Tools".asText()
+                                        summary = "Created by kokarn".asText()
+                                        icon = R.drawable.ic_icons8_github.asIcon()
+                                        onClick = {
+                                            "https://tarkov-tools.com/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Tarkov Data".asText()
+                                        summary = "Maintained by Community Devs".asText()
+                                        icon = R.drawable.ic_icons8_github.asIcon()
+                                        onClick = {
+                                            "https://github.com/TarkovTracker/tarkovdata/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                }
                                 subScreen {
                                     title = "Display".asText()
                                     icon = R.drawable.ic_baseline_wb_sunny_24.asIcon()
@@ -357,12 +464,50 @@ class SettingsActivity : GodActivity() {
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
                                     }
                                 }
-                                /*category {
-                                    title = "Integrations".asText()
+                                subScreen {
+                                    title = "Flea Market".asText()
+                                    icon = R.drawable.ic_baseline_storefront_24.asIcon()
+                                    singleChoice(UserSettingsModel.fleaVisiblePrice, FleaVisiblePrice.values(), {
+                                        when (it) {
+                                            FleaVisiblePrice.DEFAULT -> "Default (Original Method)"
+                                            FleaVisiblePrice.AVG -> "Average 24 Hour Price"
+                                            FleaVisiblePrice.HIGH -> "Highest 24 Hour Price"
+                                            FleaVisiblePrice.LOW -> "Lowest 24 Hour Price"
+                                            FleaVisiblePrice.LAST -> "Last Scanned Price"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "List Price".asText()
+                                        icon = R.drawable.ic_blank.asIcon()
+                                    }
                                 }
                                 subScreen {
+                                    title = "Notifications".asText()
+                                    icon = R.drawable.ic_baseline_notifications_active_24.asIcon()
+                                    category {
+                                        title = "Server Status".asText()
+                                    }
+                                    switch(UserSettingsModel.serverStatusNotifications) {
+                                        title = "Show Notifications".asText()
+                                    }
+                                    switch(UserSettingsModel.serverStatusUpdates) {
+                                        title = "Service Status Updates".asText()
+                                        summary = "Will notify when a new status update is posted.".asText()
+                                        dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
+                                    }
+                                    switch(UserSettingsModel.serverStatusMessages) {
+                                        title = "New Status Messages".asText()
+                                        summary = "Will notify when a new status message is received.".asText()
+                                        dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
+                                    }
+                                }
+                                /*category {
+                                    title = "Integrations".asText()
+                                }*/
+                                /*subScreen {
                                     title = "Tarkov Tracker".asText()
                                     icon = R.drawable.ic_baseline_link_24.asIcon()
+                                    summary = "Coming soon.".asText()
                                     button {
                                         title = "How to Setup".asText()
                                         icon = R.drawable.ic_baseline_info_24.asIcon()
@@ -384,6 +529,20 @@ class SettingsActivity : GodActivity() {
                                         summary = "".asText()
                                         textInputType = InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
                                     }
+                                    button {
+                                        title = "Scan QR Code".asText()
+                                        icon = R.drawable.ic_baseline_qr_code_scanner_24.asIcon()
+                                        onClick = {
+                                            val scanOptions = ScanOptions()
+                                            scanOptions.setPrompt("Scan QR code from Tarkov Tracker API settings.")
+                                            scanOptions.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+                                            scanOptions.setBeepEnabled(false)
+                                            scanOptions.setBarcodeImageEnabled(false)
+                                            scanOptions.setOrientationLocked(false)
+                                            scanOptions.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.MIXED_SCAN)
+                                            barcodeLauncher.launch(scanOptions)
+                                        }
+                                    }
                                     category {
                                         title = "Sync Settings".asText()
                                     }
@@ -401,17 +560,35 @@ class SettingsActivity : GodActivity() {
                                     }
                                     switch(UserSettingsModel.ttSyncQuest) {
                                         title = "Sync Quest Progress".asText()
-                                        dependsOn = UserSettingsModel.ttSync.asDependency()
+                                        dependsOn = object : Dependency<String> {
+                                            override val setting = UserSettingsModel.ttAPIKey
+                                            override suspend fun isEnabled(): Boolean {
+                                                val value = setting.flow.first()
+                                                return value.isNotEmpty()
+                                            }
+                                        }
                                     }
                                     switch(UserSettingsModel.ttSyncHideout) {
                                         title = "Sync Hideout Progress".asText()
-                                        dependsOn = UserSettingsModel.ttSync.asDependency()
+                                        dependsOn = object : Dependency<String> {
+                                            override val setting = UserSettingsModel.ttAPIKey
+                                            override suspend fun isEnabled(): Boolean {
+                                                val value = setting.flow.first()
+                                                return value.isNotEmpty()
+                                            }
+                                        }
                                     }
                                     button {
                                         title = "Sync Now".asText()
                                         summary = "".asText()
                                         icon = R.drawable.ic_baseline_sync_24.asIcon()
-                                        dependsOn = UserSettingsModel.ttSync.asDependency()
+                                        dependsOn = object : Dependency<String> {
+                                            override val setting = UserSettingsModel.ttAPIKey
+                                            override suspend fun isEnabled(): Boolean {
+                                                val value = setting.flow.first()
+                                                return value.isNotEmpty()
+                                            }
+                                        }
                                         onClick = {
                                             Toast.makeText(this@SettingsActivity, "Syncing...", Toast.LENGTH_SHORT).show()
                                         }
@@ -423,65 +600,150 @@ class SettingsActivity : GodActivity() {
                                         title = "Push".asText()
                                         summary = "Will overwrite any data on Tarkov Tracker.".asText()
                                         icon = R.drawable.ic_baseline_backup_24.asIcon()
-                                        dependsOn = UserSettingsModel.ttSync.asDependency()
+                                        dependsOn = object : Dependency<String> {
+                                            override val setting = UserSettingsModel.ttAPIKey
+                                            override suspend fun isEnabled(): Boolean {
+                                                val value = setting.flow.first()
+                                                return value.isNotEmpty()
+                                            }
+                                        }
                                         onClick = {
-
+                                            lifecycleScope.launch {
+                                                ttApiService.setUserLevel("Bearer ${UserSettingsModel.ttAPIKey.value}", UserSettingsModel.playerLevel.value)
+                                            }
                                         }
                                     }
                                     button {
                                         title = "Pull".asText()
                                         summary = "Will overwrite any data on app.".asText()
                                         icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
-                                        dependsOn = UserSettingsModel.ttSync.asDependency()
+                                        dependsOn = object : Dependency<String> {
+                                            override val setting = UserSettingsModel.ttAPIKey
+                                            override suspend fun isEnabled(): Boolean {
+                                                val value = setting.flow.first()
+                                                return value.isNotEmpty()
+                                            }
+                                        }
                                         onClick = {
+                                            lifecycleScope.launch {
+                                                val test = ttApiService.getUserProgress("Bearer ${UserSettingsModel.ttAPIKey.value}")
+                                                Timber.d(test.toString())
 
+                                                if (test.isSuccessful) {
+                                                    test.body()?.quests?.forEach {
+                                                        Timber.d("${it.key} ${it.value.complete}")
+                                                    }
+
+                                                    test.body()?.pushToDB()
+                                                    UserSettingsModel.playerLevel.update(test.body()?.level ?: return@launch)
+                                                }
+                                            }
                                         }
                                     }
                                 }*/
-                                /*subScreen {
-                                    title = "Hideout".asText()
-                                    //icon = R.drawable.icons8_tent_96.asIcon()
-                                }*/
-                                /*subScreen {
-                                    title = "Quests".asText()
-                                    //icon = R.drawable.ic_baseline_assignment_24.asIcon()
-                                }*/
-                                /*category {
-                                    title = "Premium & Donations".asText()
-                                }
-                                button {
-                                    title = "Upgrade or Donate".asText()
-                                    icon = R.drawable.ic_baseline_attach_money_24.asIcon()
-                                    onClick = {
-
-                                    }
-                                }*/
-                                category {
-                                    title = "Join Us On".asText()
-                                }
-                                button {
-                                    title = "Discord".asText()
-                                    icon = R.drawable.ic_icons8_discord_svg.asIcon()
-                                    onClick = {
-                                        "https://discord.gg/YQW36z29z6".openWithCustomTab(this@SettingsActivity)
-                                    }
-                                }
-                                button {
-                                    title = "Twitch".asText()
-                                    icon = R.drawable.ic_icons8_twitch.asIcon()
-                                    onClick = {
-                                        "https://www.twitch.tv/theeeelegend".openWithCustomTab(this@SettingsActivity)
-                                    }
-                                }
-                                button {
-                                    title = "Twitter".asText()
-                                    icon = R.drawable.ic_icons8_twitter.asIcon()
-                                    onClick = {
-                                        "https://twitter.com/austin6561".openWithCustomTab(this@SettingsActivity)
-                                    }
-                                }
                                 category {
                                     title = "About".asText()
+                                }
+                                button {
+                                    title = "Send Feedback".asText()
+                                    summary = "Take a screenshot, try it!".asText()
+                                    icon = R.drawable.ic_baseline_feedback_24.asIcon()
+                                    onClick = {
+                                        Gleap.getInstance().startFeedbackFlow()
+                                    }
+                                }
+                                button {
+                                    title = "Server Status".asText()
+                                    icon = R.drawable.ic_baseline_cloud_24.asIcon()
+                                    onClick = {
+                                        openActivity(ServerStatusActivity::class.java)
+                                    }
+                                }
+                                subScreen {
+                                    title = "Socials".asText()
+                                    icon = R.drawable.ic_icons8_discord_svg.asIcon()
+                                    category {
+                                        title = "Join Us On".asText()
+                                    }
+                                    button {
+                                        title = "Discord".asText()
+                                        icon = R.drawable.ic_icons8_discord_svg.asIcon()
+                                        onClick = {
+                                            "https://discord.gg/YQW36z29z6".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Twitch".asText()
+                                        icon = R.drawable.ic_icons8_twitch.asIcon()
+                                        onClick = {
+                                            "https://www.twitch.tv/theeeelegend".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Twitter".asText()
+                                        icon = R.drawable.ic_icons8_twitter.asIcon()
+                                        onClick = {
+                                            "https://twitter.com/austin6561".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    category {
+                                        title = "Battlestate Games".asText()
+                                    }
+                                    button {
+                                        title = "Twitch".asText()
+                                        icon = R.drawable.ic_icons8_twitch.asIcon()
+                                        onClick = {
+                                            "https://www.twitch.tv/battlestategames".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Twitter".asText()
+                                        icon = R.drawable.ic_icons8_twitter.asIcon()
+                                        onClick = {
+                                            "https://twitter.com/bstategames".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    category {
+                                        title = "Community Tools".asText()
+                                    }
+                                    button {
+                                        title = "Tarkov Tracker".asText()
+                                        //icon = R.drawable.ic_round_language_24.asIcon()
+                                        onClick = {
+                                            "https://tarkovtracker.io/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Tarkov Tools".asText()
+                                        //icon = R.drawable.ic_round_language_24.asIcon()
+                                        onClick = {
+                                            "https://tarkov-tools.com/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Rat Scanner".asText()
+                                        //icon = R.drawable.ic_round_language_24.asIcon()
+                                        //summary = "Rat Scanner allows you to scan items and provides you with realtime data about them.".asText()
+                                        onClick = {
+                                            "https://ratscanner.com/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "EFT Dev Tracker".asText()
+                                        //icon = R.drawable.ic_round_language_24.asIcon()
+                                        //summary = "Rat Scanner allows you to scan items and provides you with realtime data about them.".asText()
+                                        onClick = {
+                                            "https://developertracker.com/escape-from-tarkov/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Tarkov Guru".asText()
+                                        //icon = R.drawable.ic_round_language_24.asIcon()
+                                        //summary = "Rat Scanner allows you to scan items and provides you with realtime data about them.".asText()
+                                        onClick = {
+                                            "https://tarkov.guru".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
                                 }
                                 button {
                                     title = "The Hideout".asText()
@@ -491,7 +753,7 @@ class SettingsActivity : GodActivity() {
                                 }
                                 button {
                                     title = "Game Version".asText()
-                                    summary = "${gameInfo.getString("version")} ($versionDate)".asText()
+                                    summary = "${gameInfo?.getString("version")} ($versionDate)".asText()
                                     icon = R.drawable.ic_baseline_info_24.asIcon()
                                     enabled = false
                                     onClick= {
@@ -500,7 +762,7 @@ class SettingsActivity : GodActivity() {
                                 }
                                 button {
                                     title = "Last Wipe".asText()
-                                    summary = wipeDate.asText()
+                                    summary = (wipeDate ?: "").asText()
                                     icon = R.drawable.icons8_toilet_paper_24.asIcon()
                                     enabled = false
                                 }
@@ -526,7 +788,19 @@ class SettingsActivity : GodActivity() {
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
         screen.onSaveInstanceState(outState)
+    }
 
+    private val barcodeLauncher: ActivityResultLauncher<ScanOptions> = registerForActivityResult(
+        ScanContract()
+    ) { result: ScanIntentResult ->
+        if (result.contents == null) {
+
+        } else {
+            lifecycleScope.launch {
+                UserSettingsModel.ttAPIKey.update(result.contents)
+                Toast.makeText(this@SettingsActivity, "API Key saved, please reload page.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
 

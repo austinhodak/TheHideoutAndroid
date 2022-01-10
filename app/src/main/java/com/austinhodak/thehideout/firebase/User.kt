@@ -16,8 +16,17 @@ data class User(
     var items: Map<String, UNeededItem>? = null,
     var cart: Map<String, Int>? = null,
     var ttApiKey: String? = null,
-    var teams: Map<String, Boolean>? = null
+    var teams: Map<String, Boolean>? = null,
+    var discordUsername: String? = null,
+    var token: String? = null,
+    var displayName: String? = null,
+    var uid: String? = null,
+    var playerLevel: Int? = null
 ) {
+    fun getUsername(): String {
+        return if (!displayName.isNullOrEmpty()) displayName!! else if (!discordUsername.isNullOrEmpty()) discordUsername!! else "$uid"
+    }
+
     data class UNeededItem (
         var hideoutObjective: Map<String, Int>? = null,
         var questObjective: Map<String, Int>? = null,
@@ -42,7 +51,8 @@ data class User(
 
     data class UQuestObjective(
         var progress: Int? = null,
-        var id: Int? = null
+        var id: Int? = null,
+        var completed: Boolean? = null
     )
 
     data class UQuest(
@@ -57,7 +67,8 @@ data class User(
 
     data class UHideoutObjective(
         var progress: Int? = null,
-        var id: Int? = null
+        var id: Int? = null,
+        var completed: Boolean? = null
     )
 
     fun completedHideoutIDs(): List<Int> {
@@ -77,7 +88,7 @@ data class User(
 
     fun isHideoutObjectiveComplete(requirement: Hideout.Module.Require): Boolean {
         val h = hideoutObjectives?.values?.find { it?.id == requirement.id }
-        return requirement.quantity == h?.progress
+        return requirement.quantity == h?.progress || h?.completed == true
     }
 
     fun isQuestCompleted(quest: Quest): Boolean {
@@ -92,7 +103,12 @@ data class User(
 
     fun isObjectiveCompleted(objective: Quest.QuestObjective): Boolean {
         val o = questObjectives?.values?.find { it?.id == objective.id?.toInt() }
-        return objective.number == o?.progress
+        return objective.number == o?.progress || o?.completed == true
+    }
+
+    fun getObjectiveProgress(objective: Quest.QuestObjective): Int {
+        val o = questObjectives?.values?.find { it?.id == objective.id?.toInt() }
+        return o?.progress ?: 0
     }
 
     fun hasKey(id: String): Boolean {

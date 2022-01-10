@@ -79,6 +79,7 @@ import com.google.firebase.database.ValueEventListener
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import javax.inject.Inject
@@ -103,7 +104,7 @@ class FleaItemDetail : GodActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         //WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        itemID = intent.getStringExtra("id") ?: "5447a9cd4bdc2dbd208b4567"
+        itemID = intent.getStringExtra("id") ?: "5e42c81886f7742a01529f57"
         viewModel.getItemByID(itemID)
 
         setContent {
@@ -196,6 +197,35 @@ class FleaItemDetail : GodActivity() {
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
                                             item {
+                                                if (item.value?.pricing?.noFlea == true) {
+                                                    Card(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(
+                                                                horizontal = 8.dp,
+                                                                vertical = 4.dp
+                                                            ),
+                                                        backgroundColor = Red400
+                                                    ) {
+                                                        Row(
+                                                            verticalAlignment = Alignment.CenterVertically,
+                                                            modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)
+                                                        ) {
+                                                            Icon(
+                                                                painter = painterResource(id = R.drawable.icons8_online_store_96),
+                                                                contentDescription = "",
+                                                                modifier = Modifier.size(24.dp),
+                                                                tint = Color.Black
+                                                            )
+                                                            Text(
+                                                                text = "Not Sold on Flea Market",
+                                                                modifier = Modifier.padding(start = 16.dp),
+                                                                color = Color.Black,
+                                                                style = MaterialTheme.typography.subtitle2
+                                                            )
+                                                        }
+                                                    }
+                                                }
                                                 Card1(item = item.value)
                                                 if (!item.value?.pricing?.sellFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersSellCard(
                                                     title = "SELL PRICES",
@@ -791,7 +821,7 @@ class FleaItemDetail : GodActivity() {
                         Box {
                             Image(
                                 rememberImagePainter(
-                                    rewardItem?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                                    rewardItem?.getCleanIcon()
                                 ),
                                 contentDescription = null,
                                 modifier = Modifier
@@ -830,6 +860,7 @@ class FleaItemDetail : GodActivity() {
                                     fontWeight = FontWeight.Light,
                                 )
                             }
+                            Timber.d(rewardItem.toString())
                             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                                 Text(
                                     text = "${rewardItem?.avg24hPrice?.asCurrency()} @ Flea Market",
@@ -914,8 +945,7 @@ class FleaItemDetail : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(data = rewardItem?.iconLink
-                            ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"),
+                        rememberImagePainter(data = rewardItem?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)
@@ -1003,7 +1033,7 @@ class FleaItemDetail : GodActivity() {
             Box {
                 Image(
                     rememberImagePainter(
-                        item?.iconLink ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                        item?.getCleanIcon()
                     ),
                     contentDescription = null,
                     modifier = Modifier
@@ -1143,7 +1173,7 @@ class FleaItemDetail : GodActivity() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            rememberImagePainter(item?.pricing?.iconLink ?: ""),
+                            rememberImagePainter(item?.pricing?.getCleanIcon()),
                             contentDescription = null,
                             modifier = Modifier
                                 .padding(vertical = 16.dp)
@@ -1151,19 +1181,21 @@ class FleaItemDetail : GodActivity() {
                                 .height(52.dp)
                                 .border((0.25).dp, color = BorderColor)
                                 .clickable {
-                                    StfalconImageViewer
-                                        .Builder(
-                                            context,
-                                            listOf(item?.pricing?.imageLink)
-                                        ) { view, image ->
-                                            Glide
-                                                .with(view)
-                                                .load(image)
-                                                .into(view)
-                                        }
-                                        .withHiddenStatusBar(false)
-                                        .withBackgroundColor(color.toArgb())
-                                        .show()
+                                    item?.pricing?.imageLink?.let {
+                                        StfalconImageViewer
+                                            .Builder(
+                                                context,
+                                                listOf(it)
+                                            ) { view, image ->
+                                                Glide
+                                                    .with(view)
+                                                    .load(image)
+                                                    .into(view)
+                                            }
+                                            .withHiddenStatusBar(false)
+                                            .withBackgroundColor(color.toArgb())
+                                            .show()
+                                    }
                                 }
                         )
                         Column(
@@ -1178,7 +1210,7 @@ class FleaItemDetail : GodActivity() {
                             //fontSize = 16.sp
                         )*/
                             Text(
-                                text = "Last Price: ${item?.pricing?.lastLowPrice?.asCurrency()}",
+                                text = "Last Price: ${item?.pricing?.getLastPrice()?.asCurrency()}",
                                 style = MaterialTheme.typography.subtitle1,
                                 fontSize = 16.sp
                             )

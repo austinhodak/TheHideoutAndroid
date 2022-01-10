@@ -203,7 +203,7 @@ fun KeyCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.gridImageLink),
+                    rememberImagePainter(item.pricing?.getIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)

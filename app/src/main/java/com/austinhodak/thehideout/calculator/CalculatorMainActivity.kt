@@ -69,6 +69,7 @@ class CalculatorMainActivity : GodActivity() {
         setContent {
             HideoutTheme {
                 if (intent != null) {
+                    //TODO FIX THIS, INTENT OVERRIDING SELECTED VALUES
                     intent.getSerializableExtra("ammo")?.let {
                         if (it is Ammo) {
                             simViewModel.selectAmmo(it)
@@ -86,6 +87,7 @@ class CalculatorMainActivity : GodActivity() {
                             simViewModel.selectHelmet(it)
                         }
                     }
+                    intent = null
                 }
 
                 val scaffoldState = rememberBottomSheetScaffoldState()
@@ -281,7 +283,7 @@ class CalculatorMainActivity : GodActivity() {
             ) {
                 if (selectedAmmo?.pricing?.iconLink != null) {
                     Image(
-                        painter = rememberImagePainter(data = selectedAmmo.pricing?.iconLink),
+                        painter = rememberImagePainter(data = selectedAmmo.pricing?.getCleanIcon()),
                         contentDescription = "",
                         modifier = Modifier.size(40.dp)
                     )
@@ -328,7 +330,7 @@ class CalculatorMainActivity : GodActivity() {
             ) {
                 if (selectedArmor?.pricing?.iconLink != null) {
                     Image(
-                        painter = rememberImagePainter(data = selectedArmor.pricing?.iconLink),
+                        painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
                         contentDescription = "",
                         modifier = Modifier.size(40.dp)
                     )
@@ -375,7 +377,7 @@ class CalculatorMainActivity : GodActivity() {
             ) {
                 if (selectedArmor?.pricing?.iconLink != null) {
                     Image(
-                        painter = rememberImagePainter(data = selectedArmor.pricing?.iconLink),
+                        painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
                         contentDescription = "",
                         modifier = Modifier.size(40.dp)
                     )

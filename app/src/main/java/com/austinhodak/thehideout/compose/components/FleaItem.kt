@@ -18,18 +18,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.convertRtoUSD
+import com.austinhodak.tarkovapi.utils.fromDtoR
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.utils.traderImage
+import kotlin.math.roundToInt
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun FleaItem(
     item: Item,
+    priceDisplay: FleaVisiblePrice,
     onClick: (String) -> Unit
 ) {
 
@@ -65,12 +70,14 @@ fun FleaItem(
                     .fillMaxHeight()
                     .padding(end = 16.dp))
                 Image(
-                    rememberImagePainter(item.pricing?.iconLink ?: "https://tarkov-tools.com/images/flea-market-icon.jpg"),
+                    rememberImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
+                        .padding(vertical = 16.dp)
                         .width(48.dp)
                         .height(48.dp)
                         .border((0.25).dp, color = BorderColor)
+
                 )
                 Column(
                     Modifier
@@ -84,8 +91,13 @@ fun FleaItem(
                         fontSize = 15.sp
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        val text = if (item.pricing?.noFlea == false) {
+                            item.getUpdatedTime()
+                        } else {
+                            "${item.getUpdatedTime()} • Not on Flea"
+                        }
                         Text(
-                            text = item.getUpdatedTime(),
+                            text = text,
                             style = MaterialTheme.typography.caption,
                             fontSize = 10.sp
                         )
@@ -95,14 +107,22 @@ fun FleaItem(
                     horizontalAlignment = Alignment.End,
                     modifier = Modifier.padding(vertical = 16.dp)
                 ) {
+                    val price = when (priceDisplay) {
+                        FleaVisiblePrice.DEFAULT -> item.getPrice()
+                        FleaVisiblePrice.AVG -> item.pricing?.avg24hPrice
+                        FleaVisiblePrice.HIGH -> item.pricing?.high24hPrice
+                        FleaVisiblePrice.LOW -> item.pricing?.low24hPrice
+                        FleaVisiblePrice.LAST -> item.pricing?.lastLowPrice
+                    }
+
                     Text(
-                        text = item.getPrice().asCurrency(),
+                        text = price?.asCurrency() ?: "",
                         style = MaterialTheme.typography.h6,
                         fontSize = 15.sp
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "${item.getPricePerSlot().asCurrency()}/slot",
+                            text = "${item.getPricePerSlot(price ?: 0).asCurrency()}/slot",
                             style = MaterialTheme.typography.caption,
                             fontSize = 10.sp
                         )
@@ -143,13 +163,13 @@ fun SmallBuyPrice(pricing: Pricing?) {
         modifier = Modifier.padding(top = 0.dp)
     ) {
         Image(
-            painter = rememberImagePainter(data = i?.traderImage(false)),
+            painter = rememberImagePainter(data = i.traderImage(false)),
             contentDescription = "Trader",
             modifier = Modifier.size(16.dp)
         )
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             Text(
-                text = i?.getPriceAsCurrency() ?: "",
+                text = i.getPriceAsCurrency() ?: "",
                 style = MaterialTheme.typography.caption,
                 fontSize = 10.sp,
                 modifier = Modifier.padding(start = 4.dp)
@@ -226,7 +246,8 @@ fun TraderSmallPreview() {
                     )
                 )
             ),
-            wikiLink = null
+            wikiLink = null,
+            false
         )
     )
 }

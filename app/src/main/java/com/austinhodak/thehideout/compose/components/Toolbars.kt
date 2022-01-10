@@ -206,6 +206,7 @@ fun OverflowMenuItem(
 fun WikiItem(
     url: String
 ) {
+    if (url.isEmpty()) return
     val context = LocalContext.current
     OverflowMenuItem(text = "Wiki Page", icon = {
         Icon(
