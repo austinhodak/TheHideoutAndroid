@@ -39,6 +39,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.billing.PremiumActivity
 import com.austinhodak.thehideout.calculator.models.Character
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.status.ServerStatusActivity
 import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
@@ -479,6 +480,26 @@ class SettingsActivity : GodActivity() {
                                         icon = R.drawable.ic_blank.asIcon()
                                     }
                                 }
+                                subScreen {
+                                    title = "Notifications".asText()
+                                    icon = R.drawable.ic_baseline_notifications_active_24.asIcon()
+                                    category {
+                                        title = "Server Status".asText()
+                                    }
+                                    switch(UserSettingsModel.serverStatusNotifications) {
+                                        title = "Show Notifications".asText()
+                                    }
+                                    switch(UserSettingsModel.serverStatusUpdates) {
+                                        title = "Service Status Updates".asText()
+                                        summary = "Will notify when a new status update is posted.".asText()
+                                        dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
+                                    }
+                                    switch(UserSettingsModel.serverStatusMessages) {
+                                        title = "New Status Messages".asText()
+                                        summary = "Will notify when a new status message is received.".asText()
+                                        dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
+                                    }
+                                }
                                 /*category {
                                     title = "Integrations".asText()
                                 }*/
@@ -621,6 +642,13 @@ class SettingsActivity : GodActivity() {
                                 }*/
                                 category {
                                     title = "About".asText()
+                                }
+                                button {
+                                    title = "Server Status".asText()
+                                    icon = R.drawable.ic_baseline_cloud_24.asIcon()
+                                    onClick = {
+                                        openActivity(ServerStatusActivity::class.java)
+                                    }
                                 }
                                 subScreen {
                                     title = "Socials".asText()

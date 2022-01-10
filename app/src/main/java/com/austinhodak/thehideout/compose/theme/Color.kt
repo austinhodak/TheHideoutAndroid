@@ -40,3 +40,8 @@ val itemGreen = Color(0xff181F11)
 val itemBlack = Color(0xff181919)
 
 val BorderColor = Color(0xFF4a5154)
+
+val StatusBlue = Color(0xFF90c1eb)
+val StatusRed = Color(0xFFd42929)
+val StatusOrange = Color(0xFFca8a00)
+val StatusGreen = Color(0xFF70b035)

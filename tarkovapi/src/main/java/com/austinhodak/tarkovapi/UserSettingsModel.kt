@@ -49,6 +49,12 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
     val dataSyncFrequency by enumPref(DataSyncFrequency.`60`, "dataSyncFrequency")
     val dataSyncFrequencyPrevious by enumPref(DataSyncFrequency.`120`, "dataSyncFrequencyPrevious")
+
+    val showStatusOnHomeScreen by boolPref(true, "showStatusOnHomeScreen")
+
+    val serverStatusNotifications by boolPref(false, "serverStatusNotifications")
+    val serverStatusUpdates by boolPref(true, "serverStatusUpdates")
+    val serverStatusMessages by boolPref(true, "serverStatusMessages")
 }
 
 enum class DataSyncFrequency {

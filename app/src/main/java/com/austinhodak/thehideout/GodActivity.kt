@@ -3,7 +3,10 @@ package com.austinhodak.thehideout
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.apollographql.apollo3.ApolloClient
+import com.austinhodak.tarkovapi.ServerStatusQuery
 import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.models.toObj
 import com.austinhodak.thehideout.utils.keepScreenOn
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.auth.ktx.auth
@@ -12,13 +15,31 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
+import dagger.hilt.android.AndroidEntryPoint
+import io.gleap.Gleap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 open class GodActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var apolloClient: ApolloClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", application)
+
+        UserSettingsModel.serverStatusNotifications.observe(lifecycleScope) {
+            if (it) {
+                Firebase.messaging.subscribeToTopic("serverStatus")
+            } else {
+                Firebase.messaging.unsubscribeFromTopic("serverStatus")
+            }
+        }
 
         UserSettingsModel.keepScreenOn.observe(lifecycleScope) { keepOn ->
             keepScreenOn(keepOn)

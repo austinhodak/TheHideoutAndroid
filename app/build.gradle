@@ -39,9 +39,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 12201
+        versionCode 12401
         // [1]-[0].[2].[0].[0]
-        versionName "1.2.2"
+        versionName "1.2.4"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -235,4 +235,6 @@ dependencies {
     implementation 'com.github.adaptyteam:AdaptySDK-Android:1.2.0'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '+'
 }

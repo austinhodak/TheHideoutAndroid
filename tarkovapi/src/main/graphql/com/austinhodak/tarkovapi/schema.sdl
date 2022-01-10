@@ -90,10 +90,12 @@ type Query {
     barters: [Barter]
     crafts: [Craft]
     hideoutModules: [HideoutModule]
+    historicalItemPrices(id: ID!): [historicalPricePoint]!
     item(id: ID!): Item
     itemsByName(name: String!): [Item]!
     itemsByType(type: ItemType!): [Item]!
     quests: [Quest]
+    status: ServerStatus!
 }
 
 type Quest {
@@ -129,6 +131,25 @@ type QuestRewardReputation {
     trader: Trader!
 }
 
+type ServerStatus {
+    currentStatuses: [Status]
+    generalStatus: Status
+    messages: [StatusMessage]
+}
+
+type Status {
+    message: String
+    name: String!
+    status: Int!
+}
+
+type StatusMessage {
+    content: String!
+    solveTime: String
+    time: String!
+    type: Int!
+}
+
 type Trader {
     id: String!
     name: String!
@@ -154,6 +175,11 @@ type TraderPrice {
     trader: Trader!
 }
 
+type historicalPricePoint {
+    price: Int
+    timestamp: String
+}
+
 enum ItemSourceName {
     fence
     fleaMarket
@@ -173,6 +199,7 @@ enum ItemType {
     armor
     backpack
     barter
+    container
     disabled
     glasses
     grenade

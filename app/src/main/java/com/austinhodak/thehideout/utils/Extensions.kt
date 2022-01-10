@@ -609,3 +609,7 @@ fun isWorkRunning(context: Context, tag: String): Boolean {
         false
     }
 }
+
+fun openStatusSite(context: Context) {
+    "https://status.escapefromtarkov.com/".openWithCustomTab(context)
+}

@@ -1,7 +1,6 @@
 package com.austinhodak.thehideout
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -228,7 +227,7 @@ class NavActivity : GodActivity() {
                 Scaffold(
                     scaffoldState = scaffoldState,
                     drawerContent = {
-                        MainDrawer(navViewModel = navViewModel, lifeCycleOwner, this@NavActivity)
+                        MainDrawer(navViewModel = navViewModel, lifeCycleOwner, this@NavActivity, apolloClient)
                     },
                     drawerScrimColor = Color(0xFF121212)
                 ) {

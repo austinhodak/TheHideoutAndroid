@@ -12,8 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
+        <activity
+            android:name=".status.ServerStatusActivity"
+            android:exported="true" />
+
         <receiver
-            android:name="com.austinhodak.thehideout.widgets.SinglePriceWidget"
+            android:name=".widgets.SinglePriceWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -26,13 +30,12 @@
 
         <activity
             android:name=".pickers.PickerActivity"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"
-            android:exported="true">
-        </activity>
+            android:exported="true"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"></activity>
         <activity
             android:name=".widgets.WidgetPickerActivity"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -140,6 +143,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".quests.inraid.QuestInRaidActivity"
             android:exported="true"
