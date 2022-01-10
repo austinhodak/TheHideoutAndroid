@@ -65,6 +65,7 @@ import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDep
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
+import io.gleap.Gleap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -642,6 +643,14 @@ class SettingsActivity : GodActivity() {
                                 }*/
                                 category {
                                     title = "About".asText()
+                                }
+                                button {
+                                    title = "Send Feedback".asText()
+                                    summary = "Take a screenshot, try it!".asText()
+                                    icon = R.drawable.ic_baseline_feedback_24.asIcon()
+                                    onClick = {
+                                        Gleap.getInstance().startFeedbackFlow()
+                                    }
                                 }
                                 button {
                                     title = "Server Status".asText()

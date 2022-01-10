@@ -130,6 +130,7 @@ class ServerStatusActivity : AppCompatActivity() {
                         LoadingItem()
                     }
                     status?.let {
+
                         LazyColumn(
                             contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
                         ) {

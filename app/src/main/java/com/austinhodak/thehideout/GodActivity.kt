@@ -31,7 +31,7 @@ open class GodActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", application)
+
 
         UserSettingsModel.serverStatusNotifications.observe(lifecycleScope) {
             if (it) {

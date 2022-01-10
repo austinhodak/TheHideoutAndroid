@@ -75,6 +75,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
         createServerStatusChannel()
 
+        Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
 
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 

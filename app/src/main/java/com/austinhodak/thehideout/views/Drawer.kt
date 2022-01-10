@@ -446,8 +446,7 @@ fun MainDrawer(
             if (status?.isDegraded() == true && UserSettingsModel.showStatusOnHomeScreen.value) {
                 FloatingActionButton(
                     onClick = {
-                        //context.openActivity(ServerStatusActivity::class.java)
-                        Gleap.getInstance().startFeedbackFlow();
+                        context.openActivity(ServerStatusActivity::class.java)
                     },
                     backgroundColor = status?.currentStatusColor() ?: StatusRed
                 ) {
