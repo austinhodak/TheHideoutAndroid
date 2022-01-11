@@ -652,13 +652,13 @@ class SettingsActivity : GodActivity() {
                                         Gleap.getInstance().startFeedbackFlow()
                                     }
                                 }
-                                button {
+                                /*button {
                                     title = "Server Status".asText()
                                     icon = R.drawable.ic_baseline_cloud_24.asIcon()
                                     onClick = {
                                         openActivity(ServerStatusActivity::class.java)
                                     }
-                                }
+                                }*/
                                 subScreen {
                                     title = "Socials".asText()
                                     icon = R.drawable.ic_icons8_discord_svg.asIcon()

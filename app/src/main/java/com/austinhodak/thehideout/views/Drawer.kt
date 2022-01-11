@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,10 @@ import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.mikepenz.materialdrawer.holder.BadgeStyle
+import com.mikepenz.materialdrawer.holder.ColorHolder
 import com.mikepenz.materialdrawer.model.*
+import com.mikepenz.materialdrawer.model.interfaces.badgeText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
 import com.mikepenz.materialdrawer.util.*
@@ -254,6 +258,14 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         true; typeface = benderFont; isEnabled = true
     }
 
+    private val drawerNews = PrimaryDrawerItem().apply {
+        tag = "news"; identifier = 601; nameText = "News"; iconRes = R.drawable.ic_baseline_newspaper_24; isIconTinted = true; typeface = benderFont;
+    }
+
+    private val drawerServerStatus = PrimaryDrawerItem().apply {
+        tag = "server_status"; identifier = 602; nameText = "Server Status"; iconRes = R.drawable.icons8_server_96; isIconTinted = true; typeface = benderFont; isSelectable = false
+    }
+
     private val drawerExtraTools = ExpandableDrawerItem().apply {
         nameText = "Tools"
         iconRes = R.drawable.icons8_wrench_96; isIconTinted = true
@@ -262,6 +274,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         subItems = mutableListOf(
             drawerBitcoin,
             drawerCurrencyConverter,
+            drawerNews,
             drawerSensitivity
         )
     }
@@ -354,9 +367,6 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         isSelectable = false
     }
 
-    private val drawerNews = PrimaryDrawerItem().apply {
-        tag = "news"; identifier = 601; nameText = "News"; iconRes = R.drawable.ic_baseline_rss_feed_24; isIconTinted = true; typeface = benderFont
-    }
 
     init {
         itemAdapter.add(
@@ -377,16 +387,10 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
             drawerQuests,
             drawerDamageSimulator,
             drawerExtraTools,
-            //drawerSectionJoinUs,
-            //drawerJoinUsDiscord,
-            //drawerJoinUsTwitch,
-            //drawerJoinUsTwitter,
-            //drawerDivider,
             drawerTraders,
             drawerDivider,
-            //drawerLogin,
-            drawerSettings,
-            //drawerVersion,
+            drawerNews,
+            drawerServerStatus
         )
 
         addStickyFooterItem(drawerSettings)
@@ -417,6 +421,7 @@ fun MainDrawer(
     val scaffoldState = rememberScaffoldState()
 
     val benderFont = ResourcesCompat.getFont(context, R.font.bender)
+    val benderFontMedium = ResourcesCompat.getFont(context, R.font.bender_bold)
 
     val drawerLogin = SecondaryDrawerItem().apply {
         tag = "login"
@@ -456,7 +461,7 @@ fun MainDrawer(
             }
         },
         floatingActionButton = {
-            if (status?.isDegraded() == true && UserSettingsModel.showStatusOnHomeScreen.value) {
+            /*if (status?.isDegraded() == true && UserSettingsModel.showStatusOnHomeScreen.value) {
                 FloatingActionButton(
                     onClick = {
                         context.openActivity(ServerStatusActivity::class.java)
@@ -469,7 +474,7 @@ fun MainDrawer(
                         tint = Black
                     )
                 }
-            }
+            }*/
         }
     ) {
         Column(
@@ -531,6 +536,7 @@ fun MainDrawer(
                                     route == "activity:map" -> context.openActivity(MapsActivity::class.java)
                                     route == "settings" -> context.openActivity(SettingsActivity::class.java)
                                     route == "upgrade" -> context.openActivity(PremiumPusherActivity::class.java)
+                                    route == "server_status" -> context.openActivity(ServerStatusActivity::class.java)
                                     route.contains("https:") -> {
                                         route.openWithCustomTab(context)
                                     }
@@ -552,6 +558,25 @@ fun MainDrawer(
 
                     drawer
                 }, update = { drawer ->
+                    val drawerServerStatus = PrimaryDrawerItem().apply {
+                        tag = "server_status"
+                        identifier = 602
+                        nameText = "Server Status"
+                        iconRes = R.drawable.icons8_server_96
+                        isIconTinted = true
+                        typeface = benderFont
+                        isSelectable = false
+                        badgeText = status?.getBadgeText() ?: ""
+                        badgeStyle = BadgeStyle().apply {
+                            color = ColorHolder.fromColor(status?.currentStatusColor()?.toArgb() ?: 0x00000000)
+                        }
+                    }
+                    if (status != null && !status?.getBadgeText().isNullOrBlank()) {
+                        drawer.updateItem(
+                            drawerServerStatus
+                        )
+                    }
+
                     if (selectedDrawerItem != null) {
                         drawer.setSelection(selectedDrawerItem!!.identifier, false)
                     } else {

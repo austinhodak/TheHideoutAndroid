@@ -50,6 +50,16 @@ data class ServerStatus(
         val status: Int?
     )
 
+    fun getBadgeText(): String {
+        return when (generalStatus?.status) {
+            0 -> ""
+            1 -> " Updating "
+            2 -> " Problems "
+            3, 4 -> " Issues "
+            else -> ""
+        }
+    }
+
     data class Message(
         val content: String?,
         val solveTime: String?,
