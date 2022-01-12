@@ -1,7 +1,9 @@
 package com.austinhodak.tarkovapi
 
+import com.austinhodak.tarkovapi.utils.Maps
 import com.michaelflisar.materialpreferences.core.SettingsModel
 import com.michaelflisar.materialpreferences.datastore.DataStoreStorage
+
 
 object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
@@ -24,6 +26,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val jaegerLevel by enumPref(Levels.`4`, "jaegerLevel")
 
     val openingScreen by enumPref(OpeningScreen.FLEA, "openingScreen")
+
+    val defaultMap by enumPref(MapEnums.CUSTOMS, "defaultMap")
 
     val playerLevel by intPref(71, "playerLevel")
 
@@ -89,4 +93,15 @@ enum class Levels {
     `2`,
     `3`,
     `4`
+}
+
+enum class MapEnums(var id: String, var int: Int, var icon: Int) {
+    FACTORY("Factory", 0, R.drawable.icons8_factory_breakdown_96),
+    CUSTOMS("Customs", 1, R.drawable.icons8_structural_96),
+    WOODS("Woods", 2, R.drawable.icons8_forest_96),
+    SHORELINE("Shoreline", 3, R.drawable.icons8_bay_96),
+    INTERCHANGE("Interchange", 4, R.drawable.icons8_shopping_mall_96),
+    RESERVE("Reserve", 6, R.drawable.icons8_knight_96),
+    THELAB("Labs", 5, R.drawable.icons8_laboratory_96),
+    LIGHTHOUSE("Lighthouse", 7, R.drawable.icons8_lighthouse_96),
 }

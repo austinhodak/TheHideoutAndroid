@@ -162,6 +162,9 @@ class MapsActivity : GodActivity() {
             if (intent.hasExtra("map")) {
                 val intentMap = intent.getStringExtra("map")
                 mapViewModel.setMap(intentMap.toString().lowercase(), this@MapsActivity)
+            } else {
+                val defaultMap = UserSettingsModel.defaultMap.value
+                mapViewModel.setMap(defaultMap.id.lowercase(), this@MapsActivity)
             }
 
             scope.launch {
@@ -820,7 +823,15 @@ class MapsActivity : GodActivity() {
                 950 -> R.drawable.icon_scav
                 1011 -> R.drawable.icon_sniper
                 1014 -> R.drawable.icon_easter_eggs
-                954 -> R.drawable.icon_extract
+                954 -> {
+                    if (it.title?.contains("PMC") == true) {
+                        R.drawable.icon_extract
+                    } else if (it.title?.contains("SCAV") == true) {
+                        R.drawable.icon_extract_scav
+                    } else {
+                        R.drawable.icon_extract_both
+                    }
+                }
                 952 -> R.drawable.icon_location
                 957 -> R.drawable.icon_lock
                 2000 -> R.drawable.icon_gattling
