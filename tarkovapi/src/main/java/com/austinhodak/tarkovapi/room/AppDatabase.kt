@@ -24,7 +24,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 47)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 48)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao

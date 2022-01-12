@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id("com.apollographql.apollo3").version("3.0.0-alpha03")
+    id("com.apollographql.apollo3").version("3.0.0-dev14")
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -54,8 +54,8 @@ android {
 
 dependencies {
 
-    implementation("com.apollographql.apollo3:apollo-runtime:3.0.0-alpha03")
-    implementation("com.apollographql.apollo3:apollo-api:3.0.0-alpha03")
+    api("com.apollographql.apollo3:apollo-runtime:3.0.0-dev14")
+    api("com.apollographql.apollo3:apollo-api:3.0.0-dev14")
 
     implementation "androidx.core:core-ktx:${versions.ktx}"
     implementation 'androidx.appcompat:appcompat:1.4.0'

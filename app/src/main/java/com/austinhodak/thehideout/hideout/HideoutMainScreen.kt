@@ -50,6 +50,7 @@ import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.currency.euroToRouble
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
@@ -928,8 +929,10 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     val context = LocalContext.current
 
     val cheapestBuy = item?.getCheapestBuyRequirements()?.copy()
-    if (cheapestBuy?.source == "peacekeeper") {
+    if (cheapestBuy?.currency == "USD") {
         cheapestBuy.price =  cheapestBuy.price?.fromDtoR()?.roundToInt()
+    } else if (cheapestBuy?.currency == "EUR") {
+        cheapestBuy.price = euroToRouble(cheapestBuy.price?.toLong()).toInt()
     }
     Row(
         modifier = Modifier

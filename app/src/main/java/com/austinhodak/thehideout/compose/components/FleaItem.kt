@@ -243,11 +243,13 @@ fun TraderSmallPreview() {
                             "loyaltyLevel",
                             1
                         )
-                    )
+                    ),
+                    ""
                 )
             ),
             wikiLink = null,
-            false
+            false,
+            null
         )
     )
 }

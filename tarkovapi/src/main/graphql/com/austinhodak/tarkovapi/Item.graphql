@@ -30,6 +30,39 @@ fragment ItemFragment on Item {
     }
     width
     height
+    containsItems {
+        ...ContainsItem
+    }
+}
+
+fragment ContainsItem on ContainedItem {
+    count
+    quantity
+    item {
+        id
+        name
+        shortName
+        iconLink
+        imageLink
+        gridImageLink
+        avg24hPrice
+        basePrice
+        lastLowPrice
+        changeLast48h
+        low24hPrice
+        high24hPrice
+        updated
+        types
+        wikiLink
+        sellFor {
+            ...ItemPrice
+        }
+        buyFor {
+            ...ItemPrice
+        }
+        width
+        height
+    }
 }
 
 fragment ItemPrice on ItemPrice {
@@ -39,4 +72,5 @@ fragment ItemPrice on ItemPrice {
         type
         value
     }
+    currency
 }

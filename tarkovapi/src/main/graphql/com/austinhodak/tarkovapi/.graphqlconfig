@@ -1,6 +1,6 @@
 {
   "name": "Tarkov Tools Schema",
-  "schemaPath": "schema.sdl",
+  "schemaPath": "schema.json",
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {

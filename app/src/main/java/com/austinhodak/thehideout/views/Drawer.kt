@@ -27,6 +27,7 @@ import com.adapty.Adapty
 import com.adapty.listeners.OnPurchaserInfoUpdatedListener
 import com.adapty.models.PurchaserInfoModel
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.austinhodak.tarkovapi.ServerStatusQuery
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.ServerStatus
@@ -274,7 +275,6 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         subItems = mutableListOf(
             drawerBitcoin,
             drawerCurrencyConverter,
-            drawerNews,
             drawerSensitivity
         )
     }
@@ -447,7 +447,13 @@ fun MainDrawer(
     var status: ServerStatus? by remember { mutableStateOf(null) }
 
     LaunchedEffect("") {
-        status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+        try {
+            status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+        } catch (e: ApolloNetworkException) {
+            //Most likely no internet connection.
+            e.printStackTrace()
+        }
+
     }
 
     Scaffold(

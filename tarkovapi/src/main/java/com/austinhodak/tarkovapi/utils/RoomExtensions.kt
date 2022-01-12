@@ -4,7 +4,9 @@ import com.austinhodak.tarkovapi.BartersQuery
 import com.austinhodak.tarkovapi.CraftsQuery
 import com.austinhodak.tarkovapi.ItemsByTypeQuery
 import com.austinhodak.tarkovapi.QuestsQuery
+import com.austinhodak.tarkovapi.fragment.ContainsItem
 import com.austinhodak.tarkovapi.fragment.ItemFragment
+import com.austinhodak.tarkovapi.fragment.ItemPrice
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
@@ -18,7 +20,7 @@ import kotlin.math.roundToInt
 fun QuestsQuery.Quest.toQuest(): Quest {
     val quest = this.fragments.questFragment
     return Quest(
-        quest.id,
+        quest?.id!!,
         quest.title,
         quest.wikiLink,
         quest.exp,
@@ -89,36 +91,71 @@ fun ItemFragment.toClass(): Pricing {
         item.height,
         sellFor = item.sellFor?.map { s1 ->
             val s = s1.fragments.itemPrice
-            Pricing.BuySellPrice(
-                s.source?.rawValue,
-                s.price,
-                s.requirements.mapNotNull { requirement ->
-                    if (requirement?.type?.rawValue != null && requirement.value != null) {
-                        Pricing.BuySellPrice.Requirement(
-                            requirement.type.rawValue,
-                            requirement.value
-                        )
-                    } else null
-                }
-            )
+            s.toBuySell()
         },
         buyFor = item.buyFor?.map { s1 ->
             val s = s1.fragments.itemPrice
-            Pricing.BuySellPrice(
-                s.source?.rawValue,
-                s.price,
-                s.requirements.mapNotNull { requirement ->
-                    if (requirement?.type?.rawValue != null && requirement.value != null) {
-                        Pricing.BuySellPrice.Requirement(
-                            requirement.type.rawValue,
-                            requirement.value
-                        )
-                    } else null
-                }
+            s.toBuySell()
+        },
+        item.wikiLink,
+        item.types.contains(ItemType.noFlea),
+        containsItem = item.containsItems?.mapNotNull {
+            val i = it?.fragments?.containsItem
+            Pricing.Contains(
+                quantity = i?.quantity,
+                count = i?.count?.toInt(),
+                item = i?.toClass()
             )
+        }
+    )
+}
+
+fun ContainsItem.toClass(): Pricing.ContainsItem {
+    val item = this.item
+    return Pricing.ContainsItem(
+        item.id,
+        item.name,
+        item.shortName,
+        item.iconLink,
+        item.imageLink,
+        item.gridImageLink,
+        item.avg24hPrice,
+        item.basePrice,
+        item.lastLowPrice,
+        item.changeLast48h,
+        item.low24hPrice,
+        item.high24hPrice,
+        item.updated,
+        types = emptyList(),
+        item.width,
+        item.height,
+        sellFor = item.sellFor?.map { s1 ->
+            val s = s1.fragments.itemPrice
+            s.toBuySell()
+        },
+        buyFor = item.buyFor?.map { s1 ->
+            val s = s1.fragments.itemPrice
+            s.toBuySell()
         },
         item.wikiLink,
         item.types.contains(ItemType.noFlea)
+    )
+}
+
+fun ItemPrice?.toBuySell(): Pricing.BuySellPrice {
+    val s = this
+    return Pricing.BuySellPrice(
+        s?.source?.rawValue,
+        s?.price,
+        s?.requirements?.mapNotNull { requirement ->
+            if (requirement?.type?.rawValue != null && requirement.value != null) {
+                Pricing.BuySellPrice.Requirement(
+                    requirement.type.rawValue,
+                    requirement.value
+                )
+            } else null
+        } ?: emptyList(),
+        s?.currency
     )
 }
 
@@ -163,7 +200,7 @@ fun BartersQuery.Barter.toBarter(): Barter {
 
 fun ItemsByTypeQuery.ItemsByType.toPricing(): Pricing {
     val item = this.fragments.itemFragment
-    return item.toClass()
+    return item?.toClass()!!
 }
 
 fun JSONObject.getItemType(): ItemTypes {

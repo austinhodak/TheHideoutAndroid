@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.InputType
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
@@ -140,6 +141,10 @@ class FleaItemDetail : GodActivity() {
                     }
                     
                     rememberSystemUiController().setNavigationBarColor(DarkPrimary)
+
+                    if (item.value?.pricing?.containsItem?.isNotEmpty() == true) {
+                        Toast.makeText(this, "Contains Child!", Toast.LENGTH_SHORT).show()
+                    }
 
                     Scaffold(
                         scaffoldState = scaffoldState,

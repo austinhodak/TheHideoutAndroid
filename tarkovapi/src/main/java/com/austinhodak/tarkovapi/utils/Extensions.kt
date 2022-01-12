@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 const val currencyA = 114
 const val currencyB = 127
@@ -254,3 +255,27 @@ val Armor5 = Color(0xff86d43d)
 val Armor6 = Color(0xff4bf056)
 
 val String.color get() = Color(android.graphics.Color.parseColor("#$this"))
+
+fun roubleToDollar(r: Long?): Long {
+    return r?.let { it / 121 } ?: 0
+}
+
+fun dollarToRouble(r: Long?): Long {
+    return r?.let { it * 121 } ?: 0
+}
+
+fun roubleToEuro(r: Long?): Long {
+    return r?.let { it / 141 } ?: 0
+}
+
+fun euroToRouble(r: Long?): Long {
+    return r?.let { it * 141 } ?: 0
+}
+
+fun dollarToEuro(r: Long?): Long {
+    return (r?.let { it * 0.858 })?.roundToLong() ?: 0
+}
+
+fun euroToDollar(r: Long?): Long {
+    return (r?.let { it / 0.858 })?.roundToLong() ?: 0
+}

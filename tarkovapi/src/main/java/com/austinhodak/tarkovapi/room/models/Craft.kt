@@ -3,6 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.austinhodak.tarkovapi.models.Hideout
+import com.austinhodak.tarkovapi.utils.euroToRouble
 import com.austinhodak.tarkovapi.utils.fromDtoR
 import kotlin.math.roundToInt
 
@@ -35,8 +36,10 @@ data class Craft(
     fun totalCost(): Int {
         return requiredItems?.sumOf {
             val cheapestBuy = it?.item?.getCheapestBuyRequirements()
-            val price = if (cheapestBuy?.source == "peacekeeper") {
+            val price = if (cheapestBuy?.currency == "USD") {
                 cheapestBuy.price?.fromDtoR()?.roundToInt()
+            } else if (cheapestBuy?.currency == "EUR") {
+                euroToRouble(cheapestBuy.price?.toLong()).toInt()
             } else {
                 cheapestBuy?.price
             }

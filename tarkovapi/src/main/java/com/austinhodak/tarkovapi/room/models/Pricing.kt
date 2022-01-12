@@ -1,6 +1,7 @@
 package com.austinhodak.tarkovapi.room.models
 
 import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.fragment.ItemFragment
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.fromDtoR
@@ -31,7 +32,8 @@ data class Pricing(
     val sellFor: List<BuySellPrice>?,
     val buyFor: List<BuySellPrice>?,
     val wikiLink: String?,
-    val noFlea: Boolean?
+    val noFlea: Boolean?,
+    val containsItem: List<Contains>?
 ) : Serializable {
 
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
@@ -44,7 +46,8 @@ data class Pricing(
         } ?: BuySellPrice(
             "fleaMarket",
             price = basePrice,
-            requirements = emptyList()
+            requirements = emptyList(),
+            "RUB"
         )
     }
 
@@ -76,10 +79,19 @@ data class Pricing(
         }
     }
 
+    data class Contains(
+        val quantity: Int?,
+        val count: Int?,
+        val item: ContainsItem?
+    ) {
+
+    }
+
     data class BuySellPrice(
         val source: String?,
         var price: Int?,
-        val requirements: List<Requirement>
+        val requirements: List<Requirement>,
+        val currency: String?
     ) : Serializable {
         data class Requirement(
             val type: String,
@@ -87,9 +99,11 @@ data class Pricing(
         ) : Serializable
 
         fun getPriceAsCurrency(convertDtoR: Boolean? = null): String? {
-            return if (source == "peacekeeper") {
+            return if (currency == "USD") {
                 price?.asCurrency("D")
-            } else {
+            } else if (currency == "EUR") {
+                price?.asCurrency("E")
+            }  else {
                 price?.asCurrency()
             }
         }
@@ -220,5 +234,30 @@ data class Pricing(
 
         val tax = (mVO * mTi * mPO4 * mQ + mVR * mTr * mPR4 * mQ).roundToInt()
         return if (intel == false) tax else (tax * 0.70).roundToInt()
+    }
+
+    data class ContainsItem(
+        val id: String,
+        val name: String?,
+        val shortName: String?,
+        val iconLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+        val imageLink: String?,
+        val gridImageLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+        val avg24hPrice: Int?,
+        val basePrice: Int,
+        val lastLowPrice: Int?,
+        val changeLast48h: Double?,
+        val low24hPrice: Int?,
+        val high24hPrice: Int?,
+        val updated: String?,
+        val types: List<ItemTypes?>,
+        val width: Int?,
+        val height: Int?,
+        val sellFor: List<BuySellPrice>?,
+        val buyFor: List<BuySellPrice>?,
+        val wikiLink: String?,
+        val noFlea: Boolean?,
+    ) {
+
     }
 }
