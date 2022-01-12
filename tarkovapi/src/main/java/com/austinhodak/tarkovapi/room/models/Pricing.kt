@@ -3,10 +3,8 @@ package com.austinhodak.tarkovapi.room.models
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.fragment.ItemFragment
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
-import com.austinhodak.tarkovapi.utils.asCurrency
-import com.austinhodak.tarkovapi.utils.fromDtoR
-import com.austinhodak.tarkovapi.utils.getTraderLevel
-import com.austinhodak.tarkovapi.utils.sourceTitle
+import com.austinhodak.tarkovapi.type.ItemType
+import com.austinhodak.tarkovapi.utils.*
 import java.io.Serializable
 import kotlin.math.log10
 import kotlin.math.pow
@@ -35,6 +33,8 @@ data class Pricing(
     val noFlea: Boolean?,
     val containsItem: List<Contains>?
 ) : Serializable {
+
+    fun hasChild(): Boolean = containsItem?.isNotEmpty() == true
 
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
     fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
@@ -103,7 +103,7 @@ data class Pricing(
                 price?.asCurrency("D")
             } else if (currency == "EUR") {
                 price?.asCurrency("E")
-            }  else {
+            } else {
                 price?.asCurrency()
             }
         }
@@ -162,7 +162,7 @@ data class Pricing(
                     val requirement = requirements.find { it.type == "loyaltyLevel" }
                     return traderLevel >= requirement?.value ?: 1
                 }
-                 else -> false
+                else -> false
             }
         }
 
@@ -258,6 +258,31 @@ data class Pricing(
         val wikiLink: String?,
         val noFlea: Boolean?,
     ) {
-
+        fun toPricing(): Pricing {
+            val item = this
+            return Pricing(
+                item.id,
+                item.name,
+                item.shortName,
+                item.iconLink,
+                item.imageLink,
+                item.gridImageLink,
+                item.avg24hPrice,
+                item.basePrice,
+                item.lastLowPrice,
+                item.changeLast48h,
+                item.low24hPrice,
+                item.high24hPrice,
+                item.updated,
+                types = emptyList(),
+                item.width,
+                item.height,
+                sellFor = item.sellFor,
+                buyFor = item.buyFor,
+                item.wikiLink,
+                item.noFlea,
+                containsItem = null
+            )
+        }
     }
 }

@@ -42,17 +42,21 @@ fun Int.asCurrency(currency: String = "R"): String {
         maximumFractionDigits = 0
     }
 
-    numFormat.currency = when (currency) {
-        "R" -> Currency.getInstance("RUB")
-        "D" -> Currency.getInstance("USD")
-        "U" -> Currency.getInstance("USD")
-        "E" -> Currency.getInstance("EUR")
-        else -> Currency.getInstance("RUB")
+    if (currency.length > 1) {
+        numFormat.currency = Currency.getInstance(currency)
+    } else {
+        numFormat.currency = when (currency) {
+            "R" -> Currency.getInstance("RUB")
+            "D" -> Currency.getInstance("USD")
+            "U" -> Currency.getInstance("USD")
+            "E" -> Currency.getInstance("EUR")
+            else -> Currency.getInstance("RUB")
+        }
     }
 
     var formatted = numFormat.format(this)
 
-    if (currency == "R") {
+    if (currency == "R" || currency == "RUB") {
         formatted = formatted.replace("RUB", "").plus("₽")
     }
 

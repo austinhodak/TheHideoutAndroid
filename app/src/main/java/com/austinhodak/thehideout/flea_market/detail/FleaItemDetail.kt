@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.InputType
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
@@ -16,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -33,7 +31,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -105,7 +102,7 @@ class FleaItemDetail : GodActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         //WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        itemID = intent.getStringExtra("id") ?: "5e42c81886f7742a01529f57"
+        itemID = intent.getStringExtra("id") ?: "55801eed4bdc2d89578b4588"
         viewModel.getItemByID(itemID)
 
         setContent {
@@ -115,11 +112,14 @@ class FleaItemDetail : GodActivity() {
                     val scaffoldState = rememberScaffoldState()
                     var selectedNavItem by remember { mutableStateOf(0) }
 
-                    val item = viewModel.item.observeAsState()
+                    val item by viewModel.item.observeAsState()
 
-                    val quests by tarkovRepo.getQuestsWithItemID("%${item.value?.id}%").collectAsState(emptyList())
-                    val barters by tarkovRepo.getBartersWithItemID("%${item.value?.id}%").collectAsState(emptyList())
-                    val crafts by tarkovRepo.getCraftsWithItemID("%${item.value?.id}%").collectAsState(emptyList())
+                    val quests by tarkovRepo.getQuestsWithItemID("%${item?.id}%").collectAsState(emptyList())
+                    val barters by tarkovRepo.getBartersWithItemID("%${item?.id}%").collectAsState(emptyList())
+                    val crafts by tarkovRepo.getCraftsWithItemID("%${item?.id}%").collectAsState(emptyList())
+
+                    val parents by tarkovRepo.getItemsByContains("%${item?.id}%").collectAsState(emptyList())
+                    val parentItems = parents.filter { it.id != itemID }
 
                     val userData by viewModel.userData.observeAsState()
 
@@ -139,18 +139,24 @@ class FleaItemDetail : GodActivity() {
                             isFavorited = questPrefs.favoriteItems?.contains(itemID)
                         }
                     }
-                    
+
+                    if (isDebug()) {
+                        Timber.d(itemID)
+                    }
+
                     rememberSystemUiController().setNavigationBarColor(DarkPrimary)
 
-                    if (item.value?.pricing?.containsItem?.isNotEmpty() == true) {
-                        Toast.makeText(this, "Contains Child!", Toast.LENGTH_SHORT).show()
+                    if (item?.pricing?.containsItem?.isNotEmpty() == true) {
+                        //Toast.makeText(this, "Contains Child!", Toast.LENGTH_SHORT).show()
                     }
+
+
 
                     Scaffold(
                         scaffoldState = scaffoldState,
                         topBar = {
                             FleaDetailToolbar(
-                                item = item.value,
+                                item = item,
                                 actions = {
                                     /*IconButton(onClick = {}) {
                                         Icon(painter = painterResource(id = R.drawable.icons8_add_list_96), contentDescription = "Add to List")
@@ -171,9 +177,9 @@ class FleaItemDetail : GodActivity() {
                                         }
                                     }
                                     OverflowMenu {
-                                        item.value?.pricing?.wikiLink?.let { WikiItem(url = it) }
+                                        item?.pricing?.wikiLink?.let { WikiItem(url = it) }
                                         OverflowMenuItem(text = "Add to Needed Items") {
-                                            item.value?.pricing?.addToNeededItemsDialog(this@FleaItemDetail)
+                                            item?.pricing?.addToNeededItemsDialog(this@FleaItemDetail)
                                         }
                                     }
                                 }
@@ -182,15 +188,15 @@ class FleaItemDetail : GodActivity() {
                         bottomBar = { FleaBottomNav(selected = selectedNavItem, items) { selectedNavItem = it } },
                         floatingActionButton = {
                             //if (isDebug())
-                                FloatingActionButton(onClick = {
-                                    item.value?.pricing?.addToCartDialog(this)
-                                }) {
-                                    Icon(
-                                        painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                                        contentDescription = "Add to Shopping Cart",
-                                        tint = MaterialTheme.colors.onSecondary
-                                    )
-                                }
+                            FloatingActionButton(onClick = {
+                                item?.pricing?.addToCartDialog(this)
+                            }) {
+                                Icon(
+                                    painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                                    contentDescription = "Add to Shopping Cart",
+                                    tint = MaterialTheme.colors.onSecondary
+                                )
+                            }
                         }
                     ) { innerPadding ->
                         Box(modifier = Modifier.padding(innerPadding)) {
@@ -202,7 +208,7 @@ class FleaItemDetail : GodActivity() {
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
                                             item {
-                                                if (item.value?.pricing?.noFlea == true) {
+                                                if (item?.pricing?.noFlea == true) {
                                                     Card(
                                                         modifier = Modifier
                                                             .fillMaxWidth()
@@ -231,24 +237,30 @@ class FleaItemDetail : GodActivity() {
                                                         }
                                                     }
                                                 }
-                                                Card1(item = item.value)
-                                                if (!item.value?.pricing?.sellFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersSellCard(
+                                                Card1(item = item)
+                                                if (!item?.pricing?.sellFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersSellCard(
                                                     title = "SELL PRICES",
-                                                    item = item.value,
-                                                    item.value?.pricing?.sellFor
+                                                    item = item,
+                                                    item?.pricing?.sellFor
                                                 )
-                                                if (!item.value?.pricing?.buyFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersBuyCard(
+                                                if (!item?.pricing?.buyFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersBuyCard(
                                                     title = "BUY PRICES",
-                                                    item = item.value,
-                                                    item.value?.pricing?.buyFor
+                                                    item = item,
+                                                    item?.pricing?.buyFor
                                                 )
+                                                if (parentItems.isNotEmpty()) {
+                                                    ParentItems(parents = parentItems)
+                                                }
+                                                if (item?.pricing?.hasChild() == true) {
+                                                    ChildItems(item?.pricing?.containsItem)
+                                                }
                                                 if (userData?.items?.containsKey(itemID) == true) {
                                                     val needed = userData?.items?.get(itemID)
                                                     if (needed?.hideoutObjective == null && needed?.questObjective == null && needed?.user == null) {
                                                         userRefTracker("items/$itemID").removeValue()
                                                     }
 
-                                                    NeededCard(title = "NEEDED", item = item.value, needed, tarkovRepo)
+                                                    NeededCard(title = "NEEDED", item = item, needed, tarkovRepo)
                                                 }
                                                 Card(
                                                     modifier = Modifier
@@ -258,13 +270,13 @@ class FleaItemDetail : GodActivity() {
                                                 ) {
                                                     Chart()
                                                 }
-                                                //FleaFeeCalc(item.value)
+                                                //FleaFeeCalc(item)
                                             }
                                             item {
                                                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                                                     Text(
                                                         modifier = Modifier.padding(top = 8.dp),
-                                                        text = item.value?.getUpdatedTime() ?: "",
+                                                        text = item?.getUpdatedTime() ?: "",
                                                         style = MaterialTheme.typography.caption,
                                                         fontSize = 10.sp
                                                     )
@@ -273,12 +285,204 @@ class FleaItemDetail : GodActivity() {
                                         }
                                     }
                                     1 -> {
-                                        BartersPage(item = item.value, barters, userData)
+                                        BartersPage(item = item, barters, userData)
                                     }
                                     2 -> {
-                                        CraftsPage(item = item.value, crafts, userData)
+                                        CraftsPage(item = item, crafts, userData)
                                     }
-                                    3 -> QuestsPage(item = item.value, quests, tarkovRepo, userData)
+                                    3 -> QuestsPage(item = item, quests, tarkovRepo, userData)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun ParentItems(parents: List<Item>) {
+        Card(
+            backgroundColor = if (isSystemInDarkTheme()) Color(
+                0xFE1F1F1F
+            ) else MaterialTheme.colors.primary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp, horizontal = 8.dp)
+        ) {
+            Column {
+                Row(
+                    modifier = Modifier.padding(
+                        bottom = 8.dp,
+                        top = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = "PARENT ITEMS",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                        )
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(
+                        start = 0.dp,
+                        end = 16.dp,
+                        top = 4.dp,
+                        bottom = 12.dp
+                    )
+                ) {
+                    parents.forEach {
+                        val childItem = it.pricing
+                        Row(
+                            modifier = Modifier
+                                .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
+                                .fillMaxWidth()
+                                .clickable {
+                                    openActivity(FleaItemDetail::class.java) {
+                                        putString("id", childItem?.id)
+                                    }
+                                },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Box {
+                                Image(
+                                    rememberImagePainter(
+                                        childItem?.getCleanIcon()
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .width(38.dp)
+                                        .height(38.dp)
+                                        .border((0.25).dp, color = BorderColor)
+                                )
+                            }
+                            Column(
+                                modifier = Modifier.padding(start = 16.dp),
+                            ) {
+                                Text(
+                                    text = "${childItem?.name}",
+                                    style = MaterialTheme.typography.body1,
+                                    softWrap = false,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        SmallBuyPrice(pricing = childItem)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun ChildItems(containsItem: List<Pricing.Contains>?) {
+        Card(
+            backgroundColor = if (isSystemInDarkTheme()) Color(
+                0xFE1F1F1F
+            ) else MaterialTheme.colors.primary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp, horizontal = 8.dp)
+        ) {
+            Column {
+                Row(
+                    modifier = Modifier.padding(
+                        bottom = 8.dp,
+                        top = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = "CONTAINS",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                        )
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(
+                        start = 0.dp,
+                        end = 16.dp,
+                        top = 4.dp,
+                        bottom = 12.dp
+                    )
+                ) {
+                    containsItem?.forEach {
+                        val childItem = it.item?.toPricing()
+                        Row(
+                            modifier = Modifier
+                                .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
+                                .fillMaxWidth()
+                                .clickable {
+                                    openActivity(FleaItemDetail::class.java) {
+                                        putString("id", childItem?.id)
+                                    }
+                                },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Box {
+                                Image(
+                                    rememberImagePainter(
+                                        childItem?.getCleanIcon()
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .width(38.dp)
+                                        .height(38.dp)
+                                        .border((0.25).dp, color = BorderColor)
+                                )
+                                Text(
+                                    text = "${it.count}",
+                                    Modifier
+                                        .clip(RoundedCornerShape(topStart = 5.dp))
+                                        .background(BorderColor)
+                                        .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                                        .align(Alignment.BottomEnd),
+                                    style = MaterialTheme.typography.caption,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 9.sp
+                                )
+                            }
+                            Column(
+                                modifier = Modifier.padding(start = 16.dp),
+                            ) {
+                                Text(
+                                    text = "${childItem?.name}",
+                                    style = MaterialTheme.typography.body1,
+                                    softWrap = false,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        val cheapestBuy = childItem?.getCheapestBuyRequirements()
+                                        SmallBuyPrice(pricing = childItem)
+                                        Text(
+                                            text = " (${(it.count?.times(cheapestBuy?.price ?: 0))?.asCurrency(cheapestBuy?.currency ?: "R")})",
+                                            style = MaterialTheme.typography.caption,
+                                            fontSize = 11.sp,
+                                            fontWeight = FontWeight.Light,
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -415,148 +619,95 @@ class FleaItemDetail : GodActivity() {
                 }
             }
 
-            AndroidView(factory = {
-                val chart = LineChart(it)
+            AndroidView(
+                factory = {
+                    val chart = LineChart(it)
 
-                val formatter: ValueFormatter = object : ValueFormatter() {
-                    override fun getAxisLabel(value: Float, axis: AxisBase): String {
-                        val simpleDateFormat = SimpleDateFormat("MM/dd")
-                        return simpleDateFormat.format(value)
+                    val formatter: ValueFormatter = object : ValueFormatter() {
+                        override fun getAxisLabel(value: Float, axis: AxisBase): String {
+                            val simpleDateFormat = SimpleDateFormat("MM/dd")
+                            return simpleDateFormat.format(value)
+                        }
                     }
-                }
 
-                chart.xAxis.valueFormatter = formatter
-                chart.xAxis.textColor = resources.getColor(R.color.white)
-                chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-                chart.axisLeft.textColor = resources.getColor(R.color.white)
-                chart.axisRight.isEnabled = false
+                    chart.xAxis.valueFormatter = formatter
+                    chart.xAxis.textColor = resources.getColor(R.color.white)
+                    chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+                    chart.axisLeft.textColor = resources.getColor(R.color.white)
+                    chart.axisRight.isEnabled = false
 
-                chart.setDrawGridBackground(false)
-                //chart.xAxis.setDrawGridLines(false)
-                chart.xAxis.setCenterAxisLabels(true)
-                //chart.axisLeft.setDrawGridLines(false)
-                //chart.setTouchEnabled(false)
-                chart.isScaleYEnabled = false
-                chart.description.isEnabled = false
-                chart.legend.textColor = resources.getColor(R.color.white)
+                    chart.setDrawGridBackground(false)
+                    //chart.xAxis.setDrawGridLines(false)
+                    chart.xAxis.setCenterAxisLabels(true)
+                    //chart.axisLeft.setDrawGridLines(false)
+                    //chart.setTouchEnabled(false)
+                    chart.isScaleYEnabled = false
+                    chart.description.isEnabled = false
+                    chart.legend.textColor = resources.getColor(R.color.white)
 
-                chart.setNoDataText("No price history found.")
-                chart.legend.isEnabled = false
+                    chart.setNoDataText("No price history found.")
+                    chart.legend.isEnabled = false
 
-                //chart.xAxis.setDrawAxisLine(false)
+                    //chart.xAxis.setDrawAxisLine(false)
 
-                //Set fonts
-                chart.legend.typeface = benderFont
-                chart.xAxis.typeface = benderFont
-                chart.axisLeft.typeface = benderFont
-                chart.setNoDataTextTypeface(benderFont)
+                    //Set fonts
+                    chart.legend.typeface = benderFont
+                    chart.xAxis.typeface = benderFont
+                    chart.axisLeft.typeface = benderFont
+                    chart.setNoDataTextTypeface(benderFont)
 
-                chart.axisLeft.valueFormatter = object : ValueFormatter() {
-                    override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-                        val format = DecimalFormat("###,##0")
-                        return "${format.format(value)}₽"
+                    chart.axisLeft.valueFormatter = object : ValueFormatter() {
+                        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+                            val format = DecimalFormat("###,##0")
+                            return "${format.format(value)}₽"
+                        }
                     }
-                }
 
-                val mv = PriceChartMarkerView(this@FleaItemDetail, R.layout.price_chart_marker_view)
-                chart.marker = mv
+                    val mv = PriceChartMarkerView(this@FleaItemDetail, R.layout.price_chart_marker_view)
+                    chart.marker = mv
 
-                chart
-            },  modifier = Modifier
-                .padding(start = 8.dp, end = 0.dp, bottom = 16.dp)
-                .fillMaxWidth()
-                .height(200.dp)
+                    chart
+                }, modifier = Modifier
+                    .padding(start = 8.dp, end = 0.dp, bottom = 16.dp)
+                    .fillMaxWidth()
+                    .height(200.dp)
             ) { chart ->
-                fleaFirebase.child("priceHistory/${itemID}").orderByKey().startAt("\"${(System.currentTimeMillis() - selectedRange)}\"").endAt(System.currentTimeMillis().addQuotes()).addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (!snapshot.exists()) return
-                        val data = snapshot.children.map {
-                            val entry = Entry(it.key?.removeSurrounding("\"")?.toFloat() ?: 0f, (it.value as Long).toFloat())
-                            entry.data = it
-                            entry
+                fleaFirebase.child("priceHistory/${itemID}").orderByKey().startAt("\"${(System.currentTimeMillis() - selectedRange)}\"").endAt(System.currentTimeMillis().addQuotes())
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (!snapshot.exists()) return
+                            val data = snapshot.children.map {
+                                val entry = Entry(it.key?.removeSurrounding("\"")?.toFloat() ?: 0f, (it.value as Long).toFloat())
+                                entry.data = it
+                                entry
+                            }
+
+                            val dataSet = LineDataSet(data, "Prices")
+                            dataSet.fillColor = resources.getColor(R.color.md_red_400)
+                            dataSet.setDrawFilled(true)
+                            dataSet.color = resources.getColor(R.color.md_red_400)
+                            dataSet.setCircleColor(resources.getColor(R.color.md_red_500))
+                            dataSet.valueTypeface = benderFont
+                            dataSet.setDrawValues(false)
+                            dataSet.setDrawCircles(false)
+
+                            val lineData = LineData(dataSet)
+                            lineData.setValueTextColor(resources.getColor(R.color.white))
+
+                            chart.data = lineData
+                            chart.animateY(250, Easing.EaseOutQuad)
                         }
 
-                        val dataSet = LineDataSet(data, "Prices")
-                        dataSet.fillColor = resources.getColor(R.color.md_red_400)
-                        dataSet.setDrawFilled(true)
-                        dataSet.color = resources.getColor(R.color.md_red_400)
-                        dataSet.setCircleColor(resources.getColor(R.color.md_red_500))
-                        dataSet.valueTypeface = benderFont
-                        dataSet.setDrawValues(false)
-                        dataSet.setDrawCircles(false)
+                        override fun onCancelled(error: DatabaseError) {
 
-                        val lineData = LineData(dataSet)
-                        lineData.setValueTextColor(resources.getColor(R.color.white))
-
-                        chart.data = lineData
-                        chart.animateY(250,  Easing.EaseOutQuad)
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-
-                    }
-                })
+                        }
+                    })
             }
         }
     }
 
     private fun launchPremiumPusher() {
         startPremiumPurchase(this)
-    }
-
-    @Composable
-    private fun FleaFeeCalc(
-        item: Item?
-    ) {
-        var fee by remember { mutableStateOf(getTax(item?.pricing?.avg24hPrice?.toString(), item)) }
-        var text by remember { mutableStateOf(item?.pricing?.avg24hPrice?.toString()) }
-
-        Card(
-            modifier = Modifier
-                .padding(horizontal = 8.dp, vertical = 4.dp)
-                .fillMaxWidth(),
-            backgroundColor = Color(0xFE1F1F1F)
-        ) {
-            Column {
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        text = "FLEA MARKET FEE CALCULATOR",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Light,
-                        fontFamily = Bender,
-                        modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp)
-                    )
-                }
-                OutlinedTextField(
-                    value = text ?: "",
-                    onValueChange = {
-                        fee = getTax(it, item)
-                        text = it
-                    },
-                    label = {
-                        Text("Sale Price")
-                    },
-                    leadingIcon = {
-                        Icon(painter = painterResource(id = R.drawable.ic_ruble_currency_sign), contentDescription = "Ruble")
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-            }
-
-        }
-    }
-
-    private fun getTax(value: String?, item: Item?): Int? {
-        if (value.isNullOrBlank()) return 0
-        val price = value.replace("[^0-9]".toRegex(), "").toLong()
-        return item?.pricing?.calculateTax(price)
-    }
-
-    private fun formatPriceString(value: Int?): String {
-        val formatter = DecimalFormat("#,###,###")
-        return formatter.format(value)
     }
 
     @Composable
@@ -744,7 +895,6 @@ class FleaItemDetail : GodActivity() {
                         }
                     }
                 }
-
             }
         }
     }
@@ -1400,22 +1550,26 @@ class FleaItemDetail : GodActivity() {
         var intel3 = viewModel.userData.value?.isHideoutModuleComplete(17) ?: false
         MaterialDialog(this@FleaItemDetail).show {
             title(text = "Fee Calculator")
-            message(text = "Listing Fee: ${item?.pricing?.calculateTax(intel = intel3)?.asCurrency()}\nProfit: ${(item?.pricing?.lastLowPrice?.minus(item.pricing?.calculateTax(intel = intel3) ?: 0)?.asCurrency())}")
+            message(
+                text = "Listing Fee: ${item?.pricing?.calculateTax(intel = intel3)?.asCurrency()}\nProfit: ${
+                    (item?.pricing?.lastLowPrice?.minus(item.pricing?.calculateTax(intel = intel3) ?: 0)?.asCurrency())
+                }"
+            )
             checkBoxPrompt(text = "Intel Center 3", isCheckedDefault = intel3) {
                 intel3 = it
                 try {
                     val price = this.getInputField().text.toString().toLong()
                     val tax = item?.pricing?.calculateTax(price, it) ?: 0
-                    this.message(text = "Listing Fee: ${tax.asCurrency()}\nProfit: ${(price-tax).toInt().asCurrency()}")
+                    this.message(text = "Listing Fee: ${tax.asCurrency()}\nProfit: ${(price - tax).toInt().asCurrency()}")
                 } catch (e: Exception) {
 
                 }
             }
-            input (prefill = item?.pricing?.lastLowPrice.toString(), hint = "List Price", inputType = InputType.TYPE_CLASS_NUMBER, waitForPositiveButton = false) { materialDialog, charSequence ->
+            input(prefill = item?.pricing?.lastLowPrice.toString(), hint = "List Price", inputType = InputType.TYPE_CLASS_NUMBER, waitForPositiveButton = false) { materialDialog, charSequence ->
                 try {
                     val price = charSequence.toString().toLong()
                     val tax = item?.pricing?.calculateTax(price, intel3) ?: 0
-                    materialDialog.message(text = "Listing Fee: ${tax.asCurrency()}\nProfit: ${(price-tax).toInt().asCurrency()}")
+                    materialDialog.message(text = "Listing Fee: ${tax.asCurrency()}\nProfit: ${(price - tax).toInt().asCurrency()}")
                 } catch (e: Exception) {
 
                 }

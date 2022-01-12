@@ -482,6 +482,16 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }
                                 subScreen {
+                                    title = "Maps".asText()
+                                    icon = R.drawable.ic_baseline_map_24.asIcon()
+                                    singleChoice(UserSettingsModel.defaultMap, MapEnums.values(), {
+                                        it.id
+                                    }) {
+                                        title = "Default Map".asText()
+                                        icon = R.drawable.ic_baseline_map_24.asIcon()
+                                    }
+                                }
+                                subScreen {
                                     title = "Notifications".asText()
                                     icon = R.drawable.ic_baseline_notifications_active_24.asIcon()
                                     category {

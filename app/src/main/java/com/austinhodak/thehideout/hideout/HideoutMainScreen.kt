@@ -541,8 +541,8 @@ private fun HideoutModuleCard(
                         }
                     }
                     HideoutFilter.ALL -> {
-                        if (module.getModuleRequirements(modules).isEmpty() && isComplete == false || userData?.completedHideoutIDs()
-                                ?.containsAll(module.getModuleRequirements(modules)) == true && isComplete == false
+                        if (module.getModuleRequirements(modules).isEmpty() && !isComplete || userData?.completedHideoutIDs()
+                                ?.containsAll(module.getModuleRequirements(modules)) == true && !isComplete
                         ) {
                             TextButton(onClick = {
                                 //Build module
