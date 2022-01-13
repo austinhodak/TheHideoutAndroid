@@ -83,7 +83,7 @@ data class Pricing(
         val quantity: Int?,
         val count: Int?,
         val item: ContainsItem?
-    ) {
+    ) : Serializable {
 
     }
 
@@ -257,7 +257,7 @@ data class Pricing(
         val buyFor: List<BuySellPrice>?,
         val wikiLink: String?,
         val noFlea: Boolean?,
-    ) {
+    ) : Serializable {
         fun toPricing(): Pricing {
             val item = this
             return Pricing(

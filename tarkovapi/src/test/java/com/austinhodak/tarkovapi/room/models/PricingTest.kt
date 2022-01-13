@@ -29,12 +29,14 @@ class PricingTest : TestCase() {
                 Pricing.BuySellPrice(
                     "prapor",
                     price = 3615,
-                    requirements = emptyList()
+                    requirements = emptyList(),
+                    "RUB"
                 ),
                 Pricing.BuySellPrice(
                     "fence",
                     price = 2892,
-                    requirements = emptyList()
+                    requirements = emptyList(),
+                    "RUB"
                 ),
                 Pricing.BuySellPrice(
                     "fleaMarket",
@@ -44,7 +46,8 @@ class PricingTest : TestCase() {
                             "playerLevel",
                             15
                         )
-                    )
+                    ),
+                    "RUB"
                 ),
             ),
             buyFor = listOf(
@@ -56,7 +59,8 @@ class PricingTest : TestCase() {
                             "loyaltyLevel",
                             1
                         )
-                    )
+                    ),
+                    "RUB"
                 ),
                 Pricing.BuySellPrice(
                     "fleaMarket",
@@ -66,11 +70,13 @@ class PricingTest : TestCase() {
                             "playerLevel",
                             15
                         )
-                    )
+                    ),
+                    "RUB"
                 )
             ),
             wikiLink = "https://escapefromtarkov.fandom.com/wiki/5.56x45mm_M855",
-            false
+            false,
+            emptyList()
         )
     }
 
@@ -91,7 +97,8 @@ class PricingTest : TestCase() {
                     "loyaltyLevel",
                     1
                 )
-            )
+            ),
+            "RUB"
         )
         assertEquals(pricing.getCheapestBuy(), cheapest)
     }
@@ -105,7 +112,8 @@ class PricingTest : TestCase() {
                     "playerLevel",
                     15
                 )
-            )
+            ),
+            "RUB"
         )
 
         assertEquals(pricing.getHighestSell(), highest)
@@ -115,7 +123,8 @@ class PricingTest : TestCase() {
         val highestTrader = Pricing.BuySellPrice(
             "prapor",
             price = 3615,
-            requirements = emptyList()
+            requirements = emptyList(),
+            "RUB"
         )
 
         assertEquals(pricing.getHighestSellTrader(), highestTrader)

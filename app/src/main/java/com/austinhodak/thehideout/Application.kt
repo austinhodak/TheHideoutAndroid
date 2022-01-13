@@ -28,7 +28,6 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
-import io.gleap.Gleap
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -75,7 +74,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
         createServerStatusChannel()
 
-        Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
+        //Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
 
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 

@@ -336,6 +336,9 @@ class NavActivity : GodActivity() {
                                 navViewModel
                             )
                         }
+                        composable("skills") {
+                            CharacterSkillsScreen(navViewModel = navViewModel)
+                        }
                     }
 
                     navViewModel.selectedDrawerItem.observe(lifeCycleOwner) { selectedItem ->

@@ -17,7 +17,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
-import io.gleap.Gleap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

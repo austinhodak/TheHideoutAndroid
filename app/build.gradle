@@ -26,7 +26,7 @@ android {
             keyPassword "android"
         }
         release {
-            //storeFile file('C:/Development/Keys/TheHideoutKeystore.jks')
+            storeFile file('C:/Development/Keys/TheHideoutKeystore.jks')
             keyAlias 'key0'
             storePassword 'dg3hGsRvyUkBiHt67xkLgktK'
             keyPassword 'dg3hGsRvyUkBiHt67xkLgktK'
@@ -39,9 +39,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 12401
+        versionCode 12502
         // [1]-[0].[2].[0].[0]
-        versionName "1.2.4"
+        versionName "1.2.5"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -234,5 +234,5 @@ dependencies {
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '+'
+    //implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '+'
 }

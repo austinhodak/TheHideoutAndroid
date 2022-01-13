@@ -58,7 +58,6 @@ import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
 import com.mikepenz.materialdrawer.util.*
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
-import io.gleap.Gleap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
