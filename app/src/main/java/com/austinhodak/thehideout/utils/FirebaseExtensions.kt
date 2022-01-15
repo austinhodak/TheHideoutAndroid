@@ -16,6 +16,13 @@ fun log(event: String, itemID: String, itemName: String, contentType: String) {
     }
 }
 
+fun logNotification(event: String, itemName: String, contentType: String) {
+    Firebase.analytics.logEvent(event) {
+        param(FirebaseAnalytics.Param.ITEM_NAME, itemName)
+        param(FirebaseAnalytics.Param.CONTENT_TYPE, contentType)
+    }
+}
+
 fun logScreen(name: String) {
     Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
         param(FirebaseAnalytics.Param.SCREEN_NAME, name)

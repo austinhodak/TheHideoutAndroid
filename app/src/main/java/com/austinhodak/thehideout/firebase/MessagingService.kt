@@ -15,10 +15,14 @@ import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.status.ServerStatusActivity
+import com.austinhodak.thehideout.utils.log
+import com.austinhodak.thehideout.utils.logNotification
 import com.austinhodak.thehideout.utils.pushToken
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.json.JSONObject
@@ -85,6 +89,8 @@ class MessagingService : FirebaseMessagingService() {
                 val title = remoteMessage.data["title"]
                 val content = remoteMessage.data["content"]
                 sendRestockNotification(title ?: "", content ?: "", trader)
+
+                logNotification("notification_receive", trader.id, "TRADER_RESTOCK")
             }
 
             /*val fleaItem = JSONObject(remoteMessage.data["fleaItem"])

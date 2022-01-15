@@ -38,6 +38,7 @@ import com.austinhodak.thehideout.utils.openStatusSite
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.Exception
 import javax.inject.Inject
 
 @ExperimentalFoundationApi
@@ -68,7 +69,11 @@ class ServerStatusActivity : AppCompatActivity() {
                 var status: ServerStatus? by remember { mutableStateOf(null) }
 
                 LaunchedEffect("") {
-                    status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+                    try {
+                        status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
 
                 var showOnHomeCheck by remember { mutableStateOf(UserSettingsModel.showStatusOnHomeScreen.value) }
