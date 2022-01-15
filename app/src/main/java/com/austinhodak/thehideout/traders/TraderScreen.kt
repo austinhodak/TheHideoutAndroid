@@ -34,16 +34,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloNetworkException
-import com.austinhodak.tarkovapi.ServerStatusQuery
 import com.austinhodak.tarkovapi.TraderResetTimersQuery
-import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.models.TraderInfo
 import com.austinhodak.tarkovapi.models.TraderReset
 import com.austinhodak.tarkovapi.models.toObj
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.room.models.Item
@@ -51,24 +49,18 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
-import com.austinhodak.thehideout.compose.components.FleaItem
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
-import com.austinhodak.thehideout.quests.QuestDetailActivity
-import com.austinhodak.thehideout.utils.Time
-import com.austinhodak.thehideout.utils.getCaliberName
+import com.austinhodak.thehideout.tradersList
 import com.austinhodak.thehideout.utils.openActivity
-import com.google.accompanist.glide.rememberGlidePainter
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @OptIn(
@@ -86,6 +78,7 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
     val pagerState = rememberPagerState(pageCount = titles.size)
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val barters by tarkovRepo.getAllBarters().collectAsState(initial = emptyList())
     val items by tarkovRepo.getAllItems().collectAsState(initial = emptyList())
@@ -93,6 +86,8 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
     var resetTimers: TraderReset? by remember { mutableStateOf(null) }
 
     var resetTime: String? by remember { mutableStateOf("") }
+
+    val traderInfo = tradersList.getTrader(trader ?: "")
 
     LaunchedEffect("traders") {
         try {
@@ -166,35 +161,37 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                         elevation = 0.dp
                     )
                 }
-                TabRow(
-                    selectedTabIndex = pagerState.currentPage,
-                    indicator = { tabPositions ->
-                        TabRowDefaults.Indicator(
-                            Modifier.pagerTabIndicatorOffset(
-                                pagerState,
-                                tabPositions
-                            ), color = Red400
-                        )
-                    },
-                    backgroundColor = MaterialTheme.colors.primary
-                ) {
-                    titles.forEachIndexed { index, title ->
-                        Tab(
-                            text = {
-                                Text(
-                                    title,
-                                    fontFamily = Bender
-                                )
-                            },
-                            selected = pagerState.currentPage == index,
-                            onClick = {
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(index)
-                                }
-                            },
-                            selectedContentColor = Red400,
-                            unselectedContentColor = White
-                        )
+                if (navBackStackEntry?.destination?.route != BottomNavigationScreens.Info.route) {
+                    TabRow(
+                        selectedTabIndex = pagerState.currentPage,
+                        indicator = { tabPositions ->
+                            TabRowDefaults.Indicator(
+                                Modifier.pagerTabIndicatorOffset(
+                                    pagerState,
+                                    tabPositions
+                                ), color = Red400
+                            )
+                        },
+                        backgroundColor = MaterialTheme.colors.primary
+                    ) {
+                        titles.forEachIndexed { index, title ->
+                            Tab(
+                                text = {
+                                    Text(
+                                        title,
+                                        fontFamily = Bender
+                                    )
+                                },
+                                selected = pagerState.currentPage == index,
+                                onClick = {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(index)
+                                    }
+                                },
+                                selectedContentColor = Red400,
+                                unselectedContentColor = White
+                            )
+                        }
                     }
                 }
             }
@@ -207,6 +204,28 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
             navController = navController,
             startDestination = BottomNavigationScreens.Items.route
         ) {
+            composable(BottomNavigationScreens.Info.route) {
+                LazyColumn(
+                    modifier = Modifier,
+                    contentPadding = PaddingValues(
+                        top = 4.dp,
+                        bottom = paddingValues.calculateBottomPadding() + 4.dp,
+                        start = 8.dp,
+                        end = 8.dp
+                    )
+                ) {
+                    item {
+                        InfoCard1(
+                            traderInfo
+                        )
+                    }
+                    traderInfo?.loyalty?.filterNot { it.level == 1 }?.forEach {
+                        item {
+                            InfoCardLoyalty(it, traderInfo)
+                        }
+                    }
+                }
+            }
             composable(BottomNavigationScreens.Items.route) {
                 val itemList = items.filter { item ->
                     item.pricing?.buyFor?.any {
@@ -283,6 +302,109 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun InfoCard1(trader: TraderInfo?) {
+    val traderEnum = Traders.values().find { it.id.equals(trader?.locale?.en, true) } ?: Traders.PRAPOR
+    Card(
+        modifier = Modifier.padding(vertical = 4.dp),
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+    ) {
+        Column {
+            Row(
+                Modifier
+                    .padding(start = 16.dp, end = 16.dp)
+                    .height(IntrinsicSize.Min),
+                verticalAlignment = Alignment.Top
+            ) {
+                Image(
+                    rememberImagePainter(traderEnum.icon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .width(64.dp)
+                        .height(64.dp)
+                        .border((0.25).dp, color = BorderColor)
+                )
+                Column(
+                    Modifier
+                        .padding(horizontal = 16.dp, vertical = 16.dp)
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "${trader?.name}",
+                        style = MaterialTheme.typography.h6,
+                        fontSize = 16.sp
+                    )
+                    CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
+                        Text(
+                            text = "${trader?.description}",
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun InfoCardLoyalty(loyalty: TraderInfo.Loyalty, traderInfo: TraderInfo) {
+    Card(
+        Modifier
+            .padding(vertical = 4.dp)
+            .fillMaxWidth(),
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+    ) {
+        Column(
+            Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 12.dp)
+        ) {
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Text(
+                    text = "LOYALTY LEVEL ${loyalty.level}",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Light,
+                    fontFamily = Bender,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
+            }
+            Column {
+                LoyaltyLine(title = "REQUIRED LEVEL", entry = "${loyalty.requiredLevel}")
+                LoyaltyLine(title = "REQUIRED REP", entry = "${loyalty.requiredReputation}")
+                LoyaltyLine(title = "REQUIRED SALES", entry = "${loyalty.requiredSales?.asCurrency(traderInfo.salesCurrency)}")
+            }
+        }
+    }
+}
+
+@Composable
+private fun LoyaltyLine(
+    modifier: Modifier = Modifier,
+    title: String,
+    entry: String
+) {
+    Row(
+        modifier = modifier.padding(horizontal = 0.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.body1,
+                fontSize = 12.sp
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = entry,
+            style = MaterialTheme.typography.body1,
+            fontSize = 14.sp
+        )
     }
 }
 
@@ -466,8 +588,19 @@ sealed class BottomNavigationScreens(
     val icon: ImageVector? = null,
     @DrawableRes val iconDrawable: Int? = null
 ) {
-    object Items :
-        BottomNavigationScreens("Items", "Items", null, R.drawable.ic_baseline_storefront_24)
+    object Info : BottomNavigationScreens(
+        "Info",
+        "Info",
+        null,
+        R.drawable.ic_baseline_info_24
+    )
+
+    object Items : BottomNavigationScreens(
+        "Items",
+        "Items",
+        null,
+        R.drawable.ic_baseline_storefront_24
+    )
 
     object Barters : BottomNavigationScreens(
         "Barters",
@@ -482,6 +615,7 @@ private fun TraderBottomNav(
     navController: NavController
 ) {
     val items = listOf(
+        BottomNavigationScreens.Info,
         BottomNavigationScreens.Items,
         BottomNavigationScreens.Barters
     )

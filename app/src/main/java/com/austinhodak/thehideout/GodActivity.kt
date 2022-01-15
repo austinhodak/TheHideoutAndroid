@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.apollographql.apollo3.ApolloClient
-import com.austinhodak.tarkovapi.ServerStatusQuery
 import com.austinhodak.tarkovapi.UserSettingsModel
-import com.austinhodak.tarkovapi.models.toObj
 import com.austinhodak.thehideout.utils.keepScreenOn
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.auth.ktx.auth
@@ -29,6 +27,8 @@ open class GodActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", application)
 
         UserSettingsModel.serverStatusNotifications.observe(lifecycleScope) {
             if (it) {

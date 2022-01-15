@@ -58,7 +58,7 @@ dependencies {
     api("com.apollographql.apollo3:apollo-api:3.0.0-dev14")
 
     implementation "androidx.core:core-ktx:${versions.ktx}"
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.compose.ui:ui-graphics:1.0.5'
 

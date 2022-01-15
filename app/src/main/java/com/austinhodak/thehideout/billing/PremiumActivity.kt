@@ -125,7 +125,7 @@ class PremiumActivity : AppCompatActivity() {
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                 )
                 MarkdownText(
-                    markdown = "\u2714  Save Unlimited Weapon Builds<br>✔  Quest Tracker Integrated in Maps",
+                    markdown = "✔  Save Unlimited Weapon Builds<br>✔  Quest Tracker Integrated in Maps<br>✔  1 Year Item Price History<br>✔  Future access to premium features!<br>✔  Support Development!",
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                     style = MaterialTheme.typography.body1,
                     fontResource = R.font.bender

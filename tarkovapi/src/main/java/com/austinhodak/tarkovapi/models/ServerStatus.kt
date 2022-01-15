@@ -126,6 +126,8 @@ data class ServerStatus(
                 )
             }"
         }
+
+        fun isResolved(): Boolean = solveTime != null
     }
 
     fun currentStatusColor(): Color {

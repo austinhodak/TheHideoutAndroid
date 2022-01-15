@@ -51,6 +51,7 @@ class Application : android.app.Application(), Configuration.Provider {
     companion object {
         var questPrefs: Prefs? = null
         var maps: Maps? = null
+        var traders: Traders? = null
         var rigs: Rigs? = null
         var skills: Skills? = null
         var presets: WeaponPresets? = null
@@ -85,13 +86,12 @@ class Application : android.app.Application(), Configuration.Provider {
         createServerStatusChannel()
         createRestockNotificationChannel()
 
-        //Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
-
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
         instance = this
         questPrefs = Prefs(applicationContext)
         maps = Maps(applicationContext)
+        traders = Traders(applicationContext)
         rigs = Rigs(applicationContext)
         skills = Skills(applicationContext)
         presets = WeaponPresets(applicationContext)
@@ -185,6 +185,8 @@ val questPrefs: Prefs by lazy {
 }
 
 val mapsList: Maps = Application.maps!!
+
+val tradersList: Traders = Application.traders!!
 
 val rigsList: Rigs = Application.rigs!!
 

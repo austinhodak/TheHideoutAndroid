@@ -41,8 +41,13 @@ fun RestockTimersScreen(
     LaunchedEffect("restock") {
         while (true) {
             try {
-                resetTimers = apolloClient.query(TraderResetTimersQuery()).data?.toObj()
+                Timber.d("Reloading")
+                val newData = apolloClient.query(TraderResetTimersQuery()).data?.toObj()
+                if (newData != resetTimers) {
+                    resetTimers = newData
+                }
                 delay(1000 * 60)
+
             } catch (e: ApolloNetworkException) {
                 //Most likely no internet connection.
                 e.printStackTrace()

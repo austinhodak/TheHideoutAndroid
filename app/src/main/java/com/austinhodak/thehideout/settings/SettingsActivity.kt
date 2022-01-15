@@ -509,6 +509,12 @@ class SettingsActivity : GodActivity() {
                                         summary = "Will notify when a new status message is received.".asText()
                                         dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
                                     }
+                                    category {
+                                        title = "Trader Restock".asText()
+                                    }
+                                    switch(UserSettingsModel.globalRestockAlert) {
+                                        title = "Show Notifications".asText()
+                                    }
                                 }
                                 /*category {
                                     title = "Integrations".asText()

@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -28,6 +25,7 @@ import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.ServerStatusQuery
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.ServerStatus
+import com.austinhodak.tarkovapi.models.StatusOrange
 import com.austinhodak.tarkovapi.models.toObj
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
@@ -35,6 +33,7 @@ import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.utils.openStatusSite
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -152,7 +151,7 @@ class ServerStatusActivity : AppCompatActivity() {
                                     }
                                 }
                             }
-                            item {
+                            /*item {
                                 Card(
                                     backgroundColor = if (isSystemInDarkTheme()) Color(
                                         0xFE1F1F1F
@@ -183,7 +182,7 @@ class ServerStatusActivity : AppCompatActivity() {
                                         })
                                     }
                                 }
-                            }
+                            }*/
                         }
                     }
                 }
@@ -199,7 +198,8 @@ class ServerStatusActivity : AppCompatActivity() {
             ) else MaterialTheme.colors.primary,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp)
+                .padding(vertical = 4.dp),
+            border = BorderStroke(0.5.dp, if (message.isResolved()) Color.Transparent else message.getColor())
         ) {
             Column(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp)

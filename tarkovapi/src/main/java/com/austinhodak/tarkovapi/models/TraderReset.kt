@@ -20,6 +20,13 @@ data class TraderReset(
             val currentTimeMillis = System.currentTimeMillis()
 
             if (resetTimeMillis <= currentTimeMillis) {
+                return "Restocked ${
+                    DateUtils.getRelativeTimeSpanString(
+                        resetTimeMillis,
+                        System.currentTimeMillis(),
+                        DateUtils.MINUTE_IN_MILLIS
+                    )
+                }"
                 return "Restocking now!"
             }
 
