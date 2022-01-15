@@ -29,8 +29,10 @@ import com.adapty.models.PurchaserInfoModel
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.austinhodak.tarkovapi.ServerStatusQuery
+import com.austinhodak.tarkovapi.TraderResetTimersQuery
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.ServerStatus
+import com.austinhodak.tarkovapi.models.TraderReset
 import com.austinhodak.tarkovapi.models.toObj
 import com.austinhodak.tarkovapi.utils.color
 import com.austinhodak.thehideout.BuildConfig
@@ -52,14 +54,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.ColorHolder
+import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.badgeText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
 import com.mikepenz.materialdrawer.util.*
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 val weaponCategories = mutableListOf(
     Triple("Assault Rifles", 301, "assaultRifle"),
@@ -258,6 +260,12 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         true; typeface = benderFont; isEnabled = true
     }
 
+    private val drawerRestockTimers = SecondaryDrawerItem().apply {
+        tag = "restock"; level = 2; identifier = 404; nameText =
+        "Trader Restock Timers"; iconRes = R.drawable.ic_baseline_access_time_24; isIconTinted =
+        true; typeface = benderFont; isEnabled = true
+    }
+
     private val drawerNews = PrimaryDrawerItem().apply {
         tag = "news"; identifier = 601; nameText = "News"; iconRes = R.drawable.ic_baseline_newspaper_24; isIconTinted = true; typeface = benderFont;
     }
@@ -274,7 +282,8 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         subItems = mutableListOf(
             drawerBitcoin,
             drawerCurrencyConverter,
-            drawerSensitivity
+            drawerSensitivity,
+            drawerRestockTimers
         )
     }
 
@@ -366,7 +375,6 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         isSelectable = false
     }
 
-
     init {
         itemAdapter.add(
             //drawerDivider,
@@ -444,15 +452,17 @@ fun MainDrawer(
     }
 
     var status: ServerStatus? by remember { mutableStateOf(null) }
+    var resetTimers: TraderReset? by remember { mutableStateOf(null) }
+    var isTimersRunning = false
 
-    LaunchedEffect("") {
+    LaunchedEffect("drawer") {
         try {
             status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+            resetTimers = apolloClient.query(TraderResetTimersQuery()).data?.toObj()
         } catch (e: ApolloNetworkException) {
             //Most likely no internet connection.
             e.printStackTrace()
         }
-
     }
 
     Scaffold(
@@ -618,6 +628,26 @@ fun MainDrawer(
                             }
                         }
                     }
+
+                    /*resetTimers?.let {
+                        if (isTimersRunning) return@let
+                        scope.launch {
+                            while (true) {
+                                drawer.itemAnimator.changeDuration = 0
+                                drawer.updateBadge(501, StringHolder(it.getTrader("prapor")?.getResetTimeSpan() ?: ""))
+                                drawer.updateBadge(502, StringHolder(it.getTrader("therapist")?.getResetTimeSpan() ?: ""))
+                                drawer.updateBadge(503, StringHolder(it.getTrader("skier")?.getResetTimeSpan() ?: ""))
+                                drawer.updateBadge(504, StringHolder(it.getTrader("peacekeeper")?.getResetTimeSpan() ?: ""))
+                                drawer.updateBadge(505, StringHolder(it.getTrader("mechanic")?.getResetTimeSpan() ?: ""))
+                                drawer.updateBadge(506, StringHolder(it.getTrader("ragman")?.getResetTimeSpan() ?: ""))
+                                drawer.updateBadge(507, StringHolder(it.getTrader("jaeger")?.getResetTimeSpan() ?: ""))
+
+                                delay(1000.toLong())
+
+                                isTimersRunning = true
+                            }
+                        }
+                    }*/
 
                     /*Adapty.setOnPurchaserInfoUpdatedListener(object : OnPurchaserInfoUpdatedListener {
                         override fun onPurchaserInfoReceived(purchaserInfo: PurchaserInfoModel) {

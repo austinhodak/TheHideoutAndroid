@@ -1,0 +1,6 @@
+query TraderResetTimers {
+    traderResetTimes {
+        name
+        resetTimestamp
+    }
+}

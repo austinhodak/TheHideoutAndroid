@@ -1,14 +1,18 @@
 package com.austinhodak.thehideout.firebase
 
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.core.app.NotificationCompat
 import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.room.enums.Traders
+import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.status.ServerStatusActivity
 import com.austinhodak.thehideout.utils.pushToken
@@ -31,11 +35,11 @@ class MessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
 
         if (remoteMessage.data.isNotEmpty()) {
-            if (remoteMessage.data.containsKey("title") && remoteMessage.data.containsKey("content")) {
+            if (remoteMessage.data.containsKey("title") && remoteMessage.data.containsKey("content") && !remoteMessage.data.containsKey("restock")) {
                 val title = remoteMessage.data["title"]
                 val content = remoteMessage.data["content"]
                 sendNotification(title ?: "", content ?: "")
-            } else if (remoteMessage.data.containsKey("data")) {
+            } else if (remoteMessage.data.containsKey("data") && !remoteMessage.data.containsKey("restock")) {
                 val data = JSONObject(remoteMessage.data.getValue("data"))
                 Timber.d("$data")
                 if (data.has("status")) {
@@ -67,6 +71,20 @@ class MessagingService : FirebaseMessagingService() {
                     if (UserSettingsModel.serverStatusMessages.value)
                     sendNotification("New Status Update", content)
                 }
+            } else if (remoteMessage.data.containsKey("restock")) {
+                //User has restock notifications off, do nothing.
+                if (!UserSettingsModel.globalRestockAlert.value) return
+                if (UserSettingsModel.globalRestockAlertAppOpen.value) {
+                    if (!isAppInforegrounded()) return
+                }
+
+                val d = JSONObject(remoteMessage.data.getValue("restock"))
+                val data = d.getJSONObject("restock")
+
+                val trader = Traders.values().find { it.id.equals(data.optString("trader", "prapor"), true) } ?: Traders.PRAPOR
+                val title = remoteMessage.data["title"]
+                val content = remoteMessage.data["content"]
+                sendRestockNotification(title ?: "", content ?: "", trader)
             }
 
             /*val fleaItem = JSONObject(remoteMessage.data["fleaItem"])
@@ -98,14 +116,41 @@ class MessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.notification_channel_flea_alert)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("FLEA_ALERTS", name, importance)
-            // Register the channel with the system
-            notificationManager.createNotificationChannel(channel)
+    private fun sendRestockNotification(title: String, message: String, trader: Traders) {
+        if (!UserSettingsModel.serverStatusNotifications.value) return
+
+        val intent = Intent(this, NavActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
+
+        intent.putExtra("fromNoti", true)
+        intent.putExtra("trader", trader.id)
+
+        val pendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        } else {
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
+        val builder = NotificationCompat.Builder(this, "TRADER_RESTOCK").apply {
+            setSmallIcon(R.drawable.hideout_shadow_1)
+            setContentTitle(title)
+            priority = NotificationCompat.PRIORITY_DEFAULT
+            setContentText(message)
+            setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            setContentIntent(pendingIntent)
+            setAutoCancel(true)
+            setLargeIcon(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, trader.icon), 128, 128, false))
+        }
+
+        notificationManager.notify(trader.int, builder.build())
+
+        /*Glide.with(this).asBitmap().load(trader.icon).into(object : SimpleTarget<Bitmap>() {
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                builder.setLargeIcon(resource)
+
+            }
+        })*/
     }
 
     private fun sendNotification(title: String, message: String) {
@@ -138,5 +183,12 @@ class MessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         pushToken(token)
+    }
+
+    fun isAppInforegrounded() : Boolean {
+        val appProcessInfo =  ActivityManager.RunningAppProcessInfo();
+        ActivityManager.getMyMemoryState(appProcessInfo);
+        return (appProcessInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND ||
+                appProcessInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE)
     }
 }

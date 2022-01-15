@@ -45,6 +45,7 @@ import com.austinhodak.thehideout.skills.CharacterSkillsScreen
 import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.tools.SensitivityCalculatorScreen
 import com.austinhodak.thehideout.tools.viewmodels.SensitivityViewModel
+import com.austinhodak.thehideout.traders.RestockTimersScreen
 import com.austinhodak.thehideout.traders.TraderScreen
 import com.austinhodak.thehideout.utils.acceptTeamInvite
 import com.austinhodak.thehideout.utils.openActivity
@@ -70,6 +71,7 @@ import com.google.firebase.ktx.Firebase
 import com.skydoves.only.only
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -328,7 +330,8 @@ class NavActivity : GodActivity() {
                             TraderScreen(
                                 it.arguments?.getString("trader"),
                                 navViewModel,
-                                tarkovRepo
+                                tarkovRepo,
+                                apolloClient
                             )
                         }
                         composable("news") {
@@ -338,6 +341,12 @@ class NavActivity : GodActivity() {
                         }
                         composable("skills") {
                             CharacterSkillsScreen(navViewModel = navViewModel)
+                        }
+                        composable("restock") {
+                            RestockTimersScreen(
+                                navViewModel,
+                                apolloClient
+                            )
                         }
                     }
 
@@ -397,6 +406,23 @@ class NavActivity : GodActivity() {
                     navViewModel.selectedDrawerItemIdentifier.observe(lifeCycleOwner) {
                         if (it != null)
                             navController.navigate(it.second)
+                    }
+
+                    coroutineScope.launch {
+                        //TODO Default drawer selection still stays selected, needs fixed but works for now.
+                        delay(100)
+                        if (intent.hasExtra("fromNoti") && intent.hasExtra("trader")) {
+                            val trader = "trader/${intent.getStringExtra("trader")?.lowercase() ?: "prapor"}"
+                            when (intent.getStringExtra("trader")?.lowercase() ?: "prapor") {
+                                "prapor" -> navViewModel.drawerItemSelected(Pair((501).toLong(), trader))
+                                "therapist" -> navViewModel.drawerItemSelected(Pair((502).toLong(), trader))
+                                "skier" -> navViewModel.drawerItemSelected(Pair((503).toLong(), trader))
+                                "peacekeeper" -> navViewModel.drawerItemSelected(Pair((504).toLong(), trader))
+                                "mechanic" -> navViewModel.drawerItemSelected(Pair((505).toLong(), trader))
+                                "ragman" -> navViewModel.drawerItemSelected(Pair((506).toLong(), trader))
+                                "jaeger" -> navViewModel.drawerItemSelected(Pair((507).toLong(), trader))
+                            }
+                        }
                     }
 
                     //navViewModel.updateCurrentNavRoute(navBackStackEntry?.destination?.route.toString())

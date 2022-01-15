@@ -59,6 +59,16 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val serverStatusNotifications by boolPref(false, "serverStatusNotifications")
     val serverStatusUpdates by boolPref(true, "serverStatusUpdates")
     val serverStatusMessages by boolPref(true, "serverStatusMessages")
+
+    val praporRestockAlert by boolPref(false, "praporRestockAlert")
+    val therapistRestockAlert by boolPref(false, "therapistRestockAlert")
+    val skierRestockAlert by boolPref(false, "skierRestockAlert")
+    val peacekeeperRestockAlert by boolPref(false, "peacekeeperRestockAlert")
+    val mechanicRestockAlert by boolPref(false, "mechanicRestockAlert")
+    val ragmanRestockAlert by boolPref(false, "ragmanRestockAlert")
+    val jaegerRestockAlert by boolPref(false, "jaegerRestockAlert")
+    val globalRestockAlert by boolPref(false, "globalRestockAlert")
+    val globalRestockAlertAppOpen by boolPref(true, "globalRestockAlertAppOpen")
 }
 
 enum class DataSyncFrequency {

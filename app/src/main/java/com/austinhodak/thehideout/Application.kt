@@ -69,10 +69,21 @@ class Application : android.app.Application(), Configuration.Provider {
         }
     }
 
+    private fun createRestockNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Trader Restocks"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("TRADER_RESTOCK", name, importance)
+            // Register the channel with the system
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
 
         createServerStatusChannel()
+        createRestockNotificationChannel()
 
         //Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
 

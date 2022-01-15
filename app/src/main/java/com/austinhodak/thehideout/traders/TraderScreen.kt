@@ -1,16 +1,14 @@
 package com.austinhodak.thehideout.traders
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -24,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -37,7 +36,13 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.exception.ApolloNetworkException
+import com.austinhodak.tarkovapi.ServerStatusQuery
+import com.austinhodak.tarkovapi.TraderResetTimersQuery
 import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.models.TraderReset
+import com.austinhodak.tarkovapi.models.toObj
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
@@ -52,6 +57,7 @@ import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
 import com.austinhodak.thehideout.quests.QuestDetailActivity
+import com.austinhodak.thehideout.utils.Time
 import com.austinhodak.thehideout.utils.getCaliberName
 import com.austinhodak.thehideout.utils.openActivity
 import com.google.accompanist.glide.rememberGlidePainter
@@ -59,17 +65,20 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @OptIn(
-    ExperimentalPagerApi::class, androidx.compose.material.ExperimentalMaterialApi::class,
-    coil.annotation.ExperimentalCoilApi::class,
+    ExperimentalPagerApi::class, ExperimentalMaterialApi::class,
+    ExperimentalCoilApi::class,
     androidx.compose.foundation.ExperimentalFoundationApi::class,
     kotlinx.coroutines.ExperimentalCoroutinesApi::class
 )
 @Composable
-fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: TarkovRepo) {
+fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: TarkovRepo, apolloClient: ApolloClient) {
     val titles: List<String> = listOf("LL1", "LL2", "LL3", "LL4", "ALL")
 
     val searchKey by navViewModel.searchKey.observeAsState("")
@@ -80,6 +89,26 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
 
     val barters by tarkovRepo.getAllBarters().collectAsState(initial = emptyList())
     val items by tarkovRepo.getAllItems().collectAsState(initial = emptyList())
+
+    var resetTimers: TraderReset? by remember { mutableStateOf(null) }
+
+    var resetTime: String? by remember { mutableStateOf("") }
+
+    LaunchedEffect("traders") {
+        try {
+            resetTimers = apolloClient.query(TraderResetTimersQuery()).data?.toObj()
+
+            while (true) {
+                resetTime = resetTimers?.getTrader(trader ?: "")?.getResetTimeSpan() ?: ""
+                delay(1000.toLong())
+            }
+        } catch (e: ApolloNetworkException) {
+            //Most likely no internet connection.
+            e.printStackTrace()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
 
     Scaffold(
         modifier = Modifier,
@@ -96,19 +125,46 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                         }
                     )
                 } else {
-                    MainToolbar(
-                        title = trader?.capitalize(Locale.current) ?: "Trader",
-                        navViewModel = navViewModel,
+                    TopAppBar(
+                        title = {
+                            Column {
+                                Text(
+                                    text = trader?.capitalize(Locale.current) ?: "Trader",
+                                    color = MaterialTheme.colors.onPrimary,
+                                    style = MaterialTheme.typography.h6,
+                                    maxLines = 1,
+                                    fontSize = 18.sp,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+
+                                Text(
+                                    text = resetTime ?: "",
+                                    color = MaterialTheme.colors.onPrimary,
+                                    style = MaterialTheme.typography.caption,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                navViewModel.isDrawerOpen.value = true
+                            }) {
+                                Icon(Icons.Filled.Menu, contentDescription = null)
+                            }
+                        },
+                        actions = {
+                            IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
+                                Icon(
+                                    Icons.Filled.Search,
+                                    contentDescription = "Search",
+                                    tint = Color.White
+                                )
+                            }
+                        },
+                        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                         elevation = 0.dp
-                    ) {
-                        IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
-                            Icon(
-                                Icons.Filled.Search,
-                                contentDescription = "Search",
-                                tint = Color.White
-                            )
-                        }
-                    }
+                    )
                 }
                 TabRow(
                     selectedTabIndex = pagerState.currentPage,
@@ -210,7 +266,7 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                     }
                 }.filter {
                     it.rewardItems?.first()?.item?.name?.contains(searchKey, ignoreCase = true) == true ||
-                    it.rewardItems?.first()?.item?.shortName?.contains(searchKey, ignoreCase = true) == true
+                            it.rewardItems?.first()?.item?.shortName?.contains(searchKey, ignoreCase = true) == true
                 }.sortedBy {
                     it.rewardItems?.first()?.item?.name
                 }
@@ -334,7 +390,7 @@ private fun BarterItem(
 
 @OptIn(
     ExperimentalMaterialApi::class, androidx.compose.foundation.ExperimentalFoundationApi::class,
-    coil.annotation.ExperimentalCoilApi::class, kotlinx.coroutines.ExperimentalCoroutinesApi::class
+    ExperimentalCoilApi::class, kotlinx.coroutines.ExperimentalCoroutinesApi::class
 )
 @Composable
 private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
@@ -514,9 +570,11 @@ fun TraderFleaItem(
                     .height(IntrinsicSize.Min),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Rectangle(color = color, modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(end = 16.dp))
+                Rectangle(
+                    color = color, modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(end = 16.dp)
+                )
                 Image(
                     rememberImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,

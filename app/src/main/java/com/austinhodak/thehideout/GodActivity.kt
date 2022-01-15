@@ -30,8 +30,6 @@ open class GodActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
         UserSettingsModel.serverStatusNotifications.observe(lifecycleScope) {
             if (it) {
                 Firebase.messaging.subscribeToTopic("serverStatus")
@@ -39,6 +37,8 @@ open class GodActivity : AppCompatActivity() {
                 Firebase.messaging.unsubscribeFromTopic("serverStatus")
             }
         }
+
+        setupRestockTopics()
 
         UserSettingsModel.keepScreenOn.observe(lifecycleScope) { keepOn ->
             keepScreenOn(keepOn)
@@ -123,6 +123,64 @@ open class GodActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    private fun setupRestockTopics() {
+        UserSettingsModel.praporRestockAlert.observe(lifecycleScope) {
+            if (it) {
+                Firebase.messaging.subscribeToTopic("praporRestock")
+            } else {
+                Firebase.messaging.unsubscribeFromTopic("praporRestock")
+            }
+        }
+
+        UserSettingsModel.therapistRestockAlert.observe(lifecycleScope) {
+            if (it) {
+                Firebase.messaging.subscribeToTopic("therapistRestock")
+            } else {
+                Firebase.messaging.unsubscribeFromTopic("therapistRestock")
+            }
+        }
+
+        UserSettingsModel.skierRestockAlert.observe(lifecycleScope) {
+            if (it) {
+                Firebase.messaging.subscribeToTopic("skierRestock")
+            } else {
+                Firebase.messaging.unsubscribeFromTopic("skierRestock")
+            }
+        }
+
+        UserSettingsModel.peacekeeperRestockAlert.observe(lifecycleScope) {
+            if (it) {
+                Firebase.messaging.subscribeToTopic("peacekeeperRestock")
+            } else {
+                Firebase.messaging.unsubscribeFromTopic("peacekeeperRestock")
+            }
+        }
+
+        UserSettingsModel.mechanicRestockAlert.observe(lifecycleScope) {
+            if (it) {
+                Firebase.messaging.subscribeToTopic("mechanicRestock")
+            } else {
+                Firebase.messaging.unsubscribeFromTopic("mechanicRestock")
+            }
+        }
+
+        UserSettingsModel.ragmanRestockAlert.observe(lifecycleScope) {
+            if (it) {
+                Firebase.messaging.subscribeToTopic("ragmanRestock")
+            } else {
+                Firebase.messaging.unsubscribeFromTopic("ragmanRestock")
+            }
+        }
+
+        UserSettingsModel.jaegerRestockAlert.observe(lifecycleScope) {
+            if (it) {
+                Firebase.messaging.subscribeToTopic("jaegerRestock")
+            } else {
+                Firebase.messaging.unsubscribeFromTopic("jaegerRestock")
+            }
+        }
     }
 
     private fun updateDisplayName(name: String) {
