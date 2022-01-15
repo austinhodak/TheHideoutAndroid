@@ -146,8 +146,10 @@ class AmmoDetailActivity : GodActivity() {
                             item {
                                 AmmoDetailCard(ammo = ammo!!)
                             }
-                            item {
-                                PricingCard(pricing = ammo?.pricing!!)
+                            if (ammo?.pricing?.buyFor?.isNotEmpty() == true) {
+                                item {
+                                    PricingCard(pricing = ammo?.pricing!!)
+                                }
                             }
                             item {
                                 ArmorPenCard(ammo = ammo!!, selectedArmor)
@@ -276,6 +278,15 @@ class AmmoDetailActivity : GodActivity() {
                             MaterialTheme.colors.onSurface
                         )
                     )
+                    if (ammo.ballistics?.tracer == true) {
+                        DataRow(
+                            title = "TRACER",
+                            value = Pair(
+                                "${ammo.ballistics?.tracerColor?.uppercase()}",
+                                MaterialTheme.colors.onSurface
+                            )
+                        )
+                    }
                 }
             }
         }

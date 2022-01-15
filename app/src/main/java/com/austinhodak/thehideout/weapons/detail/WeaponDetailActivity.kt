@@ -41,6 +41,7 @@ import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.WeaponBuild
 import com.austinhodak.thehideout.compose.components.OverflowMenu
+import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
@@ -132,19 +133,19 @@ class WeaponDetailActivity : GodActivity() {
                                                                 painter,
                                                                 contentDescription = null,
                                                                 modifier = Modifier
-                                                                        .fillMaxWidth()
-                                                                        .then(
-                                                                                if (painter.state is ImagePainter.State.Loading || painter.state is ImagePainter.State.Error) {
-                                                                                    Modifier.height(0.dp)
-                                                                                } else {
-                                                                                    (painter.state as? ImagePainter.State.Success)
-                                                                                            ?.painter
-                                                                                            ?.intrinsicSize
-                                                                                            ?.let { intrinsicSize ->
-                                                                                                Modifier.aspectRatio(intrinsicSize.width / intrinsicSize.height)
-                                                                                            } ?: Modifier
-                                                                                }
-                                                                        ),
+                                                                    .fillMaxWidth()
+                                                                    .then(
+                                                                        if (painter.state is ImagePainter.State.Loading || painter.state is ImagePainter.State.Error) {
+                                                                            Modifier.height(0.dp)
+                                                                        } else {
+                                                                            (painter.state as? ImagePainter.State.Success)
+                                                                                ?.painter
+                                                                                ?.intrinsicSize
+                                                                                ?.let { intrinsicSize ->
+                                                                                    Modifier.aspectRatio(intrinsicSize.width / intrinsicSize.height)
+                                                                                } ?: Modifier
+                                                                        }
+                                                                    ),
                                                                 contentScale = ContentScale.FillWidth
                                                         )
                                                         Column(
@@ -341,33 +342,33 @@ class WeaponDetailActivity : GodActivity() {
                 contentPadding = PaddingValues(vertical = 4.dp)
         ) {
             weapon.Slots?.forEach { slot ->
-                item {
-                    Card(
+                val m = slot._props?.filters?.first()?.Filter?.map { it2 -> mods?.find { it.id == it2 } }
+                if (m?.isNotEmpty() == true) {
+                    item {
+                        Card(
                             modifier = Modifier
-                                    .padding(vertical = 4.dp, horizontal = 8.dp)
-                                    .fillMaxWidth(),
+                                .padding(vertical = 4.dp, horizontal = 8.dp)
+                                .fillMaxWidth(),
                             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-                            border = if (slot._required == true) BorderStroke(0.25.dp, Red400) else null,
-                            onClick = {
-
-                            },
-                    ) {
-                        Column(
-                                Modifier.padding(16.dp)
+                            border = if (slot._required == true) BorderStroke(0.25.dp, Red400) else null
                         ) {
-                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                                Text(
+                            Column(
+                                Modifier.padding(16.dp)
+                            ) {
+                                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                                    Text(
                                         text = slot.getName(),
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Light,
                                         fontFamily = Bender,
                                         modifier = Modifier.padding(bottom = 8.dp)
-                                )
-                            }
-                            val m = slot._props?.filters?.first()?.Filter?.map { it2 -> mods?.find { it.id == it2 } }
-                            m?.forEach {
-                                it?.let {
-                                    ModListCardChildMod(item = it, mods)
+                                    )
+                                }
+
+                                m?.forEach {
+                                    it?.let {
+                                        ModListCardChildMod(item = it, mods)
+                                    }
                                 }
                             }
                         }
@@ -415,6 +416,7 @@ class WeaponDetailActivity : GodActivity() {
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                     )
+                    //SmallBuyPrice(pricing = item.pricing)
                     CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                         Text(
                                 text = "${item.pricing?.getPrice()?.asCurrency()}",

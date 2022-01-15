@@ -69,6 +69,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val jaegerRestockAlert by boolPref(false, "jaegerRestockAlert")
     val globalRestockAlert by boolPref(false, "globalRestockAlert")
     val globalRestockAlertAppOpen by boolPref(true, "globalRestockAlertAppOpen")
+
+    val modPickerShowAvailable by boolPref(false, "modPickerShowAvailable")
 }
 
 enum class DataSyncFrequency {

@@ -30,7 +30,7 @@ fun <T> Context.openActivity(it: Class<T>, extras: Bundle.() -> Unit = {}) {
 
 fun Double.plusMinus(): String {
     val value = this.roundToInt()
-    return if (value > 0) "+${value}" else if (value < 0) "-${value}" else value.toString()
+    return if (value > 0) "+${value}" else if (value < 0) "${value}" else value.toString()
 }
 
 fun Int.convertRtoUSD(): Int {

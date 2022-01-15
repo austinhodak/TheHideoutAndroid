@@ -51,6 +51,12 @@ data class Pricing(
         )
     }
 
+    fun isAbleToPurchase(): Boolean {
+        return buyFor?.any {
+            it.isRequirementMet()
+        } ?: false
+    }
+
     fun getCheapestBuy(): BuySellPrice? {
         return buyFor?.minByOrNull { it.price ?: Int.MAX_VALUE }!!
     }

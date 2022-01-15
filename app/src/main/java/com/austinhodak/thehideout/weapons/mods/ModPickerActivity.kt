@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.ModsRepo
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
@@ -107,6 +109,25 @@ class ModPickerActivity : GodActivity() {
 
                 systemUiController.setNavigationBarColor(DarkPrimary)
 
+                var modPickerShowAvailable by remember { mutableStateOf(UserSettingsModel.modPickerShowAvailable.value) }
+
+                UserSettingsModel.modPickerShowAvailable.observe(scope) {
+                    modPickerShowAvailable = it
+                }
+
+                var data = list.sortedBy {
+                    conflictingItems?.contains(it.id) == true
+                }.filter {
+                    if (searchKey.isBlank()) return@filter true
+                    it.ShortName?.contains(searchKey, ignoreCase = true) == true || it.Name?.contains(searchKey, ignoreCase = true) == true
+                }.filter {
+                    if (modPickerShowAvailable) {
+                        it.pricing?.isAbleToPurchase() == true
+                    } else {
+                        true
+                    }
+                }
+
                 Scaffold(
                         scaffoldState = scaffoldState,
                         topBar = {
@@ -123,7 +144,7 @@ class ModPickerActivity : GodActivity() {
                                     )
                                 } else {
                                     AmmoDetailToolbar(
-                                            title = "${list.size} Mods",
+                                            title = "${data.size} Mods",
                                             onBackPressed = { finish() },
                                             actions = {
                                                 IconButton(onClick = { viewModel.setSearchOpen(true) }) {
@@ -135,6 +156,11 @@ class ModPickerActivity : GodActivity() {
                                                         title(text = "Sort By")
                                                         listItemsSingleChoice(items = items, initialSelection = sort) { _, index, _ ->
                                                             sort = index
+                                                        }
+                                                        checkBoxPrompt(text = "Only show purchasable mods.", isCheckedDefault = modPickerShowAvailable) {
+                                                            scope.launch {
+                                                                UserSettingsModel.modPickerShowAvailable.update(it)
+                                                            }
                                                         }
                                                     }
                                                 }) {
@@ -158,12 +184,6 @@ class ModPickerActivity : GodActivity() {
                     LazyColumn(
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                     ) {
-                        var data = list.sortedBy {
-                            conflictingItems?.contains(it.id) == true
-                        }.filter {
-                            if (searchKey.isBlank()) return@filter true
-                            it.ShortName?.contains(searchKey, ignoreCase = true) == true || it.Name?.contains(searchKey, ignoreCase = true) == true
-                        }
 
                         data = when (sort) {
                             0 -> data.sortedBy { it.ShortName }
