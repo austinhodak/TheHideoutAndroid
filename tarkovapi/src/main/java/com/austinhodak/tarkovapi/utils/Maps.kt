@@ -27,6 +27,7 @@ class Maps(context: Context) {
             maps.add(Gson().fromJson(json.getJSONObject("interchange").toString(), Map::class.java))
             maps.add(Gson().fromJson(json.getJSONObject("lab").toString(), Map::class.java))
             maps.add(Gson().fromJson(json.getJSONObject("reserve").toString(), Map::class.java))
+            maps.add(Gson().fromJson(json.getJSONObject("lighthouse").toString(), Map::class.java))
         }
     }
 

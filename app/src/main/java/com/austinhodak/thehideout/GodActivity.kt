@@ -28,42 +28,13 @@ open class GodActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", application)
-
-        UserSettingsModel.serverStatusNotifications.observe(lifecycleScope) {
-            if (it) {
-                Firebase.messaging.subscribeToTopic("serverStatus")
-            } else {
-                Firebase.messaging.unsubscribeFromTopic("serverStatus")
-            }
-        }
-
+        setupServerNotifications()
         setupRestockTopics()
+        setupScreenOn()
+        setupPlayerInfoSync()
+    }
 
-        UserSettingsModel.keepScreenOn.observe(lifecycleScope) { keepOn ->
-            keepScreenOn(keepOn)
-        }
-
-        /*UserSettingsModel.playerIGN.observe(lifecycleScope) { name ->
-            Firebase.auth.currentUser?.let { user ->
-                val profileUpdate = userProfileChangeRequest {
-                    displayName = name
-                }
-
-                if (user.displayName != name) {
-                    user.updateProfile(profileUpdate)
-                    userRefTracker("displayName").setValue(name)
-                }
-            }
-        }*/
-
-        /*Firebase.auth.currentUser?.let {
-            lifecycleScope.launch(Dispatchers.IO) {
-                UserSettingsModel.playerIGN.update(it.displayName ?: "")
-                userRefTracker("displayName").setValue(it.displayName)
-            }
-        }*/
-
+    private fun setupPlayerInfoSync() {
         userRefTracker("displayName").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -123,6 +94,22 @@ open class GodActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    private fun setupScreenOn() {
+        UserSettingsModel.keepScreenOn.observe(lifecycleScope) { keepOn ->
+            keepScreenOn(keepOn)
+        }
+    }
+
+    private fun setupServerNotifications() {
+        UserSettingsModel.serverStatusNotifications.observe(lifecycleScope) {
+            if (it) {
+                Firebase.messaging.subscribeToTopic("serverStatus")
+            } else {
+                Firebase.messaging.unsubscribeFromTopic("serverStatus")
+            }
+        }
     }
 
     private fun setupRestockTopics() {

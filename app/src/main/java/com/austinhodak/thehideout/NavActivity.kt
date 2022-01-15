@@ -152,45 +152,14 @@ class NavActivity : GodActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val manager = ReviewManagerFactory.create(this)
-
-        only("reviewPopup", times = 5) {
-            onDone {
-                val request = manager.requestReviewFlow()
-                request.addOnSuccessListener { reviewInfo ->
-                    Timber.d("LAUNCHING REVIEW")
-                    manager.launchReviewFlow(this@NavActivity, reviewInfo)
-                }
-            }
-        }
-
-        val appUpdateManager = AppUpdateManagerFactory.create(this)
+        setupReviewPopup()
 
         val data = intent.extras
         data?.let {
             it.getString("url")?.openWithCustomTab(this)
         }
 
-        //FUCK ME
-
-        Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
-            if (pendingDynamicLinkData != null) {
-                var deepLink = pendingDynamicLinkData.link
-                MaterialDialog(this).show {
-                    title(text = "Join Team?")
-                    message(text = "You've clicked an invite link, do you want to join this team?")
-                    positiveButton(text = "JOIN") {
-                        deepLink?.acceptTeamInvite {
-                            Toast.makeText(this@NavActivity, "Team joined successfully!", Toast.LENGTH_SHORT).show()
-                            openActivity(TeamManagementActivity::class.java)
-                        }
-                    }
-                    negativeButton(text = "NEVERMIND")
-                }
-
-                Timber.d(deepLink?.lastPathSegment)
-            }
-        }
+        setupDynamicLinks()
 
         setContent {
             val scaffoldState = rememberScaffoldState()
@@ -426,6 +395,40 @@ class NavActivity : GodActivity() {
                     }
 
                     //navViewModel.updateCurrentNavRoute(navBackStackEntry?.destination?.route.toString())
+                }
+            }
+        }
+    }
+
+    private fun setupDynamicLinks() {
+        Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
+            if (pendingDynamicLinkData != null) {
+                var deepLink = pendingDynamicLinkData.link
+                MaterialDialog(this).show {
+                    title(text = "Join Team?")
+                    message(text = "You've clicked an invite link, do you want to join this team?")
+                    positiveButton(text = "JOIN") {
+                        deepLink?.acceptTeamInvite {
+                            Toast.makeText(this@NavActivity, "Team joined successfully!", Toast.LENGTH_SHORT).show()
+                            openActivity(TeamManagementActivity::class.java)
+                        }
+                    }
+                    negativeButton(text = "NEVERMIND")
+                }
+
+                Timber.d(deepLink?.lastPathSegment)
+            }
+        }
+    }
+
+    private fun setupReviewPopup() {
+        val manager = ReviewManagerFactory.create(this)
+        only("reviewPopup", times = 5) {
+            onDone {
+                val request = manager.requestReviewFlow()
+                request.addOnSuccessListener { reviewInfo ->
+                    Timber.d("LAUNCHING REVIEW")
+                    manager.launchReviewFlow(this@NavActivity, reviewInfo)
                 }
             }
         }
