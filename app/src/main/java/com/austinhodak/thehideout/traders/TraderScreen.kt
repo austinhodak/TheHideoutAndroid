@@ -744,13 +744,13 @@ fun TraderFleaItem(
                         it.source == trader
                     }
                     Text(
-                        text = traderPrice?.price?.asCurrency() ?: "-",
+                        text = traderPrice?.price?.asCurrency(traderPrice.currency ?: "R") ?: "-",
                         style = MaterialTheme.typography.h6,
                         fontSize = 15.sp
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "${item.getPricePerSlot(traderPrice?.price ?: 0).asCurrency()}/slot",
+                            text = "${item.getPricePerSlot(traderPrice?.price ?: 0).asCurrency(traderPrice?.currency ?: "R")}/slot",
                             style = MaterialTheme.typography.caption,
                             fontSize = 10.sp
                         )
