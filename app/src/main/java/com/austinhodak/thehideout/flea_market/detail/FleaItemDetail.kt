@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.flea_market.detail
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.WindowManager
@@ -43,18 +44,18 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
+import com.afollestad.materialdialogs.list.listItems
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
-import com.austinhodak.thehideout.GodActivity
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.firebase.PriceAlert
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.hideoutList
-import com.austinhodak.thehideout.questPrefs
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.views.PriceChartMarkerView
@@ -74,6 +75,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -89,6 +91,17 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FleaItemDetail : GodActivity() {
 
+    override fun onBackPressed() {
+        if (intent.hasExtra("fromNoti")) {
+            val intent = Intent(this, NavActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
+            finish()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     private val viewModel: FleaViewModel by viewModels()
 
     @Inject
@@ -102,7 +115,7 @@ class FleaItemDetail : GodActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         //WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        itemID = intent.getStringExtra("id") ?: "55801eed4bdc2d89578b4588"
+        itemID = intent.getStringExtra("id") ?: "5c0530ee86f774697952d952"
         viewModel.getItemByID(itemID)
 
         setContent {
@@ -122,6 +135,8 @@ class FleaItemDetail : GodActivity() {
                     val parentItems = parents.filter { it.id != itemID }
 
                     val userData by viewModel.userData.observeAsState()
+
+                    var priceAlerts by remember { mutableStateOf<List<PriceAlert>?>(null) }
 
                     val items = listOf(
                         NavItem("Item", R.drawable.ic_baseline_storefront_24),
@@ -150,7 +165,23 @@ class FleaItemDetail : GodActivity() {
                         //Toast.makeText(this, "Contains Child!", Toast.LENGTH_SHORT).show()
                     }
 
+                    LaunchedEffect(key1 = "") {
+                        questsFirebase.child("priceAlerts").orderByChild("uid").equalTo(uid()).addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                priceAlerts = snapshot.children.map {
+                                    val alert = it.getValue<PriceAlert>()!!
+                                    alert.reference = it.ref
+                                    alert
+                                }.filter {
+                                    it.itemID == itemID
+                                }
+                            }
 
+                            override fun onCancelled(error: DatabaseError) {
+
+                            }
+                        })
+                    }
 
                     Scaffold(
                         scaffoldState = scaffoldState,
@@ -180,6 +211,9 @@ class FleaItemDetail : GodActivity() {
                                         item?.pricing?.wikiLink?.let { WikiItem(url = it) }
                                         OverflowMenuItem(text = "Add to Needed Items") {
                                             item?.pricing?.addToNeededItemsDialog(this@FleaItemDetail)
+                                        }
+                                        OverflowMenuItem(text = "Add Price Alert") {
+                                            item?.pricing?.addPriceAlertDialog(this@FleaItemDetail)
                                         }
                                     }
                                 }
@@ -270,7 +304,9 @@ class FleaItemDetail : GodActivity() {
                                                 ) {
                                                     Chart()
                                                 }
-                                                //FleaFeeCalc(item)
+                                                if (!priceAlerts.isNullOrEmpty()) {
+                                                    PriceAlertCard(priceAlerts = priceAlerts!!, item)
+                                                }
                                             }
                                             item {
                                                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
@@ -292,6 +328,111 @@ class FleaItemDetail : GodActivity() {
                                     }
                                     3 -> QuestsPage(item = item, quests, tarkovRepo, userData)
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    @Composable
+    fun PriceAlertCard(priceAlerts: List<PriceAlert>, item: Item?) {
+        Card(
+            backgroundColor = if (isSystemInDarkTheme()) Color(
+                0xFE1F1F1F
+            ) else MaterialTheme.colors.primary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp, horizontal = 8.dp)
+        ) {
+            Column {
+                Row(
+                    modifier = Modifier.padding(bottom = 8.dp, top = 16.dp, start = 16.dp, end = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = "PRICE ALERTS",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
+                    IconButton(onClick = {
+                        item?.pricing?.addPriceAlertDialog(this@FleaItemDetail)
+                    }, modifier = Modifier.size(20.dp)) {
+                        Icon(painter = painterResource(id = R.drawable.ic_baseline_notification_add_24), contentDescription = "ADD")
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(
+                        start = 0.dp,
+                        end = 0.dp,
+                        top = 4.dp,
+                        bottom = 4.dp
+                    )
+                ) {
+                    priceAlerts.forEachIndexed { i, alert ->
+                        if (i != 0) {
+                            Divider(color = DividerDarkLighter)
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .combinedClickable(
+                                    onClick = {
+                                        if (alert.persistent == true) {
+                                            alert.reference
+                                                ?.child("enabled")
+                                                ?.setValue(alert.enabled != true)
+                                        }
+                                    },
+                                    onLongClick = {
+                                        MaterialDialog(this@FleaItemDetail).show {
+                                            listItems(items = listOf("Delete")) { dialog, index, text ->
+                                                when (text) {
+                                                    "Delete" -> {
+                                                        alert.reference?.removeValue()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                )
+                                .padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp
+                                )
+                                .defaultMinSize(minHeight = 28.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = alert.getConditionIcon()),
+                                contentDescription = "",
+                                modifier = Modifier.size(20.dp),
+                                tint = White
+                            )
+                            /*Text(
+                                text = alert.getConditionString() ?: "",
+                                style = MaterialTheme.typography.subtitle2,
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(start = 0.dp)
+                            )*/
+                            Text(
+                                text = alert.price?.toInt()?.asCurrency() ?: "",
+                                style = MaterialTheme.typography.subtitle2,
+                                modifier = Modifier.padding(start = 16.dp)
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            if (alert.persistent == true) {
+                                Switch(checked = alert.enabled ?: false, onCheckedChange = {
+                                    alert.reference?.child("enabled")?.setValue(it)
+                                })
                             }
                         }
                     }
@@ -672,6 +813,7 @@ class FleaItemDetail : GodActivity() {
                     .fillMaxWidth()
                     .height(200.dp)
             ) { chart ->
+                //if (chart.data != null) return@AndroidView
                 fleaFirebase.child("priceHistory/${itemID}").orderByKey().startAt("\"${(System.currentTimeMillis() - selectedRange)}\"").endAt(System.currentTimeMillis().addQuotes())
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {

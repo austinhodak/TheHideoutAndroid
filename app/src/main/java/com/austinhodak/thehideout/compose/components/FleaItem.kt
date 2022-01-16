@@ -1,8 +1,7 @@
 package com.austinhodak.thehideout.compose.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import android.annotation.SuppressLint
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -12,12 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItems
 import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -26,9 +28,11 @@ import com.austinhodak.tarkovapi.utils.convertRtoUSD
 import com.austinhodak.tarkovapi.utils.fromDtoR
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.utils.traderImage
+import com.austinhodak.thehideout.utils.*
 import kotlin.math.roundToInt
 
+@SuppressLint("CheckResult")
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
@@ -37,6 +41,8 @@ fun FleaItem(
     priceDisplay: FleaVisiblePrice,
     onClick: (String) -> Unit
 ) {
+
+    val context = LocalContext.current
 
     val color = when (item.BackgroundColor) {
         "blue" -> itemBlue
@@ -52,11 +58,27 @@ fun FleaItem(
     }
 
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-        //border = BorderStroke(1.dp, color = color),
-        onClick = {
-            onClick(item.id)
-        },
+        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).combinedClickable(
+            onClick = {
+                onClick(item.id)
+            },
+            onLongClick = {
+                context.showDialog(
+                    Pair("Wiki Page") {
+                        item.pricing?.wikiLink?.openWithCustomTab(context)
+                    },
+                    Pair("Add to Needed Items") {
+                        item.pricing?.addToNeededItemsDialog(context)
+                    },
+                    Pair("Add Price Alert") {
+                        item.pricing?.addPriceAlertDialog(context)
+                    },
+                    Pair("Add to Cart") {
+                        item.pricing?.addToCartDialog(context)
+                    },
+                )
+            }
+        ),
         backgroundColor = Color(0xFE1F1F1F)
     ) {
         Column {
@@ -196,7 +218,7 @@ fun TraderSmall(item: Pricing?) {
             }
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(
-                    text = i.price?.asCurrency() ?: "",
+                    text = i.price?.asCurrency(i.currency ?: "R") ?: "",
                     style = MaterialTheme.typography.caption,
                     fontSize = 10.sp,
                     modifier = Modifier.padding(end = 4.dp)

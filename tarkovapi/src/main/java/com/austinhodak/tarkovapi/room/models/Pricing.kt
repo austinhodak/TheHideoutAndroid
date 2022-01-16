@@ -104,19 +104,15 @@ data class Pricing(
             val value: Int
         ) : Serializable
 
-        fun getPriceAsCurrency(convertDtoR: Boolean? = null): String? {
-            return if (currency == "USD") {
-                price?.asCurrency("D")
-            } else if (currency == "EUR") {
-                price?.asCurrency("E")
-            } else {
-                price?.asCurrency()
-            }
+        fun getPriceAsCurrency(): String? {
+            return price?.asCurrency(currency ?: "R")
         }
 
         fun getPriceAsRoubles(): Int {
-            return if (source == "peacekeeper") {
-                price?.fromDtoR()?.roundToInt()
+            return if (currency == "USD") {
+                price?.fromDtoR()?.roundToInt() ?: 0
+            } else if (currency == "EUR") {
+                euroToRouble(price?.toLong() ?: 0).toInt()
             } else {
                 price
             } ?: 0

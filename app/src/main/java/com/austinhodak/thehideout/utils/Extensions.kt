@@ -6,10 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,8 +27,11 @@ import com.adapty.models.GoogleValidationResult
 import com.adapty.models.ProductModel
 import com.adapty.models.PurchaserInfoModel
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
+import com.afollestad.materialdialogs.list.listItems
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
@@ -48,12 +54,25 @@ import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.android.material.textfield.TextInputEditText
 import com.google.common.util.concurrent.ListenableFuture
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
+import com.google.firebase.database.*
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import okhttp3.internal.toLongOrDefault
+import java.text.DecimalFormat
 import java.util.concurrent.ExecutionException
 import kotlin.math.round
+
+@SuppressLint("CheckResult")
+fun Context.showDialog(vararg item: Pair<String, () -> Unit>) {
+    MaterialDialog(this).show {
+        listItems(items = item.map { it.first }) { dialog, index, text ->
+            val i = item.find { it.first == text }?.second!!
+            i()
+        }
+    }
+}
 
 fun isDebug(): Boolean = BuildConfig.DEBUG
 
@@ -497,6 +516,113 @@ fun Pricing.addToNeededItemsDialog(context: Context) {
     }
 }
 
+@ExperimentalFoundationApi
+@SuppressLint("CheckResult")
+fun Pricing.addPriceAlertDialog(context: Context) {
+    questsFirebase.child("priceAlerts").orderByChild("uid").equalTo(uid()).addListenerForSingleValueEvent(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            if (snapshot.exists() && snapshot.childrenCount >= 5) {
+                return isPremium {
+                    if (!it) {
+                        context.launchPremiumPusher()
+                        return@isPremium
+                    }
+                }
+            }
+
+            val pricing = this@addPriceAlertDialog
+            val alertDialog = MaterialDialog(context).show {
+                title(text = context.getString(R.string.price_alert_add))
+                customView(R.layout.dialog_add_price_alert)
+                positiveButton(text = context.getString(R.string.add)) { dialog ->
+                    val alertAddView = dialog.getCustomView()
+                    val spinner = alertAddView.findViewById<AppCompatSpinner>(R.id.addAlertSpinner)
+                    val editText = alertAddView.findViewById<TextInputEditText>(R.id.addAlertTextField)
+
+                    if (editText.text.toString().isEmpty()) {
+                        editText.error = context.getString(R.string.error_empty)
+                    } else {
+                        editText.error = null
+                        val price = editText?.text.toString().replace(",", "").toLongOrDefault(0)
+                        val selected = when (spinner?.selectedItemPosition) {
+                            0 -> "below"
+                            else -> "above"
+                        }
+                        pricing.addPriceAlert(price, selected, true, dialog, context)
+                    }
+                }
+                negativeButton(text = context.getString(R.string.cancel)) {
+                    dismiss()
+                }
+                noAutoDismiss()
+            }
+            val alertAddView = alertDialog.getCustomView()
+            val editText = alertAddView.findViewById<TextInputEditText>(R.id.addAlertTextField)
+            editText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    editText.removeTextChangedListener(this)
+
+                    try {
+                        var givenstring = s.toString()
+                        val longval: Long
+                        if (givenstring.contains(",")) {
+                            givenstring = givenstring.replace(",".toRegex(), "")
+                        }
+                        longval = givenstring.toLong()
+                        val formatter = DecimalFormat("#,###,###")
+                        val formattedString: String = formatter.format(longval)
+                        editText.setText(formattedString)
+                        editText.setSelection(editText.text?.length ?: 0)
+                        // to place the cursor at the end of text
+                    } catch (nfe: NumberFormatException) {
+                        nfe.printStackTrace()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
+                    editText.addTextChangedListener(this)
+                }
+            })
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+
+        }
+    })
+
+}
+
+fun Pricing.addPriceAlert(price: Long, condition: String, persistent: Boolean, dialog: MaterialDialog, context: Context) {
+    FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+        val alertID = questsFirebase.child("priceAlerts").push().key
+        alertID?.let {
+            questsFirebase.child("priceAlerts").child(alertID).setValue(
+                mapOf(
+                    "condition" to condition,
+                    "enabled" to true,
+                    "itemID" to this.id,
+                    "persistent" to persistent,
+                    "price" to price,
+                    "token" to token,
+                    "uid" to uid(),
+                    "created" to System.currentTimeMillis()
+                )
+            ).addOnSuccessListener {
+                Toast.makeText(context, "Price Alert Added!", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+        }
+    }
+}
+
 fun Pricing.addToCart(quantity: Long? = 1) {
     userRefTracker("cart/${this.id}").setValue(ServerValue.increment(quantity ?: 1))
 }
@@ -506,7 +632,10 @@ fun Pricing.addToNeededItems(quantity: Long? = 1) {
     userRefTracker("items/${this.id}/user/${token.key}/quantity").setValue(quantity)
 }
 
-fun ProductModel.purchase(activity: Activity, adaptyCallback: (purchaserInfo: PurchaserInfoModel?, purchaseToken: String?, googleValidationResult: GoogleValidationResult?, product: ProductModel, error: AdaptyError?) -> Unit) {
+fun ProductModel.purchase(
+    activity: Activity,
+    adaptyCallback: (purchaserInfo: PurchaserInfoModel?, purchaseToken: String?, googleValidationResult: GoogleValidationResult?, product: ProductModel, error: AdaptyError?) -> Unit
+) {
     Adapty.makePurchase(activity, this) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
         adaptyCallback.invoke(purchaserInfo, purchaseToken, googleValidationResult, product, error)
     }
@@ -526,7 +655,7 @@ fun startPremiumPurchase(activity: Activity) {
     }
 }
 
-fun isPremium (isPremium: (Boolean) -> Unit) {
+fun isPremium(isPremium: (Boolean) -> Unit) {
     Adapty.getPurchaserInfo { purchaserInfo, error ->
         if (error == null) {
             //Check for premium

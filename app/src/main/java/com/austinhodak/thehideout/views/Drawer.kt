@@ -266,6 +266,12 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         true; typeface = benderFont; isEnabled = true
     }
 
+    private val drawerPriceAlerts = SecondaryDrawerItem().apply {
+        tag = "price_alerts"; level = 2; identifier = 405; nameText =
+        "Price Alerts"; iconRes = R.drawable.ic_baseline_notifications_active_24; isIconTinted =
+        true; typeface = benderFont; isEnabled = true
+    }
+
     private val drawerNews = PrimaryDrawerItem().apply {
         tag = "news"; identifier = 601; nameText = "News"; iconRes = R.drawable.ic_baseline_newspaper_24; isIconTinted = true; typeface = benderFont;
     }
@@ -282,6 +288,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         subItems = mutableListOf(
             drawerBitcoin,
             drawerCurrencyConverter,
+            drawerPriceAlerts,
             drawerSensitivity,
             drawerRestockTimers
         )

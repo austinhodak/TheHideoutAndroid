@@ -54,7 +54,7 @@ import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
 import com.austinhodak.thehideout.tradersList
-import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -667,6 +667,7 @@ private fun TraderBottomNav(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
@@ -675,6 +676,7 @@ fun TraderFleaItem(
     trader: String?,
     onClick: (String) -> Unit,
 ) {
+    val context = LocalContext.current
 
     val color = when (item.BackgroundColor) {
         "blue" -> itemBlue
@@ -690,11 +692,29 @@ fun TraderFleaItem(
     }
 
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-        //border = BorderStroke(1.dp, color = color),
-        onClick = {
-            onClick(item.id)
-        },
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .combinedClickable(
+                onClick = {
+                    onClick(item.id)
+                },
+                onLongClick = {
+                    context.showDialog(
+                        Pair("Wiki Page") {
+                            item.pricing?.wikiLink?.openWithCustomTab(context)
+                        },
+                        Pair("Add to Needed Items") {
+                            item.pricing?.addToNeededItemsDialog(context)
+                        },
+                        Pair("Add Price Alert") {
+                            item.pricing?.addPriceAlertDialog(context)
+                        },
+                        Pair("Add to Cart") {
+                            item.pricing?.addToCartDialog(context)
+                        },
+                    )
+                }
+            ),
         backgroundColor = Color(0xFE1F1F1F)
     ) {
         Column {
@@ -744,7 +764,7 @@ fun TraderFleaItem(
                         it.source == trader
                     }
                     Text(
-                        text = traderPrice?.price?.asCurrency(traderPrice.currency ?: "R") ?: "-",
+                        text = traderPrice?.getPriceAsCurrency() ?: "-",
                         style = MaterialTheme.typography.h6,
                         fontSize = 15.sp
                     )

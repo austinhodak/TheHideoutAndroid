@@ -80,11 +80,22 @@ class Application : android.app.Application(), Configuration.Provider {
         }
     }
 
+    private fun createPriceAlertsNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Price Alerts"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("PRICE_ALERTS", name, importance)
+            // Register the channel with the system
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
 
         createServerStatusChannel()
         createRestockNotificationChannel()
+        createPriceAlertsNotificationChannel()
 
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 

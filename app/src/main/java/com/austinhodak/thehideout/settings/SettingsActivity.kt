@@ -515,6 +515,12 @@ class SettingsActivity : GodActivity() {
                                     switch(UserSettingsModel.globalRestockAlert) {
                                         title = "Show Notifications".asText()
                                     }
+                                    category {
+                                        title = "Price Alerts".asText()
+                                    }
+                                    switch(UserSettingsModel.priceAlertsGlobalNotifications) {
+                                        title = "Show Notifications".asText()
+                                    }
                                 }
                                 /*category {
                                     title = "Integrations".asText()

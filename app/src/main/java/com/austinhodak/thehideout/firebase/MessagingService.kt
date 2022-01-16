@@ -1,7 +1,6 @@
 package com.austinhodak.thehideout.firebase
 
 import android.app.ActivityManager
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
@@ -12,17 +11,15 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.core.app.NotificationCompat
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.enums.Traders
+import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.status.ServerStatusActivity
-import com.austinhodak.thehideout.utils.log
 import com.austinhodak.thehideout.utils.logNotification
 import com.austinhodak.thehideout.utils.pushToken
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.json.JSONObject
@@ -39,11 +36,12 @@ class MessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
 
         if (remoteMessage.data.isNotEmpty()) {
-            if (remoteMessage.data.containsKey("title") && remoteMessage.data.containsKey("content") && !remoteMessage.data.containsKey("restock")) {
+
+            if (remoteMessage.data.containsKey("title") && remoteMessage.data.containsKey("content") && !remoteMessage.data.containsKey("restock") && !remoteMessage.data.containsKey("priceAlert")) {
                 val title = remoteMessage.data["title"]
                 val content = remoteMessage.data["content"]
                 sendNotification(title ?: "", content ?: "")
-            } else if (remoteMessage.data.containsKey("data") && !remoteMessage.data.containsKey("restock")) {
+            } else if (remoteMessage.data.containsKey("data") && !remoteMessage.data.containsKey("restock") && !remoteMessage.data.containsKey("priceAlert")) {
                 val data = JSONObject(remoteMessage.data.getValue("data"))
                 Timber.d("$data")
                 if (data.has("status")) {
@@ -91,6 +89,25 @@ class MessagingService : FirebaseMessagingService() {
                 sendRestockNotification(title ?: "", content ?: "", trader)
 
                 logNotification("notification_receive", trader.id, "TRADER_RESTOCK")
+            } else if (remoteMessage.data.containsKey("priceAlert")) {
+                if (!UserSettingsModel.priceAlertsGlobalNotifications.value) return
+
+                val data = JSONObject(remoteMessage.data.getValue("priceAlert")).getJSONObject("priceAlert")
+                val item = data.getJSONObject("item")
+                val alert = data.getJSONObject("alert")
+
+                Timber.d(data.toString())
+
+                val whenText = when (alert["condition"] as String) {
+                    "below" -> "dropped below"
+                    "above" -> "risen above"
+                    else -> ""
+                }
+
+                val notiText = "${item["shortName"]} has $whenText your alert price of ${(alert["price"] as Int).asCurrency()}.\n\n" +
+                        "Current Price: ${(item["lastLowPrice"] as Int).asCurrency()} \uD83D\uDE4C"
+
+                sendPriceAlertNotification("", notiText, item)
             }
 
             /*val fleaItem = JSONObject(remoteMessage.data["fleaItem"])
@@ -120,6 +137,24 @@ class MessagingService : FirebaseMessagingService() {
                 }
             })*/
         }
+    }
+
+    private fun sendPriceAlertNotification(title: String, content: String, item: JSONObject) {
+        val url = item.getString("iconLink")
+        val builder = NotificationCompat.Builder(this, "PRICE_ALERTS").apply {
+            setSmallIcon(R.drawable.hideout_shadow_1)
+            setContentTitle("Flea Market Price Alert \uD83D\uDCB8")
+            priority = NotificationCompat.PRIORITY_DEFAULT
+            setContentText(content)
+            setStyle(NotificationCompat.BigTextStyle().bigText(""))
+        }
+
+        Glide.with(this).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                builder.setLargeIcon(resource)
+                notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+            }
+        })
     }
 
     private fun sendRestockNotification(title: String, message: String, trader: Traders) {

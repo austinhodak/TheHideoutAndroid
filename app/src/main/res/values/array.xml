@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string-array name="price_alert">
+        <item>If price drops below</item>
+        <item>If price rises above</item>
+    </string-array>
 </resources>

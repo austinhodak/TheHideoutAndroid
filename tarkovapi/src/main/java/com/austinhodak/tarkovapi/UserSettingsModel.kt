@@ -71,6 +71,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val globalRestockAlertAppOpen by boolPref(true, "globalRestockAlertAppOpen")
 
     val modPickerShowAvailable by boolPref(false, "modPickerShowAvailable")
+
+    val priceAlertsGlobalNotifications by boolPref(true, "priceAlertsGlobalNotifications")
 }
 
 enum class DataSyncFrequency {
