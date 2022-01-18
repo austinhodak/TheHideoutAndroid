@@ -57,6 +57,10 @@ dependencies {
     api("com.apollographql.apollo3:apollo-runtime:3.0.0-dev14")
     api("com.apollographql.apollo3:apollo-api:3.0.0-dev14")
 
+    implementation "io.github.resilience4j:resilience4j-retry:1.7.1"
+    implementation "io.github.resilience4j:resilience4j-kotlin:1.7.1"
+    implementation "io.github.resilience4j:resilience4j-retrofit:1.7.1"
+
     implementation "androidx.core:core-ktx:${versions.ktx}"
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.4.0'

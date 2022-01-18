@@ -15,7 +15,7 @@ data class TTUser (
     val hide: Boolean
 ) {
     data class TTQuest (
-        val timeComplete: Long,
+        val timeComplete: Long?,
         val complete: Boolean
     ) {
         fun toMap(id: String): Map<String, Any?> {
@@ -27,8 +27,40 @@ data class TTUser (
         }
     }
 
+    fun getQuest(id: String): TTQuest? {
+        return quests[id]
+    }
+
+    fun getObjective(id: String): TTObjective? {
+        return objectives[id]
+    }
+
+    fun getHideoutModule(id: String): TTQuest? {
+        return hideout[id]
+    }
+
+    fun getHideoutObjective(id: String): TTObjective? {
+        return hideoutObjectives[id]
+    }
+
+    fun isQuestComplete(id: String): Boolean {
+        return quests[id]?.complete ?: false
+    }
+
+    fun isObjectiveComplete(id: String): Boolean {
+        return objectives[id]?.complete ?: false
+    }
+
+    fun isHideoutComplete(id: String): Boolean {
+        return hideout[id]?.complete ?: false
+    }
+
+    fun isHideoutObjectiveComplete(id: String): Boolean {
+        return hideoutObjectives[id]?.complete ?: false
+    }
+
     data class TTObjective (
-        val timeComplete: Long,
+        val timeComplete: Long?,
         val complete: Boolean,
         val have: Long?
     ) {

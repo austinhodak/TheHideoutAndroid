@@ -13,7 +13,7 @@ class TTRepository @Inject constructor(
     suspend fun setUserLevel(apiKey: String, level: Int) = ttApiService.setUserLevel(apiKey, level)
 
     suspend fun updateQuest(apiKey: String, id: Int, body: TTUser.TTQuest) = ttApiService.updateQuest(apiKey, id, body)
-    suspend fun updateQuestObjective(apiKey: String, id: Int, body: RequestBody) = ttApiService.updateQuestObjective(apiKey, id, body)
+    suspend fun updateQuestObjective(apiKey: String, id: Int, body: TTUser.TTObjective) = ttApiService.updateQuestObjective(apiKey, id, body)
     suspend fun updateHideout(apiKey: String, id: Int, body: TTUser.TTQuest) = ttApiService.updateHideout(apiKey, id, body)
     suspend fun updateHideoutObjective(apiKey: String, id: Int, body: TTUser.TTObjective) = ttApiService.updateHideoutObjective(apiKey, id, body)
 

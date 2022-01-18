@@ -934,6 +934,7 @@ private fun QuestObjectiveItem(
             .height(36.dp)
             .clickable {
                 userData?.toggleObjective(quest, questObjective)
+                questViewModel.testTTAPI(questObjective)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {

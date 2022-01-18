@@ -36,6 +36,7 @@ import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
+import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
@@ -49,6 +50,7 @@ import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red500
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
@@ -58,7 +60,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.database.*
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import okhttp3.internal.toLongOrDefault
 import java.text.DecimalFormat
 import java.util.concurrent.ExecutionException
@@ -673,6 +677,79 @@ fun Uri.acceptTeamInvite(joined: () -> Unit) {
     }
 }
 
+fun User.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
+    val userLevel = UserSettingsModel.playerLevel.value
+    scope.launch {
+        val ttProgress = ttRepository.getUserProgress(getTTApiKey()).body()
+        ttProgress?.level?.let { level ->
+            if (level != userLevel) {
+                ttRepository.setUserLevel(getTTApiKey(), userLevel)
+            }
+        }
+
+        ttProgress?.quests?.forEach { (id, ttQuest) ->
+            if (ttQuest.complete) {
+                if (quests?.containsKey(id) == true) {
+                    quests?.get(id)?.let { userQuest ->
+                        if (userQuest.completed == false) {
+                            ttRepository.updateQuest(getTTApiKey(), id.toInt(), TTUser.TTQuest(null, false))
+                        }
+                    }
+                } else {
+                    ttRepository.updateQuest(getTTApiKey(), id.toInt(), TTUser.TTQuest(null, false))
+                }
+            }
+        }
+        quests?.forEach { (id, quest) ->
+            if (quest?.completed == true) {
+                ttRepository.updateQuest(getTTApiKey(), id.replace("\"", "").toInt(), TTUser.TTQuest(null, true))
+            }
+        }
+
+        ttProgress?.objectives?.forEach { (id, ttObjective) ->
+            if (ttObjective.complete) {
+                if (questObjectives?.containsKey(id) == true) {
+                    questObjectives?.get(id)?.let { userObjective ->
+                        if (userObjective.completed == false) {
+                            ttRepository.updateQuestObjective(getTTApiKey(), id.toInt(), TTUser.TTObjective(null, false, null))
+                        }
+                    }
+                } else {
+                    ttRepository.updateQuestObjective(getTTApiKey(), id.toInt(), TTUser.TTObjective(null, false, null))
+                }
+            }
+        }
+        questObjectives?.forEach { (id, objective) ->
+            if (objective?.completed == true) {
+                ttRepository.updateQuestObjective(getTTApiKey(), id.replace("\"", "").toInt(), TTUser.TTObjective(null, true, null))
+            } else if (objective?.progress ?: 0 > 0) {
+                objective?.progress?.let {
+                    ttRepository.updateQuestObjective(getTTApiKey(), id.replace("\"", "").toInt(), TTUser.TTObjective(null, false, it.toLong()))
+                }
+            }
+        }
+
+        ttProgress?.hideout?.forEach { (id, ttObjective) ->
+            if (ttObjective.complete) {
+                if (hideoutModules?.containsKey(id) == true) {
+                    hideoutModules?.get(id)?.let { userObjective ->
+                        if (userObjective.complete == false) {
+                            ttRepository.updateHideout(getTTApiKey(), id.toInt(), TTUser.TTQuest(null, false))
+                        }
+                    }
+                } else {
+                    ttRepository.updateHideout(getTTApiKey(), id.toInt(), TTUser.TTQuest(null, false))
+                }
+            }
+        }
+        hideoutModules?.forEach { (id, objective) ->
+            if (objective?.complete == true) {
+                ttRepository.updateHideout(getTTApiKey(), id.replace("\"", "").toInt(), TTUser.TTQuest(null, true))
+            }
+        }
+    }
+}
+
 fun TTUser.pushToDB() {
     //Wipe data.
     userRefTracker("quests").removeValue()
@@ -697,7 +774,7 @@ fun TTUser.pushToDB() {
     }
 }
 
-fun getTTApiKey(): String = UserSettingsModel.ttAPIKey.value
+fun getTTApiKey(): String = "Bearer ${UserSettingsModel.ttAPIKey.value}"
 
 fun isWorkScheduled(context: Context, tag: String): Boolean {
     val instance = WorkManager.getInstance(context)

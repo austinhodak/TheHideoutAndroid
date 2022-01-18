@@ -29,17 +29,14 @@ import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.*
-import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
-import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.billing.PremiumActivity
-import com.austinhodak.thehideout.calculator.models.Character
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.status.ServerStatusActivity
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
@@ -47,18 +44,19 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.google.zxing.client.android.Intents
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import com.michaelflisar.materialpreferences.preferencescreen.*
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
-import com.michaelflisar.materialpreferences.preferencescreen.classes.asBatch
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.Dependency
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDependency
@@ -70,7 +68,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
-import java.lang.reflect.Type
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -95,7 +92,7 @@ class SettingsActivity : GodActivity() {
     lateinit var myWorkerFactory: PriceUpdateFactory
 
     @Inject
-    lateinit var ttApiService: TTRepository
+    lateinit var ttRepository: TTRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -190,7 +187,10 @@ class SettingsActivity : GodActivity() {
                     DateUtils.MINUTE_IN_MILLIS
                 )
 
+                val scaffoldState = rememberScaffoldState()
+
                 Scaffold(
+                    scaffoldState = scaffoldState,
                     topBar = {
                         TopAppBar(
                             title = { Text(toolbarTitle) },
@@ -522,10 +522,10 @@ class SettingsActivity : GodActivity() {
                                         title = "Show Notifications".asText()
                                     }
                                 }
-                                /*category {
+                                category {
                                     title = "Integrations".asText()
-                                }*/
-                                /*subScreen {
+                                }
+                                subScreen {
                                     title = "Tarkov Tracker".asText()
                                     icon = R.drawable.ic_baseline_link_24.asIcon()
                                     summary = "Coming soon.".asText()
@@ -630,7 +630,19 @@ class SettingsActivity : GodActivity() {
                                         }
                                         onClick = {
                                             lifecycleScope.launch {
-                                                ttApiService.setUserLevel("Bearer ${UserSettingsModel.ttAPIKey.value}", UserSettingsModel.playerLevel.value)
+                                                scaffoldState.snackbarHostState.showSnackbar("Pushing to TarkovTracker! This may take a while.")
+                                                if (uid() != null) {
+                                                    questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
+                                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                                            val user = snapshot.getValue<User>()
+                                                            user?.pushToTT(lifecycleScope, ttRepository)
+                                                        }
+
+                                                        override fun onCancelled(error: DatabaseError) {
+
+                                                        }
+                                                    })
+                                                }
                                             }
                                         }
                                     }
@@ -647,8 +659,7 @@ class SettingsActivity : GodActivity() {
                                         }
                                         onClick = {
                                             lifecycleScope.launch {
-                                                val test = ttApiService.getUserProgress("Bearer ${UserSettingsModel.ttAPIKey.value}")
-                                                Timber.d(test.toString())
+                                                val test = ttRepository.getUserProgress(getTTApiKey())
 
                                                 if (test.isSuccessful) {
                                                     test.body()?.quests?.forEach {
@@ -657,11 +668,15 @@ class SettingsActivity : GodActivity() {
 
                                                     test.body()?.pushToDB()
                                                     UserSettingsModel.playerLevel.update(test.body()?.level ?: return@launch)
+
+                                                    scaffoldState.snackbarHostState.showSnackbar("Sync completed!")
+                                                } else {
+                                                    scaffoldState.snackbarHostState.showSnackbar("Error, please check API key and try again.")
                                                 }
                                             }
                                         }
                                     }
-                                }*/
+                                }
                                 category {
                                     title = "About".asText()
                                 }
@@ -671,13 +686,6 @@ class SettingsActivity : GodActivity() {
                                     icon = R.drawable.ic_baseline_feedback_24.asIcon()
                                     onClick = {
                                         Gleap.getInstance().startFeedbackFlow()
-                                    }
-                                }*/
-                                /*button {
-                                    title = "Server Status".asText()
-                                    icon = R.drawable.ic_baseline_cloud_24.asIcon()
-                                    onClick = {
-                                        openActivity(ServerStatusActivity::class.java)
                                     }
                                 }*/
                                 subScreen {

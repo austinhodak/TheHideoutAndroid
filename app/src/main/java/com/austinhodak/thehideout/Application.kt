@@ -10,6 +10,8 @@ import androidx.core.app.NotificationCompat
 import androidx.work.*
 import com.adapty.Adapty
 import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
+import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.*
 import com.austinhodak.thehideout.utils.Prefs
 import com.austinhodak.thehideout.utils.isWorkRunning
@@ -28,6 +30,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
+import io.gleap.Gleap
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -39,7 +42,6 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class Application : android.app.Application(), Configuration.Provider {
-
 
     @Inject
     lateinit var myWorkerFactory: PriceUpdateFactory
@@ -92,6 +94,8 @@ class Application : android.app.Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+
+        //Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
 
         createServerStatusChannel()
         createRestockNotificationChannel()

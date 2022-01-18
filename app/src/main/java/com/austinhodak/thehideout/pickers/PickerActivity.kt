@@ -81,7 +81,7 @@ class PickerActivity : GodActivity() {
                     intent.getStringExtra("type")?.let {
                         when (it) {
                             "ammo" -> tarkovRepo.getAllAmmo.collect { ammoList ->
-                                list = ammoList
+                                list = ammoList.filter { it.ballistics?.damage != 0 }
                             }
                             "armor" -> tarkovRepo.getItemsByTypesArmor(
                                 listOf(
