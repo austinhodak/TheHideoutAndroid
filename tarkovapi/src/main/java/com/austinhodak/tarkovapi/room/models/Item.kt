@@ -108,6 +108,9 @@ data class Item(
     }
 
     fun getPrice(): Int {
+        if (id == "59faff1d86f7746c51718c9c") {
+            return pricing?.getHighestSellTrader()?.getPriceAsRoubles() ?: 0
+        }
         return pricing?.getPrice() ?: 0
     }
 

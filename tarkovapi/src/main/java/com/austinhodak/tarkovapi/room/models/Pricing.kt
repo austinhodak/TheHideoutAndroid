@@ -70,6 +70,9 @@ data class Pricing(
     }
 
     fun getPrice(): Int {
+        if (id == "59faff1d86f7746c51718c9c") {
+            return getHighestSellTrader()?.getPriceAsRoubles() ?: 0
+        }
         return if (avg24hPrice ?: 0 > 0) {
             avg24hPrice ?: lastLowPrice ?: basePrice
         } else {
@@ -78,6 +81,9 @@ data class Pricing(
     }
 
     fun getLastPrice(): Int {
+        if (id == "59faff1d86f7746c51718c9c") {
+            return getHighestSellTrader()?.getPriceAsRoubles() ?: 0
+        }
         return if (lastLowPrice ?: 0 > 0) {
             lastLowPrice ?: avg24hPrice ?: basePrice
         } else {
