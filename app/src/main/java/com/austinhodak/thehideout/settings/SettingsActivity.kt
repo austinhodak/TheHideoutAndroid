@@ -186,6 +186,20 @@ class SettingsActivity : GodActivity() {
                     null
                 }
 
+                val dataDate = try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val date = LocalDate.parse(gameInfo?.getString("data_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+
+                        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                        date.format(formatter)
+                    } else {
+                        gameInfo?.getString("data_date")
+                    }
+                }  catch (e: Exception) {
+                    Firebase.crashlytics.recordException(e)
+                    null
+                }
+
                 val roomUpdatesTime = DateUtils.getRelativeTimeSpanString(
                     preferences.getLong("lastPriceUpdate", 0),
                     System.currentTimeMillis(),
@@ -819,6 +833,12 @@ class SettingsActivity : GodActivity() {
                                     title = "Last Wipe".asText()
                                     summary = (wipeDate ?: "").asText()
                                     icon = R.drawable.icons8_toilet_paper_24.asIcon()
+                                    enabled = false
+                                }
+                                button {
+                                    title = "Data Version".asText()
+                                    summary = "${dataDate}".asText()
+                                    icon = R.drawable.ic_baseline_info_24.asIcon()
                                     enabled = false
                                 }
                                 button {
