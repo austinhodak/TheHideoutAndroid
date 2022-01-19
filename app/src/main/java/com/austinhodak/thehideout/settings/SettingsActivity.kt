@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.settings
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -42,6 +43,7 @@ import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.ktx.crashlytics
@@ -818,6 +820,14 @@ class SettingsActivity : GodActivity() {
                                     summary = (wipeDate ?: "").asText()
                                     icon = R.drawable.icons8_toilet_paper_24.asIcon()
                                     enabled = false
+                                }
+                                button {
+                                    title = "Open Source Licenses".asText()
+                                    icon = R.drawable.ic_baseline_source_24.asIcon()
+                                    enabled = true
+                                    onClick= {
+                                        startActivity(Intent(this@SettingsActivity, OssLicensesMenuActivity::class.java))
+                                    }
                                 }
                             }
 

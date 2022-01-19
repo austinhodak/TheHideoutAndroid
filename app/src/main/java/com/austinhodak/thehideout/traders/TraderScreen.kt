@@ -81,7 +81,7 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val barters by tarkovRepo.getAllBarters().collectAsState(initial = emptyList())
-    val items by tarkovRepo.getAllItems().collectAsState(initial = emptyList())
+    val items by navViewModel.allItems.observeAsState(null)
 
     var resetTimers: TraderReset? by remember { mutableStateOf(null) }
 
@@ -227,7 +227,7 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                 }
             }
             composable(BottomNavigationScreens.Items.route) {
-                val itemList = items.filter { item ->
+                val itemList = items?.filter { item ->
                     item.pricing?.buyFor?.any {
                         it.source == trader && it.requirements.any {
                             if (pagerState.currentPage == 4) {
@@ -237,11 +237,11 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                             }
                         }
                     } == true
-                }.filter {
+                }?.filter {
                     it.ShortName?.contains(searchKey, ignoreCase = true) == true
                             || it.Name?.contains(searchKey, ignoreCase = true) == true
                             || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
-                }.sortedBy {
+                }?.sortedBy {
                     it.Name
                 }
 
@@ -265,7 +265,7 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                             bottom = paddingValues.calculateBottomPadding() + 4.dp
                         )
                     ) {
-                        items(items = itemList) { item ->
+                        items(items = itemList ?: emptyList()) { item ->
                             TraderFleaItem(item = item, trader = trader) {
                                 context.openActivity(FleaItemDetail::class.java) {
                                     putString("id", item.id)

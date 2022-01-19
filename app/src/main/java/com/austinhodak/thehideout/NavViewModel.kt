@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.utils.Time
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,10 +13,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class NavViewModel @Inject constructor() : SearchViewModel() {
+class NavViewModel @Inject constructor(
+    private val tarkovRepo: TarkovRepo
+) : SearchViewModel() {
 
     private val _isDrawerOpen = MutableLiveData(false)
     val isDrawerOpen = _isDrawerOpen
@@ -60,9 +65,16 @@ class NavViewModel @Inject constructor() : SearchViewModel() {
         }
     }
 
+    private val _allItems = MutableLiveData<List<Item>>(null)
+    val allItems = _allItems
+
     init {
         viewModelScope.launch {
             startGameTimers()
+        }
+
+        viewModelScope.launch {
+            _allItems.value = tarkovRepo.getAllItemsOnce()
         }
     }
 }

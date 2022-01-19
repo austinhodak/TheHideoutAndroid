@@ -81,7 +81,8 @@ fun QuestMainScreen(
     val scope = rememberCoroutineScope()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
+    //val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
+    val quests by questViewModel.questsList.observeAsState(initial = emptyList())
 
     val isSearchOpen by questViewModel.isSearchOpen.observeAsState(false)
     val searchKey by questViewModel.searchKey.observeAsState("")
@@ -249,7 +250,7 @@ fun QuestMainScreen(
                                         }
                                     }
                                     BottomNavigationScreens.Overview.route -> {
-                                        if (UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value) {
+                                        /*if (UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value) {
                                             IconButton(onClick = {
                                                 syncTT(scope, ttRepository)
                                             }) {
@@ -259,7 +260,7 @@ fun QuestMainScreen(
                                                     tint = White
                                                 )
                                             }
-                                        }
+                                        }*/
                                     }
                                 }
                             }

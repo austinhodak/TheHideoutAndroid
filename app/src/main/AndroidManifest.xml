@@ -167,6 +167,13 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Theme.TheHideoutOS" />
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Theme.TheHideoutOS" />
     </application>
 
 </manifest>

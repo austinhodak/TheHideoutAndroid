@@ -67,7 +67,8 @@ fun ModsListScreen(
     val context = LocalContext.current
 
     val selectedCategory = remember { mutableStateOf(Triple("bipod", 1001, "Bipod")) }
-    val data = tarkovRepo.getItemsByType(ItemTypes.MOD).collectAsState(initial = emptyList())
+    //val data = tarkovRepo.getItemsByType(ItemTypes.MOD).collectAsState(initial = emptyList())
+    val data by navViewModel.allItems.observeAsState(null)
 
     val searchKey by navViewModel.searchKey.observeAsState("")
     val isSearchOpen by navViewModel.isSearchOpen.observeAsState(false)
@@ -281,10 +282,10 @@ fun ModsListScreen(
             })
         }, frontLayerContent = {
             if (isSearchOpen) {
-                val items = data.value.filter { it.pricing != null }.filter {
+                val items = data?.filter { it.pricing != null }?.filter {
                     if (searchKey.isBlank()) return@filter false
                     it.ShortName?.contains(searchKey, ignoreCase = true) == true  || it.Name?.contains(searchKey, ignoreCase = true) == true
-                }.sortedBy { it.ShortName }
+                }?.sortedBy { it.ShortName }
 
                 Scaffold {
                     if (items.isNullOrEmpty()) {
@@ -325,10 +326,10 @@ fun ModsListScreen(
                     }
                 ) {
                     val items = when {
-                        else -> data.value.filter { it.pricing != null && it.parent == selectedCategory.value.first.modParent() }
-                            .sortedBy { it.ShortName }
+                        else -> data?.filter { it.pricing != null && it.parent == selectedCategory.value.first.modParent() }
+                            ?.sortedBy { it.ShortName }
                     }
-                    if (data.value.isNullOrEmpty()) {
+                    if (data.isNullOrEmpty()) {
                         Box(
                             contentAlignment = Alignment.Center,
                             modifier = Modifier
@@ -346,7 +347,7 @@ fun ModsListScreen(
                                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                                 modifier = Modifier.fillMaxHeight()
                             ) {
-                                items(items = items) { item ->
+                                items(items = items ?: emptyList()) { item ->
                                     ModsBasicCard(item = item) {
                                         context.openModDetail(it.id)
                                     }

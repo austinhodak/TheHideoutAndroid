@@ -57,6 +57,7 @@ import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
 import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
@@ -73,18 +74,11 @@ fun FleaMarketScreen(
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
 
-    var data by remember {
-        mutableStateOf(listOf<Item>())
-    }
+    val data by navViewModel.allItems.observeAsState(initial = null)
 
     val isSearchOpen by fleaViewModel.isSearchOpen.observeAsState(false)
     val sort by fleaViewModel.sortBy.observeAsState()
     val userData by fleaViewModel.userData.observeAsState()
-
-    LaunchedEffect("meds") {
-        val list = tarkovRepo.getAllItemsOnce()
-        data = list
-    }
 
     val context = LocalContext.current
 

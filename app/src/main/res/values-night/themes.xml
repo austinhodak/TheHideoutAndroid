@@ -29,6 +29,19 @@
 
     </style>
 
+    <style name="Theme.TheHideoutOS" parent="Theme.MaterialComponents.DayNight">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#1F1F1F</item>
+        <item name="colorPrimaryVariant">@color/md_red_400</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/md_red_400</item>
+        <item name="colorSecondaryVariant">@color/md_red_400</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
+    </style>
+
     <style name="Theme.TheHideout.Settings" parent="Theme.TheHideout">
 
     </style>
