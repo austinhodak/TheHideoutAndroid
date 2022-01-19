@@ -255,6 +255,8 @@ class ServerStatusActivity : AppCompatActivity() {
     private fun GlobalStatusCard(status: ServerStatus?) {
         val statusText = if (status?.generalStatus?.message?.isEmpty() == true && status.generalStatus?.status == 2) {
             "Partial problems with the server"
+        } else if (status?.generalStatus?.message?.isEmpty() == true && status.generalStatus?.status == 1) {
+            "Servers Updating"
         } else {
             status?.generalStatus?.message
         }

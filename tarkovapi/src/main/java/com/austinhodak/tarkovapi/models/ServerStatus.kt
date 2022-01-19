@@ -143,8 +143,6 @@ data class ServerStatus(
     fun isDegraded(): Boolean {
         return generalStatus?.status != 0
     }
-
-
 }
 
 fun ServerStatusQuery.Status.toObj(): ServerStatus {
