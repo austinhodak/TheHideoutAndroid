@@ -30,6 +30,7 @@ import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.*
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
+import com.austinhodak.tarkovapi.utils.getTTApiKey
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
@@ -51,6 +52,7 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.zxing.client.android.Intents
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -63,6 +65,7 @@ import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDep
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
+import io.gleap.Gleap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -280,6 +283,16 @@ class SettingsActivity : GodActivity() {
                                         singleChoice(UserSettingsModel.jaegerLevel, Levels.values(), { "Level $it" }) {
                                             title = "Jaeger".asText()
                                         }
+                                    }
+                                    singleChoice(UserSettingsModel.userGameEdition, GameEdition.values(), {
+                                        when (it) {
+                                            GameEdition.STANDARD -> "Standard Edition"
+                                            GameEdition.LEFT_BEHIND -> "Left Behind Edition"
+                                            GameEdition.PREPARE_FOR_ESCAPE -> "Prepare for Escape Edition"
+                                            GameEdition.EDGE_OF_DARKNESS -> "Edge of Darkness Limited Edition"
+                                        }
+                                    }) {
+                                        title = "Game Edition".asText()
                                     }
                                     category {
                                         title = "Mouse Settings".asText()
@@ -522,7 +535,7 @@ class SettingsActivity : GodActivity() {
                                         title = "Show Notifications".asText()
                                     }
                                 }
-                                category {
+                                /*category {
                                     title = "Integrations".asText()
                                 }
                                 subScreen {
@@ -591,13 +604,15 @@ class SettingsActivity : GodActivity() {
                                     }
                                     switch(UserSettingsModel.ttSyncHideout) {
                                         title = "Sync Hideout Progress".asText()
-                                        dependsOn = object : Dependency<String> {
+                                        summary = "Disabled due to API issue.".asText()
+                                        *//*dependsOn = object : Dependency<String> {
                                             override val setting = UserSettingsModel.ttAPIKey
                                             override suspend fun isEnabled(): Boolean {
                                                 val value = setting.flow.first()
                                                 return value.isNotEmpty()
                                             }
-                                        }
+                                        }*//*
+                                        enabled = false
                                     }
                                     button {
                                         title = "Sync Now".asText()
@@ -611,7 +626,14 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                         onClick = {
-                                            Toast.makeText(this@SettingsActivity, "Syncing...", Toast.LENGTH_SHORT).show()
+                                            lifecycleScope.launch {
+                                                if (UserSettingsModel.ttSync.value && UserSettingsModel.ttAPIKey.value.isNotEmpty()) {
+                                                    scaffoldState.snackbarHostState.showSnackbar("Sync starting! This may take a while.")
+                                                    syncTT(lifecycleScope, ttRepository)
+                                                } else {
+                                                    scaffoldState.snackbarHostState.showSnackbar("Sync turned off, please turn on first.")
+                                                }
+                                            }
                                         }
                                     }
                                     category {
@@ -659,7 +681,7 @@ class SettingsActivity : GodActivity() {
                                         }
                                         onClick = {
                                             lifecycleScope.launch {
-                                                val test = ttRepository.getUserProgress(getTTApiKey())
+                                                val test = ttRepository.getUserProgress()
 
                                                 if (test.isSuccessful) {
                                                     test.body()?.quests?.forEach {
@@ -676,18 +698,20 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                     }
-                                }
+                                }*/
                                 category {
                                     title = "About".asText()
                                 }
-                                /*button {
-                                    title = "Send Feedback".asText()
-                                    summary = "Take a screenshot, try it!".asText()
-                                    icon = R.drawable.ic_baseline_feedback_24.asIcon()
-                                    onClick = {
-                                        Gleap.getInstance().startFeedbackFlow()
+                                if (Firebase.remoteConfig.getBoolean("gleap_enabled")) {
+                                    button {
+                                        title = "Send Feedback".asText()
+                                        summary = "Take a screenshot, try it!".asText()
+                                        icon = R.drawable.ic_baseline_feedback_24.asIcon()
+                                        onClick = {
+                                            Gleap.getInstance().startFeedbackFlow()
+                                        }
                                     }
-                                }*/
+                                }
                                 subScreen {
                                     title = "Socials".asText()
                                     icon = R.drawable.ic_icons8_discord_svg.asIcon()

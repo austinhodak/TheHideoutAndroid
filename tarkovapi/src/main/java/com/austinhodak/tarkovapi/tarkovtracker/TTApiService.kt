@@ -1,6 +1,7 @@
 package com.austinhodak.tarkovapi.tarkovtracker
 
 import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
+import com.austinhodak.tarkovapi.utils.getTTApiKey
 import io.github.resilience4j.retrofit.RetryCallAdapter
 import io.github.resilience4j.retry.Retry
 import io.github.resilience4j.retry.RetryConfig
@@ -20,22 +21,22 @@ import java.util.concurrent.TimeoutException
 interface TTApiService {
 
     @GET("progress")
-    suspend fun getUserProgress(@Header("Authorization") apiKey: String): Response<TTUser>
+    suspend fun getUserProgress(): Response<TTUser>
 
     @POST("progress/level/{level}")
-    suspend fun setUserLevel(@Header("Authorization") apiKey: String, @Path("level") level: Int): Response<Void>
+    suspend fun setUserLevel(@Path("level") level: Int): Response<Void>
 
     @POST("progress/quest/{id}")
-    suspend fun updateQuest(@Header("Authorization") apiKey: String, @Path("id") id: Int, @Body body: TTUser.TTQuest): Response<Void>
+    suspend fun updateQuest(@Path("id") id: Int, @Body body: TTUser.TTQuest): Response<Void>
 
     @POST("progress/quest/objective/{id}")
-    suspend fun updateQuestObjective(@Header("Authorization") apiKey: String, @Path("id") id: Int, @Body body: TTUser.TTObjective): Response<Void>
+    suspend fun updateQuestObjective(@Path("id") id: Int, @Body body: TTUser.TTObjective): Response<Void>
 
     @POST("progress/hideout/{id}")
-    suspend fun updateHideout(@Header("Authorization") apiKey: String, @Path("id") id: Int, @Body body: TTUser.TTQuest): Response<Void>
+    suspend fun updateHideout(@Path("id") id: Int, @Body body: TTUser.TTQuest): Response<Void>
 
     @POST("progress/hideout/objective/{id}")
-    suspend fun updateHideoutObjective(@Header("Authorization") apiKey: String, @Path("id") id: Int, @Body body: TTUser.TTObjective): Response<Void>
+    suspend fun updateHideoutObjective(@Path("id") id: Int, @Body body: TTUser.TTObjective): Response<Void>
 
     companion object {
         var retrofitService: TTApiService? = null
@@ -57,7 +58,7 @@ interface TTApiService {
                     .build())
 
                 val client = OkHttpClient.Builder()
-                    //.addInterceptor(AuthIntercept(UserSettingsModel.ttAPIKey.value))
+                    .addInterceptor(AuthIntercept(getTTApiKey()))
                     .addInterceptor(logging)
                     .build()
 

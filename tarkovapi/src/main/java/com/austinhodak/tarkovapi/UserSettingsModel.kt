@@ -52,7 +52,7 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val aimSens by stringPref("0.50", "aimSens")
 
     val dataSyncFrequency by enumPref(DataSyncFrequency.`60`, "dataSyncFrequency")
-    val dataSyncFrequencyPrevious by enumPref(DataSyncFrequency.`120`, "dataSyncFrequencyPrevious")
+    val dataSyncFrequencyPrevious by enumPref(DataSyncFrequency.`60`, "dataSyncFrequencyPrevious")
 
     val showStatusOnHomeScreen by boolPref(true, "showStatusOnHomeScreen")
 
@@ -73,6 +73,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val modPickerShowAvailable by boolPref(false, "modPickerShowAvailable")
 
     val priceAlertsGlobalNotifications by boolPref(true, "priceAlertsGlobalNotifications")
+
+    val userGameEdition by enumPref(GameEdition.STANDARD, "userGameEdition")
 }
 
 enum class DataSyncFrequency {
@@ -107,6 +109,13 @@ enum class Levels {
     `2`,
     `3`,
     `4`
+}
+
+enum class GameEdition {
+    STANDARD,
+    LEFT_BEHIND,
+    PREPARE_FOR_ESCAPE,
+    EDGE_OF_DARKNESS
 }
 
 enum class MapEnums(var id: String, var int: Int, var icon: Int) {

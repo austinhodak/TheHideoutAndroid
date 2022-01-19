@@ -95,8 +95,6 @@ class Application : android.app.Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-        //Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
-
         createServerStatusChannel()
         createRestockNotificationChannel()
         createPriceAlertsNotificationChannel()
@@ -186,7 +184,11 @@ class Application : android.app.Application(), Configuration.Provider {
         }
 
         //Fetch and active.
-        Firebase.remoteConfig.fetchAndActivate()
+        Firebase.remoteConfig.fetchAndActivate().addOnSuccessListener {
+            if (Firebase.remoteConfig.getBoolean("gleap_enabled")) {
+                Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
+            }
+        }
     }
 
     override fun getWorkManagerConfiguration(): Configuration = Configuration.Builder()

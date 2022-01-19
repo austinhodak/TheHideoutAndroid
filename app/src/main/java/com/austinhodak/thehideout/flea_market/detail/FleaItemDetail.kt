@@ -45,10 +45,13 @@ import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItems
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
@@ -56,8 +59,10 @@ import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.PriceAlert
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
+import com.austinhodak.thehideout.gear.GearDetailActivity
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.utils.Map
 import com.austinhodak.thehideout.views.PriceChartMarkerView
 import com.bumptech.glide.Glide
 import com.github.mikephil.charting.animation.Easing
@@ -237,6 +242,8 @@ class FleaItemDetail : GodActivity() {
                             Crossfade(targetState = selectedNavItem) {
                                 when (it) {
                                     0 -> {
+                                        Timber.d(item?.itemType.toString())
+
                                         LazyColumn(
                                             contentPadding = PaddingValues(top = 4.dp, bottom = 60.dp),
                                             horizontalAlignment = Alignment.CenterHorizontally
@@ -1537,6 +1544,81 @@ class FleaItemDetail : GodActivity() {
                                         fontWeight = FontWeight.Light
                                     )
                                 }
+                            }
+                        }
+                        //////////////
+                        if (item?.itemType == ItemTypes.AMMO) {
+                            FloatingActionButton(
+                                onClick = {
+                                    this@FleaItemDetail.openAmmunitionDetail(itemID)
+                                },
+                                //backgroundColor = DarkPrimary,
+                                modifier = Modifier
+                                    .padding(vertical = 8.dp)
+                                    .size(40.dp)
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.icons8_ammo_100),
+                                    contentDescription = "Ammo",
+                                    tint = Color.Black,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+                        }
+                        if (item?.itemType == ItemTypes.WEAPON) {
+                            FloatingActionButton(
+                                onClick = {
+                                    this@FleaItemDetail.openWeaponDetail(itemID)
+                                },
+                                //backgroundColor = DarkPrimary,
+                                modifier = Modifier
+                                    .padding(vertical = 8.dp)
+                                    .size(40.dp)
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.icons8_assault_rifle_100),
+                                    contentDescription = "Weapon",
+                                    tint = Color.Black,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+                        }
+                        if (item?.itemType == ItemTypes.MOD) {
+                            FloatingActionButton(
+                                onClick = {
+                                    this@FleaItemDetail.openModDetail(itemID)
+                                },
+                                //backgroundColor = DarkPrimary,
+                                modifier = Modifier
+                                    .padding(vertical = 8.dp)
+                                    .size(40.dp)
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.icons8_assault_rifle_mod_96),
+                                    contentDescription = "Mod",
+                                    tint = Color.Black,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+                        }
+                        if (item?.itemType == ItemTypes.ARMOR) {
+                            FloatingActionButton(
+                                onClick = {
+                                    this@FleaItemDetail.openActivity(GearDetailActivity::class.java) {
+                                        putString("id", itemID)
+                                    }
+                                },
+                                //backgroundColor = DarkPrimary,
+                                modifier = Modifier
+                                    .padding(vertical = 8.dp)
+                                    .size(40.dp)
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.icons8_bulletproof_vest_100),
+                                    contentDescription = "Armor",
+                                    tint = Color.Black,
+                                    modifier = Modifier.size(24.dp)
+                                )
                             }
                         }
                     }

@@ -22,6 +22,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.bitcoin.BitcoinPriceScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
@@ -96,6 +97,9 @@ class NavActivity : GodActivity() {
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo
+
+    @Inject
+    lateinit var ttRepository: TTRepository
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -269,7 +273,8 @@ class NavActivity : GodActivity() {
                             QuestMainScreen(
                                 navViewModel,
                                 questViewModel,
-                                tarkovRepo
+                                tarkovRepo,
+                                ttRepository
                             )
                         }
                         composable("hideout") {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.compose.ui.graphics.Color
+import com.austinhodak.tarkovapi.UserSettingsModel
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -283,3 +284,7 @@ fun dollarToEuro(r: Long?): Long {
 fun euroToDollar(r: Long?): Long {
     return (r?.let { it / 0.858 })?.roundToLong() ?: 0
 }
+
+fun getTTApiKey(): String = UserSettingsModel.ttAPIKey.value
+
+fun ttSyncEnabled(): Boolean = UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value

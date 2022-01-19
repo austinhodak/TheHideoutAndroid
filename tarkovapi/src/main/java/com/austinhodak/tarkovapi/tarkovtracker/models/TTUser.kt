@@ -1,5 +1,6 @@
 package com.austinhodak.tarkovapi.tarkovtracker.models
 
+import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import org.json.JSONObject
 
 data class TTUser (

@@ -310,22 +310,4 @@ class QuestMainViewModel @Inject constructor(
             }
         }
     }
-
-    fun testTTAPI(
-        questObjective: Quest.QuestObjective
-    ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val json = "{\"complete\":true,\"have\":0,\"timeComplete\":1640885012541}"
-
-            val body = json.toRequestBody("application/json".toMediaTypeOrNull())
-
-            val ttObjective = TTUser.TTObjective(
-                null,
-                true,
-                null
-            )
-
-            questObjective.id?.toInt()?.let { ttApiRepo.updateQuestObjective(getTTApiKey(), it, ttObjective) }
-        }
-    }
 }

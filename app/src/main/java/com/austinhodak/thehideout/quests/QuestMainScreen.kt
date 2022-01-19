@@ -36,11 +36,13 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.traderIcon
 import com.austinhodak.thehideout.NavViewModel
@@ -70,7 +72,8 @@ import java.text.DecimalFormat
 fun QuestMainScreen(
     navViewModel: NavViewModel,
     questViewModel: QuestMainViewModel,
-    tarkovRepo: TarkovRepo
+    tarkovRepo: TarkovRepo,
+    ttRepository: TTRepository
 ) {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
@@ -243,6 +246,19 @@ fun QuestMainScreen(
                                                 contentDescription = null,
                                                 tint = White
                                             )
+                                        }
+                                    }
+                                    BottomNavigationScreens.Overview.route -> {
+                                        if (UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value) {
+                                            IconButton(onClick = {
+                                                syncTT(scope, ttRepository)
+                                            }) {
+                                                Icon(
+                                                    painterResource(id = R.drawable.ic_baseline_cloud_sync_24),
+                                                    contentDescription = null,
+                                                    tint = White
+                                                )
+                                            }
                                         }
                                     }
                                 }
@@ -934,7 +950,7 @@ private fun QuestObjectiveItem(
             .height(36.dp)
             .clickable {
                 userData?.toggleObjective(quest, questObjective)
-                questViewModel.testTTAPI(questObjective)
+                //questViewModel.testTTAPI(questObjective)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {

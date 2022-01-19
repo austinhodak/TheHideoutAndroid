@@ -8,13 +8,13 @@ class TTRepository @Inject constructor(
     private val ttApiService: TTApiService
 ) {
 
-    suspend fun getUserProgress(apiKey: String) = ttApiService.getUserProgress(apiKey = apiKey)
+    suspend fun getUserProgress() = ttApiService.getUserProgress()
 
-    suspend fun setUserLevel(apiKey: String, level: Int) = ttApiService.setUserLevel(apiKey, level)
+    suspend fun setUserLevel(level: Int) = ttApiService.setUserLevel(level)
 
-    suspend fun updateQuest(apiKey: String, id: Int, body: TTUser.TTQuest) = ttApiService.updateQuest(apiKey, id, body)
-    suspend fun updateQuestObjective(apiKey: String, id: Int, body: TTUser.TTObjective) = ttApiService.updateQuestObjective(apiKey, id, body)
-    suspend fun updateHideout(apiKey: String, id: Int, body: TTUser.TTQuest) = ttApiService.updateHideout(apiKey, id, body)
-    suspend fun updateHideoutObjective(apiKey: String, id: Int, body: TTUser.TTObjective) = ttApiService.updateHideoutObjective(apiKey, id, body)
+    suspend fun updateQuest(id: Int, body: TTUser.TTQuest) = ttApiService.updateQuest(id, body)
+    suspend fun updateQuestObjective(id: Int, body: TTUser.TTObjective) = ttApiService.updateQuestObjective(id, body)
+    suspend fun updateHideout(id: Int, body: TTUser.TTQuest) = ttApiService.updateHideout(id, body)
+    suspend fun updateHideoutObjective(id: Int, body: TTUser.TTObjective) = ttApiService.updateHideoutObjective(id, body)
 
 }

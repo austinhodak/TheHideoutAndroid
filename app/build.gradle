@@ -234,5 +234,5 @@ dependencies {
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '6.3.7'
+    implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '6.3.9'
 }
