@@ -530,7 +530,7 @@ fun Pricing.addToNeededItemsDialog(context: Context) {
 
 @ExperimentalFoundationApi
 @SuppressLint("CheckResult")
-fun Pricing.addPriceAlertDialog(context: Context) {
+fun Pricing.addPriceAlertDialog(context: Context, done: (() -> Unit?)? = null) {
     questsFirebase.child("priceAlerts").orderByChild("uid").equalTo(uid()).addListenerForSingleValueEvent(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             if (snapshot.exists() && snapshot.childrenCount >= 5) {
@@ -561,6 +561,7 @@ fun Pricing.addPriceAlertDialog(context: Context) {
                             else -> "above"
                         }
                         pricing.addPriceAlert(price, selected, true, dialog, context)
+                        if (done != null) done()
                     }
                 }
                 negativeButton(text = context.getString(R.string.cancel)) {

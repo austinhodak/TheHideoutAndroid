@@ -101,6 +101,7 @@ class MapViewModel @Inject constructor(
             "the lab" -> R.raw.map_labs
             "woods" -> R.raw.map_woods
             "lighthouse" -> R.raw.map_lighthouse
+            "lighthouse_dark" -> R.raw.map_lighthouse_dark
             else -> R.raw.map_interchange
         }
     }

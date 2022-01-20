@@ -74,7 +74,9 @@ class NavViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            _allItems.value = tarkovRepo.getAllItemsOnce()
+            tarkovRepo?.getAllItemsOnce()?.let {
+                _allItems.value = it
+            }
         }
     }
 }

@@ -33,12 +33,11 @@ import com.austinhodak.tarkovapi.utils.sourceTitle
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
-import com.austinhodak.thehideout.compose.components.MainToolbar
-import com.austinhodak.thehideout.compose.components.Rectangle
-import com.austinhodak.thehideout.compose.components.TraderSmall
+import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.PriceAlert
 import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.widgets.WidgetPickerActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -67,6 +66,11 @@ fun PriceAlertsScreen(
     LaunchedEffect(key1 = "") {
         questsFirebase.child("priceAlerts").orderByChild("uid").equalTo(uid()).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                if (!snapshot.exists() || !snapshot.hasChildren()) {
+                    list = emptyList()
+                    itemList = emptyList()
+                    return
+                }
 
                 list = snapshot.children.map {
                     val alert = it.getValue<PriceAlert>()!!
@@ -126,24 +130,33 @@ fun PriceAlertsScreen(
             }
         },
         floatingActionButton = {
-            /*FloatingActionButton(onClick = {
+            FloatingActionButton(onClick = {
                 //Open item picker.
+                context.openActivity(WidgetPickerActivity::class.java) {
+                    putBoolean("priceAlert", true)
+                }
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_notification_add_24),
                     contentDescription = "Add Alert",
                     tint = Color.Black
                 )
-            }*/
+            }
         }
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = 4.dp)
-        ) {
-            items(items = itemList ?: emptyList()) { item ->
-                PriceAlertItem(item = item, onClick = {
-                                        context.openFleaDetail(it)
-                }, longClick = {}, list?.filter { it.itemID.equals(item.id) })
+        if (itemList == null || list == null) {
+            LoadingItem()
+        } else if (itemList?.isEmpty() == null || list?.isEmpty() == true) {
+            EmptyText(text = "No alerts set.")
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = 4.dp)
+            ) {
+                items(items = itemList ?: emptyList()) { item ->
+                    PriceAlertItem(item = item, onClick = {
+                        context.openFleaDetail(it)
+                    }, longClick = {}, list?.filter { it.itemID.equals(item.id) })
+                }
             }
         }
     }

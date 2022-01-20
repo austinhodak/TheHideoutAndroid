@@ -71,7 +71,6 @@ class ModDetailActivity : GodActivity() {
     @Inject
     lateinit var modRepo: ModsRepo
 
-    @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

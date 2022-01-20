@@ -101,6 +101,7 @@
         </activity>
         <activity
             android:name=".ammunition.AmmoDetailActivity"
+            android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
             android:name=".flea_market.detail.FleaItemDetail"

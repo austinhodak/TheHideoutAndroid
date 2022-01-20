@@ -110,7 +110,6 @@ class MapsActivity : GodActivity() {
     private lateinit var backdropState: BackdropScaffoldState
     private lateinit var coroutineScope: CoroutineScope
 
-    @ExperimentalAnimationApi
     @SuppressLint("CheckResult", "PotentialBehaviorOverride")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,6 +144,10 @@ class MapsActivity : GodActivity() {
             }
 
             var selectedPoints: Pair<LatLng?, LatLng?>? = null
+
+            var darkMode by remember {
+                mutableStateOf(false)
+            }
 
             //val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
 
@@ -215,7 +218,24 @@ class MapsActivity : GodActivity() {
                                 backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                                 elevation = 5.dp,
                                 actions = {
+                                    if (selectedMap?.map?.id == 71) {
+                                        if (darkMode) {
+                                            IconButton(onClick = {
+                                                darkMode = !darkMode
+                                                mapViewModel.setMap("lighthouse", this@MapsActivity)
+                                            }) {
+                                                Icon(painterResource(id = R.drawable.ic_baseline_bedtime_24), contentDescription = null, tint = Color.Yellow)
+                                            }
+                                        } else {
+                                            IconButton(onClick = {
+                                                darkMode = !darkMode
+                                                mapViewModel.setMap("lighthouse_dark", this@MapsActivity)
 
+                                            }) {
+                                                Icon(painterResource(id = R.drawable.ic_baseline_bedtime_off_24), contentDescription = null, tint = White)
+                                            }
+                                        }
+                                    }
                                 }
                             )
                         },
@@ -549,7 +569,7 @@ class MapsActivity : GodActivity() {
                                         }, modifier = Modifier.padding(paddingValues)) {
                                             CoroutineScope(Dispatchers.Main).launch {
                                                 val map = mapView.awaitMap()
-                                                setupMap(map, selectedMap!!)
+                                                setupMap(map, selectedMap!!, darkMode)
 
                                                 map.setOnMarkerClickListener { marker ->
                                                     selectedMarker = marker
@@ -726,7 +746,7 @@ class MapsActivity : GodActivity() {
     }
 
     @SuppressLint("PotentialBehaviorOverride")
-    private fun setupMap(map: GoogleMap, selectedMap: MapInteractive) {
+    private fun setupMap(map: GoogleMap, selectedMap: MapInteractive, darkMode: Boolean) {
         this.map = map
         map.clear()
         map.mapType = GoogleMap.MAP_TYPE_NONE
@@ -734,7 +754,15 @@ class MapsActivity : GodActivity() {
         val tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
             override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
                 val normalizedCords = getNormalizedCord(x, y, zoom, selectedMap) ?: return null
-                val url = "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.${selectedMap.getFirstMap()?.extension}"
+                val url = if (selectedMap.map?.id == 71) {
+                    if (darkMode) {
+                        "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path?.replace("default", "dark")}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.${selectedMap.getFirstMap()?.extension}"
+                    } else {
+                        "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.${selectedMap.getFirstMap()?.extension}"
+                    }
+                } else {
+                    "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.${selectedMap.getFirstMap()?.extension}"
+                }
                 Timber.d(url)
 
                 return try {

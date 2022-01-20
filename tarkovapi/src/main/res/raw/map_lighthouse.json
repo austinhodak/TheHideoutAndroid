@@ -130,7 +130,7 @@
           "title": "Loose Loot",
           "icon": "loose_loot",
           "info": null,
-          "template": null,
+          "template": "**Possible Spawns:** ??",
           "order": 1,
           "has_heatmap": false,
           "features_enabled": false,
@@ -228,7 +228,7 @@
           "title": "Valuable",
           "icon": "valuable",
           "info": null,
-          "template": null,
+          "template": "**Possible Spawns:** ??",
           "order": 1,
           "has_heatmap": false,
           "features_enabled": false,
@@ -277,6 +277,20 @@
           "id": 4736,
           "group_id": 201,
           "title": "Rogue",
+          "icon": "scav",
+          "info": null,
+          "template": null,
+          "order": 1,
+          "has_heatmap": false,
+          "features_enabled": false,
+          "visible": true,
+          "description": null,
+          "premium": false
+        },
+        {
+          "id": 950,
+          "group_id": 201,
+          "title": "SCAV",
           "icon": "scav",
           "info": null,
           "template": null,
@@ -357,20 +371,6 @@
           "group_id": 202,
           "title": "Miscellaneous",
           "icon": "miscellaneous",
-          "info": null,
-          "template": null,
-          "order": 1,
-          "has_heatmap": false,
-          "features_enabled": false,
-          "visible": true,
-          "description": null,
-          "premium": false
-        },
-        {
-          "id": 2000,
-          "group_id": 202,
-          "title": "Mounted Weapons",
-          "icon": "mounted_weapons",
           "info": null,
           "template": null,
           "order": 1,
@@ -530,7 +530,7 @@
       "title": "Loose Loot",
       "icon": "loose_loot",
       "info": null,
-      "template": null,
+      "template": "**Possible Spawns:** ??",
       "order": 1,
       "has_heatmap": false,
       "features_enabled": false,
@@ -628,7 +628,7 @@
       "title": "Valuable",
       "icon": "valuable",
       "info": null,
-      "template": null,
+      "template": "**Possible Spawns:** ??",
       "order": 1,
       "has_heatmap": false,
       "features_enabled": false,
@@ -668,6 +668,20 @@
       "id": 4736,
       "group_id": 201,
       "title": "Rogue",
+      "icon": "scav",
+      "info": null,
+      "template": null,
+      "order": 1,
+      "has_heatmap": false,
+      "features_enabled": false,
+      "visible": true,
+      "description": null,
+      "premium": false
+    },
+    "950": {
+      "id": 950,
+      "group_id": 201,
+      "title": "SCAV",
       "icon": "scav",
       "info": null,
       "template": null,
@@ -780,30 +794,6 @@
   "regions": [],
   "locations": [
     {
-      "id": 152353,
-      "map_id": 71,
-      "region_id": null,
-      "category_id": 960,
-      "title": "Loose Ammo",
-      "description": "Sitting next to the toilet in the outhouse.",
-      "latitude": "0.77125394966998",
-      "longitude": "-0.56045826825860",
-      "features": null,
-      "tags": [],
-      "media": [
-        {
-          "id": 14506,
-          "title": "2021-12-22[15-50]_-294.0, 2.2, -343.2_0.1, -0.5, 0.1, 0.8_13.93 (0)",
-          "file_name": "55aa3231-5048-457e-8050-117ccb71e3cc.jpg",
-          "attribution": "",
-          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/55aa3231-5048-457e-8050-117ccb71e3cc.png",
-          "type": "image",
-          "mime_type": "image\/png",
-          "order": 10
-        }
-      ]
-    },
-    {
       "id": 152359,
       "map_id": 71,
       "region_id": null,
@@ -834,8 +824,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On a shelf in the room with the stove - bottom floor.",
-      "latitude": "0.75093124728664",
-      "longitude": "-0.65371312472752",
+      "latitude": "0.75092996983723",
+      "longitude": "-0.65371334552864",
       "features": null,
       "tags": [],
       "media": []
@@ -860,8 +850,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "Upstairs on the bed in the kids room.",
-      "latitude": "0.71470931032341",
-      "longitude": "-0.60361007341638",
+      "latitude": "0.70226520214372",
+      "longitude": "-0.60373842716132",
       "features": null,
       "tags": [],
       "media": []
@@ -922,9 +912,9 @@
       "region_id": null,
       "category_id": 960,
       "title": "Loose Ammo",
-      "description": "On the second level, outside on the crates",
-      "latitude": "0.59646567797984",
-      "longitude": "-0.63447310100506",
+      "description": "On the second level, outside on the crates.",
+      "latitude": "0.59719643469602",
+      "longitude": "-0.63528925180393",
       "features": null,
       "tags": [],
       "media": []
@@ -960,8 +950,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the third level, outside on a table",
-      "latitude": "0.59301132309565",
-      "longitude": "-0.63666793731312",
+      "latitude": "0.59301241433049",
+      "longitude": "-0.63666790723752",
       "features": null,
       "tags": [],
       "media": []
@@ -973,8 +963,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the stairwell landing between the third and top floors.",
-      "latitude": "0.59043653976042",
-      "longitude": "-0.63065978911985",
+      "latitude": "0.59090967469439",
+      "longitude": "-0.63130348920745",
       "features": null,
       "tags": [],
       "media": [
@@ -991,27 +981,14 @@
       ]
     },
     {
-      "id": 152513,
-      "map_id": 71,
-      "region_id": null,
-      "category_id": 960,
-      "title": "Loose Ammo",
-      "description": "In the sauna",
-      "latitude": "0.65095301305566",
-      "longitude": "-0.65162842959717",
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
       "id": 152517,
       "map_id": 71,
       "region_id": null,
       "category_id": 960,
       "title": "Wooden Ammo Box",
       "description": "On the pool table.",
-      "latitude": "0.66798027709292",
-      "longitude": "-0.64768219050052",
+      "latitude": "0.66716563984028",
+      "longitude": "-0.64759522676283",
       "features": null,
       "tags": [],
       "media": []
@@ -1023,11 +1000,22 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the table, near the grenade box",
-      "latitude": "0.66695037871881",
-      "longitude": "-0.65394783075971",
+      "latitude": "0.66682234034970",
+      "longitude": "-0.65034180879573",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 15508,
+          "title": "2022-01-05[16-40]_-77.4, 19.7, -90.2_-0.1, 0.8, -0.1, -0.5_19.75 (0)",
+          "file_name": "c66061cf-d8cc-41a1-b149-71c9413bc5ac.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c66061cf-d8cc-41a1-b149-71c9413bc5ac.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152529,
@@ -1036,11 +1024,22 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the green blanket behind the sandbags - upstairs on the porch.",
-      "latitude": "0.65333128157177",
-      "longitude": "-0.65388907837837",
+      "latitude": "0.65285968621879",
+      "longitude": "-0.66419005393885",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 15879,
+          "title": "2022-01-07[03-43]_-74.7, 23.3, -58.5_0.2, 0.4, -0.1, 0.9_13.09 (0)",
+          "file_name": "5529521f-1546-411a-aabe-f776719ebe29.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5529521f-1546-411a-aabe-f776719ebe29.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152542,
@@ -1062,8 +1061,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "In the red shipping container",
-      "latitude": "0.81354319240093",
-      "longitude": "-0.69022588109829",
+      "latitude": "0.81397209275421",
+      "longitude": "-0.69018334150175",
       "features": null,
       "tags": [],
       "media": []
@@ -1101,8 +1100,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the crates in the shipping container",
-      "latitude": "0.84873698144554",
-      "longitude": "-0.67039159018088",
+      "latitude": "0.84856626507359",
+      "longitude": "-0.67189335822962",
       "features": null,
       "tags": [],
       "media": []
@@ -1114,8 +1113,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the roof, on the munitions crates",
-      "latitude": "0.84410263000467",
-      "longitude": "-0.66283848958398",
+      "latitude": "0.84436102029728",
+      "longitude": "-0.66313862800448",
       "features": null,
       "tags": [],
       "media": []
@@ -1140,8 +1139,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the wood crate",
-      "latitude": "0.84737818643691",
-      "longitude": "-0.61322167069278",
+      "latitude": "0.84737817660992",
+      "longitude": "-0.61322271823630",
       "features": null,
       "tags": [],
       "media": []
@@ -1240,8 +1239,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the green munitions crates behind the truck",
-      "latitude": "0.96590068808048",
-      "longitude": "-0.69692839833519",
+      "latitude": "0.96590086043305",
+      "longitude": "-0.69692909717685",
       "features": null,
       "tags": [],
       "media": []
@@ -1266,8 +1265,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the stacked green crates behind the boom lift",
-      "latitude": "0.98960054135665",
-      "longitude": "-0.63947492412478",
+      "latitude": "0.98723826845774",
+      "longitude": "-0.63740927854684",
       "features": null,
       "tags": [],
       "media": [
@@ -1290,8 +1289,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "Inside the shipping container",
-      "latitude": "0.99503351620548",
-      "longitude": "-0.63579732257014",
+      "latitude": "0.99466439670667",
+      "longitude": "-0.63830599830777",
       "features": null,
       "tags": [],
       "media": []
@@ -1303,8 +1302,8 @@
       "category_id": 960,
       "title": "Loose Ammo",
       "description": "On the stacked green crates just outside the shipping container",
-      "latitude": "0.99660484830579",
-      "longitude": "-0.63430859405605",
+      "latitude": "0.99704780816116",
+      "longitude": "-0.63718914407221",
       "features": null,
       "tags": [],
       "media": []
@@ -1329,8 +1328,8 @@
       "category_id": 960,
       "title": "Wooden Ammo Box",
       "description": "Upstairs, on the bottom shelf of the cabinet in the corner",
-      "latitude": "0.71751775397759",
-      "longitude": "-0.62832087278346",
+      "latitude": "0.70726177952025",
+      "longitude": "-0.62840670347325",
       "features": null,
       "tags": [],
       "media": [
@@ -1414,6 +1413,126 @@
           "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/4aeb5edc-4a62-4007-9134-b8a178398714.png",
           "type": "image",
           "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154197,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 960,
+      "title": "Loose Ammo",
+      "description": "On the chair next to the board, behind the desk with the weapon box.",
+      "latitude": "0.59098338260804",
+      "longitude": "-0.64826846124959",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15511,
+          "title": "",
+          "file_name": "963509a5-287b-4c47-bd93-4cdfbaeb023d.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/963509a5-287b-4c47-bd93-4cdfbaeb023d.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154202,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 960,
+      "title": "Loose Ammo",
+      "description": "On the second level, outside, on the left, green box.",
+      "latitude": "0.58759324973018",
+      "longitude": "-0.63784003260253",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15516,
+          "title": "",
+          "file_name": "c3a4b067-38a5-4ad4-9373-724bb2e5ab5c.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c3a4b067-38a5-4ad4-9373-724bb2e5ab5c.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154203,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 960,
+      "title": "Loose ammo",
+      "description": "On the floor of the guardhouse, next to the white van.",
+      "latitude": "0.58482745304147",
+      "longitude": "-0.62432198298157",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15517,
+          "title": "",
+          "file_name": "c221916a-ae44-463f-9188-e77205975c32.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c221916a-ae44-463f-9188-e77205975c32.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154206,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 960,
+      "title": "Loose Ammo",
+      "description": "On the green crates beside the jeep",
+      "latitude": "0.41794100393402",
+      "longitude": "-0.70713036785014",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15519,
+          "title": "2022-01-05[18-16]_49.9, 3.2, 502.8_0.1, 0.2, 0.0, 1.0_18.92 (0)",
+          "file_name": "a8d4e04e-3187-4f35-9555-5995b5289d2e.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a8d4e04e-3187-4f35-9555-5995b5289d2e.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154596,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 960,
+      "title": "Loose Ammo",
+      "description": "Multiple loose ammo spawns on the green box and the sandbags at the opening of the building.",
+      "latitude": "0.90124567357881",
+      "longitude": "-0.70186273196873",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15840,
+          "title": "",
+          "file_name": "02409ed5-9096-40ea-810f-56888a14f3c7.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/02409ed5-9096-40ea-810f-56888a14f3c7.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
           "order": 10
         }
       ]
@@ -1899,8 +2018,8 @@
       "category_id": 948,
       "title": "Barrel Cache",
       "description": "Under the overhanging boulder",
-      "latitude": "0.40310586727696",
-      "longitude": "-0.70661187171842",
+      "latitude": "0.40357681544783",
+      "longitude": "-0.70862506503983",
       "features": null,
       "tags": [],
       "media": [
@@ -2015,8 +2134,8 @@
       "category_id": 941,
       "title": "Wooden Crate [4x3]",
       "description": "In the back of the ruined house",
-      "latitude": "0.76069771840326",
-      "longitude": "-0.57530697735882",
+      "latitude": "0.76039734418670",
+      "longitude": "-0.57526409626050",
       "features": null,
       "tags": [],
       "media": [
@@ -2135,8 +2254,8 @@
       "category_id": 941,
       "title": "Technical Supply Crate [5x5]",
       "description": "Next to entrance inside",
-      "latitude": "0.72060741543123",
-      "longitude": "-0.62670618295675",
+      "latitude": "0.72060741543154",
+      "longitude": "-0.62670618295695",
       "features": null,
       "tags": [],
       "media": [
@@ -2193,8 +2312,8 @@
       "category_id": 941,
       "title": "Wooden Crate [4x3]",
       "description": "On the ground just outside the shed",
-      "latitude": "0.73376262036057",
-      "longitude": "-0.63080412960335",
+      "latitude": "0.73376259102521",
+      "longitude": "-0.63080459833270",
       "features": null,
       "tags": [],
       "media": [
@@ -2241,8 +2360,8 @@
       "category_id": 941,
       "title": "Technical Supply Crate [5x5]",
       "description": "Behind the green tent",
-      "latitude": "0.81405812458641",
-      "longitude": "-0.68868092870554",
+      "latitude": "0.81405791478079",
+      "longitude": "-0.68868130445358",
       "features": null,
       "tags": [],
       "media": [
@@ -2270,6 +2389,30 @@
       "features": null,
       "tags": [],
       "media": []
+    },
+    {
+      "id": 152559,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 941,
+      "title": "Technical Supply Crate [5x5]",
+      "description": "In the tent.",
+      "latitude": "0.82356402068184",
+      "longitude": "-0.68735674653459",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15889,
+          "title": "c0d1f110-905d-4b4a-8920-6b84b1a37ece",
+          "file_name": "c0d1f110-905d-4b4a-8920-6b84b1a37ece",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c0d1f110-905d-4b4a-8920-6b84b1a37ece.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152573,
@@ -2375,9 +2518,9 @@
       "region_id": null,
       "category_id": 941,
       "title": "Technical Supply Crate [5x5]",
-      "description": null,
-      "latitude": "0.85091278494500",
-      "longitude": "-0.68918263492952",
+      "description": "",
+      "latitude": "0.85091293986100",
+      "longitude": "-0.68918287753971",
       "features": null,
       "tags": [],
       "media": [
@@ -2472,8 +2615,8 @@
       "category_id": 941,
       "title": "Wooden Crate [4x3]",
       "description": "On the ground against the back wall of the house",
-      "latitude": "0.71618748243053",
-      "longitude": "-0.62673300504653",
+      "latitude": "0.71618748242787",
+      "longitude": "-0.62673300504673",
       "features": null,
       "tags": [],
       "media": [
@@ -2485,6 +2628,30 @@
           "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/3d4698b4-c7f5-4989-b770-00ee53116dd7.png",
           "type": "image",
           "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154625,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 941,
+      "title": "Wooden Crate [5x2]",
+      "description": "On the train, in the last carriage, on the top of brown crates.",
+      "latitude": "0.99656742247461",
+      "longitude": "-0.68617075681661",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15868,
+          "title": "",
+          "file_name": "c9a73f39-fb9d-41b1-9f71-3e1f36072cb9.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c9a73f39-fb9d-41b1-9f71-3e1f36072cb9.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
           "order": 10
         }
       ]
@@ -2592,8 +2759,8 @@
       "category_id": 959,
       "title": "Dead SCAV",
       "description": "On the floor next to the pool table",
-      "latitude": "0.66772280252006",
-      "longitude": "-0.64673805292762",
+      "latitude": "0.66746602687515",
+      "longitude": "-0.64647942781212",
       "features": null,
       "tags": [],
       "media": []
@@ -2653,11 +2820,35 @@
       "category_id": 959,
       "title": "Dead SCAV",
       "description": "On the mattress inside the storage room.",
-      "latitude": "0.75176440653883",
-      "longitude": "-0.65783185352805",
+      "latitude": "0.75206444665980",
+      "longitude": "-0.65821677446399",
       "features": null,
       "tags": [],
       "media": []
+    },
+    {
+      "id": 154611,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 959,
+      "title": "Dead SCAV",
+      "description": "Underneath the middle platform, next to the wooden boxes.",
+      "latitude": "0.91200528665783",
+      "longitude": "-0.60882302259711",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15851,
+          "title": "",
+          "file_name": "11026eb0-58a9-45b2-8fb6-863a68f8dbb6.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/11026eb0-58a9-45b2-8fb6-863a68f8dbb6.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152363,
@@ -2666,8 +2857,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "Upstairs in the house, on the couch.",
-      "latitude": "0.71007223177675",
-      "longitude": "-0.74002851165886",
+      "latitude": "0.71024416774726",
+      "longitude": "-0.74818342924277",
       "features": null,
       "tags": [],
       "media": [
@@ -2714,8 +2905,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "On a mattress on the floor in the back room - bottom floor.",
-      "latitude": "0.75230442014109",
-      "longitude": "-0.65439977023453",
+      "latitude": "0.75230314269145",
+      "longitude": "-0.65439999103577",
       "features": null,
       "tags": [],
       "media": [
@@ -2738,8 +2929,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "Upstairs on the floor in the corner of the room.",
-      "latitude": "0.75228365626576",
-      "longitude": "-0.65100310082025",
+      "latitude": "0.77185203477836",
+      "longitude": "-0.63555479049887",
       "features": null,
       "tags": [],
       "media": [
@@ -2849,8 +3040,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "Upstairs on the floor near the bed",
-      "latitude": "0.71880511317084",
-      "longitude": "-0.62601953744877",
+      "latitude": "0.70923573453371",
+      "longitude": "-0.62597662210635",
       "features": null,
       "tags": [],
       "media": [
@@ -2945,8 +3136,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "On the third floor, on the bed",
-      "latitude": "0.58547993426944",
-      "longitude": "-0.63146902690428",
+      "latitude": "0.58552408282075",
+      "longitude": "-0.62975317239736",
       "features": null,
       "tags": [],
       "media": [
@@ -2969,8 +3160,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "Upstairs on the bed in the far room",
-      "latitude": "0.63722097064939",
-      "longitude": "-0.63411896913789",
+      "latitude": "0.64284227596693",
+      "longitude": "-0.62626630067723",
       "features": null,
       "tags": [],
       "media": [
@@ -2993,8 +3184,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "On the shelf to the left after entering through the front door.",
-      "latitude": "0.65896865904089",
-      "longitude": "-0.64742469843637",
+      "latitude": "0.65896935798553",
+      "longitude": "-0.64742356538832",
       "features": null,
       "tags": [],
       "media": []
@@ -3006,8 +3197,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "In the closet that's next to the safe, in the large bedroom upstairs.",
-      "latitude": "0.66980967516176",
-      "longitude": "-0.64891089844605",
+      "latitude": "0.66787905902159",
+      "longitude": "-0.66002726554851",
       "features": null,
       "tags": [],
       "media": [
@@ -3030,8 +3221,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "On the stack of pallets near the green tent",
-      "latitude": "0.81740518218700",
-      "longitude": "-0.69305829381796",
+      "latitude": "0.81633219781214",
+      "longitude": "-0.69305866956594",
       "features": null,
       "tags": [],
       "media": [
@@ -3054,8 +3245,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "In the gray shipping container on the couch.",
-      "latitude": "0.81422976863367",
-      "longitude": "-0.69305829381796",
+      "latitude": "0.81405791478079",
+      "longitude": "-0.69301575422159",
       "features": null,
       "tags": [],
       "media": [
@@ -3210,9 +3401,9 @@
       "region_id": null,
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
-      "description": null,
-      "latitude": "0.95863984831621",
-      "longitude": "-0.70770060377819",
+      "description": "",
+      "latitude": "0.95864114461027",
+      "longitude": "-0.70770084857895",
       "features": null,
       "tags": [],
       "media": [
@@ -3283,8 +3474,8 @@
       "category_id": 969,
       "title": "Duffle Bag [4x3]",
       "description": "Upstairs in the dimly lit apartment, on the ground to the right after entering from the stairs.  Next to the coat rack with the [jacket](https:\/\/mapgenie.io\/tarkov\/maps\/lighthouse?locationIds=153880)",
-      "latitude": "0.74727676079249",
-      "longitude": "-0.65365152058763",
+      "latitude": "0.76916202239310",
+      "longitude": "-0.63704341650174",
       "features": null,
       "tags": [],
       "media": [
@@ -3312,6 +3503,67 @@
       "features": null,
       "tags": [],
       "media": []
+    },
+    {
+      "id": 154038,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 969,
+      "title": "Duffel Bag",
+      "description": "Just off the main road - between rock and tree",
+      "latitude": "0.67216093324444",
+      "longitude": "-0.70279013571212",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154074,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 969,
+      "title": "Duffle Bag [4x3]",
+      "description": "In a camping spot near a tent.",
+      "latitude": "0.71695237172342",
+      "longitude": "-0.54720510940257",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15487,
+          "title": "",
+          "file_name": "753e8456-7844-4601-891c-7de00f7d2630.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/753e8456-7844-4601-891c-7de00f7d2630.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154198,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 969,
+      "title": "Duffle Bag [4x3]",
+      "description": "On the bed.",
+      "latitude": "0.59472893588965",
+      "longitude": "-0.65027248347872",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15512,
+          "title": "",
+          "file_name": "50283c2a-c5f2-427d-9edc-29a2aea14622.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/50283c2a-c5f2-427d-9edc-29a2aea14622.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152582,
@@ -3346,8 +3598,8 @@
       "category_id": 942,
       "title": "Grenade Box",
       "description": "In the rear living room, on a table",
-      "latitude": "0.66652125433311",
-      "longitude": "-0.65283203180894",
+      "latitude": "0.66622156618310",
+      "longitude": "-0.65021306276356",
       "features": null,
       "tags": [],
       "media": [
@@ -3429,7 +3681,7 @@
       "map_id": 71,
       "region_id": null,
       "category_id": 942,
-      "title": "Granade Box",
+      "title": "Grenade Box",
       "description": null,
       "latitude": "0.64819396903232",
       "longitude": "-0.71574327475116",
@@ -3449,14 +3701,62 @@
       ]
     },
     {
+      "id": 154721,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 942,
+      "title": "Grenade Box [3x2]",
+      "description": "In the tower on a stool.",
+      "latitude": "0.92375876213757",
+      "longitude": "-0.62244730209230",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15890,
+          "title": "",
+          "file_name": "654169d7-cd02-4f28-bd1d-ead12d010edc.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/654169d7-cd02-4f28-bd1d-ead12d010edc.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 155009,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 942,
+      "title": "Grenade Box [3x2]",
+      "description": "On the armored train, under a shelf adjacent to the desk with the candle.",
+      "latitude": "0.99077472226102",
+      "longitude": "-0.68641139018183",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 16102,
+          "title": "2022-01-11[06-03]_6.0, 13.6, -864.7_0.1, 0.9, -0.2, 0.3_17.35 (0)",
+          "file_name": "399dfdc4-b842-43cc-9576-ae0b7bfebde0.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/399dfdc4-b842-43cc-9576-ae0b7bfebde0.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
       "id": 152354,
       "map_id": 71,
       "region_id": null,
       "category_id": 961,
       "title": "Jacket",
       "description": "Hanging on the wall to the left as you walk inside.",
-      "latitude": "0.76335823442078",
-      "longitude": "-0.55959996138489",
+      "latitude": "0.76352988728966",
+      "longitude": "-0.55895626544861",
       "features": null,
       "tags": [],
       "media": [
@@ -3614,8 +3914,8 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "Hanging next to the stairs on the third floor.",
-      "latitude": "0.59208854832634",
-      "longitude": "-0.63172651897432",
+      "latitude": "0.59200395766554",
+      "longitude": "-0.63297182321728",
       "features": null,
       "tags": [],
       "media": [
@@ -3638,8 +3938,8 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "On the coat hanger in the bedroom, on the third floor.",
-      "latitude": "0.58408540243892",
-      "longitude": "-0.63271972564269",
+      "latitude": "0.58640380136994",
+      "longitude": "-0.63405007123862",
       "features": null,
       "tags": [],
       "media": [
@@ -3662,8 +3962,8 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "Hanging on a post in the garage, next to the motorcycle.",
-      "latitude": "0.63679184373026",
-      "longitude": "-0.63635056703859",
+      "latitude": "0.63679158971141",
+      "longitude": "-0.63635140657362",
       "features": null,
       "tags": [],
       "media": [
@@ -3686,8 +3986,8 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "Upstairs, hanging in the bedroom's bathroom",
-      "latitude": "0.66531970585402",
-      "longitude": "-0.65137291011584",
+      "latitude": "0.66471963044867",
+      "longitude": "-0.66137105226588",
       "features": null,
       "tags": [],
       "media": [
@@ -3782,8 +4082,8 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "Hanging on the locker near the door",
-      "latitude": "0.98041716645953",
-      "longitude": "-0.69500015042263",
+      "latitude": "0.98247719793630",
+      "longitude": "-0.69809049367967",
       "features": null,
       "tags": [],
       "media": [
@@ -3806,7 +4106,7 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "In the kitchen near the sink",
-      "latitude": "0.71505705485050",
+      "latitude": "0.71381260661850",
       "longitude": "-0.57610120957776",
       "features": null,
       "tags": [],
@@ -3832,8 +4132,8 @@
       "category_id": 961,
       "title": "Jacket 2x",
       "description": "In the well-lit kitchen upstairs, on the left wall as you enter from the stairs.",
-      "latitude": "0.75023766669277",
-      "longitude": "-0.65219239888123",
+      "latitude": "0.76628695244696",
+      "longitude": "-0.63777297735408",
       "features": null,
       "tags": [],
       "media": [
@@ -3856,8 +4156,8 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "In the dimly lit kitchen upstairs, on the coat rack to the right after entering from the stairs.",
-      "latitude": "0.74671890872968",
-      "longitude": "-0.65266446767001",
+      "latitude": "0.76847543870167",
+      "longitude": "-0.63700050115736",
       "features": null,
       "tags": [],
       "media": [
@@ -3880,8 +4180,8 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "On the bottom floor behind the door",
-      "latitude": "0.63864949508329",
-      "longitude": "-0.63463349036431",
+      "latitude": "0.63877898345727",
+      "longitude": "-0.63463479280364",
       "features": null,
       "tags": [],
       "media": [
@@ -3917,8 +4217,8 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "In the workshop, on the wall to the right as you walk inside.",
-      "latitude": "0.83427612109193",
-      "longitude": "-0.61175366806870",
+      "latitude": "0.83646544640357",
+      "longitude": "-0.61295449733583",
       "features": null,
       "tags": [],
       "media": []
@@ -3930,8 +4230,8 @@
       "category_id": 961,
       "title": "Jacket",
       "description": "Hanging on the wall just after you enter the house.",
-      "latitude": "0.71994689036363",
-      "longitude": "-0.62490752037860",
+      "latitude": "0.71994764414954",
+      "longitude": "-0.62490642070927",
       "features": null,
       "tags": [],
       "media": [
@@ -3941,6 +4241,30 @@
           "file_name": "47f3c839-405a-4068-b4a8-384677fe45eb.jpg",
           "attribution": "",
           "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/47f3c839-405a-4068-b4a8-384677fe45eb.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154646,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 961,
+      "title": "Jacket",
+      "description": "Inside the trailer",
+      "latitude": "0.53610398935142",
+      "longitude": "-0.73310545164694",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15880,
+          "title": "2022-01-07[03-53]_123.9, 7.7, 207.8_0.0, -0.2, 0.0, 1.0_14.29 (0)",
+          "file_name": "959da64e-d7a0-4268-9462-09c535355b3e.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/959da64e-d7a0-4268-9462-09c535355b3e.png",
           "type": "image",
           "mime_type": "image\/png",
           "order": 10
@@ -3990,7 +4314,7 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": "On the ground in front of the house",
+      "description": "On the ground or on the table in front of the house",
       "latitude": "0.76938322118455",
       "longitude": "-0.56409322091676",
       "features": null,
@@ -4004,8 +4328,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "In the side building.",
-      "latitude": "0.76432106862168",
-      "longitude": "-0.55791556835399",
+      "latitude": "0.76466436081233",
+      "longitude": "-0.55787265300708",
       "features": null,
       "tags": [],
       "media": []
@@ -4017,8 +4341,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Inside on the furniture.",
-      "latitude": "0.76002991389858",
-      "longitude": "-0.55808722973097",
+      "latitude": "0.76002991389696",
+      "longitude": "-0.55808722972799",
       "features": null,
       "tags": [],
       "media": [
@@ -4051,8 +4375,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the shelves inside the building",
-      "latitude": "0.75153073301328",
-      "longitude": "-0.66052347421746",
+      "latitude": "0.75153073301423",
+      "longitude": "-0.66052347421717",
       "features": null,
       "tags": [],
       "media": [
@@ -4075,8 +4399,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the ground on the first floor.",
-      "latitude": "0.74398095763868",
-      "longitude": "-0.65361678600112",
+      "latitude": "0.74398095764015",
+      "longitude": "-0.65361678600385",
       "features": null,
       "tags": [],
       "media": []
@@ -4125,8 +4449,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the kitchen table",
-      "latitude": "0.71990473219434",
-      "longitude": "-0.62820822000492",
+      "latitude": "0.71990473219374",
+      "longitude": "-0.62820822000515",
       "features": null,
       "tags": [],
       "media": [
@@ -4148,9 +4472,9 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": "Upstairs in the master bedroom",
-      "latitude": "0.71479948393565",
-      "longitude": "-0.60726605724912",
+      "description": "Upstairs in the master bedroom\n\n**Possible Spawns:** Mil-tech",
+      "latitude": "0.70643035799860",
+      "longitude": "-0.60632139444184",
       "features": null,
       "tags": [],
       "media": []
@@ -4187,9 +4511,9 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": null,
-      "latitude": "0.71772548057430",
-      "longitude": "-0.57906668514687",
+      "description": "",
+      "latitude": "0.71772426787318",
+      "longitude": "-0.57906746864370",
       "features": null,
       "tags": [],
       "media": []
@@ -4206,6 +4530,30 @@
       "features": null,
       "tags": [],
       "media": []
+    },
+    {
+      "id": 152353,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Sitting next to the toilet in the outhouse.",
+      "latitude": "0.77125395639884",
+      "longitude": "-0.56045830249681",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 14506,
+          "title": "2021-12-22[15-50]_-294.0, 2.2, -343.2_0.1, -0.5, 0.1, 0.8_13.93 (0)",
+          "file_name": "55aa3231-5048-457e-8050-117ccb71e3cc.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/55aa3231-5048-457e-8050-117ccb71e3cc.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152355,
@@ -4262,8 +4610,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the ground near the light in the corner, on the bottom floor.",
-      "latitude": "0.70901562411092",
-      "longitude": "-0.73876777176039",
+      "latitude": "0.70991696337752",
+      "longitude": "-0.73769599199434",
       "features": null,
       "tags": [],
       "media": [
@@ -4312,8 +4660,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Upstairs in the closet.",
-      "latitude": "0.68636576182084",
-      "longitude": "-0.74150749645040",
+      "latitude": "0.68537925239933",
+      "longitude": "-0.74927508830962",
       "features": null,
       "tags": [],
       "media": []
@@ -4325,8 +4673,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Upstairs in the bedroom, on the floor.",
-      "latitude": "0.68422014808938",
-      "longitude": "-0.74116417369646",
+      "latitude": "0.68331946281263",
+      "longitude": "-0.75017631053851",
       "features": null,
       "tags": [],
       "media": []
@@ -4337,19 +4685,30 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": "On the ground in front of the crates or on the trailer nearby.",
+      "description": "On the ground in front of the crates, on the crates and\/ or on the trailer nearby.",
       "latitude": "0.64946107406412",
       "longitude": "-0.72571464978208",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 15764,
+          "title": "",
+          "file_name": "1c896e9d-3234-49ca-9826-8631723ea68d.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/1c896e9d-3234-49ca-9826-8631723ea68d.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152376,
       "map_id": 71,
       "region_id": null,
       "category_id": 946,
-      "title": "Loose Loot (?)",
+      "title": "Loose Loot",
       "description": null,
       "latitude": "0.64928942371486",
       "longitude": "-0.73326775037708",
@@ -4411,12 +4770,23 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": "On the wooden cable reel.",
+      "description": "On the wooden cable reel or the adjacent box.",
       "latitude": "0.69384369090497",
       "longitude": "-0.69594204425695",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 15763,
+          "title": "",
+          "file_name": "e7c5571a-b8ba-497d-90ca-ef3df7939352.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e7c5571a-b8ba-497d-90ca-ef3df7939352.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152382,
@@ -4497,8 +4867,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "In a cabinet on the bottom floor",
-      "latitude": "0.74809779946145",
-      "longitude": "-0.65345585346063",
+      "latitude": "0.74809779946291",
+      "longitude": "-0.65341293811903",
       "features": null,
       "tags": [],
       "media": []
@@ -4510,8 +4880,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the kitchen table - first floor.",
-      "latitude": "0.74397827565558",
-      "longitude": "-0.65148174762535",
+      "latitude": "0.74573765608665",
+      "longitude": "-0.65349876880595",
       "features": null,
       "tags": [],
       "media": []
@@ -4523,8 +4893,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "In a cabinet on the bottom floor.",
-      "latitude": "0.74397955310823",
-      "longitude": "-0.65148152682681",
+      "latitude": "0.74397827565649",
+      "longitude": "-0.65148174762629",
       "features": null,
       "tags": [],
       "media": []
@@ -4536,8 +4906,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Upstairs on the kitchen counter.",
-      "latitude": "0.74580470563131",
-      "longitude": "-0.65199136733833",
+      "latitude": "0.76987810761069",
+      "longitude": "-0.63847303390389",
       "features": null,
       "tags": [],
       "media": [
@@ -4560,8 +4930,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Upstairs on the ironing board.",
-      "latitude": "0.75305606580979",
-      "longitude": "-0.65280554527894",
+      "latitude": "0.77210950347134",
+      "longitude": "-0.63812971115064",
       "features": null,
       "tags": [],
       "media": []
@@ -4763,7 +5133,7 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": null,
+      "description": "Multiple spawn points of various loot, in the shed adjoining the hut, on the floor next to the wood pile.\n\n**Possible Spawns:** Moonshine",
       "latitude": "0.43491653295212",
       "longitude": "-0.70750960166319",
       "features": null,
@@ -4784,27 +5154,14 @@
       "media": []
     },
     {
-      "id": 152422,
-      "map_id": 71,
-      "region_id": null,
-      "category_id": 946,
-      "title": "Loose Loot",
-      "description": "",
-      "latitude": "0.43809165844905",
-      "longitude": "-0.72106897831159",
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
       "id": 152428,
       "map_id": 71,
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Downstairs in the kitchen",
-      "latitude": "0.71342194998026",
-      "longitude": "-0.60695747026699",
+      "latitude": "0.71342234013798",
+      "longitude": "-0.60695707797947",
       "features": null,
       "tags": [],
       "media": []
@@ -4855,8 +5212,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the white table",
-      "latitude": "0.71331237809174",
-      "longitude": "-0.62704950571074",
+      "latitude": "0.71331237809120",
+      "longitude": "-0.62704950571182",
       "features": null,
       "tags": [],
       "media": [
@@ -4942,8 +5299,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Upstairs on the table",
-      "latitude": "0.51087894583817",
-      "longitude": "-0.74040770530866",
+      "latitude": "0.51053563672028",
+      "longitude": "-0.75976252555944",
       "features": null,
       "tags": [],
       "media": []
@@ -4994,8 +5351,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Outside on the chairs",
-      "latitude": "0.59415960666412",
-      "longitude": "-0.64127427224025",
+      "latitude": "0.59416033818229",
+      "longitude": "-0.64127326011615",
       "features": null,
       "tags": [],
       "media": []
@@ -5007,8 +5364,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "In the exercise room on the ground floor",
-      "latitude": "0.58978052463665",
-      "longitude": "-0.63569426536307",
+      "latitude": "0.58978052463765",
+      "longitude": "-0.65895438194221",
       "features": null,
       "tags": [],
       "media": []
@@ -5033,8 +5390,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "In the bedroom on the second floor",
-      "latitude": "0.58452300117258",
-      "longitude": "-0.63438727028884",
+      "latitude": "0.58787089266781",
+      "longitude": "-0.65035253763108",
       "features": null,
       "tags": [],
       "media": []
@@ -5046,8 +5403,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "In the exercise room on the ground floor, in the showers",
-      "latitude": "0.59405037352353",
-      "longitude": "-0.63618779182156",
+      "latitude": "0.59726885040517",
+      "longitude": "-0.65850377082728",
       "features": null,
       "tags": [],
       "media": []
@@ -5058,9 +5415,9 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": "In the movie theater room",
-      "latitude": "0.58529543711694",
-      "longitude": "-0.63026739724228",
+      "description": "Find food and other low tier loot on the chairs or tables.  Search the shelf along the bottom right wall that can spawn items such as KEK tape. Multiple spawn points in this room.",
+      "latitude": "0.58714137016848",
+      "longitude": "-0.64674764871685",
       "features": null,
       "tags": [],
       "media": []
@@ -5122,8 +5479,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the shelves or on the counters",
-      "latitude": "0.63344439851549",
-      "longitude": "-0.64038544893242",
+      "latitude": "0.63280070765212",
+      "longitude": "-0.63858300447330",
       "features": null,
       "tags": [],
       "media": [
@@ -5145,9 +5502,9 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": null,
-      "latitude": "0.63498951027871",
-      "longitude": "-0.63763802736548",
+      "description": "",
+      "latitude": "0.63498925625971",
+      "longitude": "-0.63763886690001",
       "features": null,
       "tags": [],
       "media": []
@@ -5159,8 +5516,21 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "In the kitchen",
-      "latitude": "0.63816504974702",
-      "longitude": "-0.63334649294197",
+      "latitude": "0.63812188304580",
+      "longitude": "-0.63227444887090",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 152513,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "In the sauna",
+      "latitude": "0.65095275904980",
+      "longitude": "-0.65162926912109",
       "features": null,
       "tags": [],
       "media": []
@@ -5172,8 +5542,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Outside on the table that's on the porch",
-      "latitude": "0.66943929942042",
-      "longitude": "-0.65377616938272",
+      "latitude": "0.66750893931196",
+      "longitude": "-0.65253049135291",
       "features": null,
       "tags": [],
       "media": []
@@ -5185,8 +5555,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Upstairs in the bedroom with the loft, on a dresser",
-      "latitude": "0.65856437119362",
-      "longitude": "-0.65071463584894",
+      "latitude": "0.65980883381158",
+      "longitude": "-0.65861105918881",
       "features": null,
       "tags": [],
       "media": []
@@ -5198,8 +5568,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Upstairs in the closet.",
-      "latitude": "0.65170060424536",
-      "longitude": "-0.65002669739684",
+      "latitude": "0.65238764805719",
+      "longitude": "-0.65989851951434",
       "features": null,
       "tags": [],
       "media": []
@@ -5505,12 +5875,23 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": null,
+      "description": "Inside the broken wooden crate.",
       "latitude": "0.86696132010778",
       "longitude": "-0.69604909000483",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 15762,
+          "title": "",
+          "file_name": "c2ad6df8-d89c-48e3-a1dc-73081f8b0676.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c2ad6df8-d89c-48e3-a1dc-73081f8b0676.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152628,
@@ -5518,9 +5899,9 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": "In the upstairs office",
-      "latitude": "0.90068828052910",
-      "longitude": "-0.69646479665454",
+      "description": "Multiple spawn points in the upstairs office, on the shelf and on the table.",
+      "latitude": "0.89470772311658",
+      "longitude": "-0.69720057192620",
       "features": null,
       "tags": [],
       "media": [
@@ -5591,8 +5972,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the stack of boxes",
-      "latitude": "0.93407213813066",
-      "longitude": "-0.65483691282881",
+      "latitude": "0.93420150859902",
+      "longitude": "-0.65380722284405",
       "features": null,
       "tags": [],
       "media": [
@@ -5615,8 +5996,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the wooden box",
-      "latitude": "0.93690417332287",
-      "longitude": "-0.65269114561616",
+      "latitude": "0.93690481486856",
+      "longitude": "-0.65269142389334",
       "features": null,
       "tags": [],
       "media": []
@@ -5641,8 +6022,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the shelves",
-      "latitude": "0.94265405588408",
-      "longitude": "-0.65457942075975",
+      "latitude": "0.94265469745324",
+      "longitude": "-0.65457969903903",
       "features": null,
       "tags": [],
       "media": []
@@ -5654,8 +6035,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the shelves",
-      "latitude": "0.94007948276392",
-      "longitude": "-0.65432192869471",
+      "latitude": "0.94008012433001",
+      "longitude": "-0.65432220697286",
       "features": null,
       "tags": [],
       "media": []
@@ -5680,8 +6061,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Amongst the plastic containers",
-      "latitude": "0.93871402235210",
-      "longitude": "-0.63335999734417",
+      "latitude": "0.93854342509457",
+      "longitude": "-0.63675105571784",
       "features": null,
       "tags": [],
       "media": []
@@ -5693,8 +6074,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the desk in the office upstairs or on the floor",
-      "latitude": "0.93319259680145",
-      "longitude": "-0.63131549618259",
+      "latitude": "0.93387968628532",
+      "longitude": "-0.63693612813972",
       "features": null,
       "tags": [],
       "media": [
@@ -5716,12 +6097,23 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": "Inside the small building on the floor",
+      "description": "Inside the small building on the floor and on the shelves.",
       "latitude": "0.89924373275959",
       "longitude": "-0.68312384308828",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 15884,
+          "title": "",
+          "file_name": "f23bdc45-b818-4064-abcc-96c594c8fc9c.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f23bdc45-b818-4064-abcc-96c594c8fc9c.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152653,
@@ -5828,8 +6220,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the wooden boxes",
-      "latitude": "0.96735452682863",
-      "longitude": "-0.70780617387416",
+      "latitude": "0.96735441083305",
+      "longitude": "-0.70780545472880",
       "features": null,
       "tags": [],
       "media": []
@@ -5841,8 +6233,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the desk",
-      "latitude": "0.97803556101732",
-      "longitude": "-0.69590756120752",
+      "latitude": "0.97803610985927",
+      "longitude": "-0.69590717554109",
       "features": null,
       "tags": [],
       "media": []
@@ -5854,8 +6246,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the wooden box",
-      "latitude": "0.97939647862040",
-      "longitude": "-0.69239134441673",
+      "latitude": "0.97939579143522",
+      "longitude": "-0.69239079952251",
       "features": null,
       "tags": [],
       "media": []
@@ -5867,8 +6259,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the stacked materials in the corner of the building",
-      "latitude": "0.97599418357824",
-      "longitude": "-0.69624784025123",
+      "latitude": "0.97492251742918",
+      "longitude": "-0.69796442985583",
       "features": null,
       "tags": [],
       "media": [
@@ -5891,8 +6283,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the pallet shelving",
-      "latitude": "0.98257195087612",
-      "longitude": "-0.70271314209285",
+      "latitude": "0.98257106144752",
+      "longitude": "-0.70271193981350",
       "features": null,
       "tags": [],
       "media": []
@@ -5904,8 +6296,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the pallet shelving",
-      "latitude": "0.98801561057431",
-      "longitude": "-0.70622935888363",
+      "latitude": "0.98801514067576",
+      "longitude": "-0.70622831583145",
       "features": null,
       "tags": [],
       "media": []
@@ -5916,9 +6308,9 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": "On the planer",
-      "latitude": "1.00275881065840",
-      "longitude": "-0.70747704871556",
+      "description": "On the planer\n\n**Possible Spawns:** Low level loot, Mil-tech",
+      "latitude": "1.00275970046580",
+      "longitude": "-0.70747822523182",
       "features": null,
       "tags": [],
       "media": [
@@ -5954,8 +6346,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the cardboard boxes, near the spilled shipping container",
-      "latitude": "0.98694919005050",
-      "longitude": "-0.68117126717098",
+      "latitude": "0.98695046184508",
+      "longitude": "-0.68117111921347",
       "features": null,
       "tags": [],
       "media": [
@@ -6050,8 +6442,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the ground near the burning barrel",
-      "latitude": "0.96007905835680",
-      "longitude": "-0.64505391885751",
+      "latitude": "0.96007860711617",
+      "longitude": "-0.64505517482993",
       "features": null,
       "tags": [],
       "media": [
@@ -6074,8 +6466,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the pallet of bricks",
-      "latitude": "0.96402671344967",
-      "longitude": "-0.62969022563348",
+      "latitude": "0.96398335295585",
+      "longitude": "-0.62836110591974",
       "features": null,
       "tags": [],
       "media": [
@@ -6098,8 +6490,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the plywood",
-      "latitude": "0.96505653576955",
-      "longitude": "-0.63655668071166",
+      "latitude": "0.96497026602955",
+      "longitude": "-0.63325345516444",
       "features": null,
       "tags": [],
       "media": [
@@ -6122,8 +6514,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the wooden box",
-      "latitude": "0.96823181928652",
-      "longitude": "-0.62737279704587",
+      "latitude": "0.96823136806667",
+      "longitude": "-0.62737405300385",
       "features": null,
       "tags": [],
       "media": []
@@ -6135,8 +6527,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the crates or on the cable reel",
-      "latitude": "1.01019676972810",
-      "longitude": "-0.64419561199327",
+      "latitude": "1.00745016222820",
+      "longitude": "-0.64419686794366",
       "features": null,
       "tags": [],
       "media": [
@@ -6159,8 +6551,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the wooden crates",
-      "latitude": "1.01174148162680",
-      "longitude": "-0.64780050090977",
+      "latitude": "1.00860869719920",
+      "longitude": "-0.64728677272876",
       "features": null,
       "tags": [],
       "media": [
@@ -6182,9 +6574,9 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": null,
-      "latitude": "0.83881054817206",
-      "longitude": "-0.69635895501744",
+      "description": "",
+      "latitude": "0.83820869608898",
+      "longitude": "-0.69687277078754",
       "features": null,
       "tags": [],
       "media": [
@@ -6291,7 +6683,7 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": "On the ground next tot he blue car near the water.",
+      "description": "On the ground next to the blue car near the water.",
       "latitude": "0.82975291331807",
       "longitude": "-0.72617489283380",
       "features": null,
@@ -6315,9 +6707,9 @@
       "region_id": null,
       "category_id": 946,
       "title": "Loose Loot",
-      "description": null,
-      "latitude": "0.81609312620544",
-      "longitude": "-0.60595009902752",
+      "description": "",
+      "latitude": "0.81609350543407",
+      "longitude": "-0.60595124960076",
       "features": null,
       "tags": [],
       "media": [
@@ -6340,8 +6732,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the table near the entrance",
-      "latitude": "0.72065032738128",
-      "longitude": "-0.62535971403145",
+      "latitude": "0.72065032738156",
+      "longitude": "-0.62535971403165",
       "features": null,
       "tags": [],
       "media": [
@@ -6364,8 +6756,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "Downstairs, on the armchair or on the couch",
-      "latitude": "0.71777468609068",
-      "longitude": "-0.62535888999065",
+      "latitude": "0.71777522584446",
+      "longitude": "-0.62535971403253",
       "features": null,
       "tags": [],
       "media": [
@@ -6499,8 +6891,8 @@
       "category_id": 946,
       "title": "Loose Loot",
       "description": "On the shelves or on the ground in the storage room",
-      "latitude": "0.75236482817999",
-      "longitude": "-0.65856009721821",
+      "latitude": "0.75240773982485",
+      "longitude": "-0.65894633531633",
       "features": null,
       "tags": [],
       "media": []
@@ -6580,17 +6972,758 @@
       "media": []
     },
     {
-      "id": 152357,
+      "id": 154039,
       "map_id": 71,
       "region_id": null,
-      "category_id": 943,
-      "title": "Medbag",
-      "description": null,
-      "latitude": "0.50657064284459",
-      "longitude": "-0.63080141181914",
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Around the duffle bag just off the main road.",
+      "latitude": "0.67243952247550",
+      "longitude": "-0.70378214162830",
       "features": null,
       "tags": [],
       "media": []
+    },
+    {
+      "id": 154068,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": null,
+      "latitude": "0.43369296296251",
+      "longitude": "-0.72023212909892",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154071,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Next to the pile of trash",
+      "latitude": "0.45416563684552",
+      "longitude": "-0.58159974685816",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15485,
+          "title": "Screenshot_3",
+          "file_name": "0addb43b-7eab-4b4f-a355-87a6535797c8.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/0addb43b-7eab-4b4f-a355-87a6535797c8.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154072,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": null,
+      "latitude": "0.59680960426800",
+      "longitude": "-0.63318492543559",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154194,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the bench or in the sink inside of the house",
+      "latitude": "0.77206535647855",
+      "longitude": "-0.56353980513228",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154195,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the bench next to the red backpack",
+      "latitude": "0.69466792331795",
+      "longitude": "-0.55667571409361",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154204,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Outside on the bench",
+      "latitude": "0.51116183693813",
+      "longitude": "-0.73997331949306",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154205,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Outside on the bench",
+      "latitude": "0.51146223238575",
+      "longitude": "-0.73666883798703",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154223,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose loot",
+      "description": "In the broken crate in front of the hut.",
+      "latitude": "0.43966509956478",
+      "longitude": "-0.72493885789285",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15544,
+          "title": "",
+          "file_name": "c9d8ec48-d3cd-4e4a-b476-a245edde5b05.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c9d8ec48-d3cd-4e4a-b476-a245edde5b05.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154225,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose loot",
+      "description": "On the left stool behind the blue car.",
+      "latitude": "0.63578221184466",
+      "longitude": "-0.63425012663748",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15546,
+          "title": "",
+          "file_name": "377803ec-0304-4e2c-8aab-f560c870b0c9.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/377803ec-0304-4e2c-8aab-f560c870b0c9.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154226,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose loot",
+      "description": "In the toppled, turquoise basket.",
+      "latitude": "0.63630427886970",
+      "longitude": "-0.63381841176852",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15547,
+          "title": "",
+          "file_name": "24ee6063-e8af-4ce3-a8f0-26088931d6ef.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/24ee6063-e8af-4ce3-a8f0-26088931d6ef.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154588,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the shelves in the corner, behind the fire barrel.",
+      "latitude": "0.93267200957006",
+      "longitude": "-0.65626159313959",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15832,
+          "title": "",
+          "file_name": "05f189db-14ce-4828-b6b1-183f5eb77a85.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/05f189db-14ce-4828-b6b1-183f5eb77a85.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154597,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the catwalk, next to some plastic boxes marked danger.",
+      "latitude": "0.88681461713649",
+      "longitude": "-0.70679158683694",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15842,
+          "title": "",
+          "file_name": "2ba16db4-ae32-4051-904f-b69f718eb91a.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2ba16db4-ae32-4051-904f-b69f718eb91a.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154598,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the floor in front of some cardboard boxes.",
+      "latitude": "0.87836129735263",
+      "longitude": "-0.70674867149279",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15843,
+          "title": "",
+          "file_name": "07412ba8-663b-44b9-81ab-c512e9ce9c2f.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/07412ba8-663b-44b9-81ab-c512e9ce9c2f.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154599,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "In the corner on some cardboard boxes.",
+      "latitude": "0.87449936823428",
+      "longitude": "-0.70657701011618",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15844,
+          "title": "",
+          "file_name": "f95f83b3-1d5c-4e59-9d8d-40e4eca21fca.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f95f83b3-1d5c-4e59-9d8d-40e4eca21fca.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154601,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the wooden crate next to the truck with the orange driver cabin.",
+      "latitude": "0.85491982684796",
+      "longitude": "-0.69751626676310",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15846,
+          "title": "",
+          "file_name": "7ee7c75c-8be3-4e73-aef6-4ac81a6a0c63.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7ee7c75c-8be3-4e73-aef6-4ac81a6a0c63.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154604,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On top of the crate on the pallet, left of the door from the fence enclosing the generators.",
+      "latitude": "0.93623966102717",
+      "longitude": "-0.64626114792569",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15849,
+          "title": "",
+          "file_name": "c3bc90da-3006-4355-a063-cb2927517e5b.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c3bc90da-3006-4355-a063-cb2927517e5b.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154614,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the floor, on some cardboard pieces, at the end of the catwalk.",
+      "latitude": "0.93220000330079",
+      "longitude": "-0.64394488934764",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15853,
+          "title": "",
+          "file_name": "e2898dd1-cf77-4c26-b61a-dcfbe2aad67f.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e2898dd1-cf77-4c26-b61a-dcfbe2aad67f.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154617,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the floor, left of the toolbox, underneath the catwalk.",
+      "latitude": "0.90539969900904",
+      "longitude": "-0.60220396842075",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15855,
+          "title": "",
+          "file_name": "01be5aff-db2c-43b6-8278-02a884db207f.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/01be5aff-db2c-43b6-8278-02a884db207f.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154618,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Multiple spawns of different kind of loot on the wooden box.",
+      "latitude": "0.84706533544545",
+      "longitude": "-0.61381227061304",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15857,
+          "title": "",
+          "file_name": "df7eaa3c-6500-46e8-9d97-42388b8cf72e.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/df7eaa3c-6500-46e8-9d97-42388b8cf72e.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154620,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Inside the shipping container - on top of the crate.",
+      "latitude": "0.96316851044270",
+      "longitude": "-0.63469755954262",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15860,
+          "title": "",
+          "file_name": "5b937ff9-5717-413b-9fcf-492d88956d7d.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/5b937ff9-5717-413b-9fcf-492d88956d7d.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154621,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Multiple spawns on the pallets beyond the red truck and the high train platform.",
+      "latitude": "0.99808926032698",
+      "longitude": "-0.65616528242316",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15861,
+          "title": "",
+          "file_name": "d1485fae-cb43-498c-b8fe-c92e5c772d63.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d1485fae-cb43-498c-b8fe-c92e5c772d63.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154622,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the intact crate and pallet surrounding the two broken crates.",
+      "latitude": "0.96253120070386",
+      "longitude": "-0.68241199612993",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15864,
+          "title": "",
+          "file_name": "2b657cd2-bea5-433b-bb56-3f3632811dab.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2b657cd2-bea5-433b-bb56-3f3632811dab.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154623,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On top of the cargo hauled by the forklift.",
+      "latitude": "0.96291738427870",
+      "longitude": "-0.69035133481160",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15866,
+          "title": "",
+          "file_name": "f04fad24-1bb5-4e4f-b036-3ef8b6cd74e8.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f04fad24-1bb5-4e4f-b036-3ef8b6cd74e8.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154624,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Lott",
+      "description": "Next to the toolbox on the bricks.",
+      "latitude": "0.97440165507514",
+      "longitude": "-0.70699457639270",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15867,
+          "title": "",
+          "file_name": "62588e08-bded-46c7-958a-4f0348a0b8f5.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/62588e08-bded-46c7-958a-4f0348a0b8f5.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154627,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the wooden board on the beach.",
+      "latitude": "0.99280250252215",
+      "longitude": "-0.74019333222932",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15870,
+          "title": "",
+          "file_name": "7d79916d-010d-4374-89b6-43d0ad67715f.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7d79916d-010d-4374-89b6-43d0ad67715f.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154636,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Inside the small wooden shed.",
+      "latitude": "0.75689431566647",
+      "longitude": "-0.57142028995480",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154638,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": null,
+      "latitude": "1.00888828191670",
+      "longitude": "-0.70757792138946",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154641,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the dining table",
+      "latitude": "0.76362643824157",
+      "longitude": "-0.63904043299567",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15875,
+          "title": "2022-01-07[03-33]_-71.2, 10.5, -278.0_-0.1, -0.2, 0.0, -1.0_11.88 (0)",
+          "file_name": "2e9f100b-c118-4bd0-9b16-7c9fabede132.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2e9f100b-c118-4bd0-9b16-7c9fabede132.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154644,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the table",
+      "latitude": "0.65505136369190",
+      "longitude": "-0.66411148628751",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15878,
+          "title": "2022-01-07[03-43]_-73.5, 23.3, -59.1_0.0, -1.0, 0.1, -0.2_13.08 (0)",
+          "file_name": "a4182539-8f18-45c4-8e1d-26d85b274747.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a4182539-8f18-45c4-8e1d-26d85b274747.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154647,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the shelves inside the trailer",
+      "latitude": "0.53722029084739",
+      "longitude": "-0.73295772694956",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15881,
+          "title": "2022-01-07[03-54]_122.8, 8.3, 211.2_0.2, -0.6, 0.1, 0.8_14.31 (0)",
+          "file_name": "defba63a-12c1-4562-9a03-b1d8f880f58f.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/defba63a-12c1-4562-9a03-b1d8f880f58f.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154718,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the floor next to the red shipping container.",
+      "latitude": "0.89138190697116",
+      "longitude": "-0.68407742220614",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15886,
+          "title": "",
+          "file_name": "caf1932d-d670-4921-930b-80b1442e3927.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/caf1932d-d670-4921-930b-80b1442e3927.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154719,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Inside on the shelves.",
+      "latitude": "0.87567205900186",
+      "longitude": "-0.68321932661541",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15887,
+          "title": "",
+          "file_name": "cad4556d-84ec-4cfe-9345-fe8c1ab35f4d.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/cad4556d-84ec-4cfe-9345-fe8c1ab35f4d.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154722,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "On the crate carried by the fork lift.",
+      "latitude": "0.86478958749309",
+      "longitude": "-0.61886686389266",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15891,
+          "title": "",
+          "file_name": "22ea74a7-1d99-468b-a405-d7f4f913f694.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/22ea74a7-1d99-468b-a405-d7f4f913f694.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 155334,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Inside the boat",
+      "latitude": "0.66309052295964",
+      "longitude": "-0.74294133186493",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 155369,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 946,
+      "title": "Loose Loot",
+      "description": "Inside the small green plastic crate in the open.  \n\n**Possible Spawns:** Provisions \/ Valuables (?)",
+      "latitude": "0.78588107026423",
+      "longitude": "-0.58845278648744",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 16337,
+          "title": "",
+          "file_name": "e8fe549d-8250-4d36-86ed-d79d4828e1fd.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/e8fe549d-8250-4d36-86ed-d79d4828e1fd.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152358,
@@ -6615,32 +7748,6 @@
           "order": 10
         }
       ]
-    },
-    {
-      "id": 152381,
-      "map_id": 71,
-      "region_id": null,
-      "category_id": 943,
-      "title": "Medbag",
-      "description": "",
-      "latitude": "0.50740830440455",
-      "longitude": "-0.62850058078797",
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 152391,
-      "map_id": 71,
-      "region_id": null,
-      "category_id": 943,
-      "title": "Medbag [4x3]",
-      "description": "In the master bedroom on the top floor - on the ground in the corner.",
-      "latitude": "0.74310126716095",
-      "longitude": "-0.65074682235542",
-      "features": null,
-      "tags": [],
-      "media": []
     },
     {
       "id": 152444,
@@ -6710,8 +7817,8 @@
       "category_id": 943,
       "title": "Medical Supply Crate [4x4]",
       "description": "In the makeshift medical room, on a hospital bed",
-      "latitude": "0.59575765805820",
-      "longitude": "-0.63286852878340",
+      "latitude": "0.59794741237435",
+      "longitude": "-0.64938962459487",
       "features": null,
       "tags": [],
       "media": [
@@ -6758,8 +7865,8 @@
       "category_id": 943,
       "title": "Medkit",
       "description": "On the third floor, near the sink in the bedroom's bathroom",
-      "latitude": "0.58659567485357",
-      "longitude": "-0.63284231792005",
+      "latitude": "0.58522369108938",
+      "longitude": "-0.63125520944556",
       "features": null,
       "tags": [],
       "media": [
@@ -6782,8 +7889,8 @@
       "category_id": 943,
       "title": "Medbag SMU06 [4x3]",
       "description": "On the third floor, on the bed in the bedroom",
-      "latitude": "0.58535427509086",
-      "longitude": "-0.63513933754359",
+      "latitude": "0.58505472073313",
+      "longitude": "-0.63316494226424",
       "features": null,
       "tags": [],
       "media": [
@@ -6806,8 +7913,8 @@
       "category_id": 943,
       "title": "Medkit",
       "description": "On the third floor, in the sink in the bedroom's bathroom",
-      "latitude": "0.58391374997896",
-      "longitude": "-0.63563796905126",
+      "latitude": "0.58691875850508",
+      "longitude": "-0.63508003950059",
       "features": null,
       "tags": [],
       "media": [
@@ -6830,8 +7937,8 @@
       "category_id": 943,
       "title": "Medical Supply Crate [4x4]",
       "description": "In the washroom adjacent to the indoor poolroom.",
-      "latitude": "0.65430019275728",
-      "longitude": "-0.65197175235113",
+      "latitude": "0.65743255363148",
+      "longitude": "-0.65077096224073",
       "features": null,
       "tags": [],
       "media": [
@@ -6939,8 +8046,8 @@
       "category_id": 943,
       "title": "Medbag SMU06 [4x3]",
       "description": "In the corner bedroom upstairs.  On the floor near the bed.",
-      "latitude": "0.75345604040032",
-      "longitude": "-0.65369443593030",
+      "latitude": "0.76285403057953",
+      "longitude": "-0.63558429479670",
       "features": null,
       "tags": [],
       "media": [
@@ -6963,8 +8070,8 @@
       "category_id": 943,
       "title": "Meds",
       "description": "In the corner bedroom upstairs, on the bed.",
-      "latitude": "0.75225451449363",
-      "longitude": "-0.65335111317629",
+      "latitude": "0.76366934977177",
+      "longitude": "-0.63644260168127",
       "features": null,
       "tags": [],
       "media": [
@@ -7011,8 +8118,143 @@
       "category_id": 943,
       "title": "Medical Supply Crate [4x4]",
       "description": "On the shelf inside the storage room",
-      "latitude": "0.75154984828255",
-      "longitude": "-0.65950555195280",
+      "latitude": "0.75184988841823",
+      "longitude": "-0.65963298082434",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154066,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 943,
+      "title": "Medbag SMU06 [4x3]",
+      "description": "Behind the shack, near the bush.",
+      "latitude": "0.71349448472166",
+      "longitude": "-0.61490390219325",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15484,
+          "title": "",
+          "file_name": "140a64dd-23eb-40d9-88f1-41a5aff23484.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/140a64dd-23eb-40d9-88f1-41a5aff23484.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154077,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 943,
+      "title": "Medbag",
+      "description": "On the shelf behind the SUV.",
+      "latitude": "0.63477778304198",
+      "longitude": "-0.63728319698419",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154191,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 943,
+      "title": "Meds",
+      "description": "On the sink",
+      "latitude": "0.66381846880751",
+      "longitude": "-0.66080596045427",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154199,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 943,
+      "title": "Meds",
+      "description": "On the nightstand, by the bed with the duffle bag.",
+      "latitude": "0.59447145768897",
+      "longitude": "-0.64967166865929",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15513,
+          "title": "",
+          "file_name": "a9dc1001-777d-4a7c-ab67-c517bb305536.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a9dc1001-777d-4a7c-ab67-c517bb305536.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154224,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 943,
+      "title": "Meds",
+      "description": "Multiple medical supply spawns on top of the white tarp covering a dead body, on the driver side of the white minivan.",
+      "latitude": "0.51085053158582",
+      "longitude": "-0.68348866043684",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15545,
+          "title": "",
+          "file_name": "673a192d-7702-42f0-bd3d-2d74882d6c15.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/673a192d-7702-42f0-bd3d-2d74882d6c15.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154642,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 943,
+      "title": "Meds",
+      "description": "In the bathroom",
+      "latitude": "0.76683139214649",
+      "longitude": "-0.63869833946177",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15876,
+          "title": "2022-01-07[03-33]_-70.9, 10.5, -283.3_-0.1, 0.9, -0.2, -0.3_11.95 (0)",
+          "file_name": "4397246d-c00c-4456-ad75-8307c0ff6052.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/4397246d-c00c-4456-ad75-8307c0ff6052.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 155342,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 943,
+      "title": "Loose Meds",
+      "description": null,
+      "latitude": "0.50675743475309",
+      "longitude": "-0.63079258354128",
       "features": null,
       "tags": [],
       "media": []
@@ -7022,10 +8264,10 @@
       "map_id": 71,
       "region_id": null,
       "category_id": 945,
-      "title": "USD",
+      "title": "USD\/BTC",
       "description": "Upstairs in the kids room, on the desk",
-      "latitude": "0.71359359804693",
-      "longitude": "-0.60412505754732",
+      "latitude": "0.70423915927857",
+      "longitude": "-0.60395300388311",
       "features": null,
       "tags": [],
       "media": []
@@ -7063,8 +8305,8 @@
       "category_id": 945,
       "title": "Money",
       "description": "On the wood crate",
-      "latitude": "0.84832222064169",
-      "longitude": "-0.61356499344674",
+      "latitude": "0.84832221081427",
+      "longitude": "-0.61356604099120",
       "features": null,
       "tags": [],
       "media": []
@@ -7098,10 +8340,10 @@
       "map_id": 71,
       "region_id": null,
       "category_id": 949,
-      "title": "6-STEN-140-M military battery",
+      "title": "6-STEN-140-M Military Battery",
       "description": "On the right side of the car.",
-      "latitude": "0.59514515473654",
-      "longitude": "-0.63126945892341",
+      "latitude": "0.59514465587479",
+      "longitude": "-0.63126862049000",
       "features": null,
       "tags": [],
       "media": []
@@ -7125,9 +8367,9 @@
       "region_id": null,
       "category_id": 949,
       "title": "Moonshine",
-      "description": "On the table middle of the \"camp\". Also can spawn in toilet next to camp.",
-      "latitude": "0.74539134264587",
-      "longitude": "-0.63697972584265",
+      "description": "On the table middle of the camp.  Also can spawn in toilet next to camp.",
+      "latitude": "0.74517712184874",
+      "longitude": "-0.63663572072858",
       "features": null,
       "tags": [],
       "media": []
@@ -7159,14 +8401,129 @@
       "media": []
     },
     {
+      "id": 153972,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 949,
+      "title": "Folder With Intelligence",
+      "description": "On the table next to the armchair",
+      "latitude": "0.71584719068883",
+      "longitude": "-0.57719985703201",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154631,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 949,
+      "title": "Folder With Intelligence",
+      "description": "On the white shelves on the left of the bedroom",
+      "latitude": "0.64221651523768",
+      "longitude": "-0.62602722155120",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15874,
+          "title": "",
+          "file_name": "9a9ee56e-645d-44f7-801d-2b63414fbb75.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/9a9ee56e-645d-44f7-801d-2b63414fbb75.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154634,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 949,
+      "title": "Moonshine",
+      "description": "On the bottom shelf",
+      "latitude": "0.43977503488732",
+      "longitude": "-0.70716183483981",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154648,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 949,
+      "title": "Military Battery",
+      "description": null,
+      "latitude": "0.88115347953395",
+      "longitude": "-0.70309658535174",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154817,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 949,
+      "title": "Folder With Intelligence",
+      "description": "On the green table",
+      "latitude": "0.58257046466403",
+      "longitude": "-0.65717379802675",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154818,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 949,
+      "title": "Folder With Intelligence",
+      "description": "In the movie theater room on a chair",
+      "latitude": "0.58723037564550",
+      "longitude": "-0.64578000556614",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154819,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 949,
+      "title": "Folder With Intelligence",
+      "description": "On the bench under the TV",
+      "latitude": "0.57462937720462",
+      "longitude": "-0.62986833829106",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 155343,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 949,
+      "title": "6-STEN-140-M military battery",
+      "description": "Dedicated spawn for the 6-STEN under the table that is along the wall in the corner facing the other wall.",
+      "latitude": "0.83590433682230",
+      "longitude": "-0.61141359385053",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
       "id": 152364,
       "map_id": 71,
       "region_id": null,
       "category_id": 1016,
       "title": "Loose Provisions",
       "description": "Upstairs on the floor.",
-      "latitude": "0.70998640767955",
-      "longitude": "-0.73814023651431",
+      "latitude": "0.70938592672732",
+      "longitude": "-0.74741095304606",
       "features": null,
       "tags": [],
       "media": []
@@ -7178,8 +8535,8 @@
       "category_id": 1016,
       "title": "Loose Provisions",
       "description": "On the table on the balcony.",
-      "latitude": "0.68353355149350",
-      "longitude": "-0.74356743297324",
+      "latitude": "0.68331946281263",
+      "longitude": "-0.75197875499634",
       "features": null,
       "tags": [],
       "media": []
@@ -7191,8 +8548,180 @@
       "category_id": 1016,
       "title": "MRE",
       "description": "On the third floor, in the bedroom on a dresser",
-      "latitude": "0.58676732723147",
-      "longitude": "-0.63095404277419",
+      "latitude": "0.58676856267927",
+      "longitude": "-0.63095480203592",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154035,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1016,
+      "title": "Loose Provisions",
+      "description": "Spawns in the crates outside the van",
+      "latitude": "0.78966361320479",
+      "longitude": "-0.57894979119783",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154079,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1016,
+      "title": "Loose Provisions",
+      "description": "On the picnic table.",
+      "latitude": "0.71546303544501",
+      "longitude": "-0.56945161743283",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154196,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1016,
+      "title": "Provisions",
+      "description": "On the bench next to the cardboard boxes.",
+      "latitude": "0.57604534091256",
+      "longitude": "-0.65691533717418",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15510,
+          "title": "",
+          "file_name": "8bad7a27-7809-41c1-9c52-c18e066f97be.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/8bad7a27-7809-41c1-9c52-c18e066f97be.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154200,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1016,
+      "title": "Provisions",
+      "description": "On the billard table.",
+      "latitude": "0.59330487981656",
+      "longitude": "-0.61736109039191",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15514,
+          "title": "",
+          "file_name": "cb3d0d7a-6fee-47c3-879b-15377a99d5af.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/cb3d0d7a-6fee-47c3-879b-15377a99d5af.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154201,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1016,
+      "title": "Provisions",
+      "description": "Multiple spawn points in front of the water dispenser.",
+      "latitude": "0.59403440150703",
+      "longitude": "-0.61809065124379",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15515,
+          "title": "",
+          "file_name": "311a119c-fca4-4b79-a8b1-6981b9d5ca13.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/311a119c-fca4-4b79-a8b1-6981b9d5ca13.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154628,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1016,
+      "title": "Provisions",
+      "description": "Multiple provision spawns in the broken crate, the shelves, the wooden pallet by the door.",
+      "latitude": "0.51048979836688",
+      "longitude": "-0.75852834272055",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15871,
+          "title": "",
+          "file_name": "9b7aaff3-e1bf-4c25-bdd4-86b07600975a.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/9b7aaff3-e1bf-4c25-bdd4-86b07600975a.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154630,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1016,
+      "title": "Provisions",
+      "description": "On the benches and the table in the room.",
+      "latitude": "0.51538586685869",
+      "longitude": "-0.73853672124412",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15873,
+          "title": "",
+          "file_name": "743a3b98-ea61-459a-ac57-a33afef388ea.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/743a3b98-ea61-459a-ac57-a33afef388ea.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154640,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1016,
+      "title": "Vodka",
+      "description": "On the shelf",
+      "latitude": "0.66407524462304",
+      "longitude": "-0.65060142496120",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154645,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1016,
+      "title": "Loose Provisions",
+      "description": "On or behind the bar\n\n**Possible Spawns:** Food, Alcohol",
+      "latitude": "0.65108229406709",
+      "longitude": "-0.64962438958051",
       "features": null,
       "tags": [],
       "media": []
@@ -7217,8 +8746,8 @@
       "category_id": 944,
       "title": "Safe [Locked]",
       "description": "On the floor near the bed in the large northern bedroom upstairs.\n\n**Key:** _Rogue USEC workshop key_ (random drop) (as of release, this currently appears to be a bug as this key is used for two safes and 'USEC first key' is not used at all)",
-      "latitude": "0.66935347459021",
-      "longitude": "-0.64999961910004",
+      "latitude": "0.66707981497323",
+      "longitude": "-0.66077023744620",
       "features": null,
       "tags": [],
       "media": [
@@ -7241,8 +8770,8 @@
       "category_id": 944,
       "title": "Safe [Locked]",
       "description": "Upstairs in the southern most bedroom, on the floor.\n\n**Key:** _USEC second safe key_ (random drop)",
-      "latitude": "0.65435894350253",
-      "longitude": "-0.64968466758705",
+      "latitude": "0.65242787858566",
+      "longitude": "-0.66075682640101",
       "features": null,
       "tags": [],
       "media": [
@@ -7313,8 +8842,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "On the floor to the left as you walk inside the bottom floor of the house.",
-      "latitude": "0.70663687238962",
-      "longitude": "-0.73934018611965",
+      "latitude": "0.70663687238908",
+      "longitude": "-0.73929727077660",
       "features": null,
       "tags": [],
       "media": [
@@ -7361,8 +8890,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "Upstairs in the master bedroom, behind the bookshelf.",
-      "latitude": "0.75168289319176",
-      "longitude": "-0.65246222252500",
+      "latitude": "0.76498619721853",
+      "longitude": "-0.63649892807092",
       "features": null,
       "tags": [],
       "media": [
@@ -7456,9 +8985,9 @@
       "region_id": null,
       "category_id": 970,
       "title": "Toolbox",
-      "description": null,
-      "latitude": "0.71488095831845",
-      "longitude": "-0.57510384071537",
+      "description": "",
+      "latitude": "0.71488134849783",
+      "longitude": "-0.57510316371773",
       "features": null,
       "tags": [],
       "media": [
@@ -7566,8 +9095,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "In the garage",
-      "latitude": "0.59507855981397",
-      "longitude": "-0.63160540896982",
+      "latitude": "0.59507760426690",
+      "longitude": "-0.63160657882639",
       "features": null,
       "tags": [],
       "media": [
@@ -7590,8 +9119,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "In the ATV garage on the floor",
-      "latitude": "0.63353047797581",
-      "longitude": "-0.64132874697006",
+      "latitude": "0.63357313667845",
+      "longitude": "-0.63931256532564",
       "features": null,
       "tags": [],
       "media": [
@@ -7710,8 +9239,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "On the cable reel",
-      "latitude": "0.89176298094696",
-      "longitude": "-0.70376040517559",
+      "latitude": "0.88607764535851",
+      "longitude": "-0.70316745803464",
       "features": null,
       "tags": [],
       "media": [
@@ -7734,8 +9263,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "On the ground near the building",
-      "latitude": "0.88096400230951",
-      "longitude": "-0.62887884790524",
+      "latitude": "0.88049164613611",
+      "longitude": "-0.62853544950497",
       "features": null,
       "tags": [],
       "media": [
@@ -7782,8 +9311,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "On a stack of pallets underneath the catwalk",
-      "latitude": "0.90095338672710",
-      "longitude": "-0.60124136631117",
+      "latitude": "0.90314283915792",
+      "longitude": "-0.60179919004324",
       "features": null,
       "tags": [],
       "media": [
@@ -7830,8 +9359,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "On top of the pallets of bricks",
-      "latitude": "0.97565395388396",
-      "longitude": "-0.70656963792734",
+      "latitude": "0.97505392664159",
+      "longitude": "-0.70699810981864",
       "features": null,
       "tags": [],
       "media": [
@@ -7854,8 +9383,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "On the pallet shelving in the corner of the building",
-      "latitude": "0.98903629577562",
-      "longitude": "-0.69556728216261",
+      "latitude": "0.98912272811771",
+      "longitude": "-0.69801270961867",
       "features": null,
       "tags": [],
       "media": [
@@ -7878,8 +9407,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "Behind the stacked logs",
-      "latitude": "1.01478014008210",
-      "longitude": "-0.70464139000953",
+      "latitude": "1.01477949803660",
+      "longitude": "-0.70464044809165",
       "features": null,
       "tags": [],
       "media": [
@@ -7902,8 +9431,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "On the ground next to the truck",
-      "latitude": "1.00093748719230",
-      "longitude": "-0.69636329899598",
+      "latitude": "1.00093875895240",
+      "longitude": "-0.69636315107257",
       "features": null,
       "tags": [],
       "media": [
@@ -7926,8 +9455,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "On the ground next to the forklift",
-      "latitude": "0.98926627402830",
-      "longitude": "-0.67851051582832",
+      "latitude": "0.98926754582070",
+      "longitude": "-0.67851036787036",
       "features": null,
       "tags": [],
       "media": [
@@ -7998,8 +9527,8 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "In the workshop, in the back on the floor",
-      "latitude": "0.83495552335935",
-      "longitude": "-0.60954272747117",
+      "latitude": "0.83645740063420",
+      "longitude": "-0.61177432536945",
       "features": null,
       "tags": [],
       "media": []
@@ -8011,8 +9540,21 @@
       "category_id": 970,
       "title": "Toolbox",
       "description": "In the workshop, on the floor to the right as you walk inside.",
-      "latitude": "0.83431903188671",
-      "longitude": "-0.61093827652763",
+      "latitude": "0.83556432010963",
+      "longitude": "-0.61261117458182",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 152422,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the floor, hidden in the trash\n\n**Possible Spawns:** Roler, Bitcoin",
+      "latitude": "0.43809165844905",
+      "longitude": "-0.72106897831159",
       "features": null,
       "tags": [],
       "media": []
@@ -8023,9 +9565,9 @@
       "region_id": null,
       "category_id": 1013,
       "title": "Valuable Spawn",
-      "description": "In the small indoor pool on the ground floor.  On top of the dead body.",
-      "latitude": "0.59295609095625",
-      "longitude": "-0.63543677329804",
+      "description": "In the small indoor pool on the ground floor.  On top of the dead body.\n\n**Possible Spawns:** Bitcoin, AESA, VFX",
+      "latitude": "0.59523048193165",
+      "longitude": "-0.65886855125390",
       "features": null,
       "tags": [],
       "media": [
@@ -8048,8 +9590,8 @@
       "category_id": 1013,
       "title": "Bitcoin\/AESA\/Stims",
       "description": "On the top floor, on a box",
-      "latitude": "0.59352627961970",
-      "longitude": "-0.63057395843092",
+      "latitude": "0.59352737085283",
+      "longitude": "-0.61636894941270",
       "features": null,
       "tags": [],
       "media": []
@@ -8074,8 +9616,8 @@
       "category_id": 1013,
       "title": "AESA\/Military Tech\/Bitcoin",
       "description": "Inside the broken boxes",
-      "latitude": "0.99928593865631",
-      "longitude": "-0.63738714365684",
+      "latitude": "0.99980575552154",
+      "longitude": "-0.63997470163397",
       "features": null,
       "tags": [],
       "media": [
@@ -8097,7 +9639,7 @@
       "region_id": null,
       "category_id": 1013,
       "title": "Valuable Spawn",
-      "description": "To the left of the armchair.\n\nLion spawn",
+      "description": "To the left of the armchair.\n\n**Possible Spawns:** Lion, Bitcoin, Cat statue, Vertias Guitar Pick, Horse Statue, GP coin, L1 Stim",
       "latitude": "0.51553239179499",
       "longitude": "-0.62732577324118",
       "features": null,
@@ -8148,8 +9690,8 @@
       "category_id": 1013,
       "title": "Valuable Spawn",
       "description": "In the corner bedroom upstairs, on the desk.",
-      "latitude": "0.75075260664511",
-      "longitude": "-0.65283612904483",
+      "latitude": "0.76551454526586",
+      "longitude": "-0.63558429479670",
       "features": null,
       "tags": [],
       "media": [
@@ -8195,7 +9737,7 @@
       "region_id": null,
       "category_id": 1013,
       "title": "Valuable Spawn",
-      "description": null,
+      "description": "In the broken crate",
       "latitude": "0.64505984180839",
       "longitude": "-0.64387799666744",
       "features": null,
@@ -8208,7 +9750,7 @@
       "region_id": null,
       "category_id": 1013,
       "title": "Valuable Spawn",
-      "description": "Inside on the magazine, on the table",
+      "description": "Inside on the magazine, on the table\n\n**Possible Spawns:** Bitcoin, Gold Chain, Chainlet, Christmas Ornament, GP Coin",
       "latitude": "0.57535890132073",
       "longitude": "-0.63051517748312",
       "features": null,
@@ -8232,7 +9774,7 @@
       "region_id": null,
       "category_id": 1013,
       "title": "Valuable Spawn",
-      "description": "On the chair, can be hard to see.",
+      "description": "Multiple valuable spawns: On the cardboard box. On the shelf on the far wall under the window. On the desk.  On the chair, can be hard to see.",
       "latitude": "0.58748027959217",
       "longitude": "-0.62201502874373",
       "features": null,
@@ -8258,7 +9800,7 @@
       "region_id": null,
       "category_id": 1013,
       "title": "Valuable Spawn",
-      "description": "In the broken crate",
+      "description": "In the broken crate\n\n**Possible Spawns:** SG-110, Iridium",
       "latitude": "0.58587543383847",
       "longitude": "-0.63720112895356",
       "features": null,
@@ -8283,8 +9825,8 @@
       "category_id": 1013,
       "title": "Valuable Spawn",
       "description": "Upstairs on the desk in the bedroom",
-      "latitude": "0.63404543060059",
-      "longitude": "-0.64261718308174",
+      "latitude": "0.64108285729600",
+      "longitude": "-0.62982827424943",
       "features": null,
       "tags": [],
       "media": [
@@ -8301,27 +9843,446 @@
       ]
     },
     {
-      "id": 153972,
-      "map_id": 71,
-      "region_id": null,
-      "category_id": 1013,
-      "title": "Valuable Spawn",
-      "description": null,
-      "latitude": "0.71584719068883",
-      "longitude": "-0.57719985703201",
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
       "id": 153975,
       "map_id": 71,
       "region_id": null,
       "category_id": 1013,
       "title": "Valuable Spawn",
       "description": "Inside the broken crate upstairs",
-      "latitude": "0.89609115553003",
-      "longitude": "-0.60079088040203",
+      "latitude": "0.89677874231954",
+      "longitude": "-0.60422390699250",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154030,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On or beside the bed upstairs.\n\n**Possible Spawns:** Bitcoin",
+      "latitude": "0.68617131327217",
+      "longitude": "-0.75280598661763",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154031,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "Upstairs on the balcony - on the chair.\n\n**Possible Spawns:** Bitcoin",
+      "latitude": "0.68356118213000",
+      "longitude": "-0.75272015592918",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154036,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "AESA\/Iridium\/Bitcoin\/Virtex\/Radio",
+      "description": "In the box just under the Rogue grenade launcher.",
+      "latitude": "0.81513564073821",
+      "longitude": "-0.70254188301877",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154040,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "Valuables can spawn on the brown chair.",
+      "latitude": "0.77256529306440",
+      "longitude": "-0.57308579393901",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154063,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "Under the Landing Stage, in the crate.\n\n**Possible Spawns:** Roler, Christmas Ornament, Chain, Statue",
+      "latitude": "0.51579170991508",
+      "longitude": "-0.73687886020321",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15765,
+          "title": "",
+          "file_name": "d84b6408-0f80-4e44-9c2a-261445775418.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/d84b6408-0f80-4e44-9c2a-261445775418.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154064,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the table next to the laptop and on any of the chairs surrounding the table. \n\n**Possible Spawns:** Bitcoin, Iridium",
+      "latitude": "0.59203586376327",
+      "longitude": "-0.63506720488272",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154065,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "**Possible Spawns:** Bitcoin, Roler",
+      "latitude": "0.84714762823006",
+      "longitude": "-0.66275279730840",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154067,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the shelf in the corner",
+      "latitude": "0.71759363777818",
+      "longitude": "-0.62695201560402",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154069,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the floor to the left of the duffle bag.\n\n**Possible Spawns:** AESA",
+      "latitude": "0.77159993000063",
+      "longitude": "-0.63621729612547",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154073,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "In a ruined crate on top of the pallets.",
+      "latitude": "0.96192636705811",
+      "longitude": "-0.68161070583793",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15486,
+          "title": "",
+          "file_name": "df871d4f-286d-4702-9fd3-9f1a6636d847.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/df871d4f-286d-4702-9fd3-9f1a6636d847.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154075,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "Inside the broken crate.\n\n**Possible Spawns:** AESA, Skull, Roler",
+      "latitude": "0.90816914838808",
+      "longitude": "-0.69927511266133",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154076,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "Inside the box in the corner of the room.\n\n**Possible Spawns:** AESA, VPX, Virtex, GPU, 1G Phone",
+      "latitude": "0.74357444525505",
+      "longitude": "-0.65455510334121",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154078,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On top of the table above the toolbox.\n\n**Possible Spawns:** Bitcoin",
+      "latitude": "0.83702468439198",
+      "longitude": "-0.68752217237423",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154551,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the second level, outside on the crates\n\n**Possible Spawns:** Golden skull ring, GP coin",
+      "latitude": "0.59707631236988",
+      "longitude": "-0.63588683365884",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154554,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the workbench just in front of the couch, next to the hammer.\n\n**Possible Spawns:** AESA, Skull",
+      "latitude": "0.82499081129980",
+      "longitude": "-0.68961370240424",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154564,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "Next to the desk with the red PC \n\n**Possible Spawns:** AESA, Iridium, GPU",
+      "latitude": "0.70648668010674",
+      "longitude": "-0.60711264610060",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154570,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Bitcoin",
+      "description": "Bitcoin spawn behind the bar under the clothes.",
+      "latitude": "0.65138676833416",
+      "longitude": "-0.65014379838215",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154582,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "**Possible Spawns:** Cable, Bitcoin, Mule, GP coin",
+      "latitude": "0.89571945398808",
+      "longitude": "-0.60731075883803",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154595,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On top of the crate beneath the stairs\n\n**Possible Spawns:** Bitcoin, AESA, Virtex, Prokill, VPX",
+      "latitude": "0.59945759304219",
+      "longitude": "-0.63733449907096",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154615,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the floor, directly left of the blue crate, on the catwalk.",
+      "latitude": "0.94339940778717",
+      "longitude": "-0.64853683117701",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15854,
+          "title": "",
+          "file_name": "b40b0621-f585-4d05-bcba-d3b64f1f8313.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/b40b0621-f585-4d05-bcba-d3b64f1f8313.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154629,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the armchair next to the fire barrel, in the room.",
+      "latitude": "0.51723115173738",
+      "longitude": "-0.73767841435924",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15872,
+          "title": "",
+          "file_name": "009f1da8-2712-4c79-9890-ccbe9d90e248.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/009f1da8-2712-4c79-9890-ccbe9d90e248.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154632,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the laptop.  May be difficult to see\/pick up.\n\n**Possible Spawns:** Bitcoin, Roler, Statue, Gold chain",
+      "latitude": "0.58276357373114",
+      "longitude": "-0.65644423717185",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154633,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the black toolbox at the end of the bench or in the middle of the bench on the red shirt.\n\n**Possible Spawns:** AESA, Prokill,. Skull ring, Roler, GP coin, Bitcoin",
+      "latitude": "0.59525127894909",
+      "longitude": "-0.63232581363525",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154635,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "**Possible Spawns:** BTC, VPX, Cable, AESA, Cyclon",
+      "latitude": "0.87502924765984",
+      "longitude": "-0.70574355949162",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154724,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Bitcoin",
+      "description": "On the left side of the book on the chair - can be found between the pages like a bookmark of sorts.",
+      "latitude": "0.70768855298253",
+      "longitude": "-0.74768470301174",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 155341,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "In the outhouse behind the building. \n\nPotential spawns: Bitcoin, Horse, Lion",
+      "latitude": "0.77668819468353",
+      "longitude": "-0.57027247622273",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 16322,
+          "title": "",
+          "file_name": "2737ebf9-d54a-45da-a13f-e717e155641a.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2737ebf9-d54a-45da-a13f-e717e155641a.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 155370,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Tetriz Spawn",
+      "description": "Inside the office - on the bottom shelf of the bookcase",
+      "latitude": "0.89407507132732",
+      "longitude": "-0.70554830750514",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 155371,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "Inside the broken crate on the catwalk.\n\n**Possible Spawns:** AESA \/ VPX",
+      "latitude": "0.90172999277241",
+      "longitude": "-0.60049441497326",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 155372,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1013,
+      "title": "Valuable Spawn",
+      "description": "On the bottom shelf as you go into the laundry room.\n\n**Possible Spawns:** BTC, Roller, Golden Skull, Virtex, Millitary Cable, Vertias, VPX, AESA, Stims, Prokill, Sherrif Badge, Golden Chain",
+      "latitude": "0.59305297398869",
+      "longitude": "-0.63202100970449",
       "features": null,
       "tags": [],
       "media": []
@@ -8332,9 +10293,9 @@
       "region_id": null,
       "category_id": 958,
       "title": "Weapon Box [5x2]",
-      "description": null,
-      "latitude": "0.56762472888478",
-      "longitude": "-0.65416275537771",
+      "description": "",
+      "latitude": "0.56762392630772",
+      "longitude": "-0.65352022648020",
       "features": null,
       "tags": [],
       "media": []
@@ -8394,8 +10355,8 @@
       "category_id": 958,
       "title": "Weapon Box [4x4]",
       "description": "In the living room on the second floor, on the ground",
-      "latitude": "0.58985562251235",
-      "longitude": "-0.63395619392560",
+      "latitude": "0.59019892706061",
+      "longitude": "-0.64940571784933",
       "features": null,
       "tags": [],
       "media": []
@@ -8407,8 +10368,8 @@
       "category_id": 958,
       "title": "Weapon Box [5x2]",
       "description": "In the living room on the second floor, on the table",
-      "latitude": "0.59002872140806",
-      "longitude": "-0.63249899516768",
+      "latitude": "0.59097404428645",
+      "longitude": "-0.64824968576349",
       "features": null,
       "tags": [],
       "media": []
@@ -8420,8 +10381,8 @@
       "category_id": 958,
       "title": "Weapon Box [6x3]",
       "description": "On the top floor.",
-      "latitude": "0.59318297527567",
-      "longitude": "-0.63349220183952",
+      "latitude": "0.59262619690472",
+      "longitude": "-0.61619728803615",
       "features": null,
       "tags": [],
       "media": []
@@ -8433,8 +10394,8 @@
       "category_id": 958,
       "title": "Weapon Box [4x4]",
       "description": "In the garage on the floor.",
-      "latitude": "0.63576193897761",
-      "longitude": "-0.63892548769238",
+      "latitude": "0.63593333576539",
+      "longitude": "-0.63746720552348",
       "features": null,
       "tags": [],
       "media": [
@@ -8457,8 +10418,8 @@
       "category_id": 958,
       "title": "Weapon Box [5x5]",
       "description": "In the rear living room, on the floor near the table with the grenades.",
-      "latitude": "0.66695037871881",
-      "longitude": "-0.65154457148205",
+      "latitude": "0.66553496704998",
+      "longitude": "-0.65004140138709",
       "features": null,
       "tags": [],
       "media": [
@@ -8481,8 +10442,8 @@
       "category_id": 958,
       "title": "Weapon Box [5x5]",
       "description": "Outside on the porch",
-      "latitude": "0.66283078307163",
-      "longitude": "-0.65394783075971",
+      "latitude": "0.66227361984321",
+      "longitude": "-0.65253049135418",
       "features": null,
       "tags": [],
       "media": [
@@ -8555,19 +10516,6 @@
       "description": "Inside the green shipping container",
       "latitude": "0.81689025041454",
       "longitude": "-0.69717816687131",
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 152559,
-      "map_id": 71,
-      "region_id": null,
-      "category_id": 958,
-      "title": "Weapon Box [5x5]",
-      "description": null,
-      "latitude": "0.82356402068184",
-      "longitude": "-0.68735674653459",
       "features": null,
       "tags": [],
       "media": []
@@ -8856,8 +10804,8 @@
       "category_id": 958,
       "title": "Weapon Box [5x2]",
       "description": "On the stack of pallets, on the catwalk",
-      "latitude": "0.93734091537353",
-      "longitude": "-0.63686110202025",
+      "latitude": "0.93867215385180",
+      "longitude": "-0.63862055540142",
       "features": null,
       "tags": [],
       "media": [
@@ -8927,9 +10875,9 @@
       "region_id": null,
       "category_id": 958,
       "title": "Weapon Box [5x2]",
-      "description": null,
-      "latitude": "0.83984040592391",
-      "longitude": "-0.69687393914839",
+      "description": "",
+      "latitude": "0.83829451759206",
+      "longitude": "-0.69730192423026",
       "features": null,
       "tags": [],
       "media": [
@@ -8976,8 +10924,8 @@
       "category_id": 958,
       "title": "Weapon Box [5x2]",
       "description": "In the back of the black SUV",
-      "latitude": "0.74736727484115",
-      "longitude": "-0.66747026143307",
+      "latitude": "0.74736830073478",
+      "longitude": "-0.66747039556458",
       "features": null,
       "tags": [],
       "media": [
@@ -9033,6 +10981,150 @@
       "media": []
     },
     {
+      "id": 154037,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 958,
+      "title": "Weapon Box [5x2]",
+      "description": "Behind the tank",
+      "latitude": "0.41425914277482",
+      "longitude": "-0.71156240711878",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15518,
+          "title": "2022-01-05[18-16]_70.7, 3.0, 519.8_-0.1, 0.8, -0.1, -0.6_18.96 (0)",
+          "file_name": "612f2892-41cf-4298-8eb3-e07cc8f5ad14.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/612f2892-41cf-4298-8eb3-e07cc8f5ad14.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154192,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 958,
+      "title": "Weapon Box [5x2]",
+      "description": "In the loft, next to the bed",
+      "latitude": "0.66000199382168",
+      "longitude": "-0.65981890755086",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15509,
+          "title": "2022-01-05[16-49]_-83.1, 25.9, -75.6_0.2, -0.1, 0.0, 1.0_20.82 (0)",
+          "file_name": "299ae651-7ff8-48d5-93a3-78fb26a1aae4.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/299ae651-7ff8-48d5-93a3-78fb26a1aae4.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154229,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 958,
+      "title": "Weapon box [4x4]",
+      "description": "In the floor area, directly outside the gym area, right of a shelf.",
+      "latitude": "0.65553732109788",
+      "longitude": "-0.64875325429998",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15550,
+          "title": "",
+          "file_name": "3c49697b-9fd8-4d69-b31f-40e5b48b8e5c.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/3c49697b-9fd8-4d69-b31f-40e5b48b8e5c.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154602,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 958,
+      "title": "Weapon Box [5x2]",
+      "description": "On the north, east side, next to the truck driver cabin.",
+      "latitude": "0.93061849697293",
+      "longitude": "-0.65677540726313",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15847,
+          "title": "",
+          "file_name": "db1f7d29-65cc-44d5-8242-32e6280756a6.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/db1f7d29-65cc-44d5-8242-32e6280756a6.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154626,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 958,
+      "title": "Weapon Box [6x3]",
+      "description": "On the train, in the first carriage - left of the desk with the candle on top of it.",
+      "latitude": "0.98802854972689",
+      "longitude": "-0.68617075681661",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 16107,
+          "title": "2022-01-11[06-02]_5.6, 13.6, -863.6_0.2, 0.4, -0.1, 0.9_17.30 (0)",
+          "file_name": "a896facf-a5d8-4c0d-b4d4-bf1f06f7a8b4.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a896facf-a5d8-4c0d-b4d4-bf1f06f7a8b4.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154717,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 958,
+      "title": "Weapon Box [5x2]",
+      "description": "At the rear of the flatbed truck.",
+      "latitude": "0.87238365519735",
+      "longitude": "-0.67852290248439",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15883,
+          "title": "",
+          "file_name": "fcb2bf79-4d20-436d-a484-26b8f0da6978.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/fcb2bf79-4d20-436d-a484-26b8f0da6978.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
       "id": 152378,
       "map_id": 71,
       "region_id": null,
@@ -9051,7 +11143,7 @@
       "region_id": null,
       "category_id": 1015,
       "title": "Weapon Mod",
-      "description": "On the shelves",
+      "description": "On the shelves or on the green table",
       "latitude": "0.58388541407160",
       "longitude": "-0.65585984569012",
       "features": null,
@@ -9065,8 +11157,8 @@
       "category_id": 1015,
       "title": "Weapon Mod",
       "description": "On the second level, outside on the green crate",
-      "latitude": "0.58736811051230",
-      "longitude": "-0.63799215923262",
+      "latitude": "0.58736934596013",
+      "longitude": "-0.63799291849065",
       "features": null,
       "tags": [],
       "media": []
@@ -9078,8 +11170,8 @@
       "category_id": 1015,
       "title": "Weapon Mod",
       "description": "On the third floor, on the red chair in the living room",
-      "latitude": "0.58839802455898",
-      "longitude": "-0.63498808513182",
+      "latitude": "0.58912878233934",
+      "longitude": "-0.63567548990139",
       "features": null,
       "tags": [],
       "media": []
@@ -9115,8 +11207,8 @@
       "category_id": 1015,
       "title": "Weapon Mod",
       "description": "On the bench in the room with the indoor pool",
-      "latitude": "0.65249761149735",
-      "longitude": "-0.65145492553708",
+      "latitude": "0.65249761149659",
+      "longitude": "-0.65145492553529",
       "features": null,
       "tags": [],
       "media": []
@@ -9217,8 +11309,8 @@
       "category_id": 1015,
       "title": "Weapon Mod",
       "description": "On the table",
-      "latitude": "0.83217436696602",
-      "longitude": "-0.64532876014655",
+      "latitude": "0.83221727778219",
+      "longitude": "-0.64498543739401",
       "features": null,
       "tags": [],
       "media": [
@@ -9253,12 +11345,23 @@
       "region_id": null,
       "category_id": 1015,
       "title": "Weapon Mod",
-      "description": "",
+      "description": "Multiple spawns: on the wooden box as well as the blue\/black toolbox on wheels in the back of the tent by the table.",
       "latitude": "0.86262483706712",
       "longitude": "-0.64771592617046",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 15892,
+          "title": "",
+          "file_name": "4554a986-e42d-4037-a2e1-ac62c9ae648d.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/4554a986-e42d-4037-a2e1-ac62c9ae648d.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152619,
@@ -9330,8 +11433,8 @@
       "category_id": 1015,
       "title": "Weapon Mod",
       "description": "Inside the open shipping container, on the munitions crates",
-      "latitude": "0.99475861476161",
-      "longitude": "-0.67387565864934",
+      "latitude": "0.99514606642040",
+      "longitude": "-0.67378968000472",
       "features": null,
       "tags": [],
       "media": [
@@ -9354,11 +11457,130 @@
       "category_id": 1015,
       "title": "Weapon Mod",
       "description": "In the workshop on the counters",
-      "latitude": "0.83427967839837",
-      "longitude": "-0.60998260974910",
+      "latitude": "0.83560991281435",
+      "longitude": "-0.61139881610720",
       "features": null,
       "tags": [],
       "media": []
+    },
+    {
+      "id": 154062,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1015,
+      "title": "Weapon Mod",
+      "description": "In the trunk of the jeep.",
+      "latitude": "0.59645590647808",
+      "longitude": "-0.63129065458955",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154227,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1015,
+      "title": "Weapon Mod",
+      "description": "On the shelf or on the table near the potted plant.",
+      "latitude": "0.65845537265510",
+      "longitude": "-0.64815243948308",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15548,
+          "title": "",
+          "file_name": "968a930c-3608-4475-aaea-1539d508a372.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/968a930c-3608-4475-aaea-1539d508a372.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        },
+        {
+          "id": 15551,
+          "title": "Screenshot_222",
+          "file_name": "82cc7359-4671-4fa8-bcd2-cb0ba470438a.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/82cc7359-4671-4fa8-bcd2-cb0ba470438a.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154228,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1015,
+      "title": "Weapon Mod",
+      "description": "On the leather trunk, next to the toppled red sofa.",
+      "latitude": "0.65588062137360",
+      "longitude": "-0.64810952414143",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15549,
+          "title": "",
+          "file_name": "4159774b-b1e2-45f3-9b93-ddb0b80e5d04.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/4159774b-b1e2-45f3-9b93-ddb0b80e5d04.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154643,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1015,
+      "title": "Weapon Mod",
+      "description": "On the table",
+      "latitude": "0.65500845115201",
+      "longitude": "-0.66475521645117",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15877,
+          "title": "2022-01-07[03-43]_-73.5, 23.3, -59.1_0.0, -1.0, 0.1, -0.2_13.08 (0)",
+          "file_name": "8ff5084e-275c-4dba-8994-d2b7b7c9090c.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/8ff5084e-275c-4dba-8994-d2b7b7c9090c.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
+    },
+    {
+      "id": 154723,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1015,
+      "title": "Weapon Mods",
+      "description": "On top of the brown crate, next to the weapons box.",
+      "latitude": "0.85610285040666",
+      "longitude": "-0.63738044507707",
+      "features": null,
+      "tags": [],
+      "media": [
+        {
+          "id": 15893,
+          "title": "",
+          "file_name": "74ee37d0-6c1b-4300-82da-b89bfd8c808d.png",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/74ee37d0-6c1b-4300-82da-b89bfd8c808d.png",
+          "type": "image",
+          "mime_type": "image\/jpeg",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 153229,
@@ -9390,7 +11612,7 @@
       "region_id": null,
       "category_id": 4736,
       "title": "Rogue Spawn Point",
-      "description": null,
+      "description": "On the roof",
       "latitude": "0.87528258082855",
       "longitude": "-0.69713879551782",
       "features": null,
@@ -9428,8 +11650,8 @@
       "category_id": 4736,
       "title": "Rogue Spawn Point",
       "description": "On the [machine gun](https:\/\/mapgenie.io\/tarkov\/maps\/lighthouse?locationIds=152557)",
-      "latitude": "0.81531764269205",
-      "longitude": "-0.70330685865005",
+      "latitude": "0.81531842558181",
+      "longitude": "-0.70257782935965",
       "features": null,
       "tags": [],
       "media": []
@@ -9441,8 +11663,8 @@
       "category_id": 4736,
       "title": "Rogue Spawn Point",
       "description": "On the [machine gun](https:\/\/mapgenie.io\/tarkov\/maps\/lighthouse?locationIds=152572)",
-      "latitude": "0.81531574364742",
-      "longitude": "-0.67841649055646",
+      "latitude": "0.81583067560364",
+      "longitude": "-0.67888855933998",
       "features": null,
       "tags": [],
       "media": []
@@ -9477,9 +11699,126 @@
       "region_id": null,
       "category_id": 4736,
       "title": "Rogue Spawn Point",
-      "description": null,
+      "description": "Up to 3 Rogues may spawn here.",
       "latitude": "0.85324807683146",
       "longitude": "-0.65336621914608",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154060,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 4736,
+      "title": "Rogue Spawn Point",
+      "description": "On the roof",
+      "latitude": "0.90162646001458",
+      "longitude": "-0.70357322717237",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154061,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 4736,
+      "title": "Rogue Spawn Point",
+      "description": "On the roof",
+      "latitude": "0.94238424291545",
+      "longitude": "-0.65336705314627",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154025,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 950,
+      "title": "Scav Spawn",
+      "description": null,
+      "latitude": "0.76966235492083",
+      "longitude": "-0.58628487919566",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154026,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 950,
+      "title": "Scav Spawn",
+      "description": null,
+      "latitude": "0.72445747510561",
+      "longitude": "-0.61619865158514",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154587,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 950,
+      "title": "Scav Spawn",
+      "description": "",
+      "latitude": "0.62640713104905",
+      "longitude": "-0.69592674832393",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154607,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 950,
+      "title": "Scav Spawn",
+      "description": null,
+      "latitude": "0.62341574483671",
+      "longitude": "-0.73678716711655",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154637,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 950,
+      "title": "Scav Spawn",
+      "description": null,
+      "latitude": "0.98268734252413",
+      "longitude": "-0.62584395259034",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154639,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 950,
+      "title": "Scav Spawn",
+      "description": "",
+      "latitude": "0.59163467529739",
+      "longitude": "-0.62638719607571",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 155340,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 950,
+      "title": "Scav Spawn (1 - 4)",
+      "description": null,
+      "latitude": "0.50627036755661",
+      "longitude": "-0.73018937090296",
       "features": null,
       "tags": [],
       "media": []
@@ -9490,9 +11829,9 @@
       "region_id": null,
       "category_id": 1014,
       "title": "\"Sleeping Pig\"",
-      "description": null,
-      "latitude": "0.70653151558710",
-      "longitude": "-0.73810633289889",
+      "description": "",
+      "latitude": "0.70657518627311",
+      "longitude": "-0.74583113193685",
       "features": null,
       "tags": [],
       "media": [
@@ -9509,17 +11848,51 @@
       ]
     },
     {
+      "id": 154572,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 1014,
+      "title": "'Wilson' from Castaway",
+      "description": "On the log find the 'Wilson' ball from the movie _Castaway_ starring Tom Hanks.",
+      "latitude": "0.69261460322774",
+      "longitude": "-0.73214395904753",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
       "id": 152315,
       "map_id": 71,
       "region_id": null,
       "category_id": 954,
       "title": "Northern Checkpoint [PMC]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
-      "latitude": "1.03859907945070",
-      "longitude": "-0.73104749330915",
+      "description": "Stand up against the wall, near the semi truck for extraction\n\n**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+      "latitude": "1.03941431113590",
+      "longitude": "-0.73053181171340",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16103,
+          "title": "2022-01-11[06-07]_108.0, 6.1, -956.8_0.0, 1.0, 0.0, 0.1_17.85 (0)",
+          "file_name": "6a1b558d-1f64-4e2f-8c29-5ce8a3f40c28.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/6a1b558d-1f64-4e2f-8c29-5ce8a3f40c28.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        },
+        {
+          "id": 16104,
+          "title": "2022-01-11[06-07]_109.3, 6.1, -988.1_0.0, 0.8, 0.0, 0.6_17.87 (0)",
+          "file_name": "ed12aa68-807c-46bb-9ced-9c5e748004a3.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/ed12aa68-807c-46bb-9ced-9c5e748004a3.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152316,
@@ -9527,12 +11900,23 @@
       "region_id": null,
       "category_id": 954,
       "title": "Armored Train [ALL]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+      "description": "Get inside the train for extraction\n\n**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:**\n- Arrives between 23-28 minutes into the raid [17-12 minutes left]\n- Stays for 7 minutes\n- Honks twice on arrival\n- Honks once 1 minute before departure\n- Honks twice just before doors close",
       "latitude": "0.97704908077809",
       "longitude": "-0.68619199125902",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16105,
+          "title": "2022-01-11[06-00]_22.0, 13.5, -864.9_0.0, -0.9, 0.0, 0.5_17.00 (0)",
+          "file_name": "f90089a4-b473-45d5-90f9-3e9b4421fe54.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/f90089a4-b473-45d5-90f9-3e9b4421fe54.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152317,
@@ -9545,7 +11929,18 @@
       "longitude": "-0.62037656494368",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16271,
+          "title": "industrial zone gates",
+          "file_name": "7acbff93-d324-44d2-b780-02d2fd8502c0.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7acbff93-d324-44d2-b780-02d2fd8502c0.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152319,
@@ -9553,12 +11948,33 @@
       "region_id": null,
       "category_id": 954,
       "title": "Road to military base V-ex [PMC]",
-      "description": "**Always Open:** \u2718  \n**Single Use:** \u2714  \n**Requirements:** 5,000 Roubles",
-      "latitude": "0.95287845262190",
-      "longitude": "-0.54497326756214",
+      "description": "The black SUV must be present for extraction\n\n**Always Open:** \u2718  \n**Single Use:** \u2714  \n**Requirements:** \n- 5,000 Roubles per player",
+      "latitude": "0.95505372823614",
+      "longitude": "-0.54669501283016",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16108,
+          "title": "2022-01-11[05-56]_-275.3, 15.1, -779.4_0.0, 0.7, 0.0, -0.7_16.54 (0)",
+          "file_name": "be35c609-de8c-46a5-b19a-3258b2f40d62.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/be35c609-de8c-46a5-b19a-3258b2f40d62.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        },
+        {
+          "id": 16109,
+          "title": "2022-01-11[05-57]_-325.2, 16.9, -784.7_0.0, -0.7, 0.0, 0.7_16.65 (0)",
+          "file_name": "7e300dcc-f2d0-4dc6-b239-d5d035bce556.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7e300dcc-f2d0-4dc6-b239-d5d035bce556.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152321,
@@ -9567,11 +11983,22 @@
       "category_id": 954,
       "title": "Scav Hideout at the Grotto [SCAV]",
       "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
-      "latitude": "0.83119982294160",
-      "longitude": "-0.75794210459554",
+      "latitude": "0.83094336268725",
+      "longitude": "-0.75978666544131",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16272,
+          "title": "scav hideout at the grotto",
+          "file_name": "a867e98e-bd27-4672-a3ec-14e3bcae0c74.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/a867e98e-bd27-4672-a3ec-14e3bcae0c74.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152322,
@@ -9579,12 +12006,23 @@
       "region_id": null,
       "category_id": 954,
       "title": "Path to Shoreline [ALL]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+      "description": "Head towards the buildings in the distance to initiate extraction\n\n**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
       "latitude": "0.68416702704796",
       "longitude": "-0.53308943255220",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16110,
+          "title": "2022-01-11[05-49]_-342.4, 12.1, -143.4_0.0, -0.4, 0.0, 0.9_15.82 (0)",
+          "file_name": "4ca25762-833c-4644-b9b8-baf7380b0516.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/4ca25762-833c-4644-b9b8-baf7380b0516.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152323,
@@ -9592,12 +12030,23 @@
       "region_id": null,
       "category_id": 954,
       "title": "Mountain Pass [PMC]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** \n- 1x Paracord \n- 1x Red Rebel Ice Pick\n- No vest armor equipped",
+      "description": "Stand up against the mountainside to initiate extraction\n\n**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** \n- 1x Paracord \n- 1x Red Rebel Ice Pick\n- No vest armor equipped",
       "latitude": "0.62910692903225",
       "longitude": "-0.61484514082852",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16273,
+          "title": "mountain pass",
+          "file_name": "c75c2857-3405-4526-be13-df38499992c8.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/c75c2857-3405-4526-be13-df38499992c8.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152325,
@@ -9605,12 +12054,23 @@
       "region_id": null,
       "category_id": 954,
       "title": "Hideout Under The Landing Stage [SCAV]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
-      "latitude": "0.50740830440762",
-      "longitude": "-0.74041306972677",
+      "description": "Under the building, close to the western pier\n\n**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+      "latitude": "0.51161384185139",
+      "longitude": "-0.74101388454608",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16274,
+          "title": "hideout under the landing stage",
+          "file_name": "05c71752-e632-416a-ae27-684980912ac8.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/05c71752-e632-416a-ae27-684980912ac8.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152326,
@@ -9618,12 +12078,33 @@
       "region_id": null,
       "category_id": 954,
       "title": "Side Tunnel [ALL]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** Friendly PMC\/SCAV",
+      "description": "Head inside the underground maintenance access tunnel, on your left after entering the main tunnel, and stand near the back door.\n\n**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** Friendly PMC\/SCAV",
       "latitude": "0.49774467711356",
       "longitude": "-0.65635263919933",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16275,
+          "title": "side tunnel far",
+          "file_name": "91b9476b-130d-4b77-b0d9-8d6cc2682e94.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/91b9476b-130d-4b77-b0d9-8d6cc2682e94.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        },
+        {
+          "id": 16276,
+          "title": "2022-01-11[05-32]_-60.4, 7.6, 316.3_0.0, -0.6, 0.0, 0.8_13.82 (0)",
+          "file_name": "7d670c47-3474-43ed-8aa4-c5ef2912ab18.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/7d670c47-3474-43ed-8aa4-c5ef2912ab18.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152328,
@@ -9631,12 +12112,23 @@
       "region_id": null,
       "category_id": 954,
       "title": "Southern Road [PMC]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
-      "latitude": "0.45822102122280",
-      "longitude": "-0.57591050863201",
+      "description": "Head just beyond the gate for extraction\n\n**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+      "latitude": "0.45650446214360",
+      "longitude": "-0.57093232870119",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16114,
+          "title": "2022-01-11[05-35]_-250.6, 7.4, 419.7_0.0, -0.8, 0.0, 0.6_14.15 (0)",
+          "file_name": "adfa56cf-5489-4bb2-a9b4-01307eb41522.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/adfa56cf-5489-4bb2-a9b4-01307eb41522.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152329,
@@ -9644,12 +12136,23 @@
       "region_id": null,
       "category_id": 954,
       "title": "South Road Landslide [SCAV]",
-      "description": "**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
-      "latitude": "0.45294297701062",
-      "longitude": "-0.57530875793890",
+      "description": "Just down the hill from the gate\n\n**Always Open:** \u2714  \n**Single Use:** \u2718  \n**Requirements:** -",
+      "latitude": "0.44959530772485",
+      "longitude": "-0.57144731283265",
       "features": null,
       "tags": [],
-      "media": []
+      "media": [
+        {
+          "id": 16277,
+          "title": "south road landslide",
+          "file_name": "2cd6e7e8-f945-4bbe-b24c-28c6cd4da32c.jpg",
+          "attribution": "",
+          "url": "https:\/\/storage-cdn.mapgenie.io\/storage\/media\/2cd6e7e8-f945-4bbe-b24c-28c6cd4da32c.png",
+          "type": "image",
+          "mime_type": "image\/png",
+          "order": 10
+        }
+      ]
     },
     {
       "id": 152790,
@@ -9812,8 +12315,8 @@
       "category_id": 957,
       "title": "Rogue USEC Workshop",
       "description": "The northern white shipping container with the locked door.\n\n**Key:** _Rogue USEC workshop key_ (random drop)",
-      "latitude": "0.83445606163498",
-      "longitude": "-0.61253207877942",
+      "latitude": "0.83591565211185",
+      "longitude": "-0.61364918947069",
       "features": null,
       "tags": [],
       "media": [
@@ -9860,8 +12363,8 @@
       "category_id": 957,
       "title": "Hillside House",
       "description": "**Key:** _Hillside house key_ (random drop)",
-      "latitude": "0.73006298915014",
-      "longitude": "-0.62237595796060",
+      "latitude": "0.73006412657696",
+      "longitude": "-0.62237709760825",
       "features": null,
       "tags": [],
       "media": [
@@ -9884,8 +12387,8 @@
       "category_id": 957,
       "title": "Convenience Store Storage Room",
       "description": "**Key:** _Convenience store storage room_ (random drop)",
-      "latitude": "0.75047705684133",
-      "longitude": "-0.65869016041265",
+      "latitude": "0.75103456700266",
+      "longitude": "-0.65886050462760",
       "features": null,
       "tags": [],
       "media": [
@@ -9929,11 +12432,11 @@
       "id": 152557,
       "map_id": 71,
       "region_id": null,
-      "category_id": 2000,
+      "category_id": 956,
       "title": "AGS-30 Grenade Launcher",
       "description": "In the tower",
-      "latitude": "0.81465887870496",
-      "longitude": "-0.70172719335989",
+      "latitude": "0.81491613494350",
+      "longitude": "-0.70172756910196",
       "features": null,
       "tags": [],
       "media": []
@@ -9942,24 +12445,11 @@
       "id": 152572,
       "map_id": 71,
       "region_id": null,
-      "category_id": 2000,
+      "category_id": 956,
       "title": "NSV \"Utyos\" Machine Gun",
       "description": "On top of the red shipping container",
-      "latitude": "0.81517929225068",
-      "longitude": "-0.67975045430043",
-      "features": null,
-      "tags": [],
-      "media": []
-    },
-    {
-      "id": 153223,
-      "map_id": 71,
-      "region_id": null,
-      "category_id": 956,
-      "title": "Map Edit: Helicopter",
-      "description": null,
-      "latitude": "0.85623102163794",
-      "longitude": "-0.64407626630458",
+      "latitude": "0.81569389680830",
+      "longitude": "-0.67974954843376",
       "features": null,
       "tags": [],
       "media": []
@@ -9968,7 +12458,7 @@
       "id": 153291,
       "map_id": 71,
       "region_id": null,
-      "category_id": 2000,
+      "category_id": 956,
       "title": "NSV \"Utyos\" Machine Gun",
       "description": null,
       "latitude": "0.93406279523388",
@@ -9981,7 +12471,7 @@
       "id": 153292,
       "map_id": 71,
       "region_id": null,
-      "category_id": 2000,
+      "category_id": 956,
       "title": "AGS-30 Grenade Launcher",
       "description": null,
       "latitude": "0.93356604185858",
@@ -9994,7 +12484,7 @@
       "id": 153301,
       "map_id": 71,
       "region_id": null,
-      "category_id": 2000,
+      "category_id": 956,
       "title": "NSV \"Utyos\" Machine Gun",
       "description": null,
       "latitude": "0.90138615815006",
@@ -10007,7 +12497,7 @@
       "id": 153302,
       "map_id": 71,
       "region_id": null,
-      "category_id": 2000,
+      "category_id": 956,
       "title": "NSV \"Utyos\" Machine Gun",
       "description": "On top of the building - facing south.",
       "latitude": "0.87627861509951",
@@ -10020,7 +12510,7 @@
       "id": 153634,
       "map_id": 71,
       "region_id": null,
-      "category_id": 2000,
+      "category_id": 956,
       "title": "NSV \"Utyos\" Machine Gun",
       "description": null,
       "latitude": "0.89601312370816",
@@ -10033,7 +12523,7 @@
       "id": 153870,
       "map_id": 71,
       "region_id": null,
-      "category_id": 2000,
+      "category_id": 956,
       "title": "NSV \"Utyos\" Machine Gun",
       "description": "NW corner roof of north building",
       "latitude": "0.94178129616202",
@@ -10043,14 +12533,27 @@
       "media": []
     },
     {
-      "id": 153871,
+      "id": 154029,
       "map_id": 71,
       "region_id": null,
       "category_id": 956,
-      "title": "Map Edit: Door",
+      "title": "NSV \"Utyos\" Machine Gun",
       "description": null,
-      "latitude": "0.92491661870537",
-      "longitude": "-0.65910568018859",
+      "latitude": "0.91431154852815",
+      "longitude": "-0.62630769666211",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154385,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 956,
+      "title": "Map Edit: Hole in Fence",
+      "description": "You can crawl under the fence here.",
+      "latitude": "0.95696874635101",
+      "longitude": "-0.68114177611662",
       "features": null,
       "tags": [],
       "media": []
@@ -10074,9 +12577,9 @@
       "region_id": null,
       "category_id": 955,
       "title": "Recon area around the Lighthouse",
-      "description": "**Quest:** Communication Difficulties  \n**Quest Giver:** Ragman  \n\nYou'll need to scout bridge across to the lighthouse, and go just past the front of the military truck for it to count towards the quest.  \n\n**Important:** Be careful of the sniper scav zone. They're less likely to shoot you at night.",
-      "latitude": "0.41407485641715",
-      "longitude": "-0.75803847330587",
+      "description": "**Quest:** Communication Difficulties  \n**Quest Giver:** Ragman  \n\nYou'll need to scout bridge across to the lighthouse, and go just past the front of the military truck for it to count towards the quest.  You will most likely be shot by Scav snipers, apply painkillers beforehand to be able to run back swiftly.\n\n**Important:** Be careful of the sniper Scav zone. They're less likely to shoot you at night.",
+      "latitude": "0.41244411575558",
+      "longitude": "-0.73949904459494",
       "features": null,
       "tags": [],
       "media": [
@@ -10123,8 +12626,8 @@
       "category_id": 955,
       "title": "Waterpump Operation Data",
       "description": "**Quest:** Corporate Secrets  \n**Quest Giver:** Mechanic\n\nLook for the document on the desk between other documents in the upper office.",
-      "latitude": "0.93982634747714",
-      "longitude": "-0.63258035521278",
+      "latitude": "0.94115554520801",
+      "longitude": "-0.63657134771265",
       "features": null,
       "tags": [],
       "media": []
@@ -10136,8 +12639,8 @@
       "category_id": 955,
       "title": "Pumping Station Operation Data",
       "description": "**Quest:** Corporate Secrets  \n**Quest Giver:** Mechanic\n\nIn the upper floor office on the shelf.",
-      "latitude": "0.89729331268212",
-      "longitude": "-0.70514012718556",
+      "latitude": "0.89470767045138",
+      "longitude": "-0.70440384206267",
       "features": null,
       "tags": [],
       "media": [
@@ -10159,9 +12662,9 @@
       "region_id": null,
       "category_id": 955,
       "title": "Informant's Briefcase",
-      "description": "**Quest:** Seaside Vacation  \n**Quest Giver:** Therapist  \n\nOn the upper floor in the bedroom, on the ground next to the bed near the window.",
-      "latitude": "0.68435459423313",
-      "longitude": "-0.74413017521022",
+      "description": "**Quest:** Seaside Vacation  \n**Quest Giver:** Therapist  \n\nOn the upper floor in the bedroom, on the ground under the bed next to the window.",
+      "latitude": "0.68328191455620",
+      "longitude": "-0.74923753738372",
       "features": null,
       "tags": [],
       "media": []
@@ -10173,8 +12676,8 @@
       "category_id": 955,
       "title": "Obtain message for Jaeger",
       "description": "**Quest:** The Hermit  \n**Quest Giver:** Jaeger\n\nThe message is tucked under the bottom of the door to the cabin.",
-      "latitude": "0.76282781295144",
-      "longitude": "-0.57964525516914",
+      "latitude": "0.76282721086760",
+      "longitude": "-0.57964414358210",
       "features": null,
       "tags": [],
       "media": [
@@ -10255,8 +12758,8 @@
       "category_id": 955,
       "title": "First tanker truck",
       "description": "**Quest:** Energy Crisis  \n**Quest Giver:** Mechanic  \n**Requirements:** MS2000 Marker",
-      "latitude": "0.99602221072993",
-      "longitude": "-0.65068824560183",
+      "latitude": "0.99301858916828",
+      "longitude": "-0.65296275884646",
       "features": null,
       "tags": [],
       "media": [
@@ -10425,8 +12928,8 @@
       "category_id": 955,
       "title": "Intelligence Folder",
       "description": "**Quest:** Missing Cargo  \n**Quest Giver:** Skier  \n**Prerequisite:** [Locate the crashed Helicopter](https:\/\/mapgenie.io\/tarkov\/maps\/lighthouse?locationIds=153641)\n\nOn the back corner of the dining room table on the third floor.",
-      "latitude": "0.59178134619509",
-      "longitude": "-0.63398301601492",
+      "latitude": "0.59178134619461",
+      "longitude": "-0.63441216945554",
       "features": null,
       "tags": [],
       "media": [
@@ -10708,6 +13211,32 @@
       "features": null,
       "tags": [],
       "media": []
+    },
+    {
+      "id": 154027,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 953,
+      "title": "PMC Spawn",
+      "description": null,
+      "latitude": "0.75379253269108",
+      "longitude": "-0.49563235877292",
+      "features": null,
+      "tags": [],
+      "media": []
+    },
+    {
+      "id": 154193,
+      "map_id": 71,
+      "region_id": null,
+      "category_id": 953,
+      "title": "PMC Spawn",
+      "description": null,
+      "latitude": "0.77982880115223",
+      "longitude": "-0.49812135240828",
+      "features": null,
+      "tags": [],
+      "media": []
     }
   ],
   "heatmapGroups": [],
@@ -10728,7 +13257,7 @@
     "tile_sets": [
       {
         "name": "Default",
-        "path": "/games/tarkov/lighthouse/default-v4",
+        "path": "/games/tarkov/lighthouse/default-v7",
         "min_zoom": 8,
         "max_zoom": 15,
         "extension": "jpg",

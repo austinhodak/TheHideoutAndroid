@@ -283,8 +283,10 @@ fun ModsListScreen(
         }, frontLayerContent = {
             if (isSearchOpen) {
                 val items = data?.filter { it.pricing != null }?.filter {
+                    it.itemType == ItemTypes.MOD
+                }?.filter {
                     if (searchKey.isBlank()) return@filter false
-                    it.ShortName?.contains(searchKey, ignoreCase = true) == true  || it.Name?.contains(searchKey, ignoreCase = true) == true
+                    it.ShortName?.contains(searchKey, ignoreCase = true) == true || it.Name?.contains(searchKey, ignoreCase = true) == true
                 }?.sortedBy { it.ShortName }
 
                 Scaffold {
@@ -305,8 +307,6 @@ fun ModsListScreen(
                         }
                     }
                 }
-
-
             } else {
                 Scaffold(
                     floatingActionButton = {

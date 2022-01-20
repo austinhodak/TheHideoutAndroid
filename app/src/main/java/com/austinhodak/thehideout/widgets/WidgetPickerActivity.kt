@@ -40,10 +40,10 @@ import com.austinhodak.thehideout.compose.theme.DarkPrimary
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.gear.ItemCard
 import com.austinhodak.thehideout.pickers.viewmodels.PickerViewModel
+import com.austinhodak.thehideout.utils.addPriceAlertDialog
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.weapons.WeaponCard
 import com.austinhodak.thehideout.weapons.builder.WeaponBuilderActivity
-import com.austinhodak.thehideout.widgets.updateAppWidget
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -271,6 +271,12 @@ class WidgetPickerActivity : GodActivity() {
         val intent = intent
         val extras = intent.extras
         if (extras != null) {
+            if (extras.containsKey("priceAlert")) {
+                (item as Item).pricing?.addPriceAlertDialog(this) {
+                    finish()
+                }
+                return
+            }
             appWidgetId = extras.getInt(
                 AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID
             )

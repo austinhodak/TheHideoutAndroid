@@ -59,7 +59,6 @@ class PickerActivity : GodActivity() {
     @Inject
     lateinit var tarkovRepo: TarkovRepo
 
-    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

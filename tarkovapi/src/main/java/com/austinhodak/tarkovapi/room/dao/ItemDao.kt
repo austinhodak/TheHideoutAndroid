@@ -35,8 +35,8 @@ interface ItemDao {
     @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor FROM items WHERE pricing IS NOT NULL")
     fun getAllItems(): Flow<List<Item>>
 
-    @Query("SELECT * FROM items WHERE pricing IS NOT NULL")
-    //@Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor FROM items WHERE pricing IS NOT NULL")
+    //@Query("SELECT * FROM items WHERE pricing IS NOT NULL")
+    @Query("SELECT id, itemType, parent, Name, ShortName, pricing, Width, Height, BackgroundColor, Recoil, Accuracy, Ergonomics FROM items WHERE pricing IS NOT NULL")
     suspend fun getAllItemsOnce(): List<Item>
 
     @Transaction

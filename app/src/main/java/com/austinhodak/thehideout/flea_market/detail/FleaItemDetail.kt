@@ -45,7 +45,6 @@ import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItems
-import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
@@ -62,7 +61,6 @@ import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.gear.GearDetailActivity
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
-import com.austinhodak.thehideout.utils.Map
 import com.austinhodak.thehideout.views.PriceChartMarkerView
 import com.bumptech.glide.Glide
 import com.github.mikephil.charting.animation.Easing
@@ -839,6 +837,7 @@ class FleaItemDetail : GodActivity() {
                             dataSet.valueTypeface = benderFont
                             dataSet.setDrawValues(false)
                             dataSet.setDrawCircles(false)
+                            dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
 
                             val lineData = LineData(dataSet)
                             lineData.setValueTextColor(resources.getColor(R.color.white))

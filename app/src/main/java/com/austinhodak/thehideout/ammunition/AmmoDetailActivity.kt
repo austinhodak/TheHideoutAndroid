@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,17 +15,35 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.res.ResourcesCompat
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.austinhodak.tarkovapi.models.AmmoBallistic
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -33,6 +52,7 @@ import com.austinhodak.tarkovapi.utils.plusMinus
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.viewmodels.AmmoViewModel
+import com.austinhodak.thehideout.ballistics
 import com.austinhodak.thehideout.calculator.CalculatorHelper
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
@@ -44,12 +64,20 @@ import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.pickers.PickerActivity
 import com.austinhodak.thehideout.utils.*
 import com.bumptech.glide.Glide
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 import kotlin.math.roundToInt
 
 @ExperimentalCoroutinesApi
@@ -81,11 +109,29 @@ class AmmoDetailActivity : GodActivity() {
 
         Firebase.crashlytics.setCustomKey("ammoID", ammoID)
 
+        val ballisticsData = ballistics.getAmmo(ammoID)
+        Timber.d(ballisticsData.toString())
+
         setContent {
             val ammo by ammoViewModel.ammoDetails.observeAsState()
             val scaffoldState = rememberScaffoldState()
 
             val selectedArmor by ammoViewModel.selectedArmor.observeAsState()
+            val navController = rememberNavController()
+
+            val fabOffsetHeightPx = remember { mutableStateOf(1f) }
+            val nestedScrollConnection = remember {
+                object : NestedScrollConnection {
+                    override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+
+                        val delta = available.y
+                        val newOffset = fabOffsetHeightPx.value + (delta / 100)
+                        fabOffsetHeightPx.value = newOffset
+
+                        return Offset.Zero
+                    }
+                }
+            }
 
             HideoutTheme {
                 val systemUiController = rememberSystemUiController()
@@ -94,6 +140,8 @@ class AmmoDetailActivity : GodActivity() {
                 )
 
                 Scaffold(
+                    modifier = Modifier
+                        .nestedScroll(nestedScrollConnection),
                     scaffoldState = scaffoldState,
                     topBar = {
                         Column {
@@ -125,38 +173,479 @@ class AmmoDetailActivity : GodActivity() {
                             openActivity(CalculatorMainActivity::class.java) {
                                 putSerializable("ammo", ammo)
                             }
-                        }) {
+                        }, modifier = Modifier
+                                .alpha(
+                                    fabOffsetHeightPx.value
+                                )
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_calculate_24),
                                 contentDescription = "Open Calculator",
                                 tint = Color.Black
                             )
                         }
-                    }
+                    },
+                    bottomBar = {
+                        AmmoBottomNav(navController = navController)
+                    },
                 ) {
-                    if (ammo != null) {
-                        LazyColumn(
-                            contentPadding = PaddingValues(
-                                top = 4.dp,
-                                start = 8.dp,
-                                end = 8.dp,
-                                bottom = 64.dp
-                            )
-                        ) {
-                            item {
-                                AmmoDetailCard(ammo = ammo!!)
-                            }
-                            if (ammo?.pricing?.buyFor?.isNotEmpty() == true) {
-                                item {
-                                    PricingCard(pricing = ammo?.pricing!!)
+                    NavHost(
+                        navController = navController,
+                        startDestination = BottomNavigationScreens.Info.route
+                    ) {
+                        composable(BottomNavigationScreens.Info.route) {
+                            ammo?.let {
+                                LazyColumn(
+                                    contentPadding = PaddingValues(
+                                        top = 4.dp,
+                                        start = 8.dp,
+                                        end = 8.dp,
+                                        bottom = 64.dp
+                                    )
+                                ) {
+                                    item {
+                                        AmmoDetailCard(ammo = ammo!!)
+                                    }
+                                    if (ammo?.pricing?.buyFor?.isNotEmpty() == true) {
+                                        item {
+                                            PricingCard(pricing = ammo?.pricing!!)
+                                        }
+                                    }
+                                    item {
+                                        ArmorPenCard(ammo = ammo!!, selectedArmor)
+                                    }
                                 }
                             }
-                            item {
-                                ArmorPenCard(ammo = ammo!!, selectedArmor)
-                            }
+                        }
+                        composable(BottomNavigationScreens.Table.route) {
+                            TableScreen(
+                                ammo,
+                                ballisticsData
+                            )
+                        }
+                        composable(BottomNavigationScreens.Charts.route) {
+                            ChartsScreen(
+                                ammo,
+                                ballisticsData
+                            )
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @Composable
+    private fun TableScreen(ammo: Ammo?, ballisticsData: AmmoBallistic?) {
+        LazyColumn(
+            contentPadding = PaddingValues(top = 4.dp, bottom = 64.dp)
+        ) {
+            ballisticsData?.ballistics?.sortedBy { it.range.toInt() }?.forEach {
+                item {
+                    BallisticCard(it)
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun BallisticCard(ballistics: AmmoBallistic.Ballistics) {
+        Card(
+            Modifier
+                .padding(vertical = 4.dp, horizontal = 8.dp)
+                .fillMaxWidth(),
+            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+        ) {
+            Column(
+                Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 12.dp)
+            ) {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "${ballistics.range} M",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(bottom = 12.dp)
+                    )
+                }
+                Column {
+                    BallisticLine(title = "VELOCITY", entry = "${ballistics.velocity} m/s")
+                    BallisticLine(title = "DAMAGE", entry = "${ballistics.damage}")
+                    BallisticLine(title = "PEN POWER", entry = "${ballistics.penetration}")
+                    BallisticLine(title = "DROP", entry = "${ballistics.drop} cm")
+                    BallisticLine(title = "TIME OF FLIGHT", entry = "${ballistics.tof} s")
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun BallisticLine(
+        modifier: Modifier = Modifier,
+        title: String,
+        entry: String
+    ) {
+        Row(
+            modifier = modifier.padding(horizontal = 0.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.body1,
+                    fontSize = 12.sp
+                )
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = entry,
+                style = MaterialTheme.typography.body1,
+                fontSize = 14.sp
+            )
+        }
+    }
+
+    @Composable
+    private fun ChartsScreen(ammo: Ammo?, ballisticsData: AmmoBallistic?) {
+        LazyColumn(
+            contentPadding = PaddingValues(top = 4.dp, bottom = 64.dp)
+        ) {
+            item {
+                Card(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .fillMaxWidth(),
+                    backgroundColor = Color(0xFE1F1F1F)
+                ) {
+                    TrajectoryChart(ballisticsData)
+                }
+                Card(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .fillMaxWidth(),
+                    backgroundColor = Color(0xFE1F1F1F)
+                ) {
+                    VelocityChart(ballisticsData)
+                }
+                /*Card(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .fillMaxWidth(),
+                    backgroundColor = Color(0xFE1F1F1F)
+                ) {
+                    DamageChart(ballisticsData)
+                }*/
+            }
+        }
+    }
+
+    @Composable
+    private fun TrajectoryChart(ballisticsData: AmmoBallistic?) {
+        Column {
+            Row(
+                Modifier.padding(
+                    bottom = 0.dp,
+                    top = 8.dp,
+                    start = 16.dp,
+                    end = 4.dp
+                )
+            ) {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "TRAJECTORY",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(
+                            bottom = 0.dp,
+                            top = 8.dp,
+                            start = 0.dp,
+                            end = 16.dp
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+            }
+
+            val benderFont = ResourcesCompat.getFont(this@AmmoDetailActivity, R.font.bender)
+            AndroidView(
+                factory = {
+                    val chart = LineChart(it)
+
+                    val formatter: ValueFormatter = object : ValueFormatter() {
+                        override fun getAxisLabel(value: Float, axis: AxisBase): String {
+                            return "${value.toInt()} m"
+                        }
+                    }
+
+                    chart.axisLeft.valueFormatter = formatter
+                    chart.xAxis.valueFormatter = formatter
+                    chart.xAxis.textColor = resources.getColor(R.color.white)
+                    chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+                    chart.axisLeft.textColor = resources.getColor(R.color.white)
+                    chart.axisRight.isEnabled = false
+
+                    chart.setDrawGridBackground(false)
+                    //chart.xAxis.setDrawGridLines(false)
+                    chart.xAxis.setCenterAxisLabels(true)
+                    //chart.axisLeft.setDrawGridLines(false)
+                    chart.setTouchEnabled(false)
+                    chart.isScaleYEnabled = false
+                    chart.description.isEnabled = false
+                    chart.legend.textColor = resources.getColor(R.color.white)
+
+                    chart.legend.isEnabled = false
+
+                    //chart.xAxis.setDrawAxisLine(false)
+
+                    //Set fonts
+                    chart.legend.typeface = benderFont
+                    chart.xAxis.typeface = benderFont
+                    chart.axisLeft.typeface = benderFont
+                    chart.setNoDataTextTypeface(benderFont)
+
+                    //val mv = PriceChartMarkerView(this@FleaItemDetail, R.layout.price_chart_marker_view)
+                    //chart.marker = mv
+
+                    chart
+                }, modifier = Modifier
+                    .padding(start = 8.dp, end = 0.dp, bottom = 16.dp)
+                    .fillMaxWidth()
+                    .height(200.dp)
+            ) { chart ->
+                //if (chart.data != null) return@AndroidView
+                val data = ballisticsData?.ballistics?.map {
+                    val entry = Entry(it.range.toFloat(), it.drop.replace(",", "").toFloat() / 100)
+                    entry.data = it
+                    entry
+                }
+
+                val dataSet = LineDataSet(data, "Range (m)")
+                dataSet.fillColor = resources.getColor(R.color.md_red_400)
+                dataSet.setDrawFilled(false)
+                dataSet.color = resources.getColor(R.color.md_red_400)
+                dataSet.setCircleColor(resources.getColor(R.color.md_red_500))
+                dataSet.valueTypeface = benderFont
+                dataSet.setDrawValues(false)
+                dataSet.setDrawCircles(false)
+                dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+
+                val lineData = LineData(dataSet)
+                lineData.setValueTextColor(resources.getColor(R.color.white))
+
+                chart.data = lineData
+                //chart.animateY(250, Easing.EaseOutQuad)
+            }
+        }
+    }
+
+    @Composable
+    private fun VelocityChart(ballisticsData: AmmoBallistic?) {
+        Column {
+            Row(
+                Modifier.padding(
+                    bottom = 0.dp,
+                    top = 8.dp,
+                    start = 16.dp,
+                    end = 4.dp
+                )
+            ) {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "VELOCITY",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(
+                            bottom = 0.dp,
+                            top = 8.dp,
+                            start = 0.dp,
+                            end = 16.dp
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+            }
+
+            val benderFont = ResourcesCompat.getFont(this@AmmoDetailActivity, R.font.bender)
+            AndroidView(
+                factory = {
+                    val chart = LineChart(it)
+
+                    val formatter: ValueFormatter = object : ValueFormatter() {
+                        override fun getAxisLabel(value: Float, axis: AxisBase): String {
+                            return "${value.toInt()} m"
+                        }
+                    }
+
+                    val formatter2: ValueFormatter = object : ValueFormatter() {
+                        override fun getAxisLabel(value: Float, axis: AxisBase): String {
+                            return "${value.toInt()} m/s"
+                        }
+                    }
+
+                    chart.axisLeft.valueFormatter = formatter2
+                    chart.xAxis.valueFormatter = formatter
+                    chart.xAxis.textColor = resources.getColor(R.color.white)
+                    chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+                    chart.axisLeft.textColor = resources.getColor(R.color.white)
+                    chart.axisRight.isEnabled = false
+
+                    chart.setDrawGridBackground(false)
+                    //chart.xAxis.setDrawGridLines(false)
+                    chart.xAxis.setCenterAxisLabels(true)
+                    //chart.axisLeft.setDrawGridLines(false)
+                    chart.setTouchEnabled(false)
+                    chart.isScaleYEnabled = false
+                    chart.description.isEnabled = false
+                    chart.legend.textColor = resources.getColor(R.color.white)
+
+                    chart.legend.isEnabled = false
+
+                    //chart.xAxis.setDrawAxisLine(false)
+
+                    //Set fonts
+                    chart.legend.typeface = benderFont
+                    chart.xAxis.typeface = benderFont
+                    chart.axisLeft.typeface = benderFont
+                    chart.setNoDataTextTypeface(benderFont)
+
+                    //val mv = PriceChartMarkerView(this@FleaItemDetail, R.layout.price_chart_marker_view)
+                    //chart.marker = mv
+
+                    chart
+                }, modifier = Modifier
+                    .padding(start = 8.dp, end = 0.dp, bottom = 16.dp)
+                    .fillMaxWidth()
+                    .height(200.dp)
+            ) { chart ->
+                //if (chart.data != null) return@AndroidView
+                val data = ballisticsData?.ballistics?.map {
+                    val entry = Entry(it.range.toFloat(), it.velocity.toFloat())
+                    entry.data = it
+                    entry
+                }
+
+                val dataSet = LineDataSet(data, "Range (m)")
+                dataSet.fillColor = resources.getColor(R.color.md_red_400)
+                dataSet.setDrawFilled(false)
+                dataSet.color = resources.getColor(R.color.md_red_400)
+                dataSet.setCircleColor(resources.getColor(R.color.md_red_500))
+                dataSet.valueTypeface = benderFont
+                dataSet.setDrawValues(false)
+                dataSet.setDrawCircles(false)
+                dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+
+                val lineData = LineData(dataSet)
+                lineData.setValueTextColor(resources.getColor(R.color.white))
+
+                chart.data = lineData
+                //chart.animateY(250, Easing.EaseOutQuad)
+            }
+        }
+    }
+
+    @Composable
+    private fun DamageChart(ballisticsData: AmmoBallistic?) {
+        Column {
+            Row(
+                Modifier.padding(
+                    bottom = 0.dp,
+                    top = 8.dp,
+                    start = 16.dp,
+                    end = 4.dp
+                )
+            ) {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        text = "DAMAGE",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        fontFamily = Bender,
+                        modifier = Modifier.padding(
+                            bottom = 0.dp,
+                            top = 8.dp,
+                            start = 0.dp,
+                            end = 16.dp
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+            }
+
+            val benderFont = ResourcesCompat.getFont(this@AmmoDetailActivity, R.font.bender)
+            AndroidView(
+                factory = {
+                    val chart = LineChart(it)
+
+                    val formatter: ValueFormatter = object : ValueFormatter() {
+                        override fun getAxisLabel(value: Float, axis: AxisBase): String {
+                            return "${value.toInt()} m"
+                        }
+                    }
+
+                    val formatter2: ValueFormatter = object : ValueFormatter() {
+                        override fun getAxisLabel(value: Float, axis: AxisBase): String {
+                            return "${value.toInt()}"
+                        }
+                    }
+
+                    chart.axisLeft.valueFormatter = formatter2
+                    chart.xAxis.valueFormatter = formatter
+                    chart.xAxis.textColor = resources.getColor(R.color.white)
+                    chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+                    chart.axisLeft.textColor = resources.getColor(R.color.white)
+                    chart.axisRight.isEnabled = false
+
+                    chart.setDrawGridBackground(false)
+                    //chart.xAxis.setDrawGridLines(false)
+                    chart.xAxis.setCenterAxisLabels(true)
+                    //chart.axisLeft.setDrawGridLines(false)
+                    chart.setTouchEnabled(false)
+                    chart.isScaleYEnabled = false
+                    chart.description.isEnabled = false
+                    chart.legend.textColor = resources.getColor(R.color.white)
+
+                    chart.legend.isEnabled = false
+
+                    //chart.xAxis.setDrawAxisLine(false)
+
+                    //Set fonts
+                    chart.legend.typeface = benderFont
+                    chart.xAxis.typeface = benderFont
+                    chart.axisLeft.typeface = benderFont
+                    chart.setNoDataTextTypeface(benderFont)
+
+                    //val mv = PriceChartMarkerView(this@FleaItemDetail, R.layout.price_chart_marker_view)
+                    //chart.marker = mv
+
+                    chart
+                }, modifier = Modifier
+                    .padding(start = 8.dp, end = 0.dp, bottom = 16.dp)
+                    .fillMaxWidth()
+                    .height(200.dp)
+            ) { chart ->
+                //if (chart.data != null) return@AndroidView
+                val data = ballisticsData?.ballistics?.map {
+                    val entry = Entry(it.range.toFloat(), it.damage.toFloat())
+                    entry.data = it
+                    entry
+                }
+
+                val dataSet = LineDataSet(data, "Range (m)")
+                dataSet.fillColor = resources.getColor(R.color.md_red_400)
+                dataSet.setDrawFilled(false)
+                dataSet.color = resources.getColor(R.color.md_red_400)
+                dataSet.setCircleColor(resources.getColor(R.color.md_red_500))
+                dataSet.valueTypeface = benderFont
+                dataSet.setDrawValues(false)
+                dataSet.setDrawCircles(false)
+
+                val lineData = LineData(dataSet)
+                lineData.setValueTextColor(resources.getColor(R.color.white))
+
+                chart.data = lineData
+                //chart.animateY(250, Easing.EaseOutQuad)
             }
         }
     }
@@ -418,6 +907,75 @@ class AmmoDetailActivity : GodActivity() {
                         style = MaterialTheme.typography.h5
                     )
                 }
+            }
+        }
+    }
+
+    sealed class BottomNavigationScreens(
+        val route: String,
+        val resourceId: String,
+        val icon: ImageVector? = null,
+        @DrawableRes val iconDrawable: Int? = null
+    ) {
+        object Info :
+            BottomNavigationScreens("Info", "Info", null, R.drawable.ic_baseline_info_24)
+
+        object Table :
+            BottomNavigationScreens("Table", "Stats", null, R.drawable.ic_baseline_table_chart_24)
+
+        object Charts :
+            BottomNavigationScreens("Charts", "Charts", null, R.drawable.ic_baseline_bar_chart_24)
+    }
+
+    @Composable
+    fun AmmoBottomNav(
+        navController: NavController
+    ) {
+        val items = listOf(
+            BottomNavigationScreens.Info,
+            BottomNavigationScreens.Table,
+            BottomNavigationScreens.Charts
+        )
+
+        BottomNavigation(
+            backgroundColor = Color(0xFE1F1F1F),
+            elevation = 6.dp
+        ) {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
+
+            items.forEachIndexed { _, item ->
+                BottomNavigationItem(
+                    icon = {
+                        if (item.icon != null) {
+                            Icon(item.icon, "")
+                        } else {
+                            Icon(
+                                painter = painterResource(id = item.iconDrawable!!),
+                                contentDescription = item.resourceId
+                            )
+                        }
+                    },
+                    label = { Text(item.resourceId) },
+                    selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
+                    alwaysShowLabel = true, // This hides the title for the unselected items
+                    onClick = {
+                        try {
+                            if (currentDestination?.route == item.route) return@BottomNavigationItem
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        } catch (e: Exception) {
+                            Timber.e(e)
+                        }
+                    },
+                    selectedContentColor = MaterialTheme.colors.secondary,
+                    unselectedContentColor = Color(0x99FFFFFF),
+                )
             }
         }
     }

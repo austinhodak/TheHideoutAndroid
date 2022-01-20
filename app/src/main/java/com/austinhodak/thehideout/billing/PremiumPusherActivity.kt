@@ -70,7 +70,6 @@ class PremiumPusherActivity : ComponentActivity() {
         }
     }
 
-    @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

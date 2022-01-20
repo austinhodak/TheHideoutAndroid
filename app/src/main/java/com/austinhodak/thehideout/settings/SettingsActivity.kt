@@ -186,20 +186,6 @@ class SettingsActivity : GodActivity() {
                     null
                 }
 
-                val dataDate = try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        val date = LocalDate.parse(gameInfo?.getString("data_date"), DateTimeFormatter.ofPattern("MM-dd-yyyy"))
-
-                        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                        date.format(formatter)
-                    } else {
-                        gameInfo?.getString("data_date")
-                    }
-                }  catch (e: Exception) {
-                    Firebase.crashlytics.recordException(e)
-                    null
-                }
-
                 val roomUpdatesTime = DateUtils.getRelativeTimeSpanString(
                     preferences.getLong("lastPriceUpdate", 0),
                     System.currentTimeMillis(),
@@ -814,39 +800,50 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                 }
-                                button {
-                                    title = "The Hideout".asText()
-                                    summary = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})".asText()
-                                    icon = R.drawable.ic_baseline_code_24.asIcon()
-                                    enabled = false
-                                }
-                                button {
-                                    title = "Game Version".asText()
-                                    summary = "${gameInfo?.getString("version")} ($versionDate)".asText()
+                                subScreen {
+                                    title = "More About".asText()
                                     icon = R.drawable.ic_baseline_info_24.asIcon()
-                                    enabled = false
-                                    onClick= {
-                                        "https://escapefromtarkov.fandom.com/wiki/Changelog".openWithCustomTab(this@SettingsActivity)
+                                    button {
+                                        title = "The Hideout".asText()
+                                        summary = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})".asText()
+                                        icon = R.drawable.ic_baseline_code_24.asIcon()
+                                        enabled = false
                                     }
-                                }
-                                button {
-                                    title = "Last Wipe".asText()
-                                    summary = (wipeDate ?: "").asText()
-                                    icon = R.drawable.icons8_toilet_paper_24.asIcon()
-                                    enabled = false
-                                }
-                                button {
-                                    title = "Data Version".asText()
-                                    summary = "${dataDate}".asText()
-                                    icon = R.drawable.ic_baseline_info_24.asIcon()
-                                    enabled = false
-                                }
-                                button {
-                                    title = "Open Source Licenses".asText()
-                                    icon = R.drawable.ic_baseline_source_24.asIcon()
-                                    enabled = true
-                                    onClick= {
-                                        startActivity(Intent(this@SettingsActivity, OssLicensesMenuActivity::class.java))
+                                    button {
+                                        title = "Game Version".asText()
+                                        summary = "${gameInfo?.getString("version")} ($versionDate)".asText()
+                                        icon = R.drawable.ic_baseline_info_24.asIcon()
+                                        enabled = false
+                                        onClick= {
+                                            "https://escapefromtarkov.fandom.com/wiki/Changelog".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Last Wipe".asText()
+                                        summary = (wipeDate ?: "").asText()
+                                        icon = R.drawable.icons8_toilet_paper_24.asIcon()
+                                        enabled = false
+                                    }
+                                    button {
+                                        title = "Data Pulled".asText()
+                                        summary = "Jan 19, 2022".asText()
+                                        icon = R.drawable.ic_baseline_access_time_24.asIcon()
+                                        enabled = false
+                                    }
+                                    button {
+                                        title = "Open Source Licenses".asText()
+                                        icon = R.drawable.ic_baseline_source_24.asIcon()
+                                        enabled = true
+                                        onClick= {
+                                            startActivity(Intent(this@SettingsActivity, OssLicensesMenuActivity::class.java))
+                                        }
+                                    }
+                                    button {
+                                        title = "Icons from Icons8".asText()
+                                        icon = R.drawable.ic_icons8_icons8.asIcon()
+                                        onClick= {
+                                            "https://icons8.com/".openWithCustomTab(this@SettingsActivity)
+                                        }
                                     }
                                 }
                             }

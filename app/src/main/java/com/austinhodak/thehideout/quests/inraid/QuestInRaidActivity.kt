@@ -314,7 +314,7 @@ class QuestInRaidActivity : GodActivity() {
     }
 
     @Composable
-    private fun InRaidBottomNav(
+    fun InRaidBottomNav(
         navController: NavController
     ) {
         val items = listOf(
