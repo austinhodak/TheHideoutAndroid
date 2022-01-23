@@ -23,7 +23,7 @@ class TarkovRepo @Inject constructor(
     fun getAmmoByID(id: String): Flow<Ammo> = ammoDao.getAmmo(id)
 
     fun getItemsByType(type: ItemTypes): Flow<List<Item>> = itemDao.getByType(type)
-    fun getItemsByContains(id: String): Flow<List<Item>> = itemDao.getWhereContainsItem(id)
+    suspend fun getItemsByContains(id: String): List<Item> = itemDao.getWhereContainsItem(id)
 
     fun getItemsByTypesArmor(type: List<ItemTypes>): Flow<List<Item>> = itemDao.getByTypesArmor(type)
 

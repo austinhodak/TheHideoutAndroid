@@ -134,7 +134,14 @@ class FleaItemDetail : GodActivity() {
                     val barters by tarkovRepo.getBartersWithItemID("%${item?.id}%").collectAsState(emptyList())
                     val crafts by tarkovRepo.getCraftsWithItemID("%${item?.id}%").collectAsState(emptyList())
 
-                    val parents by tarkovRepo.getItemsByContains("%${item?.id}%").collectAsState(emptyList())
+                    var parents by remember {
+                        mutableStateOf(listOf<Item>())
+                    }
+
+                    LaunchedEffect(key1 = "parents") {
+                        parents = tarkovRepo.getItemsByContains("%${item?.id}%")
+                    }
+
                     val parentItems = parents.filter { it.id != itemID }
 
                     val userData by viewModel.userData.observeAsState()
@@ -163,10 +170,6 @@ class FleaItemDetail : GodActivity() {
                     }
 
                     rememberSystemUiController().setNavigationBarColor(DarkPrimary)
-
-                    if (item?.pricing?.containsItem?.isNotEmpty() == true) {
-                        //Toast.makeText(this, "Contains Child!", Toast.LENGTH_SHORT).show()
-                    }
 
                     LaunchedEffect(key1 = "") {
                         questsFirebase.child("priceAlerts").orderByChild("uid").equalTo(uid()).addValueEventListener(object : ValueEventListener {
@@ -240,8 +243,6 @@ class FleaItemDetail : GodActivity() {
                             Crossfade(targetState = selectedNavItem) {
                                 when (it) {
                                     0 -> {
-                                        Timber.d(item?.itemType.toString())
-
                                         LazyColumn(
                                             contentPadding = PaddingValues(top = 4.dp, bottom = 60.dp),
                                             horizontalAlignment = Alignment.CenterHorizontally
@@ -1546,7 +1547,7 @@ class FleaItemDetail : GodActivity() {
                             }
                         }
                         //////////////
-                        if (item?.itemType == ItemTypes.AMMO) {
+                        /*if (item?.itemType == ItemTypes.AMMO) {
                             FloatingActionButton(
                                 onClick = {
                                     this@FleaItemDetail.openAmmunitionDetail(itemID)
@@ -1619,7 +1620,7 @@ class FleaItemDetail : GodActivity() {
                                     modifier = Modifier.size(24.dp)
                                 )
                             }
-                        }
+                        }*/
                     }
                     Divider(
                         modifier = Modifier.padding(bottom = 8.dp),

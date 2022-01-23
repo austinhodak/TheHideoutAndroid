@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface ItemDao {
 
     @Query("SELECT * FROM items WHERE pricing LIKE :id")
-    fun getWhereContainsItem(id: String): Flow<List<Item>>
+    suspend fun getWhereContainsItem(id: String): List<Item>
 
     @Query("SELECT * FROM items WHERE id = :id")
     fun getByID(id: String): Flow<Item>
