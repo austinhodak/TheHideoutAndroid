@@ -6,14 +6,11 @@ import android.os.Build
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import androidx.core.app.NotificationCompat
 import androidx.work.*
 import com.adapty.Adapty
 import com.austinhodak.tarkovapi.UserSettingsModel
-import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
-import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.*
-import com.austinhodak.thehideout.utils.Prefs
+import com.austinhodak.thehideout.utils.Extras
 import com.austinhodak.thehideout.utils.isWorkRunning
 import com.austinhodak.thehideout.utils.isWorkScheduled
 import com.austinhodak.thehideout.utils.uid
@@ -33,7 +30,6 @@ import dagger.hilt.android.HiltAndroidApp
 import io.gleap.Gleap
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
@@ -51,7 +47,7 @@ class Application : android.app.Application(), Configuration.Provider {
     }
 
     companion object {
-        var questPrefs: Prefs? = null
+        var extras: Extras? = null
         var maps: Maps? = null
         var traders: Traders? = null
         var rigs: Rigs? = null
@@ -103,7 +99,7 @@ class Application : android.app.Application(), Configuration.Provider {
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
         instance = this
-        questPrefs = Prefs(applicationContext)
+        extras = Extras(applicationContext)
         maps = Maps(applicationContext)
         traders = Traders(applicationContext)
         rigs = Rigs(applicationContext)
@@ -199,8 +195,8 @@ class Application : android.app.Application(), Configuration.Provider {
         .build()
 }
 
-val questPrefs: Prefs by lazy {
-    Application.questPrefs!!
+val extras: Extras by lazy {
+    Application.extras!!
 }
 
 val mapsList: Maps = Application.maps!!

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.text.InputType
 import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -31,14 +30,11 @@ import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.*
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
-import com.austinhodak.tarkovapi.utils.getTTApiKey
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.billing.PremiumActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
@@ -47,29 +43,22 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.zxing.client.android.Intents
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import com.michaelflisar.materialpreferences.preferencescreen.*
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
-import com.michaelflisar.materialpreferences.preferencescreen.dependencies.Dependency
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDependency
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
 import io.gleap.Gleap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
@@ -108,28 +97,28 @@ class SettingsActivity : GodActivity() {
             Timber.d(it.toString())
             when (it) {
                 OpeningScreen.AMMO -> {
-                    questPrefs.setOpeningItem(101, "ammunition/{caliber}")
+                    extras.setOpeningItem(101, "ammunition/{caliber}")
                 }
                 OpeningScreen.KEYS -> {
-                    questPrefs.setOpeningItem(104, "keys")
+                    extras.setOpeningItem(104, "keys")
                 }
                 OpeningScreen.FLEA -> {
-                    questPrefs.setOpeningItem(107, "flea")
+                    extras.setOpeningItem(107, "flea")
                 }
                 OpeningScreen.HIDEOUT -> {
-                    questPrefs.setOpeningItem(108, "hideout")
+                    extras.setOpeningItem(108, "hideout")
                 }
                 OpeningScreen.QUESTS -> {
-                    questPrefs.setOpeningItem(109, "quests")
+                    extras.setOpeningItem(109, "quests")
                 }
                 OpeningScreen.LOADOUTS -> {
-                    questPrefs.setOpeningItem(115, "weaponloadouts")
+                    extras.setOpeningItem(115, "weaponloadouts")
                 }
                 OpeningScreen.MODS -> {
-                    questPrefs.setOpeningItem(114, "weaponmods")
+                    extras.setOpeningItem(114, "weaponmods")
                 }
                 OpeningScreen.WEAPONS -> {
-                    questPrefs.setOpeningItem(301, "assaultRifle")
+                    extras.setOpeningItem(301, "assaultRifle")
                 }
             }
         }
@@ -209,7 +198,7 @@ class SettingsActivity : GodActivity() {
                             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                             actions = {
                                 IconButton(onClick = {
-                                    openActivity(PremiumActivity::class.java)
+                                    launchPremiumPusher()
                                 }) {
                                     Image(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96), contentDescription = "")
                                     //Icon(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96), contentDescription = "", tint = Color.Transparent)

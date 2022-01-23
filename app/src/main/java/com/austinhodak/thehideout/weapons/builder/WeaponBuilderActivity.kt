@@ -422,7 +422,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                                         Toast.makeText(this@WeaponBuilderActivity, "Saved!", Toast.LENGTH_SHORT).show()
                                                     }
                                                 } else {
-                                                    Adapty.getPaywalls { paywalls, products, error ->
+                                                    /*Adapty.getPaywalls { paywalls, products, error ->
                                                         val premium = products?.find { it.skuDetails?.sku == "premium_1" }?.let {
                                                             it.purchase(this@WeaponBuilderActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
                                                                 if (error != null) {
@@ -437,7 +437,8 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                                                 }
                                                             }
                                                         }
-                                                    }
+                                                    }*/
+                                                    launchPremiumPusherResult()
                                                 }
                                             }
                                             //Toast.makeText(this@WeaponBuilderActivity, "Limited to 5 loadouts during beta.", Toast.LENGTH_SHORT).show()

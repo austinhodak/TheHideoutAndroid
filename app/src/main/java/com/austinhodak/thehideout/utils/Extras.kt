@@ -2,13 +2,32 @@ package com.austinhodak.thehideout.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.austinhodak.tarkovapi.R
+import com.austinhodak.tarkovapi.models.AmmoBallistic
+import com.austinhodak.tarkovapi.models.Server
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
+import java.lang.reflect.Type
 
 private const val FAVORITE_ITEMS = "FAVORITE_ITEMS"
 private const val OPENING_PAGE = "OPENING_PAGE_N"
 private const val OPENING_PAGE_TAG = "OPENING_PAGE_TAG_N"
 
-class Prefs(context: Context) {
+class Extras(context: Context) {
+
+    var servers: MutableList<Server> = mutableListOf()
+
+    init {
+        loadServers(context)
+    }
+
+    private fun loadServers(context: Context) {
+        if (servers.isNullOrEmpty()) {
+            val groupListType: Type = object : TypeToken<ArrayList<Server?>?>() {}.type
+            servers = Gson().fromJson(context.resources.openRawResource(R.raw.ip).bufferedReader().use { it.readText() }, groupListType)
+        }
+    }
 
     val preference: SharedPreferences = context.getSharedPreferences("hideout", Context.MODE_PRIVATE)
 
@@ -65,7 +84,6 @@ class Prefs(context: Context) {
         set.remove(id)
         favoriteItems = set
     }
-
 
 
 }

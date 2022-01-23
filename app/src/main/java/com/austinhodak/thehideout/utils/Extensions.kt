@@ -320,8 +320,20 @@ fun Context.launchPremiumPusher() {
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
+fun Context.launchPremiumPusherResult() {
+    this.openActivity(PremiumPusherActivity::class.java) {
+        putString("setResult", "true")
+    }
+}
+
+@ExperimentalPagerApi
+@ExperimentalAnimationApi
+@ExperimentalCoroutinesApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 fun Context.launchPremium() {
-    this.openActivity(PremiumActivity::class.java)
+    this.openActivity(PremiumPusherActivity::class.java)
 }
 
 fun AmmoCalibers(): List<String> = arrayListOf(

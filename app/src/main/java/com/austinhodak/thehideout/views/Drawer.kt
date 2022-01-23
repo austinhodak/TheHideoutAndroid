@@ -3,17 +3,13 @@ package com.austinhodak.thehideout.views
 import android.content.Context
 import android.util.AttributeSet
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
@@ -30,31 +26,28 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.austinhodak.tarkovapi.ServerStatusQuery
 import com.austinhodak.tarkovapi.TraderResetTimersQuery
-import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.ServerStatus
 import com.austinhodak.tarkovapi.models.TraderReset
 import com.austinhodak.tarkovapi.models.toObj
-import com.austinhodak.tarkovapi.utils.color
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.billing.PremiumPusherActivity
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
-import com.austinhodak.thehideout.compose.theme.DividerDark
-import com.austinhodak.thehideout.compose.theme.Green500
-import com.austinhodak.thehideout.compose.theme.StatusRed
+import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.map.MapsActivity
-import com.austinhodak.thehideout.questPrefs
+import com.austinhodak.thehideout.extras
 import com.austinhodak.thehideout.settings.SettingsActivity
 import com.austinhodak.thehideout.status.ServerStatusActivity
+import com.austinhodak.thehideout.utils.launchPremiumPusher
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.ColorHolder
-import com.mikepenz.materialdrawer.holder.StringHolder
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.badgeText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
@@ -262,13 +255,19 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
 
     private val drawerRestockTimers = SecondaryDrawerItem().apply {
         tag = "restock"; level = 2; identifier = 404; nameText =
-        "Trader Restock Timers"; iconRes = R.drawable.ic_baseline_access_time_24; isIconTinted =
+        "Trader Restock Timers"; iconRes = R.drawable.ic_baseline_timer_24; isIconTinted =
         true; typeface = benderFont; isEnabled = true
     }
 
     private val drawerPriceAlerts = SecondaryDrawerItem().apply {
         tag = "price_alerts"; level = 2; identifier = 405; nameText =
         "Price Alerts"; iconRes = R.drawable.ic_baseline_notifications_active_24; isIconTinted =
+        true; typeface = benderFont; isEnabled = true
+    }
+
+    private val drawerServerPings = SecondaryDrawerItem().apply {
+        tag = "server_pings"; level = 2; identifier = 406; nameText =
+        "Server Pings"; iconRes = R.drawable.ic_baseline_network_ping_24; isIconTinted =
         true; typeface = benderFont; isEnabled = true
     }
 
@@ -290,6 +289,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
             drawerCurrencyConverter,
             drawerPriceAlerts,
             drawerSensitivity,
+            drawerServerPings,
             drawerRestockTimers
         )
     }
@@ -460,6 +460,20 @@ fun MainDrawer(
 
     var status: ServerStatus? by remember { mutableStateOf(null) }
     var resetTimers: TraderReset? by remember { mutableStateOf(null) }
+    var isPremium: Boolean? by remember { mutableStateOf(null) }
+
+
+
+    Adapty.setOnPurchaserInfoUpdatedListener(object : OnPurchaserInfoUpdatedListener {
+        override fun onPurchaserInfoReceived(purchaserInfo: PurchaserInfoModel) {
+            isPremium = purchaserInfo.accessLevels["premium"]?.isActive == true
+        }
+    })
+
+    com.austinhodak.thehideout.utils.isPremium {
+        isPremium = it
+    }
+
     var isTimersRunning = false
 
     LaunchedEffect("drawer") {
@@ -511,6 +525,30 @@ fun MainDrawer(
             ) {
                 GameClockText(Modifier.weight(1f), true, navViewModel)
                 GameClockText(Modifier.weight(1f), false, navViewModel)
+            }
+            if (isPremium == false) {
+                Surface(
+                    color = Red400,
+                    modifier = Modifier,
+                ) {
+                    Row(
+                        Modifier
+                            .clickable {
+                                context.launchPremiumPusher()
+                            }
+                            .padding(horizontal = 14.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (Firebase.remoteConfig.getBoolean("sale_active")) {
+                            //Icon(painter = painterResource(id = R.drawable.icons8_sale_96), contentDescription = "", tint = Black)
+                        } else {
+                            //Icon(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96_black), contentDescription = "", tint = Black)
+                        }
+                        Text(text = "GO PREMIUM", color = Black, style = MaterialTheme.typography.button, modifier = Modifier.padding(start = 2.dp))
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "", tint = Black)
+                    }
+                }
             }
             /*Card(
                 modifier = Modifier
@@ -602,7 +640,7 @@ fun MainDrawer(
                     if (selectedDrawerItem != null) {
                         drawer.setSelection(selectedDrawerItem!!.identifier, false)
                     } else {
-                        drawer.getDrawerItem(questPrefs.openingPage)?.let {
+                        drawer.getDrawerItem(extras.openingPage)?.let {
                             navViewModel.drawerItemSelected(it)
                             drawer.setSelection(it.identifier, false)
                         }

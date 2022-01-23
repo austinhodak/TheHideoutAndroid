@@ -116,7 +116,7 @@ fun RestockTimersScreen(
                         }
                     ) {
                         Row(
-                            Modifier.padding(vertical = 16.dp, horizontal = 16.dp),
+                            Modifier.padding(vertical = 4.dp, horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
@@ -164,7 +164,7 @@ fun RestockTimersScreen(
                         }
                     ) {
                         Row(
-                            Modifier.padding(vertical = 16.dp, horizontal = 16.dp),
+                            Modifier.padding(vertical = 4.dp, horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(

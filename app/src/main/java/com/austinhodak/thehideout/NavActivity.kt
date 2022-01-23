@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -46,6 +47,7 @@ import com.austinhodak.thehideout.skills.CharacterSkillsScreen
 import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.tools.PriceAlertsScreen
 import com.austinhodak.thehideout.tools.SensitivityCalculatorScreen
+import com.austinhodak.thehideout.tools.ServerPingScreen
 import com.austinhodak.thehideout.tools.viewmodels.SensitivityViewModel
 import com.austinhodak.thehideout.traders.RestockTimersScreen
 import com.austinhodak.thehideout.traders.TraderScreen
@@ -153,6 +155,7 @@ class NavActivity : GodActivity() {
         }
     }
 
+    @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -172,7 +175,7 @@ class NavActivity : GodActivity() {
             val navController = rememberNavController()
             val systemUiController = rememberSystemUiController()
 
-            val tag: String = navViewModel.selectedDrawerItem.value?.tag?.toString() ?: questPrefs.openingPageTag
+            val tag: String = navViewModel.selectedDrawerItem.value?.tag?.toString() ?: extras.openingPageTag
 
             navViewModel.isDrawerOpen.observe(lifeCycleOwner) { isOpen ->
                 coroutineScope.launch {
@@ -324,6 +327,9 @@ class NavActivity : GodActivity() {
                         }
                         composable("price_alerts") {
                             PriceAlertsScreen(navViewModel, tarkovRepo)
+                        }
+                        composable("server_pings") {
+                            ServerPingScreen(navViewModel, tarkovRepo)
                         }
                     }
 

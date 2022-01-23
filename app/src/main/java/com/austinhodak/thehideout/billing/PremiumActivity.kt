@@ -61,7 +61,7 @@ class PremiumActivity : AppCompatActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text("Upgrade") },
+                            title = { Text("Upgrade to Premium") },
                             navigationIcon = {
                                 IconButton(onClick = {
                                     onBackPressed()
@@ -89,15 +89,13 @@ class PremiumActivity : AppCompatActivity() {
                                 SubCard(details = it)
                             }
                         }
+
                         item {
-                            Text(
-                                text = "DONATIONS",
-                                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
-                            )
-                        }
-                        itemslist?.forEach {
-                            item {
-                                IAPCard(details = it)
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.padding(top = 12.dp, start = 16.dp, end = 16.dp)
+                            ) {
+                                Text(text = "Thank you for supporting The Hideout!", style = MaterialTheme.typography.h5)
                             }
                         }
                     }
@@ -138,7 +136,9 @@ class PremiumActivity : AppCompatActivity() {
                         .clickable {
                             details.purchase(this@PremiumActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
                                 if (error == null) {
-                                    Toast.makeText(this@PremiumActivity, "Thank you!", Toast.LENGTH_SHORT).show()
+                                    Toast
+                                        .makeText(this@PremiumActivity, "Thank you!", Toast.LENGTH_SHORT)
+                                        .show()
                                     restartNavActivity()
                                 }
                             }
@@ -181,7 +181,9 @@ class PremiumActivity : AppCompatActivity() {
                         .clickable {
                             details.purchase(this@PremiumActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
                                 if (error == null) {
-                                    Toast.makeText(this@PremiumActivity, "Thank you!", Toast.LENGTH_SHORT).show()
+                                    Toast
+                                        .makeText(this@PremiumActivity, "Thank you!", Toast.LENGTH_SHORT)
+                                        .show()
                                     restartNavActivity()
                                 }
                             }

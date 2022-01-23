@@ -40,7 +40,6 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
-import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
@@ -51,13 +50,12 @@ import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.components.ShoppingCartScreen
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.questPrefs
+import com.austinhodak.thehideout.extras
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
 import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
@@ -328,7 +326,7 @@ fun FleaMarketFavoritesList(
                 || it.Name?.contains(searchKey, ignoreCase = true) == true
                 || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
     }?.filter {
-        questPrefs.favoriteItems?.contains(it.id) ?: false
+        extras.favoriteItems?.contains(it.id) ?: false
     }
 
     if (list?.isEmpty() == true) {

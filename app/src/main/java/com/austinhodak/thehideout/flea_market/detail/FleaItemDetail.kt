@@ -149,12 +149,12 @@ class FleaItemDetail : GodActivity() {
                     )
 
                     var isFavorited by remember {
-                        mutableStateOf(questPrefs.favoriteItems?.contains(itemID))
+                        mutableStateOf(extras.favoriteItems?.contains(itemID))
                     }
 
-                    questPrefs.preference.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->
+                    extras.preference.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->
                         if (s == "FAVORITE_ITEMS") {
-                            isFavorited = questPrefs.favoriteItems?.contains(itemID)
+                            isFavorited = extras.favoriteItems?.contains(itemID)
                         }
                     }
 
@@ -197,10 +197,10 @@ class FleaItemDetail : GodActivity() {
                                     }*/
                                     IconButton(onClick = {
                                         isFavorited = if (isFavorited == true) {
-                                            questPrefs.removeFavorite(itemID)
+                                            extras.removeFavorite(itemID)
                                             false
                                         } else {
-                                            questPrefs.addFavorite(itemID)
+                                            extras.addFavorite(itemID)
                                             true
                                         }
                                     }) {
@@ -855,7 +855,7 @@ class FleaItemDetail : GodActivity() {
     }
 
     private fun launchPremiumPusher() {
-        startPremiumPurchase(this)
+        launchPremiumPusherResult()
     }
 
     @Composable

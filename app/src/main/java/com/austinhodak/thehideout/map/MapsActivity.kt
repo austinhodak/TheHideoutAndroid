@@ -415,15 +415,7 @@ class MapsActivity : GodActivity() {
                                                                     }
                                                                     updateQuestMarkers(list, userData, quests)
                                                                 } else {
-                                                                    Adapty.getPaywalls { paywalls, products, error ->
-                                                                        val premium = products?.find { it.skuDetails?.sku == "premium_1" }?.let {
-                                                                            it.purchase(this@MapsActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
-                                                                                if (error != null) {
-                                                                                    Toast.makeText(this@MapsActivity, "Error upgrading.", Toast.LENGTH_SHORT).show()
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
+                                                                    launchPremiumPusherResult()
                                                                 }
                                                             }
                                                         }
