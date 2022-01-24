@@ -55,6 +55,7 @@ import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
+import com.austinhodak.thehideout.hideout.detail.HideoutStationDetailActivity
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.quests.Chip
@@ -213,7 +214,8 @@ private fun OverviewItem(
     icon: Int = R.drawable.ic_baseline_assignment_turned_in_24,
     s1: String = "",
     s2: String = "",
-    progress: Float? = 0.5f
+    progress: Float? = 0.5f,
+    clicked: () -> Unit
 ) {
     val p by remember { mutableStateOf(progress) }
     val animatedProgress by animateFloatAsState(
@@ -226,7 +228,10 @@ private fun OverviewItem(
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .height(72.dp)
             .fillMaxWidth(),
-        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+        onClick = {
+            clicked()
+        }
     ) {
         Row {
             Image(
@@ -272,6 +277,7 @@ private fun OverviewItem(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HideoutStationsPage(
     tarkovRepo: TarkovRepo,
@@ -281,6 +287,7 @@ private fun HideoutStationsPage(
     val stations = hideoutList.hideout?.stations?.sortedBy { it?.locales?.en }
     val modules = hideoutList.hideout?.modules
     val userData by hideoutViewModel.userData.observeAsState()
+    val context = LocalContext.current
 
     LazyColumn(
         contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding() + 4.dp)
@@ -297,7 +304,11 @@ private fun HideoutStationsPage(
                         s2 = "${modulesComplete}/${moduleTotal}",
                         color = if (moduleTotal == modulesComplete) Red400 else BorderColor,
                         progress = (modulesComplete?.toDouble()?.div(moduleTotal?.toDouble() ?: 1.0))?.toFloat()
-                    )
+                    ) {
+                        context.openActivity(HideoutStationDetailActivity::class.java) {
+                            putSerializable("station", station)
+                        }
+                    }
                     /*Card(
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                         backgroundColor = Color(0xFE1F1F1F)

@@ -156,38 +156,6 @@ class ServerStatusActivity : AppCompatActivity() {
                                     }
                                 }
                             }
-                            /*item {
-                                Card(
-                                    backgroundColor = if (isSystemInDarkTheme()) Color(
-                                        0xFE1F1F1F
-                                    ) else MaterialTheme.colors.primary,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 4.dp),
-                                    onClick = {
-                                        scope.launch {
-                                            UserSettingsModel.showStatusOnHomeScreen.update(!UserSettingsModel.showStatusOnHomeScreen.value)
-                                        }
-                                    }
-                                ) {
-                                    Row(
-                                        Modifier.padding(vertical = 16.dp, horizontal = 16.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            text = "Show Status Updates on Home Screen",
-                                            //color = Color.White,
-                                            style = MaterialTheme.typography.subtitle2,
-                                        )
-                                        Spacer(modifier = Modifier.weight(1f))
-                                        Switch(checked = showOnHomeCheck, onCheckedChange = {
-                                            scope.launch {
-                                                UserSettingsModel.showStatusOnHomeScreen.update(it)
-                                            }
-                                        })
-                                    }
-                                }
-                            }*/
                         }
                     }
                 }

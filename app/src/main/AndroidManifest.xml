@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
+            android:name=".hideout.detail.HideoutStationDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".status.ServerStatusActivity"
             android:exported="true" />
 
@@ -31,7 +34,7 @@
         <activity
             android:name=".pickers.PickerActivity"
             android:exported="true"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"></activity>
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
             android:name=".widgets.WidgetPickerActivity"
             android:exported="true"
