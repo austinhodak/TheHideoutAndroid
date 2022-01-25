@@ -412,8 +412,8 @@ class FleaItemDetail : GodActivity() {
                                 .padding(
                                     start = 16.dp,
                                     end = 16.dp,
-                                    top = 8.dp,
-                                    bottom = 8.dp
+                                    top = 0.dp,
+                                    bottom = 0.dp
                                 )
                                 .defaultMinSize(minHeight = 28.dp)
                         ) {
