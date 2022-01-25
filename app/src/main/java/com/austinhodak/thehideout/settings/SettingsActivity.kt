@@ -565,181 +565,178 @@ class SettingsActivity : GodActivity() {
                                     icon = R.drawable.ic_baseline_link_24.asIcon()
                                     //summary = "Coming soon.".asText()
                                     badge = "PRO".asBatch()
-                                    isPremium {
-                                        //TODO REMOVE !it before public release
-                                        if (it || !it) {
-                                            button {
-                                                title = "How to Setup".asText()
-                                                icon = R.drawable.ic_baseline_info_24.asIcon()
-                                                onClick = {
-                                                    MaterialDialog(this@SettingsActivity).show {
-                                                        title(text = "Instructions")
-                                                        message(text = "1. Go to TarkovTracker.io and login or create an account. \n\n2. Go to Settings. \n\n3. In the TarkovTracker API section, enter a name for the token, make sure all permissions are checked and create the token. \n\n4. Next to the token click the QR code, then click Scan QR Code below.")
-                                                        positiveButton(text = "GO") {
-                                                            "https://tarkovtracker.io/settings/".openWithCustomTab(this@SettingsActivity)
-                                                        }
-                                                        negativeButton(text = "CANCEL")
-                                                        neutralButton(text = "SCAN QR") {
-                                                            val scanOptions = ScanOptions()
-                                                            scanOptions.setPrompt("Scan QR code from Tarkov Tracker API settings.")
-                                                            scanOptions.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
-                                                            scanOptions.setBeepEnabled(false)
-                                                            scanOptions.setBarcodeImageEnabled(false)
-                                                            scanOptions.setOrientationLocked(false)
-                                                            scanOptions.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.MIXED_SCAN)
-                                                            barcodeLauncher.launch(scanOptions)
-                                                        }
+                                    if (UserSettingsModel.isPremiumUser.value) {
+                                        button {
+                                            title = "How to Setup".asText()
+                                            icon = R.drawable.ic_baseline_info_24.asIcon()
+                                            onClick = {
+                                                MaterialDialog(this@SettingsActivity).show {
+                                                    title(text = "Instructions")
+                                                    message(text = "1. Go to TarkovTracker.io and login or create an account. \n\n2. Go to Settings. \n\n3. In the TarkovTracker API section, enter a name for the token, make sure all permissions are checked and create the token. \n\n4. Next to the token click the QR code, then click Scan QR Code below.")
+                                                    positiveButton(text = "GO") {
+                                                        "https://tarkovtracker.io/settings/".openWithCustomTab(this@SettingsActivity)
+                                                    }
+                                                    negativeButton(text = "CANCEL")
+                                                    neutralButton(text = "SCAN QR") {
+                                                        val scanOptions = ScanOptions()
+                                                        scanOptions.setPrompt("Scan QR code from Tarkov Tracker API settings.")
+                                                        scanOptions.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+                                                        scanOptions.setBeepEnabled(false)
+                                                        scanOptions.setBarcodeImageEnabled(false)
+                                                        scanOptions.setOrientationLocked(false)
+                                                        scanOptions.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.MIXED_SCAN)
+                                                        barcodeLauncher.launch(scanOptions)
                                                     }
                                                 }
                                             }
-                                            input(UserSettingsModel.ttAPIKey) {
-                                                title = "API Token".asText()
-                                                hint = "Enter API key here.".asText()
-                                                icon = R.drawable.ic_baseline_vpn_key_24.asIcon()
-                                                summary = "".asText()
-                                                textInputType = InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
+                                        }
+                                        input(UserSettingsModel.ttAPIKey) {
+                                            title = "API Token".asText()
+                                            hint = "Enter API key here.".asText()
+                                            icon = R.drawable.ic_baseline_vpn_key_24.asIcon()
+                                            summary = "".asText()
+                                            textInputType = InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
+                                        }
+                                        button {
+                                            title = "Scan QR Code".asText()
+                                            icon = R.drawable.ic_baseline_qr_code_scanner_24.asIcon()
+                                            onClick = {
+                                                val scanOptions = ScanOptions()
+                                                scanOptions.setPrompt("Scan QR code from Tarkov Tracker API settings.")
+                                                scanOptions.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+                                                scanOptions.setBeepEnabled(false)
+                                                scanOptions.setBarcodeImageEnabled(false)
+                                                scanOptions.setOrientationLocked(false)
+                                                scanOptions.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.MIXED_SCAN)
+                                                barcodeLauncher.launch(scanOptions)
                                             }
-                                            button {
-                                                title = "Scan QR Code".asText()
-                                                icon = R.drawable.ic_baseline_qr_code_scanner_24.asIcon()
-                                                onClick = {
-                                                    val scanOptions = ScanOptions()
-                                                    scanOptions.setPrompt("Scan QR code from Tarkov Tracker API settings.")
-                                                    scanOptions.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
-                                                    scanOptions.setBeepEnabled(false)
-                                                    scanOptions.setBarcodeImageEnabled(false)
-                                                    scanOptions.setOrientationLocked(false)
-                                                    scanOptions.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.MIXED_SCAN)
-                                                    barcodeLauncher.launch(scanOptions)
+                                        }
+                                        category {
+                                            title = "Sync Settings".asText()
+                                        }
+                                        switch(UserSettingsModel.ttSync) {
+                                            title = "Sync Your Progress".asText()
+                                            summary = "Syncs on app open and close at this time. Realtime updates coming at a later date.".asText()
+                                            icon = R.drawable.ic_baseline_cloud_sync_24.asIcon()
+                                            dependsOn = object : Dependency<String> {
+                                                override val setting = UserSettingsModel.ttAPIKey
+                                                override suspend fun isEnabled(): Boolean {
+                                                    val value = setting.flow.first()
+                                                    return value.isNotEmpty()
                                                 }
                                             }
-                                            category {
-                                                title = "Sync Settings".asText()
+                                        }
+                                        switch(UserSettingsModel.ttSyncQuest) {
+                                            title = "Sync Quest Progress".asText()
+                                            dependsOn = object : Dependency<String> {
+                                                override val setting = UserSettingsModel.ttAPIKey
+                                                override suspend fun isEnabled(): Boolean {
+                                                    val value = setting.flow.first()
+                                                    return value.isNotEmpty()
+                                                }
                                             }
-                                            switch(UserSettingsModel.ttSync) {
-                                                title = "Sync Your Progress".asText()
-                                                summary = "Syncs on app open and close at this time. Realtime updates coming at a later date.".asText()
-                                                icon = R.drawable.ic_baseline_cloud_sync_24.asIcon()
-                                                dependsOn = object : Dependency<String> {
-                                                    override val setting = UserSettingsModel.ttAPIKey
-                                                    override suspend fun isEnabled(): Boolean {
-                                                        val value = setting.flow.first()
-                                                        return value.isNotEmpty()
+                                        }
+                                        switch(UserSettingsModel.ttSyncHideout) {
+                                            title = "Sync Hideout Progress".asText()
+                                            dependsOn = object : Dependency<String> {
+                                                override val setting = UserSettingsModel.ttAPIKey
+                                                override suspend fun isEnabled(): Boolean {
+                                                    val value = setting.flow.first()
+                                                    return value.isNotEmpty()
+                                                }
+                                            }
+                                        }
+                                        button {
+                                            title = "Sync Now".asText()
+                                            summary = "".asText()
+                                            icon = R.drawable.ic_baseline_sync_24.asIcon()
+                                            dependsOn = object : Dependency<String> {
+                                                override val setting = UserSettingsModel.ttAPIKey
+                                                override suspend fun isEnabled(): Boolean {
+                                                    val value = setting.flow.first()
+                                                    return value.isNotEmpty()
+                                                }
+                                            }
+                                            onClick = {
+                                                lifecycleScope.launch {
+                                                    if (UserSettingsModel.ttSync.value && UserSettingsModel.ttAPIKey.value.isNotEmpty()) {
+                                                        scaffoldState.snackbarHostState.showSnackbar("Sync starting! This may take a while.")
+                                                        syncTT(lifecycleScope, ttRepository)
+                                                    } else {
+                                                        scaffoldState.snackbarHostState.showSnackbar("Sync turned off, please turn on first.")
                                                     }
                                                 }
                                             }
-                                            switch(UserSettingsModel.ttSyncQuest) {
-                                                title = "Sync Quest Progress".asText()
-                                                dependsOn = object : Dependency<String> {
-                                                    override val setting = UserSettingsModel.ttAPIKey
-                                                    override suspend fun isEnabled(): Boolean {
-                                                        val value = setting.flow.first()
-                                                        return value.isNotEmpty()
-                                                    }
+                                        }
+                                        category {
+                                            title = "Overwrite".asText()
+                                        }
+                                        button {
+                                            title = "Push".asText()
+                                            summary = "Will overwrite any data on Tarkov Tracker.".asText()
+                                            icon = R.drawable.ic_baseline_backup_24.asIcon()
+                                            dependsOn = object : Dependency<String> {
+                                                override val setting = UserSettingsModel.ttAPIKey
+                                                override suspend fun isEnabled(): Boolean {
+                                                    val value = setting.flow.first()
+                                                    return value.isNotEmpty()
                                                 }
                                             }
-                                            switch(UserSettingsModel.ttSyncHideout) {
-                                                title = "Sync Hideout Progress".asText()
-                                                dependsOn = object : Dependency<String> {
-                                                    override val setting = UserSettingsModel.ttAPIKey
-                                                    override suspend fun isEnabled(): Boolean {
-                                                        val value = setting.flow.first()
-                                                        return value.isNotEmpty()
-                                                    }
-                                                }
-                                            }
-                                            button {
-                                                title = "Sync Now".asText()
-                                                summary = "".asText()
-                                                icon = R.drawable.ic_baseline_sync_24.asIcon()
-                                                dependsOn = object : Dependency<String> {
-                                                    override val setting = UserSettingsModel.ttAPIKey
-                                                    override suspend fun isEnabled(): Boolean {
-                                                        val value = setting.flow.first()
-                                                        return value.isNotEmpty()
-                                                    }
-                                                }
-                                                onClick = {
-                                                    lifecycleScope.launch {
-                                                        if (UserSettingsModel.ttSync.value && UserSettingsModel.ttAPIKey.value.isNotEmpty()) {
-                                                            scaffoldState.snackbarHostState.showSnackbar("Sync starting! This may take a while.")
-                                                            syncTT(lifecycleScope, ttRepository)
-                                                        } else {
-                                                            scaffoldState.snackbarHostState.showSnackbar("Sync turned off, please turn on first.")
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            category {
-                                                title = "Overwrite".asText()
-                                            }
-                                            button {
-                                                title = "Push".asText()
-                                                summary = "Will overwrite any data on Tarkov Tracker.".asText()
-                                                icon = R.drawable.ic_baseline_backup_24.asIcon()
-                                                dependsOn = object : Dependency<String> {
-                                                    override val setting = UserSettingsModel.ttAPIKey
-                                                    override suspend fun isEnabled(): Boolean {
-                                                        val value = setting.flow.first()
-                                                        return value.isNotEmpty()
-                                                    }
-                                                }
-                                                onClick = {
-                                                    lifecycleScope.launch {
-                                                        scaffoldState.snackbarHostState.showSnackbar("Pushing to TarkovTracker! This may take a while.")
-                                                        if (uid() != null) {
-                                                            questsFirebase.child("users/${uid()}").addListenerForSingleValueEvent(object : ValueEventListener {
-                                                                override fun onDataChange(snapshot: DataSnapshot) {
-                                                                    val user = snapshot.getValue<User>()
-                                                                    user?.pushToTT(lifecycleScope, ttRepository)
-                                                                }
-
-                                                                override fun onCancelled(error: DatabaseError) {
-
-                                                                }
-                                                            })
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            button {
-                                                title = "Pull".asText()
-                                                summary = "Will overwrite any data on app.".asText()
-                                                icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
-                                                dependsOn = object : Dependency<String> {
-                                                    override val setting = UserSettingsModel.ttAPIKey
-                                                    override suspend fun isEnabled(): Boolean {
-                                                        val value = setting.flow.first()
-                                                        return value.isNotEmpty()
-                                                    }
-                                                }
-                                                onClick = {
-                                                    lifecycleScope.launch {
-                                                        val test = ttRepository.getUserProgress()
-
-                                                        if (test.isSuccessful) {
-                                                            test.body()?.quests?.forEach {
-                                                                Timber.d("${it.key} ${it.value.complete}")
+                                            onClick = {
+                                                lifecycleScope.launch {
+                                                    scaffoldState.snackbarHostState.showSnackbar("Pushing to TarkovTracker! This may take a while.")
+                                                    if (uid() != null) {
+                                                        questsFirebase.child("users/${uid()}").addListenerForSingleValueEvent(object : ValueEventListener {
+                                                            override fun onDataChange(snapshot: DataSnapshot) {
+                                                                val user = snapshot.getValue<User>()
+                                                                user?.pushToTT(lifecycleScope, ttRepository)
                                                             }
 
-                                                            test.body()?.pushToDB()
-                                                            UserSettingsModel.playerLevel.update(test.body()?.level ?: return@launch)
+                                                            override fun onCancelled(error: DatabaseError) {
 
-                                                            scaffoldState.snackbarHostState.showSnackbar("Sync completed!")
-                                                        } else {
-                                                            scaffoldState.snackbarHostState.showSnackbar("Error, please check API key and try again.")
-                                                        }
+                                                            }
+                                                        })
                                                     }
                                                 }
                                             }
-                                        } else {
-                                            button {
-                                                title = "Not Premium".asText()
-                                                icon = R.drawable.ic_baseline_stars_24.asIcon()
-                                                summary = "Tarkov Tracker integration is a premium feature, please upgrade to enable.".asText()
-                                                onClick = {
-                                                    launchPremiumPusher()
+                                        }
+                                        button {
+                                            title = "Pull".asText()
+                                            summary = "Will overwrite any data on app.".asText()
+                                            icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
+                                            dependsOn = object : Dependency<String> {
+                                                override val setting = UserSettingsModel.ttAPIKey
+                                                override suspend fun isEnabled(): Boolean {
+                                                    val value = setting.flow.first()
+                                                    return value.isNotEmpty()
                                                 }
+                                            }
+                                            onClick = {
+                                                lifecycleScope.launch {
+                                                    val test = ttRepository.getUserProgress()
+
+                                                    if (test.isSuccessful) {
+                                                        test.body()?.quests?.forEach {
+                                                            Timber.d("${it.key} ${it.value.complete}")
+                                                        }
+
+                                                        test.body()?.pushToDB()
+                                                        UserSettingsModel.playerLevel.update(test.body()?.level ?: return@launch)
+
+                                                        scaffoldState.snackbarHostState.showSnackbar("Sync completed!")
+                                                    } else {
+                                                        scaffoldState.snackbarHostState.showSnackbar("Error, please check API key and try again.")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        button {
+                                            title = "Not Premium".asText()
+                                            icon = R.drawable.ic_baseline_stars_24.asIcon()
+                                            summary = "Tarkov Tracker integration is a premium feature, please upgrade to enable.".asText()
+                                            onClick = {
+                                                launchPremiumPusher()
                                             }
                                         }
                                     }
