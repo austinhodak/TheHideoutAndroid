@@ -975,10 +975,11 @@ fun openStatusSite(context: Context) {
 }
 
 fun ttSyncEnabledPremium(isEnabled: (Boolean) -> Unit) {
-    isPremium {
+    isEnabled(true)
+    /*isPremium {
         if (it && UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value) isEnabled(true)
         else isEnabled(false)
-    }
+    }*/
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

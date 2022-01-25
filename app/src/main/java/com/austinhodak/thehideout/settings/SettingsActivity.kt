@@ -143,7 +143,7 @@ class SettingsActivity : GodActivity() {
                 }
 
                 isSignedIn = FirebaseAuth.getInstance().currentUser != null && FirebaseAuth.getInstance().currentUser?.isAnonymous == false
-                
+
                 val gameInfo = try {
                     JSONObject(FirebaseRemoteConfig.getInstance()["game_info"].asString())
                 } catch (e: Exception) {
@@ -177,7 +177,7 @@ class SettingsActivity : GodActivity() {
                     } else {
                         gameInfo?.getString("version_date")
                     }
-                }  catch (e: Exception) {
+                } catch (e: Exception) {
                     Firebase.crashlytics.recordException(e)
                     null
                 }
@@ -204,11 +204,13 @@ class SettingsActivity : GodActivity() {
                             },
                             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                             actions = {
-                                IconButton(onClick = {
-                                    launchPremiumPusher()
-                                }) {
-                                    Image(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96), contentDescription = "")
-                                    //Icon(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96), contentDescription = "", tint = Color.Transparent)
+                                if (!UserSettingsModel.isPremiumUser.value) {
+                                    IconButton(onClick = {
+                                        launchPremiumPusher()
+                                    }) {
+                                        Image(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96), contentDescription = "")
+                                        //Icon(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96), contentDescription = "", tint = Color.Transparent)
+                                    }
                                 }
                             }
                         )
@@ -218,7 +220,7 @@ class SettingsActivity : GodActivity() {
                         modifier = Modifier.fillMaxSize(),
                         factory = { context ->
                             val recyclerView = RecyclerView(context)
-                            recyclerView.layoutManager = LinearLayoutManager(context) 
+                            recyclerView.layoutManager = LinearLayoutManager(context)
 
                             PreferenceScreenConfig.apply {
                                 alignIconsWithBackArrow = true
@@ -425,7 +427,8 @@ class SettingsActivity : GodActivity() {
                                         onClick = {
                                             Toast.makeText(this@SettingsActivity, "Updating...", Toast.LENGTH_SHORT).show()
                                             val priceUpdateRequestTest = OneTimeWorkRequest.Builder(
-                                                PriceUpdateWorker::class.java).build()
+                                                PriceUpdateWorker::class.java
+                                            ).build()
 
                                             WorkManager.getInstance(this@SettingsActivity).enqueue(priceUpdateRequestTest)
                                         }
@@ -521,12 +524,12 @@ class SettingsActivity : GodActivity() {
                                         dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
                                     }
                                     if (Build.VERSION.SDK_INT >= 26)
-                                    button {
-                                        title = "Notification Settings".asText()
-                                        onClick = {
-                                            openNotificationSettings("SERVER_STATUS")
+                                        button {
+                                            title = "Notification Settings".asText()
+                                            onClick = {
+                                                openNotificationSettings("SERVER_STATUS")
+                                            }
                                         }
-                                    }
                                     category {
                                         title = "Trader Restock".asText()
                                     }
@@ -534,12 +537,12 @@ class SettingsActivity : GodActivity() {
                                         title = "Show Notifications".asText()
                                     }
                                     if (Build.VERSION.SDK_INT >= 26)
-                                    button {
-                                        title = "Notification Settings".asText()
-                                        onClick = {
-                                            openNotificationSettings("TRADER_RESTOCK")
+                                        button {
+                                            title = "Notification Settings".asText()
+                                            onClick = {
+                                                openNotificationSettings("TRADER_RESTOCK")
+                                            }
                                         }
-                                    }
                                     category {
                                         title = "Price Alerts".asText()
                                     }
@@ -547,12 +550,12 @@ class SettingsActivity : GodActivity() {
                                         title = "Show Notifications".asText()
                                     }
                                     if (Build.VERSION.SDK_INT >= 26)
-                                    button {
-                                        title = "Notification Settings".asText()
-                                        onClick = {
-                                            openNotificationSettings("PRICE_ALERTS")
+                                        button {
+                                            title = "Notification Settings".asText()
+                                            onClick = {
+                                                openNotificationSettings("PRICE_ALERTS")
+                                            }
                                         }
-                                    }
                                 }
                                 category {
                                     title = "Integrations (Beta)".asText()
@@ -854,7 +857,7 @@ class SettingsActivity : GodActivity() {
                                         summary = "${gameInfo?.getString("version")} ($versionDate)".asText()
                                         icon = R.drawable.ic_baseline_info_24.asIcon()
                                         enabled = false
-                                        onClick= {
+                                        onClick = {
                                             "https://escapefromtarkov.fandom.com/wiki/Changelog".openWithCustomTab(this@SettingsActivity)
                                         }
                                     }
@@ -874,14 +877,14 @@ class SettingsActivity : GodActivity() {
                                         title = "Open Source Licenses".asText()
                                         icon = R.drawable.ic_baseline_source_24.asIcon()
                                         enabled = true
-                                        onClick= {
+                                        onClick = {
                                             startActivity(Intent(this@SettingsActivity, OssLicensesMenuActivity::class.java))
                                         }
                                     }
                                     button {
                                         title = "Icons from Icons8".asText()
                                         icon = R.drawable.ic_icons8_icons8.asIcon()
-                                        onClick= {
+                                        onClick = {
                                             "https://icons8.com/".openWithCustomTab(this@SettingsActivity)
                                         }
                                     }
