@@ -5,13 +5,16 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -701,7 +704,7 @@ fun Uri.acceptTeamInvite(joined: () -> Unit) {
 fun syncTT(scope: CoroutineScope, ttRepository: TTRepository) {
     scope.launch {
         val ttProgress = ttRepository.getUserProgress().body()
-        questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
+        questsFirebase.child("users/${uid()}").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 scope.launch {
                     val userData = snapshot.getValue<User>()
@@ -969,4 +972,19 @@ fun isWorkRunning(context: Context, tag: String): Boolean {
 
 fun openStatusSite(context: Context) {
     "https://status.escapefromtarkov.com/".openWithCustomTab(context)
+}
+
+fun ttSyncEnabledPremium(isEnabled: (Boolean) -> Unit) {
+    isPremium {
+        if (it && UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value) isEnabled(true)
+        else isEnabled(false)
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Context.openNotificationSettings(channelID: String) {
+    val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+    intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+    intent.putExtra(Settings.EXTRA_CHANNEL_ID, channelID)
+    startActivity(intent)
 }

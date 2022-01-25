@@ -100,9 +100,6 @@ class NavActivity : GodActivity() {
     @Inject
     lateinit var tarkovRepo: TarkovRepo
 
-    @Inject
-    lateinit var ttRepository: TTRepository
-
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) {
