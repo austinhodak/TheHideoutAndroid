@@ -138,39 +138,49 @@ class NavActivity : GodActivity() {
     override fun onBackPressed() {
         //super.onBackPressed()
         Timber.d(navViewModel.isSearchOpen.value.toString())
-        if (navViewModel.isDrawerOpen.value == true) {
-            navViewModel.setDrawerOpen(false)
-        } else if (navViewModel.isSearchOpen.value == true) {
-            navViewModel.clearSearch()
-            navViewModel.setSearchOpen(false)
-        } else if (fleaViewModel.isSearchOpen.value == true) {
-            fleaViewModel.clearSearch()
-            fleaViewModel.setSearchOpen(false)
-        } else if (questViewModel.isSearchOpen.value == true) {
-            questViewModel.clearSearch()
-            questViewModel.setSearchOpen(false)
-        } else if (hideoutViewModel.isSearchOpen.value == true) {
-            hideoutViewModel.clearSearch()
-            hideoutViewModel.setSearchOpen(false)
-        } else if (keysViewModel.isSearchOpen.value == true) {
-            keysViewModel.clearSearch()
-            keysViewModel.setSearchOpen(false)
-        } else if (gearViewModel.isSearchOpen.value == true) {
-            gearViewModel.clearSearch()
-            gearViewModel.setSearchOpen(false)
-        } else if (loadoutViewModel.isSearchOpen.value == true) {
-            loadoutViewModel.clearSearch()
-            loadoutViewModel.setSearchOpen(false)
-        } else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed()
-                return
+        when {
+            navViewModel.isDrawerOpen.value == true -> {
+                navViewModel.setDrawerOpen(false)
             }
+            navViewModel.isSearchOpen.value == true -> {
+                navViewModel.clearSearch()
+                navViewModel.setSearchOpen(false)
+            }
+            fleaViewModel.isSearchOpen.value == true -> {
+                fleaViewModel.clearSearch()
+                fleaViewModel.setSearchOpen(false)
+            }
+            questViewModel.isSearchOpen.value == true -> {
+                questViewModel.clearSearch()
+                questViewModel.setSearchOpen(false)
+            }
+            hideoutViewModel.isSearchOpen.value == true -> {
+                hideoutViewModel.clearSearch()
+                hideoutViewModel.setSearchOpen(false)
+            }
+            keysViewModel.isSearchOpen.value == true -> {
+                keysViewModel.clearSearch()
+                keysViewModel.setSearchOpen(false)
+            }
+            gearViewModel.isSearchOpen.value == true -> {
+                gearViewModel.clearSearch()
+                gearViewModel.setSearchOpen(false)
+            }
+            loadoutViewModel.isSearchOpen.value == true -> {
+                loadoutViewModel.clearSearch()
+                loadoutViewModel.setSearchOpen(false)
+            }
+            else -> {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed()
+                    return
+                }
 
-            this.doubleBackToExitPressedOnce = true
-            Toast.makeText(this, "Press BACK again to exit.", Toast.LENGTH_SHORT).show()
+                this.doubleBackToExitPressedOnce = true
+                Toast.makeText(this, "Press BACK again to exit.", Toast.LENGTH_SHORT).show()
 
-            Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+                Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+            }
         }
     }
 
