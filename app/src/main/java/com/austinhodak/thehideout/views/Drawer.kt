@@ -37,6 +37,7 @@ import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.extras
+import com.austinhodak.thehideout.ocr.ItemScannerActivity
 import com.austinhodak.thehideout.settings.SettingsActivity
 import com.austinhodak.thehideout.status.ServerStatusActivity
 import com.austinhodak.thehideout.utils.launchPremiumPusher
@@ -76,6 +77,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
     MaterialDrawerSliderView(context, attrs) {
 
     private val benderFont = ResourcesCompat.getFont(context, R.font.bender)
+    private val benderBoldFont = ResourcesCompat.getFont(context, R.font.bender_bold)
 
     private val drawerAmmo = PrimaryDrawerItem().apply {
         tag = "ammunition/Caliber762x35"; identifier = 101; nameText = "Ammunition"; iconRes =
@@ -271,6 +273,14 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         true; typeface = benderFont; isEnabled = true
     }
 
+    private val drawerItemScanner = SecondaryDrawerItem().apply {
+        tag = "item_scanner"; level = 2; identifier = 407; nameText =
+        "Item Scanner"; iconRes = R.drawable.ic_baseline_document_scanner_24; isIconTinted =
+        true; typeface = benderFont; isEnabled = true; badgeText = "Alpha";
+        badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_red_700) }
+        isSelectable = false
+    }
+
     private val drawerNews = PrimaryDrawerItem().apply {
         tag = "news"; identifier = 601; nameText = "News"; iconRes = R.drawable.ic_baseline_newspaper_24; isIconTinted = true; typeface = benderFont;
     }
@@ -287,6 +297,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         subItems = mutableListOf(
             drawerBitcoin,
             drawerCurrencyConverter,
+            drawerItemScanner,
             drawerPriceAlerts,
             drawerSensitivity,
             drawerServerPings,
@@ -597,20 +608,11 @@ fun MainDrawer(
                                     route == "settings" -> context.openActivity(SettingsActivity::class.java)
                                     route == "upgrade" -> context.openActivity(PremiumPusherActivity::class.java)
                                     route == "server_status" -> context.openActivity(ServerStatusActivity::class.java)
+                                    route == "item_scanner" -> context.openActivity(ItemScannerActivity::class.java)
                                     route.contains("https:") -> {
                                         route.openWithCustomTab(context)
                                     }
                                 }
-                            }
-                        }
-                        true
-                    }
-
-                    drawer.onDrawerItemLongClickListener = { _, item, _ ->
-                        if (item.isSelectable && item.identifier !in 301..308) {
-                            //questPrefs.setOpeningItem(item)
-                            scope.launch {
-                                //scaffoldState.snackbarHostState.showSnackbar("Opening screen set!")
                             }
                         }
                         true
@@ -629,6 +631,7 @@ fun MainDrawer(
                         badgeText = status?.getBadgeText() ?: ""
                         badgeStyle = BadgeStyle().apply {
                             color = ColorHolder.fromColor(status?.currentStatusColor()?.toArgb() ?: 0x00000000)
+                            typeface = benderFont
                         }
                     }
                     if (status != null && !status?.getBadgeText().isNullOrBlank()) {

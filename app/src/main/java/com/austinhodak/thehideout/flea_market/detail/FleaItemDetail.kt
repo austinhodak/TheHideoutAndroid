@@ -1546,8 +1546,8 @@ class FleaItemDetail : GodActivity() {
                                 }
                             }
                         }
-                        //////////////
-                        /*if (item?.itemType == ItemTypes.AMMO) {
+
+                        if (item?.itemType == ItemTypes.AMMO) {
                             FloatingActionButton(
                                 onClick = {
                                     this@FleaItemDetail.openAmmunitionDetail(itemID)
@@ -1620,7 +1620,7 @@ class FleaItemDetail : GodActivity() {
                                     modifier = Modifier.size(24.dp)
                                 )
                             }
-                        }*/
+                        }
                     }
                     Divider(
                         modifier = Modifier.padding(bottom = 8.dp),
