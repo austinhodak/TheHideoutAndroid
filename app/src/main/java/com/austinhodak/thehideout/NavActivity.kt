@@ -137,8 +137,30 @@ class NavActivity : GodActivity() {
 
     override fun onBackPressed() {
         //super.onBackPressed()
+        Timber.d(navViewModel.isSearchOpen.value.toString())
         if (navViewModel.isDrawerOpen.value == true) {
             navViewModel.setDrawerOpen(false)
+        } else if (navViewModel.isSearchOpen.value == true) {
+            navViewModel.clearSearch()
+            navViewModel.setSearchOpen(false)
+        } else if (fleaViewModel.isSearchOpen.value == true) {
+            fleaViewModel.clearSearch()
+            fleaViewModel.setSearchOpen(false)
+        } else if (questViewModel.isSearchOpen.value == true) {
+            questViewModel.clearSearch()
+            questViewModel.setSearchOpen(false)
+        } else if (hideoutViewModel.isSearchOpen.value == true) {
+            hideoutViewModel.clearSearch()
+            hideoutViewModel.setSearchOpen(false)
+        } else if (keysViewModel.isSearchOpen.value == true) {
+            keysViewModel.clearSearch()
+            keysViewModel.setSearchOpen(false)
+        } else if (gearViewModel.isSearchOpen.value == true) {
+            gearViewModel.clearSearch()
+            gearViewModel.setSearchOpen(false)
+        } else if (loadoutViewModel.isSearchOpen.value == true) {
+            loadoutViewModel.clearSearch()
+            loadoutViewModel.setSearchOpen(false)
         } else {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed()
