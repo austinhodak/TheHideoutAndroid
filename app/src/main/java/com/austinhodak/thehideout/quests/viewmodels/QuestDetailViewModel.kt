@@ -139,7 +139,8 @@ class QuestDetailViewModel @Inject constructor(
         userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").setValue(
             mapOf(
                 "id" to objective.id?.toInt(),
-                "progress" to objective.number
+                "progress" to objective.number,
+                "completed" to true
             )
         )
         objective.target?.first()?.let {

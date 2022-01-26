@@ -2,6 +2,7 @@ package com.austinhodak.tarkovapi.utils
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.compose.ui.graphics.Color
 import com.austinhodak.tarkovapi.UserSettingsModel
@@ -288,3 +289,5 @@ fun euroToDollar(r: Long?): Long {
 fun getTTApiKey(): String = UserSettingsModel.ttAPIKey.value
 
 fun ttSyncEnabled(): Boolean = UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value
+
+fun isWindows(): Boolean = Build.BOARD == "windows"

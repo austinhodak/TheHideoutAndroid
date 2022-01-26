@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
+            android:name=".ocr.ItemScannerActivity"
+            android:exported="true" />
+        <activity
             android:name=".hideout.detail.HideoutStationDetailActivity"
             android:exported="true" />
         <activity

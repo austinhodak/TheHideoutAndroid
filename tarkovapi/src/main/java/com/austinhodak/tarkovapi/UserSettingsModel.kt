@@ -74,6 +74,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
     val priceAlertsGlobalNotifications by boolPref(true, "priceAlertsGlobalNotifications")
 
+    val isPremiumUser by boolPref(false, "isPremiumUser")
+
     val userGameEdition by enumPref(GameEdition.STANDARD, "userGameEdition")
 }
 

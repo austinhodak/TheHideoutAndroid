@@ -14,6 +14,7 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.AppWidgetTarget
@@ -80,7 +81,10 @@ internal fun updateAppWidget(
         val item = tarkovRepo.getItemByID(prefs.getString("widget_$appWidgetId", "59faff1d86f7746c51718c9c") ?: "59faff1d86f7746c51718c9c").first()
 
         val views = RemoteViews(context.packageName, R.layout.single_price_widget).apply {
-            setOnClickPendingIntent(R.id.single_price_layout, PendingIntent.getActivity(context, 0, Intent(context, NavActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
+            setOnClickPendingIntent(R.id.single_price_layout, PendingIntent.getActivity(context, 0, Intent(context, FleaItemDetail::class.java).apply {
+                putExtra("id", item.id)
+                putExtra("fromNoti", true)
+            }, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
         }
 
         val awt: AppWidgetTarget = object : AppWidgetTarget(context.applicationContext, R.id.single_price_image, views, appWidgetId) {
@@ -89,8 +93,7 @@ internal fun updateAppWidget(
             }
         }
 
-        val options = RequestOptions().
-        override(300, 300)
+        val options = RequestOptions().override(300, 300)
 
         Glide.with(context.applicationContext).asBitmap().load(item.pricing?.getCleanIcon()).apply(options).into(awt)
 

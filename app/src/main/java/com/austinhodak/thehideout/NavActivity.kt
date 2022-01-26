@@ -100,9 +100,6 @@ class NavActivity : GodActivity() {
     @Inject
     lateinit var tarkovRepo: TarkovRepo
 
-    @Inject
-    lateinit var ttRepository: TTRepository
-
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) {
@@ -140,18 +137,50 @@ class NavActivity : GodActivity() {
 
     override fun onBackPressed() {
         //super.onBackPressed()
-        if (navViewModel.isDrawerOpen.value == true) {
-            navViewModel.setDrawerOpen(false)
-        } else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed()
-                return
+        Timber.d(navViewModel.isSearchOpen.value.toString())
+        when {
+            navViewModel.isDrawerOpen.value == true -> {
+                navViewModel.setDrawerOpen(false)
             }
+            navViewModel.isSearchOpen.value == true -> {
+                navViewModel.clearSearch()
+                navViewModel.setSearchOpen(false)
+            }
+            fleaViewModel.isSearchOpen.value == true -> {
+                fleaViewModel.clearSearch()
+                fleaViewModel.setSearchOpen(false)
+            }
+            questViewModel.isSearchOpen.value == true -> {
+                questViewModel.clearSearch()
+                questViewModel.setSearchOpen(false)
+            }
+            hideoutViewModel.isSearchOpen.value == true -> {
+                hideoutViewModel.clearSearch()
+                hideoutViewModel.setSearchOpen(false)
+            }
+            keysViewModel.isSearchOpen.value == true -> {
+                keysViewModel.clearSearch()
+                keysViewModel.setSearchOpen(false)
+            }
+            gearViewModel.isSearchOpen.value == true -> {
+                gearViewModel.clearSearch()
+                gearViewModel.setSearchOpen(false)
+            }
+            loadoutViewModel.isSearchOpen.value == true -> {
+                loadoutViewModel.clearSearch()
+                loadoutViewModel.setSearchOpen(false)
+            }
+            else -> {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed()
+                    return
+                }
 
-            this.doubleBackToExitPressedOnce = true
-            Toast.makeText(this, "Press BACK again to exit.", Toast.LENGTH_SHORT).show()
+                this.doubleBackToExitPressedOnce = true
+                Toast.makeText(this, "Press BACK again to exit.", Toast.LENGTH_SHORT).show()
 
-            Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+                Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+            }
         }
     }
 

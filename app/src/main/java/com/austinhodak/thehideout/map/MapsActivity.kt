@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -145,7 +146,7 @@ class MapsActivity : GodActivity() {
 
             var selectedPoints: Pair<LatLng?, LatLng?>? = null
 
-            var darkMode by remember {
+            var darkMode by rememberSaveable {
                 mutableStateOf(false)
             }
 
@@ -167,11 +168,13 @@ class MapsActivity : GodActivity() {
                 mapViewModel.setMap(intentMap.toString().lowercase(), this@MapsActivity)
             } else {
                 val defaultMap = UserSettingsModel.defaultMap.value
+                if (selectedMapText == "customs")
                 mapViewModel.setMap(defaultMap.id.lowercase(), this@MapsActivity)
             }
 
             scope.launch {
                 selectedMap?.let {
+                    if (UserSettingsModel.mapMarkerCategories.value.isEmpty())
                     UserSettingsModel.mapMarkerCategories.update(
                         it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
                     )

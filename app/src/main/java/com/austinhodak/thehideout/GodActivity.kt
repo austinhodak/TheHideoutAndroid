@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.UserSettingsModel
-import com.austinhodak.thehideout.utils.keepScreenOn
-import com.austinhodak.thehideout.utils.userRefTracker
+import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
+import com.austinhodak.tarkovapi.utils.ttSyncEnabled
+import com.austinhodak.thehideout.utils.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
@@ -25,13 +26,38 @@ open class GodActivity : AppCompatActivity() {
     @Inject
     lateinit var apolloClient: ApolloClient
 
+    @Inject
+    lateinit var ttRepository: TTRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupServerNotifications()
-        setupRestockTopics()
-        setupScreenOn()
-        setupPlayerInfoSync()
+        lifecycleScope.launch(Dispatchers.IO) {
+            setupServerNotifications()
+            setupRestockTopics()
+            setupScreenOn()
+            setupPlayerInfoSync()
+        }
+
+        isPremium {
+            lifecycleScope.launch {
+                UserSettingsModel.isPremiumUser.update(it)
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ttSyncEnabledPremium {
+            syncTT(lifecycleScope, ttRepository)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        ttSyncEnabledPremium {
+            syncTT(lifecycleScope, ttRepository)
+        }
     }
 
     private fun setupPlayerInfoSync() {

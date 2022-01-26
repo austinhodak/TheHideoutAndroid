@@ -412,8 +412,8 @@ class FleaItemDetail : GodActivity() {
                                 .padding(
                                     start = 16.dp,
                                     end = 16.dp,
-                                    top = 8.dp,
-                                    bottom = 8.dp
+                                    top = 0.dp,
+                                    bottom = 0.dp
                                 )
                                 .defaultMinSize(minHeight = 28.dp)
                         ) {
@@ -1546,8 +1546,8 @@ class FleaItemDetail : GodActivity() {
                                 }
                             }
                         }
-                        //////////////
-                        /*if (item?.itemType == ItemTypes.AMMO) {
+
+                        if (item?.itemType == ItemTypes.AMMO) {
                             FloatingActionButton(
                                 onClick = {
                                     this@FleaItemDetail.openAmmunitionDetail(itemID)
@@ -1620,7 +1620,7 @@ class FleaItemDetail : GodActivity() {
                                     modifier = Modifier.size(24.dp)
                                 )
                             }
-                        }*/
+                        }
                     }
                     Divider(
                         modifier = Modifier.padding(bottom = 8.dp),

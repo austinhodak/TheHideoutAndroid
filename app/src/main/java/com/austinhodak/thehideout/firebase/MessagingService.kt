@@ -14,6 +14,7 @@ import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.status.ServerStatusActivity
 import com.austinhodak.thehideout.utils.logNotification
 import com.austinhodak.thehideout.utils.pushToken
@@ -140,12 +141,26 @@ class MessagingService : FirebaseMessagingService() {
     }
 
     private fun sendPriceAlertNotification(title: String, content: String, item: JSONObject) {
+        val intent = Intent(this, FleaItemDetail::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        intent.putExtra("fromNoti", true)
+        intent.putExtra("id", item.getString("id"))
+
+        val pendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        } else {
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
         val url = item.getString("iconLink")
         val builder = NotificationCompat.Builder(this, "PRICE_ALERTS").apply {
             setSmallIcon(R.drawable.hideout_shadow_1)
             setContentTitle("Flea Market Price Alert \uD83D\uDCB8")
             priority = NotificationCompat.PRIORITY_DEFAULT
             setContentText(content)
+            setContentIntent(pendingIntent)
             setStyle(NotificationCompat.BigTextStyle().bigText(""))
         }
 

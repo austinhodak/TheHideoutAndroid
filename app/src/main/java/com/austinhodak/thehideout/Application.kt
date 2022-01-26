@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.work.*
 import com.adapty.Adapty
 import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.*
 import com.austinhodak.thehideout.utils.Extras
 import com.austinhodak.thehideout.utils.isWorkRunning
@@ -41,6 +42,9 @@ class Application : android.app.Application(), Configuration.Provider {
 
     @Inject
     lateinit var myWorkerFactory: PriceUpdateFactory
+
+    @Inject
+    lateinit var ttRepository: TTRepository
 
     private val notificationManager: NotificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -88,6 +92,8 @@ class Application : android.app.Application(), Configuration.Provider {
             notificationManager.createNotificationChannel(channel)
         }
     }
+
+
 
     override fun onCreate() {
         super.onCreate()
