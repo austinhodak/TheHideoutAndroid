@@ -5,20 +5,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Rational
-import android.view.ViewGroup
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.camera.core.*
-import androidx.camera.core.AspectRatio.RATIO_16_9
 import androidx.camera.core.AspectRatio.RATIO_4_3
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,43 +20,43 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
+import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoCard
-import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
-import com.austinhodak.thehideout.compose.components.EmptyText
-import com.austinhodak.thehideout.compose.components.FleaItem
+import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.ocr.viewmodels.ItemScannerViewModel
-import com.austinhodak.thehideout.utils.openAmmunitionDetail
-import com.austinhodak.thehideout.utils.openFleaDetail
+import com.austinhodak.thehideout.utils.*
 import com.fondesa.kpermissions.coroutines.sendSuspend
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
-import com.google.protobuf.Empty
 import com.michaelflisar.materialpreferences.core.initialisation.SettingSetup.context
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -81,7 +75,7 @@ class ItemScannerActivity : AppCompatActivity() {
 
     private val viewModel: ItemScannerViewModel by viewModels()
 
-    val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+    private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
     @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,11 +89,13 @@ class ItemScannerActivity : AppCompatActivity() {
         setContent {
             HideoutTheme {
                 val scannedItems by viewModel.scannedItems.observeAsState()
+                val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
 
                 val executor = remember(context) { ContextCompat.getMainExecutor(context) }
                 val priceDisplay = UserSettingsModel.fleaVisiblePrice.value
 
                 val isScanning by viewModel.isScanning.observeAsState(true)
+                val userData by viewModel.userData.observeAsState()
 
                 Scaffold(
                     topBar = {
@@ -180,11 +176,13 @@ class ItemScannerActivity : AppCompatActivity() {
                             LazyColumn(
                                 contentPadding = PaddingValues(vertical = 4.dp),
                                 horizontalAlignment = CenterHorizontally,
-                                modifier = Modifier.weight(1f).clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
                             ) {
                                 items(items = scannedItems?.values?.toList() ?: emptyList()) {
                                     if (it is Item) {
-                                        FleaItem(item = it, priceDisplay = priceDisplay) {
+                                        FleaItemScanner(item = it, priceDisplay = priceDisplay, quests, userData) {
                                             openFleaDetail(it)
                                         }
                                     }
@@ -196,6 +194,159 @@ class ItemScannerActivity : AppCompatActivity() {
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    @OptIn(ExperimentalFoundationApi::class)
+    @ExperimentalCoilApi
+    @ExperimentalMaterialApi
+    @Composable
+    fun FleaItemScanner(
+        item: Item,
+        priceDisplay: FleaVisiblePrice,
+        quests: List<Quest>,
+        userData: User?,
+        onClick: (String) -> Unit
+    ) {
+        val questsItemNeeded = quests.filterNot {
+            userData?.isQuestCompleted(it) == true
+        }.sumOf { quest ->
+            quest.objective?.sumOf { obj ->
+                if (obj.targetItem?.id == item.id || obj.target?.contains(item.id) == true) {
+                    obj.number ?: 0
+                } else 0
+            } ?: 0
+        }
+
+        val context = LocalContext.current
+
+        val color = when (item.BackgroundColor) {
+            "blue" -> itemBlue
+            "grey" -> itemGrey
+            "red" -> itemRed
+            "orange" -> itemOrange
+            "default" -> itemDefault
+            "violet" -> itemViolet
+            "yellow" -> itemYellow
+            "green" -> itemGreen
+            "black" -> itemBlack
+            else -> itemDefault
+        }
+
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .combinedClickable(
+                    onClick = {
+                        onClick(item.id)
+                    },
+                    onLongClick = {
+                        context.showDialog(
+                            Pair("Wiki Page") {
+                                item.pricing?.wikiLink?.openWithCustomTab(context)
+                            },
+                            Pair("Add to Needed Items") {
+                                item.pricing?.addToNeededItemsDialog(context)
+                            },
+                            Pair("Add Price Alert") {
+                                item.pricing?.addPriceAlertDialog(context)
+                            },
+                            Pair("Add to Cart") {
+                                item.pricing?.addToCartDialog(context)
+                            },
+                        )
+                    }
+                ),
+            backgroundColor = Color(0xFE1F1F1F)
+        ) {
+            Column {
+                Row(
+                    Modifier
+                        .padding(end = 16.dp)
+                        .height(IntrinsicSize.Min),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Rectangle(color = color, modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(end = 16.dp))
+                    Image(
+                        rememberImagePainter(item.pricing?.getCleanIcon()),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(vertical = 16.dp)
+                            .width(48.dp)
+                            .height(48.dp)
+                            .border((0.25).dp, color = BorderColor)
+
+                    )
+                    Column(
+                        Modifier
+                            .padding(horizontal = 16.dp)
+                            .weight(1f),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = item.pricing?.name ?: "",
+                            style = MaterialTheme.typography.h6,
+                            fontSize = 15.sp
+                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            if (questsItemNeeded > 0) {
+                                Icon(painter = painterResource(id = R.drawable.ic_baseline_assignment_24), contentDescription = "", Modifier.size(24.dp).padding(end = 8.dp))
+                            }
+                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                                val text = if (item.pricing?.noFlea == false) {
+                                    item.getUpdatedTime()
+                                } else {
+                                    "${item.getUpdatedTime()} • Not on Flea"
+                                }
+                                Text(
+                                    text = text,
+                                    style = MaterialTheme.typography.caption,
+                                    fontSize = 10.sp,
+                                )
+                            }
+                        }
+                    }
+                    Column(
+                        horizontalAlignment = Alignment.End,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    ) {
+                        val price = when (priceDisplay) {
+                            FleaVisiblePrice.DEFAULT -> item.getPrice()
+                            FleaVisiblePrice.AVG -> item.pricing?.avg24hPrice
+                            FleaVisiblePrice.HIGH -> item.pricing?.high24hPrice
+                            FleaVisiblePrice.LOW -> item.pricing?.low24hPrice
+                            FleaVisiblePrice.LAST -> item.pricing?.lastLowPrice
+                        }
+
+                        Text(
+                            text = price?.asCurrency() ?: "",
+                            style = MaterialTheme.typography.h6,
+                            fontSize = 15.sp
+                        )
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            Text(
+                                text = "${item.getPricePerSlot(price ?: 0).asCurrency()}/slot",
+                                style = MaterialTheme.typography.caption,
+                                fontSize = 10.sp
+                            )
+                        }
+                        /*CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                            Text(
+                                text = "${item.pricing?.changeLast48h}%",
+                                style = MaterialTheme.typography.caption,
+                                color = if (item.pricing?.changeLast48h ?: 0.0 > 0.0) Green500 else if (item.pricing?.changeLast48h ?: 0.0 < 0.0) Red500 else Color.Unspecified,
+                                fontSize = 10.sp
+                            )
+                        }*/
+                        TraderSmall(item = item.pricing)
                     }
                 }
             }

@@ -8,6 +8,13 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.utils.questsFirebase
+import com.austinhodak.thehideout.utils.uid
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import com.google.mlkit.vision.text.Text
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -77,7 +84,23 @@ class ItemScannerViewModel @Inject constructor(
         _scannedItems.value = mutableMapOf()
     }
 
+    private val _userData = MutableLiveData<User?>(null)
+    val userData = _userData
+
     init {
+        if (uid() != null) {
+            questsFirebase.child("users/${uid()}")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        _userData.value = snapshot.getValue<User>()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+                })
+        }
+
         viewModelScope.launch {
             tarkovRepo?.getAllItemsOnce()?.let {
                 _allItems.value = it
