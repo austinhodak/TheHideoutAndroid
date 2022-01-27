@@ -273,7 +273,7 @@ class WeaponDetailActivity : GodActivity() {
                             when (it) {
                                 0 -> {
                                     LazyColumn(
-                                            contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 4.dp)
+                                            contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 64.dp)
                                     ) {
                                         item {
                                             weapon?.let { WeaponDetailCard(weapon = it) }
@@ -339,7 +339,7 @@ class WeaponDetailActivity : GodActivity() {
     ) {
         val modIDs = weapon.getAllMods()
         LazyColumn(
-                contentPadding = PaddingValues(vertical = 4.dp)
+                contentPadding = PaddingValues(top = 4.dp, bottom = 64.dp)
         ) {
             weapon.Slots?.forEach { slot ->
                 val m = slot._props?.filters?.first()?.Filter?.map { it2 -> mods?.find { it.id == it2 } }
