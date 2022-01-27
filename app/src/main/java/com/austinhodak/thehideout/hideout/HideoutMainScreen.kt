@@ -666,7 +666,7 @@ private fun HideoutRequirementItem(
 
 @ExperimentalCoilApi
 @Composable
-private fun HideoutRequirementModule(
+fun HideoutRequirementModule(
     module: Hideout.Module,
     requirement: Hideout.Module.Require,
     userData: User?
@@ -702,7 +702,7 @@ private fun HideoutRequirementModule(
 }
 
 @Composable
-private fun HideoutRequirementTrader(
+fun HideoutRequirementTrader(
     requirement: Hideout.Module.Require,
     userData: User?
 ) {
@@ -945,6 +945,7 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     } else if (cheapestBuy?.currency == "EUR") {
         cheapestBuy.price = euroToRouble(cheapestBuy.price?.toLong()).toInt()
     }
+
     Row(
         modifier = Modifier
             .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)

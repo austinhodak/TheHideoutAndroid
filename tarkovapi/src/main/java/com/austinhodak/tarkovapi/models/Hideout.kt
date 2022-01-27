@@ -24,6 +24,15 @@ data class Hideout(
             fun getNumberString(): String {
                 return if (quantity ?: 0 <= 1) "" else "${quantity}x "
             }
+
+            override fun toString(): String {
+                return when (type) {
+                    "module" -> "MODULES NEEDED"
+                    "item" -> "ITEMS NEEDED"
+                    "trader" -> "TRADER LOYALTY NEEDED"
+                    else -> ""
+                }
+            }
         }
 
         fun getModuleRequirements(modules: List<Module?>?): List<Int> {
@@ -78,6 +87,8 @@ data class Hideout(
         override fun toString(): String {
             return "$module Level $level"
         }
+
+
     }
 
     data class Station(
