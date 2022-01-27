@@ -57,14 +57,24 @@ class ItemScannerViewModel @Inject constructor(
                 for (line in block.lines) {
                     val lineText = line.text
                     _allItems.value?.find {
-                        it.Name.equals(lineText, true) || it.ShortName.equals(lineText, true)
+                        if (lineText.equals("fuel", true)) {
+                            if (result.textBlocks.any { it.lines.any { it.text.contains("/100", true) } }) {
+                                //Large fuel can
+                                return@find it.id == "5d1b36a186f7742523398433"
+                            } else {
+                                return@find it.id == "5d1b371186f774253763a656"
+                            }
+                        } else {
+                            it.Name.equals(lineText, true) || it.ShortName.equals(lineText, true)
+                        }
                     }?.let { item ->
                         if (item.itemType == ItemTypes.AMMO) {
                             allAmmo.value?.find { it.id == item.id }?.let {
                                 found[currentTimeMillis()] = it
                             }
-                        } else
-                        found[currentTimeMillis()] = item
+                        } else {
+                            found[currentTimeMillis()] = item
+                        }
                         lastScannedItem = currentTimeMillis()
                     }
                 }

@@ -399,7 +399,7 @@ class ItemScannerActivity : AppCompatActivity() {
                                             .addOnSuccessListener { visionText ->
                                                 viewModel.processText(visionText)
                                                 CoroutineScope(Dispatchers.IO).launch {
-                                                    delay(1000)
+                                                    delay(500)
                                                     it.close()
                                                 }
                                             }
@@ -410,8 +410,6 @@ class ItemScannerActivity : AppCompatActivity() {
                                     }
                                 }
                             }
-
-                        //val viewPort =  ViewPort.Builder(Rational(previewCameraView.width, previewCameraView.height), prev.targetRotation).build()
 
                         useCaseGroup = UseCaseGroup.Builder()
                             .setViewPort(previewCameraView.viewPort!!)
