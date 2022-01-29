@@ -162,7 +162,7 @@ class Application : android.app.Application(), Configuration.Provider {
             if (oldFrequency == it && isScheduled) {
                 //Do nothing, already set.
             } else {
-                val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+                val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).setRequiresDeviceIdle(true).build()
 
                 val priceUpdateRequest = PeriodicWorkRequestBuilder<PriceUpdateWorker>(it.toString().toLong(), TimeUnit.MINUTES).setConstraints(constraints).build()
 
@@ -186,6 +186,12 @@ class Application : android.app.Application(), Configuration.Provider {
                 minimumFetchIntervalInSeconds = 30
             })
         }
+
+        Firebase.remoteConfig.setDefaultsAsync(
+            mapOf(
+                "game_info" to "{\"version\":\"0.12.12.10.16440\",\"version_date\":\"01-09-2022\",\"wipe_date\":\"12-12-2021\"}"
+            )
+        )
 
         //Fetch and active.
         Firebase.remoteConfig.fetchAndActivate().addOnSuccessListener {
