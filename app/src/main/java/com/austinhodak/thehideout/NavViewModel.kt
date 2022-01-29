@@ -65,7 +65,7 @@ class NavViewModel @Inject constructor(
         }
     }
 
-    private val _allItems = MutableLiveData<List<Item>>(null)
+    private val _allItems = MutableLiveData<List<Item>>(emptyList())
     val allItems = _allItems
 
     init {

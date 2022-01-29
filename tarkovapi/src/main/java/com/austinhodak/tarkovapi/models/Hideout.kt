@@ -30,6 +30,7 @@ data class Hideout(
                     "module" -> "MODULES NEEDED"
                     "item" -> "ITEMS NEEDED"
                     "trader" -> "TRADER LOYALTY NEEDED"
+                    "skill" -> "SKILL LEVEL NEEDED"
                     else -> ""
                 }
             }

@@ -1477,7 +1477,7 @@ class FleaItemDetail : GodActivity() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            rememberImagePainter(item?.pricing?.getCleanIcon()),
+                            fadeImagePainter(item?.pricing?.getTransparentIcon()),
                             contentDescription = null,
                             modifier = Modifier
                                 .padding(vertical = 16.dp)

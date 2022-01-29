@@ -82,8 +82,6 @@ data class Item(
     //val SpawnFilter: List<String>? = null
 ) : Serializable {
 
-    fun getCleanIcon(): String? = pricing?.iconLink
-
     fun getEnergy(): Int? {
         return effects_health?.optJSONObject("Energy")?.optInt("value")
     }

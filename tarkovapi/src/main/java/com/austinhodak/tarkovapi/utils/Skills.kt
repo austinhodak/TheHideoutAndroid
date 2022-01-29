@@ -22,5 +22,5 @@ class Skills(context: Context) {
         }
     }
 
-    fun getSkill(id: String?): Skill? = skills.find { it.name == id }
+    fun getSkill(id: String?): Skill? = skills.find { it.name.equals(id, true) }
 }

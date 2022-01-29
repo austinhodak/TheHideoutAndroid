@@ -45,7 +45,6 @@ fun CraftsPage(crafts: List<Craft>, navViewModel: NavViewModel, pagerState: Page
     val selectedModule = modules?.getOrNull(pagerState.currentPage)
 
     val list = crafts.filter {
-
         if (pagerState.currentPage == modules?.size) {
             //ALL TAB
             it.source?.contains(station?.getName().toString(), true) == true

@@ -38,6 +38,7 @@ data class Pricing(
 
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
     fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
+    fun getTransparentIcon(): String = "https://assets.tarkov-tools.com/$id-base-image.png"
 
     fun getCheapestBuyRequirements(): BuySellPrice {
         return buyFor?.minByOrNull {

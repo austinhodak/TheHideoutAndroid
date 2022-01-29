@@ -8,23 +8,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.models.Hideout
+import com.austinhodak.tarkovapi.models.Skill
+import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.fromDtoR
-import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.BorderColor
+import com.austinhodak.thehideout.compose.theme.DarkerGrey
+import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.currency.euroToRouble
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.hideout.HideoutRequirementModule
 import com.austinhodak.thehideout.hideout.HideoutRequirementTrader
+import com.austinhodak.thehideout.skillsList
+import com.austinhodak.thehideout.utils.fadeImagePainter
 import com.austinhodak.thehideout.utils.openActivity
 import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,7 +39,7 @@ import timber.log.Timber
 import kotlin.math.roundToInt
 
 @Composable
-fun HideoutDetailModuleScreen(navViewModel: NavViewModel, pagerStateCrafts: PagerState, modules: List<Hideout.Module?>?, station: Hideout.Station?) {
+fun HideoutDetailModuleScreen(items: List<Item>, pagerStateCrafts: PagerState, modules: List<Hideout.Module?>?, station: Hideout.Station?) {
     val module = modules?.find { it?.level == pagerStateCrafts.currentPage + 1 }
 
     Timber.d(module.toString())
@@ -45,7 +52,7 @@ fun HideoutDetailModuleScreen(navViewModel: NavViewModel, pagerStateCrafts: Page
                 HideoutDetailModule(
                     entry,
                     value,
-                    navViewModel,
+                    items,
                     module
                 )
             }
@@ -55,7 +62,7 @@ fun HideoutDetailModuleScreen(navViewModel: NavViewModel, pagerStateCrafts: Page
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HideoutDetailModule(type: String?, requirements: List<Hideout.Module.Require?>, navViewModel: NavViewModel, module: Hideout.Module) {
+fun HideoutDetailModule(type: String?, requirements: List<Hideout.Module.Require?>, items: List<Item>, module: Hideout.Module) {
     Card(
         backgroundColor = if (isSystemInDarkTheme()) Color(
             0xFE1F1F1F
@@ -95,11 +102,45 @@ fun HideoutDetailModule(type: String?, requirements: List<Hideout.Module.Require
                 requirements.forEach { requirement ->
                     when (requirement?.type) {
                         "trader" -> HideoutRequirementTrader(requirement = requirement, userData = null)
-                        "item" -> HideoutRequirementItem(requirement = requirement, navViewModel.allItems.value?.find { it.id == requirement.name })
+                        "item" -> HideoutRequirementItem(requirement = requirement, items.find { it.id == requirement.name })
                         "module" -> HideoutRequirementModule(module = module, requirement = requirement, userData = null)
+                        "skill" -> HideoutRequirementSkill(module, requirement)
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun HideoutRequirementSkill(module: Hideout.Module, requirement: Hideout.Module.Require) {
+    val skill = skillsList.getSkill(requirement.name.toString())
+
+    Row(
+        modifier = Modifier
+            .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Image(
+            fadeImagePainter(skill?.icon),
+            contentDescription = null,
+            modifier = Modifier
+                .width(38.dp)
+                .height(38.dp)
+                .border(
+                    (0.25).dp,
+                    color = BorderColor
+                )
+                .background(DarkerGrey)
+        )
+        Column(
+            modifier = Modifier.padding(start = 16.dp)
+        ) {
+            Text(
+                text = "${requirement.name} Level ${requirement.quantity}",
+                style = MaterialTheme.typography.body1
+            )
         }
     }
 }

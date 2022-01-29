@@ -20,11 +20,13 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.lifecycleScope
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.adapty.Adapty
 import com.adapty.errors.AdaptyError
 import com.adapty.models.GoogleValidationResult
@@ -996,3 +998,6 @@ fun Context.openNotificationSettings(channelID: String) {
     intent.putExtra(Settings.EXTRA_CHANNEL_ID, channelID)
     startActivity(intent)
 }
+
+@Composable
+fun fadeImagePainter(url: String?) = rememberImagePainter(data = url, builder = { crossfade(true) })

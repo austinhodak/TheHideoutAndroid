@@ -23,6 +23,7 @@ import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
@@ -47,9 +48,8 @@ class HideoutStationDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val startDestination = when (intent.getStringExtra("start")) {
-            "module" -> 1
-            "crafts" -> 2
-            "station" -> 0
+            "module" -> 0
+            "crafts" -> 1
             else -> 0
         }
 
@@ -75,12 +75,13 @@ class HideoutStationDetailActivity : AppCompatActivity() {
                 val crafts by tarkovRepo.getAllCrafts().collectAsState(initial = emptyList())
 
                 val items = listOf(
-                    FleaItemDetail.NavItem("Station", R.drawable.ic_baseline_info_24),
                     FleaItemDetail.NavItem("Modules", R.drawable.ic_baseline_handyman_24),
                     FleaItemDetail.NavItem("Crafts", R.drawable.ic_baseline_build_circle_24, crafts.any { it.source?.contains(station?.getName().toString(), true) == true }),
                 )
 
                 var selectedNavItem by remember { mutableStateOf(startDestination) }
+
+                val allItems by navViewModel.allItems.observeAsState(initial = emptyList())
 
                 Scaffold(
                     scaffoldState = scaffoldState,
@@ -111,7 +112,7 @@ class HideoutStationDetailActivity : AppCompatActivity() {
                                     backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                                     elevation = 0.dp,
                                     actions = {
-                                        if (selectedNavItem == 2) {
+                                        if (selectedNavItem == 1) {
                                             IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
                                                 Icon(
                                                     Icons.Filled.Search,
@@ -123,82 +124,32 @@ class HideoutStationDetailActivity : AppCompatActivity() {
                                     }
                                 )
                             }
-                            if (selectedNavItem != 0) {
-                                if (selectedNavItem == 1) {
-                                    TabRow(
-                                        selectedTabIndex = pagerState.currentPage,
-                                        indicator = { tabPositions ->
-                                            TabRowDefaults.Indicator(
-                                                Modifier.pagerTabIndicatorOffset(
-                                                    pagerState,
-                                                    tabPositions
-                                                ), color = Red400
-                                            )
-                                        },
-                                        backgroundColor = MaterialTheme.colors.primary
-                                    ) {
-                                        modules?.forEachIndexed { index, module ->
-                                            Tab(
-                                                text = {
-                                                    Text(
-                                                        "LEVEL ${module?.level}",
-                                                        fontFamily = Bender
-                                                    )
-                                                },
-                                                selected = pagerState.currentPage == index,
-                                                onClick = {
-                                                    coroutineScope.launch {
-                                                        pagerState.animateScrollToPage(index)
-                                                    }
-                                                },
-                                                selectedContentColor = Red400,
-                                                unselectedContentColor = White
-                                            )
-                                        }
-                                    }
-                                }
-                                if (selectedNavItem == 2) {
-                                    TabRow(
-                                        selectedTabIndex = pagerStateCrafts.currentPage,
-                                        indicator = { tabPositions ->
-                                            TabRowDefaults.Indicator(
-                                                Modifier.pagerTabIndicatorOffset(
-                                                    pagerStateCrafts,
-                                                    tabPositions
-                                                ), color = Red400
-                                            )
-                                        },
-                                        backgroundColor = MaterialTheme.colors.primary
-                                    ) {
-                                        modules?.forEachIndexed { index, module ->
-                                            Tab(
-                                                text = {
-                                                    Text(
-                                                        "LEVEL ${module?.level}",
-                                                        fontFamily = Bender
-                                                    )
-                                                },
-                                                selected = pagerStateCrafts.currentPage == index,
-                                                onClick = {
-                                                    coroutineScope.launch {
-                                                        pagerStateCrafts.animateScrollToPage(index)
-                                                    }
-                                                },
-                                                selectedContentColor = Red400,
-                                                unselectedContentColor = White
-                                            )
-                                        }
+
+                            if (selectedNavItem == 0) {
+                                TabRow(
+                                    selectedTabIndex = pagerState.currentPage,
+                                    indicator = { tabPositions ->
+                                        TabRowDefaults.Indicator(
+                                            Modifier.pagerTabIndicatorOffset(
+                                                pagerState,
+                                                tabPositions
+                                            ), color = Red400
+                                        )
+                                    },
+                                    backgroundColor = MaterialTheme.colors.primary
+                                ) {
+                                    modules?.forEachIndexed { index, module ->
                                         Tab(
                                             text = {
                                                 Text(
-                                                    "ALL",
+                                                    "LEVEL ${module?.level}",
                                                     fontFamily = Bender
                                                 )
                                             },
-                                            selected = pagerStateCrafts.currentPage == modules?.size,
+                                            selected = pagerState.currentPage == index,
                                             onClick = {
                                                 coroutineScope.launch {
-                                                    modules?.size?.let { pagerStateCrafts.animateScrollToPage(it) }
+                                                    pagerState.animateScrollToPage(index)
                                                 }
                                             },
                                             selectedContentColor = Red400,
@@ -207,27 +158,79 @@ class HideoutStationDetailActivity : AppCompatActivity() {
                                     }
                                 }
                             }
+                            if (selectedNavItem == 1) {
+                                TabRow(
+                                    selectedTabIndex = pagerStateCrafts.currentPage,
+                                    indicator = { tabPositions ->
+                                        TabRowDefaults.Indicator(
+                                            Modifier.pagerTabIndicatorOffset(
+                                                pagerStateCrafts,
+                                                tabPositions
+                                            ), color = Red400
+                                        )
+                                    },
+                                    backgroundColor = MaterialTheme.colors.primary
+                                ) {
+                                    modules?.forEachIndexed { index, module ->
+                                        Tab(
+                                            text = {
+                                                Text(
+                                                    "LEVEL ${module?.level}",
+                                                    fontFamily = Bender
+                                                )
+                                            },
+                                            selected = pagerStateCrafts.currentPage == index,
+                                            onClick = {
+                                                coroutineScope.launch {
+                                                    pagerStateCrafts.animateScrollToPage(index)
+                                                }
+                                            },
+                                            selectedContentColor = Red400,
+                                            unselectedContentColor = White
+                                        )
+                                    }
+                                    Tab(
+                                        text = {
+                                            Text(
+                                                "ALL",
+                                                fontFamily = Bender
+                                            )
+                                        },
+                                        selected = pagerStateCrafts.currentPage == modules?.size,
+                                        onClick = {
+                                            coroutineScope.launch {
+                                                modules?.size?.let { pagerStateCrafts.animateScrollToPage(it) }
+                                            }
+                                        },
+                                        selectedContentColor = Red400,
+                                        unselectedContentColor = White
+                                    )
+                                }
+                            }
+
                         }
                     },
                     bottomBar = {
                         BottomBar(selectedNavItem, items) { selectedNavItem = it }
                     }
                 ) {
+
                     Box(modifier = Modifier.padding(it)) {
                         Crossfade(targetState = selectedNavItem) {
                             when (it) {
                                 0 -> {
-
-                                }
-                                1 -> {
+                                    if (allItems.isNullOrEmpty()) {
+                                        LoadingItem()
+                                        return@Crossfade
+                                    }
                                     HideoutDetailModuleScreen(
-                                        navViewModel,
+                                        allItems,
                                         pagerState,
                                         modules,
                                         station
                                     )
                                 }
-                                2 -> {
+                                1 -> {
                                     CraftsPage(
                                         crafts,
                                         navViewModel,

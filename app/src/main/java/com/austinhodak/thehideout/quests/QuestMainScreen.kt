@@ -493,8 +493,7 @@ private fun QuestItemsScreenItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     rememberImagePainter(
-                        item.getCleanIcon()
-                            ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
+                        item.pricing?.getCleanIcon()
                     ),
                     contentDescription = null,
                     modifier = Modifier
