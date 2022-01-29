@@ -684,12 +684,11 @@ fun startPremiumPurchase(activity: Activity) {
 }
 
 fun isPremium(isPremium: (Boolean) -> Unit) {
-    Adapty.getPurchaserInfo { purchaserInfo, error ->
-        if (error == null) {
-            //Check for premium
-            isPremium.invoke(purchaserInfo?.accessLevels?.get("premium")?.isActive == true)
-        }
-    }
+    isPremium.invoke(UserSettingsModel.isPremiumUser.value)
+}
+
+fun isPremium(): Boolean {
+    return UserSettingsModel.isPremiumUser.value
 }
 
 fun Uri.acceptTeamInvite(joined: () -> Unit) {
@@ -975,9 +974,18 @@ fun openStatusSite(context: Context) {
 }
 
 fun ttSyncEnabledPremium(isEnabled: (Boolean) -> Unit) {
-    isPremium {
-        if (it && UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value) isEnabled(true)
-        else isEnabled(false)
+    if (isPremium() || isDebug()) {
+        isEnabled(UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value)
+    } else {
+        isEnabled(false)
+    }
+}
+
+fun ttSyncEnabledPremium(): Boolean {
+    return if (isPremium() || isDebug()) {
+        UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value
+    } else {
+        false
     }
 }
 

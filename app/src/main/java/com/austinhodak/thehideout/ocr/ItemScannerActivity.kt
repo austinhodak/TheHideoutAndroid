@@ -212,15 +212,15 @@ class ItemScannerActivity : AppCompatActivity() {
         userData: User?,
         onClick: (String) -> Unit
     ) {
-        val questsItemNeeded = quests.filterNot {
-            userData?.isQuestCompleted(it) == true
-        }.sumOf { quest ->
-            quest.objective?.sumOf { obj ->
-                if (obj.targetItem?.id == item.id || obj.target?.contains(item.id) == true) {
-                    obj.number ?: 0
-                } else 0
-            } ?: 0
-        }
+//        val questsItemNeeded = quests.filterNot {
+//            userData?.isQuestCompleted(it) == true
+//        }.sumOf { quest ->
+//            quest.objective?.sumOf { obj ->
+//                if (obj.targetItem?.id == item.id || obj.target?.contains(item.id) == true) {
+//                    obj.number ?: 0
+//                } else 0
+//            } ?: 0
+//        }
 
         val context = LocalContext.current
 
@@ -297,9 +297,9 @@ class ItemScannerActivity : AppCompatActivity() {
                         Row(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            if (questsItemNeeded > 0) {
+                            /*if (questsItemNeeded > 0) {
                                 Icon(painter = painterResource(id = R.drawable.ic_baseline_assignment_24), contentDescription = "", Modifier.size(24.dp).padding(end = 8.dp))
-                            }
+                            }*/
                             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                                 val text = if (item.pricing?.noFlea == false) {
                                     item.getUpdatedTime()
