@@ -87,14 +87,13 @@ fun FleaItem(
                     .fillMaxHeight()
                     .padding(end = 16.dp))
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    rememberImagePainter(data = item.pricing?.getCleanIcon(), builder = { crossfade(true); placeholder(R.drawable.unknown_item_icon) }),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)
                         .width(48.dp)
                         .height(48.dp)
                         .border((0.25).dp, color = BorderColor)
-
                 )
                 Column(
                     Modifier
@@ -220,7 +219,7 @@ fun TraderSmall(item: Pricing?) {
                 )
             }
             Image(
-                painter = rememberImagePainter(data = i.traderImage()),
+                painter = rememberImagePainter(data = i.traderImage(), builder = { crossfade(true) }),
                 contentDescription = "Trader",
                 modifier = Modifier.size(16.dp)
             )

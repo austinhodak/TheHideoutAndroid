@@ -8,6 +8,13 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.utils.questsFirebase
+import com.austinhodak.thehideout.utils.uid
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import com.google.mlkit.vision.text.Text
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -50,14 +57,24 @@ class ItemScannerViewModel @Inject constructor(
                 for (line in block.lines) {
                     val lineText = line.text
                     _allItems.value?.find {
-                        it.Name.equals(lineText, true) || it.ShortName.equals(lineText, true)
+                        if (lineText.equals("fuel", true)) {
+                            if (result.textBlocks.any { it.lines.any { it.text.contains("/100", true) } }) {
+                                //Large fuel can
+                                return@find it.id == "5d1b36a186f7742523398433"
+                            } else {
+                                return@find it.id == "5d1b371186f774253763a656"
+                            }
+                        } else {
+                            it.Name.equals(lineText, true) || it.ShortName.equals(lineText, true)
+                        }
                     }?.let { item ->
                         if (item.itemType == ItemTypes.AMMO) {
                             allAmmo.value?.find { it.id == item.id }?.let {
                                 found[currentTimeMillis()] = it
                             }
-                        } else
-                        found[currentTimeMillis()] = item
+                        } else {
+                            found[currentTimeMillis()] = item
+                        }
                         lastScannedItem = currentTimeMillis()
                     }
                 }
@@ -77,7 +94,23 @@ class ItemScannerViewModel @Inject constructor(
         _scannedItems.value = mutableMapOf()
     }
 
+    private val _userData = MutableLiveData<User?>(null)
+    val userData = _userData
+
     init {
+        if (uid() != null) {
+            questsFirebase.child("users/${uid()}")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        _userData.value = snapshot.getValue<User>()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+                })
+        }
+
         viewModelScope.launch {
             tarkovRepo?.getAllItemsOnce()?.let {
                 _allItems.value = it

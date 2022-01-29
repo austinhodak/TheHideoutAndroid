@@ -204,14 +204,7 @@ class SettingsActivity : GodActivity() {
                             },
                             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                             actions = {
-                                if (!UserSettingsModel.isPremiumUser.value) {
-                                    IconButton(onClick = {
-                                        launchPremiumPusher()
-                                    }) {
-                                        Image(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96), contentDescription = "")
-                                        //Icon(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96), contentDescription = "", tint = Color.Transparent)
-                                    }
-                                }
+
                             }
                         )
                     }
@@ -476,6 +469,11 @@ class SettingsActivity : GodActivity() {
                                         title = "Opening Screen".asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
                                     }
+                                    if (!isPremium() || isDebug())
+                                        switch(UserSettingsModel.hidePremiumBanner) {
+                                            title = "Hide Premium Banner".asText()
+                                            icon = R.drawable.ic_baseline_visibility_off_24.asIcon()
+                                        }
                                 }
                                 subScreen {
                                     title = "Flea Market".asText()
@@ -491,8 +489,20 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }) {
                                         title = "List Price".asText()
-                                        icon = R.drawable.ic_blank.asIcon()
+                                        icon = R.drawable.ic_baseline_money_24.asIcon()
                                     }
+//                                    singleChoice(UserSettingsModel.fleaHideTime, FleaHideTime.values(), {
+//                                        when (it) {
+//                                            FleaHideTime.NONE -> "Don't Hide"
+//                                            FleaHideTime.DAY7 -> "Within last 7 Days"
+//                                            FleaHideTime.DAY14 -> "Within last 14 Days"
+//                                            FleaHideTime.DAY30 -> "Within last 30 Days"
+//                                        }
+//                                    }) {
+//                                        title = "Hide Items Without Price".asText()
+//                                        icon = R.drawable.ic_baseline_access_time_24.asIcon()
+//                                        enabled = false
+//                                    }
                                 }
                                 subScreen {
                                     title = "Maps".asText()
@@ -565,7 +575,7 @@ class SettingsActivity : GodActivity() {
                                     icon = R.drawable.ic_baseline_link_24.asIcon()
                                     //summary = "Coming soon.".asText()
                                     badge = "PRO".asBatch()
-                                    if (UserSettingsModel.isPremiumUser.value) {
+                                    if (isPremium() || isDebug()) {
                                         button {
                                             title = "How to Setup".asText()
                                             icon = R.drawable.ic_baseline_info_24.asIcon()
@@ -683,20 +693,24 @@ class SettingsActivity : GodActivity() {
                                                 }
                                             }
                                             onClick = {
-                                                lifecycleScope.launch {
-                                                    scaffoldState.snackbarHostState.showSnackbar("Pushing to TarkovTracker! This may take a while.")
-                                                    if (uid() != null) {
-                                                        questsFirebase.child("users/${uid()}").addListenerForSingleValueEvent(object : ValueEventListener {
-                                                            override fun onDataChange(snapshot: DataSnapshot) {
-                                                                val user = snapshot.getValue<User>()
-                                                                user?.pushToTT(lifecycleScope, ttRepository)
-                                                            }
+                                                try {
+                                                    lifecycleScope.launch {
+                                                        scaffoldState.snackbarHostState.showSnackbar("Pushing to TarkovTracker! This may take a while.")
+                                                        if (uid() != null) {
+                                                            questsFirebase.child("users/${uid()}").addListenerForSingleValueEvent(object : ValueEventListener {
+                                                                override fun onDataChange(snapshot: DataSnapshot) {
+                                                                    val user = snapshot.getValue<User>()
+                                                                    user?.pushToTT(lifecycleScope, ttRepository)
+                                                                }
 
-                                                            override fun onCancelled(error: DatabaseError) {
+                                                                override fun onCancelled(error: DatabaseError) {
 
-                                                            }
-                                                        })
+                                                                }
+                                                            })
+                                                        }
                                                     }
+                                                } catch (e: Exception) {
+                                                    Firebase.crashlytics.recordException(e)
                                                 }
                                             }
                                         }
@@ -712,21 +726,21 @@ class SettingsActivity : GodActivity() {
                                                 }
                                             }
                                             onClick = {
-                                                lifecycleScope.launch {
-                                                    val test = ttRepository.getUserProgress()
+                                                try {
+                                                    lifecycleScope.launch {
+                                                        val test = ttRepository.getUserProgress()
 
-                                                    if (test.isSuccessful) {
-                                                        test.body()?.quests?.forEach {
-                                                            Timber.d("${it.key} ${it.value.complete}")
+                                                        if (test.isSuccessful) {
+                                                            test.body()?.pushToDB()
+                                                            UserSettingsModel.playerLevel.update(test.body()?.level ?: return@launch)
+
+                                                            scaffoldState.snackbarHostState.showSnackbar("Sync completed!")
+                                                        } else {
+                                                            scaffoldState.snackbarHostState.showSnackbar("Error, please check API key and try again.")
                                                         }
-
-                                                        test.body()?.pushToDB()
-                                                        UserSettingsModel.playerLevel.update(test.body()?.level ?: return@launch)
-
-                                                        scaffoldState.snackbarHostState.showSnackbar("Sync completed!")
-                                                    } else {
-                                                        scaffoldState.snackbarHostState.showSnackbar("Error, please check API key and try again.")
                                                     }
+                                                } catch (e: Exception) {
+                                                    Firebase.crashlytics.recordException(e)
                                                 }
                                             }
                                         }

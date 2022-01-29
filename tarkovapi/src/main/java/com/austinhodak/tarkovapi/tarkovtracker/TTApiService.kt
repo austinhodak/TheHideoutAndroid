@@ -54,7 +54,7 @@ interface TTApiService {
                         Timber.d("RETRY RESULT: $response")
                         response.code() == 429
                     }
-                    .failAfterMaxAttempts(true)
+                    .failAfterMaxAttempts(false)
                     .build())
 
                 val client = OkHttpClient.Builder()

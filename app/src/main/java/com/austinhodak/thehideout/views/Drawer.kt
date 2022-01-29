@@ -26,6 +26,7 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.austinhodak.tarkovapi.ServerStatusQuery
 import com.austinhodak.tarkovapi.TraderResetTimersQuery
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.ServerStatus
 import com.austinhodak.tarkovapi.models.TraderReset
 import com.austinhodak.tarkovapi.models.toObj
@@ -471,18 +472,11 @@ fun MainDrawer(
 
     var status: ServerStatus? by remember { mutableStateOf(null) }
     var resetTimers: TraderReset? by remember { mutableStateOf(null) }
-    var isPremium: Boolean? by remember { mutableStateOf(null) }
+    val isPremium = UserSettingsModel.isPremiumUser.value
+    var hideBanner: Boolean by remember { mutableStateOf(UserSettingsModel.hidePremiumBanner.value) }
 
-
-
-    Adapty.setOnPurchaserInfoUpdatedListener(object : OnPurchaserInfoUpdatedListener {
-        override fun onPurchaserInfoReceived(purchaserInfo: PurchaserInfoModel) {
-            isPremium = purchaserInfo.accessLevels["premium"]?.isActive == true
-        }
-    })
-
-    com.austinhodak.thehideout.utils.isPremium {
-        isPremium = it
+    UserSettingsModel.hidePremiumBanner.observe(scope) {
+        hideBanner = it
     }
 
     var isTimersRunning = false
@@ -537,7 +531,7 @@ fun MainDrawer(
                 GameClockText(Modifier.weight(1f), true, navViewModel)
                 GameClockText(Modifier.weight(1f), false, navViewModel)
             }
-            if (isPremium == false) {
+            if (!isPremium && !hideBanner) {
                 Surface(
                     color = Red400,
                     modifier = Modifier,

@@ -494,7 +494,7 @@ private fun QuestItemsScreenItem(
                 Image(
                     rememberImagePainter(
                         item.getCleanIcon()
-                            ?: "https://assets.tarkov-tools.com/5447a9cd4bdc2dbd208b4567-icon.jpg"
+                            ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
                     ),
                     contentDescription = null,
                     modifier = Modifier

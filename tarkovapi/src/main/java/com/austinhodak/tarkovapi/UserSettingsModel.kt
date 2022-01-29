@@ -8,13 +8,14 @@ import com.michaelflisar.materialpreferences.datastore.DataStoreStorage
 object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
     val ttAPIKey by stringPref("", "ttAPIKey")
-    val ttSync by boolPref(true, "ttSync")
-    val ttSyncQuest by boolPref(true, "ttSyncQuest")
-    val ttSyncHideout by boolPref(true, "ttSyncHideout")
+    val ttSync by boolPref(false, "ttSync")
+    val ttSyncQuest by boolPref(false, "ttSyncQuest")
+    val ttSyncHideout by boolPref(false, "ttSyncHideout")
 
     val test by boolPref(true, "test")
 
     val keepScreenOn by boolPref(false, "keepScreenOn")
+    val hidePremiumBanner by boolPref(false, "hidePremiumBanner")
 
     val praporLevel by enumPref(Levels.`4`, "praporLevel")
     val therapistLevel by enumPref(Levels.`4`, "therapistLevel")
@@ -28,6 +29,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val openingScreen by enumPref(OpeningScreen.FLEA, "openingScreen")
 
     val defaultMap by enumPref(MapEnums.CUSTOMS, "defaultMap")
+
+    val fleaHideTime by enumPref(FleaHideTime.NONE, "fleaHideTime")
 
     val playerLevel by intPref(71, "playerLevel")
 
@@ -104,6 +107,13 @@ enum class FleaVisiblePrice {
     LOW,
     AVG,
     HIGH
+}
+
+enum class FleaHideTime {
+    NONE,
+    DAY7,
+    DAY14,
+    DAY30
 }
 
 enum class Levels {
