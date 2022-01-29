@@ -3,6 +3,7 @@ package com.austinhodak.thehideout
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.adapty.Adapty
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
@@ -10,6 +11,7 @@ import com.austinhodak.tarkovapi.utils.ttSyncEnabled
 import com.austinhodak.thehideout.utils.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -18,6 +20,7 @@ import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,24 +42,36 @@ open class GodActivity : AppCompatActivity() {
             setupPlayerInfoSync()
         }
 
-        isPremium {
-            lifecycleScope.launch {
-                UserSettingsModel.isPremiumUser.update(it)
+        Adapty.getPurchaserInfo { purchaserInfo, error ->
+            if (error == null) {
+                lifecycleScope.launch {
+                    UserSettingsModel.isPremiumUser.update(purchaserInfo?.accessLevels?.get("premium")?.isActive == true)
+                }
             }
         }
     }
 
     override fun onStop() {
         super.onStop()
-        ttSyncEnabledPremium {
-            syncTT(lifecycleScope, ttRepository)
+        try {
+            ttSyncEnabledPremium {
+                if (it)
+                syncTT(lifecycleScope, ttRepository)
+            }
+        } catch (e: Exception) {
+            Firebase.crashlytics.recordException(e)
         }
     }
 
     override fun onStart() {
         super.onStart()
-        ttSyncEnabledPremium {
-            syncTT(lifecycleScope, ttRepository)
+        try {
+            ttSyncEnabledPremium {
+                if (it)
+                syncTT(lifecycleScope, ttRepository)
+            }
+        } catch (e: Exception) {
+            Firebase.crashlytics.recordException(e)
         }
     }
 
