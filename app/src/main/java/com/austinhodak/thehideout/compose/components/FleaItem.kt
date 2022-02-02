@@ -209,6 +209,29 @@ fun SmallBuyPrice(pricing: Pricing?) {
 }
 
 @Composable
+fun SmallSellPrice(pricing: Pricing?) {
+    val i = pricing?.getHighestSellRequirements() ?: return
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(top = 0.dp)
+    ) {
+        Image(
+            painter = rememberImagePainter(data = i.traderImage(false)),
+            contentDescription = "Trader",
+            modifier = Modifier.size(16.dp)
+        )
+        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+            Text(
+                text = i.getPriceAsCurrency() ?: "",
+                style = MaterialTheme.typography.caption,
+                fontSize = 10.sp,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        }
+    }
+}
+
+@Composable
 fun TraderSmall(item: Pricing?) {
     val i = item?.getHighestSellTrader()
     i?.let {

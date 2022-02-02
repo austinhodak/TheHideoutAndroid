@@ -48,8 +48,10 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.barters.BarterDetailActivity
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.crafts.CraftDetailActivity
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
@@ -426,8 +428,8 @@ private fun BarterItem(
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
         backgroundColor = Color(0xFE1F1F1F),
         onClick = {
-            context.openActivity(FleaItemDetail::class.java) {
-                putString("id", rewardItem?.id)
+            context.openActivity(BarterDetailActivity::class.java) {
+                putSerializable("barter", barter)
             }
         }
     ) {

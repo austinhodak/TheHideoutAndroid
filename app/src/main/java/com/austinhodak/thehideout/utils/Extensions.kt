@@ -22,7 +22,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.lifecycleScope
+import androidx.compose.ui.text.toLowerCase
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
@@ -46,12 +46,10 @@ import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
-import com.austinhodak.tarkovapi.utils.getTTApiKey
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
-import com.austinhodak.thehideout.billing.PremiumActivity
 import com.austinhodak.thehideout.billing.PremiumPusherActivity
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
@@ -1001,3 +999,116 @@ fun Context.openNotificationSettings(channelID: String) {
 
 @Composable
 fun fadeImagePainter(url: String?) = rememberImagePainter(data = url, builder = { crossfade(true) })
+
+fun String.traderIconSource(name: String? = this.split(" ")[0].lowercase(), level: Int? = this.split(" ")[1].replace("LL", "").toIntOrNull()): String {
+    return when (name) {
+        "prapor" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fc/Prapor_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110125"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/75/Prapor_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110134"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/64/Prapor_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110141"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f1/Prapor_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110153"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fc/Prapor_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110125"
+        }
+        "therapist" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fb/Therapist_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110312"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5f/Therapist_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110321"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f6/Therapist_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110328"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Therapist_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110338"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Therapist_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110338"
+        }
+        "fence" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f7/Fence_Portrait.png/revision/latest/scale-to-width-down/127?cb=20180425012754"
+        "ragman" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e5/Ragman_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110204"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/20/Ragman_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110215"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ed/Ragman_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110221"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1c/Ragman_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110230"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e5/Ragman_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110204"
+        }
+        "peacekeeper" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Peacekeeper_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110041"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/96/Peacekeeper_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110052"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/95/Peacekeeper_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110059"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3e/Peacekeeper_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110108"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Peacekeeper_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110041"
+        }
+        "skier" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/eb/Skier_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110238"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/12/Skier_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110248"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/65/Skier_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110257"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e8/Skier_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110304"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/eb/Skier_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110238"
+        }
+        "mechanic" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3f/Mechanic_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822105848"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/9b/Mechanic_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822105910"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b8/Mechanic_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110019"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/bd/Mechanic_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110029"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3f/Mechanic_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822105848"
+        }
+        "jaeger" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/Jaeger_1_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221027"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/18/Jaeger_2_icon.png/revision/latest/scale-to-width-down/130?cb=20191101214208"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ed/Jaeger_3_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221028"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f2/Jaeger_4_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221026"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/Jaeger_1_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221027"
+        }
+        else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+    }
+}
+
+fun String.currentTraderLevel(): Int {
+    return when (this.lowercase()) {
+        "prapor" -> {
+            return UserSettingsModel.praporLevel.value.toString().toInt()
+        }
+        "therapist" -> {
+            return UserSettingsModel.therapistLevel.value.toString().toInt()
+        }
+        "fence" -> {
+            return UserSettingsModel.fenceLevel.value.toString().toInt()
+        }
+        "skier" -> {
+            return UserSettingsModel.skierLevel.value.toString().toInt()
+        }
+        "peacekeeper" -> {
+            return UserSettingsModel.peacekeeperLevel.value.toString().toInt()
+        }
+        "mechanic" -> {
+            return UserSettingsModel.mechanicLevel.value.toString().toInt()
+        }
+        "ragman" -> {
+            return UserSettingsModel.ragmanLevel.value.toString().toInt()
+        }
+        "jaeger" -> {
+            return UserSettingsModel.jaegerLevel.value.toString().toInt()
+        }
+        else -> 1
+    }
+}
+
+fun String.getHideoutIcon(): Int {
+    Timber.d(this.lowercase())
+    return when (this.lowercase()) {
+        "air filtering unit" -> com.austinhodak.tarkovapi.R.drawable.air_filtering_unit_portrait
+        "bitcoin farm" -> com.austinhodak.tarkovapi.R.drawable.bitcoin_farm_portrait
+        "booze generator" -> com.austinhodak.tarkovapi.R.drawable.booze_generator_portrait
+        "generator" -> com.austinhodak.tarkovapi.R.drawable.generator_portrait
+        "heating" -> com.austinhodak.tarkovapi.R.drawable.heating_portrait
+        "illumination" -> com.austinhodak.tarkovapi.R.drawable.illumination_portrait
+        "intelligence center" -> com.austinhodak.tarkovapi.R.drawable.intelligence_center_portrait
+        "lavatory" -> com.austinhodak.tarkovapi.R.drawable.lavatory_portrait
+        "library" -> com.austinhodak.tarkovapi.R.drawable.library_portrait
+        "medstation" -> com.austinhodak.tarkovapi.R.drawable.medstation_portrait
+        "nutrition unit" -> com.austinhodak.tarkovapi.R.drawable.nutrition_unit_portrait
+        "rest space" -> com.austinhodak.tarkovapi.R.drawable.rest_space_portrait
+        "scav case" -> com.austinhodak.tarkovapi.R.drawable.scav_case_portrait
+        "security" -> com.austinhodak.tarkovapi.R.drawable.security_portrait
+        "shooting range" -> com.austinhodak.tarkovapi.R.drawable.shooting_range_portrait
+        "solar power" -> com.austinhodak.tarkovapi.R.drawable.solar_power_portrait
+        "stash" -> com.austinhodak.tarkovapi.R.drawable.stash_portrait
+        "vents" -> com.austinhodak.tarkovapi.R.drawable.vents_portrait
+        "water collector" -> com.austinhodak.tarkovapi.R.drawable.water_collector_portrait
+        "workbench" -> com.austinhodak.tarkovapi.R.drawable.workbench_portrait
+        else -> com.austinhodak.tarkovapi.R.drawable.workbench_portrait
+    }
+}

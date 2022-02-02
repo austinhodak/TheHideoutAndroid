@@ -86,7 +86,7 @@ fun ItemFragment.toClass(): Pricing {
         item.low24hPrice,
         item.high24hPrice,
         item.updated,
-        types = item.types.filterNotNull(),
+        types = emptyList(),
         item.width,
         item.height,
         sellFor = item.sellFor?.map { s1 ->
@@ -126,7 +126,7 @@ fun ContainsItem.toClass(): Pricing.ContainsItem {
         item.low24hPrice,
         item.high24hPrice,
         item.updated,
-        types = item.types.filterNotNull(),
+        types = emptyList(),
         item.width,
         item.height,
         sellFor = item.sellFor?.map { s1 ->

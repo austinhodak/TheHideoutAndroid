@@ -65,6 +65,18 @@ data class Pricing(
         )
     }
 
+    fun getHighestSellRequirements(): BuySellPrice {
+        return sellFor?.maxByOrNull {
+            if (!it.isRequirementMet()) Int.MIN_VALUE else it.getPriceAsRoubles()
+            //it.price ?: Int.MAX_VALUE
+        } ?: BuySellPrice(
+            "fleaMarket",
+            price = basePrice,
+            requirements = emptyList(),
+            "RUB"
+        )
+    }
+
     fun isAbleToPurchase(): Boolean {
         return buyFor?.any {
             it.isRequirementMet()
@@ -296,7 +308,7 @@ data class Pricing(
                 item.low24hPrice,
                 item.high24hPrice,
                 item.updated,
-                types = item.types.filterNotNull(),
+                types = emptyList(),
                 item.width,
                 item.height,
                 sellFor = item.sellFor,

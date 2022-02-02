@@ -227,7 +227,7 @@ class HideoutStationDetailActivity : AppCompatActivity() {
                                         allItems,
                                         pagerState,
                                         modules,
-                                        station
+                                        station,
                                     )
                                 }
                                 1 -> {

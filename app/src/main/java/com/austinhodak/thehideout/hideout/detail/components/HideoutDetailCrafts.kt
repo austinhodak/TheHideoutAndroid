@@ -29,6 +29,7 @@ import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.BorderColor
+import com.austinhodak.thehideout.crafts.CraftDetailActivity
 import com.austinhodak.thehideout.currency.euroToRouble
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
@@ -87,37 +88,12 @@ fun CraftItem(craft: Craft) {
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             backgroundColor = Color(0xFE1F1F1F),
             onClick = {
-                context.openActivity(FleaItemDetail::class.java) {
-                    putString("id", rewardItem?.id)
+                context.openActivity(CraftDetailActivity::class.java) {
+                    putSerializable("craft", craft)
                 }
             },
         ) {
             Column {
-                /*if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
-
-                } else {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .background(color = Red400)
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            Icons.Filled.Warning, contentDescription = "", tint = Color.Black, modifier = Modifier
-                                .height(20.dp)
-                                .width(20.dp)
-                        )
-                        Text(
-                            text = "${craft.source?.uppercase()} NOT BUILT",
-                            style = MaterialTheme.typography.caption,
-                            fontWeight = FontWeight.Medium,
-                            color = Color.Black,
-                            modifier = Modifier.padding(start = 34.dp)
-                        )
-                    }
-                }*/
-
                 Row(
                     Modifier
                         .padding(16.dp)

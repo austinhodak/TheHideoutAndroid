@@ -55,8 +55,10 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.barters.BarterDetailActivity
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.crafts.CraftDetailActivity
 import com.austinhodak.thehideout.firebase.PriceAlert
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
@@ -1085,11 +1087,14 @@ class FleaItemDetail : GodActivity() {
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                 backgroundColor = Color(0xFE1F1F1F),
                 onClick = {
-                    if (rewardItem?.id != itemID) {
+                    context.openActivity(CraftDetailActivity::class.java) {
+                        putSerializable("craft", craft)
+                    }
+                    /*if (rewardItem?.id != itemID) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", rewardItem?.id)
                         }
-                    }
+                    }*/
                 },
             ) {
                 Column {
@@ -1236,11 +1241,14 @@ class FleaItemDetail : GodActivity() {
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             backgroundColor = Color(0xFE1F1F1F),
             onClick = {
-                if (rewardItem?.id != itemID) {
+                context.openActivity(BarterDetailActivity::class.java) {
+                    putSerializable("barter", barter)
+                }
+                /*if (rewardItem?.id != itemID) {
                     context.openActivity(FleaItemDetail::class.java) {
                         putString("id", rewardItem?.id)
                     }
-                }
+                }*/
             }
         ) {
             Column {

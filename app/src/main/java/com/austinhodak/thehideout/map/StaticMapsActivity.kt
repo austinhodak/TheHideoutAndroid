@@ -27,11 +27,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import coil.size.OriginalSize
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.UserSettingsModel
@@ -67,7 +65,6 @@ class StaticMapsActivity : AppCompatActivity() {
             HideoutTheme {
                 Scaffold(
                     topBar = {
-                        val density = LocalDensity.current
                         AnimatedVisibility(visible = !isFullScreen, enter = slideInVertically {
                             -it/2
                         }, exit = slideOutVertically {

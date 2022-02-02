@@ -1,11 +1,13 @@
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -63,6 +65,10 @@ fun HideoutDetailModuleScreen(items: List<Item>, pagerStateCrafts: PagerState, m
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HideoutDetailModule(type: String?, requirements: List<Hideout.Module.Require?>, items: List<Item>, module: Hideout.Module) {
+    val totalModuleCost = requirements.sumOf { requirement ->
+        val item = items.find { requirement?.name == it.id }
+        (requirement?.quantity ?: 0).times(item?.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() ?: 0)
+    }
     Card(
         backgroundColor = if (isSystemInDarkTheme()) Color(
             0xFE1F1F1F
@@ -82,12 +88,21 @@ fun HideoutDetailModule(type: String?, requirements: List<Hideout.Module.Require
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        text = type.toString(),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Light,
-                        fontFamily = Bender,
-                    )
+                    if (totalModuleCost <= 0) {
+                        Text(
+                            text = type.toString(),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                        )
+                    } else {
+                        Text(
+                            text = "${type.toString()} (${totalModuleCost.asCurrency()})",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                            fontFamily = Bender,
+                        )
+                    }
                 }
             }
 
@@ -182,19 +197,29 @@ fun HideoutRequirementItem(
             }),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            rememberImagePainter(
-                pricing?.getCleanIcon()
-            ),
-            contentDescription = null,
-            modifier = Modifier
-                .width(38.dp)
-                .height(38.dp)
-                .border(
-                    (0.25).dp,
-                    color = BorderColor
-                )
-        )
+        Box {
+            Image(
+                rememberImagePainter(
+                    pricing?.getCleanIcon()
+                ),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(38.dp)
+                    .height(38.dp)
+                    .border((0.25).dp, color = BorderColor)
+            )
+            Text(
+                text = "${requirement.quantity}",
+                Modifier
+                    .clip(RoundedCornerShape(topStart = 5.dp))
+                    .background(BorderColor)
+                    .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                    .align(Alignment.BottomEnd),
+                style = MaterialTheme.typography.caption,
+                fontWeight = FontWeight.Medium,
+                fontSize = 9.sp
+            )
+        }
         Column(
             modifier = Modifier.padding(start = 16.dp)
         ) {
@@ -203,18 +228,18 @@ fun HideoutRequirementItem(
                 style = MaterialTheme.typography.body1
             )
 
-            val cheapestBuy = pricing?.getCheapestBuyRequirements()?.copy()
-            if (cheapestBuy?.currency == "USD") {
-                cheapestBuy.price =  cheapestBuy.price?.fromDtoR()?.roundToInt()
-            } else if (cheapestBuy?.currency == "EUR") {
-                cheapestBuy.price = euroToRouble(cheapestBuy.price?.toLong()).toInt()
-            }
+//            val cheapestBuy = pricing?.getCheapestBuyRequirements()?.copy()
+//            if (cheapestBuy?.currency == "USD") {
+//                cheapestBuy.price =  cheapestBuy.price?.fromDtoR()?.roundToInt()
+//            } else if (cheapestBuy?.currency == "EUR") {
+//                cheapestBuy.price = euroToRouble(cheapestBuy.price?.toLong()).toInt()
+//            }
 
             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                 Row {
                     SmallBuyPrice(pricing = pricing)
                     Text(
-                        text = " (${((requirement.quantity ?: 1).times(cheapestBuy?.price ?: 0)).asCurrency()})",
+                        text = " (${((requirement.quantity ?: 1).times(pricing?.getCheapestBuyRequirements()?.price ?: 0)).asCurrency()})",
                         style = MaterialTheme.typography.caption,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Light,
