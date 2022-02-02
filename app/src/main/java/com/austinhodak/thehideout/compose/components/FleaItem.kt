@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.FleaVisiblePrice
+import com.austinhodak.tarkovapi.IconSelection
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.utils.asCurrency
@@ -34,6 +35,7 @@ import com.austinhodak.thehideout.utils.*
 fun FleaItem(
     item: Item,
     priceDisplay: FleaVisiblePrice,
+    iconDisplay: IconSelection,
     onClick: (String) -> Unit
 ) {
 
@@ -50,6 +52,18 @@ fun FleaItem(
         "green" -> itemGreen
         "black" -> itemBlack
         else -> itemDefault
+    }
+
+    val icon = when (iconDisplay) {
+        IconSelection.ORIGINAL -> item.pricing?.getCleanIcon()
+        IconSelection.TRANSPARENT -> item.pricing?.getTransparentIcon()
+        IconSelection.GAME -> item.pricing?.getIcon()
+    }
+
+    val border = when (iconDisplay) {
+        IconSelection.ORIGINAL -> BorderColor
+        IconSelection.TRANSPARENT -> Color.Unspecified
+        IconSelection.GAME -> Color.Unspecified
     }
 
     Card(
@@ -87,13 +101,13 @@ fun FleaItem(
                     .fillMaxHeight()
                     .padding(end = 16.dp))
                 Image(
-                    rememberImagePainter(data = item.pricing?.getCleanIcon(), builder = { crossfade(true); placeholder(R.drawable.unknown_item_icon) }),
+                    rememberImagePainter(data = icon, builder = { crossfade(true); placeholder(R.drawable.unknown_item_icon) }),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)
                         .width(48.dp)
                         .height(48.dp)
-                        .border((0.25).dp, color = BorderColor)
+                        .border((0.25).dp, color = border)
                 )
                 Column(
                     Modifier

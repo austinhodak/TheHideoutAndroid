@@ -23,13 +23,13 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.bitcoin.BitcoinPriceScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.currency.CurrenyConverterScreen
 import com.austinhodak.thehideout.flea_market.FleaMarketScreen
+import com.austinhodak.thehideout.flea_market.grid.ItemQuestHideoutGridScreen
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.gear.GearListScreen
 import com.austinhodak.thehideout.gear.viewmodels.GearViewModel
@@ -360,6 +360,14 @@ class NavActivity : GodActivity() {
                         composable("server_pings") {
                             ServerPingScreen(navViewModel, tarkovRepo)
                         }
+                        composable("neededGrid") {
+                            ItemQuestHideoutGridScreen(
+                                navViewModel,
+                                tarkovRepo,
+                                questViewModel,
+                                hideoutViewModel
+                            )
+                        }
                     }
 
                     navViewModel.selectedDrawerItem.observe(lifeCycleOwner) { selectedItem ->
@@ -467,7 +475,7 @@ class NavActivity : GodActivity() {
     private fun setupReviewPopup() {
         val manager = ReviewManagerFactory.create(this)
         only("reviewPopup", times = 5) {
-            onDone {
+            onLastDo {
                 val request = manager.requestReviewFlow()
                 request.addOnSuccessListener { reviewInfo ->
                     Timber.d("LAUNCHING REVIEW")

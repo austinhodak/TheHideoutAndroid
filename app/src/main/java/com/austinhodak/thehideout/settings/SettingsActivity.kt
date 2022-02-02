@@ -61,6 +61,7 @@ import com.michaelflisar.materialpreferences.preferencescreen.*
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asBatch
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
+import com.michaelflisar.materialpreferences.preferencescreen.color.color
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.Dependency
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDependency
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
@@ -126,6 +127,9 @@ class SettingsActivity : GodActivity() {
                 }
                 OpeningScreen.WEAPONS -> {
                     extras.setOpeningItem(301, "assaultRifle")
+                }
+                OpeningScreen.NEEDED_ITEMS -> {
+                    extras.setOpeningItem(116, "neededGrid")
                 }
             }
         }
@@ -463,11 +467,15 @@ class SettingsActivity : GodActivity() {
                                             OpeningScreen.QUESTS -> "Quests"
                                             OpeningScreen.MODS -> "Weapon Mods"
                                             OpeningScreen.WEAPONS -> "Weapons"
+                                            OpeningScreen.NEEDED_ITEMS -> "Needed Items Grid"
                                             else -> ""
                                         }
                                     }) {
                                         title = "Opening Screen".asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
+                                    }
+                                    category {
+                                        title = "Other".asText()
                                     }
                                     if (!isPremium() || isDebug())
                                         switch(UserSettingsModel.hidePremiumBanner) {
@@ -491,18 +499,93 @@ class SettingsActivity : GodActivity() {
                                         title = "List Price".asText()
                                         icon = R.drawable.ic_baseline_money_24.asIcon()
                                     }
-//                                    singleChoice(UserSettingsModel.fleaHideTime, FleaHideTime.values(), {
-//                                        when (it) {
-//                                            FleaHideTime.NONE -> "Don't Hide"
-//                                            FleaHideTime.DAY7 -> "Within last 7 Days"
-//                                            FleaHideTime.DAY14 -> "Within last 14 Days"
-//                                            FleaHideTime.DAY30 -> "Within last 30 Days"
-//                                        }
-//                                    }) {
-//                                        title = "Hide Items Without Price".asText()
-//                                        icon = R.drawable.ic_baseline_access_time_24.asIcon()
-//                                        enabled = false
-//                                    }
+                                    singleChoice(UserSettingsModel.fleaIconDisplay, IconSelection.values(), {
+                                        when (it) {
+                                            IconSelection.ORIGINAL -> "Original"
+                                            IconSelection.TRANSPARENT -> "Transparent"
+                                            IconSelection.GAME -> "Same as in game"
+                                        }
+                                    }) {
+                                        title = "Icon Display".asText()
+                                        icon = R.drawable.ic_baseline_image_24.asIcon()
+                                    }
+                                    singleChoice(UserSettingsModel.fleaHideTime, FleaHideTime.values(), {
+                                        when (it) {
+                                            FleaHideTime.NONE -> "Don't Hide"
+                                            FleaHideTime.HOUR24 -> "Within last 24 Hours"
+                                            FleaHideTime.DAY7 -> "Within last 7 Days"
+                                            FleaHideTime.DAY14 -> "Within last 14 Days"
+                                            FleaHideTime.DAY30 -> "Within last 30 Days"
+                                        }
+                                    }) {
+                                        title = "Only Show Items Scanned".asText()
+                                        icon = R.drawable.ic_baseline_access_time_24.asIcon()
+                                    }
+                                    switch(UserSettingsModel.fleaHideNonFlea) {
+                                        title = "Hide Items Banned From Flea".asText()
+                                        icon = R.drawable.ic_baseline_block_24.asIcon()
+                                    }
+                                    /*subScreen {
+                                        title = "Colors".asText()
+                                        icon = R.drawable.ic_baseline_color_lens_24.asIcon()
+                                        category {
+                                            title = "Colors".asText()
+                                        }
+                                        color(UserSettingsModel.itemColorBlue) {
+                                            title = "Blue".asText()
+                                            icon = R.drawable.ic_blank.asIcon()
+                                            summary = "Items with blue background.".asText()
+                                            supportsAlpha = false
+                                        }
+                                        color(UserSettingsModel.itemColorGrey) {
+                                            title = "Grey".asText()
+                                            icon = R.drawable.ic_blank.asIcon()
+                                            summary = "Items with grey background.".asText()
+                                            supportsAlpha = false
+                                        }
+                                        color(UserSettingsModel.itemColorRed) {
+                                            title = "Red".asText()
+                                            icon = R.drawable.ic_blank.asIcon()
+                                            summary = "Items with red background.".asText()
+                                            supportsAlpha = false
+                                        }
+                                        color(UserSettingsModel.itemColorOrange) {
+                                            title = "Orange".asText()
+                                            icon = R.drawable.ic_blank.asIcon()
+                                            summary = "Items with orange background.".asText()
+                                            supportsAlpha = false
+                                        }
+                                        color(UserSettingsModel.itemColorDefault) {
+                                            title = "Default".asText()
+                                            icon = R.drawable.ic_blank.asIcon()
+                                            summary = "Items with default background.".asText()
+                                            supportsAlpha = false
+                                        }
+                                        color(UserSettingsModel.itemColorViolet) {
+                                            title = "Violet".asText()
+                                            icon = R.drawable.ic_blank.asIcon()
+                                            summary = "Items with violet background.".asText()
+                                            supportsAlpha = false
+                                        }
+                                        color(UserSettingsModel.itemColorYellow) {
+                                            title = "Yellow".asText()
+                                            icon = R.drawable.ic_blank.asIcon()
+                                            summary = "Items with yellow background.".asText()
+                                            supportsAlpha = false
+                                        }
+                                        color(UserSettingsModel.itemColorGreen) {
+                                            title = "Green".asText()
+                                            icon = R.drawable.ic_blank.asIcon()
+                                            summary = "Items with green background.".asText()
+                                            supportsAlpha = false
+                                        }
+                                        color(UserSettingsModel.itemColorBlack) {
+                                            title = "Black".asText()
+                                            icon = R.drawable.ic_blank.asIcon()
+                                            summary = "Items with black background.".asText()
+                                            supportsAlpha = false
+                                        }
+                                    }*/
                                 }
                                 subScreen {
                                     title = "Maps".asText()

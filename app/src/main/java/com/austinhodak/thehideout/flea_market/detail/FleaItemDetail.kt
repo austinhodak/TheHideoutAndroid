@@ -45,6 +45,8 @@ import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItems
+import com.austinhodak.tarkovapi.IconSelection
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
@@ -1460,6 +1462,19 @@ class FleaItemDetail : GodActivity() {
             "black" -> itemBlack
             else -> itemDefault
         }
+        val iconDisplay = UserSettingsModel.fleaIconDisplay.value
+
+        val icon = when (iconDisplay) {
+            IconSelection.ORIGINAL -> item?.pricing?.getCleanIcon()
+            IconSelection.TRANSPARENT -> item?.pricing?.getTransparentIcon()
+            IconSelection.GAME -> item?.pricing?.getIcon()
+        }
+
+        val border = when (iconDisplay) {
+            IconSelection.ORIGINAL -> BorderColor
+            IconSelection.TRANSPARENT -> Color.Unspecified
+            IconSelection.GAME -> Color.Unspecified
+        }
 
         Card(
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
@@ -1477,13 +1492,13 @@ class FleaItemDetail : GodActivity() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            fadeImagePainter(item?.pricing?.getTransparentIcon()),
+                            fadeImagePainter(icon),
                             contentDescription = null,
                             modifier = Modifier
                                 .padding(vertical = 16.dp)
                                 .width(52.dp)
                                 .height(52.dp)
-                                .border((0.25).dp, color = BorderColor)
+                                .border((0.25).dp, color = border)
                                 .clickable {
                                     item?.pricing?.imageLink?.let {
                                         StfalconImageViewer

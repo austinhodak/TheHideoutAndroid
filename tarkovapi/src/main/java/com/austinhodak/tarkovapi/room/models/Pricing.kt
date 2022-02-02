@@ -1,11 +1,15 @@
 package com.austinhodak.tarkovapi.room.models
 
+import android.text.format.DateUtils
+import com.apollographql.apollo3.mpp.currentTimeMillis
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.fragment.ItemFragment
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.*
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -24,7 +28,7 @@ data class Pricing(
     val low24hPrice: Int?,
     val high24hPrice: Int?,
     val updated: String?,
-    val types: List<ItemTypes?>,
+    val types: List<ItemType>?,
     val width: Int?,
     val height: Int?,
     val sellFor: List<BuySellPrice>?,
@@ -39,6 +43,15 @@ data class Pricing(
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
     fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
     fun getTransparentIcon(): String = "https://assets.tarkov-tools.com/$id-base-image.png"
+
+    fun getTime(): Long? {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        sdf.timeZone = TimeZone.getTimeZone("GMT")
+        updated?.let {
+            return sdf.parse(it)?.time
+        }
+        return currentTimeMillis()
+    }
 
     fun getCheapestBuyRequirements(): BuySellPrice {
         return buyFor?.minByOrNull {
@@ -259,7 +272,7 @@ data class Pricing(
         val low24hPrice: Int?,
         val high24hPrice: Int?,
         val updated: String?,
-        val types: List<ItemTypes?>,
+        val types: List<ItemType?>,
         val width: Int?,
         val height: Int?,
         val sellFor: List<BuySellPrice>?,
@@ -283,7 +296,7 @@ data class Pricing(
                 item.low24hPrice,
                 item.high24hPrice,
                 item.updated,
-                types = emptyList(),
+                types = item.types.filterNotNull(),
                 item.width,
                 item.height,
                 sellFor = item.sellFor,

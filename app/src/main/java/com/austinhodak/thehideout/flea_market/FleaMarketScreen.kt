@@ -37,6 +37,8 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.apollographql.apollo3.mpp.currentTimeMillis
+import com.austinhodak.tarkovapi.FleaHideTime
 import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -283,7 +285,7 @@ fun FleaMarketFavoritesList(
 ) {
     val sortBy = fleaViewModel.sortBy.observeAsState()
     val searchKey by fleaViewModel.searchKey.observeAsState("")
-
+    val iconDisplay = UserSettingsModel.fleaIconDisplay.value
     val priceDisplay = UserSettingsModel.fleaVisiblePrice.value
 
     val list = when (sortBy.value) {
@@ -345,7 +347,7 @@ fun FleaMarketFavoritesList(
                 contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
             ) {
                 items(items = list ?: emptyList()) { item ->
-                    FleaItem(item = item, priceDisplay = priceDisplay) {
+                    FleaItem(item = item, priceDisplay = priceDisplay, iconDisplay) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", item.id)
                         }
@@ -369,6 +371,9 @@ fun FleaMarketListScreen(
     val sortBy = fleaViewModel.sortBy.observeAsState()
     val searchKey by fleaViewModel.searchKey.observeAsState("")
     val priceDisplay = UserSettingsModel.fleaVisiblePrice.value
+    val fleaHideTime = UserSettingsModel.fleaHideTime.value
+    val fleaHideNonFlea = UserSettingsModel.fleaHideNonFlea.value
+    val iconDisplay = UserSettingsModel.fleaIconDisplay.value
 
     val list = when (sortBy.value) {
         0 -> data?.sortedBy { it.Name }
@@ -409,6 +414,18 @@ fun FleaMarketListScreen(
         it.ShortName?.contains(searchKey, ignoreCase = true) == true
                 || it.Name?.contains(searchKey, ignoreCase = true) == true
                 || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
+    }?.filter {
+        when (fleaHideTime) {
+            FleaHideTime.HOUR24 -> it.pricing?.getTime() ?: currentTimeMillis() > (currentTimeMillis() - (1000 * 60 * 60 * 24))
+            FleaHideTime.DAY7 -> it.pricing?.getTime() ?: currentTimeMillis() > (currentTimeMillis() - (604800000))
+            FleaHideTime.DAY14 -> it.pricing?.getTime() ?: currentTimeMillis() > (currentTimeMillis() - (1209600000))
+            FleaHideTime.DAY30 -> it.pricing?.getTime() ?: currentTimeMillis() > (currentTimeMillis() - (2592000000))
+            else -> true
+        }
+    }?.filter {
+        if (fleaHideNonFlea) {
+            it.pricing?.noFlea == false
+        } else true
     }
 
     if (data.isNullOrEmpty()) {
@@ -428,8 +445,8 @@ fun FleaMarketListScreen(
             modifier = Modifier,
             contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
         ) {
-            items(items = list ?: emptyList()) { item ->
-                FleaItem(item = item, priceDisplay) {
+            items(items = list ?: emptyList(), key = { item -> item.id }) { item ->
+                FleaItem(item = item, priceDisplay, iconDisplay) {
                     context.openActivity(FleaItemDetail::class.java) {
                         putString("id", item.id)
                     }

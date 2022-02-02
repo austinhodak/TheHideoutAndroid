@@ -1,5 +1,6 @@
 package com.austinhodak.tarkovapi
 
+import android.graphics.Color
 import com.austinhodak.tarkovapi.utils.Maps
 import com.michaelflisar.materialpreferences.core.SettingsModel
 import com.michaelflisar.materialpreferences.datastore.DataStoreStorage
@@ -31,6 +32,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val defaultMap by enumPref(MapEnums.CUSTOMS, "defaultMap")
 
     val fleaHideTime by enumPref(FleaHideTime.NONE, "fleaHideTime")
+    val fleaIconDisplay by enumPref(IconSelection.ORIGINAL, "fleaIconDisplay")
+    val fleaHideNonFlea by boolPref(false, "fleaHideNonFlea")
 
     val playerLevel by intPref(71, "playerLevel")
 
@@ -80,6 +83,16 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val isPremiumUser by boolPref(false, "isPremiumUser")
 
     val userGameEdition by enumPref(GameEdition.STANDARD, "userGameEdition")
+
+    val itemColorBlue by intPref(Color.parseColor("#222A2F"))
+    val itemColorGrey by intPref(Color.parseColor("#1B1C1C"))
+    val itemColorRed by intPref(Color.parseColor("#311B18"))
+    val itemColorOrange by intPref(Color.parseColor("#201813"))
+    val itemColorDefault by intPref(Color.parseColor("#383A3A"))
+    val itemColorViolet by intPref(Color.parseColor("#261F29"))
+    val itemColorYellow by intPref(Color.parseColor("#313122"))
+    val itemColorGreen by intPref(Color.parseColor("#181F11"))
+    val itemColorBlack by intPref(Color.parseColor("#181919"))
 }
 
 enum class DataSyncFrequency {
@@ -98,7 +111,8 @@ enum class OpeningScreen {
     QUESTS,
     WEAPONS,
     LOADOUTS,
-    MODS
+    MODS,
+    NEEDED_ITEMS
 }
 
 enum class FleaVisiblePrice {
@@ -111,6 +125,7 @@ enum class FleaVisiblePrice {
 
 enum class FleaHideTime {
     NONE,
+    HOUR24,
     DAY7,
     DAY14,
     DAY30
@@ -121,6 +136,12 @@ enum class Levels {
     `2`,
     `3`,
     `4`
+}
+
+enum class IconSelection {
+    ORIGINAL,
+    TRANSPARENT,
+    GAME
 }
 
 enum class GameEdition {

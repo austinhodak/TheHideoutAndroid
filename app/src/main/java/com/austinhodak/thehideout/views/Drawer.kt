@@ -38,6 +38,7 @@ import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.extras
+import com.austinhodak.thehideout.map.StaticMapsActivity
 import com.austinhodak.thehideout.ocr.ItemScannerActivity
 import com.austinhodak.thehideout.settings.SettingsActivity
 import com.austinhodak.thehideout.status.ServerStatusActivity
@@ -80,6 +81,13 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
     private val benderFont = ResourcesCompat.getFont(context, R.font.bender)
     private val benderBoldFont = ResourcesCompat.getFont(context, R.font.bender_bold)
 
+    private val drawerNeededItemsGrid = PrimaryDrawerItem().apply {
+        tag = "neededGrid"; identifier = 116; nameText = "Needed Items"; iconRes =
+        R.drawable.ic_baseline_grid_view_24; isIconTinted = true; typeface =
+        benderFont;
+        badgeText = "Beta";
+        badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_orange_700) }
+    }
     private val drawerAmmo = PrimaryDrawerItem().apply {
         tag = "ammunition/Caliber762x35"; identifier = 101; nameText = "Ammunition"; iconRes =
         R.drawable.icons8_ammo_100; isIconTinted =
@@ -107,11 +115,26 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         R.drawable.ic_baseline_assignment_24; isIconTinted = true; typeface =
         benderFont
     }
-    private val drawerMaps = PrimaryDrawerItem().apply {
-        tag = "activity:map"; identifier = 110; nameText = "Maps"; iconRes =
-        R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont; isSelectable =
-        false
+
+    val interactiveMaps = SecondaryDrawerItem().apply {
+        level = 1; iconRes = R.drawable.ic_blank; identifier = 701
+        nameText = "Interactive"; typeface = benderFont; tag = "map_interactive"; isSelectable = false
     }
+
+    val staticMaps = SecondaryDrawerItem().apply {
+        level = 1; iconRes = R.drawable.ic_blank; identifier = 702
+        nameText = "Static"; typeface = benderFont; tag = "map_static"; isSelectable = false
+    }
+
+    private val drawerMaps = ExpandableDrawerItem().apply {
+        tag = "map_selector"; identifier = 110; nameText = "Maps"; iconRes =
+        R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont; isSelectable = false;
+        subItems = mutableListOf(
+            interactiveMaps,
+            staticMaps
+        )
+    }
+
     private val drawerDamageSimulator = PrimaryDrawerItem().apply {
         tag = "activity:sim"; identifier = 111; nameText = "Tarkov'd Simulator"; iconRes =
         R.drawable.icons8_dog_tag_96; isIconTinted =
@@ -211,32 +234,6 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
     }
 
     private val drawerDivider = DividerDrawerItem()
-
-    private val drawerSectionJoinUs = SectionDrawerItem().apply { nameText = "Join us on" }
-    private val drawerJoinUsDiscord =
-        PrimaryDrawerItem().apply {
-            tag = "https://discord.gg/YQW36z29z6"; nameText = "Discord"; iconRes =
-            R.drawable.icons8_discord_96; isIconTinted = true; typeface = benderFont; isSelectable =
-            false
-        }
-    private val drawerJoinUsTwitch =
-        PrimaryDrawerItem().apply {
-            tag = "https://www.twitch.tv/theeeelegend"; nameText = "Twitch"; iconRes =
-            R.drawable.icons8_twitch_96; isIconTinted = true; typeface = benderFont; isSelectable =
-            false
-        }
-    private val drawerJoinUsTwitter =
-        PrimaryDrawerItem().apply {
-            tag = "https://twitter.com/austin6561"; nameText = "Twitter"; iconRes =
-            R.drawable.icons8_twitter_squared_96; isIconTinted = true; typeface =
-            benderFont; isSelectable = false
-        }
-
-    private val drawerVersion = SecondaryDrawerItem().apply {
-        nameText = BuildConfig.VERSION_NAME; iconRes =
-        R.drawable.ic_baseline_info_24; isIconTinted = true; isEnabled = false
-    }
-
 
     private val drawerCurrencyConverter = SecondaryDrawerItem().apply {
         tag = "currency_converter"; level = 2; identifier = 402; nameText =
@@ -410,6 +407,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
             drawerFleaMarket,
             drawerHideout,
             drawerMaps,
+            drawerNeededItemsGrid,
             drawerQuests,
             drawerDamageSimulator,
             drawerExtraTools,
@@ -457,21 +455,9 @@ fun MainDrawer(
         isSelectable = false
         identifier = 999
         typeface = benderFont
-        //badgeText = "BETA";
-        //badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_red_700) }
-    }
-
-    val drawerUpgrade = PrimaryDrawerItem().apply {
-        tag = "upgrade"
-        nameText = "Upgrade to Premium"
-        iconRes = R.drawable.icons8_buy_upgrade_96
-        isSelectable = false
-        typeface = benderFont
-        identifier = 998
     }
 
     var status: ServerStatus? by remember { mutableStateOf(null) }
-    var resetTimers: TraderReset? by remember { mutableStateOf(null) }
     val isPremium = UserSettingsModel.isPremiumUser.value
     var hideBanner: Boolean by remember { mutableStateOf(UserSettingsModel.hidePremiumBanner.value) }
 
@@ -484,7 +470,6 @@ fun MainDrawer(
     LaunchedEffect("drawer") {
         try {
             status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
-            resetTimers = apolloClient.query(TraderResetTimersQuery()).data?.toObj()
         } catch (e: ApolloNetworkException) {
             //Most likely no internet connection.
             e.printStackTrace()
@@ -500,22 +485,6 @@ fun MainDrawer(
                     snackbarData = data
                 )
             }
-        },
-        floatingActionButton = {
-            /*if (status?.isDegraded() == true && UserSettingsModel.showStatusOnHomeScreen.value) {
-                FloatingActionButton(
-                    onClick = {
-                        context.openActivity(ServerStatusActivity::class.java)
-                    },
-                    backgroundColor = status?.currentStatusColor() ?: StatusRed
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icons8_cloud_alert_96),
-                        contentDescription = "",
-                        tint = Black
-                    )
-                }
-            }*/
         }
     ) {
         Column(
@@ -544,41 +513,12 @@ fun MainDrawer(
                             .padding(horizontal = 14.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        if (Firebase.remoteConfig.getBoolean("sale_active")) {
-                            //Icon(painter = painterResource(id = R.drawable.icons8_sale_96), contentDescription = "", tint = Black)
-                        } else {
-                            //Icon(painter = painterResource(id = R.drawable.icons8_buy_upgrade_96_black), contentDescription = "", tint = Black)
-                        }
                         Text(text = "GO PREMIUM", color = Black, style = MaterialTheme.typography.button, modifier = Modifier.padding(start = 2.dp))
                         Spacer(modifier = Modifier.weight(1f))
                         Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "", tint = Black)
                     }
                 }
             }
-            /*Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                backgroundColor = "FF9800".color
-            ) {
-                Row(
-                    Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icons8_cloud_alert_96),
-                        contentDescription = "",
-                        tint = Black,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Text(
-                        text = "Server issues.",
-                        color = Black,
-                        style = MaterialTheme.typography.subtitle2,
-                        modifier = Modifier.padding(start = 12.dp)
-                    )
-                }
-            }*/
             Divider(
                 modifier = Modifier.background(MaterialTheme.colors.surface),
                 color = DividerDark
@@ -598,7 +538,8 @@ fun MainDrawer(
                                     route == "activity:sim" -> context.openActivity(
                                         CalculatorMainActivity::class.java
                                     )
-                                    route == "activity:map" -> context.openActivity(MapsActivity::class.java)
+                                    route == "map_interactive" -> context.openActivity(MapsActivity::class.java)
+                                    route == "map_static" -> context.openActivity(StaticMapsActivity::class.java)
                                     route == "settings" -> context.openActivity(SettingsActivity::class.java)
                                     route == "upgrade" -> context.openActivity(PremiumPusherActivity::class.java)
                                     route == "server_status" -> context.openActivity(ServerStatusActivity::class.java)
@@ -670,55 +611,6 @@ fun MainDrawer(
                             }
                         }
                     }
-
-                    /*resetTimers?.let {
-                        if (isTimersRunning) return@let
-                        scope.launch {
-                            while (true) {
-                                drawer.itemAnimator.changeDuration = 0
-                                drawer.updateBadge(501, StringHolder(it.getTrader("prapor")?.getResetTimeSpan() ?: ""))
-                                drawer.updateBadge(502, StringHolder(it.getTrader("therapist")?.getResetTimeSpan() ?: ""))
-                                drawer.updateBadge(503, StringHolder(it.getTrader("skier")?.getResetTimeSpan() ?: ""))
-                                drawer.updateBadge(504, StringHolder(it.getTrader("peacekeeper")?.getResetTimeSpan() ?: ""))
-                                drawer.updateBadge(505, StringHolder(it.getTrader("mechanic")?.getResetTimeSpan() ?: ""))
-                                drawer.updateBadge(506, StringHolder(it.getTrader("ragman")?.getResetTimeSpan() ?: ""))
-                                drawer.updateBadge(507, StringHolder(it.getTrader("jaeger")?.getResetTimeSpan() ?: ""))
-
-                                delay(1000.toLong())
-
-                                isTimersRunning = true
-                            }
-                        }
-                    }*/
-
-                    /*Adapty.setOnPurchaserInfoUpdatedListener(object : OnPurchaserInfoUpdatedListener {
-                        override fun onPurchaserInfoReceived(purchaserInfo: PurchaserInfoModel) {
-                            if (purchaserInfo.accessLevels["premium"]?.isActive == true) {
-                                //Active premium
-                                drawer.removeItems(9999, 998)
-                            } else {
-                                drawer.removeItems(9999, 998)
-                                //No premium.
-                                drawer.addItemAtPosition(14, DividerDrawerItem().apply { identifier = 9999 })
-                                drawer.addItemAtPosition(15, drawerUpgrade)
-                            }
-                        }
-                    })*/
-
-                    /*Adapty.getPurchaserInfo { purchaserInfo, error ->
-                        if (error == null) {
-                            //Check for premium
-                            if (purchaserInfo?.accessLevels?.get("premium")?.isActive == true) {
-                                //Active premium
-                                drawer.removeItems(9999, 998)
-                            } else {
-                                drawer.removeItems(9999, 998)
-                                //No premium.
-                                drawer.addItemAtPosition(15, DividerDrawerItem().apply { identifier = 9999 })
-                                drawer.addItemAtPosition(16, drawerUpgrade)
-                            }
-                        }
-                    }*/
                 }
             )
         }

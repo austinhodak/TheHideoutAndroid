@@ -229,9 +229,9 @@ private fun OverviewItem(
             .height(72.dp)
             .fillMaxWidth(),
         backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-        onClick = {
-            clicked()
-        }
+//        onClick = {
+//            clicked()
+//        }
     ) {
         Row {
             Image(
@@ -305,9 +305,9 @@ private fun HideoutStationsPage(
                         color = if (moduleTotal == modulesComplete) Red400 else BorderColor,
                         progress = (modulesComplete?.toDouble()?.div(moduleTotal?.toDouble() ?: 1.0))?.toFloat()
                     ) {
-                        context.openActivity(HideoutStationDetailActivity::class.java) {
+                        /*context.openActivity(HideoutStationDetailActivity::class.java) {
                             putSerializable("station", station)
-                        }
+                        }*/
                     }
                     /*Card(
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
