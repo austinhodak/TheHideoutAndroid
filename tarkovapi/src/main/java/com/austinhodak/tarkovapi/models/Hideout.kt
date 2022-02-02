@@ -39,6 +39,8 @@ data class Hideout(
         fun getModuleRequirements(modules: List<Module?>?): List<Int> {
             val ids: MutableList<Int> = emptyList<Int>().toMutableList()
 
+            if (module == "Stash") return emptyList()
+
             require?.filter { it?.type == "module" }?.forEach {
                 val name = it?.name
                 val level = it?.quantity
