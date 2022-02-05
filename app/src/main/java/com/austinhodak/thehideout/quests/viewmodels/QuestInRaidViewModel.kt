@@ -10,17 +10,10 @@ import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.utils.QuestExtraHelper
-import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.mapsList
-import com.austinhodak.thehideout.utils.*
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
@@ -36,22 +29,7 @@ class QuestInRaidViewModel @Inject constructor(
     private val _questsExtras = MutableLiveData<List<QuestExtra.QuestExtraItem>>()
     val questsExtra = _questsExtras
 
-    private val _userData = MutableLiveData<User?>(null)
-    val userData = _userData
-
     init {
-        if (uid() != null) {
-            questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    _userData.value = snapshot.getValue<User>()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
-        }
-
         _questsExtras.value = QuestExtraHelper.getQuests(context = context)
     }
 

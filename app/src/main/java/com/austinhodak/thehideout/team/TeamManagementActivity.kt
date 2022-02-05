@@ -37,11 +37,13 @@ import com.austinhodak.thehideout.compose.theme.DarkGrey
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.compose.theme.Red400
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.firebase.Team
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.team.viewmodels.TeamManagementViewModel
 import com.austinhodak.thehideout.utils.questsFirebase
 import com.austinhodak.thehideout.utils.uid
+import com.austinhodak.thehideout.utils.userFirestore
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -49,6 +51,8 @@ import com.google.firebase.dynamiclinks.ShortDynamicLink
 import com.google.firebase.dynamiclinks.ktx.androidParameters
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -65,7 +69,7 @@ class TeamManagementActivity : GodActivity() {
         setContent {
             HideoutTheme {
 
-                val userData by viewModel.userData.observeAsState()
+                val userData by fsUser.observeAsState()
 
                 Scaffold(
                     topBar = {
@@ -211,20 +215,10 @@ class TeamManagementActivity : GodActivity() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun TeamMemberItem(id: String, value: Team.MemberSettings, teamID: String?) {
-        var teamMember by remember { mutableStateOf<User?>(null) }
-        questsFirebase.child("users/$id")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        teamMember = snapshot.getValue(User::class.java)
-                        teamMember?.uid = id
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
+        var teamMember by remember { mutableStateOf<FSUser?>(null) }
+        Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
+            teamMember = it.toObject<FSUser>()
+        }
 
         teamMember?.let {
             Row(
@@ -232,7 +226,7 @@ class TeamManagementActivity : GodActivity() {
                     .height(48.dp)
                     .combinedClickable(
                         onClick = {
-                            if (it.uid == uid()) {
+                            if (id == uid()) {
                                 MaterialDialog(this).show {
                                     title(text = "Your Color")
                                     colorChooser(
@@ -264,10 +258,10 @@ class TeamManagementActivity : GodActivity() {
                 ) {
                     Text(
                         "${it.getUsername()}${
-                            if (it.uid == uid()) {
+                            if (id == uid()) {
                                 " (You)"
                             } else ""
-                        }", fontWeight = if (it.uid == uid()) FontWeight.Bold else FontWeight.Normal
+                        }", fontWeight = if (id == uid()) FontWeight.Bold else FontWeight.Normal
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     if (value.owner == true) {
@@ -340,6 +334,8 @@ class TeamManagementActivity : GodActivity() {
                                             )
                                         )
                                     )
+
+                                    userFirestore?.update("teams.$key", true)
 
                                     val childUpdates = hashMapOf(
                                         "users/${uid()!!}/teams/$key" to true,

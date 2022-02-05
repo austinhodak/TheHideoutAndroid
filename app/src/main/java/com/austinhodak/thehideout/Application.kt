@@ -6,15 +6,15 @@ import android.os.Build
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.adapty.Adapty
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.*
-import com.austinhodak.thehideout.utils.Extras
-import com.austinhodak.thehideout.utils.isWorkRunning
-import com.austinhodak.thehideout.utils.isWorkScheduled
-import com.austinhodak.thehideout.utils.uid
+import com.austinhodak.thehideout.firebase.FSUser
+import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.firebase.analytics.ktx.analytics
@@ -22,6 +22,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -51,6 +52,7 @@ class Application : android.app.Application(), Configuration.Provider {
     }
 
     companion object {
+        var fsUser: MutableLiveData<FSUser?> = MutableLiveData()
         var extras: Extras? = null
         var maps: Maps? = null
         var traders: Traders? = null
@@ -173,6 +175,18 @@ class Application : android.app.Application(), Configuration.Provider {
                 }
             }
         }
+
+        uid()?.let {
+            Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
+                val user = value?.toObject<FSUser>()
+                if (value?.exists() == false) {
+                    userRefTracker("update").setValue(true)
+                }
+                user?.let {
+                    fsUser.postValue(it)
+                }
+            }
+        }
     }
 
     /**
@@ -207,9 +221,13 @@ class Application : android.app.Application(), Configuration.Provider {
         .build()
 }
 
+
+
 val extras: Extras by lazy {
     Application.extras!!
 }
+
+val fsUser: LiveData<FSUser?> = Application.fsUser
 
 val mapsList: Maps = Application.maps!!
 

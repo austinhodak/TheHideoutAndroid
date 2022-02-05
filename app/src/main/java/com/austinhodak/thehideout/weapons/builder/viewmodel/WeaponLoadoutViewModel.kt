@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.austinhodak.tarkovapi.repository.ModsRepo
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.SearchViewModel
-import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.firebase.WeaponBuildFirestore
 import com.austinhodak.thehideout.utils.uid
 import com.google.firebase.firestore.ktx.firestore

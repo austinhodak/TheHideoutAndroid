@@ -7,13 +7,6 @@ import com.austinhodak.tarkovapi.models.MapInteractive
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.utils.QuestExtraHelper
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.firebase.User
-import com.austinhodak.thehideout.utils.questsFirebase
-import com.austinhodak.thehideout.utils.uid
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,9 +17,6 @@ import javax.inject.Inject
 class MapViewModel @Inject constructor(
     @ApplicationContext context: Context
 ) : ViewModel() {
-
-    private val _userData = MutableLiveData<User?>(null)
-    val userData = _userData
 
     private val _map = MutableLiveData("customs")
     val map = _map
@@ -60,18 +50,6 @@ class MapViewModel @Inject constructor(
     init {
         updateMap(context)
         _questsExtras.value = QuestExtraHelper.getQuests(context = context)
-
-        if (uid() != null) {
-            questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    _userData.value = snapshot.getValue<User>()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
-        }
     }
 
     private fun updateMap(context: Context) {

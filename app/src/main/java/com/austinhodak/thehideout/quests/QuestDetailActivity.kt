@@ -41,8 +41,6 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.color.ColorPalette
-import com.afollestad.materialdialogs.color.colorChooser
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
@@ -57,9 +55,10 @@ import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.OverflowMenu
 import com.austinhodak.thehideout.compose.components.WikiItem
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.firebase.Team
-import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.quests.QuestDetailActivity.Types.*
 import com.austinhodak.thehideout.quests.viewmodels.QuestDetailViewModel
 import com.austinhodak.thehideout.utils.*
@@ -69,16 +68,14 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 @ExperimentalCoilApi
@@ -116,7 +113,7 @@ class QuestDetailActivity : GodActivity() {
 
                     val objectiveTypes = quest?.objective?.groupBy { it.type }
 
-                    val userData by questViewModel.userData.observeAsState()
+                    val userData by fsUser.observeAsState()
                     val teamData by questViewModel.teamsData.observeAsState()
 
                     Timber.d(teamData.toString())
@@ -251,7 +248,7 @@ class QuestDetailActivity : GodActivity() {
                         floatingActionButton = {
                             //if (isDebug())
                             quest?.let {
-                                if (userData?.isQuestCompleted(it) == false && it.isAvailable(userData) || userData == null) {
+                                if (userData?.progress?.isQuestCompleted(it) == false && it.isAvailable(userData) || userData == null) {
                                     ExtendedFloatingActionButton(
                                         icon = {
                                             Icon(
@@ -268,7 +265,7 @@ class QuestDetailActivity : GodActivity() {
                                     )
                                 }
 
-                                if (userData?.isQuestCompleted(it) == true) {
+                                if (userData?.progress?.isQuestCompleted(it) == true) {
                                     ExtendedFloatingActionButton(
                                         icon = {
                                             Icon(
@@ -403,20 +400,10 @@ class QuestDetailActivity : GodActivity() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun TeamMemberItem(id: String, value: Team.MemberSettings) {
-        var teamMember by remember { mutableStateOf<User?>(null) }
-        questsFirebase.child("users/$id")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        teamMember = snapshot.getValue(User::class.java)
-                        teamMember?.uid = id
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
+        var teamMember by remember { mutableStateOf<FSUser?>(null) }
+        Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
+            teamMember = it.toObject<FSUser>()
+        }
 
         teamMember?.let {
             Row(
@@ -433,14 +420,14 @@ class QuestDetailActivity : GodActivity() {
                 ) {
                     Text(
                         "${it.getUsername()}${
-                            if (it.uid == uid()) {
+                            if (id == uid()) {
                                 " (You)"
                             } else ""
-                        }", fontWeight = if (it.uid == uid()) FontWeight.Bold else FontWeight.Normal
+                        }", fontWeight = if (id == uid()) FontWeight.Bold else FontWeight.Normal
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     quest?.let {
-                        if (teamMember?.isQuestCompleted(quest!!) == true) {
+                        if (teamMember?.progress?.isQuestCompleted(quest!!) == true) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_check_circle_outline_24),
                                 contentDescription = "",
@@ -556,7 +543,7 @@ class QuestDetailActivity : GodActivity() {
     @Composable
     fun PreQuestCard(
         list: List<Int?>,
-        userData: User?
+        userData: FSUser?
     ) {
         Card(
             modifier = Modifier
@@ -597,9 +584,9 @@ class QuestDetailActivity : GodActivity() {
     }
 
     @Composable
-    fun SmallQuestItem(quest: Quest, userData: User?) {
+    fun SmallQuestItem(quest: Quest, userData: FSUser?) {
 
-        val isCompleted = userData?.isQuestCompleted(quest) == true
+        val isCompleted = userData?.progress?.isQuestCompleted(quest) == true
 
         Row(
             Modifier
@@ -679,11 +666,11 @@ class QuestDetailActivity : GodActivity() {
         type: Types,
         objectives: List<Quest.QuestObjective>,
         questExtra: QuestExtra.QuestExtraItem?,
-        userData: User?
+        userData: FSUser?
     ) {
 
         val isAllObjectivesCompleted = objectives.all {
-            userData?.isObjectiveCompleted(it) == true
+            userData?.progress?.isQuestObjectiveCompleted(it) == true
         }
 
         Card(
@@ -728,7 +715,7 @@ class QuestDetailActivity : GodActivity() {
         objective: Quest.QuestObjective,
         type: Types,
         questExtra: QuestExtra.QuestExtraItem?,
-        userData: User?
+        userData: FSUser?
     ) {
         var text by remember { mutableStateOf("") }
         val scope = rememberCoroutineScope()
@@ -769,11 +756,11 @@ class QuestDetailActivity : GodActivity() {
         title: String,
         subtitle: Any? = null,
         icon: Int? = null,
-        userData: User?,
+        userData: FSUser?,
         objective: Quest.QuestObjective
     ) {
 
-        val isCompleted = userData?.isObjectiveCompleted(objective) ?: false
+        val isCompleted = userData?.progress?.isQuestObjectiveCompleted(objective) ?: false
 
         val sub = if (subtitle is String) {
             subtitle.toString()
@@ -787,7 +774,7 @@ class QuestDetailActivity : GodActivity() {
             modifier = Modifier
                 .clickable {
                     quest?.let {
-                        questViewModel.toggleObjective(it, objective)
+                        userData?.toggleObjective(it, objective)
                     }
                 }
                 .padding(end = 16.dp)

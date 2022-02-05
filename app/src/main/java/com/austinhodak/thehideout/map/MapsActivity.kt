@@ -14,7 +14,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -38,24 +37,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.adapty.Adapty
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.MapInteractive
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
-import com.austinhodak.tarkovapi.room.enums.ItemTypes
-import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.firebase.FSUser
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.map.viewmodels.MapViewModel
+import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.utils.Map
@@ -115,6 +112,8 @@ class MapsActivity : GodActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        mapsList
+
         setContent {
             val mapView = rememberMapViewWithLifecycle()
             val selectedMapText by mapViewModel.map.observeAsState()
@@ -127,7 +126,7 @@ class MapsActivity : GodActivity() {
             val scope = rememberCoroutineScope()
             coroutineScope = scope
 
-            val userData by mapViewModel.userData.observeAsState()
+            val userData by fsUser.observeAsState()
 
             var isDistanceToolActive by remember {
                 mutableStateOf(false)
@@ -806,7 +805,7 @@ class MapsActivity : GodActivity() {
         map.uiSettings.isZoomControlsEnabled = false
     }
 
-    private fun setupMarkers(selectedMap: MapInteractive?, map: GoogleMap, selectedCategories: List<Int>?, selectedUserQuests: Set<String>, userData: User?, quests: List<Quest>) {
+    private fun setupMarkers(selectedMap: MapInteractive?, map: GoogleMap, selectedCategories: List<Int>?, selectedUserQuests: Set<String>, userData: FSUser?, quests: List<Quest>) {
         if (selectedMap == null) return
         markers.clear()
         Timber.d(selectedCategories.toString())
@@ -943,7 +942,7 @@ class MapsActivity : GodActivity() {
         }*/
     }
 
-    private fun updateQuestMarkers(selected: List<String> = emptyList(), userData: User?, quests: List<Quest>) {
+    private fun updateQuestMarkers(selected: List<String> = emptyList(), userData: FSUser?, quests: List<Quest>) {
         Timber.d(selected.toString())
         markers.filter {
             if (it.tag is MapInteractive.Location) {
@@ -964,7 +963,7 @@ class MapsActivity : GodActivity() {
             locationQuests.first { questID ->
                 val quest = quests.find { it.id.toInt() == questID }
                 quest?.let { quest ->
-                    if (userData?.isQuestCompleted(quest) == true) {
+                    if (userData?.progress?.isQuestCompleted(quest) == true) {
                         if (selected.contains("Completed")) {
                             marker.isVisible = true
                             return@forEach

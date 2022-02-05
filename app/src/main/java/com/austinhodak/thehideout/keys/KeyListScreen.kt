@@ -26,7 +26,6 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
@@ -35,8 +34,9 @@ import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.Green500
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -59,7 +59,7 @@ fun KeyListScreen(
     val sort by keysViewModel.sortBy.observeAsState()
     val context = LocalContext.current
     val searchKey by keysViewModel.searchKey.observeAsState("")
-    val userData by keysViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -142,7 +142,8 @@ fun KeyListScreen(
                 KeyCard(
                     key,
                     userData,
-                    scaffoldState
+                    scaffoldState,
+                    keysViewModel
                 )
             }
         }
@@ -164,8 +165,9 @@ fun KeyListScreen(
 @Composable
 fun KeyCard(
     item: Item,
-    userData: User?,
-    scaffoldState: ScaffoldState
+    userData: FSUser?,
+    scaffoldState: ScaffoldState,
+    keysViewModel: KeysViewModel
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -181,7 +183,7 @@ fun KeyCard(
                             scaffoldState.snackbarHostState.showSnackbar("Key marked as owned.")
                         }
                     }
-                    userData?.toggleKey(item)
+                    userData?.let { keysViewModel.toggleKey(item, it) }
                 },
                 onClick = {
                     context.openActivity(FleaItemDetail::class.java) {

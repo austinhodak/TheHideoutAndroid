@@ -6,7 +6,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -36,14 +35,12 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
-import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.traderIcon
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
@@ -51,7 +48,8 @@ import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.firebase.FSUser
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.quests.inraid.QuestInRaidActivity
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
@@ -86,7 +84,7 @@ fun QuestMainScreen(
 
     val isSearchOpen by questViewModel.isSearchOpen.observeAsState(false)
     val searchKey by questViewModel.searchKey.observeAsState("")
-    val userData by questViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
 
     HideoutTheme {
         BottomSheetScaffold(
@@ -342,7 +340,7 @@ private fun QuestItemsScreen(
 
     Timber.d("1")
 
-    val userData by questViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
     val searchKey by questViewModel.searchKey.observeAsState("")
     val selectedView by questViewModel.view.observeAsState()
     val itemList by questViewModel.itemsList.observeAsState()
@@ -375,21 +373,21 @@ private fun QuestItemsScreen(
                         QuestFilter.ALL -> items
                         QuestFilter.AVAILABLE -> {
                             if (quest.isAvailable(userData)) {
-                                items.filterNot { userData?.isObjectiveCompleted(it) == true }
+                                items.filterNot { userData?.progress?.isQuestObjectiveCompleted(it) == true }
                             } else {
                                 null
                             }
                         }
                         QuestFilter.LOCKED -> {
                             if (quest.isLocked(userData)) {
-                                items.filterNot { userData?.isObjectiveCompleted(it) == true }
+                                items.filterNot { userData?.progress?.isQuestObjectiveCompleted(it) == true }
                             } else {
                                 null
                             }
                         }
                         QuestFilter.COMPLETED -> {
                             items.filter {
-                                userData?.isObjectiveCompleted(it) == true
+                                userData?.progress?.isQuestObjectiveCompleted(it) == true
                             }
                         }
                         else -> items
@@ -468,10 +466,10 @@ private fun QuestItemsScreenItem(
     quest: Quest,
     objective: Quest.QuestObjective,
     item: Item,
-    userData: User?
+    userData: FSUser?
 ) {
 
-    val isComplete = userData?.isObjectiveCompleted(objective) ?: false
+    val isComplete = userData?.progress?.isQuestObjectiveCompleted(objective) ?: false
     val context = LocalContext.current
 
     Card(
@@ -532,7 +530,7 @@ private fun QuestItemsScreenItem(
                                     .border(
                                         width = 0.5.dp,
                                         color = when {
-                                            userData?.isQuestCompleted(quest) == true -> {
+                                            userData?.progress?.isQuestCompleted(quest) == true -> {
                                                 Green400
                                             }
                                             quest.isLocked(userData) -> Red400
@@ -565,7 +563,7 @@ private fun QuestItemsScreenItem(
                             .padding(top = 4.dp)
                     )
                     Text(
-                        "${userData?.getObjectiveProgress(objective) ?: 0}/${objective.number}",
+                        "${userData?.progress?.getQuestObjectiveProgress(objective) ?: 0}/${objective.number}",
                         style = MaterialTheme.typography.h6,
                         fontSize = 13.sp
                     )
@@ -575,7 +573,7 @@ private fun QuestItemsScreenItem(
                         tint = Color.White,
                         modifier = Modifier
                             .clickable {
-                                if (userData?.getObjectiveProgress(objective) ?: 0 > 0) {
+                                if (userData?.progress?.getQuestObjectiveProgress(objective) ?: 0 > 0) {
                                     objective.decrement()
                                 }
                             }
@@ -643,7 +641,7 @@ private fun MapCard(
 fun QuestSearchBody(
     searchKey: String,
     data: List<Quest>,
-    userData: User?,
+    userData: FSUser?,
     questViewModel: QuestMainViewModel,
     scope: CoroutineScope
 ) {
@@ -684,7 +682,7 @@ private fun QuestTradersScreen(
     padding: PaddingValues,
     isMapTab: Boolean
 ) {
-    val userData by questViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
     val selectedView by questViewModel.view.observeAsState()
     val searchKey by questViewModel.searchKey.observeAsState("")
 
@@ -694,7 +692,8 @@ private fun QuestTradersScreen(
         rememberPagerState(pageCount = Maps.values().size)
     }
 
-    val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
+    val completedQuests = userData?.progress?.getCompletedQuestIDs()
+
 
     Column(
         Modifier.fillMaxWidth()
@@ -733,7 +732,7 @@ private fun QuestTradersScreen(
                 QuestFilter.ALL -> questsList
                 QuestFilter.COMPLETED -> {
                     questsList.filter {
-                        completedQuests?.contains(it.id.toInt()) == true
+                        completedQuests?.contains(it.id) == true
                     }
                 }
                 else -> questsList
@@ -772,7 +771,7 @@ private fun QuestTradersScreen(
 @Composable
 private fun QuestCard(
     quest: Quest,
-    userData: User?,
+    userData: FSUser?,
     questViewModel: QuestMainViewModel,
     scope: CoroutineScope
 ) {
@@ -821,7 +820,7 @@ private fun QuestCard(
                         .border(
                             width = 1.dp,
                             color = when {
-                                userData?.isQuestCompleted(quest) == true -> {
+                                userData?.progress?.isQuestCompleted(quest.id) == true -> {
                                     Green400
                                 }
                                 quest.isLocked(userData) -> Red400
@@ -894,7 +893,7 @@ private fun QuestCard(
                                 Text("COMPLETE")
                             }
                         }
-                        userData?.isQuestCompleted(quest) == true -> {
+                        userData?.progress?.isQuestCompleted(quest) == true -> {
                             OutlinedButton(
                                 onClick = { quest.undo(true) },
                                 colors = ButtonDefaults.outlinedButtonColors(
@@ -940,7 +939,7 @@ private fun QuestObjectiveItem(
     questObjective: Quest.QuestObjective,
     questViewModel: QuestMainViewModel,
     scope: CoroutineScope,
-    userData: User?,
+    userData: FSUser?,
     quest: Quest
 ) {
     var text by remember { mutableStateOf("") }
@@ -958,7 +957,7 @@ private fun QuestObjectiveItem(
             text = questViewModel.getObjectiveText(questObjective)
         }
         Box {
-            if (userData?.isObjectiveCompleted(questObjective) == true) {
+            if (userData?.progress?.isQuestObjectiveCompleted(questObjective) == true) {
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
@@ -976,7 +975,7 @@ private fun QuestObjectiveItem(
                         .size(20.dp),
                     painter = painterResource(id = questObjective.getIcon()),
                     contentDescription = "",
-                    tint = if (userData?.isObjectiveCompleted(questObjective) == true) Green400 else White
+                    tint = if (userData?.progress?.isQuestObjectiveCompleted(questObjective) == true) Green400 else White
                 )
                 Text(
                     text = text,
@@ -984,8 +983,8 @@ private fun QuestObjectiveItem(
                         .weight(1f)
                         .padding(start = 8.dp, end = 16.dp),
                     style = MaterialTheme.typography.body2,
-                    color = if (userData?.isObjectiveCompleted(questObjective) == true) Green400 else White,
-                    fontWeight = if (userData?.isObjectiveCompleted(questObjective) == true) FontWeight.Normal else FontWeight.Normal
+                    color = if (userData?.progress?.isQuestObjectiveCompleted(questObjective) == true) Green400 else White,
+                    fontWeight = if (userData?.progress?.isQuestObjectiveCompleted(questObjective) == true) FontWeight.Normal else FontWeight.Normal
                 )
             }
         }

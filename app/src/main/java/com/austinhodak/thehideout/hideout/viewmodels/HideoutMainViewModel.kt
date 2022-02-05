@@ -5,16 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.thehideout.SearchViewModel
-import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.hideout.HideoutFilter
 import com.austinhodak.thehideout.utils.addQuotes
-import com.austinhodak.thehideout.utils.questsFirebase
-import com.austinhodak.thehideout.utils.uid
+import com.austinhodak.thehideout.utils.userFirestore
 import com.austinhodak.thehideout.utils.userRefTracker
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -44,25 +41,29 @@ class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
         _view.value = int
     }
 
-    private val _userData = MutableLiveData<User?>(null)
-    val userData = _userData
-
     fun buildModule(module: Hideout.Module) {
-        userRefTracker("hideoutModules/${module.id?.addQuotes()}").setValue(
-            mutableMapOf(
-                "id" to module.id,
-                "complete" to true
+        val objectiveMap = module.require?.associateBy({it?.id?.toString()}, {
+            mapOf(
+                "completed" to true,
+                "timestamp" to Timestamp.now(),
+                "progress" to it?.quantity
             )
-        )
+        })
 
-        module.require?.forEach { objective ->
-            userRefTracker("hideoutObjectives/${objective?.id?.addQuotes()}").setValue(
-                mutableMapOf(
-                    "id" to objective?.id,
-                    "progress" to objective?.quantity
+        userFirestore?.set(
+            hashMapOf(
+                "progress" to hashMapOf(
+                    "hideoutModules" to hashMapOf(
+                        module.id?.toString() to hashMapOf(
+                            "completed" to true,
+                            "timestamp" to Timestamp.now()
+                        )
+                    ),
+                    "hideoutObjectives" to objectiveMap
                 )
-            )
-        }
+            ),
+            SetOptions.merge()
+        )
 
         module.require
             ?.filter { it?.type == "item" }
@@ -75,25 +76,29 @@ class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
     }
 
     fun undoModule(module: Hideout.Module) {
-        userRefTracker("hideoutModules/${module.id?.addQuotes()}").removeValue()
+        userFirestore?.set(
+            hashMapOf(
+                "progress" to hashMapOf(
+                    "hideoutModules" to hashMapOf(
+                        module.id?.toString() to FieldValue.delete()
+                    )
+                )
+            ),
+            SetOptions.merge()
+        )
+
 
         module.require?.forEach { objective ->
-            userRefTracker("hideoutObjectives/${objective?.id?.addQuotes()}").removeValue()
-        }
-    }
-
-    init {
-        if (uid() != null) {
-            questsFirebase.child("users/${uid()}")
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        _userData.value = snapshot.getValue<User>()
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-
-                    }
-                })
+            userFirestore?.set(
+                hashMapOf(
+                    "progress" to hashMapOf(
+                        "hideoutObjectives" to hashMapOf(
+                            objective?.id?.toShort() to FieldValue.delete()
+                        )
+                    )
+                ),
+                SetOptions.merge()
+            )
         }
     }
 }

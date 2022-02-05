@@ -76,65 +76,22 @@ open class GodActivity : AppCompatActivity() {
     }
 
     private fun setupPlayerInfoSync() {
-        userRefTracker("displayName").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if (snapshot.value != null) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        UserSettingsModel.playerIGN.update(snapshot.value as String)
-                    }
-                }
-
-                UserSettingsModel.playerIGN.observe(lifecycleScope) { name ->
-                    userRefTracker("displayName").setValue(name)
-                    updateDisplayName(name)
-                }
+        fsUser.value?.let { user ->
+            val displayName = UserSettingsModel.playerIGN.value
+            if (user.displayName != displayName) {
+                userFirestore?.update("displayName", displayName)
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
-
-        userRefTracker("discordUsername").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if (snapshot.value != null) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        UserSettingsModel.discordName.update(snapshot.value as String)
-                    }
-                }
-
-
-                UserSettingsModel.discordName.observe(lifecycleScope) { name ->
-                    userRefTracker("discordUsername").setValue(name)
-                }
+            val discordUsername = UserSettingsModel.discordName.value
+            if (user.discordUsername != discordUsername) {
+                userFirestore?.update("discordUsername", discordUsername)
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
+            val playerLevel = UserSettingsModel.playerLevel.value
+            if (user.playerLevel != playerLevel) {
+                userFirestore?.update("playerLevel", playerLevel)
             }
-        })
-
-        userRefTracker("playerLevel").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if (snapshot.value != null) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        UserSettingsModel.playerLevel.update((snapshot.value as Long).toInt())
-                    }
-                }
-
-
-                UserSettingsModel.playerLevel.observe(lifecycleScope) { name ->
-                    userRefTracker("playerLevel").setValue(name)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
+        }
     }
 
     private fun setupScreenOn() {
@@ -207,18 +164,6 @@ open class GodActivity : AppCompatActivity() {
                 Firebase.messaging.subscribeToTopic("jaegerRestock")
             } else {
                 Firebase.messaging.unsubscribeFromTopic("jaegerRestock")
-            }
-        }
-    }
-
-    private fun updateDisplayName(name: String) {
-        Firebase.auth.currentUser?.let { user ->
-            val profileUpdate = userProfileChangeRequest {
-                displayName = name
-            }
-
-            if (user.displayName != name) {
-                user.updateProfile(profileUpdate)
             }
         }
     }

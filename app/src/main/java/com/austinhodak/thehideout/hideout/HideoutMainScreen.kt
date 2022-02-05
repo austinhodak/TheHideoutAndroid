@@ -54,17 +54,17 @@ import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.crafts.CraftDetailActivity
 import com.austinhodak.thehideout.currency.euroToRouble
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.hideout.detail.HideoutStationDetailActivity
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.quests.Chip
 import com.austinhodak.thehideout.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 @SuppressLint("CheckResult")
@@ -287,7 +287,7 @@ private fun HideoutStationsPage(
 ) {
     val stations = hideoutList.hideout?.stations?.sortedBy { it?.locales?.en }
     val modules = hideoutList.hideout?.modules
-    val userData by hideoutViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
     val context = LocalContext.current
 
     LazyColumn(
@@ -296,7 +296,7 @@ private fun HideoutStationsPage(
         stations?.forEach {
             it?.let { station ->
                 val moduleTotal = modules?.count { it?.stationId == station.id }
-                val modulesComplete = modules?.filter { it?.stationId == station.id }?.count { userData?.isHideoutModuleComplete(it?.id) == true }
+                val modulesComplete = modules?.filter { it?.stationId == station.id }?.count { userData?.progress?.isHideoutModuleCompleted(it?.id) == true }
 
                 item {
                     OverviewItem(
@@ -331,27 +331,25 @@ private fun HideoutModulesPage(
 
     val searchKey by hideoutViewModel.searchKey.observeAsState("")
 
-    val userData by hideoutViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
     val view by hideoutViewModel.view.observeAsState()
 
     val allItems by navViewModel.allItems.observeAsState(initial = emptyList())
 
-    Timber.d(userData?.hideoutModules.toString())
-
     val data = when (view) {
         HideoutFilter.CURRENT -> modules?.filter {
-            userData?.isHideoutModuleComplete(it?.id ?: return) == true
+            userData?.progress?.isHideoutModuleCompleted(it?.id ?: return) == true
         }
         HideoutFilter.AVAILABLE -> modules?.filter {
-            if (userData?.isHideoutModuleComplete(it?.id!!) == true) return@filter false
+            if (userData?.progress?.isHideoutModuleCompleted(it?.id!!) == true) return@filter false
             if (it?.getModuleRequirements(modules)?.isEmpty() == true) {
                 true
             } else {
-                userData?.completedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)!!) == true
+                userData?.progress?.getCompletedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)?.map { it.toString() }!!) == true
             }
         }
         HideoutFilter.LOCKED -> modules?.filter {
-            userData?.completedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)!!) == false
+            userData?.progress?.getCompletedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)?.map { it.toString() }!!) == false
         }
         HideoutFilter.ALL -> modules
         else -> modules
@@ -381,11 +379,11 @@ private fun HideoutModulesPage(
 private fun HideoutModuleCard(
     module: Hideout.Module?,
     items: List<Item>,
-    userData: User?,
+    userData: FSUser?,
     hideoutViewModel: HideoutMainViewModel
 ) {
     if (module == null) return
-    val isComplete = userData?.isHideoutModuleComplete(module.id ?: return) ?: false
+    val isComplete = userData?.progress?.isHideoutModuleCompleted(module.id ?: return) ?: false
 
     val view by hideoutViewModel.view.observeAsState()
     val modules = hideoutList.hideout?.modules
@@ -523,8 +521,8 @@ private fun HideoutModuleCard(
                         }
                     }
                     HideoutFilter.ALL -> {
-                        if (module.getModuleRequirements(modules).isEmpty() && !isComplete || userData?.completedHideoutIDs()
-                                ?.containsAll(module.getModuleRequirements(modules)) == true && !isComplete
+                        if (module.getModuleRequirements(modules).isEmpty() && !isComplete || userData?.progress?.getCompletedHideoutIDs()
+                                ?.containsAll(module.getModuleRequirements(modules).map { it.toString() }) == true && !isComplete
                         ) {
                             TextButton(onClick = {
                                 //Build module
@@ -564,7 +562,7 @@ private fun HideoutModuleCard(
 private fun HideoutRequirementItem(
     item: Item,
     requirement: Hideout.Module.Require,
-    userData: User?,
+    userData: FSUser?,
     clicked: () -> Unit
 ) {
     val context = LocalContext.current
@@ -645,7 +643,7 @@ private fun HideoutRequirementItem(
 fun HideoutRequirementModule(
     module: Hideout.Module,
     requirement: Hideout.Module.Require,
-    userData: User?
+    userData: FSUser?
 ) {
 
     Row(
@@ -662,7 +660,7 @@ fun HideoutRequirementModule(
                 .height(38.dp)
                 .border(
                     (0.25).dp,
-                    color = if (userData?.isHideoutObjectiveComplete(requirement) == true) Green500 else BorderColor
+                    color = if (userData?.progress?.isHideoutObjectiveCompleted(requirement) == true) Green500 else BorderColor
                 )
                 .background(DarkerGrey)
         )
@@ -680,7 +678,7 @@ fun HideoutRequirementModule(
 @Composable
 fun HideoutRequirementTrader(
     requirement: Hideout.Module.Require,
-    userData: User?
+    userData: FSUser?
 ) {
     val trader = Traders.values().find { it.int == (requirement.name as Double).toInt() }
 
@@ -698,7 +696,7 @@ fun HideoutRequirementTrader(
                 .height(38.dp)
                 .border(
                     (0.25).dp,
-                    color = if (userData?.isHideoutObjectiveComplete(requirement) == true) Green500 else BorderColor
+                    color = if (userData?.progress?.isHideoutObjectiveCompleted(requirement) == true) Green500 else BorderColor
                 )
                 .background(DarkerGrey)
         )
@@ -727,7 +725,7 @@ private fun HideoutCraftsPage(
     val searchKey by hideoutViewModel.searchKey.observeAsState("")
     val sort by hideoutViewModel.sortBy.observeAsState()
     val filterAvailable by hideoutViewModel.filterAvailable.observeAsState()
-    val userData by hideoutViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
 
     if (crafts.isEmpty()) {
         LoadingItem()
@@ -754,7 +752,7 @@ private fun HideoutCraftsPage(
             }
         }.filter {
             if (filterAvailable == true) {
-                userData == null || userData!!.isHideoutModuleComplete(it.getSourceID(hideoutList.hideout) ?: 0)
+                userData == null || userData!!.progress?.isHideoutModuleCompleted(it.getSourceID(hideoutList.hideout).toString()) == true
             } else {
                 true
             }
@@ -769,13 +767,13 @@ private fun HideoutCraftsPage(
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun CraftItem(craft: Craft, userData: User?) {
+fun CraftItem(craft: Craft, userData: FSUser?) {
     val rewardItem = craft.rewardItems?.firstOrNull()?.item
     val reward = craft.rewardItems?.firstOrNull()
     val requiredItems = craft.requiredItems
     val context = LocalContext.current
 
-    val alpha = if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+    val alpha = if (userData == null || userData.progress?.isHideoutModuleCompleted(craft.getSourceID(hideoutList.hideout).toString()) == true) {
         ContentAlpha.high
     } else {
         ContentAlpha.high
@@ -792,7 +790,7 @@ fun CraftItem(craft: Craft, userData: User?) {
             },
         ) {
             Column {
-                if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+                if (userData == null || userData?.progress?.isHideoutModuleCompleted(craft.getSourceID(hideoutList.hideout).toString()) == true) {
 
                 } else {
                     Row(

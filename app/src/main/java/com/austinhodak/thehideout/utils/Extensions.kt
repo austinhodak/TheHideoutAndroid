@@ -22,7 +22,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.toLowerCase
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
@@ -55,16 +54,20 @@ import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red500
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.material.textfield.TextInputEditText
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.firebase.Timestamp
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -74,6 +77,8 @@ import timber.log.Timber
 import java.text.DecimalFormat
 import java.util.concurrent.ExecutionException
 import kotlin.math.round
+
+val userFirestore = uid()?.let { Firebase.firestore.collection("users").document(it) }
 
 @SuppressLint("CheckResult")
 fun Context.showDialog(vararg item: Pair<String, () -> Unit>) {
@@ -693,7 +698,7 @@ fun isPremium(): Boolean {
 
 fun Uri.acceptTeamInvite(joined: () -> Unit) {
     val teamID = this.lastPathSegment
-    userRefTracker("teams/$teamID").setValue(true).addOnSuccessListener {
+    userFirestore?.update("teams.$teamID", true)?.addOnSuccessListener {
         questsFirebase.child("teams/$teamID/members/${uid()}/color").setValue("#F44336").addOnSuccessListener {
             joined()
         }
@@ -703,111 +708,160 @@ fun Uri.acceptTeamInvite(joined: () -> Unit) {
 fun syncTT(scope: CoroutineScope, ttRepository: TTRepository) {
     scope.launch {
         val ttProgress = ttRepository.getUserProgress().body()
-        questsFirebase.child("users/${uid()}").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                scope.launch {
-                    val userData = snapshot.getValue<User>()
+        fsUser.value?.let { userData ->
+            scope.launch {
+                if (UserSettingsModel.ttSyncQuest.value) {
+                    val ttQuestComplete = ttProgress?.quests?.filter { it.value.complete }
+                    val userQuestComplete = userData.progress?.quests?.filter { it.value.completed == true }
 
-                    if (UserSettingsModel.ttSyncQuest.value) {
-                        val ttQuestComplete = ttProgress?.quests?.filter { it.value.complete }
-                        val userQuestComplete = userData?.quests?.filter { it.value?.completed == true }
-
-                        //Quests that are done in TT not in ours.
-                        val quest1 = ttQuestComplete?.filterNot { userQuestComplete?.containsKey(it.key.addQuotes()) == true }
-                        quest1?.forEach { (id, _) ->
-                            userRefTracker("quests/${id.addQuotes()}").setValue(
-                                mapOf(
-                                    "id" to id.toInt(),
-                                    "completed" to true
+                    //Quests that are done in TT not in ours.
+                    val quest1 = ttQuestComplete?.filterNot { userQuestComplete?.containsKey(it.key.addQuotes()) == true }
+                    quest1?.forEach { (id, _) ->
+                        userFirestore?.set(
+                            hashMapOf(
+                                "progress" to hashMapOf(
+                                    "quests" to hashMapOf(
+                                        id to hashMapOf(
+                                            "completed" to true,
+                                            "timestamp" to Timestamp.now()
+                                        )
+                                    )
                                 )
+                            ),
+                            SetOptions.merge()
+                        )
+                        /*userRefTracker("quests/${id.addQuotes()}").setValue(
+                            mapOf(
+                                "id" to id.toInt(),
+                                "completed" to true
                             )
-                        }
-
-                        //Quests that we have but TT does not
-                        val quest2 = userQuestComplete?.filterNot { ttQuestComplete?.containsKey(it.key.removeQuotes()) == true }
-                        quest2?.forEach { (id, _) ->
-                            ttRepository.updateQuest(id.removeQuotes().toInt(), TTUser.TTQuest(null, true))
-                        }
-
-                        val ttObjectiveComplete = ttProgress?.objectives?.filter { it.value.complete }
-                        val userObjectiveComplete = userData?.questObjectives?.filter { it.value?.completed == true }
-
-                        //Objective done in TT not in ours
-                        val objective1 = ttObjectiveComplete?.filterNot { userObjectiveComplete?.containsKey(it.key.addQuotes()) == true }
-                        objective1?.forEach { (id, _) ->
-                            userRefTracker("questObjectives/${id.addQuotes()}").setValue(
-                                mapOf(
-                                    "id" to id.toInt(),
-                                    "completed" to true
-                                )
-                            )
-                        }
-
-                        //Objective that we have but TT does not
-                        val objective2 = userObjectiveComplete?.filterNot { ttObjectiveComplete?.containsKey(it.key.removeQuotes()) == true }
-                        objective2?.forEach { (id, obj) ->
-                            ttRepository.updateQuestObjective(id.removeQuotes().toInt(), TTUser.TTObjective(null, true, null))
-                        }
+                        )*/
                     }
 
-                    //
-                    // HIDEOUT
-                    //
+                    //Quests that we have but TT does not
+                    val quest2 = userQuestComplete?.filterNot { ttQuestComplete?.containsKey(it.key.removeQuotes()) == true }
+                    quest2?.forEach { (id, _) ->
+                        ttRepository.updateQuest(id.removeQuotes().toInt(), TTUser.TTQuest(null, true))
+                    }
 
-                    if (UserSettingsModel.ttSyncHideout.value) {
-                        val ttHideoutComplete = ttProgress?.hideout?.filter { it.value.complete }
-                        val userHideoutComplete = userData?.hideoutModules?.filter { it.value?.complete == true }
+                    val ttObjectiveComplete = ttProgress?.objectives?.filter { it.value.complete }
+                    val userObjectiveComplete = userData.progress?.questObjectives?.filter { it.value?.completed == true }
 
-                        //Hideout done in TT not in ours
-                        val hideout1 = ttHideoutComplete?.filterNot { userHideoutComplete?.containsKey(it.key.addQuotes()) == true }
-                        hideout1?.forEach { (id, _) ->
-                            userRefTracker("hideoutModules/${id.addQuotes()}").setValue(
-                                mapOf(
-                                    "id" to id.toInt(),
-                                    "complete" to true
+                    //Objective done in TT not in ours
+                    val objective1 = ttObjectiveComplete?.filterNot { userObjectiveComplete?.containsKey(it.key.addQuotes()) == true }
+                    objective1?.forEach { (id, _) ->
+                        userFirestore?.set(
+                            hashMapOf(
+                                "progress" to hashMapOf(
+                                    "questsObjectives" to hashMapOf(
+                                        id to hashMapOf(
+                                            "completed" to true,
+                                            "timestamp" to Timestamp.now()
+                                        )
+                                    )
                                 )
+                            ),
+                            SetOptions.merge()
+                        )
+                        /*userRefTracker("questObjectives/${id.addQuotes()}").setValue(
+                            mapOf(
+                                "id" to id.toInt(),
+                                "completed" to true
                             )
-                        }
+                        )*/
+                    }
 
-                        //Hideout that we have but TT does not
-                        val hideout2 = userHideoutComplete?.filterNot { ttHideoutComplete?.containsKey(it.key.removeQuotes()) == true }
-                        hideout2?.forEach { (id, _) ->
-                            ttRepository.updateHideout(id.removeQuotes().toInt(), TTUser.TTQuest(null, true))
-                        }
+                    //Objective that we have but TT does not
+                    val objective2 = userObjectiveComplete?.filterNot { ttObjectiveComplete?.containsKey(it.key.removeQuotes()) == true }
+                    objective2?.forEach { (id, obj) ->
+                        ttRepository.updateQuestObjective(id.removeQuotes().toInt(), TTUser.TTObjective(null, true, null))
+                    }
+                }
 
-                        val ttHideoutObjectiveComplete = ttProgress?.hideout?.filter { it.value.complete }
-                        val userHideoutObjectiveComplete = userData?.hideoutModules?.filter { it.value?.complete == true }
+                //
+                // HIDEOUT
+                //
 
-                        //Objective done in TT not in ours
-                        val hideoutObjective1 = ttHideoutObjectiveComplete?.filterNot { userHideoutObjectiveComplete?.containsKey(it.key.addQuotes()) == true }
-                        hideoutObjective1?.forEach { (id, _) ->
-                            userRefTracker("hideoutObjectives/${id.addQuotes()}").setValue(
-                                mapOf(
-                                    "id" to id.toInt(),
-                                    "completed" to true
+                if (UserSettingsModel.ttSyncHideout.value) {
+                    val ttHideoutComplete = ttProgress?.hideout?.filter { it.value.complete }
+                    val userHideoutComplete = userData.progress?.hideoutModules?.filter { it.value?.completed == true }
+
+                    //Hideout done in TT not in ours
+                    val hideout1 = ttHideoutComplete?.filterNot { userHideoutComplete?.containsKey(it.key.addQuotes()) == true }
+                    hideout1?.forEach { (id, _) ->
+                        userFirestore?.set(
+                            hashMapOf(
+                                "progress" to hashMapOf(
+                                    "hideoutModules" to hashMapOf(
+                                        id to hashMapOf(
+                                            "completed" to true,
+                                            "timestamp" to Timestamp.now()
+                                        )
+                                    )
                                 )
+                            ),
+                            SetOptions.merge()
+                        )
+                        /*userRefTracker("hideoutModules/${id.addQuotes()}").setValue(
+                            mapOf(
+                                "id" to id.toInt(),
+                                "complete" to true
                             )
-                        }
+                        )*/
+                    }
 
-                        //Objective that we have but TT does not
-                        val hideoutObjective2 = userHideoutObjectiveComplete?.filterNot { ttHideoutObjectiveComplete?.containsKey(it.key.removeQuotes()) == true }
-                        hideoutObjective2?.forEach { (id, _) ->
-                            ttRepository.updateHideoutObjective(id.removeQuotes().toInt(), TTUser.TTObjective(null, true, null))
-                        }
+                    //Hideout that we have but TT does not
+                    val hideout2 = userHideoutComplete?.filterNot { ttHideoutComplete?.containsKey(it.key.removeQuotes()) == true }
+                    hideout2?.forEach { (id, _) ->
+                        ttRepository.updateHideout(id.removeQuotes().toInt(), TTUser.TTQuest(null, true))
+                    }
+
+                    val ttHideoutObjectiveComplete = ttProgress?.hideout?.filter { it.value.complete }
+                    val userHideoutObjectiveComplete = userData.progress?.hideoutModules?.filter { it.value?.completed == true }
+
+                    //Objective done in TT not in ours
+                    val hideoutObjective1 = ttHideoutObjectiveComplete?.filterNot { userHideoutObjectiveComplete?.containsKey(it.key.addQuotes()) == true }
+                    hideoutObjective1?.forEach { (id, _) ->
+                        userFirestore?.set(
+                            hashMapOf(
+                                "progress" to hashMapOf(
+                                    "hideoutObjectives" to hashMapOf(
+                                        id to hashMapOf(
+                                            "completed" to true,
+                                            "timestamp" to Timestamp.now()
+                                        )
+                                    )
+                                )
+                            ),
+                            SetOptions.merge()
+                        )
+                        /*userRefTracker("hideoutObjectives/${id.addQuotes()}").setValue(
+                            mapOf(
+                                "id" to id.toInt(),
+                                "completed" to true
+                            )
+                        )*/
+                    }
+
+                    //Objective that we have but TT does not
+                    val hideoutObjective2 = userHideoutObjectiveComplete?.filterNot { ttHideoutObjectiveComplete?.containsKey(it.key.removeQuotes()) == true }
+                    hideoutObjective2?.forEach { (id, _) ->
+                        ttRepository.updateHideoutObjective(id.removeQuotes().toInt(), TTUser.TTObjective(null, true, null))
                     }
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
+        }
     }
 }
 
-fun User.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
+fun FSUser.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
     val userLevel = UserSettingsModel.playerLevel.value
     scope.launch {
+        val quests = progress?.quests
+        val questObjectives = progress?.questObjectives
+        val hideoutModules = progress?.hideoutModules
+        val hideoutObjectives = progress?.hideoutObjectives
+
         val ttProgress = ttRepository.getUserProgress().body()
         ttProgress?.level?.let { level ->
             if (level != userLevel) {
@@ -868,7 +922,7 @@ fun User.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
                 if (ttObjective.complete) {
                     if (hideoutModules?.containsKey(id) == true) {
                         hideoutModules?.get(id)?.let { userObjective ->
-                            if (userObjective.complete == false) {
+                            if (userObjective.completed == false) {
                                 ttRepository.updateHideout(id.toInt(), TTUser.TTQuest(null, false))
                             }
                         }
@@ -878,7 +932,7 @@ fun User.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
                 }
             }
             hideoutModules?.forEach { (id, objective) ->
-                if (objective?.complete == true) {
+                if (objective?.completed == true) {
                     ttRepository.updateHideout(id.replace("\"", "").toInt(), TTUser.TTQuest(null, true))
                 }
             }

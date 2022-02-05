@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -52,8 +51,9 @@ import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
 import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.map.MapsActivity
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.quests.viewmodels.QuestInRaidViewModel
@@ -64,7 +64,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import com.austinhodak.thehideout.quests.inraid.QuestInRaidActivity.Types.*
-import com.google.firebase.database.ServerValue
 
 @ExperimentalCoroutinesApi
 @ExperimentalCoilApi
@@ -90,7 +89,7 @@ class QuestInRaidActivity : GodActivity() {
                 val scaffoldState = rememberScaffoldState()
                 val navController = rememberNavController()
 
-                val userData by questViewModel.userData.observeAsState()
+                val userData by fsUser.observeAsState()
                 val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
                 val questExtra = questViewModel.questsExtra.observeAsState().value?.flatMap {
                     it.objectives ?: emptyList()
@@ -109,7 +108,7 @@ class QuestInRaidActivity : GodActivity() {
                 }.flatMap {
                     it.objective ?: emptyList()
                 }.filter {
-                    userData?.isObjectiveCompleted(it) == false && (it.location == mapID.toString() || it.location == "-1")
+                    userData?.progress?.isQuestObjectiveCompleted(it) == false && (it.location == mapID.toString() || it.location == "-1")
                 }.filterNot {
                     it.type == "collect" || it.type == "find" || it.type == "build" || it.type == "reputation"
                 }.groupBy {
@@ -175,7 +174,7 @@ class QuestInRaidActivity : GodActivity() {
     private fun ItemsScreen(
         questExtra: List<QuestExtra.QuestExtraItem.Objective?>?,
         quests: List<Quest>,
-        userData: User?,
+        userData: FSUser?,
         items: List<Item>
     ) {
         val objectives = quests.filter {
@@ -183,7 +182,7 @@ class QuestInRaidActivity : GodActivity() {
         }.flatMap {
             it.objective ?: emptyList()
         }.filter {
-            userData?.isObjectiveCompleted(it) == false
+            userData?.progress?.isQuestObjectiveCompleted(it) == false
         }.filterNot {
             it.type == "build" || it.type == "reputation"
         }
@@ -211,7 +210,7 @@ class QuestInRaidActivity : GodActivity() {
                 val totalProgress = objectives.filter {
                     it.target?.first() == item.id
                 }.sumOf {
-                    userData?.getObjectiveProgress(it) ?: 0
+                    userData?.progress?.getQuestObjectiveProgress(it) ?: 0
                 }
 
                 val color = BorderColor
@@ -273,7 +272,7 @@ class QuestInRaidActivity : GodActivity() {
         availableQuests: Map<String?, List<Quest.QuestObjective>>?,
         questExtra: List<QuestExtra.QuestExtraItem.Objective?>?,
         quests: List<Quest>,
-        userData: User?
+        userData: FSUser?
     ) {
         if (availableQuests?.isEmpty() == true) {
             EmptyText(text = "No tasks for this map.")
@@ -370,7 +369,7 @@ class QuestInRaidActivity : GodActivity() {
         objectives: List<Quest.QuestObjective>,
         questExtra: List<QuestExtra.QuestExtraItem.Objective?>?,
         quests: List<Quest>,
-        userData: User?
+        userData: FSUser?
     ) {
         Card(
             modifier = Modifier
@@ -420,7 +419,7 @@ class QuestInRaidActivity : GodActivity() {
         type: Types,
         questExtra: QuestExtra.QuestExtraItem.Objective?,
         quests: List<Quest>,
-        userData: User?
+        userData: FSUser?
     ) {
         var text by remember { mutableStateOf("") }
         val scope = rememberCoroutineScope()
@@ -469,12 +468,12 @@ class QuestInRaidActivity : GodActivity() {
         title: String,
         subtitle: Any? = null,
         icon: Int? = null,
-        userData: User?,
+        userData: FSUser?,
         objective: Quest.QuestObjective,
         quest: Quest?
     ) {
 
-        val isCompleted = userData?.isObjectiveCompleted(objective) ?: false
+        val isCompleted = userData?.progress?.isQuestObjectiveCompleted(objective) ?: false
 
         val sub = if (subtitle is String) {
             subtitle.toString()

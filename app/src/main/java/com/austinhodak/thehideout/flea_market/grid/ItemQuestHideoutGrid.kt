@@ -63,7 +63,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
     val allQuests by questViewModel.questsList.observeAsState(emptyList())
     val allHideoutModules = hideoutList.hideout?.modules
     val selectedView by questViewModel.view.observeAsState()
-    val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
+    val completedQuests = userData?.progress?.getCompletedQuestIDs()
 
     var sort by rememberSaveable {
         mutableStateOf(1)
@@ -103,7 +103,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                         it.isAvailable(userData)
                     }.flatMap { quest ->
                         quest.objective?.filterNot { obj ->
-                            userData?.isObjectiveCompleted(obj) == true
+                            userData?.progress?.isQuestObjectiveCompleted(obj) == true
                         } ?: emptyList()
                     }
                 }
@@ -119,7 +119,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 }
                 QuestFilter.COMPLETED -> {
                     allQuests.filter {
-                        completedQuests?.contains(it.id.toInt()) == true
+                        completedQuests?.contains(it.id) == true
                     }.flatMap { quest ->
                         quest.objective ?: emptyList()
                     }
@@ -131,22 +131,22 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
 
             val modules = when (selectedView) {
                 QuestFilter.COMPLETED -> allHideoutModules?.filter {
-                    userData?.isHideoutModuleComplete(it?.id) == true
+                    userData?.progress?.isHideoutModuleCompleted(it?.id.toString()) == true
                 }?.flatMap {
                     it?.require ?: emptyList()
                 }
                 QuestFilter.AVAILABLE -> allHideoutModules?.filter {
-                    if (userData?.isHideoutModuleComplete(it?.id!!) == true) return@filter false
+                    if (userData?.progress?.isHideoutModuleCompleted(it?.id.toString()) == true) return@filter false
                     if (it?.getModuleRequirements(allHideoutModules)?.isEmpty() == true) {
                         true
                     } else {
-                        userData?.completedHideoutIDs()?.containsAll(it?.getModuleRequirements(allHideoutModules)!!) == true
+                        userData?.progress?.getCompletedHideoutIDs()?.containsAll(it?.getModuleRequirements(allHideoutModules)?.map { it.toString() }!!) == true
                     }
                 }?.flatMap {
                     it?.require ?: emptyList()
                 }
                 QuestFilter.LOCKED -> allHideoutModules?.filter {
-                    userData?.completedHideoutIDs()?.containsAll(it?.getModuleRequirements(allHideoutModules)!!) == false
+                    userData?.progress?.getCompletedHideoutIDs()?.containsAll(it?.getModuleRequirements(allHideoutModules)?.map { it.toString() }!!) == false
                 }?.flatMap {
                     it?.require ?: emptyList()
                 }

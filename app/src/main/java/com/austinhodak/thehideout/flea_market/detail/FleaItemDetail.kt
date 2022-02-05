@@ -59,6 +59,7 @@ import com.austinhodak.thehideout.barters.BarterDetailActivity
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.crafts.CraftDetailActivity
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.firebase.PriceAlert
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
@@ -149,6 +150,7 @@ class FleaItemDetail : GodActivity() {
                     val parentItems = parents.filter { it.id != itemID }
 
                     val userData by viewModel.userData.observeAsState()
+                    val userDataFS by fsUser.observeAsState()
 
                     var priceAlerts by remember { mutableStateOf<List<PriceAlert>?>(null) }
 
@@ -334,7 +336,7 @@ class FleaItemDetail : GodActivity() {
                                         BartersPage(item = item, barters, userData)
                                     }
                                     2 -> {
-                                        CraftsPage(item = item, crafts, userData)
+                                        CraftsPage(item = item, crafts, userDataFS)
                                     }
                                     3 -> QuestsPage(item = item, quests, tarkovRepo, userData)
                                 }
@@ -1057,7 +1059,7 @@ class FleaItemDetail : GodActivity() {
     private fun CraftsPage(
         item: Item?,
         crafts: List<Craft>,
-        userData: User?
+        userData: FSUser?
     ) {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 4.dp)
@@ -1070,17 +1072,13 @@ class FleaItemDetail : GodActivity() {
 
     @ExperimentalMaterialApi
     @Composable
-    fun CraftItem(craft: Craft, userData: User?) {
+    fun CraftItem(craft: Craft, userData: FSUser?) {
         val rewardItem = craft.rewardItems?.firstOrNull()?.item
         val reward = craft.rewardItems?.firstOrNull()
         val requiredItems = craft.requiredItems
         val context = LocalContext.current
 
-        val alpha = if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
-            ContentAlpha.high
-        } else {
-            ContentAlpha.high
-        }
+        val alpha =  ContentAlpha.high
 
         CompositionLocalProvider(LocalContentAlpha provides alpha) {
             Card(
@@ -1098,7 +1096,7 @@ class FleaItemDetail : GodActivity() {
                 },
             ) {
                 Column {
-                    if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+                    if (userData == null || userData.progress?.isHideoutModuleCompleted(craft.getSourceID(hideoutList.hideout) ?: 0) == true) {
 
                     } else {
                         Row(
@@ -1794,7 +1792,7 @@ class FleaItemDetail : GodActivity() {
 
     @SuppressLint("CheckResult")
     private fun showFeeDialog(item: Item?) {
-        var intel3 = viewModel.userData.value?.isHideoutModuleComplete(17) ?: false
+        var intel3 = fsUser.value?.progress?.isHideoutModuleCompleted(17) ?: false
         MaterialDialog(this@FleaItemDetail).show {
             title(text = "Fee Calculator")
             message(

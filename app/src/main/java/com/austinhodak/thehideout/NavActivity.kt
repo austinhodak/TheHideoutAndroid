@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
@@ -216,6 +218,12 @@ class NavActivity : GodActivity() {
                 }
             }
 
+
+
+            /*fsUser.observe(lifeCycleOwner) {
+                Timber.d(it.toString())
+            }*/
+
             //val navBackStackEntry by navController.currentBackStackEntryAsState()
 
             HideoutTheme {
@@ -236,6 +244,8 @@ class NavActivity : GodActivity() {
                     scaffoldState = scaffoldState,
                     drawerContent = {
                         MainDrawer(navViewModel = navViewModel, lifeCycleOwner, this@NavActivity, apolloClient)
+                        val testUser by fsUser.observeAsState()
+                        Timber.d("USER: ${testUser}")
                     },
                     drawerScrimColor = Color(0xFF121212)
                 ) {

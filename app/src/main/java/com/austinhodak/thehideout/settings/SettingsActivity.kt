@@ -11,16 +11,17 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,12 +31,10 @@ import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.*
-import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
@@ -45,10 +44,7 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
@@ -61,7 +57,6 @@ import com.michaelflisar.materialpreferences.preferencescreen.*
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asBatch
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
-import com.michaelflisar.materialpreferences.preferencescreen.color.color
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.Dependency
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDependency
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
@@ -303,11 +298,13 @@ class SettingsActivity : GodActivity() {
                                         title = "In Game Mouse Sensitivity".asText()
                                         summary = "%s".replace("[^0-9.]".toRegex(), "").asText()
                                         hint = "Mouse Sens".asText()
+                                        textInputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
                                     }
                                     input(UserSettingsModel.aimSens) {
                                         title = "In Game Aim Sensitivity".asText()
                                         summary = "%s".replace("[^0-9.]".toRegex(), "").asText()
                                         hint = "Aim Sens".asText()
+                                        textInputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
                                     }
                                     category {
                                         title = "Other".asText()
@@ -339,6 +336,8 @@ class SettingsActivity : GodActivity() {
                                                     title(text = "Reset Hideout Progress?")
                                                     message(text = "Are you sure?")
                                                     positiveButton(text = "RESET") {
+                                                        userFirestore?.update("progress.hideoutModules", FieldValue.delete())
+                                                        userFirestore?.update("progress.hideoutObjectives", FieldValue.delete())
                                                         userRefTracker("hideoutModules").removeValue()
                                                         userRefTracker("hideoutObjectives").removeValue()
                                                     }
@@ -353,6 +352,8 @@ class SettingsActivity : GodActivity() {
                                                     title(text = "Reset Quest Progress?")
                                                     message(text = "Are you sure?")
                                                     positiveButton(text = "RESET") {
+                                                        userFirestore?.update("progress.quests", FieldValue.delete())
+                                                        userFirestore?.update("progress.questObjectives", FieldValue.delete())
                                                         userRefTracker("questObjectives").removeValue()
                                                         userRefTracker("quests").removeValue()
                                                     }
@@ -367,6 +368,12 @@ class SettingsActivity : GodActivity() {
                                                     title(text = "Reset All Progress?")
                                                     message(text = "This is typically used after a wipe or reset.\n\nTeam settings will not be affected.")
                                                     positiveButton(text = "RESET") {
+                                                        userFirestore?.update("progress.quests", FieldValue.delete())
+                                                        userFirestore?.update("progress.questObjectives", FieldValue.delete())
+                                                        userFirestore?.update("progress.hideoutModules", FieldValue.delete())
+                                                        userFirestore?.update("progress.hideoutObjectives", FieldValue.delete())
+                                                        userFirestore?.update("keys", FieldValue.delete())
+
                                                         userRefTracker("hideoutModules").removeValue()
                                                         userRefTracker("hideoutObjectives").removeValue()
                                                         userRefTracker("items").removeValue()
@@ -779,17 +786,8 @@ class SettingsActivity : GodActivity() {
                                                 try {
                                                     lifecycleScope.launch {
                                                         scaffoldState.snackbarHostState.showSnackbar("Pushing to TarkovTracker! This may take a while.")
-                                                        if (uid() != null) {
-                                                            questsFirebase.child("users/${uid()}").addListenerForSingleValueEvent(object : ValueEventListener {
-                                                                override fun onDataChange(snapshot: DataSnapshot) {
-                                                                    val user = snapshot.getValue<User>()
-                                                                    user?.pushToTT(lifecycleScope, ttRepository)
-                                                                }
-
-                                                                override fun onCancelled(error: DatabaseError) {
-
-                                                                }
-                                                            })
+                                                        fsUser.value?.let {
+                                                            it.pushToTT(lifecycleScope, ttRepository)
                                                         }
                                                     }
                                                 } catch (e: Exception) {
@@ -801,20 +799,21 @@ class SettingsActivity : GodActivity() {
                                             title = "Pull".asText()
                                             summary = "Will overwrite any data on app.".asText()
                                             icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
-                                            dependsOn = object : Dependency<String> {
+                                            /*dependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
                                                 override suspend fun isEnabled(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
-                                            }
+                                            }*/
+                                            enabled = false
                                             onClick = {
                                                 try {
                                                     lifecycleScope.launch {
                                                         val test = ttRepository.getUserProgress()
 
                                                         if (test.isSuccessful) {
-                                                            test.body()?.pushToDB()
+                                                           // test.body()?.pushToDB()
                                                             UserSettingsModel.playerLevel.update(test.body()?.level ?: return@launch)
 
                                                             scaffoldState.snackbarHostState.showSnackbar("Sync completed!")

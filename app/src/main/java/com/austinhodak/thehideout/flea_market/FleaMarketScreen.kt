@@ -53,11 +53,13 @@ import com.austinhodak.thehideout.flea_market.components.ShoppingCartScreen
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.extras
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
 import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 
 @ExperimentalAnimationApi
 @ExperimentalCoilApi

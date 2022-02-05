@@ -10,25 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.models.Hideout
-import com.austinhodak.tarkovapi.models.Skill
-import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
-import com.austinhodak.tarkovapi.utils.fromDtoR
-import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.DarkerGrey
-import com.austinhodak.thehideout.compose.theme.Green500
-import com.austinhodak.thehideout.currency.euroToRouble
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.hideout.HideoutRequirementModule
 import com.austinhodak.thehideout.hideout.HideoutRequirementTrader
@@ -38,7 +31,6 @@ import com.austinhodak.thehideout.utils.openActivity
 import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
-import kotlin.math.roundToInt
 
 @Composable
 fun HideoutDetailModuleScreen(items: List<Item>, pagerStateCrafts: PagerState, modules: List<Hideout.Module?>?, station: Hideout.Station?) {

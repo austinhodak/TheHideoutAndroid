@@ -49,7 +49,6 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoCard
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.ocr.viewmodels.ItemScannerViewModel
 import com.austinhodak.thehideout.utils.*
 import com.fondesa.kpermissions.coroutines.sendSuspend
@@ -95,7 +94,6 @@ class ItemScannerActivity : AppCompatActivity() {
                 val priceDisplay = UserSettingsModel.fleaVisiblePrice.value
 
                 val isScanning by viewModel.isScanning.observeAsState(true)
-                val userData by viewModel.userData.observeAsState()
 
                 Scaffold(
                     topBar = {
@@ -182,7 +180,7 @@ class ItemScannerActivity : AppCompatActivity() {
                             ) {
                                 items(items = scannedItems?.values?.toList() ?: emptyList()) {
                                     if (it is Item) {
-                                        FleaItemScanner(item = it, priceDisplay = priceDisplay, quests, userData) {
+                                        FleaItemScanner(item = it, priceDisplay = priceDisplay, quests) {
                                             openFleaDetail(it)
                                         }
                                     }
@@ -209,7 +207,6 @@ class ItemScannerActivity : AppCompatActivity() {
         item: Item,
         priceDisplay: FleaVisiblePrice,
         quests: List<Quest>,
-        userData: User?,
         onClick: (String) -> Unit
     ) {
 //        val questsItemNeeded = quests.filterNot {
