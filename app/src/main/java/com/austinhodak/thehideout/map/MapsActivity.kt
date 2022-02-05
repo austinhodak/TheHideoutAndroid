@@ -51,8 +51,8 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.fsUser
+import com.austinhodak.thehideout.map.models.CustomMarker
 import com.austinhodak.thehideout.map.viewmodels.MapViewModel
-import com.austinhodak.thehideout.mapsList
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.utils.Map
@@ -62,12 +62,14 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
+import com.google.firebase.firestore.GeoPoint
 import com.google.maps.android.ktx.awaitMap
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.lang.reflect.Field
 import java.net.MalformedURLException
 import java.net.URL
 import javax.inject.Inject
@@ -106,61 +108,52 @@ class MapsActivity : GodActivity() {
     lateinit var tarkovRepo: TarkovRepo
 
     private lateinit var backdropState: BackdropScaffoldState
+    private lateinit var bottomSheetState: BottomSheetScaffoldState
     private lateinit var coroutineScope: CoroutineScope
+    private var currentZoom = 0f
+    private var currentPosition: LatLng? = null
 
-    @SuppressLint("CheckResult", "PotentialBehaviorOverride")
+    @SuppressLint("CheckResult", "PotentialBehaviorOverride", "CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        mapsList
 
         setContent {
             val mapView = rememberMapViewWithLifecycle()
             val selectedMapText by mapViewModel.map.observeAsState()
 
             val selectedMap by mapViewModel.mapData.observeAsState()
+            val customMarkers by mapViewModel.customMarkers.observeAsState()
+
+            Timber.d(customMarkers.toString())
 
             val backdropScaffoldState = rememberBackdropScaffoldState(initialValue = BackdropValue.Concealed)
             backdropState = backdropScaffoldState
             val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
+            bottomSheetState = bottomSheetScaffoldState
             val scope = rememberCoroutineScope()
             coroutineScope = scope
 
             val userData by fsUser.observeAsState()
 
-            var isDistanceToolActive by remember {
-                mutableStateOf(false)
-            }
-
-            val snackbarText: String? by remember {
-                mutableStateOf("Select first point.")
-            }
-
             val selectedCats by UserSettingsModel.mapMarkerCategories.flow.collectAsState(initial = emptySet())
 
-            //val selectedUserQuests by UserSettingsModel.mapQuestSelection.flow.collectAsState(initial = setOf("Active", "Locked", "Completed"))
+            var selectedCategories: Set<Int> by rememberSaveable {
+                mutableStateOf(emptySet())
+            }
+
+            var showCustomMarkers: Boolean by rememberSaveable {
+                mutableStateOf(true)
+            }
+
             var selectedUserQuests by remember {
                 mutableStateOf(setOf("Active", "Locked", "Completed"))
             }
-
-            var selectedPoints: Pair<LatLng?, LatLng?>? = null
 
             var darkMode by rememberSaveable {
                 mutableStateOf(false)
             }
 
-            //val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
-
-            /*var quests by remember {
-                mutableStateOf(listOf<Quest>())
-            }*/
-
             val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
-
-            /*LaunchedEffect("quests") {
-                val list = tarkovRepo.getAllQuestsOnce()
-                quests = list
-            }*/
 
             if (intent.hasExtra("map")) {
                 val intentMap = intent.getStringExtra("map")
@@ -177,7 +170,12 @@ class MapsActivity : GodActivity() {
                     UserSettingsModel.mapMarkerCategories.update(
                         it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
                     )
-                    updateMarkers(selectedCats.toMutableList())
+
+                    Timber.d(selectedCategories.size.toString())
+                    if (selectedCategories.isEmpty() && currentZoom == 0f)
+                    selectedCategories = it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
+
+                    updateMarkers(selectedCategories.toMutableList(), showCustomMarkers)
 
                     if (quests.isNotEmpty()) {
                         userData?.let {
@@ -190,12 +188,6 @@ class MapsActivity : GodActivity() {
             }
 
             var selectedMarker by remember { mutableStateOf<Marker?>(null) }
-
-            if (isDistanceToolActive && snackbarText != null) {
-                scope.launch {
-                    bottomSheetScaffoldState.snackbarHostState.showSnackbar(snackbarText!!, "CANCEL", SnackbarDuration.Indefinite)
-                }
-            }
 
             val systemUiController = rememberSystemUiController()
             systemUiController.setNavigationBarColor(Color.Transparent)
@@ -220,6 +212,11 @@ class MapsActivity : GodActivity() {
                                 backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                                 elevation = 5.dp,
                                 actions = {
+                                    IconButton(onClick = {
+                                        Toast.makeText(this@MapsActivity, "Long press on the map to add a marker.", Toast.LENGTH_SHORT).show()
+                                    }) {
+                                        Icon(painterResource(id = R.drawable.ic_baseline_add_location_24), contentDescription = null, tint = White)
+                                    }
                                     if (selectedMap?.map?.id == 71) {
                                         if (darkMode) {
                                             IconButton(onClick = {
@@ -238,12 +235,37 @@ class MapsActivity : GodActivity() {
                                             }
                                         }
                                     }
+                                    IconButton(onClick = {
+                                        scope.launch {
+                                            if (backdropScaffoldState.isConcealed) backdropScaffoldState.reveal() else backdropScaffoldState.conceal()
+                                        }
+                                    }) {
+                                        AnimatedContent(targetState = backdropScaffoldState) {
+                                            when {
+                                                it.isRevealed -> {
+                                                    Icon(
+                                                        painter = painterResource(id = R.drawable.ic_baseline_close_24),
+                                                        contentDescription = "Filter",
+                                                        tint = Color.White
+                                                    )
+                                                }
+                                                it.isConcealed -> {
+                                                    Icon(
+                                                        painter = painterResource(id = R.drawable.ic_baseline_filter_alt_24),
+                                                        contentDescription = "Filter",
+                                                        tint = Color.White
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             )
                         },
                         backLayerContent = {
                             var isCategoriesVisible by remember { mutableStateOf(true) }
                             var isSettingsVisible by remember { mutableStateOf(false) }
+                            var isCustomSettingsVisibile by remember { mutableStateOf(false) }
 
                             Column(
                                 Modifier
@@ -281,10 +303,10 @@ class MapsActivity : GodActivity() {
                                                         .clickable(
                                                             indication = null,
                                                             interactionSource = remember { MutableInteractionSource() }) {
-                                                            val list = selectedCats.toMutableList()
+                                                            val list = selectedCategories.toMutableList()
 
                                                             group?.categories?.forEach { category ->
-                                                                if (selectedCats.contains(category?.id)) {
+                                                                if (selectedCategories.contains(category?.id)) {
                                                                     category?.id?.let {
                                                                         list.remove(it)
                                                                     }
@@ -294,13 +316,14 @@ class MapsActivity : GodActivity() {
                                                                     }
                                                                 }
                                                             }
-
+                                                            selectedCategories = list.toSet()
                                                             scope.launch {
-                                                                UserSettingsModel.mapMarkerCategories.update(
+
+                                                                /*UserSettingsModel.mapMarkerCategories.update(
                                                                     list.toSet()
-                                                                )
+                                                                )*/
                                                             }
-                                                            updateMarkers(list)
+                                                            updateMarkers(list, showCustomMarkers)
                                                         }
                                                         .padding(top = 16.dp, bottom = 12.dp),
                                                     verticalAlignment = Alignment.CenterVertically
@@ -320,10 +343,10 @@ class MapsActivity : GodActivity() {
                                                     }?.forEach { category ->
                                                         Chip(
                                                             string = category?.title ?: "",
-                                                            selected = selectedCats.contains(category?.id)
+                                                            selected = selectedCategories.contains(category?.id)
                                                         ) {
-                                                            val list = selectedCats.toMutableList()
-                                                            if (selectedCats.contains(category?.id)) {
+                                                            val list = selectedCategories.toMutableList()
+                                                            if (selectedCategories.contains(category?.id)) {
                                                                 category?.id?.let {
                                                                     list.remove(it)
                                                                 }
@@ -333,10 +356,12 @@ class MapsActivity : GodActivity() {
                                                                 }
                                                             }
 
-                                                            scope.launch {
+                                                            selectedCategories = list.toSet()
+
+                                                            /*scope.launch {
                                                                 UserSettingsModel.mapMarkerCategories.update(list.toSet())
-                                                            }
-                                                            updateMarkers(list)
+                                                            }*/
+                                                            updateMarkers(list, showCustomMarkers)
                                                         }
                                                     }
                                                 }
@@ -427,6 +452,68 @@ class MapsActivity : GodActivity() {
                                         }
                                     }
                                 }
+                                Column(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 8.dp)
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .background(Color(0xFF282828))
+                                        .clickable {
+                                            isCustomSettingsVisibile = !isCustomSettingsVisibile
+                                        }
+                                        .padding(16.dp)
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier,
+                                    ) {
+                                        Text("Custom Markers", modifier = Modifier.padding(end = 8.dp), style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Medium)
+                                        //Icon(painter = painterResource(id = R.drawable.icons8_crown_96), contentDescription = "", modifier = Modifier.size(16.dp))
+                                        Spacer(modifier = Modifier.weight(1f))
+                                        Icon(
+                                            painter = if (isCustomSettingsVisibile) painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24) else painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24),
+                                            contentDescription = ""
+                                        )
+                                    }
+                                    AnimatedVisibility(visible = isCustomSettingsVisibile) {
+                                        Column {
+                                            val t = listOf("You")
+                                            t.forEach {
+                                                Row(
+                                                    Modifier
+                                                        .fillMaxWidth()
+                                                        .clickable(
+                                                            indication = null,
+                                                            interactionSource = remember { MutableInteractionSource() }) {
+
+                                                        }
+                                                        .padding(top = 16.dp, bottom = 12.dp),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Text(
+                                                        text = it,
+                                                        style = MaterialTheme.typography.subtitle2,
+                                                        modifier = Modifier.weight(1f)
+                                                    )
+                                                }
+
+                                                val questSettings = listOf("Show All")
+
+                                                FlowRow(crossAxisSpacing = 8.dp, mainAxisSpacing = 0.dp) {
+                                                    questSettings.forEach { category ->
+                                                        Chip(
+                                                            string = category,
+                                                            selected = showCustomMarkers
+                                                        ) {
+                                                            showCustomMarkers = !showCustomMarkers
+                                                            updateMarkers(selectedCategories.toList(), showCustomMarkers)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         },
                         frontLayerContent = {
@@ -436,6 +523,28 @@ class MapsActivity : GodActivity() {
                                 sheetElevation = 5.dp,
                                 sheetContent = {
                                     selectedMarker?.let {
+                                        if (it.tag is CustomMarker) {
+                                            val marker = it.tag as CustomMarker
+                                            Column(
+                                                Modifier.padding(bottom = 16.dp)
+                                            ) {
+                                                Row(
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Text(text = marker.title ?: "", style = MaterialTheme.typography.h6, modifier = Modifier.weight(1f).padding(top = 16.dp, start = 16.dp, end = 16.dp))
+                                                    IconButton(onClick = {
+                                                        openActivity(CustomMapMarkerAddActivity::class.java) {
+                                                            putParcelable("marker", marker)
+                                                        }
+                                                    }, modifier = Modifier.padding(top = 8.dp, end = 8.dp)) {
+                                                        Icon(painter = painterResource(id = R.drawable.ic_baseline_edit_24), contentDescription = null, tint = Color.White)
+                                                    }
+                                                }
+
+                                                marker.description?.let { it1 -> MarkdownText(markdown = it1, style = MaterialTheme.typography.body2, modifier = Modifier.padding(horizontal = 16.dp)) }
+                                            }
+                                        }
+
                                         if (it.tag is MapInteractive.Location) {
                                             val location = it.tag as MapInteractive.Location
                                             var quest by remember {
@@ -447,15 +556,6 @@ class MapsActivity : GodActivity() {
                                                 } else {
                                                     null
                                                 }
-                                                /*try {
-                                                    val questTitle = location.description?.split("**Quest:** ")?.get(1)?.substringBefore("\n")?.trim()
-                                                    questTitle?.let { title ->
-                                                        quest = questsExtra?.find { it.title.equals(title, true) }
-                                                    }
-                                                } catch (e: Exception) {
-                                                    quest = null
-                                                }*/
-
                                             } else {
                                                 quest = null
                                             }
@@ -584,6 +684,20 @@ class MapsActivity : GodActivity() {
 
                                                     Timber.d(it.toString())
 
+                                                    /*if (isCustomMarkerAddActive) {
+                                                        val customMarker = CustomMarker(
+                                                            coordinates = GeoPoint(
+                                                                it.latitude,
+                                                                it.longitude
+                                                            ),
+                                                            map = selectedMapText?.lowercase()
+                                                        )
+                                                        openActivity(CustomMapMarkerAddActivity::class.java) {
+                                                            putParcelable("marker", customMarker)
+                                                            putString("map", selectedMapText?.lowercase())
+                                                        }
+                                                    }*/
+
                                                     //TODO ADD MAP MEASURING
 
                                                     /* val first = selectedPoints?.first
@@ -610,13 +724,39 @@ class MapsActivity : GodActivity() {
                                                      }*/
                                                 }
 
+                                                map.setOnMapLongClickListener {
+                                                    val markerCount = customMarkers?.size ?: 0
+                                                    if (markerCount < 5 || isPremium()) {
+                                                        val customMarker = CustomMarker(
+                                                            coordinates = GeoPoint(
+                                                                it.latitude,
+                                                                it.longitude
+                                                            ),
+                                                            map = selectedMapText?.lowercase()
+                                                        )
+                                                        openActivity(CustomMapMarkerAddActivity::class.java) {
+                                                            putParcelable("marker", customMarker)
+                                                            putString("map", selectedMapText?.lowercase())
+                                                        }
+                                                    } else {
+                                                        launchPremiumPusher()
+                                                    }
+                                                }
+
+                                                map.setOnCameraMoveListener {
+                                                    currentZoom = map.cameraPosition.zoom
+                                                    currentPosition = map.cameraPosition.target
+                                                }
+
                                                 setupMarkers(
                                                     selectedMap,
                                                     map,
-                                                    selectedCats.toMutableList(),
+                                                    selectedCategories.toMutableList(),
                                                     selectedUserQuests,
                                                     userData,
-                                                    quests
+                                                    quests,
+                                                    customMarkers,
+                                                    showCustomMarkers
                                                 )
                                             }
                                         }
@@ -652,10 +792,10 @@ class MapsActivity : GodActivity() {
                                                 modifier = Modifier.size(24.dp)
                                             )
                                         }
-                                        if (isDebug())
+                                        /*if (isDebug()) {
                                             FloatingActionButton(
                                                 onClick = {
-                                                    isDistanceToolActive = !isDistanceToolActive
+
                                                 },
                                                 backgroundColor = DarkPrimary,
                                                 modifier = Modifier
@@ -669,6 +809,7 @@ class MapsActivity : GodActivity() {
                                                     modifier = Modifier.size(24.dp)
                                                 )
                                             }
+                                        }*/
                                     }
                                 }
                             }
@@ -683,7 +824,7 @@ class MapsActivity : GodActivity() {
                         }
                     )
 
-                    FloatingActionButton(
+                    /*FloatingActionButton(
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .padding(16.dp),
@@ -692,7 +833,7 @@ class MapsActivity : GodActivity() {
                                 if (backdropScaffoldState.isConcealed) backdropScaffoldState.reveal() else backdropScaffoldState.conceal()
                             }
                         },
-                        elevation = FloatingActionButtonDefaults.elevation(4.dp)
+                        elevation = FloatingActionButtonDefaults.elevation(1.dp)
                     ) {
                         AnimatedContent(targetState = backdropScaffoldState) {
                             when {
@@ -712,7 +853,7 @@ class MapsActivity : GodActivity() {
                                 }
                             }
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -721,7 +862,6 @@ class MapsActivity : GodActivity() {
     private var doubleBackToExitPressedOnce = false
 
     override fun onBackPressed() {
-
         if (backdropState.isRevealed) {
             coroutineScope.launch {
                 backdropState.conceal()
@@ -757,7 +897,7 @@ class MapsActivity : GodActivity() {
                 } else {
                     "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.${selectedMap.getFirstMap()?.extension}"
                 }
-                Timber.d(url)
+                //Timber.d(url)
 
                 return try {
                     URL(url)
@@ -774,7 +914,11 @@ class MapsActivity : GodActivity() {
 
         map.setInfoWindowAdapter(null)
 
-        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(0.600058195510644, -0.6989045441150665)))
+        if (currentPosition != null) {
+            map.moveCamera(CameraUpdateFactory.newLatLng(currentPosition!!))
+        } else {
+            map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(0.600058195510644, -0.6989045441150665)))
+        }
 
         val one = LatLng(1.5, -1.5)
         val two = LatLng(0.0, 0.0)
@@ -789,7 +933,11 @@ class MapsActivity : GodActivity() {
 
         map.setLatLngBoundsForCameraTarget(bounds)
         //map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, 0))
-        map.moveCamera(CameraUpdateFactory.zoomTo(selectedMap.mapConfig?.initial_zoom?.toFloat() ?: 9f))
+        if (currentZoom != 0f) {
+            map.moveCamera(CameraUpdateFactory.zoomTo(currentZoom))
+        } else {
+            map.moveCamera(CameraUpdateFactory.zoomTo(selectedMap.mapConfig?.initial_zoom?.toFloat() ?: 9f))
+        }
 
         val polygonOptions = PolygonOptions()
             .add(
@@ -805,7 +953,16 @@ class MapsActivity : GodActivity() {
         map.uiSettings.isZoomControlsEnabled = false
     }
 
-    private fun setupMarkers(selectedMap: MapInteractive?, map: GoogleMap, selectedCategories: List<Int>?, selectedUserQuests: Set<String>, userData: FSUser?, quests: List<Quest>) {
+    private fun setupMarkers(
+        selectedMap: MapInteractive?,
+        map: GoogleMap,
+        selectedCategories: List<Int>?,
+        selectedUserQuests: Set<String>,
+        userData: FSUser?,
+        quests: List<Quest>,
+        customMarkers: List<CustomMarker>?,
+        showCustomMarkers: Boolean
+    ) {
         if (selectedMap == null) return
         markers.clear()
         Timber.d(selectedCategories.toString())
@@ -813,8 +970,34 @@ class MapsActivity : GodActivity() {
             addMarkerToMap(it, map)
         }
 
-        updateMarkers(selectedCategories)
+        customMarkers?.forEach {
+            addCustomMarkerToMap(it, map)
+        }
+
+        updateMarkers(selectedCategories, showCustomMarkers)
         updateQuestMarkers(selectedUserQuests.toList(), userData, quests)
+    }
+
+    private fun addCustomMarkerToMap(customMarker: CustomMarker, map: GoogleMap) {
+        val latitude = customMarker.latitude()
+        val longitude = customMarker.longitude()
+
+        val drawablesFields: Array<Field> = com.austinhodak.tarkovapi.R.drawable::class.java.fields
+        val icon = drawablesFields.find { it.name == customMarker.icon }?.getInt(null) ?: R.drawable.icon_unknown
+
+        val bitmapDrawable = (ResourcesCompat.getDrawable(resources, icon, null) as BitmapDrawable).bitmap
+
+        val marker = map.addMarker(
+            MarkerOptions().position(LatLng(latitude!!, longitude!!)).icon(
+                BitmapDescriptorFactory.fromBitmap(bitmapDrawable)
+            )
+        )?.apply {
+            tag = customMarker
+        }
+
+        marker?.let {
+            markers.add(it)
+        }
     }
 
     private fun addMarkerToMap(it: MapInteractive.Location?, map: GoogleMap) {
@@ -923,12 +1106,15 @@ class MapsActivity : GodActivity() {
         }
     }
 
-    private fun updateMarkers(selectedCategories: List<Int>?) {
+    private fun updateMarkers(selectedCategories: List<Int>?, showCustomMarkers: Boolean) {
         markers.forEach {
             if (it.tag is MapInteractive.Location) {
                 val location = it.tag as MapInteractive.Location
                 if (location.category_id == 955) return@forEach
                 it.isVisible = selectedCategories?.contains(location.category_id) != false
+            }
+            if (it.tag is CustomMarker) {
+                it.isVisible = showCustomMarkers
             }
         }
 

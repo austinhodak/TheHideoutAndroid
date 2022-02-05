@@ -187,8 +187,8 @@ class Application : android.app.Application(), Configuration.Provider {
             Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
                 val user = value?.toObject<FSUser>()
                 if (value?.exists() == false) {
-                    //userRefTracker("update").setValue(true)
-                    userFirestore?.set(hashMapOf("playerLevel" to UserSettingsModel.playerLevel.value), SetOptions.merge())
+                    userRefTracker("update").setValue(true)
+                    //userFirestore?.set(hashMapOf("playerLevel" to UserSettingsModel.playerLevel.value), SetOptions.merge())
                 }
                 user?.let {
                     fsUser.postValue(it)
