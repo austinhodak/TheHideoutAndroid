@@ -55,8 +55,8 @@ open class GodActivity : AppCompatActivity() {
         super.onStop()
         try {
             ttSyncEnabledPremium {
-                if (it)
-                syncTT(lifecycleScope, ttRepository)
+                if (it) {}
+                //syncTT(lifecycleScope, ttRepository)
             }
         } catch (e: Exception) {
             Firebase.crashlytics.recordException(e)
@@ -67,8 +67,8 @@ open class GodActivity : AppCompatActivity() {
         super.onStart()
         try {
             ttSyncEnabledPremium {
-                if (it)
-                syncTT(lifecycleScope, ttRepository)
+                if (it) {}
+                //syncTT(lifecycleScope, ttRepository)
             }
         } catch (e: Exception) {
             Firebase.crashlytics.recordException(e)

@@ -948,6 +948,7 @@ private fun QuestObjectiveItem(
         Modifier
             .height(36.dp)
             .clickable {
+                Timber.d(userData.toString())
                 userData?.toggleObjective(quest, questObjective)
                 //questViewModel.testTTAPI(questObjective)
             },

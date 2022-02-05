@@ -20,6 +20,7 @@ import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.firestore.ktx.toObject
@@ -176,11 +177,18 @@ class Application : android.app.Application(), Configuration.Provider {
             }
         }
 
+        Firebase.auth.addAuthStateListener {
+            if (it.currentUser != null) {
+
+            }
+        }
+
         uid()?.let {
             Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
                 val user = value?.toObject<FSUser>()
                 if (value?.exists() == false) {
-                    userRefTracker("update").setValue(true)
+                    //userRefTracker("update").setValue(true)
+                    userFirestore?.set(hashMapOf("playerLevel" to UserSettingsModel.playerLevel.value), SetOptions.merge())
                 }
                 user?.let {
                     fsUser.postValue(it)

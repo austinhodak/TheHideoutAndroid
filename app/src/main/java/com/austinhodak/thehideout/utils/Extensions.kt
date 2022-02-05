@@ -753,7 +753,7 @@ fun syncTT(scope: CoroutineScope, ttRepository: TTRepository) {
                         userFirestore?.set(
                             hashMapOf(
                                 "progress" to hashMapOf(
-                                    "questsObjectives" to hashMapOf(
+                                    "questObjectives" to hashMapOf(
                                         id to hashMapOf(
                                             "completed" to true,
                                             "timestamp" to Timestamp.now()
