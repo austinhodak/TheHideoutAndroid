@@ -1,20 +1,29 @@
 package com.austinhodak.thehideout.views
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.text.InputType
 import android.util.AttributeSet
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
@@ -22,6 +31,8 @@ import coil.annotation.ExperimentalCoilApi
 import com.adapty.Adapty
 import com.adapty.listeners.OnPurchaserInfoUpdatedListener
 import com.adapty.models.PurchaserInfoModel
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.austinhodak.tarkovapi.ServerStatusQuery
@@ -426,6 +437,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
 
 }
 
+@SuppressLint("CheckResult")
 @ExperimentalCoroutinesApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -446,6 +458,15 @@ fun MainDrawer(
 
     val benderFont = ResourcesCompat.getFont(context, R.font.bender)
     val benderFontMedium = ResourcesCompat.getFont(context, R.font.bender_bold)
+
+
+    var playerLevel by remember {
+        mutableStateOf(UserSettingsModel.playerLevel.value)
+    }
+
+    UserSettingsModel.playerLevel.observe(scope) {
+        playerLevel = it
+    }
 
     val drawerLogin = SecondaryDrawerItem().apply {
         tag = "login"
@@ -495,9 +516,30 @@ fun MainDrawer(
             Row(
                 Modifier
                     .background(MaterialTheme.colors.surface)
-                    .padding(16.dp)
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 GameClockText(Modifier.weight(1f), true, navViewModel)
+                FloatingActionButton(onClick = {
+                    MaterialDialog(context).show {
+                        title(text = "Set Level")
+                        input(inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED, prefill = playerLevel.toString(), hint = "Level") { _, text ->
+                            scope.launch {
+                                UserSettingsModel.playerLevel.update(text.toString().toIntOrNull() ?: 71)
+                            }
+                        }
+                        positiveButton(text = "SAVE")
+                    }
+                }, modifier = Modifier.size(40.dp), backgroundColor = LightGray) {
+                    Text(
+                        text = playerLevel.toString(),
+                        modifier = Modifier,
+                        color = Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                }
+
                 GameClockText(Modifier.weight(1f), false, navViewModel)
             }
             if (!isPremium && !hideBanner) {
