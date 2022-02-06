@@ -121,7 +121,7 @@ class SettingsActivity : GodActivity() {
                     extras.setOpeningItem(114, "weaponmods")
                 }
                 OpeningScreen.WEAPONS -> {
-                    extras.setOpeningItem(301, "assaultRifle")
+                    extras.setOpeningItem(301, "weapons/{classID}")
                 }
                 OpeningScreen.NEEDED_ITEMS -> {
                     extras.setOpeningItem(116, "neededGrid")
