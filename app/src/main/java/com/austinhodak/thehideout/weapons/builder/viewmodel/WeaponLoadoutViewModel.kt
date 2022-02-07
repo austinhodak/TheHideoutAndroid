@@ -25,9 +25,12 @@ class WeaponLoadoutViewModel @Inject constructor(
         Firebase.firestore.collection("loadouts").whereEqualTo("uid", uid()).addSnapshotListener { value, error ->
             val loadouts = ArrayList<WeaponBuildFirestore>()
             for (doc in value!!) {
-                val loadout = doc.toObject<WeaponBuildFirestore>()
-                loadout.id = doc.id
-                loadouts.add(loadout)
+                val loadout = doc?.toObject<WeaponBuildFirestore>()
+                loadout?.id = doc.id
+                loadout?.let {
+                    loadouts.add(it)
+                }
+
             }
             _userLoadouts.value = loadouts
         }
