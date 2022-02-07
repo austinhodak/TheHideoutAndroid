@@ -34,9 +34,11 @@ import coil.compose.rememberImagePainter
 import com.adapty.Adapty
 import com.adapty.models.PaywallModel
 import com.android.billingclient.api.*
+import com.austinhodak.thehideout.PremiumThanksActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.purchase
 import com.austinhodak.thehideout.utils.restartNavActivity
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -77,10 +79,10 @@ class PremiumPusherActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        billingClient = BillingClient.newBuilder(this)
+        /*billingClient = BillingClient.newBuilder(this)
             .setListener(purchasesUpdatedListener)
             .enablePendingPurchases()
-            .build()
+            .build()*/
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -100,7 +102,7 @@ class PremiumPusherActivity : ComponentActivity() {
                         mutableStateOf(null)
                     }
 
-                    billingClient.startConnection(object : BillingClientStateListener {
+                    /*billingClient.startConnection(object : BillingClientStateListener {
                         override fun onBillingServiceDisconnected() {
                             billingClient.startConnection(this)
                         }
@@ -122,7 +124,7 @@ class PremiumPusherActivity : ComponentActivity() {
                             }
                             Timber.d(billingResult.responseCode.toString())
                         }
-                    })
+                    })*/
 
                     Adapty.getPaywalls(true) { paywalls, products, error ->
                         if (error == null) {
@@ -297,10 +299,14 @@ class PremiumPusherActivity : ComponentActivity() {
                                         if (e == null) {
                                             Toast.makeText(this@PremiumPusherActivity, "Thank you!", Toast.LENGTH_SHORT).show()
                                             if (intent.hasExtra("setResult")) {
+                                                openActivity(PremiumThanksActivity::class.java)
                                                 setResult(RESULT_OK)
                                                 finish()
                                             } else {
-                                                restartNavActivity()
+                                                openActivity(PremiumThanksActivity::class.java) {
+                                                    putBoolean("restart", true)
+                                                }
+                                                //restartNavActivity()
                                             }
                                         }
                                     }

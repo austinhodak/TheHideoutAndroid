@@ -81,11 +81,6 @@
             android:label="@string/title_activity_premium_pusher"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
-            android:name=".billing.PremiumActivity"
-            android:exported="true"
-            android:label="@string/title_activity_premium"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-        <activity
             android:name=".weapons.builder.WeaponBuilderActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
