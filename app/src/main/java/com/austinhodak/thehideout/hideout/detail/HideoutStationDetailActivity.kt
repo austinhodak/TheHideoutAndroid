@@ -23,6 +23,7 @@ import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
@@ -31,6 +32,7 @@ import com.austinhodak.thehideout.hideout.detail.components.CraftsPage
 import com.austinhodak.thehideout.hideoutList
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -53,11 +55,17 @@ class HideoutStationDetailActivity : AppCompatActivity() {
             else -> 0
         }
 
-        val stationID = ((intent.getSerializableExtra("station") as Hideout.Station?) ?: Hideout.Station(
-            false,
-            "",
-            id = 18
-        )).id
+        val stationID = if (intent.hasExtra("station")) {
+            (intent.getSerializableExtra("station") as Hideout.Station?)?.id
+        } else if (intent.hasExtra("moduleId")) {
+            hideoutList.hideout?.modules?.find {
+                val s = intent.getStringExtra("moduleId") ?: ""
+                it?.module?.contains(s, true) == true
+                //it?.id?.equals(intent.getIntExtra("moduleId", 18)) == true
+            }?.stationId
+        } else {
+            intent.getIntExtra("stationId", 0)
+        }
 
         val modules = hideoutList.hideout?.modules?.filter { it?.stationId?.equals(stationID) == true }
         val station = hideoutList.hideout?.stations?.find { it?.id?.equals(stationID) == true }
@@ -82,6 +90,10 @@ class HideoutStationDetailActivity : AppCompatActivity() {
                 var selectedNavItem by remember { mutableStateOf(startDestination) }
 
                 val allItems by navViewModel.allItems.observeAsState(initial = emptyList())
+
+                val uiController = rememberSystemUiController()
+                uiController.setNavigationBarColor(Color(0xFF1F1F1F))
+                uiController.setStatusBarColor(Color(0xFF1F1F1F))
 
                 Scaffold(
                     scaffoldState = scaffoldState,

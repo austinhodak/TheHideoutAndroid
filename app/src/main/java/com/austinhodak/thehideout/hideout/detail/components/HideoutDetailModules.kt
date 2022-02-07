@@ -18,10 +18,13 @@ import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.DarkerGrey
+import com.austinhodak.thehideout.crafts.CompactItem
+import com.austinhodak.thehideout.crafts.CraftDetailActivity
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.hideout.HideoutRequirementModule
 import com.austinhodak.thehideout.hideout.HideoutRequirementTrader
@@ -38,10 +41,14 @@ fun HideoutDetailModuleScreen(items: List<Item>, pagerStateCrafts: PagerState, m
 
     Timber.d(module.toString())
 
+    val requirements = module?.require?.groupBy { it?.toString() }
+
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+        modifier = Modifier.fillMaxSize()
     ) {
-        module?.require?.groupBy { it?.toString() }?.forEach { (entry, value) ->
+
+        requirements?.forEach { (entry, value) ->
             item {
                 HideoutDetailModule(
                     entry,
@@ -51,6 +58,9 @@ fun HideoutDetailModuleScreen(items: List<Item>, pagerStateCrafts: PagerState, m
                 )
             }
         }
+    }
+    if (requirements.isNullOrEmpty()) {
+        EmptyText(text = "No requirements for this module.")
     }
 }
 
@@ -109,7 +119,18 @@ fun HideoutDetailModule(type: String?, requirements: List<Hideout.Module.Require
                 requirements.forEach { requirement ->
                     when (requirement?.type) {
                         "trader" -> HideoutRequirementTrader(requirement = requirement, userData = null)
-                        "item" -> HideoutRequirementItem(requirement = requirement, items.find { it.id == requirement.name })
+                        "item" -> {
+                            items.find { it.id == requirement.name }?.pricing?.let { pricing ->
+                                CompactItem(
+                                    item = pricing, extras = CraftDetailActivity.ItemSubtitle(
+                                        iconText = requirement.quantity?.toString(),
+                                        showPriceInSubtitle = true,
+                                        subtitle = " (${(requirement.quantity?.times(pricing.getCheapestBuyRequirements().price ?: 0))?.asCurrency()})"
+                                    )
+                                )
+                            }
+                            //HideoutRequirementItem(requirement = requirement, items.find { it.id == requirement.name })
+                        }
                         "module" -> HideoutRequirementModule(module = module, requirement = requirement, userData = null)
                         "skill" -> HideoutRequirementSkill(module, requirement)
                     }

@@ -394,7 +394,11 @@ private fun HideoutModuleCard(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .combinedClickable(
-                onClick = {},
+                onClick = {
+                    context.openActivity(HideoutStationDetailActivity::class.java) {
+                        putString("moduleId", module.module.toString())
+                    }
+                },
                 onLongClick = {
                     MaterialDialog(context).show {
                         title(text = "Add to Needed Items?")
@@ -497,7 +501,8 @@ private fun HideoutModuleCard(
             Row(
                 Modifier
                     .padding(horizontal = 8.dp, vertical = 2.dp)
-                    .align(End)) {
+                    .align(End)
+            ) {
                 when (view) {
                     HideoutFilter.AVAILABLE -> {
                         TextButton(onClick = {
@@ -638,6 +643,7 @@ private fun HideoutRequirementItem(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
 fun HideoutRequirementModule(
@@ -645,11 +651,16 @@ fun HideoutRequirementModule(
     requirement: Hideout.Module.Require,
     userData: FSUser?
 ) {
-
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                context.openActivity(HideoutStationDetailActivity::class.java) {
+                    putString("moduleId", requirement.name.toString())
+                }
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
