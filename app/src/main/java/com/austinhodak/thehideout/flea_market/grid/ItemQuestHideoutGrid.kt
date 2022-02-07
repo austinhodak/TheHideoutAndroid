@@ -18,9 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -28,6 +31,8 @@ import androidx.navigation.compose.rememberNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
@@ -43,6 +48,8 @@ import com.austinhodak.thehideout.quests.Chip
 import com.austinhodak.thehideout.quests.QuestFilter
 import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
 import com.austinhodak.thehideout.utils.*
+import com.google.accompanist.flowlayout.FlowRow
+import com.google.accompanist.flowlayout.SizeMode
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -90,7 +97,9 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
     ) {
         val pagerState = rememberPagerState(pageCount = 3)
         Column(
-            Modifier.fillMaxWidth()
+            Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
         ) {
             Tabs(
                 pagerState = pagerState,
@@ -162,82 +171,101 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 0 -> {
                     questObjectives.map { obj ->
                         val item = allItems?.find { it.id.equals(obj.target) || it.id == obj.targetItem?.id }
-                        Pair(item?.pricing, obj.number)
+                        Pair(item, obj.number)
                     }.plus(
                         modules?.map { require ->
                             val item = allItems?.find { it.id == require?.name }
-                            Pair(item?.pricing, require?.quantity)
+                            Pair(item, require?.quantity)
                         } ?: emptyList()
                     ).groupBy {
                         it.first
                     }.map {
-                        GridItemData(pricing = it.key, text = it.value.sumOf { it.second ?: 0 }.toString())
+                        GridItemData(item = it.key, text = it.value.sumOf { it.second ?: 0 }.toString())
                     }
                 }
                 1 -> {
                     questObjectives.map { obj ->
                         val item = allItems?.find { it.id.equals(obj.target) || it.id == obj.targetItem?.id }
-                        Pair(item?.pricing, obj.number)
+                        Pair(item, obj.number)
                     }.groupBy {
                         it.first
                     }.map {
-                        GridItemData(pricing = it.key, text = it.value.sumOf { it.second ?: 0 }.toString())
+                        GridItemData(item = it.key, text = it.value.sumOf { it.second ?: 0 }.toString())
                     }
                 }
                 2 -> {
                     (modules?.map { require ->
                         val item = allItems?.find { it.id == require?.name }
-                        Pair(item?.pricing, require?.quantity)
+                        Pair(item, require?.quantity)
                     } ?: emptyList()).groupBy {
                         it.first
                     }.map {
-                        GridItemData(pricing = it.key, text = it.value.sumOf { it.second ?: 0 }.toString())
+                        GridItemData(item = it.key, text = it.value.sumOf { it.second ?: 0 }.toString())
                     }
                 }
                 else -> questObjectives.map { obj ->
                     val item = allItems?.find { it.id.equals(obj.target) || it.id == obj.targetItem?.id }
-                    Pair(item?.pricing, obj.number)
+                    Pair(item, obj.number)
                 }.plus(
                     modules?.map { require ->
                         val item = allItems?.find { it.id == require?.name }
-                        Pair(item?.pricing, require?.quantity)
+                        Pair(item, require?.quantity)
                     } ?: emptyList()
                 ).groupBy {
                     it.first
                 }.map {
-                    GridItemData(pricing = it.key, text = it.value.sumOf { it.second ?: 0 }.toString())
+                    GridItemData(item = it.key, text = it.value.sumOf { it.second ?: 0 }.toString())
                 }
             }.filter {
-                it.pricing?.name != null && it.text?.toLongOrNull() != null && it.text.toLong() < 1000
+                it.item?.pricing?.name != null && it.text?.toLongOrNull() != null && it.text.toLong() < 1000
             }.filter {
-                it.pricing?.name?.contains(searchKey, true) == true
-                        || it.pricing?.shortName?.contains(searchKey, true) == true
+                it.item?.pricing?.name?.contains(searchKey, true) == true
+                        || it.item?.pricing?.shortName?.contains(searchKey, true) == true
             }
 
             data = when (sort) {
-                0 -> data.sortedBy { it.pricing?.name }
+                0 -> data.sortedBy { it.item?.pricing?.name }
                 1 -> data.sortedByDescending { it.text?.toLongOrNull() }
                 2 -> data.sortedBy { it.text?.toLongOrNull() }
-                else -> data.sortedBy { it.pricing?.name }
+                else -> data.sortedBy { it.item?.pricing?.name }
             }
 
             if (data.isNullOrEmpty()) {
                 LoadingItem()
             }
 
-            LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
-                items(items = data) { item ->
-                    GridItem(url = item.pricing?.getCleanIcon(), text = item.text, onClick = {
-                        item.pricing?.id?.let { id -> context.openFleaDetail(id) }
-                    })
+            val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+
+            data.groupBy { it.item?.itemType }.forEach { (type, data) ->
+                val name = when (type?.name) {
+                    "NONE" -> "BARTER"
+                    else -> type?.name
+                }?.lowercase()?.capitalize(Locale.current)
+                Text(text = name ?: "", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(16.dp))
+                FlowRow(
+                    mainAxisSize = SizeMode.Expand
+                ) {
+                    data.forEach { item ->
+
+                        GridItem(url = item.item?.pricing?.getCleanIcon(), text = item.text, onClick = {
+                            item.item?.pricing?.id?.let { id -> context.openFleaDetail(id) }
+                        }, modifier = Modifier.size(screenWidth / 8))
+                    }
                 }
+                /*LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
+                    items(items = data) { item ->
+                        GridItem(url = item.item?.pricing?.getCleanIcon(), text = item.text, onClick = {
+                            item.item?.pricing?.id?.let { id -> context.openFleaDetail(id) }
+                        })
+                    }
+                }*/
             }
         }
     }
 }
 
 data class GridItemData(
-    val pricing: Pricing?,
+    val item: Item?,
     val text: String?,
     val color: Color? = null
 )
