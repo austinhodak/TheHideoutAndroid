@@ -27,18 +27,24 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import coil.compose.rememberImagePainter
+import coil.size.OriginalSize
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -46,6 +52,8 @@ class StaticMapsActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             var selectedMap by remember {
@@ -63,102 +71,133 @@ class StaticMapsActivity : AppCompatActivity() {
             }
 
             HideoutTheme {
-                Scaffold(
-                    topBar = {
-                        AnimatedVisibility(visible = !isFullScreen, enter = slideInVertically {
-                            -it/2
-                        }, exit = slideOutVertically {
-                            -it
-                        }) {
-                            Column {
-                                TopAppBar(
-                                    title = { Text(selectedMap?.map ?: "") },
-                                    navigationIcon = {
-                                        IconButton(onClick = {
-                                            finish()
-                                        }) {
-                                            Icon(Icons.Filled.ArrowBack, contentDescription = null)
-                                        }
-                                    },
-                                    backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
-                                    elevation = 5.dp,
-                                    actions = {
+                ProvideWindowInsets {
+                    val systemUiController = rememberSystemUiController()
 
-                                    }
-                                )
-                                AnimatedVisibility(visible = selectedMap?.images?.size ?: 1 > 1) {
-                                    val pagerState = rememberPagerState(pageCount = selectedMap?.images?.size ?: 1)
-                                    Tabs(
-                                        pagerState = pagerState,
-                                        scope = scope,
-                                        items = selectedMap?.images?.map { it.name } ?: emptyList()
-                                    ) {
-                                        selectedMapImage = selectedMap?.images?.get(it)
+                    if (!isFullScreen) {
+                        systemUiController.setStatusBarColor(
+                            Color(0xFE1F1F1F),
+                            darkIcons = false
+                        )
+                        systemUiController.setNavigationBarColor(
+                            DarkPrimary,
+                        )
+                    } else {
+                        systemUiController.setStatusBarColor(
+                            Color.Transparent,
+                            darkIcons = false
+                        )
+                        systemUiController.setNavigationBarColor(
+                            Color.Transparent,
+                        )
+                    }
+
+                    Scaffold(
+                        topBar = {
+                            val density = LocalDensity.current
+                            AnimatedVisibility(visible = !isFullScreen, enter = slideInVertically {
+                                -it / 2
+                            }, exit = slideOutVertically {
+                                -it
+                            }) {
+                                Column(
+                                    modifier = Modifier.statusBarsPadding()
+                                ) {
+                                    TopAppBar(
+                                        title = { Text(selectedMap?.map ?: "") },
+                                        navigationIcon = {
+                                            IconButton(onClick = {
+                                                finish()
+                                            }) {
+                                                Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                                            }
+                                        },
+                                        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+                                        elevation = 5.dp,
+                                        actions = {
+
+                                        }
+                                    )
+                                    AnimatedVisibility(visible = selectedMap?.images?.size ?: 1 > 1) {
+                                        val pagerState = rememberPagerState(pageCount = selectedMap?.images?.size ?: 1)
+                                        Tabs(
+                                            pagerState = pagerState,
+                                            scope = scope,
+                                            items = selectedMap?.images?.map { it.name } ?: emptyList()
+                                        ) {
+                                            selectedMapImage = selectedMap?.images?.get(it)
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                ) { paddingValues ->
-                    Box(Modifier.fillMaxSize()) {
-                        selectedMapImage?.let {
-                            ZoomableImage(
-                                painter = rememberImagePainter(it.image, builder = {
-                                    crossfade(true)
-                                    //size(OriginalSize)
-                                }),
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                minScale = 10f
-                            )
-                        }
-                        Column(
-                            Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(horizontal = 16.dp, vertical = 8.dp)
-                        ) {
-                            FloatingActionButton(
-                                onClick = {
-                                    MaterialDialog(this@StaticMapsActivity).show {
-                                        title(text = "Choose Map")
-                                        listItemsSingleChoice(
-                                            items = maps.map { it.map },
-                                            initialSelection = maps.indexOf(selectedMap)
-                                        ) { _, _, text ->
-                                            selectedMap = maps.find { it.map == text.toString() }
-                                            selectedMapImage = maps.find { it.map.equals(text.toString(), true) }?.images?.first()
-                                        }
-                                    }
-                                },
-                                backgroundColor = DarkPrimary,
-                                modifier = Modifier
-                                    .padding(vertical = 8.dp)
-                                    .size(40.dp),
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_baseline_map_24),
-                                    contentDescription = "Choose Map",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(24.dp)
+                    ) { paddingValues ->
+                        Box(Modifier.fillMaxSize()) {
+                            selectedMapImage?.let {
+                                ZoomableImage(
+                                    painter = rememberImagePainter(it.image, builder = {
+                                        crossfade(true)
+                                        //size(OriginalSize)
+                                    }),
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    minScale = 10f
                                 )
                             }
-                            FloatingActionButton(
-                                onClick = {
-                                    isFullScreen = !isFullScreen
-                                },
-                                backgroundColor = DarkPrimary,
-                                modifier = Modifier
-                                    .padding(vertical = 8.dp)
-                                    .size(40.dp),
+                            Column(
+                                if (isFullScreen)
+                                    Modifier
+                                        .align(Alignment.TopEnd)
+                                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                                        .statusBarsPadding()
+                                else
+                                    Modifier
+                                        .align(Alignment.TopEnd)
+                                        .padding(horizontal = 16.dp, vertical = 8.dp)
                             ) {
-                                Icon(
-                                    painter = if (isFullScreen) rememberImagePainter(
-                                        R.drawable.ic_baseline_fullscreen_exit_24,
-                                        builder = { crossfade(true) }) else rememberImagePainter(R.drawable.ic_baseline_fullscreen_24, builder = { crossfade(true) }),
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier.size(24.dp)
-                                )
+                                FloatingActionButton(
+                                    onClick = {
+                                        MaterialDialog(this@StaticMapsActivity).show {
+                                            title(text = "Choose Map")
+                                            listItemsSingleChoice(
+                                                items = maps.map { it.map },
+                                                initialSelection = maps.indexOf(selectedMap)
+                                            ) { _, _, text ->
+                                                selectedMap = maps.find { it.map == text.toString() }
+                                                selectedMapImage = maps.find { it.map.equals(text.toString(), true) }?.images?.first()
+                                            }
+                                        }
+                                    },
+                                    backgroundColor = DarkPrimary,
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp)
+                                        .size(40.dp),
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_baseline_map_24),
+                                        contentDescription = "Choose Map",
+                                        tint = Color.White,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                }
+                                FloatingActionButton(
+                                    onClick = {
+                                        isFullScreen = !isFullScreen
+                                    },
+                                    backgroundColor = DarkPrimary,
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp)
+                                        .size(40.dp),
+                                ) {
+                                    Icon(
+                                        painter = if (isFullScreen) rememberImagePainter(
+                                            R.drawable.ic_baseline_fullscreen_exit_24,
+                                            builder = { crossfade(true) }) else rememberImagePainter(R.drawable.ic_baseline_fullscreen_24, builder = { crossfade(true) }),
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                }
                             }
                         }
                     }
