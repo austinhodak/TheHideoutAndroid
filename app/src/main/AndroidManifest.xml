@@ -15,13 +15,7 @@
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
             android:name=".PremiumThanksActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true"/>
         <activity
             android:name=".map.CustomMapMarkerAddActivity"
             android:exported="false" />

@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
+import com.adapty.Adapty
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.*
 import com.austinhodak.thehideout.*
@@ -979,6 +980,18 @@ class SettingsActivity : GodActivity() {
                                         icon = R.drawable.ic_icons8_icons8.asIcon()
                                         onClick = {
                                             "https://icons8.com/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Restore Purchases".asText()
+                                        icon = R.drawable.ic_baseline_settings_backup_restore_24.asIcon()
+                                        onClick = {
+                                            Adapty.restorePurchases { purchaserInfo, googleValidationResultList, error ->
+                                                if (error == null) {
+                                                    // successful restore
+                                                    Toast.makeText(this@SettingsActivity, "Purchases restored.", Toast.LENGTH_SHORT).show()
+                                                }
+                                            }
                                         }
                                     }
                                 }

@@ -147,12 +147,6 @@ class Application : android.app.Application(), Configuration.Provider {
 
         Adapty.activate(applicationContext, "public_live_SqlSm08V.OIqFvCDBsqP81tCyaNEU", customerUserId = uid())
 
-        Adapty.restorePurchases { purchaserInfo, googleValidationResultList, error ->
-            if (error == null) {
-                // successful restore
-            }
-        }
-
         UserSettingsModel.dataSyncFrequency.observe(MainScope()) {
             val workManager = WorkManager.getInstance(this)
             val oldFrequency = UserSettingsModel.dataSyncFrequencyPrevious.value
@@ -174,12 +168,6 @@ class Application : android.app.Application(), Configuration.Provider {
                 MainScope().launch {
                     UserSettingsModel.dataSyncFrequencyPrevious.update(it)
                 }
-            }
-        }
-
-        Firebase.auth.addAuthStateListener {
-            if (it.currentUser != null) {
-
             }
         }
 
