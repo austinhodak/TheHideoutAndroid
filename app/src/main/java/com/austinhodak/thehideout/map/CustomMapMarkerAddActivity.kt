@@ -44,7 +44,9 @@ import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
 import com.google.accompanist.imageloading.rememberDrawablePainter
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.ktx.Firebase
 import timber.log.Timber
 import java.lang.reflect.Field
 
@@ -93,6 +95,9 @@ class CustomMapMarkerAddActivity : AppCompatActivity() {
                                         userFirestore?.collection("markers")?.document(customMarker.id!!)?.delete()?.addOnSuccessListener {
                                             Toast.makeText(this@CustomMapMarkerAddActivity, "Marker deleted.", Toast.LENGTH_SHORT).show()
                                             finish()
+                                        }?.addOnFailureListener {
+                                            Toast.makeText(this@CustomMapMarkerAddActivity, "Error deleting marker. Please try again.", Toast.LENGTH_SHORT).show()
+                                            Firebase.crashlytics.recordException(it)
                                         }
                                     }) {
                                         Icon(painter = painterResource(id = R.drawable.ic_baseline_delete_24), contentDescription = null, tint = White)
