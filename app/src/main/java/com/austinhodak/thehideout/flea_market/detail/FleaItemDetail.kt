@@ -8,7 +8,7 @@ import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -246,7 +246,25 @@ class FleaItemDetail : GodActivity() {
                         }
                     ) { innerPadding ->
                         Box(modifier = Modifier.padding(innerPadding)) {
-                            Crossfade(targetState = selectedNavItem) {
+                            Crossfade(
+                                targetState = selectedNavItem,
+                                /*transitionSpec = {
+                                    if (targetState > initialState) {
+                                        slideInVertically() {
+                                            it
+                                        } with slideOutVertically() {
+                                            -it
+                                        }
+                                    } else {
+                                        slideInVertically() {
+                                           -it
+                                        } with slideOutVertically() {
+                                            it
+                                        }
+                                    }
+                                },*/
+                                modifier = Modifier.fillMaxHeight()
+                            ) {
                                 when (it) {
                                     0 -> {
                                         LazyColumn(

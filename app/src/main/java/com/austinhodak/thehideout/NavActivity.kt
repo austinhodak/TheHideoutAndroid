@@ -9,19 +9,27 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
+import com.airbnb.lottie.LottieComposition
+import com.airbnb.lottie.compose.*
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
@@ -138,8 +146,6 @@ class NavActivity : GodActivity() {
     private var doubleBackToExitPressedOnce = false
 
     override fun onBackPressed() {
-        //super.onBackPressed()
-        Timber.d(navViewModel.isSearchOpen.value.toString())
         when {
             navViewModel.isDrawerOpen.value == true -> {
                 navViewModel.setDrawerOpen(false)
@@ -218,27 +224,12 @@ class NavActivity : GodActivity() {
                 }
             }
 
-
-
-            /*fsUser.observe(lifeCycleOwner) {
-                Timber.d(it.toString())
-            }*/
-
-            //val navBackStackEntry by navController.currentBackStackEntryAsState()
-
             HideoutTheme {
                 systemUiController.setSystemBarsColor(
                     color = MaterialTheme.colors.primary,
                 )
 
-                /*when (val currentRoute = navBackStackEntry?.destination?.route) {
-                    // do something with currentRoute
-                }*/
 
-                /*val navBackStackEntry by navController.currentBackStackEntryAsState()
-                navBackStackEntry?.destination?.route?.let {
-                    //navViewModel.updateCurrentNavRoute(it)
-                }*/
 
                 Scaffold(
                     scaffoldState = scaffoldState,
@@ -249,15 +240,11 @@ class NavActivity : GodActivity() {
                     },
                     drawerScrimColor = Color(0xFF121212)
                 ) {
+
+
                     NavHost(
                         navController = navController,
-                        startDestination = tag,
-                        /*enterTransition = { _, _ ->
-                            fadeIn(animationSpec = tween(0))
-                        },
-                        exitTransition = { _, _ ->
-                            fadeOut(animationSpec = tween(0))
-                        }*/
+                        startDestination = tag
                     ) {
                         composable("ammunition/{caliber}") {
                             AmmunitionListScreen(
@@ -399,17 +386,13 @@ class NavActivity : GodActivity() {
                                     .setGithubButtonId(R.id.login_github)
                                     .setFacebookButtonId(R.id.login_facebook)
                                     .build()
-                                //openActivity(LoginActivity::class.java)
+
                                 val providers = arrayListOf(
                                     AuthUI.IdpConfig.EmailBuilder().build(),
                                     AuthUI.IdpConfig.PhoneBuilder().build(),
                                     AuthUI.IdpConfig.GoogleBuilder().build(),
                                     AuthUI.IdpConfig.GitHubBuilder().build(),
-                                    AuthUI.IdpConfig.FacebookBuilder().build(),
-                                    //AuthUI.IdpConfig.FacebookBuilder().build(),
-                                    //AuthUI.IdpConfig.TwitterBuilder().build(),
-                                    //AuthUI.IdpConfig.MicrosoftBuilder().build(),
-                                    //AuthUI.IdpConfig.GitHubBuilder().build(),
+                                    AuthUI.IdpConfig.FacebookBuilder().build()
                                 )
                                 val signInIntent = AuthUI.getInstance()
                                     .createSignInIntentBuilder()
@@ -419,13 +402,11 @@ class NavActivity : GodActivity() {
                                     .setTheme(R.style.LoginTheme2)
                                     .setLogo(R.drawable.hideout_shadow_1)
                                     .setIsSmartLockEnabled(false)
-                                    //.setAlwaysShowSignInMethodScreen(true)
                                     .build()
                                 signInLauncher.launch(signInIntent)
                             }
                             else -> {
                                 navController.navigate(route) {
-                                    //launchSingleTop = true
                                     restoreState = true
                                     navController.popBackStack()
                                 }
@@ -454,12 +435,12 @@ class NavActivity : GodActivity() {
                             }
                         }
                     }
-
-                    //navViewModel.updateCurrentNavRoute(navBackStackEntry?.destination?.route.toString())
                 }
             }
         }
     }
+
+
 
     private fun setupDynamicLinks() {
         Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
@@ -496,7 +477,7 @@ class NavActivity : GodActivity() {
     }
 
     private val armorPickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val intent = result.data
             intent?.getSerializableExtra("item")?.let {
                 if (it is Item) {
