@@ -93,7 +93,7 @@ class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
                 hashMapOf(
                     "progress" to hashMapOf(
                         "hideoutObjectives" to hashMapOf(
-                            objective?.id?.toShort() to FieldValue.delete()
+                            objective?.id?.toString() to FieldValue.delete()
                         )
                     )
                 ),
