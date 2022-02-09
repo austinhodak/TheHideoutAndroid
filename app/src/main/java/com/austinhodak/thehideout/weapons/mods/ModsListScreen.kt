@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -16,8 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -66,7 +70,7 @@ fun ModsListScreen(
 
     val context = LocalContext.current
 
-    val selectedCategory = remember { mutableStateOf(Triple("bipod", 1001, "Bipod")) }
+    var selectedCategory by remember { mutableStateOf(Triple("bipod", 1001, "Bipod")) }
     //val data = tarkovRepo.getItemsByType(ItemTypes.MOD).collectAsState(initial = emptyList())
     val data by navViewModel.allItems.observeAsState(null)
 
@@ -88,15 +92,45 @@ fun ModsListScreen(
                     }
                 )
             } else {
-                MainToolbar(
-                    title = "Mods",
-                    navViewModel = navViewModel,
-                    elevation = 0.dp,
+                TopAppBar(
+                    title = {
+                        Column {
+                            Text(
+                                text = "Mods",
+                                color = MaterialTheme.colors.onPrimary,
+                                style = MaterialTheme.typography.h6,
+                                maxLines = 1,
+                                fontSize = 18.sp,
+                                overflow = TextOverflow.Ellipsis
+                            )
+
+                            Text(
+                                text = selectedCategory.third,
+                                color = MaterialTheme.colors.onPrimary,
+                                style = MaterialTheme.typography.caption,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            navViewModel.isDrawerOpen.value = true
+                        }) {
+                            Icon(Icons.Filled.Menu, contentDescription = null)
+                        }
+                    },
                     actions = {
                         IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
-                            Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
+                            Icon(
+                                Icons.Filled.Search,
+                                contentDescription = "Search",
+                                tint = Color.White
+                            )
                         }
-                    }
+                    },
+                    backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+                    elevation = 0.dp
                 )
             }
         }, backLayerContent = {
@@ -189,6 +223,33 @@ fun ModsListScreen(
                     R.drawable.ic_blank
                 }
 
+                val items = listOf(
+                    bipods,
+                    foregrips,
+                    flashlights,
+                    tac,
+                    aux,
+                    muzzle_adapters,
+                    muzzle_brakes,
+                    muzzle_flash,
+                    muzzle_suppressor,
+                    gear_handles,
+                    gear_mags,
+                    gear_mounts,
+                    gear_stocks,
+                    sights_assault,
+                    sights_reflex,
+                    sights_compact,
+                    sights_iron,
+                    sights_scopes,
+                    sights_special,
+                    vital_barrels,
+                    vital_gas,
+                    vital_grips,
+                    vital_handguards,
+                    vital_receivers
+                )
+
                 drawer.apply {
                     itemAdapter.add(
                         ExpandableDrawerItem().apply {
@@ -269,7 +330,8 @@ fun ModsListScreen(
                 drawer.onDrawerItemClickListener = { _, item, _ ->
                     if (item.isSelectable) {
 
-                        selectedCategory.value = Triple(item.tag.toString(), item.identifier.toInt(), "")
+
+                        selectedCategory = Triple(item.tag.toString(), item.identifier.toInt(), items.find { it.identifier == item.identifier }?.name?.textString?.toString() ?: "")
                         scope.launch {
                             scaffoldState.conceal()
                         }
@@ -278,7 +340,7 @@ fun ModsListScreen(
                 }
                 drawer
             }, update = {
-                it.setSelection(selectedCategory.value.second.toLong(), false)
+                it.setSelection(selectedCategory.second.toLong(), false)
             })
         }, frontLayerContent = {
             if (isSearchOpen) {
@@ -326,7 +388,7 @@ fun ModsListScreen(
                     }
                 ) {
                     val items = when {
-                        else -> data?.filter { it.pricing != null && it.parent == selectedCategory.value.first.modParent() }
+                        else -> data?.filter { it.pricing != null && it.parent == selectedCategory.first.modParent() }
                             ?.sortedBy { it.ShortName }
                     }
                     if (data.isNullOrEmpty()) {
