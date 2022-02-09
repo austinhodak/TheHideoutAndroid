@@ -81,7 +81,7 @@ fun Quest.QuestObjective.increment() {
 
 fun Quest.QuestObjective.decrement() {
     userFirestore?.update(
-        "progress.questObjectives.${this.id}.progress", FieldValue.increment(-11)
+        "progress.questObjectives.${this.id}.progress", FieldValue.increment(-1)
     )
 }
 
