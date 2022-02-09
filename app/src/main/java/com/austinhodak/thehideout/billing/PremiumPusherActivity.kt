@@ -126,7 +126,7 @@ class PremiumPusherActivity : ComponentActivity() {
                         }
                     })*/
 
-                    Adapty.getPaywalls(true) { paywalls, products, error ->
+                    Adapty.getPaywalls { paywalls, products, error ->
                         if (error == null) {
                             paywalls?.find { it.developerId == "premium" }?.let {
                                 paywall = it
