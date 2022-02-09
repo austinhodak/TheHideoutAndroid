@@ -80,6 +80,7 @@ fun ModsListScreen(
     BackdropScaffold(
         scaffoldState = scaffoldState,
         gesturesEnabled = !isSearchOpen,
+        headerHeight = 128.dp,
         appBar = {
             if (isSearchOpen) {
                 SearchToolbar(
@@ -341,7 +342,7 @@ fun ModsListScreen(
                 drawer
             }, update = {
                 it.setSelection(selectedCategory.second.toLong(), false)
-            })
+            }, modifier = Modifier.wrapContentHeight())
         }, frontLayerContent = {
             if (isSearchOpen) {
                 val items = data?.filter { it.pricing != null }?.filter {
