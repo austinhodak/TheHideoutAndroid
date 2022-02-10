@@ -90,8 +90,8 @@ fun ProvisionListScreen(
                         || it.Name?.contains(searchKey, ignoreCase = true) == true
                         || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
             }.sortedBy { it.Name }.let {
-                items(items = it) { key ->
-                    ProvisionCard(item = key)
+                items(items = it, key = { it.id }) { key ->
+                    ProvisionCard(item = key, Modifier.animateItemPlacement())
                 }
             }
         }
@@ -104,11 +104,12 @@ fun ProvisionListScreen(
 @ExperimentalCoilApi
 @Composable
 fun ProvisionCard(
-    item: Item
+    item: Item,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),

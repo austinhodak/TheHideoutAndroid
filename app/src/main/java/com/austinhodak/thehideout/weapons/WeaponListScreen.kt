@@ -87,8 +87,8 @@ fun WeaponListScreen(
                 LazyColumn(
                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                 ) {
-                    items(items = data.sortedBy { it.ShortName }) { weapon ->
-                        WeaponCard(weapon) {
+                    items(items = data.sortedBy { it.ShortName }, key = { it.id }) { weapon ->
+                        WeaponCard(weapon, Modifier.animateItemPlacement()) {
                             weaponClicked(it)
                         }
                     }
@@ -126,8 +126,8 @@ fun WeaponSearchBody(
         Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        items(items = items) { weapon ->
-            WeaponCard(weapon = weapon) {
+        items(items = items, key = { it.id }) { weapon ->
+            WeaponCard(weapon = weapon, Modifier.animateItemPlacement()) {
                 weaponClicked(it)
             }
         }
@@ -138,12 +138,13 @@ fun WeaponSearchBody(
 @Composable
 fun WeaponCard(
     weapon: Weapon,
+    modifier: Modifier = Modifier,
     weaponClicked: (weaponID: String) -> Unit
 ) {
     val context = LocalContext.current
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
             .padding(vertical = 4.dp),

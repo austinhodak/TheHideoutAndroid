@@ -363,8 +363,8 @@ fun ModsListScreen(
                             .fillMaxSize(),
                         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
                     ) {
-                        items(items = items) { item ->
-                            ModsBasicCard(item = item) {
+                        items(items = items, key = { it.id }) { item ->
+                            ModsBasicCard(item = item, Modifier.animateItemPlacement()) {
                                 context.openModDetail(item.id)
                             }
                         }
@@ -410,8 +410,8 @@ fun ModsListScreen(
                                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                                 modifier = Modifier.fillMaxHeight()
                             ) {
-                                items(items = items ?: emptyList()) { item ->
-                                    ModsBasicCard(item = item) {
+                                items(items = items ?: emptyList(), key = { it.id }) { item ->
+                                    ModsBasicCard(item = item, Modifier.animateItemPlacement()) {
                                         context.openModDetail(it.id)
                                     }
                                 }
@@ -429,10 +429,11 @@ fun ModsListScreen(
 @Composable
 fun ModsBasicCard(
     item: Item,
+    modifier: Modifier = Modifier,
     clicked: (item: Item) -> Unit = {}
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),

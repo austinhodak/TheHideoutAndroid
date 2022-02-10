@@ -1,10 +1,6 @@
 package com.austinhodak.thehideout.gear
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -26,13 +22,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
@@ -43,6 +37,7 @@ import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.gear.viewmodels.GearViewModel
+import com.austinhodak.thehideout.utils.fadeImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -201,12 +196,12 @@ fun GearListScreen(
                     contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                     modifier = Modifier.fillMaxHeight()
                 ) {
-                    items(items = items) { item ->
+                    items(items = items, key = { it.id }) { item ->
                         when {
-                            type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item)
-                            type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item)
-                            type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item)
-                            else -> GearCard(item = item) {
+                            type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item, Modifier.animateItemPlacement())
+                            type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item, Modifier.animateItemPlacement())
+                            type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item, Modifier.animateItemPlacement())
+                            else -> GearCard(item = item, Modifier.animateItemPlacement()) {
                                 context.openActivity(GearDetailActivity::class.java) {
                                     putString("id", item.pricing?.id)
                                 }
@@ -240,12 +235,12 @@ fun GearListScreen(
                     }
                 }
 
-                items(items = items) { item ->
+                items(items = items, key = { it.id }) { item ->
                     when (type) {
-                        ItemTypes.BACKPACK -> BackpackCard(item = item)
+                        ItemTypes.BACKPACK -> BackpackCard(item = item, Modifier.animateItemPlacement())
                         ItemTypes.FACECOVER,
-                        ItemTypes.HEADSET -> HeadsetCard(item = item)
-                        else -> GearCard(item = item) {
+                        ItemTypes.HEADSET -> HeadsetCard(item = item, Modifier.animateItemPlacement())
+                        else -> GearCard(item = item, Modifier.animateItemPlacement()) {
                             context.openActivity(GearDetailActivity::class.java) {
                                 putString("id", item.pricing?.id)
                             }
@@ -262,10 +257,11 @@ fun GearListScreen(
 @Composable
 fun GearCard(
     item: Item,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),
@@ -283,7 +279,7 @@ fun GearCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)
@@ -352,10 +348,11 @@ fun GearCard(
 @Composable
 fun ItemCard(
     item: Item,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),
@@ -373,7 +370,7 @@ fun ItemCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)
@@ -408,11 +405,12 @@ fun ItemCard(
 @ExperimentalMaterialApi
 @Composable
 private fun BackpackCard(
-    item: Item
+    item: Item,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),
@@ -440,7 +438,7 @@ private fun BackpackCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)
@@ -504,11 +502,12 @@ private fun BackpackCard(
 @ExperimentalMaterialApi
 @Composable
 private fun HeadsetCard(
-    item: Item
+    item: Item,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),
@@ -530,7 +529,7 @@ private fun HeadsetCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)

@@ -40,6 +40,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CraftsPage(crafts: List<Craft>, navViewModel: NavViewModel, pagerState: PagerState, modules: List<Hideout.Module?>?, station: Hideout.Station?, noCrafts: (Boolean) -> Unit) {
     val searchKey by navViewModel.searchKey.observeAsState("")
@@ -67,15 +68,15 @@ fun CraftsPage(crafts: List<Craft>, navViewModel: NavViewModel, pagerState: Page
         contentPadding = PaddingValues(top = 4.dp, bottom = 64.dp)
     ) {
 
-        items(list) {
-            CraftItem(craft = it)
+        items(list, key = { it.id.toString() }) {
+            CraftItem(craft = it, Modifier.animateItemPlacement())
         }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CraftItem(craft: Craft) {
+fun CraftItem(craft: Craft, modifier: Modifier = Modifier) {
     val rewardItem = craft.rewardItems?.firstOrNull()?.item
     val reward = craft.rewardItems?.firstOrNull()
     val requiredItems = craft.requiredItems

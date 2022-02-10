@@ -767,8 +767,8 @@ private fun HideoutCraftsPage(
             } else {
                 true
             }
-        }) { craft ->
-            CraftItem(craft, userData)
+        }, key = { it.id.toString() }) { craft ->
+            CraftItem(craft, userData, Modifier.animateItemPlacement())
         }
     }
 }
@@ -778,7 +778,7 @@ private fun HideoutCraftsPage(
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun CraftItem(craft: Craft, userData: FSUser?) {
+fun CraftItem(craft: Craft, userData: FSUser?, modifier: Modifier = Modifier) {
     val rewardItem = craft.rewardItems?.firstOrNull()?.item
     val reward = craft.rewardItems?.firstOrNull()
     val requiredItems = craft.requiredItems
@@ -792,7 +792,7 @@ fun CraftItem(craft: Craft, userData: FSUser?) {
 
     CompositionLocalProvider(LocalContentAlpha provides alpha) {
         Card(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             backgroundColor = Color(0xFE1F1F1F),
             onClick = {
                 context.openActivity(CraftDetailActivity::class.java) {

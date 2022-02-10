@@ -36,6 +36,7 @@ fun FleaItem(
     item: Item,
     priceDisplay: FleaVisiblePrice,
     iconDisplay: IconSelection,
+    modifier: Modifier = Modifier,
     onClick: (String) -> Unit
 ) {
 
@@ -67,7 +68,7 @@ fun FleaItem(
     }
 
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).combinedClickable(
+        modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp).combinedClickable(
             onClick = {
                 onClick(item.id)
             },

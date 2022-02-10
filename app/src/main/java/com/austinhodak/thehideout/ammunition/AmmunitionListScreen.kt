@@ -34,6 +34,7 @@ import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.utils.AmmoCalibers
+import com.austinhodak.thehideout.utils.fadeImagePainter
 import com.austinhodak.thehideout.utils.getCaliberName
 import com.austinhodak.thehideout.utils.openActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -198,10 +199,10 @@ fun AmmunitionListScreen(
                             5 -> items.sortedByDescending { it.getArmorValues() }
                             else -> items.sortedBy { it.shortName }
                         }
-                        items(items = items) { ammo ->
+                        items(items = items, key = { it.id }) { ammo ->
                             AmmoCard(
                                 ammo,
-                                Modifier.padding(vertical = 4.dp)
+                                Modifier.padding(vertical = 4.dp).animateItemPlacement()
                             ) {
                                 context.openActivity(AmmoDetailActivity::class.java) {
                                     putString("ammoID", ammo.id)
@@ -241,10 +242,10 @@ fun AmmoSearchBody(
         Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        items(items = items) { ammo ->
+        items(items = items, key = { it.id }) { ammo ->
             AmmoCard(
                 ammo,
-                Modifier.padding(vertical = 4.dp)
+                Modifier.padding(vertical = 4.dp).animateItemPlacement()
             ) {
                 context.openActivity(AmmoDetailActivity::class.java) {
                     putString("ammoID", ammo.id)
@@ -309,7 +310,7 @@ fun AmmoCard(
                     ArmorBox(ammo.getColor(6), Modifier.weight(1f))
                 }
                 Image(
-                    rememberImagePainter(ammo.pricing?.getIcon()),
+                    fadeImagePainter(ammo.pricing?.getIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)

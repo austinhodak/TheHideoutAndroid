@@ -120,8 +120,8 @@ private fun MedList(
             .filter { it.pricing != null && it.pricing?.gridImageLink != null }
             .sortedBy { it.ShortName }
 
-        items(items = items) { item ->
-            MedCard(item = item)
+        items(items = items, key = { it.id }) { item ->
+            MedCard(item = item, Modifier.animateItemPlacement())
         }
     }
 }
@@ -132,11 +132,12 @@ private fun MedList(
 @ExperimentalMaterialApi
 @Composable
 private fun MedCard(
-    item: Item
+    item: Item,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),

@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -359,13 +360,11 @@ private fun QuestItemsScreen(
     if (itemList.isNullOrEmpty() || itemObjectives.isNullOrEmpty()) {
         LoadingItem()
     } else {
-        Timber.d("pre-LazyColumn")
         LazyColumn(
             contentPadding = PaddingValues(
                 top = 4.dp, bottom = padding.calculateBottomPadding() + 4.dp
             ),
         ) {
-            Timber.d("LazyColumn")
             itemObjectives.values.toList().forEach { items ->
                 val quest = itemObjectives.entries.find { it.value == items }?.key
                 quest?.let { quest ->
@@ -408,54 +407,11 @@ private fun QuestItemsScreen(
                                         quest, objective, item, userData
                                     )
                                 }
-                                //Timber.d("Pre-QuestItemsScreenItem")
                             }
-
                         }
                     }
                 }
             }
-            /*items(itemObjectives.values.toList()) { items ->
-            Timber.d("Pre-QuestLet")
-            val quest = itemObjectives.entries.find { it.value == items }?.key
-            quest?.let { quest ->
-                val data = when (selectedView) {
-                    QuestFilter.ALL -> items
-                    QuestFilter.AVAILABLE -> {
-                        if (quest.isAvailable(userData)) {
-                            items.filterNot { userData?.isObjectiveCompleted(it) == true }
-                        } else {
-                            null
-                        }
-                    }
-                    QuestFilter.LOCKED -> {
-                        if (quest.isLocked(userData)) {
-                            items.filterNot { userData?.isObjectiveCompleted(it) == true }
-                        } else {
-                            null
-                        }
-                    }
-                    QuestFilter.COMPLETED -> {
-                        items.filter {
-                            userData?.isObjectiveCompleted(it) == true
-                        }
-                    }
-                    else -> items
-                }?.forEach { objective ->
-                    itemList?.find { item ->
-                        item.id == objective.target?.first()
-                    }?.let { item ->
-                        if (quest.title?.contains(searchKey, true) == true || item.ShortName?.contains(searchKey, true) == true || item.Name?.contains(searchKey, true) == true) {
-                            QuestItemsScreenItem(
-                                quest, objective, item, userData
-                            )
-                            Timber.d("Pre-QuestItemsScreenItem")
-                        }
-
-                    }
-                }
-            }
-        }*/
         }
     }
 }
@@ -661,10 +617,8 @@ fun QuestSearchBody(
         Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 4.dp)
     ) {
-        items.forEach {
-            item {
-                QuestCard(it, userData, questViewModel, scope)
-            }
+        items(items = items, key = { it.id }) {
+            QuestCard(it, userData, questViewModel, scope, Modifier.animateItemPlacement())
         }
     }
 }
@@ -753,10 +707,8 @@ private fun QuestTradersScreen(
                     bottom = padding.calculateBottomPadding()
                 )
             ) {
-                data.forEach {
-                    item {
-                        QuestCard(it, userData, questViewModel, scope)
-                    }
+                items(items = data, key = { it.id }) {
+                    QuestCard(it, userData, questViewModel, scope, Modifier.animateItemPlacement())
                 }
             }
         }
@@ -773,11 +725,12 @@ private fun QuestCard(
     quest: Quest,
     userData: FSUser?,
     questViewModel: QuestMainViewModel,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .fillMaxWidth()
             .combinedClickable(onClick = {

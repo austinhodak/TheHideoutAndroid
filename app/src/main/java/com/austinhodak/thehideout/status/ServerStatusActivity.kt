@@ -208,12 +208,14 @@ class ServerStatusActivity : AppCompatActivity() {
                         )
                     }
                 }
-                Divider(color = DividerDark, modifier = Modifier.padding(vertical = 16.dp))
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        text = message.content ?: "",
-                        style = MaterialTheme.typography.body2
-                    )
+                if (!message.content.isNullOrEmpty()) {
+                    Divider(color = DividerDark, modifier = Modifier.padding(vertical = 16.dp))
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = message.content ?: "",
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
                 }
             }
         }

@@ -448,11 +448,12 @@ fun FleaMarketListScreen(
             contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
         ) {
             items(items = list ?: emptyList(), key = { item -> item.id }) { item ->
-                FleaItem(item = item, priceDisplay, iconDisplay) {
+                FleaItem(item = item, priceDisplay, iconDisplay, modifier = Modifier.animateItemPlacement()) {
                     context.openActivity(FleaItemDetail::class.java) {
                         putString("id", item.id)
                     }
                 }
+
             }
         }
     }

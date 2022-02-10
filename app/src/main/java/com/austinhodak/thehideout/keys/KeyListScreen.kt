@@ -138,12 +138,13 @@ fun KeyListScreen(
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
         ) {
-            items(items = data) { key ->
+            items(items = data, key = { it.id }) { key ->
                 KeyCard(
                     key,
                     userData,
                     scaffoldState,
-                    keysViewModel
+                    keysViewModel,
+                    Modifier.animateItemPlacement()
                 )
             }
         }
@@ -167,13 +168,14 @@ fun KeyCard(
     item: Item,
     userData: FSUser?,
     scaffoldState: ScaffoldState,
-    keysViewModel: KeysViewModel
+    keysViewModel: KeysViewModel,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
             .combinedClickable(

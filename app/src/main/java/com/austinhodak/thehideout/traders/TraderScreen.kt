@@ -267,8 +267,8 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                             bottom = paddingValues.calculateBottomPadding() + 4.dp
                         )
                     ) {
-                        items(items = itemList ?: emptyList()) { item ->
-                            TraderFleaItem(item = item, trader = trader) {
+                        items(items = itemList ?: emptyList(), key = { it.id }) { item ->
+                            TraderFleaItem(item = item, trader = trader, Modifier.animateItemPlacement()) {
                                 context.openActivity(FleaItemDetail::class.java) {
                                     putString("id", item.id)
                                 }
@@ -298,8 +298,8 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                         bottom = paddingValues.calculateBottomPadding() + 4.dp
                     )
                 ) {
-                    items(items = barterList) { barter ->
-                        BarterItem(barter)
+                    items(items = barterList, key = { it.id.toString() }) { barter ->
+                        BarterItem(barter, Modifier.animateItemPlacement())
                     }
                 }
             }
@@ -417,7 +417,8 @@ private fun LoyaltyLine(
 @ExperimentalMaterialApi
 @Composable
 private fun BarterItem(
-    barter: Barter
+    barter: Barter,
+    modifier: Modifier = Modifier
 ) {
     val rewardItem = barter.rewardItems?.firstOrNull()?.item
     val requiredItems = barter.requiredItems
@@ -425,7 +426,7 @@ private fun BarterItem(
     val context = LocalContext.current
 
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp),
         backgroundColor = Color(0xFE1F1F1F),
         onClick = {
             context.openActivity(BarterDetailActivity::class.java) {
@@ -676,6 +677,7 @@ private fun TraderBottomNav(
 fun TraderFleaItem(
     item: Item,
     trader: String?,
+    modifier: Modifier = Modifier,
     onClick: (String) -> Unit,
 ) {
     val context = LocalContext.current
@@ -694,7 +696,7 @@ fun TraderFleaItem(
     }
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .combinedClickable(
                 onClick = {
