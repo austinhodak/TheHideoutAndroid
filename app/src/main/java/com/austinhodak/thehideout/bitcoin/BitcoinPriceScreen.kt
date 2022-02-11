@@ -107,6 +107,7 @@ fun BitcoinPriceScreen(
                         chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
                         chart.axisLeft.textColor = context.resources.getColor(R.color.white)
                         chart.axisRight.isEnabled = false
+                        chart.setScaleEnabled(false)
 
                         chart.setDrawGridBackground(false)
                         //chart.xAxis.setDrawGridLines(false)

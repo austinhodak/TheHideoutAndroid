@@ -44,6 +44,7 @@ import com.austinhodak.thehideout.team.viewmodels.TeamManagementViewModel
 import com.austinhodak.thehideout.utils.questsFirebase
 import com.austinhodak.thehideout.utils.uid
 import com.austinhodak.thehideout.utils.userFirestore
+
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -335,7 +336,7 @@ class TeamManagementActivity : GodActivity() {
                                         )
                                     )
 
-                                    userFirestore?.update("teams.$key", true)
+                                    userFirestore()?.update("teams.$key", true)
 
                                     val childUpdates = hashMapOf(
                                         "users/${uid()!!}/teams/$key" to true,

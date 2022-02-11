@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.hideout
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -738,39 +739,44 @@ private fun HideoutCraftsPage(
     val filterAvailable by hideoutViewModel.filterAvailable.observeAsState()
     val userData by fsUser.observeAsState()
 
-    if (crafts.isEmpty()) {
-        LoadingItem()
-        return
-    }
-
-    LazyColumn(
-        contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
-    ) {
-        items(items = crafts.filter {
-            it.rewardItem()?.item?.name?.contains(searchKey, true) == true
-                    || it.rewardItem()?.item?.shortName?.contains(searchKey, true) == true
-        }.let { data ->
-            when (sort) {
-                0 -> data.sortedBy { it.rewardItems?.first()?.item?.name }
-                1 -> data.sortedBy { it.duration }
-                2 -> data.sortedBy { it.totalCost() }
-                3 -> data.sortedByDescending { it.totalCost() }
-                4 -> data.sortedBy { it.estimatedProfit() }
-                5 -> data.sortedByDescending { it.estimatedProfit() }
-                6 -> data.sortedBy { it.estimatedProfitPerHour() }
-                7 -> data.sortedByDescending { it.estimatedProfitPerHour() }
-                else -> data
-            }
-        }.filter {
-            if (filterAvailable == true) {
-                userData == null || userData!!.progress?.isHideoutModuleCompleted(it.getSourceID(hideoutList.hideout).toString()) == true
-            } else {
-                true
-            }
-        }, key = { it.id.toString() }) { craft ->
-            CraftItem(craft, userData, Modifier.animateItemPlacement())
+    val items = crafts.filter {
+        it.rewardItem()?.item?.name?.contains(searchKey, true) == true
+                || it.rewardItem()?.item?.shortName?.contains(searchKey, true) == true
+    }.let { data ->
+        when (sort) {
+            0 -> data.sortedBy { it.rewardItems?.first()?.item?.name }
+            1 -> data.sortedBy { it.duration }
+            2 -> data.sortedBy { it.totalCost() }
+            3 -> data.sortedByDescending { it.totalCost() }
+            4 -> data.sortedBy { it.estimatedProfit() }
+            5 -> data.sortedByDescending { it.estimatedProfit() }
+            6 -> data.sortedBy { it.estimatedProfitPerHour() }
+            7 -> data.sortedByDescending { it.estimatedProfitPerHour() }
+            else -> data
+        }
+    }.filter {
+        if (filterAvailable == true) {
+            userData == null || userData!!.progress?.isHideoutModuleCompleted(it.getSourceID(hideoutList.hideout).toString()) == true
+        } else {
+            true
         }
     }
+
+    AnimatedContent(targetState = items.isNullOrEmpty()) {
+        if (it) {
+            LoadingItem()
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
+            ) {
+                items(items = items, key = { it.id.toString() }) { craft ->
+                    CraftItem(craft, userData, Modifier.animateItemPlacement())
+                }
+            }
+        }
+    }
+
+
 }
 
 @ExperimentalCoilApi

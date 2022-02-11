@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.medical
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -92,11 +93,13 @@ fun MedicalListScreen (
             }
         }
     ) {
-        if (data.isNullOrEmpty()) {
-            LoadingItem()
-        } else {
-            HorizontalPager(state = pagerState) { page ->
-                MedList(data, page)
+        AnimatedContent(targetState = data.isNullOrEmpty()) {
+            if (it) {
+                LoadingItem()
+            } else {
+                HorizontalPager(state = pagerState) { page ->
+                    MedList(data, page)
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.weapons.mods
 
 import android.view.ViewGroup
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -37,15 +38,9 @@ import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoCard
 import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
-import com.austinhodak.thehideout.compose.components.EmptyText
-import com.austinhodak.thehideout.compose.components.MainToolbar
-import com.austinhodak.thehideout.compose.components.SearchToolbar
-import com.austinhodak.thehideout.compose.components.SmallBuyPrice
+import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
-import com.austinhodak.thehideout.utils.getColor
-import com.austinhodak.thehideout.utils.modParent
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.openModDetail
+import com.austinhodak.thehideout.utils.*
 import com.michaelflisar.materialpreferences.core.initialisation.SettingSetup.context
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
@@ -392,27 +387,21 @@ fun ModsListScreen(
                         else -> data?.filter { it.pricing != null && it.parent == selectedCategory.first.modParent() }
                             ?.sortedBy { it.ShortName }
                     }
-                    if (data.isNullOrEmpty()) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 32.dp)
-                        ) {
-                            CircularProgressIndicator(
-                                color = MaterialTheme.colors.secondary
-                            )
-                        }
-                    } else {
-                        Column {
-                            //Text(text = "Mod")
-                            LazyColumn(
-                                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                                modifier = Modifier.fillMaxHeight()
-                            ) {
-                                items(items = items ?: emptyList(), key = { it.id }) { item ->
-                                    ModsBasicCard(item = item, Modifier.animateItemPlacement()) {
-                                        context.openModDetail(it.id)
+
+                    AnimatedContent(targetState = data.isNullOrEmpty()) {
+                        if (it) {
+                            LoadingItem()
+                        } else {
+                            Column {
+                                //Text(text = "Mod")
+                                LazyColumn(
+                                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                                    modifier = Modifier.fillMaxHeight()
+                                ) {
+                                    items(items = items ?: emptyList(), key = { it.id }) { item ->
+                                        ModsBasicCard(item = item, Modifier.animateItemPlacement()) {
+                                            context.openModDetail(it.id)
+                                        }
                                     }
                                 }
                             }
@@ -454,7 +443,7 @@ fun ModsBasicCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainterPlaceholder(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)

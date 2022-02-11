@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.quests
 
 import android.content.Intent
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -85,7 +86,7 @@ fun QuestMainScreen(
 
     val isSearchOpen by questViewModel.isSearchOpen.observeAsState(false)
     val searchKey by questViewModel.searchKey.observeAsState("")
-    val userData by fsUser.observeAsState()
+    val userData by questViewModel.userData.observeAsState()
 
     HideoutTheme {
         BottomSheetScaffold(
@@ -273,55 +274,48 @@ fun QuestMainScreen(
                     return@Scaffold
                 }
 
-                if (quests.isNullOrEmpty()) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 32.dp)
-                    ) {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colors.secondary
-                        )
-                    }
-                } else {
-                    NavHost(
-                        navController = navController,
-                        startDestination = BottomNavigationScreens.Quests.route
-                    ) {
-                        composable(BottomNavigationScreens.Overview.route) {
-                            QuestOverviewScreen(
-                                questViewModel = questViewModel,
-                                tarkovRepo = tarkovRepo,
-                                quests
-                            )
-                        }
-                        composable(BottomNavigationScreens.Quests.route) {
-                            QuestTradersScreen(
-                                questViewModel = questViewModel,
-                                scope = scope,
-                                quests = quests,
-                                padding = padding,
-                                isMapTab = false
-                            )
-                        }
-                        composable(BottomNavigationScreens.Items.route) {
-                            QuestItemsScreen(
-                                questViewModel = questViewModel,
-                                scope = scope,
-                                quests = quests,
-                                padding = padding,
-                                tarkovRepo = tarkovRepo
-                            )
-                        }
-                        composable(BottomNavigationScreens.Maps.route) {
-                            QuestTradersScreen(
-                                questViewModel = questViewModel,
-                                scope = scope,
-                                quests = quests,
-                                padding = padding,
-                                isMapTab = true
-                            )
+                AnimatedContent(targetState = quests.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        NavHost(
+                            navController = navController,
+                            startDestination = BottomNavigationScreens.Quests.route
+                        ) {
+                            composable(BottomNavigationScreens.Overview.route) {
+                                QuestOverviewScreen(
+                                    questViewModel = questViewModel,
+                                    tarkovRepo = tarkovRepo,
+                                    quests
+                                )
+                            }
+                            composable(BottomNavigationScreens.Quests.route) {
+                                QuestTradersScreen(
+                                    questViewModel = questViewModel,
+                                    scope = scope,
+                                    quests = quests,
+                                    padding = padding,
+                                    isMapTab = false
+                                )
+                            }
+                            composable(BottomNavigationScreens.Items.route) {
+                                QuestItemsScreen(
+                                    questViewModel = questViewModel,
+                                    scope = scope,
+                                    quests = quests,
+                                    padding = padding,
+                                    tarkovRepo = tarkovRepo
+                                )
+                            }
+                            composable(BottomNavigationScreens.Maps.route) {
+                                QuestTradersScreen(
+                                    questViewModel = questViewModel,
+                                    scope = scope,
+                                    quests = quests,
+                                    padding = padding,
+                                    isMapTab = true
+                                )
+                            }
                         }
                     }
                 }
@@ -699,6 +693,8 @@ private fun QuestTradersScreen(
                 EmptyText(text = "No Quests.")
                 return@HorizontalPager
             }
+
+
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),

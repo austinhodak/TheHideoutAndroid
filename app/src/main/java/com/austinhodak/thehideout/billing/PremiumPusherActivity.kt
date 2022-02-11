@@ -291,6 +291,7 @@ class PremiumPusherActivity : ComponentActivity() {
                         }
                     }
                     item {
+
                         paywall?.products?.sortedBy { it.price }?.filterNot { it.skuDetails == null }?.forEach { product ->
                             Timber.d(product.toString())
                             Button(

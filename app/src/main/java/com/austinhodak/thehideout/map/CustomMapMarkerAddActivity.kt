@@ -40,6 +40,7 @@ import com.austinhodak.thehideout.currency.*
 import com.austinhodak.thehideout.map.models.CustomMarker
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.utils.userFirestore
+
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
@@ -92,7 +93,7 @@ class CustomMapMarkerAddActivity : AppCompatActivity() {
                             actions = {
                                 if (!customMarker.id.isNullOrEmpty()) {
                                     IconButton(onClick = {
-                                        userFirestore?.collection("markers")?.document(customMarker.id!!)?.delete()?.addOnSuccessListener {
+                                        userFirestore()?.collection("markers")?.document(customMarker.id!!)?.delete()?.addOnSuccessListener {
                                             Toast.makeText(this@CustomMapMarkerAddActivity, "Marker deleted.", Toast.LENGTH_SHORT).show()
                                             finish()
                                         }?.addOnFailureListener {
@@ -121,14 +122,14 @@ class CustomMapMarkerAddActivity : AppCompatActivity() {
                             //Add marker if all fields are filled.
                             if (customMarker.id.isNullOrEmpty()) {
                                 //New marker, not editing.
-                                userFirestore?.collection("markers")?.add(customMarker)?.addOnSuccessListener {
+                                userFirestore()?.collection("markers")?.add(customMarker)?.addOnSuccessListener {
                                     Toast.makeText(this, "Marker added!", Toast.LENGTH_SHORT).show()
                                     finish()
                                 }?.addOnFailureListener {
                                     Toast.makeText(this, "Error occurred, please try again later.", Toast.LENGTH_SHORT).show()
                                 }
                             } else {
-                                userFirestore?.collection("markers")?.document(customMarker.id!!)?.set(customMarker, SetOptions.merge())?.addOnSuccessListener {
+                                userFirestore()?.collection("markers")?.document(customMarker.id!!)?.set(customMarker, SetOptions.merge())?.addOnSuccessListener {
                                     Toast.makeText(this, "Marker updated!", Toast.LENGTH_SHORT).show()
                                     finish()
                                 }?.addOnFailureListener {

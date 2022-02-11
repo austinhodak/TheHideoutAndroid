@@ -1,10 +1,8 @@
 package com.austinhodak.thehideout.gear
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -30,9 +28,11 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
+import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
@@ -192,18 +192,24 @@ fun GearListScreen(
                     }
                 }
 
-                LazyColumn(
-                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                    modifier = Modifier.fillMaxHeight()
-                ) {
-                    items(items = items, key = { it.id }) { item ->
-                        when {
-                            type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item, Modifier.animateItemPlacement())
-                            type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item, Modifier.animateItemPlacement())
-                            type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item, Modifier.animateItemPlacement())
-                            else -> GearCard(item = item, Modifier.animateItemPlacement()) {
-                                context.openActivity(GearDetailActivity::class.java) {
-                                    putString("id", item.pricing?.id)
+                AnimatedContent(targetState = items.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        LazyColumn(
+                            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                            modifier = Modifier.fillMaxHeight()
+                        ) {
+                            items(items = items, key = { it.id }) { item ->
+                                when {
+                                    type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item, Modifier.animateItemPlacement())
+                                    type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item, Modifier.animateItemPlacement())
+                                    type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item, Modifier.animateItemPlacement())
+                                    else -> GearCard(item = item, Modifier.animateItemPlacement()) {
+                                        context.openActivity(GearDetailActivity::class.java) {
+                                            putString("id", item.pricing?.id)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -211,38 +217,46 @@ fun GearListScreen(
                 }
             }
         } else {
-            LazyColumn(
-                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                val items = when (type) {
-                    ItemTypes.HELMET -> data.value.filter { it.pricing != null && it.cArmorClass() > 0 }.sortedBy { it.ShortName }
-                    ItemTypes.FACECOVER -> data.value.filter { it.pricing != null && it.cArmorClass() == 0 }.sortedBy { it.ShortName }
-                    else -> data.value.filter { it.pricing != null }.sortedBy { it.armorClass }
-                }.filter {
-                    it.ShortName?.contains(searchKey, ignoreCase = true) == true
-                            || it.Name?.contains(searchKey, ignoreCase = true) == true
-                            || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
-                }.let { data ->
-                    when (sort) {
-                        0 -> data.sortedBy { it.ShortName }
-                        1 -> data.sortedBy { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
-                        2 -> data.sortedByDescending { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
-                        3 -> data.sortedByDescending { it.armorClass }
-                        4 -> data.sortedByDescending { it.Durability }
-                        5 -> data.sortedByDescending { it.getInternalSlots()?.toDouble()?.div(it.getTotalSlots().toDouble()) }
-                        else -> data.sortedBy { it.ShortName }
-                    }
+            val items = when (type) {
+                ItemTypes.HELMET -> data.value.filter { it.pricing != null && it.cArmorClass() > 0 }.sortedBy { it.ShortName }
+                ItemTypes.FACECOVER -> data.value.filter { it.pricing != null && it.cArmorClass() == 0 }.sortedBy { it.ShortName }
+                else -> data.value.filter { it.pricing != null }.sortedBy { it.armorClass }
+            }.filter {
+                it.ShortName?.contains(searchKey, ignoreCase = true) == true
+                        || it.Name?.contains(searchKey, ignoreCase = true) == true
+                        || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
+            }.let { data ->
+                when (sort) {
+                    0 -> data.sortedBy { it.ShortName }
+                    1 -> data.sortedBy { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
+                    2 -> data.sortedByDescending { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
+                    3 -> data.sortedByDescending { it.armorClass }
+                    4 -> data.sortedByDescending { it.Durability }
+                    5 -> data.sortedByDescending { it.getInternalSlots()?.toDouble()?.div(it.getTotalSlots().toDouble()) }
+                    else -> data.sortedBy { it.ShortName }
                 }
+            }
 
-                items(items = items, key = { it.id }) { item ->
-                    when (type) {
-                        ItemTypes.BACKPACK -> BackpackCard(item = item, Modifier.animateItemPlacement())
-                        ItemTypes.FACECOVER,
-                        ItemTypes.HEADSET -> HeadsetCard(item = item, Modifier.animateItemPlacement())
-                        else -> GearCard(item = item, Modifier.animateItemPlacement()) {
-                            context.openActivity(GearDetailActivity::class.java) {
-                                putString("id", item.pricing?.id)
+            AnimatedContent(targetState = items.isNullOrEmpty()) {
+                if (it) {
+                    LoadingItem()
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                        modifier = Modifier.fillMaxHeight()
+                    ) {
+
+
+                        items(items = items, key = { it.id }) { item ->
+                            when (type) {
+                                ItemTypes.BACKPACK -> BackpackCard(item = item, Modifier.animateItemPlacement())
+                                ItemTypes.FACECOVER,
+                                ItemTypes.HEADSET -> HeadsetCard(item = item, Modifier.animateItemPlacement())
+                                else -> GearCard(item = item, Modifier.animateItemPlacement()) {
+                                    context.openActivity(GearDetailActivity::class.java) {
+                                        putString("id", item.pricing?.id)
+                                    }
+                                }
                             }
                         }
                     }
@@ -284,6 +298,7 @@ fun GearCard(
                     modifier = Modifier
                         .width(40.dp)
                         .height(40.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier
@@ -375,6 +390,7 @@ fun ItemCard(
                     modifier = Modifier
                         .width(40.dp)
                         .height(40.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier
@@ -443,6 +459,7 @@ private fun BackpackCard(
                     modifier = Modifier
                         .width(38.dp)
                         .height(38.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier
@@ -534,6 +551,7 @@ private fun HeadsetCard(
                     modifier = Modifier
                         .width(40.dp)
                         .height(40.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier

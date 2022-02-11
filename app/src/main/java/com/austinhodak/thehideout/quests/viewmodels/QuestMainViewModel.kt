@@ -24,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -171,22 +172,19 @@ class QuestMainViewModel @Inject constructor(
             val objective = allObjectives.find { it.id == id } ?: return@forEach
 
             when {
-                objective.type == "kill" && objective.target?.contains("PMCs") == true -> pmc += obj.progress
-                    ?: 0
-                objective.type == "kill" && objective.target?.contains("Scavs") == true -> scav += obj.progress
-                    ?: 0
-                objective.type == "find" || objective.type == "collect" && objective.number!! < 500 -> items += obj.progress
-                    ?: 0
-                objective.type == "place" || objective.type == "mark" -> place += obj.progress ?: 0
-                objective.type == "pickup" -> pickup += obj.progress ?: 0
+                objective.type == "kill" && objective.target?.contains("PMCs") == true -> pmc += obj.progress ?: objective.number ?: 0
+                objective.type == "kill" && objective.target?.contains("Scavs") == true -> scav += obj.progress ?: objective.number ?: 0
+                objective.type == "find" || objective.type == "collect" && objective.number!! < 500 -> items += obj.progress ?: objective.number ?: 0
+                objective.type == "place" || objective.type == "mark" -> place += obj.progress ?: objective.number ?: 0
+                objective.type == "pickup" -> pickup += obj.progress ?: objective.number ?: 0
             }
 
             if (objective.type == "find" && objective.number!! < 500) {
-                fir += obj.progress ?: 0
+                fir += obj.progress ?: objective.number ?: 0
             }
 
             if (objective.type == "collect" && objective.number!! < 500) {
-                handover += obj.progress ?: 0
+                handover += obj.progress ?: objective.number ?: 0
             }
         }
 
@@ -212,9 +210,13 @@ class QuestMainViewModel @Inject constructor(
 
         _userData.addSource(fsUser) {
             it?.let { _userData.value = it }
+            viewModelScope.launch {
+                updateTotals()
+            }
+            Timber.d(it.toString())
         }
 
-        _userData.postValue(fsUser.value)
+        //_userData.value = fsUser.value
 
         var quests: List<Quest>? = null
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -274,29 +275,36 @@ class QuestInRaidActivity : GodActivity() {
         quests: List<Quest>,
         userData: FSUser?
     ) {
-        if (availableQuests?.isEmpty() == true) {
-            EmptyText(text = "No tasks for this map.")
-            return
-        } else if (availableQuests == null) {
-            LoadingItem()
-            return
-        }
-        LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = 64.dp)) {
-            availableQuests.forEach { entry ->
-                val type = entry.key
-                val objectives = entry.value
-                if (type == null) return@forEach
-                item {
-                    ObjectiveCategoryCard(
-                        type = valueOf(type.uppercase()),
-                        objectives,
-                        questExtra,
-                        quests,
-                        userData
-                    )
+        AnimatedContent(targetState = availableQuests) {
+            when {
+                it?.isEmpty() == true -> {
+                    EmptyText(text = "No tasks for this map.")
+                }
+                it == null -> {
+                    LoadingItem()
+                }
+                else -> {
+                    LazyColumn(contentPadding = PaddingValues(top = 4.dp, bottom = 64.dp)) {
+                        availableQuests?.forEach { entry ->
+                            val type = entry.key
+                            val objectives = entry.value
+                            if (type == null) return@forEach
+                            item {
+                                ObjectiveCategoryCard(
+                                    type = valueOf(type.uppercase()),
+                                    objectives,
+                                    questExtra,
+                                    quests,
+                                    userData
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
+
+
     }
 
     sealed class BottomNavigationScreens(

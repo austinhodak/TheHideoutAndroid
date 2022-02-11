@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.flea_market
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -22,8 +23,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -430,33 +433,36 @@ fun FleaMarketListScreen(
         } else true
     }
 
-    if (data.isNullOrEmpty()) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 32.dp)
-        ) {
-            CircularProgressIndicator(
-                color = MaterialTheme.colors.secondary
-            )
-        }
-    } else {
-        val context = LocalContext.current
-        LazyColumn(
-            modifier = Modifier,
-            contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
-        ) {
-            items(items = list ?: emptyList(), key = { item -> item.id }) { item ->
-                FleaItem(item = item, priceDisplay, iconDisplay, modifier = Modifier.animateItemPlacement()) {
-                    context.openActivity(FleaItemDetail::class.java) {
-                        putString("id", item.id)
+    AnimatedContent(targetState = data.isNullOrEmpty()) {
+        if (it) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 32.dp)
+            ) {
+                CircularProgressIndicator(
+                    color = MaterialTheme.colors.secondary
+                )
+            }
+        } else {
+            val context = LocalContext.current
+            LazyColumn(
+                modifier = Modifier,
+                contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
+            ) {
+                items(items = list ?: emptyList(), key = { item -> item.id }) { item ->
+                    FleaItem(item = item, priceDisplay, iconDisplay, modifier = Modifier.animateItemPlacement()) {
+                        context.openActivity(FleaItemDetail::class.java) {
+                            putString("id", item.id)
+                        }
                     }
-                }
 
+                }
             }
         }
     }
+
 }
 
 @Composable

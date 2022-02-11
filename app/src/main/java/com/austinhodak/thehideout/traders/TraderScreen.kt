@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.traders
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -247,30 +248,23 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                     it.Name
                 }
 
-                if (items.isNullOrEmpty()) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 32.dp)
-                    ) {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colors.secondary
-                        )
-                    }
-                } else {
-                    val context = LocalContext.current
-                    LazyColumn(
-                        modifier = Modifier,
-                        contentPadding = PaddingValues(
-                            top = 4.dp,
-                            bottom = paddingValues.calculateBottomPadding() + 4.dp
-                        )
-                    ) {
-                        items(items = itemList ?: emptyList(), key = { it.id }) { item ->
-                            TraderFleaItem(item = item, trader = trader, Modifier.animateItemPlacement()) {
-                                context.openActivity(FleaItemDetail::class.java) {
-                                    putString("id", item.id)
+                AnimatedContent(targetState = items.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        val context = LocalContext.current
+                        LazyColumn(
+                            modifier = Modifier,
+                            contentPadding = PaddingValues(
+                                top = 4.dp,
+                                bottom = paddingValues.calculateBottomPadding() + 4.dp
+                            )
+                        ) {
+                            items(items = itemList ?: emptyList(), key = { it.id }) { item ->
+                                TraderFleaItem(item = item, trader = trader, Modifier.animateItemPlacement()) {
+                                    context.openActivity(FleaItemDetail::class.java) {
+                                        putString("id", item.id)
+                                    }
                                 }
                             }
                         }
@@ -292,14 +286,20 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                     it.rewardItems?.first()?.item?.name
                 }
 
-                LazyColumn(
-                    contentPadding = PaddingValues(
-                        top = 4.dp,
-                        bottom = paddingValues.calculateBottomPadding() + 4.dp
-                    )
-                ) {
-                    items(items = barterList, key = { it.id.toString() }) { barter ->
-                        BarterItem(barter, Modifier.animateItemPlacement())
+                AnimatedContent(targetState = barterList.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        LazyColumn(
+                            contentPadding = PaddingValues(
+                                top = 4.dp,
+                                bottom = paddingValues.calculateBottomPadding() + 4.dp
+                            )
+                        ) {
+                            items(items = barterList, key = { it.id.toString() }) { barter ->
+                                BarterItem(barter, Modifier.animateItemPlacement())
+                            }
+                        }
                     }
                 }
             }

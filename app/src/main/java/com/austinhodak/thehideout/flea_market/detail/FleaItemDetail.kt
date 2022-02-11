@@ -524,7 +524,7 @@ class FleaItemDetail : GodActivity() {
                         ) {
                             Box {
                                 Image(
-                                    rememberImagePainter(
+                                    fadeImagePainter(
                                         childItem?.getCleanIcon()
                                     ),
                                     contentDescription = null,
@@ -611,7 +611,7 @@ class FleaItemDetail : GodActivity() {
                         ) {
                             Box {
                                 Image(
-                                    rememberImagePainter(
+                                    fadeImagePainter(
                                         childItem?.getCleanIcon()
                                     ),
                                     contentDescription = null,
@@ -1147,7 +1147,7 @@ class FleaItemDetail : GodActivity() {
                     ) {
                         Box {
                             Image(
-                                rememberImagePainter(
+                                fadeImagePainter(
                                     rewardItem?.getCleanIcon()
                                 ),
                                 contentDescription = null,
@@ -1275,7 +1275,7 @@ class FleaItemDetail : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(data = rewardItem?.getCleanIcon()),
+                        fadeImagePainter(rewardItem?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)
@@ -1362,7 +1362,7 @@ class FleaItemDetail : GodActivity() {
         ) {
             Box {
                 Image(
-                    rememberImagePainter(
+                    fadeImagePainter(
                         item?.getCleanIcon()
                     ),
                     contentDescription = null,
@@ -1785,9 +1785,7 @@ class FleaItemDetail : GodActivity() {
                 modifier = Modifier
                     .size(72.dp)
                     .padding(bottom = 8.dp),
-                painter = rememberGlidePainter(
-                    request = item.traderImage()
-                ),
+                painter = fadeImagePainter(url = item.traderImage()),
                 contentDescription = "Prapor",
             )
             Text(

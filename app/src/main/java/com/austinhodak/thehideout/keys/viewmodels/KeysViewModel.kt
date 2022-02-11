@@ -10,6 +10,7 @@ import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.utils.questsFirebase
 import com.austinhodak.thehideout.utils.uid
 import com.austinhodak.thehideout.utils.userFirestore
+
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,9 +35,9 @@ class KeysViewModel @Inject constructor() : SearchViewModel() {
 
     fun toggleKey(item: Item, fsUser: FSUser) {
         if (fsUser.hasKey(item)) {
-            userFirestore?.update("keys.${item.id}", FieldValue.delete())
+            userFirestore()?.update("keys.${item.id}", FieldValue.delete())
         } else {
-            userFirestore?.update("keys.${item.id}", true)
+            userFirestore()?.update("keys.${item.id}", true)
         }
     }
 }

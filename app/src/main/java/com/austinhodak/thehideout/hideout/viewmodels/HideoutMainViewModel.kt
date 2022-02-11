@@ -8,6 +8,7 @@ import com.austinhodak.thehideout.SearchViewModel
 import com.austinhodak.thehideout.hideout.HideoutFilter
 import com.austinhodak.thehideout.utils.addQuotes
 import com.austinhodak.thehideout.utils.userFirestore
+
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
@@ -50,7 +51,7 @@ class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
             )
         })
 
-        userFirestore?.set(
+        userFirestore()?.set(
             hashMapOf(
                 "progress" to hashMapOf(
                     "hideoutModules" to hashMapOf(
@@ -76,7 +77,7 @@ class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
     }
 
     fun undoModule(module: Hideout.Module) {
-        userFirestore?.set(
+        userFirestore()?.set(
             hashMapOf(
                 "progress" to hashMapOf(
                     "hideoutModules" to hashMapOf(
@@ -89,7 +90,7 @@ class HideoutMainViewModel @Inject constructor() : SearchViewModel() {
 
 
         module.require?.forEach { objective ->
-            userFirestore?.set(
+            userFirestore()?.set(
                 hashMapOf(
                     "progress" to hashMapOf(
                         "hideoutObjectives" to hashMapOf(

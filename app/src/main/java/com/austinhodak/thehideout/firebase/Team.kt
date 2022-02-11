@@ -36,7 +36,7 @@ data class Team (
             if (members?.size == 1) {
                 questsFirebase.child("teams/$it").removeValue()
             }
-            userFirestore?.update("teams.$it", FieldValue.delete())
+            userFirestore()?.update("teams.$it", FieldValue.delete())
             userRefTracker("teams/$it").removeValue()
             questsFirebase.child("teams/$it/members/${uid()}").removeValue()
         }

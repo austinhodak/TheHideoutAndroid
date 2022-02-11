@@ -337,8 +337,8 @@ class SettingsActivity : GodActivity() {
                                                     title(text = "Reset Hideout Progress?")
                                                     message(text = "Are you sure?")
                                                     positiveButton(text = "RESET") {
-                                                        userFirestore?.update("progress.hideoutModules", FieldValue.delete())
-                                                        userFirestore?.update("progress.hideoutObjectives", FieldValue.delete())
+                                                        userFirestore()?.update("progress.hideoutModules", FieldValue.delete())
+                                                        userFirestore()?.update("progress.hideoutObjectives", FieldValue.delete())
                                                         userRefTracker("hideoutModules").removeValue()
                                                         userRefTracker("hideoutObjectives").removeValue()
                                                     }
@@ -353,8 +353,8 @@ class SettingsActivity : GodActivity() {
                                                     title(text = "Reset Quest Progress?")
                                                     message(text = "Are you sure?")
                                                     positiveButton(text = "RESET") {
-                                                        userFirestore?.update("progress.quests", FieldValue.delete())
-                                                        userFirestore?.update("progress.questObjectives", FieldValue.delete())
+                                                        userFirestore()?.update("progress.quests", FieldValue.delete())
+                                                        userFirestore()?.update("progress.questObjectives", FieldValue.delete())
                                                         userRefTracker("questObjectives").removeValue()
                                                         userRefTracker("quests").removeValue()
                                                     }
@@ -369,11 +369,11 @@ class SettingsActivity : GodActivity() {
                                                     title(text = "Reset All Progress?")
                                                     message(text = "This is typically used after a wipe or reset.\n\nTeam settings will not be affected.")
                                                     positiveButton(text = "RESET") {
-                                                        userFirestore?.update("progress.quests", FieldValue.delete())
-                                                        userFirestore?.update("progress.questObjectives", FieldValue.delete())
-                                                        userFirestore?.update("progress.hideoutModules", FieldValue.delete())
-                                                        userFirestore?.update("progress.hideoutObjectives", FieldValue.delete())
-                                                        userFirestore?.update("keys", FieldValue.delete())
+                                                        userFirestore()?.update("progress.quests", FieldValue.delete())
+                                                        userFirestore()?.update("progress.questObjectives", FieldValue.delete())
+                                                        userFirestore()?.update("progress.hideoutModules", FieldValue.delete())
+                                                        userFirestore()?.update("progress.hideoutObjectives", FieldValue.delete())
+                                                        userFirestore()?.update("keys", FieldValue.delete())
 
                                                         userRefTracker("hideoutModules").removeValue()
                                                         userRefTracker("hideoutObjectives").removeValue()

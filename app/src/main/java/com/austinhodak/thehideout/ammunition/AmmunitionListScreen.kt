@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.ammunition
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,12 +32,10 @@ import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.Bender
+import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
-import com.austinhodak.thehideout.utils.AmmoCalibers
-import com.austinhodak.thehideout.utils.fadeImagePainter
-import com.austinhodak.thehideout.utils.getCaliberName
-import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -172,40 +171,45 @@ fun AmmunitionListScreen(
 
         ) {
         when {
-            data.isNullOrEmpty() -> {
-                LoadingItem()
-            }
             isSearchOpen -> {
                 AmmoSearchBody(searchKey, data)
             }
             else -> {
-                HorizontalPager(state = pagerState) { page ->
-                    LazyColumn(
-                        Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
-                    ) {
-                        var items = data.filter { it.Caliber == pages[page] }
-                        Timber.d(items.size.toString())
-                        items = when (sort.value) {
-                            0 -> items.sortedBy { it.shortName }
-                            1 -> items.sortedBy {
-                                it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
-                            }
-                            2 -> items.sortedByDescending {
-                                it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
-                            }
-                            3 -> items.sortedByDescending { it.ballistics?.damage }
-                            4 -> items.sortedByDescending { it.ballistics?.penetrationPower }
-                            5 -> items.sortedByDescending { it.getArmorValues() }
-                            else -> items.sortedBy { it.shortName }
-                        }
-                        items(items = items, key = { it.id }) { ammo ->
-                            AmmoCard(
-                                ammo,
-                                Modifier.padding(vertical = 4.dp).animateItemPlacement()
+                AnimatedContent(targetState = data.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        HorizontalPager(state = pagerState) { page ->
+                            LazyColumn(
+                                Modifier.fillMaxSize(),
+                                contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
                             ) {
-                                context.openActivity(AmmoDetailActivity::class.java) {
-                                    putString("ammoID", ammo.id)
+                                var items = data.filter { it.Caliber == pages[page] }
+                                Timber.d(items.size.toString())
+                                items = when (sort.value) {
+                                    0 -> items.sortedBy { it.shortName }
+                                    1 -> items.sortedBy {
+                                        it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
+                                    }
+                                    2 -> items.sortedByDescending {
+                                        it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
+                                    }
+                                    3 -> items.sortedByDescending { it.ballistics?.damage }
+                                    4 -> items.sortedByDescending { it.ballistics?.penetrationPower }
+                                    5 -> items.sortedByDescending { it.getArmorValues() }
+                                    else -> items.sortedBy { it.shortName }
+                                }
+                                items(items = items, key = { it.id }) { ammo ->
+                                    AmmoCard(
+                                        ammo,
+                                        Modifier
+                                            .padding(vertical = 4.dp)
+                                            .animateItemPlacement()
+                                    ) {
+                                        context.openActivity(AmmoDetailActivity::class.java) {
+                                            putString("ammoID", ammo.id)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -245,7 +249,9 @@ fun AmmoSearchBody(
         items(items = items, key = { it.id }) { ammo ->
             AmmoCard(
                 ammo,
-                Modifier.padding(vertical = 4.dp).animateItemPlacement()
+                Modifier
+                    .padding(vertical = 4.dp)
+                    .animateItemPlacement()
             ) {
                 context.openActivity(AmmoDetailActivity::class.java) {
                     putString("ammoID", ammo.id)
@@ -310,11 +316,12 @@ fun AmmoCard(
                     ArmorBox(ammo.getColor(6), Modifier.weight(1f))
                 }
                 Image(
-                    fadeImagePainter(ammo.pricing?.getIcon()),
+                    fadeImagePainterPlaceholder(url = ammo.pricing?.getIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)
                         .height(38.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier

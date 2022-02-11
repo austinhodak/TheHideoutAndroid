@@ -71,10 +71,11 @@ fun CharacterSkillsScreen(
             }
         }
     ) {
+        val skills = skillsList.skills.sortedBy { it.name }.filter { it.live }.filter { it.name.contains(searchKey, true) || it.type.contains(searchKey, true) }
+
         LazyColumn(
             contentPadding = PaddingValues(vertical = 4.dp)
         ) {
-            val skills = skillsList.skills.sortedBy { it.name }.filter { it.live }.filter { it.name.contains(searchKey, true) || it.type.contains(searchKey, true) }
             items(items = skills, key = { it.name} ) { skill ->
                 SkillCard(skill, Modifier.animateItemPlacement())
             }

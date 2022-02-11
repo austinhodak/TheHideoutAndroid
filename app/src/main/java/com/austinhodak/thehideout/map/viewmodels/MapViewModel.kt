@@ -10,6 +10,7 @@ import com.austinhodak.tarkovapi.utils.QuestExtraHelper
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.map.models.CustomMarker
 import com.austinhodak.thehideout.utils.userFirestore
+
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
 import com.google.gson.Gson
@@ -77,7 +78,7 @@ class MapViewModel @Inject constructor(
             }
         }
         markerListener?.remove()
-        markerListener = userFirestore?.collection("markers")?.whereEqualTo("map", _map.value?.lowercase()?.replace("lighthouse-dark", "lighthouse"))?.addSnapshotListener { value, error ->
+        markerListener = userFirestore()?.collection("markers")?.whereEqualTo("map", _map.value?.lowercase()?.replace("lighthouse-dark", "lighthouse"))?.addSnapshotListener { value, error ->
             if (error != null || value?.isEmpty == true) {
                 _customMarkers.postValue(emptyList())
                 return@addSnapshotListener

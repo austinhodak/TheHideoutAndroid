@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.keys
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -132,20 +133,23 @@ fun KeyListScreen(
                     }
         }.filter { it.pricing != null }
 
-        if (data.isNullOrEmpty()) {
-            LoadingItem()
-        }
-        LazyColumn(
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
-        ) {
-            items(items = data, key = { it.id }) { key ->
-                KeyCard(
-                    key,
-                    userData,
-                    scaffoldState,
-                    keysViewModel,
-                    Modifier.animateItemPlacement()
-                )
+        AnimatedContent(targetState = data.isNullOrEmpty()) {
+            if (it) {
+                LoadingItem()
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                ) {
+                    items(items = data, key = { it.id }) { key ->
+                        KeyCard(
+                            key,
+                            userData,
+                            scaffoldState,
+                            keysViewModel,
+                            Modifier.animateItemPlacement()
+                        )
+                    }
+                }
             }
         }
     }
