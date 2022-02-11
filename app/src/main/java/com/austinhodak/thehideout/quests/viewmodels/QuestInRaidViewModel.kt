@@ -36,20 +36,6 @@ class QuestInRaidViewModel @Inject constructor(
     private val _questDetails = MutableLiveData<Quest?>(null)
     val questDetails = _questDetails
 
-    fun getQuest(id: String) {
-        viewModelScope.launch {
-            repository.getQuestByID(id).collect {
-                _questDetails.value = it
-            }
-        }
-    }
-
-    fun getItem(id: String) = flow {
-        viewModelScope.launch(Dispatchers.IO) {
-            emit(repository.getItemByID(id))
-        }
-    }
-
     suspend fun getObjectiveText(questObjective: Quest.QuestObjective): String {
         val location = mapsList.getMap(questObjective.location?.toInt()) ?: "Any Map"
         val item = if (questObjective.type == "key" || questObjective.targetItem == null) {
@@ -70,7 +56,7 @@ class QuestInRaidViewModel @Inject constructor(
             "kill" -> "${questObjective.number} $itemName"
             "collect" -> "${questObjective.number} $itemName"
             "place" -> "$itemName"
-            "mark" -> "Place MS2000 marker"
+            "mark" -> "Mark with $itemName marker"
             "locate" -> "$itemName"
             "find" -> "${questObjective.number} $itemName"
             "reputation" -> "Loyalty level ${questObjective.number} with ${Traders.values().find { it.int == questObjective.target?.first()?.toInt() ?: 0}?.id}"

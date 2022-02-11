@@ -101,7 +101,7 @@ class QuestDetailViewModel @Inject constructor(
             "kill" -> "Eliminate ${questObjective.number} $itemName on $location"
             "collect" -> "Hand over ${questObjective.number} $itemName"
             "place" -> "Place $itemName on $location"
-            "mark" -> "Place MS2000 marker at $location"
+            "mark" -> "Mark with $itemName at $location"
             "locate" -> "Locate $itemName on $location"
             "find" -> "Find in raid ${questObjective.number} $itemName"
             "reputation" -> "Reach loyalty level ${questObjective.number} with ${

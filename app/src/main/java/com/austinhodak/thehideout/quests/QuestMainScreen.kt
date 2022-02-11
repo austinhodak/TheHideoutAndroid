@@ -83,6 +83,7 @@ fun QuestMainScreen(
 
     //val quests by tarkovRepo.getAllQuests().collectAsState(initial = emptyList())
     val quests by questViewModel.questsList.observeAsState(initial = emptyList())
+    val items by navViewModel.allItems.observeAsState()
 
     val isSearchOpen by questViewModel.isSearchOpen.observeAsState(false)
     val searchKey by questViewModel.searchKey.observeAsState("")

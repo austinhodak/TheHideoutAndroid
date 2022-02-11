@@ -245,11 +245,10 @@ class QuestMainViewModel @Inject constructor(
         _questsExtras.value = QuestExtraHelper.getQuests(context = context)
     }
 
-    suspend fun getObjectiveText(questObjective: Quest.QuestObjective): String {
+    fun getObjectiveText(questObjective: Quest.QuestObjective): String {
         val location = mapsList.getMap(questObjective.location?.toInt()) ?: "Any Map"
         val item = if (questObjective.type == "key" || questObjective.targetItem == null) {
-            repository.getItemByID(questObjective.target?.get(0) ?: "").firstOrNull()?.pricing
-                ?: questObjective.target?.first()
+            itemsList.value?.find { it.id == questObjective.target?.get(0) }?.pricing ?: questObjective.target?.first()
         } else {
             questObjective.targetItem
         }
@@ -266,7 +265,7 @@ class QuestMainViewModel @Inject constructor(
             "kill" -> "Eliminate ${questObjective.number} $itemName on $location"
             "collect" -> "Hand over ${questObjective.number} $itemName"
             "place" -> "Place $itemName on $location"
-            "mark" -> "Place MS2000 marker at $location"
+            "mark" -> "Mark with $itemName at $location"
             "locate" -> "Locate $itemName on $location"
             "find" -> "Find in raid ${questObjective.number} $itemName"
             "reputation" -> "Reach loyalty level ${questObjective.number} with ${
