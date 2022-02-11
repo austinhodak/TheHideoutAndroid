@@ -20,6 +20,7 @@ import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -96,7 +97,7 @@ class Application : android.app.Application(), Configuration.Provider {
         }
     }
 
-
+    lateinit var listenerRegistration: ListenerRegistration
 
     override fun onCreate() {
         super.onCreate()
@@ -130,7 +131,39 @@ class Application : android.app.Application(), Configuration.Provider {
         Firebase.database.setPersistenceEnabled(true)
 
         if (Firebase.auth.currentUser == null) {
-            Firebase.auth.signInAnonymously()
+            Firebase.auth.signInAnonymously().addOnSuccessListener {
+                Timber.d("Result ${uid()}")
+                it.user?.uid?.let {
+                    listenerRegistration = Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
+                        val user = value?.toObject<FSUser>()
+                        if (value?.exists() == false) {
+                            Firebase.firestore.collection("users").document(it).set(
+                                hashMapOf(
+                                    "playerLevel" to UserSettingsModel.playerLevel.value
+                                ), SetOptions.merge())
+                        }
+                        Timber.d("User $user")
+                        user?.let {
+                            fsUser.postValue(it)
+                        }
+                    }
+                }
+            }
+        } else {
+            Timber.d("${uid()}")
+            uid()?.let {
+                listenerRegistration = Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
+                    val user = value?.toObject<FSUser>()
+                    if (value?.exists() == false) {
+                        userRefTracker("update").setValue(true)
+                    }
+                    Timber.d("$user")
+                    user?.let {
+                        fsUser.postValue(it)
+                    }
+                }
+
+            }
         }
 
         Only.init(applicationContext)
@@ -167,19 +200,6 @@ class Application : android.app.Application(), Configuration.Provider {
 
                 MainScope().launch {
                     UserSettingsModel.dataSyncFrequencyPrevious.update(it)
-                }
-            }
-        }
-
-        uid()?.let {
-            Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
-                val user = value?.toObject<FSUser>()
-                if (value?.exists() == false) {
-                    userRefTracker("update").setValue(true)
-                    //userFirestore?.set(hashMapOf("playerLevel" to UserSettingsModel.playerLevel.value), SetOptions.merge())
-                }
-                user?.let {
-                    fsUser.postValue(it)
                 }
             }
         }

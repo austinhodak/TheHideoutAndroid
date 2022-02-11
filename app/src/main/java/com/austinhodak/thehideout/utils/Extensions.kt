@@ -19,9 +19,12 @@ import androidx.appcompat.widget.AppCompatSpinner
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
@@ -52,6 +55,7 @@ import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
 import com.austinhodak.thehideout.billing.PremiumPusherActivity
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
+import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red500
 import com.austinhodak.thehideout.firebase.FSUser
@@ -78,7 +82,10 @@ import java.text.DecimalFormat
 import java.util.concurrent.ExecutionException
 import kotlin.math.round
 
-val userFirestore = uid()?.let { Firebase.firestore.collection("users").document(it) }
+fun userFirestore() = uid()?.let { 
+    Timber.d(it)
+    Firebase.firestore.collection("users").document(it) 
+}
 
 @SuppressLint("CheckResult")
 fun Context.showDialog(vararg item: Pair<String, () -> Unit>) {
@@ -698,7 +705,7 @@ fun isPremium(): Boolean {
 
 fun Uri.acceptTeamInvite(joined: () -> Unit) {
     val teamID = this.lastPathSegment
-    userFirestore?.update("teams.$teamID", true)?.addOnSuccessListener {
+    userFirestore()?.update("teams.$teamID", true)?.addOnSuccessListener {
         questsFirebase.child("teams/$teamID/members/${uid()}/color").setValue("#F44336").addOnSuccessListener {
             joined()
         }
@@ -717,7 +724,7 @@ fun syncTT(scope: CoroutineScope, ttRepository: TTRepository) {
                     //Quests that are done in TT not in ours.
                     val quest1 = ttQuestComplete?.filterNot { userQuestComplete?.containsKey(it.key.addQuotes()) == true }
                     quest1?.forEach { (id, _) ->
-                        userFirestore?.set(
+                        userFirestore()?.set(
                             hashMapOf(
                                 "progress" to hashMapOf(
                                     "quests" to hashMapOf(
@@ -750,7 +757,7 @@ fun syncTT(scope: CoroutineScope, ttRepository: TTRepository) {
                     //Objective done in TT not in ours
                     val objective1 = ttObjectiveComplete?.filterNot { userObjectiveComplete?.containsKey(it.key.addQuotes()) == true }
                     objective1?.forEach { (id, _) ->
-                        userFirestore?.set(
+                        userFirestore()?.set(
                             hashMapOf(
                                 "progress" to hashMapOf(
                                     "questObjectives" to hashMapOf(
@@ -789,7 +796,7 @@ fun syncTT(scope: CoroutineScope, ttRepository: TTRepository) {
                     //Hideout done in TT not in ours
                     val hideout1 = ttHideoutComplete?.filterNot { userHideoutComplete?.containsKey(it.key.addQuotes()) == true }
                     hideout1?.forEach { (id, _) ->
-                        userFirestore?.set(
+                        userFirestore()?.set(
                             hashMapOf(
                                 "progress" to hashMapOf(
                                     "hideoutModules" to hashMapOf(
@@ -822,7 +829,7 @@ fun syncTT(scope: CoroutineScope, ttRepository: TTRepository) {
                     //Objective done in TT not in ours
                     val hideoutObjective1 = ttHideoutObjectiveComplete?.filterNot { userHideoutObjectiveComplete?.containsKey(it.key.addQuotes()) == true }
                     hideoutObjective1?.forEach { (id, _) ->
-                        userFirestore?.set(
+                        userFirestore()?.set(
                             hashMapOf(
                                 "progress" to hashMapOf(
                                     "hideoutObjectives" to hashMapOf(
@@ -1053,6 +1060,11 @@ fun Context.openNotificationSettings(channelID: String) {
 
 @Composable
 fun fadeImagePainter(url: String?) = rememberImagePainter(data = url, builder = { crossfade(true) })
+
+@Composable
+fun fadeImagePainterPlaceholder(url: String?, @DrawableRes placeHolder: Int = R.drawable.unknown_item_icon) = rememberImagePainter(data = url, builder = { crossfade(true); placeholder(placeHolder) })
+
+fun Modifier.border() = Modifier.border(0.25.dp, BorderColor)
 
 fun String.traderIconSource(name: String? = this.split(" ")[0].lowercase(), level: Int? = this.split(" ")[1].replace("LL", "").toIntOrNull()): String {
     return when (name) {
