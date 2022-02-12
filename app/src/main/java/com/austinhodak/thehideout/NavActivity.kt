@@ -61,10 +61,7 @@ import com.austinhodak.thehideout.tools.ServerPingScreen
 import com.austinhodak.thehideout.tools.viewmodels.SensitivityViewModel
 import com.austinhodak.thehideout.traders.RestockTimersScreen
 import com.austinhodak.thehideout.traders.TraderScreen
-import com.austinhodak.thehideout.utils.acceptTeamInvite
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.openWithCustomTab
-import com.austinhodak.thehideout.utils.restartNavActivity
+import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.views.MainDrawer
 import com.austinhodak.thehideout.weapons.WeaponListScreen
 import com.austinhodak.thehideout.weapons.builder.WeaponLoadoutScreen
@@ -201,6 +198,9 @@ class NavActivity : GodActivity() {
         val data = intent.extras
         data?.let {
             it.getString("url")?.openWithCustomTab(this)
+            if (it.containsKey("premium")) {
+                launchPremiumPusher()
+            }
         }
 
         setupDynamicLinks()

@@ -164,6 +164,8 @@ class PremiumPusherActivity : ComponentActivity() {
             "• Custom Map Markers <br>• Tarkov Tracker Integration <br>• Team Quest Tracking <br>• Quest Tracker Integration with Maps <br>• Team Map Collaboration <br>• Discord Role and Special Access <br>• Lots more! "
         }
 
+        var isProcessing by remember { mutableStateOf(false) }
+
         Image(
             painter = image,
             contentDescription = "Background Image",
@@ -171,11 +173,11 @@ class PremiumPusherActivity : ComponentActivity() {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxHeight()
         )
-        if (paywall == null) {
+        if (paywall == null || isProcessing) {
             LoadingItem()
         }
         AnimatedVisibility(
-            visible = paywall != null,
+            visible = paywall != null && !isProcessing,
             enter = fadeIn()
         ) {
             Scaffold(
@@ -291,24 +293,34 @@ class PremiumPusherActivity : ComponentActivity() {
                         }
                     }
                     item {
-
                         paywall?.products?.sortedBy { it.price }?.filterNot { it.skuDetails == null }?.forEach { product ->
                             Timber.d(product.toString())
                             Button(
                                 onClick = {
-                                    product.purchase(this@PremiumPusherActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, e ->
-                                        if (e == null) {
-                                            Toast.makeText(this@PremiumPusherActivity, "Thank you!", Toast.LENGTH_SHORT).show()
-                                            if (intent.hasExtra("setResult")) {
-                                                openActivity(PremiumThanksActivity::class.java)
-                                                setResult(RESULT_OK)
-                                                finish()
-                                            } else {
-                                                openActivity(PremiumThanksActivity::class.java) {
-                                                    putBoolean("restart", true)
+                                    Adapty.getPurchaserInfo { purchaserInfo, error ->
+                                        Timber.d(purchaserInfo.toString())
+                                        if (purchaserInfo?.subscriptions?.containsKey("premium_lifetime") == false || purchaserInfo?.subscriptions?.get("premium_lifetime")?.isActive == false) {
+                                            product.purchase(this@PremiumPusherActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, e ->
+                                                isProcessing = true
+                                                if (e == null) {
+                                                    Toast.makeText(this@PremiumPusherActivity, "Thank you!", Toast.LENGTH_SHORT).show()
+                                                    if (intent.hasExtra("setResult")) {
+                                                        openActivity(PremiumThanksActivity::class.java)
+                                                        setResult(RESULT_OK)
+                                                        finish()
+                                                    } else {
+                                                        openActivity(PremiumThanksActivity::class.java) {
+                                                            putBoolean("restart", true)
+                                                        }
+                                                        //restartNavActivity()
+                                                    }
+                                                    isProcessing = false
+                                                } else {
+                                                    isProcessing = false
                                                 }
-                                                //restartNavActivity()
                                             }
+                                        } else {
+                                            Toast.makeText(this@PremiumPusherActivity, "You already bought this.", Toast.LENGTH_SHORT).show()
                                         }
                                     }
                                 },
