@@ -29,6 +29,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.localazy.android.Localazy
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
 import io.gleap.Gleap
@@ -36,6 +37,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -203,8 +205,12 @@ class Application : android.app.Application(), Configuration.Provider {
                 }
             }
         }
-    }
 
+        if (Localazy.isEnabled()) {
+            Timber.d("Localazy is enabled.")
+            Localazy.forceLocale(Locale.forLanguageTag("RU"), true)
+        }
+    }
     /**
      * Sets up the Firebase remote config.
      */

@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -81,7 +82,7 @@ fun KeyListScreen(
                     )
                 } else {
                     MainToolbar(
-                        title = "Keys",
+                        title = stringResource(id = R.string.keys),
                         navViewModel = navViewModel,
                         actions = {
                             IconButton(onClick = {
@@ -91,18 +92,18 @@ fun KeyListScreen(
                             }
                             IconButton(onClick = {
                                 val items = listOf(
-                                    "Name",
-                                    "Price: Low to High",
-                                    "Price: High to Low"
+                                    context.getString(R.string.name),
+                                    context.getString(R.string.price_low_to_high),
+                                    context.getString(R.string.price_high_to_low),
                                 )
                                 MaterialDialog(context).show {
-                                    title(text = "Sort By")
+                                    title(res = R.string.sort_by)
                                     listItemsSingleChoice(items = items, initialSelection = sort ?: 0) { _, index, _ ->
                                         keysViewModel.setSort(index)
                                     }
                                 }
                             }) {
-                                Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = "Sort Ammo", tint = Color.White)
+                                Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = null, tint = Color.White)
                             }
                         }
                     )
@@ -157,7 +158,7 @@ fun KeyListScreen(
     onlyOnce("keysTip") {
         onDo {
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar("Tip: Long press on a key to mark as owned!")
+                scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.key_tip))
             }
         }
     }
@@ -186,7 +187,7 @@ fun KeyCard(
                 onLongClick = {
                     if (userData?.hasKey(item) == false) {
                         scope.launch {
-                            scaffoldState.snackbarHostState.showSnackbar("Key marked as owned.")
+                            scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.key_owned))
                         }
                     }
                     userData?.let { keysViewModel.toggleKey(item, it) }

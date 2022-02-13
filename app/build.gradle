@@ -244,3 +244,10 @@ dependencies {
     implementation 'dev.bandb.graphview:graphview:0.8.1'
     implementation("com.otaliastudios:zoomlayout:1.9.0")
 }
+
+apply plugin: 'com.localazy.gradle'
+
+localazy {
+    readKey "a8326093997345284198-458225f5d8bb7a2b6f13dd52e121a382438031ea079834db58acd4f4480d47d7"
+    writeKey "a8326093997345284198-ce5886e2b1d60ed9911160c015a79e31aaa94e023995e3ac3006649119585a97"
+}

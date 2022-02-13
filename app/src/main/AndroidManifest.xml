@@ -72,7 +72,6 @@
         <activity
             android:name=".billing.PremiumPusherActivity"
             android:exported="true"
-            android:label="@string/title_activity_premium_pusher"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
             android:name=".weapons.builder.WeaponBuilderActivity"
@@ -91,12 +90,10 @@
 
         <activity
             android:name=".map.MapsActivity"
-            android:exported="true"
-            android:label="@string/title_activity_maps" />
+            android:exported="true" />
         <activity
             android:name=".weapons.mods.ModDetailActivity"
             android:exported="true"
-            android:label="@string/title_activity_mod_detail"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
             android:name=".NavActivity"

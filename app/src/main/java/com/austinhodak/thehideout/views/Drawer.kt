@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -60,25 +61,27 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.michaelflisar.materialpreferences.core.initialisation.SettingSetup.context
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.ColorHolder
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.badgeText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
+import com.mikepenz.materialdrawer.model.interfaces.nameRes
 import com.mikepenz.materialdrawer.model.interfaces.nameText
 import com.mikepenz.materialdrawer.util.*
 import com.mikepenz.materialdrawer.widget.MaterialDrawerSliderView
 import kotlinx.coroutines.*
 
 val weaponCategories = mutableListOf(
-    Triple("Assault Rifles", 301, "assaultRifle"),
-    Triple("Assault Carbines", 302, "assaultCarbine"),
-    Triple("Light Machine Guns", 303, "machinegun"),
-    Triple("Marksman Rifles", 306, "marksmanRifle"),
-    Triple("Pistols", 308, "pistol"),
-    Triple("Sniper Rifles", 307, "sniperRifle"),
-    Triple("Shotguns", 305, "shotgun"),
-    Triple("Submachine Guns", 304, "smg"),
+    Triple(R.string.assault_rifles, 301, "assaultRifle"),
+    Triple(R.string.assault_carbines, 302, "assaultCarbine"),
+    Triple(R.string.lmg, 303, "machinegun"),
+    Triple(R.string.marksman_rifles, 306, "marksmanRifle"),
+    Triple(R.string.pistols, 308, "pistol"),
+    Triple(R.string.sniper_rifles, 307, "sniperRifle"),
+    Triple(R.string.shotguns, 305, "shotgun"),
+    Triple(R.string.smgs, 304, "smg"),
     //Triple("Grenade Launchers", 309, "grenadeLauncher"),
     //Triple("Melee Weapons", 310, ""),
     //Triple("Throwables", 311, ""),
@@ -93,52 +96,52 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
     private val benderBoldFont = ResourcesCompat.getFont(context, R.font.bender_bold)
 
     private val drawerNeededItemsGrid = PrimaryDrawerItem().apply {
-        tag = "neededGrid"; identifier = 116; nameText = "Needed Items"; iconRes =
+        tag = "neededGrid"; identifier = 116; nameText = context.getString(R.string.needed_items); iconRes =
         R.drawable.ic_baseline_grid_view_24; isIconTinted = true; typeface =
         benderFont;
         badgeText = "Beta";
         badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_orange_700) }
     }
     private val drawerAmmo = PrimaryDrawerItem().apply {
-        tag = "ammunition/Caliber762x35"; identifier = 101; nameText = "Ammunition"; iconRes =
+        tag = "ammunition/Caliber762x35"; identifier = 101; iconRes =
         R.drawable.icons8_ammo_100; isIconTinted =
-        true; typeface = benderFont
+        true; typeface = benderFont; nameRes = R.string.ammunition
     }
     private val drawerKeys = PrimaryDrawerItem().apply {
-        tag = "keys"; identifier = 104; nameText = "Keys"; iconRes =
+        tag = "keys"; identifier = 104; nameRes = R.string.keys; iconRes =
         R.drawable.icons8_key_100; isIconTinted = true; typeface = benderFont
     }
     private val drawerMedical = PrimaryDrawerItem().apply {
-        tag = "medical"; identifier = 105; nameText = "Medical"; iconRes =
+        tag = "medical"; identifier = 105; nameRes = R.string.medical; iconRes =
         R.drawable.icons8_syringe_100; isIconTinted = true; typeface = benderFont
     }
     private val drawerFleaMarket = PrimaryDrawerItem().apply {
-        tag = "flea"; identifier = 107; nameText = "Flea Market"; iconRes =
+        tag = "flea"; identifier = 107; nameRes = R.string.flea_market; iconRes =
         R.drawable.ic_baseline_storefront_24; isIconTinted = true; typeface =
         benderFont
     }
     private val drawerHideout = PrimaryDrawerItem().apply {
-        tag = "hideout"; identifier = 108; nameText = "Hideout"; iconRes =
+        tag = "hideout"; identifier = 108; nameRes = R.string.hideout; iconRes =
         R.drawable.icons8_tent_96; isIconTinted = true; typeface = benderFont
     }
     private val drawerQuests = PrimaryDrawerItem().apply {
-        tag = "quests"; identifier = 109; nameText = "Quests"; iconRes =
+        tag = "quests"; identifier = 109; nameRes = R.string.quests; iconRes =
         R.drawable.ic_baseline_assignment_24; isIconTinted = true; typeface =
         benderFont
     }
 
     val interactiveMaps = SecondaryDrawerItem().apply {
         level = 1; iconRes = R.drawable.ic_blank; identifier = 701
-        nameText = "Interactive"; typeface = benderFont; tag = "map_interactive"; isSelectable = false
+        nameText = context.getString(R.string.interactive); typeface = benderFont; tag = "map_interactive"; isSelectable = false
     }
 
     val staticMaps = SecondaryDrawerItem().apply {
         level = 1; iconRes = R.drawable.ic_blank; identifier = 702
-        nameText = "Static"; typeface = benderFont; tag = "map_static"; isSelectable = false
+        nameText = context.getString(R.string.n_static); typeface = benderFont; tag = "map_static"; isSelectable = false
     }
 
     private val drawerMaps = ExpandableDrawerItem().apply {
-        tag = "map_selector"; identifier = 110; nameText = "Maps"; iconRes =
+        tag = "map_selector"; identifier = 110; nameText = context.getString(R.string.maps); iconRes =
         R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont; isSelectable = false;
         subItems = mutableListOf(
             interactiveMaps,
@@ -147,76 +150,76 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
     }
 
     private val drawerDamageSimulator = PrimaryDrawerItem().apply {
-        tag = "activity:sim"; identifier = 111; nameText = "Tarkov'd Simulator"; iconRes =
+        tag = "activity:sim"; identifier = 111; nameRes = R.string.simulator; iconRes =
         R.drawable.icons8_dog_tag_96; isIconTinted =
         true; typeface = benderFont; isSelectable = false
     }
     private val drawerSkills = PrimaryDrawerItem().apply {
-        tag = "skills"; identifier = 113; nameText = "Skills"; iconRes =
+        tag = "skills"; identifier = 113; nameText = context.getString(R.string.skills); iconRes =
         R.drawable.icons8_development_skill_96; isIconTinted = true; typeface =
         benderFont
     }
     private val drawerWeaponMods = PrimaryDrawerItem().apply {
-        tag = "weaponmods"; identifier = 114; nameText = "Weapon Mods"; iconRes =
+        tag = "weaponmods"; identifier = 114; nameText = context.getString(R.string.weapon_mods); iconRes =
         R.drawable.icons8_assault_rifle_mod_96; isIconTinted =
         true; typeface = benderFont
     }
 
     private val drawerWeaponLoadouts = PrimaryDrawerItem().apply {
-        tag = "weaponloadouts"; identifier = 115; nameText = "Weapon Loadouts"; iconRes =
+        tag = "weaponloadouts"; identifier = 115; nameText = context.getString(R.string.weapon_loadouts); iconRes =
         R.drawable.icons8_assault_rifle_custom; isIconTinted =
         true; typeface = benderFont
     }
 
     private val drawerProvisions = PrimaryDrawerItem().apply {
-        tag = "food"; identifier = 112; nameText = "Provisions"; iconRes =
+        tag = "food"; identifier = 112; nameText = context.getString(R.string.provisions); iconRes =
         R.drawable.ic_baseline_fastfood_24; isIconTinted = true; typeface =
         benderFont
     }
 
     private val drawerArmor = SecondaryDrawerItem().apply {
-        tag = "gear/Armor"; level = 2; identifier = 201; nameText = "Armor"; iconRes =
+        tag = "gear/Armor"; level = 2; identifier = 201; nameRes = R.string.armor; iconRes =
         R.drawable.icons8_bulletproof_vest_100; isIconTinted =
         true; typeface = benderFont
     }
     private val drawerBackpacks = SecondaryDrawerItem().apply {
-        tag = "gear/Backpacks"; level = 2; identifier = 202; nameText = "Backpacks"; iconRes =
+        tag = "gear/Backpacks"; level = 2; identifier = 202; nameRes = R.string.backpacks; iconRes =
         R.drawable.icons8_rucksack_96; isIconTinted =
         true; typeface = benderFont
     }
     private val drawerChestRigs = SecondaryDrawerItem().apply {
-        tag = "gear/Rigs"; level = 2; identifier = 203; nameText = "Chest Rigs"; iconRes =
+        tag = "gear/Rigs"; level = 2; identifier = 203; nameText = context.getString(R.string.chest_rigs); iconRes =
         R.drawable.icons8_vest_100; isIconTinted = true; typeface =
         benderFont
     }
     private val drawerEyewear = SecondaryDrawerItem().apply {
-        tag = "gear/Eyewear"; level = 2; identifier = 204; nameText = "Eyewear"; iconRes =
+        tag = "gear/Eyewear"; level = 2; identifier = 204; nameText = context.getString(R.string.eyewear); iconRes =
         R.drawable.icons8_sun_glasses_96; isIconTinted =
         true; typeface = benderFont
     }
     private val drawerFaceCover = SecondaryDrawerItem().apply {
-        tag = "gear/Facecover"; level = 2; identifier = 205; nameText = "Face Coverings"; iconRes =
+        tag = "gear/Facecover"; level = 2; identifier = 205; nameText = context.getString(R.string.face_coverings); iconRes =
         R.drawable.icons8_camo_cream_96; isIconTinted =
         true; typeface = benderFont
     }
     private val drawerHeadsets = SecondaryDrawerItem().apply {
-        tag = "gear/Headsets"; level = 2; identifier = 206; nameText = "Headsets"; iconRes =
+        tag = "gear/Headsets"; level = 2; identifier = 206; nameText = context.getString(R.string.headsets); iconRes =
         R.drawable.icons8_headset_96; isIconTinted =
         true; typeface = benderFont
     }
     private val drawerHeadwear = SecondaryDrawerItem().apply {
-        tag = "gear/Headwear"; level = 2; identifier = 207; nameText = "Headwear"; iconRes =
+        tag = "gear/Headwear"; level = 2; identifier = 207; nameText = context.getString(R.string.headwear); iconRes =
         R.drawable.icons8_helmet_96; isIconTinted =
         true; typeface = benderFont
     }
     private val drawerTacticalClothing = SecondaryDrawerItem().apply {
         tag = "gear/Clothing"; level = 2; identifier = 208; nameText =
-        "Tactical Clothing"; iconRes = R.drawable.icons8_coat_96; isIconTinted =
+        context.getString(R.string.tactical_clothing); iconRes = R.drawable.icons8_coat_96; isIconTinted =
         true; typeface = benderFont; isEnabled = false
     }
 
     private val drawerGear = ExpandableDrawerItem().apply {
-        nameText = "Gear"
+        nameText = context.getString(R.string.gear)
         iconRes = R.drawable.icons8_bulletproof_vest_100; isIconTinted = true
         typeface = benderFont
         isSelectable = false
@@ -233,12 +236,12 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
     }
 
     private val drawerWeaponExpandable = ExpandableDrawerItem().apply {
-        nameText = "Weapons"; iconRes = R.drawable.icons8_assault_rifle_100; isIconTinted =
+        nameRes = R.string.weapons; iconRes = R.drawable.icons8_assault_rifle_100; isIconTinted =
         true; typeface = benderFont; isSelectable = false
         subItems = weaponCategories.map {
             SecondaryDrawerItem().apply {
                 level = 1; iconRes = R.drawable.ic_blank; identifier =
-                it.second.toLong(); nameText = it.first; typeface = benderFont; tag =
+                it.second.toLong(); nameRes = it.first; typeface = benderFont; tag =
                 "weapons/${it.third}"
             }
         }.toMutableList()
@@ -248,58 +251,58 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
 
     private val drawerCurrencyConverter = SecondaryDrawerItem().apply {
         tag = "currency_converter"; level = 2; identifier = 402; nameText =
-        "Currency Converter"; iconRes = R.drawable.icons8_currency_exchange_96; isIconTinted =
+        context.getString(R.string.currency_converter); iconRes = R.drawable.icons8_currency_exchange_96; isIconTinted =
         true; typeface = benderFont; isEnabled = true
     }
 
     private val drawerBitcoin = SecondaryDrawerItem().apply {
-        tag = "bitcoin"; level = 2; identifier = 401; nameText = "Bitcoin Price"; iconRes =
+        tag = "bitcoin"; level = 2; identifier = 401; nameText = context.getString(R.string.bitcoin_price); iconRes =
         R.drawable.icons8_bitcoin_96; isIconTinted =
         true; typeface = benderFont; isEnabled = true
     }
 
     private val drawerSensitivity = SecondaryDrawerItem().apply {
         tag = "sensitivity"; level = 2; identifier = 403; nameText =
-        "Sensitivity Calculator"; iconRes = R.drawable.ic_baseline_calculate_24; isIconTinted =
+        context.getString(R.string.sens_calculator); iconRes = R.drawable.ic_baseline_calculate_24; isIconTinted =
         true; typeface = benderFont; isEnabled = true
     }
 
     private val drawerRestockTimers = SecondaryDrawerItem().apply {
         tag = "restock"; level = 2; identifier = 404; nameText =
-        "Trader Restock Timers"; iconRes = R.drawable.ic_baseline_timer_24; isIconTinted =
+        context.getString(R.string.trader_restock_timers); iconRes = R.drawable.ic_baseline_timer_24; isIconTinted =
         true; typeface = benderFont; isEnabled = true
     }
 
     private val drawerPriceAlerts = SecondaryDrawerItem().apply {
         tag = "price_alerts"; level = 2; identifier = 405; nameText =
-        "Price Alerts"; iconRes = R.drawable.ic_baseline_notifications_active_24; isIconTinted =
+        context.getString(R.string.price_alerts); iconRes = R.drawable.ic_baseline_notifications_active_24; isIconTinted =
         true; typeface = benderFont; isEnabled = true
     }
 
     private val drawerServerPings = SecondaryDrawerItem().apply {
         tag = "server_pings"; level = 2; identifier = 406; nameText =
-        "Server Pings"; iconRes = R.drawable.ic_baseline_network_ping_24; isIconTinted =
+        context.getString(R.string.server_pings); iconRes = R.drawable.ic_baseline_network_ping_24; isIconTinted =
         true; typeface = benderFont; isEnabled = true
     }
 
     private val drawerItemScanner = SecondaryDrawerItem().apply {
         tag = "item_scanner"; level = 2; identifier = 407; nameText =
-        "Item Scanner"; iconRes = R.drawable.ic_baseline_document_scanner_24; isIconTinted =
+        context.getString(R.string.item_scanner); iconRes = R.drawable.ic_baseline_document_scanner_24; isIconTinted =
         true; typeface = benderFont; isEnabled = true; badgeText = "Alpha";
         badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_red_700) }
         isSelectable = false
     }
 
     private val drawerNews = PrimaryDrawerItem().apply {
-        tag = "news"; identifier = 601; nameText = "News"; iconRes = R.drawable.ic_baseline_newspaper_24; isIconTinted = true; typeface = benderFont;
+        tag = "news"; identifier = 601; nameText = context.getString(R.string.news); iconRes = R.drawable.ic_baseline_newspaper_24; isIconTinted = true; typeface = benderFont;
     }
 
     private val drawerServerStatus = PrimaryDrawerItem().apply {
-        tag = "server_status"; identifier = 602; nameText = "Server Status"; iconRes = R.drawable.icons8_server_96; isIconTinted = true; typeface = benderFont; isSelectable = false
+        tag = "server_status"; identifier = 602; nameText = context.getString(R.string.server_status); iconRes = R.drawable.icons8_server_96; isIconTinted = true; typeface = benderFont; isSelectable = false
     }
 
     private val drawerExtraTools = ExpandableDrawerItem().apply {
-        nameText = "Tools"
+        nameText = context.getString(R.string.tools)
         iconRes = R.drawable.icons8_wrench_96; isIconTinted = true
         typeface = benderFont
         isSelectable = false
@@ -316,7 +319,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
 
     private val drawerSettings = SecondaryDrawerItem().apply {
         tag = "settings"
-        nameText = "Profile & Settings"; iconRes =
+        nameText = context.getString(R.string.settings_profile); iconRes =
         R.drawable.ic_baseline_settings_24; isIconTinted = true; isSelectable = false; isEnabled =
         true
         typeface = benderFont
@@ -386,7 +389,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
     }
 
     private val drawerTraders = ExpandableDrawerItem().apply {
-        nameText = "Traders"
+        nameText = context.getString(R.string.traders)
         iconRes = R.drawable.ic_groups_white_24dp
         isIconTinted = true
         typeface = benderFont
@@ -470,7 +473,7 @@ fun MainDrawer(
 
     val drawerLogin = SecondaryDrawerItem().apply {
         tag = "login"
-        nameText = "Sign In/Sign Up"
+        nameText = stringResource(R.string.sign_in_up)
         iconRes = R.drawable.icons8_lock_96_color
         isIconTinted = false
         isSelectable = false
@@ -522,8 +525,8 @@ fun MainDrawer(
                 GameClockText(Modifier.weight(1f), true, navViewModel)
                 FloatingActionButton(onClick = {
                     MaterialDialog(context).show {
-                        title(text = "Set Level")
-                        input(inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED, prefill = playerLevel.toString(), hint = "Level") { _, text ->
+                        title(res = R.string.set_level)
+                        input(inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED, prefill = playerLevel.toString(), hintRes = R.string.level) { _, text ->
                             scope.launch {
                                 UserSettingsModel.playerLevel.update(text.toString().toIntOrNull() ?: 71)
                             }
@@ -555,7 +558,7 @@ fun MainDrawer(
                             .padding(horizontal = 14.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "GO PREMIUM", color = Black, style = MaterialTheme.typography.button, modifier = Modifier.padding(start = 2.dp))
+                        Text(text = stringResource(R.string.go_premium), color = Black, style = MaterialTheme.typography.button, modifier = Modifier.padding(start = 2.dp))
                         Spacer(modifier = Modifier.weight(1f))
                         Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "", tint = Black)
                     }
@@ -600,7 +603,7 @@ fun MainDrawer(
                     val drawerServerStatus = PrimaryDrawerItem().apply {
                         tag = "server_status"
                         identifier = 602
-                        nameText = "Server Status"
+                        nameRes = R.string.server_status
                         iconRes = R.drawable.icons8_server_96
                         isIconTinted = true
                         typeface = benderFont
@@ -665,7 +668,6 @@ fun GameClockText(
     left: Boolean,
     navViewModel: NavViewModel
 ) {
-
     val text by if (left) navViewModel.timeLeft.observeAsState("00:00:00") else navViewModel.timeRight.observeAsState(
         "00:00:00"
     )

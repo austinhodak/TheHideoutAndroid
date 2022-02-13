@@ -25,6 +25,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
@@ -146,12 +147,12 @@ class AmmoDetailActivity : GodActivity() {
                     topBar = {
                         Column {
                             AmmoDetailToolbar(
-                                title = ammo?.pricing?.name ?: "Error Loading...",
+                                title = ammo?.pricing?.name ?: getString(R.string.error_loading),
                                 onBackPressed = { finish() },
                                 actions = {
                                     OverflowMenu {
                                         ammo?.pricing?.wikiLink?.let { WikiItem(url = it) }
-                                        OverflowMenuItem(text = "Add to Cart") {
+                                        OverflowMenuItem(text = getString(R.string.add_to_cart)) {
                                             ammo?.pricing?.addToCartDialog(this@AmmoDetailActivity)
                                         }
                                     }
@@ -180,7 +181,7 @@ class AmmoDetailActivity : GodActivity() {
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_calculate_24),
-                                contentDescription = "Open Calculator",
+                                contentDescription = getString(R.string.open_calculator),
                                 tint = Color.Black
                             )
                         }
@@ -269,11 +270,11 @@ class AmmoDetailActivity : GodActivity() {
                     )
                 }
                 Column {
-                    BallisticLine(title = "VELOCITY", entry = "${ballistics.velocity} m/s")
-                    BallisticLine(title = "DAMAGE", entry = "${ballistics.damage}")
-                    BallisticLine(title = "PEN POWER", entry = "${ballistics.penetration}")
-                    BallisticLine(title = "DROP", entry = "${ballistics.drop} cm")
-                    BallisticLine(title = "TIME OF FLIGHT", entry = "${ballistics.tof} s")
+                    BallisticLine(title = stringResource(R.string.velocity), entry = "${ballistics.velocity} m/s")
+                    BallisticLine(title = stringResource(R.string.damage), entry = "${ballistics.damage}")
+                    BallisticLine(title = stringResource(R.string.pen_power), entry = "${ballistics.penetration}")
+                    BallisticLine(title = stringResource(R.string.drop), entry = "${ballistics.drop} cm")
+                    BallisticLine(title = stringResource(R.string.time_of_flight), entry = "${ballistics.tof} s")
                 }
             }
         }
@@ -352,7 +353,7 @@ class AmmoDetailActivity : GodActivity() {
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "TRAJECTORY",
+                        text = stringResource(R.string.trajectory),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -420,7 +421,7 @@ class AmmoDetailActivity : GodActivity() {
                     entry
                 }
 
-                val dataSet = LineDataSet(data, "Range (m)")
+                val dataSet = LineDataSet(data, getString(R.string.range_m))
                 dataSet.fillColor = resources.getColor(R.color.md_red_400)
                 dataSet.setDrawFilled(false)
                 dataSet.color = resources.getColor(R.color.md_red_400)
@@ -452,7 +453,7 @@ class AmmoDetailActivity : GodActivity() {
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "VELOCITY",
+                        text = stringResource(R.string.velocity),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -526,7 +527,7 @@ class AmmoDetailActivity : GodActivity() {
                     entry
                 }
 
-                val dataSet = LineDataSet(data, "Range (m)")
+                val dataSet = LineDataSet(data, getString(R.string.range_m))
                 dataSet.fillColor = resources.getColor(R.color.md_red_400)
                 dataSet.setDrawFilled(false)
                 dataSet.color = resources.getColor(R.color.md_red_400)
@@ -558,7 +559,7 @@ class AmmoDetailActivity : GodActivity() {
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "DAMAGE",
+                        text = getString(R.string.damage),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -632,7 +633,7 @@ class AmmoDetailActivity : GodActivity() {
                     entry
                 }
 
-                val dataSet = LineDataSet(data, "Range (m)")
+                val dataSet = LineDataSet(data, getString(R.string.range_m))
                 dataSet.fillColor = resources.getColor(R.color.md_red_400)
                 dataSet.setDrawFilled(false)
                 dataSet.color = resources.getColor(R.color.md_red_400)
@@ -699,14 +700,14 @@ class AmmoDetailActivity : GodActivity() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "Last Price: ${ammo.pricing?.getPrice()?.asCurrency()}",
+                            text = stringResource(R.string.last_price) + ": " + ammo.pricing?.getPrice()?.asCurrency(),
                             style = MaterialTheme.typography.subtitle1,
                             fontSize = 16.sp
                         )
                         Row {
                             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                                 Text(
-                                    text = "Last 48h: ",
+                                    text = stringResource(R.string.last_48h) + ": ",
                                     style = MaterialTheme.typography.caption,
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Light
@@ -729,29 +730,29 @@ class AmmoDetailActivity : GodActivity() {
                     Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
                 ) {
                     DataRow(
-                        title = "DAMAGE",
+                        title = getString(R.string.damage),
                         value = Pair(ammo.ballistics?.damage, MaterialTheme.colors.onSurface)
                     )
                     DataRow(
-                        title = "ARMOR DAMAGE %",
+                        title = stringResource(R.string.armor_damage),
                         value = Pair(ammo.ballistics?.armorDamage, MaterialTheme.colors.onSurface)
                     )
                     DataRow(
-                        title = "PENETRATION",
+                        title = stringResource(R.string.penetration),
                         value = Pair(
                             ammo.ballistics?.penetrationPower?.roundToInt(),
                             MaterialTheme.colors.onSurface
                         )
                     )
                     DataRow(
-                        title = "RECOIL",
+                        title = stringResource(R.string.recoil),
                         value = Pair(
                             ammo.ballistics?.recoil?.plusMinus(),
                             ammo.ballistics?.recoil?.getColor(true, MaterialTheme.colors.onSurface)
                         )
                     )
                     DataRow(
-                        title = "ACCURACY",
+                        title = stringResource(R.string.accuracy),
                         value = Pair(
                             ammo.ballistics?.accuracy?.plusMinus(),
                             ammo.ballistics?.accuracy?.getColor(
@@ -761,7 +762,7 @@ class AmmoDetailActivity : GodActivity() {
                         )
                     )
                     DataRow(
-                        title = "PROJECTILE SPEED",
+                        title = stringResource(R.string.projective_speed),
                         value = Pair(
                             "${ammo.ballistics?.initialSpeed} m/s",
                             MaterialTheme.colors.onSurface
@@ -769,7 +770,7 @@ class AmmoDetailActivity : GodActivity() {
                     )
                     if (ammo.ballistics?.tracer == true) {
                         DataRow(
-                            title = "TRACER",
+                            title = stringResource(R.string.tracer),
                             value = Pair(
                                 "${ammo.ballistics?.tracerColor?.uppercase()}",
                                 MaterialTheme.colors.onSurface
@@ -805,7 +806,7 @@ class AmmoDetailActivity : GodActivity() {
             Column {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "ARMOR PENETRATION CHANCE",
+                        text = stringResource(R.string.armor_penetration_chance),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -831,7 +832,7 @@ class AmmoDetailActivity : GodActivity() {
                             Modifier.weight(1f)
                         ) {
                             Text(
-                                text = selectedArmor?.Name ?: "Select Armor",
+                                text = selectedArmor?.Name ?: stringResource(R.string.select_armor),
                                 style = MaterialTheme.typography.body1,
                                 fontWeight = FontWeight.Bold
                             )
@@ -852,7 +853,7 @@ class AmmoDetailActivity : GodActivity() {
                 Divider(color = DividerDark)
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "DURABILITY",
+                        text = stringResource(R.string.durability),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -896,7 +897,7 @@ class AmmoDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "CHANCE TO PENETRATE ARMOR",
+                        text = stringResource(R.string.chance_to_pen_armor),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -1028,7 +1029,7 @@ fun PricingCard(
         ) {
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(
-                    text = "PRICING",
+                    text = stringResource(R.string.pricing),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Light,
                     fontFamily = Bender,

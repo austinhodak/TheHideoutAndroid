@@ -117,8 +117,8 @@ class PremiumThanksActivity : AppCompatActivity() {
                                         Column(
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
-                                            Text("Join our Discord!", fontSize = 18.sp, style = MaterialTheme.typography.button)
-                                            Text("And get your supporter role!", fontSize = 10.sp, style = MaterialTheme.typography.caption)
+                                            Text(getString(R.string.join_our_discord), fontSize = 18.sp, style = MaterialTheme.typography.button)
+                                            Text(getString(R.string.get_supporter_role), fontSize = 10.sp, style = MaterialTheme.typography.caption)
                                         }
                                     }
                                     Button(
@@ -137,7 +137,7 @@ class PremiumThanksActivity : AppCompatActivity() {
                                         Column(
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
-                                            Text("Follow me on Twitter", fontSize = 18.sp, style = MaterialTheme.typography.button)
+                                            Text(getString(R.string.follow_twitter), fontSize = 18.sp, style = MaterialTheme.typography.button)
                                         }
                                     }
                                     Button(
@@ -156,7 +156,7 @@ class PremiumThanksActivity : AppCompatActivity() {
                                         Column(
                                             horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
-                                            Text("Follow me on Twitch", fontSize = 18.sp, style = MaterialTheme.typography.button)
+                                            Text(getString(R.string.follow_twitch), fontSize = 18.sp, style = MaterialTheme.typography.button)
                                         }
                                     }
 
