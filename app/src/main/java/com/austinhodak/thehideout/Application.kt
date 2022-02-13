@@ -194,7 +194,8 @@ class Application : android.app.Application(), Configuration.Provider {
             if (oldFrequency == it && isScheduled) {
                 //Do nothing, already set.
             } else {
-                val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).setRequiresDeviceIdle(true).build()
+                //Possible fix for prices not updating properly
+                val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).setRequiresDeviceIdle(false).build()
 
                 val priceUpdateRequest = PeriodicWorkRequestBuilder<PriceUpdateWorker>(it.toString().toLong(), TimeUnit.MINUTES).setConstraints(constraints).build()
 
@@ -208,7 +209,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
         if (Localazy.isEnabled()) {
             Timber.d("Localazy is enabled.")
-            Localazy.forceLocale(Locale.forLanguageTag("RU"), true)
+            Localazy.forceLocale(Locale.forLanguageTag("EN"), true)
         }
     }
     /**

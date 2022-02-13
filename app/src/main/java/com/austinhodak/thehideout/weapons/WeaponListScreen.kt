@@ -63,7 +63,7 @@ fun WeaponListScreen(
                     )
                 } else {
                     MainToolbar(
-                        title = weaponClass?.first ?: "",
+                        title = weaponClass?.first?.toString() ?: "",
                         navViewModel = navViewModel
                     ) {
                         IconButton(onClick = { navViewModel.setSearchOpen(true) }) {

@@ -93,6 +93,17 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val itemColorYellow by intPref(Color.parseColor("#313122"))
     val itemColorGreen by intPref(Color.parseColor("#181F11"))
     val itemColorBlack by intPref(Color.parseColor("#181919"))
+
+    val traderRestockTime by enumPref(TraderRestockTime.`1`, "traderRestockTime")
+}
+
+enum class TraderRestockTime {
+    `1`,
+    `2`,
+    `5`,
+    `10`,
+    `15`,
+    `30`
 }
 
 enum class DataSyncFrequency {

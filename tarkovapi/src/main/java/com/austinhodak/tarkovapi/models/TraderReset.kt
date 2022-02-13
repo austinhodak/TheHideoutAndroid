@@ -27,7 +27,6 @@ data class TraderReset(
                         DateUtils.MINUTE_IN_MILLIS
                     )
                 }"
-                return "Restocking now!"
             }
 
             val remainingTime = resetTimeMillis - currentTimeMillis

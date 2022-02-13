@@ -968,6 +968,15 @@ class SettingsActivity : GodActivity() {
                                         enabled = false
                                     }
                                     button {
+                                        title = "Translations".asText()
+                                        summary = "Click to contribute!".asText()
+                                        icon = R.drawable.ic_baseline_translate_24.asIcon()
+                                        enabled = true
+                                        onClick = {
+                                            "https://localazy.com/p/the-hideout".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
                                         title = "Open Source Licenses".asText()
                                         icon = R.drawable.ic_baseline_source_24.asIcon()
                                         enabled = true

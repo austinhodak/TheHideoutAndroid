@@ -997,7 +997,7 @@ class FleaItemDetail : GodActivity() {
     ) {
 
         LazyColumn(
-            contentPadding = PaddingValues(vertical = 4.dp)
+            contentPadding = PaddingValues(top = 4.dp, bottom = 60.dp),
         ) {
             items(items = quests ?: emptyList()) { quest ->
 //            val isRequired = quest.isRequiredForKappa(database).observeAsState().value
@@ -1080,7 +1080,7 @@ class FleaItemDetail : GodActivity() {
         userData: FSUser?
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(vertical = 4.dp)
+            contentPadding = PaddingValues(top = 4.dp, bottom = 60.dp),
         ) {
             items(items = crafts) { craft ->
                 CraftItem(craft, userData)
@@ -1235,7 +1235,7 @@ class FleaItemDetail : GodActivity() {
         userData: User?
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(vertical = 4.dp)
+            contentPadding = PaddingValues(top = 4.dp, bottom = 60.dp),
         ) {
             items(items = barters ?: emptyList()) { barter ->
                 BarterItem(barter)

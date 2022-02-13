@@ -36,6 +36,8 @@ class MessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
+        Timber.d(remoteMessage.data.toString())
+
         if (remoteMessage.data.isNotEmpty()) {
 
             if (remoteMessage.data.containsKey("title") && remoteMessage.data.containsKey("content") && !remoteMessage.data.containsKey("restock") && !remoteMessage.data.containsKey("priceAlert")) {
@@ -80,6 +82,8 @@ class MessagingService : FirebaseMessagingService() {
                 if (UserSettingsModel.globalRestockAlertAppOpen.value) {
                     if (!isAppInforegrounded()) return
                 }
+
+                Timber.d("RESTOCK!")
 
                 val d = JSONObject(remoteMessage.data.getValue("restock"))
                 val data = d.getJSONObject("restock")
@@ -173,7 +177,8 @@ class MessagingService : FirebaseMessagingService() {
     }
 
     private fun sendRestockNotification(title: String, message: String, trader: Traders) {
-        if (!UserSettingsModel.serverStatusNotifications.value) return
+        //FUCK
+        if (!UserSettingsModel.globalRestockAlert.value) return
 
         val intent = Intent(this, NavActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
