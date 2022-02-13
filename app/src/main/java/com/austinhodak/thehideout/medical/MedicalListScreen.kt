@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -24,6 +25,7 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
@@ -48,7 +50,7 @@ fun MedicalListScreen (
     tarkovRepo: TarkovRepo,
     navViewModel: NavViewModel
 ) {
-    val titles: List<String> = listOf("MEDS", "STIMS")
+    val titles: List<String> = listOf(stringResource(R.string.meds), stringResource(R.string.stims))
 
     val pagerState = rememberPagerState(pageCount = titles.size)
     val coroutineScope = rememberCoroutineScope()
@@ -66,7 +68,7 @@ fun MedicalListScreen (
         topBar = {
             Column {
                 MainToolbar(
-                    title = "Medical",
+                    title = stringResource(id = R.string.medical),
                     navViewModel = navViewModel,
                     elevation = 0.dp
                 )

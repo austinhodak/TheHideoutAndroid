@@ -36,10 +36,11 @@ buildscript {
         google()
         mavenCentral()
         maven { url 'https://androidx.dev/snapshots/builds/8003490/artifacts/repository' }
+        maven { url "https://maven.localazy.com/repository/release/" }
     }
 
     dependencies {
-
+        classpath "com.localazy:gradle:1.5.3"
         classpath 'com.android.tools.build:gradle:7.0.4'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
         classpath 'com.google.gms:google-services:4.3.10'

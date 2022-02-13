@@ -182,7 +182,7 @@ class NavActivity : GodActivity() {
                 }
 
                 this.doubleBackToExitPressedOnce = true
-                Toast.makeText(this, "Press BACK again to exit.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.back_exit), Toast.LENGTH_SHORT).show()
 
                 Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
             }

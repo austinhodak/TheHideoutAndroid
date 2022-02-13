@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,8 +79,8 @@ fun GearListScreen(
     val data = tarkovRepo.getItemsByType(type).collectAsState(initial = emptyList())
     val titles: List<String>? = when (type) {
         ItemTypes.GLASSES,
-        ItemTypes.RIG -> listOf("UNARMORED", "ARMORED")
-        ItemTypes.HELMET -> listOf("ARMORED", "VANITY")
+        ItemTypes.RIG -> listOf(stringResource(R.string.unarmored), stringResource(R.string.armored))
+        ItemTypes.HELMET -> listOf(stringResource(R.string.armored), stringResource(R.string.vanity))
         else -> null
     }
 
@@ -116,15 +117,15 @@ fun GearListScreen(
                             }
                             IconButton(onClick = {
                                 val items = listOf(
-                                    "Name",
-                                    "Price: Low to High",
-                                    "Price: High to Low",
-                                    "Armor Class",
-                                    "Durability",
-                                    "Efficiency"
+                                    context.getString(R.string.name),
+                                    context.getString(R.string.price_low_to_high),
+                                    context.getString(R.string.price_high_to_low),
+                                    context.getString(R.string.armor_class),
+                                    context.getString(R.string.durability),
+                                    context.getString(R.string.efficiency)
                                 )
                                 MaterialDialog(context).show {
-                                    title(text = "Sort By")
+                                    title(res = R.string.sort_by)
                                     listItemsSingleChoice(items = items, initialSelection = sort ?: 0) { _, index, _ ->
                                         gearViewModel.setSort(index)
                                     }
@@ -329,7 +330,7 @@ fun GearCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "CLASS",
+                            text = stringResource(R.string.m_class),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp
@@ -346,7 +347,7 @@ fun GearCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "DURABILITY",
+                            text = stringResource(id = R.string.durability),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp
@@ -484,7 +485,7 @@ private fun BackpackCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "SLOTS",
+                            text = stringResource(R.string.slots),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp
@@ -501,7 +502,7 @@ private fun BackpackCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "EFFICIENCY",
+                            text = stringResource(id = R.string.efficiency),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp

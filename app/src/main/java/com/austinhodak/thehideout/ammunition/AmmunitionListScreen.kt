@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -95,17 +96,17 @@ fun AmmunitionListScreen(
                     )
                 } else {
                     MainToolbar(
-                        title = "Ammunition",
+                        title = stringResource(id = R.string.ammunition),
                         navViewModel = navViewModel,
                         elevation = 0.dp
                     ) {
                         IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
-                            Icon(Icons.Filled.Search, contentDescription = "Sort Ammo", tint = Color.White)
+                            Icon(Icons.Filled.Search, contentDescription = stringResource(R.string.sort_ammo), tint = Color.White)
                         }
                         IconButton(onClick = {
-                            val items = listOf("Name", "Price: Low to High", "Price: High to Low", "Damage", "Penetration", "Armor Effectiveness")
+                            val items = listOf(context.getString(R.string.name), context.getString(R.string.price_low_to_high), context.getString(R.string.price_high_to_low), context.getString(R.string.damage), context.getString(R.string.penetration), context.getString(R.string.armor_effectiveness))
                             MaterialDialog(context).show {
-                                title(text = "Sort By")
+                                title(text = context.getString(R.string.sort_by))
                                 listItemsSingleChoice(items = items, initialSelection = sort.value) { _, index, _ ->
                                     sort.value = index
                                     coroutineScope.launch {
@@ -238,7 +239,7 @@ fun AmmoSearchBody(
     }.sortedBy { it.shortName }
 
     if (items.isNullOrEmpty()) {
-        EmptyText("Search Ammunition")
+        EmptyText(stringResource(R.string.search_ammunition))
         return
     }
 
@@ -352,7 +353,7 @@ fun AmmoCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "DAMAGE",
+                            text = stringResource(id = R.string.damage),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp

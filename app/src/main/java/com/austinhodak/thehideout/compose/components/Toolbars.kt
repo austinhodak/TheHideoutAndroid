@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -208,7 +209,7 @@ fun WikiItem(
 ) {
     if (url.isEmpty()) return
     val context = LocalContext.current
-    OverflowMenuItem(text = "Wiki Page", icon = {
+    OverflowMenuItem(text = stringResource(R.string.wiki_page), icon = {
         Icon(
             painter = painterResource(id = R.drawable.fandom_logo),
             contentDescription = "Wiki",
