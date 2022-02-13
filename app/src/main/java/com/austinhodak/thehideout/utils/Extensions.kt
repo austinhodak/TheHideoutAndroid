@@ -1064,7 +1064,7 @@ fun fadeImagePainter(url: String?) = rememberImagePainter(data = url, builder = 
 @Composable
 fun fadeImagePainterPlaceholder(url: String?, @DrawableRes placeHolder: Int = R.drawable.unknown_item_icon) = rememberImagePainter(data = url, builder = { crossfade(true); placeholder(placeHolder) })
 
-fun Modifier.border() = Modifier.border(0.25.dp, BorderColor)
+fun Modifier.border(): Modifier = this.border(0.25.dp, BorderColor)
 
 fun String.traderIconSource(name: String? = this.split(" ")[0].lowercase(), level: Int? = this.split(" ")[1].replace("LL", "").toIntOrNull()): String {
     return when (name) {
