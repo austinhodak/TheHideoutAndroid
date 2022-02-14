@@ -800,21 +800,20 @@ class SettingsActivity : GodActivity() {
                                             title = "Pull".asText()
                                             summary = "Will overwrite any data on app.".asText()
                                             icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
-                                            /*dependsOn = object : Dependency<String> {
+                                            dependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
                                                 override suspend fun isEnabled(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
-                                            }*/
-                                            enabled = false
+                                            }
                                             onClick = {
                                                 try {
                                                     lifecycleScope.launch {
                                                         val test = ttRepository.getUserProgress()
 
                                                         if (test.isSuccessful) {
-                                                           // test.body()?.pushToDB()
+                                                            test.body()?.pushToDB()
                                                             UserSettingsModel.playerLevel.update(test.body()?.level ?: return@launch)
 
                                                             scaffoldState.snackbarHostState.showSnackbar("Sync completed!")

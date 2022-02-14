@@ -22,7 +22,6 @@ data class TTUser (
         fun toMap(id: String): Map<String, Any?> {
             return mapOf(
                 "completed" to complete,
-                "id" to id.toInt(),
                 "timeComplete" to timeComplete,
             )
         }

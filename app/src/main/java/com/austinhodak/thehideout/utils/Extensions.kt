@@ -69,6 +69,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.Timestamp
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -82,9 +83,9 @@ import java.text.DecimalFormat
 import java.util.concurrent.ExecutionException
 import kotlin.math.round
 
-fun userFirestore() = uid()?.let { 
+fun userFirestore() = uid()?.let {
     Timber.d(it)
-    Firebase.firestore.collection("users").document(it) 
+    Firebase.firestore.collection("users").document(it)
 }
 
 @SuppressLint("CheckResult")
@@ -968,12 +969,46 @@ fun FSUser.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
 
 fun TTUser.pushToDB() {
     //Wipe data.
-    userRefTracker("quests").removeValue()
+    /*userRefTracker("quests").removeValue()
     userRefTracker("questObjectives").removeValue()
     userRefTracker("hideoutModules").removeValue()
-    userRefTracker("hideoutObjectives").removeValue()
+    userRefTracker("hideoutObjectives").removeValue()*/
 
-    quests.forEach {
+    //Delete progress first.
+    userFirestore()?.set(hashMapOf("progress" to FieldValue.delete()), SetOptions.merge())?.addOnSuccessListener {
+        userFirestore()?.set(
+            hashMapOf(
+                "progress" to hashMapOf(
+                    "quests" to quests.mapValues {
+                        hashMapOf(
+                            "completed" to it.value.complete,
+                            "timestamp" to Timestamp.now()
+                        )
+                    },
+                    "questObjectives" to objectives.mapValues {
+                        hashMapOf(
+                            "completed" to it.value.complete,
+                            "timestamp" to Timestamp.now()
+                        )
+                    },
+                    "hideoutModules" to hideout.mapValues {
+                        hashMapOf(
+                            "completed" to it.value.complete,
+                            "timestamp" to Timestamp.now()
+                        )
+                    },
+                    "hideoutObjectives" to hideoutObjectives.mapValues {
+                        hashMapOf(
+                            "completed" to it.value.complete,
+                            "timestamp" to Timestamp.now()
+                        )
+                    }
+                )
+            ),
+            SetOptions.merge()
+        )
+    }
+    /*quests.forEach {
         userRefTracker("quests/${it.key.addQuotes()}").updateChildren(it.value.toMap(it.key))
     }
 
@@ -987,7 +1022,9 @@ fun TTUser.pushToDB() {
 
     hideoutObjectives.forEach {
         userRefTracker("hideoutObjectives/${it.key.addQuotes()}").updateChildren(it.value.toMap(it.key))
-    }
+    }*/
+
+
 }
 
 fun isWorkScheduled(context: Context, tag: String): Boolean {
