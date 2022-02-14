@@ -208,7 +208,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
         if (Localazy.isEnabled()) {
             Timber.d("Localazy is enabled.")
-            Localazy.forceLocale(Locale.forLanguageTag("RU"), true)
+            Localazy.forceLocale(Locale.forLanguageTag("DE"), true)
         }
     }
     /**

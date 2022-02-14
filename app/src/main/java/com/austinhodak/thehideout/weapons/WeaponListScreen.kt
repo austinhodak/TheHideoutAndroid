@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -22,6 +23,7 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.utils.fadeImagePainterPlaceholder
@@ -63,7 +65,7 @@ fun WeaponListScreen(
                     )
                 } else {
                     MainToolbar(
-                        title = weaponClass?.first ?: "",
+                        title = stringResource(id = weaponClass?.first ?: R.string.weapons) ?: "",
                         navViewModel = navViewModel
                     ) {
                         IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
