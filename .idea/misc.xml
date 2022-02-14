@@ -19,7 +19,9 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.478" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_filter_alt_24.xml" value="0.18958333333333333" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.491" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.4765" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_link_24.xml" value="0.482" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_manage_search_24.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.18680555555555556" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.1" />
@@ -88,8 +90,10 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_weapon.xml" value="0.18" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/layout_empty.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/login_picker.xml" value="0.33" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/login_picker_amazon.xml" value="0.2145842039281237" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/map_compose.xml" value="0.5" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/price_chart_marker_view.xml" value="0.67" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/qr_code_dialog.xml" value="0.4390765284309534" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_activity.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_trader_level_fragment.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/single_price_widget.xml" value="0.5" />

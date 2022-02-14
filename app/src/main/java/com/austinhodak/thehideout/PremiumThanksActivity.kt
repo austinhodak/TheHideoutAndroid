@@ -35,6 +35,16 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class PremiumThanksActivity : AppCompatActivity() {
+
+    @OptIn(ExperimentalFoundationApi::class)
+    override fun onBackPressed() {
+        if (intent.hasExtra("restart")) {
+            restartNavActivity()
+        } else {
+            onBackPressed()
+        }
+    }
+
     @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

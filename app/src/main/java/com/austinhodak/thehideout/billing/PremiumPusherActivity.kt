@@ -300,8 +300,8 @@ class PremiumPusherActivity : ComponentActivity() {
                                     Adapty.getPurchaserInfo { purchaserInfo, error ->
                                         Timber.d(purchaserInfo.toString())
                                         if (purchaserInfo?.subscriptions?.containsKey("premium_lifetime") == false || purchaserInfo?.subscriptions?.get("premium_lifetime")?.isActive == false) {
+                                            isProcessing = true
                                             product.purchase(this@PremiumPusherActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, e ->
-                                                isProcessing = true
                                                 if (e == null) {
                                                     Toast.makeText(this@PremiumPusherActivity, "Thank you!", Toast.LENGTH_SHORT).show()
                                                     if (intent.hasExtra("setResult")) {

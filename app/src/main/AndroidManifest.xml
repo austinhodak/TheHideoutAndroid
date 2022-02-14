@@ -14,8 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
+            android:name=".profile.UserProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".PremiumThanksActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".map.CustomMapMarkerAddActivity"
             android:exported="false" />

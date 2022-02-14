@@ -111,6 +111,14 @@ open class GodActivity : AppCompatActivity() {
     }
 
     private fun setupRestockTopics() {
+        Firebase.messaging.unsubscribeFromTopic("praporRestock")
+        Firebase.messaging.unsubscribeFromTopic("therapistRestock")
+        Firebase.messaging.unsubscribeFromTopic("skierRestock")
+        Firebase.messaging.unsubscribeFromTopic("peacekeeperRestock")
+        Firebase.messaging.unsubscribeFromTopic("mechanicRestock")
+        Firebase.messaging.unsubscribeFromTopic("ragmanRestock")
+        Firebase.messaging.unsubscribeFromTopic("jaegerRestock")
+
         UserSettingsModel.traderRestockTime.observe(lifecycleScope) {
             val restockTime = it.name
             val prapor = UserSettingsModel.praporRestockAlert.value
