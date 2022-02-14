@@ -157,7 +157,10 @@ class Application : android.app.Application(), Configuration.Provider {
                 listenerRegistration = Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
                     val user = value?.toObject<FSUser>()
                     if (value?.exists() == false) {
-                        userRefTracker("update").setValue(true)
+                        Firebase.firestore.collection("users").document(it).set(
+                            hashMapOf(
+                                "playerLevel" to UserSettingsModel.playerLevel.value
+                            ), SetOptions.merge())
                     }
                     Timber.d("$user")
                     user?.let {
@@ -209,7 +212,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
         if (Localazy.isEnabled()) {
             Timber.d("Localazy is enabled.")
-            Localazy.forceLocale(Locale.forLanguageTag("EN"), true)
+            //Localazy.forceLocale(Locale.forLanguageTag("EN"), true)
         }
     }
     /**

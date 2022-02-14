@@ -717,7 +717,7 @@ class SettingsActivity : GodActivity() {
                                         }
                                         switch(UserSettingsModel.ttSync) {
                                             title = "Sync Your Progress".asText()
-                                            summary = "Syncs on app open and close at this time. Realtime updates coming at a later date.".asText()
+                                            summary = "Automatic sync temporarily disabled, please sync manually below.".asText()
                                             icon = R.drawable.ic_baseline_cloud_sync_24.asIcon()
                                             dependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
