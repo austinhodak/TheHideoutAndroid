@@ -136,5 +136,23 @@
     <string name="sniper_rifles">Sniper Rifles</string>
     <string name="shotguns">Shotguns</string>
     <string name="smgs">Submachine Guns</string>
+    <string name="stations">Stations</string>
+    <string name="crafts">Crafts</string>
+    <string name="time_to_craft">Time to Craft</string>
+    <string name="cost_low_to_high">Cost: Low to High</string>
+    <string name="cost_high_to_low">Cost: High to Low</string>
+    <string name="profit_low_to_high">Profit: Low to High</string>
+    <string name="profit_high_to_low">Profit: High to Low</string>
+    <string name="profit_hour_low_high">Profit/Hour: Low to High</string>
+    <string name="profit_hour_high_low">Profit/Hour: High to Low</string>
+    <string name="show_only_available_crafts">Show Only Available Crafts</string>
+    <string name="no_modules">No Modules.</string>
+    <string name="add_to_needed_items">Add to Needed Items?</string>
+    <string name="needed_items_desc">This will add these items to the needed items list on the Flea Market screen.</string>
+    <string name="undo">UNDO</string>
+    <string name="needs">NEEDS</string>
+    <string name="cost">COST</string>
+    <string name="estimated_profit">ESTIMATED PROFIT</string>
+    <string name="estimated_profit_ph">ESTIMATED PROFIT PER HOUR</string>
 
 </resources>

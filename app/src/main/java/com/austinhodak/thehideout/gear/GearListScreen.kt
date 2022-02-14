@@ -76,6 +76,17 @@ fun GearListScreen(
         else -> ItemTypes.ARMOR
     }
 
+    val title = when (category) {
+        "Armor" -> R.string.armor
+        "Backpacks" -> R.string.backpacks
+        "Rigs" -> R.string.chest_rigs
+        "Eyewear" -> R.string.eyewear
+        "Facecover" -> R.string.face_coverings
+        "Headsets" -> R.string.headsets
+        "Headwear" -> R.string.headwear
+        else -> R.string.armor
+    }
+
     val data = tarkovRepo.getItemsByType(type).collectAsState(initial = emptyList())
     val titles: List<String>? = when (type) {
         ItemTypes.GLASSES,
@@ -102,7 +113,7 @@ fun GearListScreen(
                     )
                 } else {
                     MainToolbar(
-                        title = category ?: "Armor",
+                        title = stringResource(id = title),
                         navViewModel = navViewModel,
                         elevation = when (type) {
                             ItemTypes.HELMET,

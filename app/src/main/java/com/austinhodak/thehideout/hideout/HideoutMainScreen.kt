@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -117,27 +118,27 @@ fun HideoutMainScreen(
                                 when (navBackStackEntry?.destination?.route) {
                                     HideoutNavigationScreens.Stations.route -> {
                                         Text(
-                                            "Stations",
+                                            stringResource(R.string.stations),
                                             modifier = Modifier.padding(end = 16.dp)
                                         )
                                     }
                                     HideoutNavigationScreens.Crafts.route -> {
                                         Text(
-                                            "Crafts",
+                                            stringResource(R.string.crafts),
                                             modifier = Modifier.padding(end = 16.dp)
                                         )
                                     }
                                     else -> {
-                                        Chip(text = "Current", selected = selected == HideoutFilter.CURRENT) {
+                                        Chip(text = stringResource(id = R.string.current), selected = selected == HideoutFilter.CURRENT) {
                                             hideoutViewModel.setView(HideoutFilter.CURRENT)
                                         }
-                                        Chip(text = "Available", selected = selected == HideoutFilter.AVAILABLE) {
+                                        Chip(text = stringResource(id = R.string.available), selected = selected == HideoutFilter.AVAILABLE) {
                                             hideoutViewModel.setView(HideoutFilter.AVAILABLE)
                                         }
-                                        Chip(text = "Locked", selected = selected == HideoutFilter.LOCKED) {
+                                        Chip(text = stringResource(id = R.string.locked), selected = selected == HideoutFilter.LOCKED) {
                                             hideoutViewModel.setView(HideoutFilter.LOCKED)
                                         }
-                                        Chip(text = "All", selected = selected == HideoutFilter.ALL) {
+                                        Chip(text = stringResource(id = R.string.all), selected = selected == HideoutFilter.ALL) {
                                             hideoutViewModel.setView(HideoutFilter.ALL)
                                         }
                                     }
@@ -164,28 +165,28 @@ fun HideoutMainScreen(
                             if (navBackStackEntry?.destination?.route == HideoutNavigationScreens.Crafts.route) {
                                 IconButton(onClick = {
                                     val items = listOf(
-                                        "Name",
-                                        "Time to Craft",
-                                        "Cost: Low to High",
-                                        "Cost: High to Low",
-                                        "Profit: Low to High",
-                                        "Profit: High to Low",
-                                        "Profit/Hour: Low to High",
-                                        "Profit/Hour: High to Low",
+                                        context.getString(R.string.name),
+                                        context.getString(R.string.time_to_craft),
+                                        context.getString(R.string.cost_low_to_high),
+                                        context.getString(R.string.cost_high_to_low),
+                                        context.getString(R.string.profit_low_to_high),
+                                        context.getString(R.string.profit_high_to_low),
+                                        context.getString(R.string.profit_hour_low_high),
+                                        context.getString(R.string.profit_hour_high_low),
                                     )
                                     MaterialDialog(context).show {
-                                        title(text = "Sort By")
+                                        title(res = R.string.sort_by)
                                         listItemsSingleChoice(items = items, initialSelection = sort ?: 0) { _, index, _ ->
                                             hideoutViewModel.setSort(index)
                                         }
-                                        checkBoxPrompt(text = "Show Only Available Crafts", isCheckedDefault = filterAvailable == true) {
+                                        checkBoxPrompt(res = R.string.show_only_available_crafts, isCheckedDefault = filterAvailable == true) {
                                             hideoutViewModel.setFilterAvailable(it)
                                         }
                                     }
                                 }) {
                                     Icon(
                                         painterResource(id = R.drawable.ic_baseline_sort_24),
-                                        contentDescription = "Sort",
+                                        contentDescription = null,
                                         tint = Color.White
                                     )
                                 }
@@ -359,7 +360,7 @@ private fun HideoutModulesPage(
     }
 
     if (data.isNullOrEmpty()) {
-        EmptyText(text = "No Modules.")
+        EmptyText(text = stringResource(R.string.no_modules))
         return
     }
 
@@ -402,9 +403,9 @@ private fun HideoutModuleCard(
                 },
                 onLongClick = {
                     MaterialDialog(context).show {
-                        title(text = "Add to Needed Items?")
-                        message(text = "This will add these items to the needed items list on the Flea Market screen.")
-                        positiveButton(text = "ADD") {
+                        title(res = R.string.add_to_needed_items)
+                        message(res = R.string.needed_items_desc)
+                        positiveButton(res = R.string.add) {
                             module.require
                                 ?.filter { it?.type == "item" }
                                 ?.forEach {
@@ -414,7 +415,7 @@ private fun HideoutModuleCard(
                                     userRefTracker("items/$itemID/hideoutObjective/${it?.id?.addQuotes()}").setValue(quantity)
                                 }
                         }
-                        negativeButton(text = "CANCEL")
+                        negativeButton(res = R.string.cancel)
                     }
                 }
             ),
@@ -521,7 +522,7 @@ private fun HideoutModuleCard(
                             //Undo module
                         }) {
                             Text(
-                                "LOCKED",
+                                stringResource(id = R.string.locked),
                                 color = Color(0xFF555555)
                             )
                         }
@@ -548,7 +549,7 @@ private fun HideoutModuleCard(
                                 hideoutViewModel.undoModule(module)
                             }) {
                                 Text(
-                                    "UNDO",
+                                    stringResource(R.string.undo),
                                     color = Color(0xFF555555)
                                 )
                             }
@@ -898,7 +899,7 @@ fun CraftItem(craft: Craft, userData: FSUser?, modifier: Modifier = Modifier) {
                 )
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "NEEDS",
+                        text = stringResource(R.string.needs),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -912,9 +913,9 @@ fun CraftItem(craft: Craft, userData: FSUser?, modifier: Modifier = Modifier) {
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
                     color = DividerDark
                 )
-                AvgPriceRow(title = "COST", price = craft.totalCost())
-                SavingsRow(title = "ESTIMATED PROFIT", price = craft.estimatedProfit())
-                SavingsRow(title = "ESTIMATED PROFIT PER HOUR", price = craft.estimatedProfitPerHour())
+                AvgPriceRow(title = stringResource(R.string.cost), price = craft.totalCost())
+                SavingsRow(title = stringResource(R.string.estimated_profit), price = craft.estimatedProfit())
+                SavingsRow(title = stringResource(R.string.estimated_profit_ph), price = craft.estimatedProfitPerHour())
                 Spacer(modifier = Modifier.padding(bottom = 8.dp))
             }
         }
