@@ -36,6 +36,7 @@ import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.profile.UserProfileActivity
 import com.austinhodak.thehideout.team.TeamManagementActivity
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
@@ -228,24 +229,30 @@ class SettingsActivity : GodActivity() {
                                 }
                                 state = savedInstanceState
                                 subScreen {
-                                    title = "Player Profile".asText()
+                                    title = getString(R.string.player_profile).asText()
                                     icon = R.drawable.ic_baseline_person_24.asIcon()
                                     input(UserSettingsModel.playerIGN) {
-                                        title = "In Game Name".asText()
+                                        title = getString(R.string.in_game_name).asText()
                                         summary = "%s".asText()
                                         hint = "Name".asText()
                                     }
                                     input(UserSettingsModel.discordName) {
-                                        title = "Discord Name".asText()
+                                        title = getString(R.string.discord_name).asText()
                                         summary = "%s".asText()
                                         hint = "Username#0000".asText()
                                     }
                                     input(UserSettingsModel.playerLevel) {
-                                        title = "Player Level".asText()
+                                        title = getString(R.string.player_level).asText()
                                         summary = "Level %s".asText()
                                         hint = "Level".asText()
                                     }
-                                    subScreen {
+                                    button {
+                                        title = getString(R.string.traders).asText()
+                                        onClick = {
+                                            openActivity(UserProfileActivity::class.java)
+                                        }
+                                    }
+                                    /*subScreen {
                                         title = "Traders".asText()
                                         //icon = R.drawable.ic_baseline_person_24.asIcon()
                                         category {
@@ -276,7 +283,7 @@ class SettingsActivity : GodActivity() {
                                         singleChoice(UserSettingsModel.jaegerLevel, Levels.values(), { "Level $it" }) {
                                             title = "Jaeger".asText()
                                         }
-                                    }
+                                    }*/
                                     singleChoice(UserSettingsModel.userGameEdition, GameEdition.values(), {
                                         when (it) {
                                             GameEdition.STANDARD -> "Standard Edition"
@@ -285,33 +292,33 @@ class SettingsActivity : GodActivity() {
                                             GameEdition.EDGE_OF_DARKNESS -> "Edge of Darkness Limited Edition"
                                         }
                                     }) {
-                                        title = "Game Edition".asText()
+                                        title = getString(R.string.game_edition).asText()
                                     }
                                     category {
-                                        title = "Mouse Settings".asText()
+                                        title = getString(R.string.mouse_settings).asText()
                                     }
                                     input(UserSettingsModel.dpi) {
-                                        title = "Mouse DPI".asText()
+                                        title = getString(R.string.mouse_dpi).asText()
                                         summary = "%s".asText()
                                         hint = "DPI".asText()
                                     }
                                     input(UserSettingsModel.hipfireSens) {
-                                        title = "In Game Mouse Sensitivity".asText()
-                                        summary = "%s".replace("[^0-9.]".toRegex(), "").asText()
+                                        title = getString(R.string.in_game_mouse_sens).asText()
+                                        summary = "%s".asText()
                                         hint = "Mouse Sens".asText()
                                         textInputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
                                     }
                                     input(UserSettingsModel.aimSens) {
-                                        title = "In Game Aim Sensitivity".asText()
-                                        summary = "%s".replace("[^0-9.]".toRegex(), "").asText()
+                                        title = getString(R.string.in_game_aim_sens).asText()
+                                        summary = "%s".asText()
                                         hint = "Aim Sens".asText()
                                         textInputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
                                     }
                                     category {
-                                        title = "Other".asText()
+                                        title = getString(R.string.other).asText()
                                     }
                                     button {
-                                        title = "Log out".asText()
+                                        title = getString(R.string.log_out).asText()
                                         icon = R.drawable.ic_baseline_logout_24.asIcon()
                                         enabled = isSignedIn
                                         onClick = {
@@ -328,10 +335,10 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                     subScreen {
-                                        title = "Reset".asText()
+                                        title = getString(R.string.reset).asText()
                                         icon = R.drawable.ic_baseline_settings_backup_restore_24.asIcon()
                                         button {
-                                            title = "Reset Hideout Progress".asText()
+                                            title = getString(R.string.reset_hideout_progress).asText()
                                             onClick = {
                                                 MaterialDialog(this@SettingsActivity).show {
                                                     title(text = "Reset Hideout Progress?")
@@ -347,7 +354,7 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                         button {
-                                            title = "Reset Quest Progress".asText()
+                                            title = getString(R.string.reset_quest_progress).asText()
                                             onClick = {
                                                 MaterialDialog(this@SettingsActivity).show {
                                                     title(text = "Reset Quest Progress?")
@@ -363,7 +370,7 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                         button {
-                                            title = "Reset All Progress".asText()
+                                            title = getString(R.string.reset_all_progress).asText()
                                             onClick = {
                                                 MaterialDialog(this@SettingsActivity).show {
                                                     title(text = "Reset All Progress?")
@@ -389,7 +396,7 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }
                                 button {
-                                    title = "Team Management".asText()
+                                    title = getString(R.string.team_management).asText()
                                     //summary = "Join, leave, and manage your teams.".asText()
                                     icon = R.drawable.ic_baseline_group_24.asIcon()
                                     onClick = {
@@ -397,10 +404,10 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }
                                 category {
-                                    title = "Settings".asText()
+                                    title = getString(R.string.settings).asText()
                                 }
                                 subScreen {
-                                    title = "Data Sync".asText()
+                                    title = getString(R.string.data_sync).asText()
                                     icon = R.drawable.ic_baseline_update_24.asIcon()
                                     val updateTime = if (isWorkRunning(this@SettingsActivity, "price_update")) {
                                         "Updating now..."
@@ -421,11 +428,11 @@ class SettingsActivity : GodActivity() {
                                             else -> ""
                                         }
                                     }) {
-                                        title = "Sync Frequency".asText()
+                                        title = getString(R.string.sync_frequency).asText()
                                         icon = R.drawable.ic_baseline_update_24.asIcon()
                                     }
                                     button {
-                                        title = "Sync Now".asText()
+                                        title = getString(R.string.sync_now).asText()
                                         summary = "".asText()
                                         icon = R.drawable.ic_baseline_sync_24.asIcon()
                                         //badge = "PRO".asBatch()
@@ -439,7 +446,7 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                     category {
-                                        title = "Data Provided By".asText()
+                                        title = getString(R.string.data_provided_by).asText()
                                     }
                                     button {
                                         title = "Tarkov Tools".asText()
@@ -459,10 +466,10 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }
                                 subScreen {
-                                    title = "Display".asText()
+                                    title = getString(R.string.display).asText()
                                     icon = R.drawable.ic_baseline_wb_sunny_24.asIcon()
                                     switch(UserSettingsModel.keepScreenOn) {
-                                        title = "Keep Screen On".asText()
+                                        title = getString(R.string.keep_screen_on).asText()
                                         icon = R.drawable.ic_baseline_screen_lock_portrait_24.asIcon()
                                     }
                                     singleChoice(UserSettingsModel.openingScreen, OpeningScreen.values(), {
@@ -479,15 +486,15 @@ class SettingsActivity : GodActivity() {
                                             else -> ""
                                         }
                                     }) {
-                                        title = "Opening Screen".asText()
+                                        title = getString(R.string.opening_screen).asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
                                     }
                                     category {
-                                        title = "Other".asText()
+                                        title = getString(R.string.other).asText()
                                     }
                                     if (!isPremium() || isDebug())
                                         switch(UserSettingsModel.hidePremiumBanner) {
-                                            title = "Hide Premium Banner".asText()
+                                            title = getString(R.string.hide_premium_banner).asText()
                                             icon = R.drawable.ic_baseline_visibility_off_24.asIcon()
                                         }
                                     singleChoice(UserSettingsModel.languageSetting, LanguageSetting.values(), {
@@ -501,12 +508,12 @@ class SettingsActivity : GodActivity() {
                                             else -> ""
                                         }
                                     }) {
-                                        title = "Language".asText()
+                                        title = getString(R.string.language).asText()
                                         icon = R.drawable.ic_baseline_language_24.asIcon()
                                     }
                                 }
                                 subScreen {
-                                    title = "Flea Market".asText()
+                                    title = getString(R.string.flea_market).asText()
                                     icon = R.drawable.ic_baseline_storefront_24.asIcon()
                                     singleChoice(UserSettingsModel.fleaVisiblePrice, FleaVisiblePrice.values(), {
                                         when (it) {
@@ -518,7 +525,7 @@ class SettingsActivity : GodActivity() {
                                             else -> ""
                                         }
                                     }) {
-                                        title = "List Price".asText()
+                                        title = getString(R.string.list_price).asText()
                                         icon = R.drawable.ic_baseline_money_24.asIcon()
                                     }
                                     singleChoice(UserSettingsModel.fleaIconDisplay, IconSelection.values(), {
@@ -528,7 +535,7 @@ class SettingsActivity : GodActivity() {
                                             IconSelection.GAME -> "Same as in game"
                                         }
                                     }) {
-                                        title = "Icon Display".asText()
+                                        title = getString(R.string.icon_display).asText()
                                         icon = R.drawable.ic_baseline_image_24.asIcon()
                                     }
                                     singleChoice(UserSettingsModel.fleaHideTime, FleaHideTime.values(), {
@@ -540,11 +547,11 @@ class SettingsActivity : GodActivity() {
                                             FleaHideTime.DAY30 -> "Within last 30 Days"
                                         }
                                     }) {
-                                        title = "Only Show Items Scanned".asText()
+                                        title = getString(R.string.only_show_items_scanned).asText()
                                         icon = R.drawable.ic_baseline_access_time_24.asIcon()
                                     }
                                     switch(UserSettingsModel.fleaHideNonFlea) {
-                                        title = "Hide Items Banned From Flea".asText()
+                                        title = getString(R.string.hide_banned_from_flea).asText()
                                         icon = R.drawable.ic_baseline_block_24.asIcon()
                                     }
                                     /*subScreen {
@@ -610,20 +617,20 @@ class SettingsActivity : GodActivity() {
                                     }*/
                                 }
                                 subScreen {
-                                    title = "Maps".asText()
+                                    title = getString(R.string.maps).asText()
                                     icon = R.drawable.ic_baseline_map_24.asIcon()
                                     singleChoice(UserSettingsModel.defaultMap, MapEnums.values(), {
                                         it.id
                                     }) {
-                                        title = "Default Map".asText()
+                                        title = getString(R.string.default_map).asText()
                                         icon = R.drawable.ic_baseline_map_24.asIcon()
                                     }
                                 }
                                 subScreen {
-                                    title = "Notifications".asText()
+                                    title = getString(R.string.notifications).asText()
                                     icon = R.drawable.ic_baseline_notifications_active_24.asIcon()
                                     category {
-                                        title = "Server Status".asText()
+                                        title = getString(R.string.server_status).asText()
                                     }
                                     switch(UserSettingsModel.serverStatusNotifications) {
                                         title = "Show Notifications".asText()
@@ -673,7 +680,7 @@ class SettingsActivity : GodActivity() {
                                         }
                                 }
                                 category {
-                                    title = "Integrations (Beta)".asText()
+                                    title = getString(R.string.integrations_beta).asText()
                                 }
                                 subScreen {
                                     title = "Tarkov Tracker".asText()
@@ -852,7 +859,7 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }
                                 category {
-                                    title = "About".asText()
+                                    title = getString(R.string.about).asText()
                                 }
                                 if (Firebase.remoteConfig.getBoolean("gleap_enabled")) {
                                     button {
@@ -865,7 +872,7 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }
                                 subScreen {
-                                    title = "Socials".asText()
+                                    title = getString(R.string.socials).asText()
                                     icon = R.drawable.ic_icons8_discord_svg.asIcon()
                                     category {
                                         title = "Join Us On".asText()
@@ -951,7 +958,7 @@ class SettingsActivity : GodActivity() {
                                     }
                                 }
                                 subScreen {
-                                    title = "More About".asText()
+                                    title = getString(R.string.more_about).asText()
                                     icon = R.drawable.ic_baseline_info_24.asIcon()
                                     button {
                                         title = "The Hideout".asText()
