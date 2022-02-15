@@ -490,6 +490,20 @@ class SettingsActivity : GodActivity() {
                                             title = "Hide Premium Banner".asText()
                                             icon = R.drawable.ic_baseline_visibility_off_24.asIcon()
                                         }
+                                    singleChoice(UserSettingsModel.languageSetting, LanguageSetting.values(), {
+                                        when (it) {
+                                            LanguageSetting.ENGLISH -> "English"
+                                            LanguageSetting.FRENCH -> "French"
+                                            LanguageSetting.GERMAN -> "German"
+                                            LanguageSetting.POLISH -> "Polish"
+                                            LanguageSetting.RUSSIAN -> "Russian"
+                                            LanguageSetting.TURKISH -> "Turkish"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "Language".asText()
+                                        icon = R.drawable.ic_baseline_language_24.asIcon()
+                                    }
                                 }
                                 subScreen {
                                     title = "Flea Market".asText()

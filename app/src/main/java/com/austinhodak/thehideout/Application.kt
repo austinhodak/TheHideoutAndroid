@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.adapty.Adapty
+import com.austinhodak.tarkovapi.LanguageSetting
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.*
@@ -31,6 +32,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.localazy.android.Localazy
 import com.skydoves.only.Only
+import com.skydoves.only.onlyOnce
 import dagger.hilt.android.HiltAndroidApp
 import io.gleap.Gleap
 import kotlinx.coroutines.MainScope
@@ -211,8 +213,15 @@ class Application : android.app.Application(), Configuration.Provider {
         }
 
         if (Localazy.isEnabled()) {
-            Timber.d("Localazy is enabled.")
-            //Localazy.forceLocale(Locale.forLanguageTag("EN"), true)
+            val currentLocale = Localazy.getCurrentLocale()
+            val currentSelectedLocale = UserSettingsModel.languageSetting.value
+            onlyOnce("locale") {
+                MainScope().launch {
+                    //UserSettingsModel.languageSetting.update(LanguageSetting.values().find { it.locale == currentLocale } ?: LanguageSetting.ENGLISH)
+                }
+            }
+
+            Localazy.forceLocale(currentSelectedLocale.locale, true)
         }
     }
     /**

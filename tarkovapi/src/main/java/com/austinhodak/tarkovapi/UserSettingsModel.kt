@@ -4,6 +4,7 @@ import android.graphics.Color
 import com.austinhodak.tarkovapi.utils.Maps
 import com.michaelflisar.materialpreferences.core.SettingsModel
 import com.michaelflisar.materialpreferences.datastore.DataStoreStorage
+import java.util.*
 
 
 object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
@@ -95,6 +96,17 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val itemColorBlack by intPref(Color.parseColor("#181919"))
 
     val traderRestockTime by enumPref(TraderRestockTime.`1`, "traderRestockTime")
+
+    val languageSetting by enumPref(LanguageSetting.ENGLISH, "language")
+}
+
+enum class LanguageSetting (val locale: Locale) {
+    ENGLISH (Locale.ENGLISH),
+    FRENCH (Locale.FRENCH),
+    GERMAN (Locale.GERMAN),
+    POLISH (Locale.forLanguageTag("PL")),
+    RUSSIAN (Locale.forLanguageTag("RU")),
+    TURKISH  (Locale.forLanguageTag("TR")),
 }
 
 enum class TraderRestockTime {

@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -178,7 +175,8 @@ class PremiumPusherActivity : ComponentActivity() {
         }
         AnimatedVisibility(
             visible = paywall != null && !isProcessing,
-            enter = fadeIn()
+            enter = fadeIn(),
+            exit = fadeOut()
         ) {
             Scaffold(
                 topBar = {
