@@ -154,5 +154,6 @@
     <string name="cost">COST</string>
     <string name="estimated_profit">ESTIMATED PROFIT</string>
     <string name="estimated_profit_ph">ESTIMATED PROFIT PER HOUR</string>
+    <string name="log_out">Log Out</string>
 
 </resources>

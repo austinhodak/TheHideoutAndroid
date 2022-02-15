@@ -1219,6 +1219,7 @@ private fun OverviewItem(
 fun Chip(
     selected: Boolean = false,
     text: String,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Surface(
@@ -1231,7 +1232,7 @@ fun Chip(
             else -> Color.White
         },
         shape = RoundedCornerShape(12.dp),
-        modifier = Modifier
+        modifier = modifier
             .padding(end = 8.dp)
             .clip(RoundedCornerShape(12.dp))
             .clickable {
