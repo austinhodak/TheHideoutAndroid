@@ -864,6 +864,7 @@ class QuestDetailActivity : GodActivity() {
         pricing: Pricing?
     ) {
         val context = LocalContext.current
+        val hasKey = fsUser.value?.keys?.containsKey(pricing?.id) == true
 
         Column(
             Modifier
@@ -913,14 +914,26 @@ class QuestDetailActivity : GodActivity() {
                         )
                     }
                 }
-                Image(
-                    rememberImagePainter(pricing?.getCleanIcon()),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(38.dp)
-                        .height(38.dp)
-                        .border((0.25).dp, color = BorderColor)
-                )
+                Box(
+                    modifier = Modifier.size(38.dp)
+                ) {
+                    Image(
+                        rememberImagePainter(pricing?.getCleanIcon()),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(38.dp)
+                            .height(38.dp)
+                            .border((0.25).dp, color = if (hasKey) Green400 else BorderColor)
+                    )
+                    if (hasKey || objective.type == "find") {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_check_circle_outline_24),
+                            null,
+                            tint = if (hasKey) Green400 else if (objective.type == "find") Amber500 else Color.Transparent,
+                            modifier = Modifier.size(12.dp).padding(bottom = 2.dp, end = 2.dp).align(Alignment.BottomEnd)
+                        )
+                    }
+                }
             }
         }
     }

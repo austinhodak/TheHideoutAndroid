@@ -422,6 +422,7 @@ private fun QuestItemsScreenItem(
 
     val isComplete = userData?.progress?.isQuestObjectiveCompleted(objective) ?: false
     val context = LocalContext.current
+    val hasKey = fsUser.value?.keys?.containsKey(item.id) == true
 
     Card(
         modifier = Modifier
@@ -440,20 +441,28 @@ private fun QuestItemsScreenItem(
             Modifier.padding(start = 16.dp, end = 16.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    rememberImagePainter(
-                        item.pricing?.getCleanIcon()
-                    ),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(vertical = 16.dp)
-                        .width(38.dp)
-                        .height(38.dp)
-                        .border((0.25).dp, color = BorderColor)
-                        .clickable {
-                            context.openFleaDetail(item.id)
-                        }
-                )
+                Box(
+                    modifier = Modifier.size(38.dp)
+                ) {
+                    Image(
+                        rememberImagePainter(item.pricing?.getCleanIcon()),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(38.dp)
+                            .height(38.dp)
+                            .border((0.25).dp, color = if (hasKey) Green400 else BorderColor).clickable {
+                                context.openFleaDetail(item.id)
+                            }
+                    )
+                    if (hasKey || objective.type == "find") {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_check_circle_outline_24),
+                            null,
+                            tint = if (hasKey) Green400 else if (objective.type == "find") Amber500 else Color.Transparent,
+                            modifier = Modifier.size(12.dp).padding(bottom = 2.dp, end = 2.dp).align(Alignment.BottomEnd)
+                        )
+                    }
+                }
                 Column(
                     Modifier
                         .padding(start = 16.dp, end = 16.dp)
