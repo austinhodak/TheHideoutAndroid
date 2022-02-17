@@ -196,7 +196,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
             Timber.d("Scheduled $isScheduled || Running $isRunning")
 
-            if (oldFrequency == it && isScheduled) {
+            if (oldFrequency == it && isScheduled && !isRunning) {
                 //Do nothing, already set.
             } else {
                 //Possible fix for prices not updating properly
@@ -212,16 +212,13 @@ class Application : android.app.Application(), Configuration.Provider {
             }
         }
 
-        if (Localazy.isEnabled()) {
-            val currentLocale = Localazy.getCurrentLocale()
-            val currentSelectedLocale = UserSettingsModel.languageSetting.value
-            onlyOnce("locale") {
-                MainScope().launch {
-                    //UserSettingsModel.languageSetting.update(LanguageSetting.values().find { it.locale == currentLocale } ?: LanguageSetting.ENGLISH)
-                }
-            }
+        UserSettingsModel.languageSetting.observe(MainScope()) {
+            if (Localazy.isEnabled()) {
+                val currentLocale = Localazy.getCurrentLocale()
+                val currentSelectedLocale = it
 
-            Localazy.forceLocale(currentSelectedLocale.locale, true)
+                Localazy.forceLocale(currentSelectedLocale.locale, true)
+            }
         }
     }
     /**

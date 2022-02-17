@@ -301,7 +301,6 @@ class PremiumPusherActivity : ComponentActivity() {
                                             isProcessing = true
                                             product.purchase(this@PremiumPusherActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, e ->
                                                 if (e == null) {
-                                                    Toast.makeText(this@PremiumPusherActivity, "Thank you!", Toast.LENGTH_SHORT).show()
                                                     if (intent.hasExtra("setResult")) {
                                                         openActivity(PremiumThanksActivity::class.java)
                                                         setResult(RESULT_OK)

@@ -58,8 +58,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val hipfireSens by stringPref("0.50", "hipfireSens")
     val aimSens by stringPref("0.50", "aimSens")
 
-    val dataSyncFrequency by enumPref(DataSyncFrequency.`60`, "dataSyncFrequency")
-    val dataSyncFrequencyPrevious by enumPref(DataSyncFrequency.`60`, "dataSyncFrequencyPrevious")
+    val dataSyncFrequency by enumPref(DataSyncFrequency.`120`, "dataSyncFrequency")
+    val dataSyncFrequencyPrevious by enumPref(DataSyncFrequency.`120`, "dataSyncFrequencyPrevious")
 
     val showStatusOnHomeScreen by boolPref(true, "showStatusOnHomeScreen")
 
@@ -97,7 +97,7 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
     val traderRestockTime by enumPref(TraderRestockTime.`1`, "traderRestockTime")
 
-    val languageSetting by enumPref(LanguageSetting.ENGLISH, "language")
+    val languageSetting by enumPref(LanguageSetting.values().find { Locale.getDefault().language == it.name } ?: LanguageSetting.ENGLISH, "language")
 }
 
 enum class LanguageSetting (val locale: Locale) {
