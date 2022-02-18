@@ -39,7 +39,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 14201
+        versionCode 14202
         // [1]-[0].[2].[0].[0]
         versionName "1.4.2"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
