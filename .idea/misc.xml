@@ -34,6 +34,7 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.15486111111111112" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_subdirectory_arrow_right_24.xml" value="0.4875" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_update_24.xml" value="0.469" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_hideout_monochrome__1_.xml" value="0.482" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_icons8_discord_svg.xml" value="0.414" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_icons8_icons8.xml" value="0.4905" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_icons8_twitter.xml" value="0.414" />
@@ -114,6 +115,8 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_flea_main_bottom_nav.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_quests_bottom_nav.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/quest_overview.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2995" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2995" />
         <entry key="..\:/Development/TheHideout/tarkovapi/src/main/res/layout/item_flea_api.xml" value="0.21584699453551912" />
         <entry key="..\:/Users/ahoda/.gradle/caches/transforms-3/5a6e19a61c42670f4005d12c1a3a9e92/transformed/jetified-screen-0.5.2/res/drawable/icon_settings_expand.xml" value="0.15694444444444444" />
         <entry key="app/src/main/res/drawable/editor_stat.xml" value="0.351" />
