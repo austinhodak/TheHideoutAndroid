@@ -82,12 +82,19 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
-    api "com.github.MFlisar.MaterialPreferences:core:$prefs"
-    api "com.github.MFlisar.MaterialPreferences:datastore:$prefs"
-    api "com.github.MFlisar.MaterialPreferences:screen:$prefs"
-    api "com.github.MFlisar.MaterialPreferences:screen-input:$prefs"
-    api "com.github.MFlisar.MaterialPreferences:screen-choice:$prefs"
-    api "com.github.MFlisar.MaterialPreferences:screen-color:$prefs"
+//    api "com.github.MFlisar.MaterialPreferences:core:$prefs"
+//    api "com.github.MFlisar.MaterialPreferences:datastore:$prefs"
+//    api "com.github.MFlisar.MaterialPreferences:screen:$prefs"
+//    api "com.github.MFlisar.MaterialPreferences:screen-input:$prefs"
+//    api "com.github.MFlisar.MaterialPreferences:screen-choice:$prefs"
+//    api "com.github.MFlisar.MaterialPreferences:screen-color:$prefs"
+
+    api project(':mp-core')
+    api project(':mp-library-datastore')
+    api project(':mp-library-preference-screen')
+    api project(':mp-library-preference-screen-input')
+    api project(':mp-library-preference-screen-choice')
+    api project(':mp-library-preference-screen-color')
 
     api "androidx.work:work-runtime-ktx:2.7.1"
 

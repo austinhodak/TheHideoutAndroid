@@ -293,6 +293,8 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }) {
                                         title = getString(R.string.game_edition).asText()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
                                     }
                                     category {
                                         title = getString(R.string.mouse_settings).asText()
@@ -430,6 +432,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.sync_frequency).asText()
                                         icon = R.drawable.ic_baseline_update_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
                                     }
                                     button {
                                         title = getString(R.string.sync_now).asText()
@@ -488,6 +492,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.opening_screen).asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
                                     }
                                     category {
                                         title = getString(R.string.other).asText()
@@ -510,6 +516,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.language).asText()
                                         icon = R.drawable.ic_baseline_language_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
                                     }
                                 }
                                 subScreen {
@@ -527,6 +535,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.list_price).asText()
                                         icon = R.drawable.ic_baseline_money_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
                                     }
                                     singleChoice(UserSettingsModel.fleaIconDisplay, IconSelection.values(), {
                                         when (it) {
@@ -537,6 +547,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.icon_display).asText()
                                         icon = R.drawable.ic_baseline_image_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
                                     }
                                     singleChoice(UserSettingsModel.fleaHideTime, FleaHideTime.values(), {
                                         when (it) {
@@ -549,6 +561,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.only_show_items_scanned).asText()
                                         icon = R.drawable.ic_baseline_access_time_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
                                     }
                                     switch(UserSettingsModel.fleaHideNonFlea) {
                                         title = getString(R.string.hide_banned_from_flea).asText()
@@ -624,6 +638,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.default_map).asText()
                                         icon = R.drawable.ic_baseline_map_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
                                     }
                                 }
                                 subScreen {

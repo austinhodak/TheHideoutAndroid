@@ -221,7 +221,8 @@ class Application : android.app.Application(), Configuration.Provider {
             }
         }
     }
-    /**
+
+    /*
      * Sets up the Firebase remote config.
      */
 

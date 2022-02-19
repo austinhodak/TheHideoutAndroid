@@ -1,5 +1,6 @@
 package com.michaelflisar.materialpreferences.preferencescreen.input.integer
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.text.InputType
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ class InputIntViewHolder(
 
     override fun createSubBinding(inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding? = null
 
+    @SuppressLint("CheckResult")
     override fun createDialog(preference: InputIntPreference) : Dialog {
         val dialog = if (preference.bottomSheet) MaterialDialog(itemView.context, BottomSheet()) else MaterialDialog(itemView.context)
         dialog.show {
