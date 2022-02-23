@@ -95,6 +95,10 @@ data class Pricing(
         return sellFor?.filterNot { it.isFleaMarket() }?.maxByOrNull { it.price ?: Int.MIN_VALUE }
     }
 
+    fun getCheapestTrader(): BuySellPrice? {
+        return buyFor?.filterNot { it.isFleaMarket() }?.minByOrNull { it.price ?: Int.MAX_VALUE }
+    }
+
     fun getPrice(): Int {
         if (id == "59faff1d86f7746c51718c9c") {
             return getHighestSellTrader()?.getPriceAsRoubles() ?: 0

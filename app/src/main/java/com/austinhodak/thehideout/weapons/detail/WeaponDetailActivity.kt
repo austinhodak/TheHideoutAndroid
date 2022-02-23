@@ -342,12 +342,16 @@ class WeaponDetailActivity : GodActivity() {
                             ),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                                Text(
-                                    text = "${preset.name}",
-                                    style = MaterialTheme.typography.body1,
-                                    fontSize = 12.sp
-                                )
+                            if (preset.default) {
+                                SmallBuyPrice(pricing = weapon.pricing)
+                            } else {
+                                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                                    Text(
+                                        text = preset.name,
+                                        style = MaterialTheme.typography.body1,
+                                        fontSize = 12.sp
+                                    )
+                                }
                             }
                         }
 
