@@ -28,7 +28,7 @@ object Module {
     @Provides
     fun provideApolloClient(): ApolloClient {
         return ApolloClient(
-            serverUrl = "https://tarkov-tools.com/graphql"
+            serverUrl = "https://api.tarkov.dev/graphql"
         )
     }
 

@@ -15,28 +15,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
-import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
-import com.austinhodak.tarkovapi.utils.getTraderLevel
-import com.austinhodak.tarkovapi.utils.sourceTitle
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.PriceAlert
-import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.openFleaDetail
+import com.austinhodak.thehideout.utils.questsFirebase
+import com.austinhodak.thehideout.utils.uid
 import com.austinhodak.thehideout.widgets.WidgetPickerActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -44,7 +41,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -327,7 +323,6 @@ private fun PriceAlertItem(
                         }
                     }
                 }
-
             }
         }
     }
