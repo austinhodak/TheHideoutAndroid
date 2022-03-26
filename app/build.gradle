@@ -26,7 +26,7 @@ android {
             keyPassword "android"
         }
         release {
-            storeFile file('C:/Development/Keys/TheHideoutKeystore.jks')
+            storeFile file('/Users/austinhodak/Library/Mobile Documents/com~apple~CloudDocs/Development/Keys/TheHideoutKeystore.jks')
             keyAlias 'key0'
             storePassword 'dg3hGsRvyUkBiHt67xkLgktK'
             keyPassword 'dg3hGsRvyUkBiHt67xkLgktK'
@@ -39,9 +39,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 31
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 14202
+        versionCode 14301
         // [1]-[0].[2].[0].[0]
-        versionName "1.4.2"
+        versionName "1.4.3"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true

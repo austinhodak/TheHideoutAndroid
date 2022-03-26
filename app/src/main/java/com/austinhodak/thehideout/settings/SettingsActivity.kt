@@ -453,11 +453,11 @@ class SettingsActivity : GodActivity() {
                                         title = getString(R.string.data_provided_by).asText()
                                     }
                                     button {
-                                        title = "Tarkov Tools".asText()
-                                        summary = "Created by kokarn".asText()
+                                        title = "Tarkov.dev".asText()
+                                        //summary = "Created by kokarn".asText()
                                         icon = R.drawable.ic_icons8_github.asIcon()
                                         onClick = {
-                                            "https://tarkov-tools.com/".openWithCustomTab(this@SettingsActivity)
+                                            "https://tarkov.dev/".openWithCustomTab(this@SettingsActivity)
                                         }
                                     }
                                     button {
@@ -942,10 +942,10 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                     button {
-                                        title = "Tarkov Tools".asText()
+                                        title = "Tarkov.dev".asText()
                                         //icon = R.drawable.ic_round_language_24.asIcon()
                                         onClick = {
-                                            "https://tarkov-tools.com/".openWithCustomTab(this@SettingsActivity)
+                                            "https://tarkov.dev/".openWithCustomTab(this@SettingsActivity)
                                         }
                                     }
                                     button {
