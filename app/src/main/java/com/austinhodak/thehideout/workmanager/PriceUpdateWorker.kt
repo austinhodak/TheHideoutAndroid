@@ -12,6 +12,7 @@ import com.austinhodak.tarkovapi.CraftsQuery
 import com.austinhodak.tarkovapi.ItemsByTypeQuery
 import com.austinhodak.tarkovapi.QuestsQuery
 import com.austinhodak.tarkovapi.repository.TarkovRepo
+import com.austinhodak.tarkovapi.room.models.Price
 import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.toBarter
 import com.austinhodak.tarkovapi.utils.toCraft
@@ -69,6 +70,7 @@ class PriceUpdateWorker @AssistedInject constructor(
 
         return try {
             val itemDao = tarkovRepo.getItemDao()
+            val priceDao = tarkovRepo.getPriceDao()
             val response = apolloClient.query(ItemsByTypeQuery(ItemType.any))
             val items = response.data?.itemsByType?.map { fragments ->
                 fragments?.toPricing()
@@ -76,11 +78,22 @@ class PriceUpdateWorker @AssistedInject constructor(
 
             //val itemsChunked = items.chunked(900)
 
-            for (item in items) {
-                Timber.d("UPDATE PRICING | ${item?.shortName} | ${item?.id} | ${items.indexOf(item)}/${items.count()}")
-                if (item != null)
-                    itemDao.updateAllPricing(item.id, item)
+            val ms = measureTimeMillis {
+                priceDao.insertAll(items.mapNotNull {
+                    Price(
+                        id = it!!.id,
+                        pricing = it
+                    )
+                })
+
+                /*for (item in items) {
+                    Timber.d("UPDATE PRICING | ${item?.shortName} | ${item?.id} | ${items.indexOf(item)}/${items.count()}")
+                    if (item != null)
+                        itemDao.updateAllPricing(item.id, item)
+                }*/
             }
+
+            Timber.d("Updated ${items.count()} prices in $ms ms")
 
             Result.success()
 
@@ -103,7 +116,7 @@ class PriceUpdateWorker @AssistedInject constructor(
                 questDao.insertAll(quests.filterNotNull())
             }
 
-            Timber.d("QUESTS | ${quests.count()} | $ms")
+            Timber.d("Inserted ${quests.count()} quests in $ms ms")
 
             return Result.success()
         } catch (e: Exception) {

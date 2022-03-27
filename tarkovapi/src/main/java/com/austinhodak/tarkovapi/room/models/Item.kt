@@ -3,6 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import android.text.format.DateUtils
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.getItemType
 import com.google.gson.GsonBuilder

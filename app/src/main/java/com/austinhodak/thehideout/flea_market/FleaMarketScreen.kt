@@ -59,6 +59,7 @@ import com.austinhodak.thehideout.extras
 import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.firebase.database.ServerValue
 import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi

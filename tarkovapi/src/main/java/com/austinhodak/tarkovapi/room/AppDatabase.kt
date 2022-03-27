@@ -23,8 +23,9 @@ import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
+import kotlin.system.measureTimeMillis
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class], version = 50)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 51)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -35,6 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun BarterDao(): BarterDao
     abstract fun CraftDao(): CraftDao
     abstract fun ModDao(): ModDao
+    abstract fun PriceDao(): PriceDao
 
     class Callback @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -75,26 +77,30 @@ abstract class AppDatabase : RoomDatabase() {
             val weaponDao = database.get().WeaponDao()
             val modDao = database.get().ModDao()
 
-            for (i in 0 until jsonArray.length()) {
-                val item = jsonArray.getJSONObject(i)
-                when (item.itemType()) {
-                    ItemTypes.AMMO -> ammoDao.insert(item.toAmmoItem())
-                    ItemTypes.WEAPON -> {
-                        val weapon = item.getJSONObject("_props").toWeapon(item.getString("_id"))
-                        weaponDao.insert(weapon)
-                    }
-                    ItemTypes.MOD -> {
-                        modDao.insert(item.toMod())
-                    }
-                    else -> {
+            val ms = measureTimeMillis {
+                for (i in 0 until jsonArray.length()) {
+                    val item = jsonArray.getJSONObject(i)
+                    when (item.itemType()) {
+                        ItemTypes.AMMO -> ammoDao.insert(item.toAmmoItem())
+                        ItemTypes.WEAPON -> {
+                            val weapon = item.getJSONObject("_props").toWeapon(item.getString("_id"))
+                            weaponDao.insert(weapon)
+                        }
+                        ItemTypes.MOD -> {
+                            modDao.insert(item.toMod())
+                        }
+                        else -> {
 
+                        }
                     }
-                }
 
-                if (item.itemType() != ItemTypes.NULL)
-                    Timber.d("Item $i")
+                    if (item.itemType() != ItemTypes.NULL)
+                        Timber.d("Item $i")
                     itemDao.insert(item.toItem())
+                }
             }
+
+            Timber.d("Database populated in $ms ms")
         }
     }
 }

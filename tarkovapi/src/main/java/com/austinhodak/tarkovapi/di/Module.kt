@@ -64,6 +64,9 @@ object Module {
     @Provides
     fun providesModDao(database: AppDatabase) = database.ModDao()
 
+    @Provides
+    fun providePriceDao(database: AppDatabase) = database.PriceDao()
+
     @ApplicationScope
     @Provides
     @Singleton
