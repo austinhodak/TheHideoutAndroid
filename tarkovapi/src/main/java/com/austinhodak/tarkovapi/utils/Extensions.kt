@@ -67,15 +67,15 @@ fun Int.asCurrency(currency: String = "R"): String {
 
 fun String.traderIcon(): String {
     return when (this.lowercase()) {
-        "prapor" -> "https://tarkov-tools.com/images/prapor-icon.jpg"
-        "therapist" -> "https://tarkov-tools.com/images/therapist-icon.jpg"
-        "fence" -> "https://tarkov-tools.com/images/fence-icon.jpg"
-        "skier" -> "https://tarkov-tools.com/images/skier-icon.jpg"
-        "peacekeeper" -> "https://tarkov-tools.com/images/peacekeeper-icon.jpg"
-        "mechanic" -> "https://tarkov-tools.com/images/mechanic-icon.jpg"
-        "ragman" -> "https://tarkov-tools.com/images/ragman-icon.jpg"
-        "jaeger" -> "https://tarkov-tools.com/images/jaeger-icon.jpg"
-        else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+        "prapor" -> "https://tarkov.dev/images/prapor-icon.jpg"
+        "therapist" -> "https://tarkov.dev/images/therapist-icon.jpg"
+        "fence" -> "https://tarkov.dev/images/fence-icon.jpg"
+        "skier" -> "https://tarkov.dev/images/skier-icon.jpg"
+        "peacekeeper" -> "https://tarkov.dev/images/peacekeeper-icon.jpg"
+        "mechanic" -> "https://tarkov.dev/images/mechanic-icon.jpg"
+        "ragman" -> "https://tarkov.dev/images/ragman-icon.jpg"
+        "jaeger" -> "https://tarkov.dev/images/jaeger-icon.jpg"
+        else -> "https://tarkov.dev/images/prapor-icon.jpg"
     }
 }
 

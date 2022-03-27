@@ -163,20 +163,20 @@ fun Double.getColor(reverse: Boolean = false, surfaceColor: Color): Color {
 
 fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
     //Flea Market Icon
-    if (this.source == "fleaMarket") return "https://tarkov-tools.com/images/flea-market-icon.jpg"
+    if (this.source == "fleaMarket") return "https://tarkov.dev/images/flea-market-icon.jpg"
 
     when {
         requirements.isNullOrEmpty() || showLevel == false -> {
             return when (this.source) {
-                ItemSourceName.prapor.rawValue -> "https://tarkov-tools.com/images/prapor-icon.jpg"
-                ItemSourceName.therapist.rawValue -> "https://tarkov-tools.com/images/therapist-icon.jpg"
-                ItemSourceName.fence.rawValue -> "https://tarkov-tools.com/images/fence-icon.jpg"
-                ItemSourceName.skier.rawValue -> "https://tarkov-tools.com/images/skier-icon.jpg"
-                ItemSourceName.peacekeeper.rawValue -> "https://tarkov-tools.com/images/peacekeeper-icon.jpg"
-                ItemSourceName.mechanic.rawValue -> "https://tarkov-tools.com/images/mechanic-icon.jpg"
-                ItemSourceName.ragman.rawValue -> "https://tarkov-tools.com/images/ragman-icon.jpg"
-                ItemSourceName.jaeger.rawValue -> "https://tarkov-tools.com/images/jaeger-icon.jpg"
-                else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+                ItemSourceName.prapor.rawValue -> "https://tarkov.dev/images/prapor-icon.jpg"
+                ItemSourceName.therapist.rawValue -> "https://tarkov.dev/images/therapist-icon.jpg"
+                ItemSourceName.fence.rawValue -> "https://tarkov.dev/images/fence-icon.jpg"
+                ItemSourceName.skier.rawValue -> "https://tarkov.dev/images/skier-icon.jpg"
+                ItemSourceName.peacekeeper.rawValue -> "https://tarkov.dev/images/peacekeeper-icon.jpg"
+                ItemSourceName.mechanic.rawValue -> "https://tarkov.dev/images/mechanic-icon.jpg"
+                ItemSourceName.ragman.rawValue -> "https://tarkov.dev/images/ragman-icon.jpg"
+                ItemSourceName.jaeger.rawValue -> "https://tarkov.dev/images/jaeger-icon.jpg"
+                else -> "https://tarkov.dev/images/prapor-icon.jpg"
             }
         }
         requirements.first().type == "loyaltyLevel" -> {
@@ -232,11 +232,11 @@ fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
                     4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f2/Jaeger_4_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221026"
                     else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/Jaeger_1_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221027"
                 }
-                else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+                else -> "https://tarkov.dev/images/prapor-icon.jpg"
             }
         }
         else -> {
-            return "https://tarkov-tools.com/images/flea-market-icon.jpg"
+            return "https://tarkov.dev/images/flea-market-icon.jpg"
         }
     }
 }
@@ -1155,7 +1155,7 @@ fun String.traderIconSource(name: String? = this.split(" ")[0].lowercase(), leve
             4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f2/Jaeger_4_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221026"
             else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/Jaeger_1_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221027"
         }
-        else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+        else -> "https://tarkov.dev/images/prapor-icon.jpg"
     }
 }
 

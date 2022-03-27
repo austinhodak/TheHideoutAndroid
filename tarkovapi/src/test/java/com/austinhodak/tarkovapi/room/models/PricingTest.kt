@@ -12,9 +12,9 @@ class PricingTest : TestCase() {
             id = "54527a984bdc2d4e668b4567",
             name = "5.56x45mm M855",
             shortName = "M855",
-            iconLink = "https://assets.tarkov-tools.com/54527a984bdc2d4e668b4567-icon.jpg",
-            imageLink = "https://assets.tarkov-tools.com/54527a984bdc2d4e668b4567-image.jpg",
-            gridImageLink = "https://assets.tarkov-tools.com/54527a984bdc2d4e668b4567-grid-image.jpg",
+            iconLink = "https://assets.tarkov.dev/54527a984bdc2d4e668b4567-icon.jpg",
+            imageLink = "https://assets.tarkov.dev/54527a984bdc2d4e668b4567-image.jpg",
+            gridImageLink = "https://assets.tarkov.dev/54527a984bdc2d4e668b4567-grid-image.jpg",
             avg24hPrice = 326,
             basePrice = 110,
             lastLowPrice = 349,
@@ -81,11 +81,11 @@ class PricingTest : TestCase() {
     }
 
     fun testGetIcon() {
-        assertEquals(pricing.getIcon(),  "https://assets.tarkov-tools.com/54527a984bdc2d4e668b4567-grid-image.jpg")
+        assertEquals(pricing.getIcon(),  "https://assets.tarkov.dev/54527a984bdc2d4e668b4567-grid-image.jpg")
     }
 
     fun testGetCleanIcon() {
-        assertEquals(pricing.getCleanIcon(),  "https://assets.tarkov-tools.com/54527a984bdc2d4e668b4567-icon.jpg")
+        assertEquals(pricing.getCleanIcon(),  "https://assets.tarkov.dev/54527a984bdc2d4e668b4567-icon.jpg")
     }
 
     fun testGetCheapestBuy() {

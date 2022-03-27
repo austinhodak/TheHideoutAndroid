@@ -18,9 +18,9 @@ data class Pricing(
     val id: String,
     val name: String?,
     val shortName: String?,
-    val iconLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+    val iconLink: String? = "https://tarkov.dev/images/unknown-item-icon.jpg",
     val imageLink: String?,
-    val gridImageLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+    val gridImageLink: String? = "https://tarkov.dev/images/unknown-item-icon.jpg",
     val avg24hPrice: Int?,
     val basePrice: Int,
     val lastLowPrice: Int?,
@@ -40,9 +40,9 @@ data class Pricing(
 
     fun hasChild(): Boolean = containsItem?.isNotEmpty() == true
 
-    fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
-    fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
-    fun getTransparentIcon(): String = "https://assets.tarkov-tools.com/$id-base-image.png"
+    fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov.dev/images/unknown-item-icon.jpg"
+    fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov.dev/images/unknown-item-icon.jpg"
+    fun getTransparentIcon(): String = "https://assets.tarkov.dev/$id-base-image.png"
 
     fun getTime(): Long? {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -278,9 +278,9 @@ data class Pricing(
         val id: String,
         val name: String?,
         val shortName: String?,
-        val iconLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+        val iconLink: String? = "https://tarkov.dev/images/unknown-item-icon.jpg",
         val imageLink: String?,
-        val gridImageLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+        val gridImageLink: String? = "https://tarkov.dev/images/unknown-item-icon.jpg",
         val avg24hPrice: Int?,
         val basePrice: Int,
         val lastLowPrice: Int?,
