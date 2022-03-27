@@ -27,6 +27,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.system.measureTimeMillis
 
 
 class PriceUpdateWorker @AssistedInject constructor(
@@ -98,12 +99,11 @@ class PriceUpdateWorker @AssistedInject constructor(
                 quest?.toQuest()
             } ?: emptyList()
 
-            for (quest in quests) {
-                if (quest != null) {
-                    Timber.d("Updating Quest ${quest.id}")
-                    questDao.insert(quest)
-                }
+            val ms = measureTimeMillis {
+                questDao.insertAll(quests.filterNotNull())
             }
+
+            Timber.d("QUESTS | ${quests.count()} | $ms")
 
             return Result.success()
         } catch (e: Exception) {
@@ -125,12 +125,11 @@ class PriceUpdateWorker @AssistedInject constructor(
                 Timber.d("NUKING CRAFT TABLE")
                 craftDao.nukeTable()
 
-                for (craft in crafts) {
-                    if (craft != null) {
-                        Timber.d("Updating Craft")
-                        craftDao.insert(craft)
-                    }
+                val ms = measureTimeMillis {
+                    craftDao.insertAll(crafts.filterNotNull())
                 }
+
+                Timber.d("Inserted ${crafts.count()} crafts in $ms ms")
 
                 Result.success()
             } else Result.failure()
@@ -153,12 +152,12 @@ class PriceUpdateWorker @AssistedInject constructor(
                 Timber.d("NUKING BARTER TABLE")
                 barterDao.nukeTable()
 
-                for (barter in barters) {
-                    if (barter != null) {
-                        Timber.d("Updating Barter")
-                        barterDao.insert(barter)
-                    }
+                val ms = measureTimeMillis {
+                    barterDao.insertAll(barters.filterNotNull())
                 }
+
+                Timber.d("Inserted ${barters.count()} barters in $ms ms")
+
                 Result.success()
             } else Result.failure()
         }  catch (e: Exception) {

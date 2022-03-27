@@ -20,6 +20,9 @@ interface CraftDao {
     suspend fun insert(craft: Craft)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(crafts: List<Craft>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(crafts: List<Craft>?)
 
     @Query("DELETE FROM crafts")

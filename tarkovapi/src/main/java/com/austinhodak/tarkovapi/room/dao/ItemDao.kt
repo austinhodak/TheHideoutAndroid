@@ -61,6 +61,8 @@ interface ItemDao {
     @Query("UPDATE mods SET pricing = :tt WHERE id = :id")
     suspend fun updateModTable(id: String, tt: Pricing)
 
+
+
     @Transaction
     suspend fun updateAllPricing(id: String?, pricing: Pricing) {
         if (id != null) {
