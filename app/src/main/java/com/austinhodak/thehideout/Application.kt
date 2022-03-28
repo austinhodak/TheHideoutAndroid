@@ -10,8 +10,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.adapty.Adapty
-import com.austinhodak.tarkovapi.LanguageSetting
 import com.austinhodak.tarkovapi.UserSettingsModel
+import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.*
 import com.austinhodak.thehideout.firebase.FSUser
@@ -32,9 +32,9 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.localazy.android.Localazy
 import com.skydoves.only.Only
-import com.skydoves.only.onlyOnce
 import dagger.hilt.android.HiltAndroidApp
 import io.gleap.Gleap
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -52,6 +52,9 @@ class Application : android.app.Application(), Configuration.Provider {
 
     @Inject
     lateinit var ttRepository: TTRepository
+
+    @Inject
+    lateinit var tarkovRepo: TarkovRepo
 
     private val notificationManager: NotificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -208,6 +211,12 @@ class Application : android.app.Application(), Configuration.Provider {
 
                 MainScope().launch {
                     UserSettingsModel.dataSyncFrequencyPrevious.update(it)
+                }
+            }
+
+            MainScope().launch(Dispatchers.IO) {
+                if (tarkovRepo.isPriceDaoEmpty()) {
+                    workManager.enqueue(OneTimeWorkRequest.Builder(PriceUpdateWorker::class.java).build())
                 }
             }
         }

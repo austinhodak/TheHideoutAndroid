@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.compose.ui.graphics.Color
 import com.austinhodak.tarkovapi.UserSettingsModel
+import org.json.JSONArray
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -291,3 +292,6 @@ fun getTTApiKey(): String = UserSettingsModel.ttAPIKey.value
 fun ttSyncEnabled(): Boolean = UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value
 
 fun isWindows(): Boolean = Build.BOARD == "windows"
+
+operator fun <T> JSONArray.iterator(): Iterator<T> =
+    (0 until this.length()).asSequence().map { this.get(it) as T }.iterator()

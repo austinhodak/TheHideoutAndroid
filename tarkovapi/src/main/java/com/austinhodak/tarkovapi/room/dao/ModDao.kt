@@ -32,4 +32,7 @@ interface ModDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(mod: Mod)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(mods: List<Mod>)
 }

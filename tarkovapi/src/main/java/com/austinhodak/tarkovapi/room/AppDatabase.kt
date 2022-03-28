@@ -6,26 +6,24 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.work.ListenableWorker
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.*
 import com.austinhodak.tarkovapi.di.ApplicationScope
+import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.dao.*
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
-import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import org.json.JSONArray
+import org.json.JSONObject
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.system.measureTimeMillis
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 51)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 53)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -61,6 +59,7 @@ abstract class AppDatabase : RoomDatabase() {
             super.onOpen(db)
             scope.launch(Dispatchers.IO) {
                 //updatePricing()
+                //loadItemsFile()
             }
         }
 
@@ -78,29 +77,40 @@ abstract class AppDatabase : RoomDatabase() {
             val modDao = database.get().ModDao()
 
             val ms = measureTimeMillis {
-                for (i in 0 until jsonArray.length()) {
-                    val item = jsonArray.getJSONObject(i)
+                val items: MutableList<Item> = mutableListOf()
+                val ammo: MutableList<Ammo> = mutableListOf()
+                val mods: MutableList<Mod> = mutableListOf()
+                val weapons: MutableList<Weapon> = mutableListOf()
+                for (item in jsonArray.iterator<JSONObject>()) {
                     when (item.itemType()) {
-                        ItemTypes.AMMO -> ammoDao.insert(item.toAmmoItem())
+                        ItemTypes.AMMO -> ammo.add(item.toAmmoItem())
                         ItemTypes.WEAPON -> {
                             val weapon = item.getJSONObject("_props").toWeapon(item.getString("_id"))
-                            weaponDao.insert(weapon)
+                            weapons.add(weapon)
                         }
                         ItemTypes.MOD -> {
-                            modDao.insert(item.toMod())
+                            mods.add(item.toMod())
                         }
                         else -> {
 
                         }
                     }
 
-                    if (item.itemType() != ItemTypes.NULL)
-                        Timber.d("Item $i")
-                    itemDao.insert(item.toItem())
+                    items.add(item.toItem())
+
+                    Timber.d("Item: ${item.getString("_id")}")
                 }
+
+                itemDao.insertAll(items)
+                ammoDao.insertAll(ammo)
+                weaponDao.insertAll(weapons)
+                modDao.insertAll(mods)
+
             }
 
             Timber.d("Database populated in $ms ms")
+
+            //Updaters(tarkovRepo, apolloClient).updateAll()
         }
     }
 }

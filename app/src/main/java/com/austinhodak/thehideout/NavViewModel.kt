@@ -74,9 +74,18 @@ class NavViewModel @Inject constructor(
             startGameTimers()
         }
 
+        getAllItems()
+    }
+
+    private fun getAllItems() {
         viewModelScope.launch {
-            tarkovRepo?.getAllItemsOnce()?.let {
-                _allItems.value = it
+            tarkovRepo.getAllItemsOnce().let {
+                if (it.isEmpty()) {
+                    delay(5000)
+                    getAllItems()
+                } else {
+                    _allItems.value = it
+                }
             }
         }
     }
