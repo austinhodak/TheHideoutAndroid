@@ -230,8 +230,8 @@ dependencies {
 
     implementation 'com.github.jeziellago:compose-markdown:0.2.6'
 
-    implementation("com.android.billingclient:billing:4.0.0")
-    implementation("com.android.billingclient:billing-ktx:4.0.0")
+    implementation("com.android.billingclient:billing:4.1.0")
+    implementation("com.android.billingclient:billing-ktx:4.1.0")
 
     implementation 'com.facebook.android:facebook-login:12.3.0'
 

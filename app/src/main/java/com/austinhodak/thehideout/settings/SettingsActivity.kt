@@ -422,10 +422,12 @@ class SettingsActivity : GodActivity() {
                                     }
                                     singleChoice(UserSettingsModel.dataSyncFrequency, DataSyncFrequency.values(), {
                                         when (it) {
+                                            DataSyncFrequency.`15` -> "15 Minutes"
+                                            DataSyncFrequency.`30` -> "30 Minutes"
                                             DataSyncFrequency.`60` -> "1 Hour"
-                                            DataSyncFrequency.`120` -> "2 Hour"
-                                            DataSyncFrequency.`360` -> "6 Hour"
-                                            DataSyncFrequency.`720` -> "12 Hour"
+                                            DataSyncFrequency.`120` -> "2 Hours"
+                                            DataSyncFrequency.`360` -> "6 Hours"
+                                            DataSyncFrequency.`720` -> "12 Hours"
                                             DataSyncFrequency.`1440` -> "1 Day"
                                             else -> ""
                                         }

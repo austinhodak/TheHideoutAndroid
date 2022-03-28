@@ -119,6 +119,8 @@ enum class TraderRestockTime {
 }
 
 enum class DataSyncFrequency {
+    `15`,
+    `30`,
     `60`,
     `120`,
     `360`,

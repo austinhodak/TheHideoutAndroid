@@ -28,7 +28,7 @@ buildscript {
                 hilt              : "2.31.2-alpha",
                 androidText       : "0.6",
         ]
-        compose_version = '1.1.0'
+        compose_version = '1.1.1'
         accompanist = '0.18.0'
         prefs = "0.5.2"
         setup = [
