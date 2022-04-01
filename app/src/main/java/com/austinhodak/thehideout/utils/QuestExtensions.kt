@@ -130,7 +130,8 @@ fun Quest.QuestObjective.completed(success: ((Boolean) -> Unit)? = null) {
                 "questObjectives" to hashMapOf(
                     objective.id to hashMapOf(
                         "completed" to true,
-                        "timestamp" to Timestamp.now()
+                        "timestamp" to Timestamp.now(),
+                        "progress" to this.number
                     )
                 )
             )

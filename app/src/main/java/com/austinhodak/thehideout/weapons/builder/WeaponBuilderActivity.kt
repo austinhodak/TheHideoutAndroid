@@ -152,14 +152,14 @@ class WeaponBuilderActivity : AppCompatActivity() {
                 ) {
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = pricing.getCheapestBuyRequirements()?.getPriceAsCurrency() ?: "",
+                            text = pricing.getCheapestBuyRequirements().getPriceAsCurrency() ?: "",
                             style = MaterialTheme.typography.caption,
                             fontSize = 13.sp,
                             modifier = Modifier.padding(end = 8.dp)
                         )
                     }
                     Image(
-                        painter = rememberImagePainter(data = pricing.getCheapestBuyRequirements()?.traderImage(true)),
+                        painter = rememberImagePainter(data = pricing.getCheapestBuyRequirements().traderImage(true)),
                         contentDescription = "Trader",
                         modifier = Modifier.size(32.dp)
                     )

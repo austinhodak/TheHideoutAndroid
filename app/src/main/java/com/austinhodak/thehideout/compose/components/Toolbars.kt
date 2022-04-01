@@ -190,6 +190,36 @@ fun OverflowMenu(
 }
 
 @Composable
+fun OverFlowMenu(
+    menuItems: List<Pair<String, () -> Unit>>
+) {
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+    Box(
+        modifier = Modifier
+            .wrapContentSize(Alignment.Center)
+    ) {
+        IconButton(onClick = { expanded = true }) {
+            Icon(Icons.Default.MoreVert, contentDescription = "Overflow Menu", tint = Color.White)
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            menuItems.forEachIndexed { index, item ->
+                DropdownMenuItem(onClick = {
+                    expanded = false
+                    item.second()
+                }) {
+                    Text(text = item.first)
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun OverflowMenuItem(
     text: String,
     icon: @Composable (() -> Unit) = {},

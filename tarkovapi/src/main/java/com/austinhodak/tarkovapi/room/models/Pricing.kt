@@ -55,7 +55,7 @@ data class Pricing(
 
     fun getCheapestBuyRequirements(): BuySellPrice {
         return buyFor?.minByOrNull {
-            if (!it.isRequirementMet()) Int.MAX_VALUE else it.getPriceAsRoubles()
+            if (it.isRequirementMet()) it.getPriceAsRoubles() else Int.MAX_VALUE
             //it.price ?: Int.MAX_VALUE
         } ?: BuySellPrice(
             "fleaMarket",
@@ -155,6 +155,8 @@ data class Pricing(
         }
 
         fun isRequirementMet(): Boolean {
+            if (requirements.isEmpty()) return true
+            if (price == 0) return false
             if (source == "fleaMarket") {
                 val playerLevel = UserSettingsModel.playerLevel.value
                 return playerLevel >= requirements.first().value

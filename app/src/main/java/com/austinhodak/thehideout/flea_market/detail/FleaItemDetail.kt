@@ -138,6 +138,13 @@ class FleaItemDetail : GodActivity() {
                     val quests by tarkovRepo.getQuestsWithItemID("%${item?.id}%").collectAsState(emptyList())
                     val barters by tarkovRepo.getBartersWithItemID("%${item?.id}%").collectAsState(emptyList())
                     val crafts by tarkovRepo.getCraftsWithItemID("%${item?.id}%").collectAsState(emptyList())
+                    val craftsFiltered = crafts.filter {
+                        it.rewardItem()?.item?.id == item?.id || it.requiredItems?.any { it?.item?.id == item?.id } == true
+                    }
+
+                    val bartersFiltered = barters.filter {
+                        it.getRewardItem()?.id == item?.id || it.requiredItems?.any { it?.item?.id == item?.id } == true
+                    }
 
                     var parents by remember {
                         mutableStateOf(listOf<Item>())
@@ -156,8 +163,8 @@ class FleaItemDetail : GodActivity() {
 
                     val items = listOf(
                         NavItem("Item", R.drawable.ic_baseline_storefront_24),
-                        NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, barters.isNotEmpty()),
-                        NavItem("Crafts", R.drawable.ic_baseline_handyman_24, crafts.isNotEmpty()),
+                        NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, bartersFiltered.isNotEmpty()),
+                        NavItem("Crafts", R.drawable.ic_baseline_handyman_24, craftsFiltered.isNotEmpty()),
                         NavItem("Quests", R.drawable.ic_baseline_assignment_24, quests.isNotEmpty())
                     )
 
@@ -351,10 +358,10 @@ class FleaItemDetail : GodActivity() {
                                         }
                                     }
                                     1 -> {
-                                        BartersPage(item = item, barters, userData)
+                                        BartersPage(item = item, bartersFiltered, userData)
                                     }
                                     2 -> {
-                                        CraftsPage(item = item, crafts, userDataFS)
+                                        CraftsPage(item = item, craftsFiltered, userDataFS)
                                     }
                                     3 -> QuestsPage(item = item, quests, tarkovRepo, userData)
                                 }
@@ -1285,7 +1292,7 @@ class FleaItemDetail : GodActivity() {
                     )
                     Column(
                         Modifier
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
                             .weight(1f),
                         verticalArrangement = Arrangement.Center
                     ) {

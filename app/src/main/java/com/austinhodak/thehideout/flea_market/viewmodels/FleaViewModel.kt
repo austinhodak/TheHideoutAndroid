@@ -73,31 +73,13 @@ class FleaViewModel @Inject constructor(
                 }
             })
         }
-
-        WorkManager.getInstance(context).getWorkInfosByTagLiveData("price_update").observeForever {
-            Timber.d(it.toString())
-            if (it.isEmpty()) { return@observeForever }
-            it.first()?.let {
-                if (it.progress.getInt("progress", 0) == 100) {
-                    isRefreshList.value = false
-                }
-            }
-        }
     }
 
-    val isRefreshList = MutableLiveData(false)
 
     fun refreshList() {
-        isRefreshList.value = true
         viewModelScope.launch {
             val work = OneTimeWorkRequestBuilder<PriceUpdateWorker>().build()
             WorkManager.getInstance(mContext).enqueue(work)
-
-            WorkManager.getInstance(mContext).getWorkInfoByIdLiveData(work.id).observeForever {
-                if (it.progress.getInt("progress", 0) == 100) {
-                    isRefreshList.value = false
-                }
-            }
         }
     }
 }

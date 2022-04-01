@@ -9,6 +9,20 @@ import java.util.*
 
 object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
+    fun getLevels(): List<Pair<String, Int>> {
+        val list = mutableListOf<Pair<String, Int>>()
+        list.add(Pair("prapor", praporLevel.value.toInt()))
+        list.add(Pair("therapist", therapistLevel.value.toInt()))
+        list.add(Pair("fence", fenceLevel.value.toInt()))
+        list.add(Pair("skier", skierLevel.value.toInt()))
+        list.add(Pair("peacekeeper", peacekeeperLevel.value.toInt()))
+        list.add(Pair("mechanic", mechanicLevel.value.toInt()))
+        list.add(Pair("ragman", ragmanLevel.value.toInt()))
+        list.add(Pair("jaeger", jaegerLevel.value.toInt()))
+        list.add(Pair("player", playerLevel.value))
+        return list
+    }
+
     val ttAPIKey by stringPref("", "ttAPIKey")
     val ttSync by boolPref(false, "ttSync")
     val ttSyncQuest by boolPref(false, "ttSyncQuest")
@@ -160,8 +174,11 @@ enum class Levels {
     `1`,
     `2`,
     `3`,
-    `4`
-}
+    `4`;
+
+    fun toInt(): Int {
+        return super.toString().replace("`", "").toIntOrNull() ?: 1
+    }}
 
 enum class IconSelection {
     ORIGINAL,

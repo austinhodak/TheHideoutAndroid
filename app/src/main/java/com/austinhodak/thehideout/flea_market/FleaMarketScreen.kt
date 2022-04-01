@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.flea_market
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -14,7 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,10 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -51,19 +51,16 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
+import com.austinhodak.thehideout.extras
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.components.ShoppingCartScreen
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.extras
-import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.firebase.database.ServerValue
 import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
@@ -132,6 +129,14 @@ fun FleaMarketScreen(
                             }) {
                                 Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = "Sort Ammo", tint = Color.White)
                             }
+                            OverFlowMenu(
+                                menuItems = listOf(
+                                    Pair("Refresh Prices") {
+                                        Toast.makeText(context, "Refreshing prices...", Toast.LENGTH_SHORT).show()
+                                        fleaViewModel.refreshList()
+                                    },
+                                )
+                            )
                         }
                     )
                 }
@@ -353,7 +358,7 @@ fun FleaMarketFavoritesList(
                 contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
             ) {
                 items(items = list ?: emptyList()) { item ->
-                    FleaItem(item = item, priceDisplay = priceDisplay, iconDisplay) {
+                   FleaItem(item = item, priceDisplay = priceDisplay, iconDisplay) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", item.id)
                         }
@@ -458,7 +463,6 @@ fun FleaMarketListScreen(
                             putString("id", item.id)
                         }
                     }
-
                 }
             }
         }
