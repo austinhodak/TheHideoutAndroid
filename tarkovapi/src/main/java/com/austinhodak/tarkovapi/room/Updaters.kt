@@ -52,8 +52,6 @@ class Updaters (
                 fragments?.toPricing()
             } ?: emptyList()
 
-            //val itemsChunked = items.chunked(900)
-
             val ms = measureTimeMillis {
                 priceDao.insertAll(items.mapNotNull {
                     Price(
@@ -62,12 +60,6 @@ class Updaters (
                         updated = it.updated ?: ""
                     )
                 })
-
-                /*for (item in items) {
-                    Timber.d("UPDATE PRICING | ${item?.shortName} | ${item?.id} | ${items.indexOf(item)}/${items.count()}")
-                    if (item != null)
-                        itemDao.updateAllPricing(item.id, item)
-                }*/
             }
 
             Timber.d("Updated ${items.count()} prices in $ms ms")

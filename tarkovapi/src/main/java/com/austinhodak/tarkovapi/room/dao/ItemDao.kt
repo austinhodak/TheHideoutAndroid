@@ -31,8 +31,8 @@ interface ItemDao {
     @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = items.id) AS pricing FROM items WHERE itemType in (:type)")
     fun getByTypesArmor(type: List<ItemTypes>): Flow<List<Item>>
 
-    @Transaction
-    @Query("SELECT id, itemType, parent, Name, ShortName, (SELECT pricing FROM pricing_table WHERE pricing_table.id = items.id) AS pricing, Width, Height, BackgroundColor FROM items WHERE pricing IS NOT NULL")
+    //@Transaction
+    @Query("SELECT items.id, itemType, parent, Name, ShortName, Width, Height, BackgroundColor, Recoil, Accuracy, Ergonomics, pt.pricing FROM items INNER JOIN pricing_table pt on items.id = pt.id WHERE pt.pricing IS NOT NULL")
     fun getAllItems(): Flow<List<Item>>
 
     //@Query("SELECT * FROM items WHERE pricing IS NOT NULL")

@@ -11,6 +11,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -79,13 +80,9 @@ class NavViewModel @Inject constructor(
 
     private fun getAllItems() {
         viewModelScope.launch {
-            tarkovRepo.getAllItemsOnce().let {
-                if (it.isEmpty()) {
-                    delay(5000)
-                    getAllItems()
-                } else {
-                    _allItems.value = it
-                }
+            tarkovRepo.getAllItems().collect {
+                Timber.d("Got ${it.size} items")
+                _allItems.value = it
             }
         }
     }

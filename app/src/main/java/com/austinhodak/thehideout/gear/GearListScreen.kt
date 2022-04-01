@@ -17,7 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
@@ -45,6 +47,7 @@ import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import java.util.*
 
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
@@ -132,7 +135,7 @@ fun GearListScreen(
                                     context.getString(R.string.price_low_to_high),
                                     context.getString(R.string.price_high_to_low),
                                     context.getString(R.string.armor_class),
-                                    context.getString(R.string.durability),
+                                    context.getString(R.string.durability).lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
                                     context.getString(R.string.efficiency)
                                 )
                                 MaterialDialog(context).show {

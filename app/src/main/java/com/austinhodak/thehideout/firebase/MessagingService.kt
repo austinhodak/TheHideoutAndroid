@@ -109,10 +109,14 @@ class MessagingService : FirebaseMessagingService() {
                     else -> ""
                 }
 
-                val notiText = "${item["shortName"]} has $whenText your alert price of ${(alert["price"] as Int).asCurrency()}.\n\n" +
-                        "Current Price: ${(item["lastLowPrice"] as Int).asCurrency()} \uD83D\uDE4C"
+                try {
+                    val notiText = "${item["shortName"]} has $whenText your alert price of ${(alert["price"] as Int).asCurrency()}.\n\n" +
+                            "Current Price: ${(item["lastLowPrice"] as Int).asCurrency()} \uD83D\uDE4C"
 
-                sendPriceAlertNotification("", notiText, item)
+                    sendPriceAlertNotification("", notiText, item)
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
             }
 
             /*val fleaItem = JSONObject(remoteMessage.data["fleaItem"])

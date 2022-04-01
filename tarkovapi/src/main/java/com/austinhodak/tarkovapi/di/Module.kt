@@ -38,7 +38,7 @@ object Module {
         @ApplicationContext appContext: Context,
         callback: AppDatabase.Callback
     ) = Room.databaseBuilder(appContext, AppDatabase::class.java, "hideout-database")
-        .createFromAsset("hideout_database_50.db")
+        .createFromAsset("hideout53.db")
         .fallbackToDestructiveMigration()
         .addCallback(callback)
         .build()

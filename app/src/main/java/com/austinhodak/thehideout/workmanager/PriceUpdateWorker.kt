@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.Updaters
@@ -29,6 +30,10 @@ class PriceUpdateWorker @AssistedInject constructor(
 
         val updateAll = Updaters(tarkovRepo, apolloClient).updateAll()
 
+        setProgress(workDataOf(
+            "progress" to 0
+        ))
+
         preferences.edit().putLong("lastPriceUpdate", System.currentTimeMillis()).apply()
 
         val widgetIntent = Intent(appContext, SinglePriceWidget::class.java)
@@ -39,7 +44,19 @@ class PriceUpdateWorker @AssistedInject constructor(
 
         appContext.sendBroadcast(widgetIntent)
 
-        return if (updateAll.all { it == Result.success() }) Result.success() else Result.failure()
+        return if (updateAll.all { it == Result.success() }) {
+            setProgress(workDataOf(
+                "progress" to 100,
+                "message" to "All items updated!"
+            ))
+            Result.success()
+        } else {
+            setProgress(workDataOf(
+                "progress" to 100,
+                "message" to "Some items failed to update!"
+            ))
+            Result.failure()
+        }
     }
 
     @AssistedFactory
