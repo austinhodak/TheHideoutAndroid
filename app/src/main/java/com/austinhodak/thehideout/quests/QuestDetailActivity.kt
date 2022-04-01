@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.quests
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -40,6 +41,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.work.Configuration
 import androidx.work.ListenableWorker
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
@@ -143,26 +145,30 @@ class QuestDetailActivity : GodActivity() {
                                             crossfade(true)
                                         }
                                     )
-                                    Column {
-                                        Image(
-                                            painter,
-                                            contentDescription = null,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .then(
-                                                    if (painter.state is ImagePainter.State.Loading || painter.state is ImagePainter.State.Error) {
-                                                        Modifier.height(0.dp)
-                                                    } else {
-                                                        (painter.state as? ImagePainter.State.Success)
-                                                            ?.painter
-                                                            ?.intrinsicSize
-                                                            ?.let { intrinsicSize ->
-                                                                Modifier.aspectRatio(intrinsicSize.width / intrinsicSize.height)
-                                                            } ?: Modifier
-                                                    }
-                                                ),
-                                            contentScale = ContentScale.FillWidth
-                                        )
+
+                                    //Hide if landscape
+                                    if (resources.configuration.orientation != ORIENTATION_LANDSCAPE) {
+                                        Column {
+                                            Image(
+                                                painter,
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .then(
+                                                        if (painter.state is ImagePainter.State.Loading || painter.state is ImagePainter.State.Error) {
+                                                            Modifier.height(0.dp)
+                                                        } else {
+                                                            (painter.state as? ImagePainter.State.Success)
+                                                                ?.painter
+                                                                ?.intrinsicSize
+                                                                ?.let { intrinsicSize ->
+                                                                    Modifier.aspectRatio(intrinsicSize.width / intrinsicSize.height)
+                                                                } ?: Modifier
+                                                        }
+                                                    ),
+                                                contentScale = ContentScale.FillWidth
+                                            )
+                                        }
                                     }
 
                                     Column(

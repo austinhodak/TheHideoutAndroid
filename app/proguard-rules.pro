@@ -21,12 +21,20 @@
 #-renamesourcefileattribute SourceFile
 -keepattributes Signature
 
--keep class com.austinhodak.thehideout.firebase.* { *; }
+-keep class com.austinhodak.thehideout.firebase.** { *; }
 -keep class com.austinhodak.thehideout.calculator.models.** { *; }
 -keep class com.austinhodak.thehideout.WeaponBuild { *; }
 -keep class com.austinhodak.thehideout.calculator.views.HealthBar$Health { *; }
 -keep class com.austinhodak.thehideout.flea_market.detail.FleaItemDetail$NavItem { *; }
+-keep class com.austinhodak.thehideout.map.models.** { *; }
+
 
 -keep class com.austinhodak.tarkovapi.models.** { *; }
 -keep class com.austinhodak.tarkovapi.room.models.** { *; }
 -keep class com.austinhodak.tarkovapi.tarkovtracker.models.** { *; }
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+-keep class **.R$*
