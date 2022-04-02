@@ -49,7 +49,7 @@ fun RestockTimersScreen(
         while (true) {
             try {
                 Timber.d("Reloading")
-                val newData = apolloClient.query(TraderResetTimersQuery()).data?.toObj()
+                val newData = apolloClient.query(TraderResetTimersQuery()).execute().data?.toObj()
                 if (newData != resetTimers) {
                     resetTimers = newData
                 }

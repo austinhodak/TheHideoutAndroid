@@ -221,7 +221,6 @@ class SettingsActivity : GodActivity() {
                             }
 
                             screen = screen {
-
                                 onScreenChanged = { subScreenStack, stateRestored ->
                                     val breadcrumbs = subScreenStack.joinToString(" > ") { it.title.get(this@SettingsActivity) }
                                     toolbarTitle = if (breadcrumbs.isBlank()) "Settings" else breadcrumbs
@@ -569,6 +568,17 @@ class SettingsActivity : GodActivity() {
                                     switch(UserSettingsModel.fleaHideNonFlea) {
                                         title = getString(R.string.hide_banned_from_flea).asText()
                                         icon = R.drawable.ic_baseline_block_24.asIcon()
+                                    }
+                                    category {
+                                        title = "Details Screen".asText()
+                                    }
+                                    switch(UserSettingsModel.showPriceGraph) {
+                                        title = "Show Price Graph".asText()
+                                        icon = R.drawable.ic_baseline_show_chart_24.asIcon()
+                                    }
+                                    switch(UserSettingsModel.showAddToCardButton) {
+                                        title = "Show Add to Cart Button".asText()
+                                        icon = R.drawable.ic_baseline_add_shopping_cart_24.asIcon()
                                     }
                                     /*subScreen {
                                         title = "Colors".asText()

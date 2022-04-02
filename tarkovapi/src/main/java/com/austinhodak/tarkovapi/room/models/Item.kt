@@ -3,7 +3,6 @@ package com.austinhodak.tarkovapi.room.models
 import android.text.format.DateUtils
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.getItemType
 import com.google.gson.GsonBuilder
@@ -82,6 +81,14 @@ data class Item(
 
     //val SpawnFilter: List<String>? = null
 ) : Serializable {
+
+    fun getGridIDs(): List<String?> {
+        return Grids?.flatMap { it.getFilters() } ?: listOf()
+    }
+
+    fun getTotalInternalSize(): Int {
+        return Grids?.sumOf { it.getInternalSlots() } ?: 0
+    }
 
     fun getEnergy(): Int? {
         return effects_health?.optJSONObject("Energy")?.optInt("value")
@@ -162,6 +169,10 @@ data class Item(
             "Aluminium" -> ArmorMaterial
             else -> "$ArmorMaterial"
         }
+    }
+
+    fun isChildOf(item: Pricing?): Boolean? {
+        return item?.containsItem?.any { it.item?.id == this.id }
     }
 }
 

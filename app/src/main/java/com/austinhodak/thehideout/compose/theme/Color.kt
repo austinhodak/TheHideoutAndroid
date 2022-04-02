@@ -10,6 +10,7 @@ val Green500 = Color(0xFF4CAF50)
 val Green700 = Color(0xFF4CAF50)
 val Pink500 = Color(0xFFE91E63)
 val Amber500 = Color(0xFFFFC107)
+val Blue400 = Color(0xFF42A5F5)
 
 val White = Color(0xFFFFFFFF)
 

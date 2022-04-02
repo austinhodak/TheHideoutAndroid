@@ -112,6 +112,9 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val traderRestockTime by enumPref(TraderRestockTime.`1`, "traderRestockTime")
 
     val languageSetting by enumPref(LanguageSetting.values().find { Locale.getDefault().language == it.name } ?: LanguageSetting.ENGLISH, "language")
+
+    val showPriceGraph by boolPref(true, "showPriceGraph")
+    val showAddToCardButton by boolPref(true, "showAddToCardButton")
 }
 
 enum class LanguageSetting (val locale: Locale) {

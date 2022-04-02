@@ -493,7 +493,7 @@ fun MainDrawer(
 
     LaunchedEffect("drawer") {
         try {
-            status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+            status = apolloClient.query(ServerStatusQuery()).execute().data?.status?.toObj()
         } catch (e: ApolloNetworkException) {
             //Most likely no internet connection.
             e.printStackTrace()

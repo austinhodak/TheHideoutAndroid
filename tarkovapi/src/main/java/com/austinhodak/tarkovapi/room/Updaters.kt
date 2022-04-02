@@ -47,7 +47,7 @@ class Updaters (
         return try {
             val itemDao = tarkovRepo.getItemDao()
             val priceDao = tarkovRepo.getPriceDao()
-            val response = apolloClient.query(ItemsByTypeQuery(ItemType.any))
+            val response = apolloClient.query(ItemsByTypeQuery(ItemType.any)).execute()
             val items = response.data?.itemsByType?.map { fragments ->
                 fragments?.toPricing()
             } ?: emptyList()
@@ -76,7 +76,7 @@ class Updaters (
      suspend fun populateQuests(): ListenableWorker.Result {
         return try {
             val questDao = tarkovRepo.getQuestDao()
-            val response = apolloClient.query(QuestsQuery())
+            val response = apolloClient.query(QuestsQuery()).execute()
             val quests = response.data?.quests?.map { quest ->
                 quest?.toQuest()
             } ?: emptyList()
@@ -98,7 +98,7 @@ class Updaters (
      suspend fun populateCrafts(): ListenableWorker.Result {
         return try {
             val craftDao = tarkovRepo.getCraftDao()
-            val response = apolloClient.query(CraftsQuery())
+            val response = apolloClient.query(CraftsQuery()).execute()
             val crafts = response.data?.crafts?.map { craft ->
                 craft?.toCraft()
             } ?: emptyList()
@@ -125,7 +125,7 @@ class Updaters (
      suspend fun populateBarters(): ListenableWorker.Result {
         return try {
             val barterDao = tarkovRepo.getBarterDao()
-            val response = apolloClient.query(BartersQuery())
+            val response = apolloClient.query(BartersQuery()).execute()
             val barters = response.data?.barters?.map { barter ->
                 barter?.toBarter()
             } ?: emptyList()

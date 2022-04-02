@@ -70,7 +70,7 @@ class ServerStatusActivity : AppCompatActivity() {
 
                 LaunchedEffect("") {
                     try {
-                        status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+                        status = apolloClient.query(ServerStatusQuery()).execute().data?.status?.toObj()
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -117,7 +117,7 @@ class ServerStatusActivity : AppCompatActivity() {
                                 }
                                 IconButton(onClick = {
                                     scope.launch {
-                                        status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+                                        status = apolloClient.query(ServerStatusQuery()).execute().data?.status?.toObj()
                                     }
                                     Toast.makeText(this@ServerStatusActivity, "Status updated.", Toast.LENGTH_SHORT).show()
                                 }) {

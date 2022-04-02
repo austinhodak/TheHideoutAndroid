@@ -299,7 +299,7 @@ fun CompactItem(item: Pricing, extras: CraftDetailActivity.ItemSubtitle? = null)
         if (expanded) {
             Column(
                 modifier = Modifier
-                    .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp)
+                    .padding(top = 0.dp, start = 8.dp, end = 8.dp, bottom = 8.dp)
                     .background(DividerDark, RoundedCornerShape(16.dp))
                     .padding(top = 16.dp, bottom = 8.dp)
             ) {

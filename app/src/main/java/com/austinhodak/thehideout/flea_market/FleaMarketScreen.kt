@@ -1,10 +1,11 @@
 package com.austinhodak.thehideout.flea_market
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.widget.Toast
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -76,6 +77,7 @@ fun FleaMarketScreen(
 ) {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val data by navViewModel.allItems.observeAsState(initial = null)
 
@@ -118,7 +120,8 @@ fun FleaMarketScreen(
                                     "Change Last 48H: Low to High",
                                     "Change Last 48H: High to Low",
                                     "Insta Profit: Low to High",
-                                    "Insta Profit: High to Low"
+                                    "Insta Profit: High to Low",
+                                    "Time Updated"
                                 )
                                 MaterialDialog(context).show {
                                     title(text = "Sort By")
@@ -129,18 +132,30 @@ fun FleaMarketScreen(
                             }) {
                                 Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = "Sort Ammo", tint = Color.White)
                             }
-                            OverFlowMenu(
-                                menuItems = listOf(
-                                    Pair("Refresh Prices") {
-                                        Toast.makeText(context, "Refreshing prices...", Toast.LENGTH_SHORT).show()
-                                        fleaViewModel.refreshList()
-                                    },
-                                )
-                            )
+                            when (navBackStackEntry?.destination?.route) {
+                                FleaMarketScreens.Needed.route -> {
+                                    OverFlowMenu(
+                                        menuItems = listOf(
+                                            Pair("Help") {
+                                                showNeededItemsHelp(context)
+                                            },
+                                        )
+                                    )
+                                }
+                                else -> {
+                                    OverFlowMenu(
+                                        menuItems = listOf(
+                                            Pair("Refresh Prices") {
+                                                Toast.makeText(context, "Refreshing prices...", Toast.LENGTH_SHORT).show()
+                                                fleaViewModel.refreshList()
+                                            },
+                                        )
+                                    )
+                                }
+                            }
                         }
                     )
                 }
-
             }
         },
         bottomBar = {
@@ -181,11 +196,7 @@ fun FleaMarketNeededScreen(
     val context = LocalContext.current
     onlyOnce("fleaNeededItemsHelper") {
         onDo {
-            MaterialDialog(context).show {
-                title(text = "Needed Items How To")
-                message(text = "Add items to this list by long pressing on Hideout Modules, Quests, or Quest Requirements.\n\nSingle Tap: Increments Item Count\nDouble Tap: Decrements Item Count\nLong Click: Opens item page.\n\nThis feature will be getting improved soon.")
-                positiveButton(text = "GOT IT")
-            }
+            showNeededItemsHelp(context)
         }
     }
 
@@ -283,6 +294,14 @@ fun FleaMarketNeededScreen(
     }
 }
 
+private fun showNeededItemsHelp(context: Context) {
+    MaterialDialog(context).show {
+        title(text = "Needed Items How To")
+        message(text = "Add items to this list by long pressing on Hideout Modules, Quests, or Quest Requirements.\n\nSingle Tap: Increments Item Count\nDouble Tap: Decrements Item Count\nLong Click: Opens item page.\n\nThis feature will be getting improved soon.")
+        positiveButton(text = "GOT IT")
+    }
+}
+
 
 @ExperimentalCoilApi
 @ExperimentalCoroutinesApi
@@ -358,7 +377,7 @@ fun FleaMarketFavoritesList(
                 contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
             ) {
                 items(items = list ?: emptyList()) { item ->
-                   FleaItem(item = item, priceDisplay = priceDisplay, iconDisplay) {
+                    FleaItem(item = item, priceDisplay = priceDisplay, iconDisplay) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", item.id)
                         }
@@ -420,11 +439,16 @@ fun FleaMarketListScreen(
         5 -> data?.sortedByDescending { it.pricing?.changeLast48h }
         6 -> data?.sortedBy { it.pricing?.getInstaProfit() }
         7 -> data?.sortedByDescending { it.pricing?.getInstaProfit() }
+        8 -> data?.sortedByDescending {
+            if (it.pricing?.noFlea == true) return@sortedByDescending "";
+            return@sortedByDescending it.pricing?.updated
+        }
         else -> data?.sortedBy { it.getPrice() }
     }?.filter {
         it.ShortName?.contains(searchKey, ignoreCase = true) == true
                 || it.Name?.contains(searchKey, ignoreCase = true) == true
                 || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
+                || it.pricing?.types?.map { it?.rawValue }?.joinToString(" ")?.contains(searchKey, ignoreCase = true) == true
     }?.filter {
         when (fleaHideTime) {
             FleaHideTime.HOUR24 -> it.pricing?.getTime() ?: currentTimeMillis() > (currentTimeMillis() - (1000 * 60 * 60 * 24))

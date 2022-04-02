@@ -11,24 +11,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
-import com.airbnb.lottie.LottieComposition
-import com.airbnb.lottie.compose.*
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
@@ -93,7 +88,6 @@ import javax.inject.Inject
 @ExperimentalAnimationApi
 @AndroidEntryPoint
 class NavActivity : GodActivity() {
-
     private val navViewModel: NavViewModel by viewModels()
     private val fleaViewModel: FleaViewModel by viewModels()
     private val questViewModel: QuestMainViewModel by viewModels()
@@ -227,15 +221,12 @@ class NavActivity : GodActivity() {
                 systemUiController.setSystemBarsColor(
                     color = MaterialTheme.colors.primary,
                 )
-
-
-
                 Scaffold(
                     scaffoldState = scaffoldState,
                     drawerContent = {
                         MainDrawer(navViewModel = navViewModel, lifeCycleOwner, this@NavActivity, apolloClient)
                         val testUser by fsUser.observeAsState()
-                        Timber.d("USER: ${testUser}")
+                        Timber.d("USER: $testUser")
                     },
                     drawerScrimColor = Color(0xFF121212)
                 ) {
@@ -444,7 +435,7 @@ class NavActivity : GodActivity() {
     private fun setupDynamicLinks() {
         Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
             if (pendingDynamicLinkData != null) {
-                var deepLink = pendingDynamicLinkData.link
+                val deepLink = pendingDynamicLinkData.link
                 MaterialDialog(this).show {
                     title(text = "Join Team?")
                     message(text = "You've clicked an invite link, do you want to join this team?")

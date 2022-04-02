@@ -94,7 +94,7 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
 
     LaunchedEffect("traders") {
         try {
-            resetTimers = apolloClient.query(TraderResetTimersQuery()).data?.toObj()
+            resetTimers = apolloClient.query(TraderResetTimersQuery()).execute().data?.toObj()
 
             while (true) {
                 resetTime = resetTimers?.getTrader(trader ?: "")?.getResetTimeSpan() ?: ""

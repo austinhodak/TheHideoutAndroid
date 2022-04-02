@@ -234,7 +234,7 @@ class BarterDetailActivity : AppCompatActivity() {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun CompactItem(item: Pricing, extras: ItemSubtitle? = null) {
+    fun CompactItem(item: Pricing, extras: ItemSubtitle? = null) {
         var showPrices by remember {
             mutableStateOf(false)
         }
