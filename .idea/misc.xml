@@ -12,20 +12,28 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_access_time_24.xml" value="0.4765" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.4875" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_assignment_24.xml" value="0.3506578947368421" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_attach_money_24.xml" value="0.491" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_block_24.xml" value="0.491" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_calculate_24.xml" value="0.30416666666666664" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_check_circle_outline_24.xml" value="0.2135" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.478" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_filter_alt_24.xml" value="0.18958333333333333" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.491" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.4765" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_language_24.xml" value="0.287" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_link_24.xml" value="0.482" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_manage_search_24.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.18680555555555556" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_menu_open_24.xml" value="0.1" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_money_24.xml" value="0.491" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_notifications_active_24.xml" value="0.4875" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_settings_backup_restore_24.xml" value="0.4885" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.15486111111111112" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_subdirectory_arrow_right_24.xml" value="0.4875" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_baseline_update_24.xml" value="0.469" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_hideout_monochrome__1_.xml" value="0.482" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_icons8_discord_svg.xml" value="0.414" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_icons8_icons8.xml" value="0.4905" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/drawable/ic_icons8_twitter.xml" value="0.414" />
@@ -84,8 +92,10 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/item_weapon.xml" value="0.18" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/layout_empty.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/login_picker.xml" value="0.33" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/login_picker_amazon.xml" value="0.2145842039281237" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/map_compose.xml" value="0.5" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/price_chart_marker_view.xml" value="0.67" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/layout/qr_code_dialog.xml" value="0.4390765284309534" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_activity.xml" value="0.1" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/settings_trader_level_fragment.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/layout/single_price_widget.xml" value="0.5" />
@@ -104,8 +114,20 @@
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_flea_main_bottom_nav.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/fragment_quests_bottom_nav.xml" value="0.22467105263157894" />
         <entry key="..\:/Development/TheHideout/app/src/main/res/menu/quest_overview.xml" value="0.22467105263157894" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2995" />
+        <entry key="..\:/Development/TheHideout/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2995" />
+        <entry key="..\:/Development/TheHideout/mp-library-preference-screen-choice/src/main/res/layout/dialog_choice_item.xml" value="0.4390765284309534" />
+        <entry key="..\:/Development/TheHideout/mp-library-preference-screen/src/main/res/drawable/badge_background.xml" value="0.467" />
+        <entry key="..\:/Development/TheHideout/mp-library-preference-screen/src/main/res/layout/preference.xml" value="0.5" />
+        <entry key="..\:/Development/TheHideout/mp-library-preference-screen/src/main/res/layout/preference_activity_settings.xml" value="0.4390765284309534" />
+        <entry key="..\:/Development/TheHideout/mp-library-preference-screen/src/main/res/layout/preference_category.xml" value="0.4390765284309534" />
+        <entry key="..\:/Development/TheHideout/mp-library-preference-screen/src/main/res/layout/widget_checkbox.xml" value="0.4390765284309534" />
+        <entry key="..\:/Development/TheHideout/mp-library-preference-screen/src/main/res/layout/widget_switch.xml" value="0.4390765284309534" />
         <entry key="..\:/Development/TheHideout/tarkovapi/src/main/res/layout/item_flea_api.xml" value="0.21584699453551912" />
         <entry key="..\:/Users/ahoda/.gradle/caches/transforms-3/5a6e19a61c42670f4005d12c1a3a9e92/transformed/jetified-screen-0.5.2/res/drawable/icon_settings_expand.xml" value="0.15694444444444444" />
+        <entry key="app/src/main/res/drawable-v21/app_widget_background.xml" value="0.2125" />
+        <entry key="app/src/main/res/drawable-v21/app_widget_inner_view_background.xml" value="0.2125" />
+        <entry key="app/src/main/res/drawable-v23/launch_screen.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/editor_stat.xml" value="0.351" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.3575" />
         <entry key="app/src/main/res/drawable/ic_baseline_backup_24.xml" value="0.5161458333333333" />

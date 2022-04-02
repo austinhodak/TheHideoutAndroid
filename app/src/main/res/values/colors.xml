@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <color name="ic_launcher_background">#1C1400</color>
-
     <!-- Pastels -->
     <color name="pastel_red">#FFA19F</color>
     <color name="pastel_orange">#FFBE9E</color>

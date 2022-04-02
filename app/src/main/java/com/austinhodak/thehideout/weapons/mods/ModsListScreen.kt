@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.weapons.mods
 
 import android.view.ViewGroup
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -16,8 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -33,15 +38,9 @@ import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoCard
 import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
-import com.austinhodak.thehideout.compose.components.EmptyText
-import com.austinhodak.thehideout.compose.components.MainToolbar
-import com.austinhodak.thehideout.compose.components.SearchToolbar
-import com.austinhodak.thehideout.compose.components.SmallBuyPrice
+import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
-import com.austinhodak.thehideout.utils.getColor
-import com.austinhodak.thehideout.utils.modParent
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.openModDetail
+import com.austinhodak.thehideout.utils.*
 import com.michaelflisar.materialpreferences.core.initialisation.SettingSetup.context
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
@@ -66,7 +65,7 @@ fun ModsListScreen(
 
     val context = LocalContext.current
 
-    val selectedCategory = remember { mutableStateOf(Triple("bipod", 1001, "Bipod")) }
+    var selectedCategory by remember { mutableStateOf(Triple("bipod", 1001, "Bipod")) }
     //val data = tarkovRepo.getItemsByType(ItemTypes.MOD).collectAsState(initial = emptyList())
     val data by navViewModel.allItems.observeAsState(null)
 
@@ -76,6 +75,7 @@ fun ModsListScreen(
     BackdropScaffold(
         scaffoldState = scaffoldState,
         gesturesEnabled = !isSearchOpen,
+        headerHeight = 128.dp,
         appBar = {
             if (isSearchOpen) {
                 SearchToolbar(
@@ -88,15 +88,45 @@ fun ModsListScreen(
                     }
                 )
             } else {
-                MainToolbar(
-                    title = "Mods",
-                    navViewModel = navViewModel,
-                    elevation = 0.dp,
+                TopAppBar(
+                    title = {
+                        Column {
+                            Text(
+                                text = "Mods",
+                                color = MaterialTheme.colors.onPrimary,
+                                style = MaterialTheme.typography.h6,
+                                maxLines = 1,
+                                fontSize = 18.sp,
+                                overflow = TextOverflow.Ellipsis
+                            )
+
+                            Text(
+                                text = selectedCategory.third,
+                                color = MaterialTheme.colors.onPrimary,
+                                style = MaterialTheme.typography.caption,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            navViewModel.isDrawerOpen.value = true
+                        }) {
+                            Icon(Icons.Filled.Menu, contentDescription = null)
+                        }
+                    },
                     actions = {
                         IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
-                            Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
+                            Icon(
+                                Icons.Filled.Search,
+                                contentDescription = "Search",
+                                tint = Color.White
+                            )
                         }
-                    }
+                    },
+                    backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+                    elevation = 0.dp
                 )
             }
         }, backLayerContent = {
@@ -189,6 +219,33 @@ fun ModsListScreen(
                     R.drawable.ic_blank
                 }
 
+                val items = listOf(
+                    bipods,
+                    foregrips,
+                    flashlights,
+                    tac,
+                    aux,
+                    muzzle_adapters,
+                    muzzle_brakes,
+                    muzzle_flash,
+                    muzzle_suppressor,
+                    gear_handles,
+                    gear_mags,
+                    gear_mounts,
+                    gear_stocks,
+                    sights_assault,
+                    sights_reflex,
+                    sights_compact,
+                    sights_iron,
+                    sights_scopes,
+                    sights_special,
+                    vital_barrels,
+                    vital_gas,
+                    vital_grips,
+                    vital_handguards,
+                    vital_receivers
+                )
+
                 drawer.apply {
                     itemAdapter.add(
                         ExpandableDrawerItem().apply {
@@ -269,7 +326,8 @@ fun ModsListScreen(
                 drawer.onDrawerItemClickListener = { _, item, _ ->
                     if (item.isSelectable) {
 
-                        selectedCategory.value = Triple(item.tag.toString(), item.identifier.toInt(), "")
+
+                        selectedCategory = Triple(item.tag.toString(), item.identifier.toInt(), items.find { it.identifier == item.identifier }?.name?.textString?.toString() ?: "")
                         scope.launch {
                             scaffoldState.conceal()
                         }
@@ -278,8 +336,8 @@ fun ModsListScreen(
                 }
                 drawer
             }, update = {
-                it.setSelection(selectedCategory.value.second.toLong(), false)
-            })
+                it.setSelection(selectedCategory.second.toLong(), false)
+            }, modifier = Modifier.wrapContentHeight())
         }, frontLayerContent = {
             if (isSearchOpen) {
                 val items = data?.filter { it.pricing != null }?.filter {
@@ -300,8 +358,8 @@ fun ModsListScreen(
                             .fillMaxSize(),
                         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
                     ) {
-                        items(items = items) { item ->
-                            ModsBasicCard(item = item) {
+                        items(items = items, key = { it.id }) { item ->
+                            ModsBasicCard(item = item, Modifier.animateItemPlacement()) {
                                 context.openModDetail(item.id)
                             }
                         }
@@ -326,30 +384,24 @@ fun ModsListScreen(
                     }
                 ) {
                     val items = when {
-                        else -> data?.filter { it.pricing != null && it.parent == selectedCategory.value.first.modParent() }
+                        else -> data?.filter { it.pricing != null && it.parent == selectedCategory.first.modParent() }
                             ?.sortedBy { it.ShortName }
                     }
-                    if (data.isNullOrEmpty()) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 32.dp)
-                        ) {
-                            CircularProgressIndicator(
-                                color = MaterialTheme.colors.secondary
-                            )
-                        }
-                    } else {
-                        Column {
-                            //Text(text = "Mod")
-                            LazyColumn(
-                                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                                modifier = Modifier.fillMaxHeight()
-                            ) {
-                                items(items = items ?: emptyList()) { item ->
-                                    ModsBasicCard(item = item) {
-                                        context.openModDetail(it.id)
+
+                    AnimatedContent(targetState = data.isNullOrEmpty()) {
+                        if (it) {
+                            LoadingItem()
+                        } else {
+                            Column {
+                                //Text(text = "Mod")
+                                LazyColumn(
+                                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                                    modifier = Modifier.fillMaxHeight()
+                                ) {
+                                    items(items = items ?: emptyList(), key = { it.id }) { item ->
+                                        ModsBasicCard(item = item, Modifier.animateItemPlacement()) {
+                                            context.openModDetail(it.id)
+                                        }
                                     }
                                 }
                             }
@@ -366,10 +418,11 @@ fun ModsListScreen(
 @Composable
 fun ModsBasicCard(
     item: Item,
+    modifier: Modifier = Modifier,
     clicked: (item: Item) -> Unit = {}
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),
@@ -390,7 +443,7 @@ fun ModsBasicCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainterPlaceholder(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)

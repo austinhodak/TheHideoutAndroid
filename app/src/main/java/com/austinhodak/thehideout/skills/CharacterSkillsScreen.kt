@@ -36,6 +36,7 @@ import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.skillsList
 import com.austinhodak.thehideout.utils.addToCartDialog
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CharacterSkillsScreen(
     navViewModel: NavViewModel
@@ -70,12 +71,13 @@ fun CharacterSkillsScreen(
             }
         }
     ) {
+        val skills = skillsList.skills.sortedBy { it.name }.filter { it.live }.filter { it.name.contains(searchKey, true) || it.type.contains(searchKey, true) }
+
         LazyColumn(
             contentPadding = PaddingValues(vertical = 4.dp)
         ) {
-            val skills = skillsList.skills.sortedBy { it.name }.filter { it.live }.filter { it.name.contains(searchKey, true) || it.type.contains(searchKey, true) }
-            items(items = skills) { skill ->
-                SkillCard(skill)
+            items(items = skills, key = { it.name} ) { skill ->
+                SkillCard(skill, Modifier.animateItemPlacement())
             }
         }
     }
@@ -83,10 +85,10 @@ fun CharacterSkillsScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun SkillCard(skill: Skill) {
+private fun SkillCard(skill: Skill, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp),
         //border = BorderStroke(1.dp, color = color),
         onClick = {
                   context.openActivity(SkillDetailActivity::class.java) {

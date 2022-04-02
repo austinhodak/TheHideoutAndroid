@@ -8,7 +8,7 @@ import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,10 +18,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -45,16 +42,23 @@ import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItems
+import com.austinhodak.tarkovapi.IconSelection
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.*
 import com.austinhodak.tarkovapi.type.ItemSourceName
+import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.barters.BarterDetailActivity
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.crafts.CompactItem
+import com.austinhodak.thehideout.crafts.CraftDetailActivity
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.firebase.PriceAlert
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
@@ -71,7 +75,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.google.accompanist.glide.rememberGlidePainter
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.database.DataSnapshot
@@ -130,9 +133,18 @@ class FleaItemDetail : GodActivity() {
 
                     val item by viewModel.item.observeAsState()
 
+                    //Timber.d(item?.getGridIDs()?.toString())
+
                     val quests by tarkovRepo.getQuestsWithItemID("%${item?.id}%").collectAsState(emptyList())
                     val barters by tarkovRepo.getBartersWithItemID("%${item?.id}%").collectAsState(emptyList())
                     val crafts by tarkovRepo.getCraftsWithItemID("%${item?.id}%").collectAsState(emptyList())
+                    val craftsFiltered = crafts.filter {
+                        it.rewardItem()?.item?.id == item?.id || it.requiredItems?.any { it?.item?.id == item?.id } == true
+                    }
+
+                    val bartersFiltered = barters.filter {
+                        it.getRewardItem()?.containsItem?.any { it.item?.id == item?.id } == true || it.getRewardItem()?.id == item?.id || it.requiredItems?.any { it?.item?.id == item?.id } == true
+                    }
 
                     var parents by remember {
                         mutableStateOf(listOf<Item>())
@@ -145,13 +157,14 @@ class FleaItemDetail : GodActivity() {
                     val parentItems = parents.filter { it.id != itemID }
 
                     val userData by viewModel.userData.observeAsState()
+                    val userDataFS by fsUser.observeAsState()
 
                     var priceAlerts by remember { mutableStateOf<List<PriceAlert>?>(null) }
 
                     val items = listOf(
                         NavItem("Item", R.drawable.ic_baseline_storefront_24),
-                        NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, barters.isNotEmpty()),
-                        NavItem("Crafts", R.drawable.ic_baseline_handyman_24, crafts.isNotEmpty()),
+                        NavItem("Barters", R.drawable.ic_baseline_compare_arrows_24, bartersFiltered.isNotEmpty()),
+                        NavItem("Crafts", R.drawable.ic_baseline_handyman_24, craftsFiltered.isNotEmpty()),
                         NavItem("Quests", R.drawable.ic_baseline_assignment_24, quests.isNotEmpty())
                     )
 
@@ -195,9 +208,6 @@ class FleaItemDetail : GodActivity() {
                             FleaDetailToolbar(
                                 item = item,
                                 actions = {
-                                    /*IconButton(onClick = {}) {
-                                        Icon(painter = painterResource(id = R.drawable.icons8_add_list_96), contentDescription = "Add to List")
-                                    }*/
                                     IconButton(onClick = {
                                         isFavorited = if (isFavorited == true) {
                                             extras.removeFavorite(itemID)
@@ -227,20 +237,23 @@ class FleaItemDetail : GodActivity() {
                         },
                         bottomBar = { FleaBottomNav(selected = selectedNavItem, items) { selectedNavItem = it } },
                         floatingActionButton = {
-                            //if (isDebug())
-                            FloatingActionButton(onClick = {
-                                item?.pricing?.addToCartDialog(this)
-                            }) {
-                                Icon(
-                                    painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                                    contentDescription = "Add to Shopping Cart",
-                                    tint = MaterialTheme.colors.onSecondary
-                                )
-                            }
+                            if (UserSettingsModel.showAddToCardButton.value)
+                                FloatingActionButton(onClick = {
+                                    item?.pricing?.addToCartDialog(this)
+                                }) {
+                                    Icon(
+                                        painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                                        contentDescription = "Add to Shopping Cart",
+                                        tint = MaterialTheme.colors.onSecondary
+                                    )
+                                }
                         }
                     ) { innerPadding ->
                         Box(modifier = Modifier.padding(innerPadding)) {
-                            Crossfade(targetState = selectedNavItem) {
+                            Crossfade(
+                                targetState = selectedNavItem,
+                                modifier = Modifier.fillMaxHeight()
+                            ) {
                                 when (it) {
                                     0 -> {
                                         LazyColumn(
@@ -302,13 +315,15 @@ class FleaItemDetail : GodActivity() {
 
                                                     NeededCard(title = "NEEDED", item = item, needed, tarkovRepo)
                                                 }
-                                                Card(
-                                                    modifier = Modifier
-                                                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                                                        .fillMaxWidth(),
-                                                    backgroundColor = Color(0xFE1F1F1F)
-                                                ) {
-                                                    Chart()
+                                                if (UserSettingsModel.showPriceGraph.value) {
+                                                    Card(
+                                                        modifier = Modifier
+                                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                                            .fillMaxWidth(),
+                                                        backgroundColor = Color(0xFE1F1F1F)
+                                                    ) {
+                                                        Chart()
+                                                    }
                                                 }
                                                 if (!priceAlerts.isNullOrEmpty()) {
                                                     PriceAlertCard(priceAlerts = priceAlerts!!, item)
@@ -327,10 +342,10 @@ class FleaItemDetail : GodActivity() {
                                         }
                                     }
                                     1 -> {
-                                        BartersPage(item = item, barters, userData)
+                                        BartersPage(item = item, bartersFiltered, userData)
                                     }
                                     2 -> {
-                                        CraftsPage(item = item, crafts, userData)
+                                        CraftsPage(item = item, craftsFiltered, userDataFS)
                                     }
                                     3 -> QuestsPage(item = item, quests, tarkovRepo, userData)
                                 }
@@ -412,8 +427,8 @@ class FleaItemDetail : GodActivity() {
                                 .padding(
                                     start = 16.dp,
                                     end = 16.dp,
-                                    top = 8.dp,
-                                    bottom = 8.dp
+                                    top = 0.dp,
+                                    bottom = 0.dp
                                 )
                                 .defaultMinSize(minHeight = 28.dp)
                         ) {
@@ -500,7 +515,7 @@ class FleaItemDetail : GodActivity() {
                         ) {
                             Box {
                                 Image(
-                                    rememberImagePainter(
+                                    fadeImagePainter(
                                         childItem?.getCleanIcon()
                                     ),
                                     contentDescription = null,
@@ -587,7 +602,7 @@ class FleaItemDetail : GodActivity() {
                         ) {
                             Box {
                                 Image(
-                                    rememberImagePainter(
+                                    fadeImagePainter(
                                         childItem?.getCleanIcon()
                                     ),
                                     contentDescription = null,
@@ -973,7 +988,7 @@ class FleaItemDetail : GodActivity() {
     ) {
 
         LazyColumn(
-            contentPadding = PaddingValues(vertical = 4.dp)
+            contentPadding = PaddingValues(top = 4.dp, bottom = 60.dp),
         ) {
             items(items = quests ?: emptyList()) { quest ->
 //            val isRequired = quest.isRequiredForKappa(database).observeAsState().value
@@ -1053,10 +1068,10 @@ class FleaItemDetail : GodActivity() {
     private fun CraftsPage(
         item: Item?,
         crafts: List<Craft>,
-        userData: User?
+        userData: FSUser?
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(vertical = 4.dp)
+            contentPadding = PaddingValues(top = 4.dp, bottom = 60.dp),
         ) {
             items(items = crafts) { craft ->
                 CraftItem(craft, userData)
@@ -1066,32 +1081,31 @@ class FleaItemDetail : GodActivity() {
 
     @ExperimentalMaterialApi
     @Composable
-    fun CraftItem(craft: Craft, userData: User?) {
+    fun CraftItem(craft: Craft, userData: FSUser?) {
         val rewardItem = craft.rewardItems?.firstOrNull()?.item
         val reward = craft.rewardItems?.firstOrNull()
         val requiredItems = craft.requiredItems
         val context = LocalContext.current
 
-        val alpha = if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
-            ContentAlpha.high
-        } else {
-            ContentAlpha.high
-        }
+        val alpha = ContentAlpha.high
 
         CompositionLocalProvider(LocalContentAlpha provides alpha) {
             Card(
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                 backgroundColor = Color(0xFE1F1F1F),
                 onClick = {
-                    if (rewardItem?.id != itemID) {
+                    context.openActivity(CraftDetailActivity::class.java) {
+                        putSerializable("craft", craft)
+                    }
+                    /*if (rewardItem?.id != itemID) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", rewardItem?.id)
                         }
-                    }
+                    }*/
                 },
             ) {
                 Column {
-                    if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+                    if (userData == null || userData.progress?.isHideoutModuleCompleted(craft.getSourceID(hideoutList.hideout) ?: 0) == true) {
 
                     } else {
                         Row(
@@ -1102,7 +1116,7 @@ class FleaItemDetail : GodActivity() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
-                                Icons.Filled.Warning, contentDescription = "", tint = Color.Black, modifier = Modifier
+                                Icons.Filled.BuildCircle, contentDescription = "", tint = Color.Black, modifier = Modifier
                                     .height(20.dp)
                                     .width(20.dp)
                             )
@@ -1124,7 +1138,7 @@ class FleaItemDetail : GodActivity() {
                     ) {
                         Box {
                             Image(
-                                rememberImagePainter(
+                                fadeImagePainter(
                                     rewardItem?.getCleanIcon()
                                 ),
                                 contentDescription = null,
@@ -1188,11 +1202,20 @@ class FleaItemDetail : GodActivity() {
                             modifier = Modifier.padding(bottom = 8.dp, top = 4.dp, start = 16.dp, end = 16.dp)
                         )
                     }
-                    requiredItems?.forEach { taskItem ->
-                        BarterCraftCostItem(taskItem)
+                    requiredItems?.forEach { item ->
+                        item?.item?.let { pricing ->
+                            CompactItem(
+                                item = pricing, extras = CraftDetailActivity.ItemSubtitle(
+                                    iconText = item.count?.toString(),
+                                    showPriceInSubtitle = true,
+                                    subtitle = " (${(item.count?.times(pricing.getCheapestBuyRequirements().price ?: 0))?.asCurrency()})"
+                                )
+                            )
+                        }
+                        //BarterCraftCostItem(taskItem)
                     }
                     Divider(
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+                        modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
                         color = Color(0x1F000000)
                     )
                     AvgPriceRow(title = "COST", price = craft.totalCost())
@@ -1212,10 +1235,10 @@ class FleaItemDetail : GodActivity() {
         userData: User?
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(vertical = 4.dp)
+            contentPadding = PaddingValues(top = 4.dp, bottom = 60.dp),
         ) {
             items(items = barters ?: emptyList()) { barter ->
-                BarterItem(barter)
+                BarterItem(barter, item)
             }
         }
     }
@@ -1223,25 +1246,53 @@ class FleaItemDetail : GodActivity() {
     @ExperimentalMaterialApi
     @Composable
     private fun BarterItem(
-        barter: Barter
+        barter: Barter,
+        item: Item?
     ) {
         val rewardItem = barter.rewardItems?.firstOrNull()?.item
         val requiredItems = barter.requiredItems
 
         val context = LocalContext.current
 
+        val isChildOfReward = item?.isChildOf(rewardItem) ?: false
+
         Card(
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             backgroundColor = Color(0xFE1F1F1F),
             onClick = {
-                if (rewardItem?.id != itemID) {
+                context.openActivity(BarterDetailActivity::class.java) {
+                    putSerializable("barter", barter)
+                }
+                /*if (rewardItem?.id != itemID) {
                     context.openActivity(FleaItemDetail::class.java) {
                         putString("id", rewardItem?.id)
                     }
-                }
+                }*/
             }
         ) {
             Column {
+                if (isChildOfReward) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(color = Blue400)
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Filled.SubdirectoryArrowRight, contentDescription = "", tint = Color.Black, modifier = Modifier
+                                .height(20.dp)
+                                .width(20.dp)
+                        )
+                        Text(
+                            text = "YOU WILL RECEIVE ${item?.pricing?.shortName?.uppercase()} AS A MOD ON ${rewardItem?.shortName?.uppercase()}",
+                            style = MaterialTheme.typography.caption,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black,
+                            modifier = Modifier.padding(start = 34.dp)
+                        )
+                    }
+                }
                 Row(
                     Modifier
                         .padding(start = 16.dp, end = 16.dp)
@@ -1249,7 +1300,7 @@ class FleaItemDetail : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(data = rewardItem?.getCleanIcon()),
+                        fadeImagePainter(rewardItem?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)
@@ -1259,7 +1310,7 @@ class FleaItemDetail : GodActivity() {
                     )
                     Column(
                         Modifier
-                            .padding(horizontal = 16.dp)
+                            .padding(start = 16.dp, top = 16.dp, bottom = 16.dp)
                             .weight(1f),
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -1301,11 +1352,20 @@ class FleaItemDetail : GodActivity() {
                         modifier = Modifier.padding(bottom = 8.dp, top = 4.dp, start = 16.dp, end = 16.dp)
                     )
                 }
-                requiredItems?.forEach { taskItem ->
-                    BarterCraftCostItem(taskItem)
+                requiredItems?.forEach { item ->
+                    item?.item?.let { pricing ->
+                        CompactItem(
+                            item = pricing, extras = CraftDetailActivity.ItemSubtitle(
+                                iconText = item.count?.toString(),
+                                showPriceInSubtitle = true,
+                                subtitle = " (${(item.count?.times(pricing.getCheapestBuyRequirements().price ?: 0))?.asCurrency()})"
+                            )
+                        )
+                    }
+                    //BarterCraftCostItem(taskItem)
                 }
                 Divider(
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+                    modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
                     color = Color(0x1F000000)
                 )
                 AvgPriceRow(title = "COST", price = barter.totalCost())
@@ -1336,7 +1396,7 @@ class FleaItemDetail : GodActivity() {
         ) {
             Box {
                 Image(
-                    rememberImagePainter(
+                    fadeImagePainter(
                         item?.getCleanIcon()
                     ),
                     contentDescription = null,
@@ -1460,30 +1520,43 @@ class FleaItemDetail : GodActivity() {
             "black" -> itemBlack
             else -> itemDefault
         }
+        val iconDisplay = UserSettingsModel.fleaIconDisplay.value
+
+        val icon = when (iconDisplay) {
+            IconSelection.ORIGINAL -> item?.pricing?.getCleanIcon()
+            IconSelection.TRANSPARENT -> item?.pricing?.getTransparentIcon()
+            IconSelection.GAME -> item?.pricing?.getIcon()
+        }
+
+        val border = when (iconDisplay) {
+            IconSelection.ORIGINAL -> BorderColor
+            IconSelection.TRANSPARENT -> Color.Unspecified
+            IconSelection.GAME -> Color.Unspecified
+        }
 
         Card(
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             backgroundColor = Color(0xFE1F1F1F)
         ) {
             Row(
-                Modifier.height(IntrinsicSize.Max)
+                //Modifier.height(IntrinsicSize.Max)
             ) {
-                Rectangle(color = color, modifier = Modifier.fillMaxHeight())
+                //Rectangle(color = color, modifier = Modifier.fillMaxHeight())
                 Column(Modifier.padding(bottom = 8.dp)) {
                     Row(
                         Modifier
-                            .padding(start = 16.dp, end = 16.dp)
-                            .height(IntrinsicSize.Min),
+                            .padding(start = 16.dp, end = 16.dp),
+                            //.height(IntrinsicSize.Max),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            rememberImagePainter(item?.pricing?.getCleanIcon()),
+                            fadeImagePainter(icon),
                             contentDescription = null,
                             modifier = Modifier
                                 .padding(vertical = 16.dp)
                                 .width(52.dp)
                                 .height(52.dp)
-                                .border((0.25).dp, color = BorderColor)
+                                .border((0.25).dp, color = border)
                                 .clickable {
                                     item?.pricing?.imageLink?.let {
                                         StfalconImageViewer
@@ -1508,11 +1581,6 @@ class FleaItemDetail : GodActivity() {
                                 .weight(1f),
                             verticalArrangement = Arrangement.Center
                         ) {
-                            /*Text(
-                            text = "${item?.Name}",
-                            style = MaterialTheme.typography.h6,
-                            //fontSize = 16.sp
-                        )*/
                             Text(
                                 text = "Last Price: ${item?.pricing?.getLastPrice()?.asCurrency()}",
                                 style = MaterialTheme.typography.subtitle1,
@@ -1546,8 +1614,8 @@ class FleaItemDetail : GodActivity() {
                                 }
                             }
                         }
-                        //////////////
-                        /*if (item?.itemType == ItemTypes.AMMO) {
+
+                        if (item?.pricing?.types?.contains(ItemType.ammo) == true) {
                             FloatingActionButton(
                                 onClick = {
                                     this@FleaItemDetail.openAmmunitionDetail(itemID)
@@ -1620,7 +1688,7 @@ class FleaItemDetail : GodActivity() {
                                     modifier = Modifier.size(24.dp)
                                 )
                             }
-                        }*/
+                        }
                     }
                     Divider(
                         modifier = Modifier.padding(bottom = 8.dp),
@@ -1634,7 +1702,15 @@ class FleaItemDetail : GodActivity() {
                         modifier = Modifier.padding(bottom = 8.dp),
                         color = DividerDark
                     )
-                    BasicStatRow(title = "WEIGHT", text = "${item?.Weight}kg")
+                    BasicStatRow(title = "WEIGHT", text = item?.getFormattedWeight())
+                    if (item?.pricing?.types?.contains(ItemType.container) == true) {
+                        Divider(
+                            modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+                            color = DividerDark
+                        )
+                        BasicStatRow(title = "CAPACITY", text = "${item.getTotalInternalSize()} Slots")
+                        BasicStatRow(title = "PRICE/SLOT", text = "${(item.getPrice() / item.getTotalInternalSize()).asCurrency()}/slot")
+                    }
                 }
             }
         }
@@ -1746,9 +1822,7 @@ class FleaItemDetail : GodActivity() {
                 modifier = Modifier
                     .size(72.dp)
                     .padding(bottom = 8.dp),
-                painter = rememberGlidePainter(
-                    request = item.traderImage()
-                ),
+                painter = fadeImagePainter(url = item.traderImage()),
                 contentDescription = "Prapor",
             )
             Text(
@@ -1771,7 +1845,7 @@ class FleaItemDetail : GodActivity() {
 
     @SuppressLint("CheckResult")
     private fun showFeeDialog(item: Item?) {
-        var intel3 = viewModel.userData.value?.isHideoutModuleComplete(17) ?: false
+        var intel3 = fsUser.value?.progress?.isHideoutModuleCompleted(17) ?: false
         MaterialDialog(this@FleaItemDetail).show {
             title(text = "Fee Calculator")
             message(

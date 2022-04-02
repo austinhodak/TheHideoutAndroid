@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.austinhodak.tarkovapi.repository.ModsRepo
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.SearchViewModel
-import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.firebase.WeaponBuildFirestore
 import com.austinhodak.thehideout.utils.uid
 import com.google.firebase.firestore.ktx.firestore
@@ -25,10 +24,16 @@ class WeaponLoadoutViewModel @Inject constructor(
     init {
         Firebase.firestore.collection("loadouts").whereEqualTo("uid", uid()).addSnapshotListener { value, error ->
             val loadouts = ArrayList<WeaponBuildFirestore>()
-            for (doc in value!!) {
-                val loadout = doc.toObject<WeaponBuildFirestore>()
-                loadout.id = doc.id
-                loadouts.add(loadout)
+
+            if (value != null) {
+                for (doc in value) {
+                    val loadout = doc?.toObject<WeaponBuildFirestore>()
+                    loadout?.id = doc.id
+                    loadout?.let {
+                        loadouts.add(it)
+                    }
+
+                }
             }
             _userLoadouts.value = loadouts
         }

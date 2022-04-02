@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.traders
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -48,8 +49,10 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.barters.BarterDetailActivity
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.crafts.CraftDetailActivity
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
@@ -91,7 +94,7 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
 
     LaunchedEffect("traders") {
         try {
-            resetTimers = apolloClient.query(TraderResetTimersQuery()).data?.toObj()
+            resetTimers = apolloClient.query(TraderResetTimersQuery()).execute().data?.toObj()
 
             while (true) {
                 resetTime = resetTimers?.getTrader(trader ?: "")?.getResetTimeSpan() ?: ""
@@ -245,30 +248,23 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                     it.Name
                 }
 
-                if (items.isNullOrEmpty()) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 32.dp)
-                    ) {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colors.secondary
-                        )
-                    }
-                } else {
-                    val context = LocalContext.current
-                    LazyColumn(
-                        modifier = Modifier,
-                        contentPadding = PaddingValues(
-                            top = 4.dp,
-                            bottom = paddingValues.calculateBottomPadding() + 4.dp
-                        )
-                    ) {
-                        items(items = itemList ?: emptyList()) { item ->
-                            TraderFleaItem(item = item, trader = trader) {
-                                context.openActivity(FleaItemDetail::class.java) {
-                                    putString("id", item.id)
+                AnimatedContent(targetState = items.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        val context = LocalContext.current
+                        LazyColumn(
+                            modifier = Modifier,
+                            contentPadding = PaddingValues(
+                                top = 4.dp,
+                                bottom = paddingValues.calculateBottomPadding() + 4.dp
+                            )
+                        ) {
+                            items(items = itemList ?: emptyList(), key = { it.id }) { item ->
+                                TraderFleaItem(item = item, trader = trader, Modifier.animateItemPlacement()) {
+                                    context.openActivity(FleaItemDetail::class.java) {
+                                        putString("id", item.id)
+                                    }
                                 }
                             }
                         }
@@ -290,14 +286,20 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                     it.rewardItems?.first()?.item?.name
                 }
 
-                LazyColumn(
-                    contentPadding = PaddingValues(
-                        top = 4.dp,
-                        bottom = paddingValues.calculateBottomPadding() + 4.dp
-                    )
-                ) {
-                    items(items = barterList) { barter ->
-                        BarterItem(barter)
+                AnimatedContent(targetState = barterList.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        LazyColumn(
+                            contentPadding = PaddingValues(
+                                top = 4.dp,
+                                bottom = paddingValues.calculateBottomPadding() + 4.dp
+                            )
+                        ) {
+                            items(items = barterList, key = { it.id.toString() }) { barter ->
+                                BarterItem(barter, Modifier.animateItemPlacement())
+                            }
+                        }
                     }
                 }
             }
@@ -415,7 +417,8 @@ private fun LoyaltyLine(
 @ExperimentalMaterialApi
 @Composable
 private fun BarterItem(
-    barter: Barter
+    barter: Barter,
+    modifier: Modifier = Modifier
 ) {
     val rewardItem = barter.rewardItems?.firstOrNull()?.item
     val requiredItems = barter.requiredItems
@@ -423,11 +426,11 @@ private fun BarterItem(
     val context = LocalContext.current
 
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp),
         backgroundColor = Color(0xFE1F1F1F),
         onClick = {
-            context.openActivity(FleaItemDetail::class.java) {
-                putString("id", rewardItem?.id)
+            context.openActivity(BarterDetailActivity::class.java) {
+                putSerializable("barter", barter)
             }
         }
     ) {
@@ -674,6 +677,7 @@ private fun TraderBottomNav(
 fun TraderFleaItem(
     item: Item,
     trader: String?,
+    modifier: Modifier = Modifier,
     onClick: (String) -> Unit,
 ) {
     val context = LocalContext.current
@@ -692,7 +696,7 @@ fun TraderFleaItem(
     }
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .combinedClickable(
                 onClick = {

@@ -1,12 +1,6 @@
 package com.austinhodak.thehideout.quests.viewmodels
 
 import android.content.Context
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material.Card
-import androidx.compose.material.Text
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,22 +11,17 @@ import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.tarkovapi.utils.QuestExtraHelper
 import com.austinhodak.thehideout.firebase.Team
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.mapsList
-import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.utils.questsFirebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,53 +33,37 @@ class QuestDetailViewModel @Inject constructor(
     private val _questsExtras = MutableLiveData<List<QuestExtra.QuestExtraItem>>()
     val questsExtra = _questsExtras
 
-    private val _userData = MutableLiveData<User?>(null)
-    val userData = _userData
-
     private val _teamsData = MutableLiveData<List<Team>>(null)
     val teamsData = _teamsData
 
     init {
-        if (uid() != null) {
-            questsFirebase.child("users/${uid()}")
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val user = snapshot.getValue<User>()
-                        _userData.value = user
-
-                        val teams: MutableList<Team> = mutableListOf()
-
-                        user?.teams?.forEach {
-                            val teamID = it.key
-                            questsFirebase.child("teams/$teamID")
-                                .addListenerForSingleValueEvent(object : ValueEventListener {
-                                    override fun onDataChange(snapshot: DataSnapshot) {
-                                        if (!snapshot.exists()) {
-                                            _teamsData.value = emptyList()
-                                            return
-                                        }
-                                        val team = snapshot.getValue(Team::class.java)
-                                        team?.let { team ->
-                                            teams.add(team)
-                                            _teamsData.value = teams.toList()
-                                        }
-                                    }
-
-                                    override fun onCancelled(error: DatabaseError) {
-
-                                    }
-                                })
+        fsUser.value?.let { user ->
+            user.teams?.forEach {
+                val teamID = it.key
+                val teams: MutableList<Team> = mutableListOf()
+                questsFirebase.child("teams/$teamID")
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (!snapshot.exists()) {
+                                _teamsData.value = emptyList()
+                                return
+                            }
+                            val team = snapshot.getValue(Team::class.java)
+                            team?.let { team ->
+                                teams.add(team)
+                                _teamsData.value = teams.toList()
+                            }
                         }
 
-                        if (user?.teams == null) {
-                            _teamsData.value = emptyList()
+                        override fun onCancelled(error: DatabaseError) {
+
                         }
-                    }
+                    })
+            }
 
-                    override fun onCancelled(error: DatabaseError) {
-
-                    }
-                })
+            if (user.teams == null) {
+                _teamsData.value = emptyList()
+            }
         }
 
         _questsExtras.value = QuestExtraHelper.getQuests(context = context)
@@ -105,87 +78,6 @@ class QuestDetailViewModel @Inject constructor(
                 _questDetails.value = it
             }
         }
-    }
-
-    fun getItem(id: String) = flow {
-        viewModelScope.launch(Dispatchers.IO) {
-            emit(repository.getItemByID(id))
-        }
-    }
-
-    fun skipToQuest(quest: Quest) {
-        /*viewModelScope.launch {
-            quest.requiredQuestsList()?.forEach { id ->
-                val q = questsList.value?.find { it.id.toInt() == id }
-                if (q != null) {
-                    q.completed()
-                    skipToQuest(q)
-                }
-            }
-        }*/
-    }
-
-    fun toggleObjective(quest: Quest, objective: Quest.QuestObjective) {
-        if (userData.value?.isObjectiveCompleted(objective) == true) {
-            unMarkObjectiveComplete(objective)
-            undoQuest(quest)
-        } else {
-            markObjectiveComplete(objective)
-        }
-    }
-
-    private fun markObjectiveComplete(objective: Quest.QuestObjective) {
-        log("objective_complete", objective.toString(), objective.toString(), "quest_objective")
-        userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").setValue(
-            mapOf(
-                "id" to objective.id?.toInt(),
-                "progress" to objective.number
-            )
-        )
-        objective.target?.first()?.let {
-            when (objective.type) {
-                "collect", "find", "key", "build" -> {
-                    userRefTracker("items/${it}/questObjective/${objective.id?.addQuotes()}").removeValue()
-                }
-                else -> {}
-            }
-        }
-    }
-
-    private fun unMarkObjectiveComplete(objective: Quest.QuestObjective) {
-        log("objective_un_complete", objective.toString(), objective.toString(), "quest_objective")
-        userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").removeValue()
-    }
-
-    fun markQuestCompleted(quest: Quest) {
-        log("quest_completed", quest.id, quest.title.toString(), "quest")
-        userRefTracker("quests/${quest.id.addQuotes()}").setValue(
-            mapOf(
-                "id" to quest.id.toInt(),
-                "completed" to true
-            )
-        )
-
-        //Mark quest objectives completed
-        for (obj in quest.objective!!) {
-            markObjectiveComplete(obj)
-        }
-    }
-
-    fun undoQuest(quest: Quest, unmarkObjectives: Boolean = false) {
-        log("quest_undo", quest.id, quest.title.toString(), "quest")
-
-        if (unmarkObjectives)
-            for (obj in quest.objective!!) {
-                unMarkObjectiveComplete(obj)
-            }
-
-        userRefTracker("quests/${quest.id.addQuotes()}").setValue(
-            mapOf(
-                "id" to quest.id.toInt(),
-                "completed" to false
-            )
-        )
     }
 
     suspend fun getObjectiveText(questObjective: Quest.QuestObjective): String {
@@ -209,7 +101,7 @@ class QuestDetailViewModel @Inject constructor(
             "kill" -> "Eliminate ${questObjective.number} $itemName on $location"
             "collect" -> "Hand over ${questObjective.number} $itemName"
             "place" -> "Place $itemName on $location"
-            "mark" -> "Place MS2000 marker at $location"
+            "mark" -> "Mark with $itemName at $location"
             "locate" -> "Locate $itemName on $location"
             "find" -> "Find in raid ${questObjective.number} $itemName"
             "reputation" -> "Reach loyalty level ${questObjective.number} with ${

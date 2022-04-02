@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -189,6 +190,36 @@ fun OverflowMenu(
 }
 
 @Composable
+fun OverFlowMenu(
+    menuItems: List<Pair<String, () -> Unit>>
+) {
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+    Box(
+        modifier = Modifier
+            .wrapContentSize(Alignment.Center)
+    ) {
+        IconButton(onClick = { expanded = true }) {
+            Icon(Icons.Default.MoreVert, contentDescription = "Overflow Menu", tint = Color.White)
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            menuItems.forEachIndexed { index, item ->
+                DropdownMenuItem(onClick = {
+                    expanded = false
+                    item.second()
+                }) {
+                    Text(text = item.first)
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun OverflowMenuItem(
     text: String,
     icon: @Composable (() -> Unit) = {},
@@ -208,7 +239,7 @@ fun WikiItem(
 ) {
     if (url.isEmpty()) return
     val context = LocalContext.current
-    OverflowMenuItem(text = "Wiki Page", icon = {
+    OverflowMenuItem(text = stringResource(R.string.wiki_page), icon = {
         Icon(
             painter = painterResource(id = R.drawable.fandom_logo),
             contentDescription = "Wiki",

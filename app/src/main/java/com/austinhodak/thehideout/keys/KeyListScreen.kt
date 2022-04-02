@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout.keys
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -26,7 +28,6 @@ import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
@@ -35,8 +36,9 @@ import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.Green500
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -59,7 +61,7 @@ fun KeyListScreen(
     val sort by keysViewModel.sortBy.observeAsState()
     val context = LocalContext.current
     val searchKey by keysViewModel.searchKey.observeAsState("")
-    val userData by keysViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -80,7 +82,7 @@ fun KeyListScreen(
                     )
                 } else {
                     MainToolbar(
-                        title = "Keys",
+                        title = stringResource(id = R.string.keys),
                         navViewModel = navViewModel,
                         actions = {
                             IconButton(onClick = {
@@ -90,18 +92,18 @@ fun KeyListScreen(
                             }
                             IconButton(onClick = {
                                 val items = listOf(
-                                    "Name",
-                                    "Price: Low to High",
-                                    "Price: High to Low"
+                                    context.getString(R.string.name),
+                                    context.getString(R.string.price_low_to_high),
+                                    context.getString(R.string.price_high_to_low),
                                 )
                                 MaterialDialog(context).show {
-                                    title(text = "Sort By")
+                                    title(res = R.string.sort_by)
                                     listItemsSingleChoice(items = items, initialSelection = sort ?: 0) { _, index, _ ->
                                         keysViewModel.setSort(index)
                                     }
                                 }
                             }) {
-                                Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = "Sort Ammo", tint = Color.White)
+                                Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = null, tint = Color.White)
                             }
                         }
                     )
@@ -132,18 +134,23 @@ fun KeyListScreen(
                     }
         }.filter { it.pricing != null }
 
-        if (data.isNullOrEmpty()) {
-            LoadingItem()
-        }
-        LazyColumn(
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
-        ) {
-            items(items = data) { key ->
-                KeyCard(
-                    key,
-                    userData,
-                    scaffoldState
-                )
+        AnimatedContent(targetState = data.isNullOrEmpty()) {
+            if (it) {
+                LoadingItem()
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                ) {
+                    items(items = data, key = { it.id }) { key ->
+                        KeyCard(
+                            key,
+                            userData,
+                            scaffoldState,
+                            keysViewModel,
+                            Modifier.animateItemPlacement()
+                        )
+                    }
+                }
             }
         }
     }
@@ -151,7 +158,7 @@ fun KeyListScreen(
     onlyOnce("keysTip") {
         onDo {
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar("Tip: Long press on a key to mark as owned!")
+                scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.key_tip))
             }
         }
     }
@@ -164,24 +171,26 @@ fun KeyListScreen(
 @Composable
 fun KeyCard(
     item: Item,
-    userData: User?,
-    scaffoldState: ScaffoldState
+    userData: FSUser?,
+    scaffoldState: ScaffoldState,
+    keysViewModel: KeysViewModel,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
             .combinedClickable(
                 onLongClick = {
                     if (userData?.hasKey(item) == false) {
                         scope.launch {
-                            scaffoldState.snackbarHostState.showSnackbar("Key marked as owned.")
+                            scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.key_owned))
                         }
                     }
-                    userData?.toggleKey(item)
+                    userData?.let { keysViewModel.toggleKey(item, it) }
                 },
                 onClick = {
                     context.openActivity(FleaItemDetail::class.java) {

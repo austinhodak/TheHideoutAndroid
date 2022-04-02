@@ -3,8 +3,11 @@ package com.austinhodak.tarkovapi.di
 import android.content.Context
 import androidx.room.Room
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.network.okHttpClient
 import com.austinhodak.tarkovapi.room.AppDatabase
+import com.austinhodak.tarkovapi.tarkovtracker.AuthIntercept
 import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
+import com.austinhodak.tarkovapi.utils.getTTApiKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,6 +15,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -27,9 +32,14 @@ object Module {
 
     @Provides
     fun provideApolloClient(): ApolloClient {
-        return ApolloClient(
-            serverUrl = "https://tarkov-tools.com/graphql"
-        )
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
+
+        return ApolloClient.Builder().serverUrl("https://api.tarkov.dev/graphql").okHttpClient(client).build()
     }
 
     @Provides
@@ -38,7 +48,7 @@ object Module {
         @ApplicationContext appContext: Context,
         callback: AppDatabase.Callback
     ) = Room.databaseBuilder(appContext, AppDatabase::class.java, "hideout-database")
-        .createFromAsset("hideout_database_50.db")
+        .createFromAsset("hideout53.db")
         .fallbackToDestructiveMigration()
         .addCallback(callback)
         .build()
@@ -63,6 +73,9 @@ object Module {
 
     @Provides
     fun providesModDao(database: AppDatabase) = database.ModDao()
+
+    @Provides
+    fun providePriceDao(database: AppDatabase) = database.PriceDao()
 
     @ApplicationScope
     @Provides

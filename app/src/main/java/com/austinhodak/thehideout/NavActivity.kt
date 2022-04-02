@@ -9,10 +9,14 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
@@ -23,13 +27,13 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.bitcoin.BitcoinPriceScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.currency.CurrenyConverterScreen
 import com.austinhodak.thehideout.flea_market.FleaMarketScreen
+import com.austinhodak.thehideout.flea_market.grid.ItemQuestHideoutGridScreen
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.gear.GearListScreen
 import com.austinhodak.thehideout.gear.viewmodels.GearViewModel
@@ -51,10 +55,7 @@ import com.austinhodak.thehideout.tools.ServerPingScreen
 import com.austinhodak.thehideout.tools.viewmodels.SensitivityViewModel
 import com.austinhodak.thehideout.traders.RestockTimersScreen
 import com.austinhodak.thehideout.traders.TraderScreen
-import com.austinhodak.thehideout.utils.acceptTeamInvite
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.openWithCustomTab
-import com.austinhodak.thehideout.utils.restartNavActivity
+import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.views.MainDrawer
 import com.austinhodak.thehideout.weapons.WeaponListScreen
 import com.austinhodak.thehideout.weapons.builder.WeaponLoadoutScreen
@@ -87,7 +88,6 @@ import javax.inject.Inject
 @ExperimentalAnimationApi
 @AndroidEntryPoint
 class NavActivity : GodActivity() {
-
     private val navViewModel: NavViewModel by viewModels()
     private val fleaViewModel: FleaViewModel by viewModels()
     private val questViewModel: QuestMainViewModel by viewModels()
@@ -99,9 +99,6 @@ class NavActivity : GodActivity() {
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo
-
-    @Inject
-    lateinit var ttRepository: TTRepository
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -139,19 +136,49 @@ class NavActivity : GodActivity() {
     private var doubleBackToExitPressedOnce = false
 
     override fun onBackPressed() {
-        //super.onBackPressed()
-        if (navViewModel.isDrawerOpen.value == true) {
-            navViewModel.setDrawerOpen(false)
-        } else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed()
-                return
+        when {
+            navViewModel.isDrawerOpen.value == true -> {
+                navViewModel.setDrawerOpen(false)
             }
+            navViewModel.isSearchOpen.value == true -> {
+                navViewModel.clearSearch()
+                navViewModel.setSearchOpen(false)
+            }
+            fleaViewModel.isSearchOpen.value == true -> {
+                fleaViewModel.clearSearch()
+                fleaViewModel.setSearchOpen(false)
+            }
+            questViewModel.isSearchOpen.value == true -> {
+                questViewModel.clearSearch()
+                questViewModel.setSearchOpen(false)
+            }
+            hideoutViewModel.isSearchOpen.value == true -> {
+                hideoutViewModel.clearSearch()
+                hideoutViewModel.setSearchOpen(false)
+            }
+            keysViewModel.isSearchOpen.value == true -> {
+                keysViewModel.clearSearch()
+                keysViewModel.setSearchOpen(false)
+            }
+            gearViewModel.isSearchOpen.value == true -> {
+                gearViewModel.clearSearch()
+                gearViewModel.setSearchOpen(false)
+            }
+            loadoutViewModel.isSearchOpen.value == true -> {
+                loadoutViewModel.clearSearch()
+                loadoutViewModel.setSearchOpen(false)
+            }
+            else -> {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed()
+                    return
+                }
 
-            this.doubleBackToExitPressedOnce = true
-            Toast.makeText(this, "Press BACK again to exit.", Toast.LENGTH_SHORT).show()
+                this.doubleBackToExitPressedOnce = true
+                Toast.makeText(this, getString(R.string.back_exit), Toast.LENGTH_SHORT).show()
 
-            Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+                Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+            }
         }
     }
 
@@ -164,6 +191,9 @@ class NavActivity : GodActivity() {
         val data = intent.extras
         data?.let {
             it.getString("url")?.openWithCustomTab(this)
+            if (it.containsKey("premium")) {
+                launchPremiumPusher()
+            }
         }
 
         setupDynamicLinks()
@@ -187,38 +217,24 @@ class NavActivity : GodActivity() {
                 }
             }
 
-            //val navBackStackEntry by navController.currentBackStackEntryAsState()
-
             HideoutTheme {
                 systemUiController.setSystemBarsColor(
                     color = MaterialTheme.colors.primary,
                 )
-
-                /*when (val currentRoute = navBackStackEntry?.destination?.route) {
-                    // do something with currentRoute
-                }*/
-
-                /*val navBackStackEntry by navController.currentBackStackEntryAsState()
-                navBackStackEntry?.destination?.route?.let {
-                    //navViewModel.updateCurrentNavRoute(it)
-                }*/
-
                 Scaffold(
                     scaffoldState = scaffoldState,
                     drawerContent = {
                         MainDrawer(navViewModel = navViewModel, lifeCycleOwner, this@NavActivity, apolloClient)
+                        val testUser by fsUser.observeAsState()
+                        Timber.d("USER: $testUser")
                     },
                     drawerScrimColor = Color(0xFF121212)
                 ) {
+
+
                     NavHost(
                         navController = navController,
-                        startDestination = tag,
-                        /*enterTransition = { _, _ ->
-                            fadeIn(animationSpec = tween(0))
-                        },
-                        exitTransition = { _, _ ->
-                            fadeOut(animationSpec = tween(0))
-                        }*/
+                        startDestination = tag
                     ) {
                         composable("ammunition/{caliber}") {
                             AmmunitionListScreen(
@@ -331,6 +347,14 @@ class NavActivity : GodActivity() {
                         composable("server_pings") {
                             ServerPingScreen(navViewModel, tarkovRepo)
                         }
+                        composable("neededGrid") {
+                            ItemQuestHideoutGridScreen(
+                                navViewModel,
+                                tarkovRepo,
+                                questViewModel,
+                                hideoutViewModel
+                            )
+                        }
                     }
 
                     navViewModel.selectedDrawerItem.observe(lifeCycleOwner) { selectedItem ->
@@ -352,17 +376,13 @@ class NavActivity : GodActivity() {
                                     .setGithubButtonId(R.id.login_github)
                                     .setFacebookButtonId(R.id.login_facebook)
                                     .build()
-                                //openActivity(LoginActivity::class.java)
+
                                 val providers = arrayListOf(
                                     AuthUI.IdpConfig.EmailBuilder().build(),
                                     AuthUI.IdpConfig.PhoneBuilder().build(),
                                     AuthUI.IdpConfig.GoogleBuilder().build(),
                                     AuthUI.IdpConfig.GitHubBuilder().build(),
-                                    AuthUI.IdpConfig.FacebookBuilder().build(),
-                                    //AuthUI.IdpConfig.FacebookBuilder().build(),
-                                    //AuthUI.IdpConfig.TwitterBuilder().build(),
-                                    //AuthUI.IdpConfig.MicrosoftBuilder().build(),
-                                    //AuthUI.IdpConfig.GitHubBuilder().build(),
+                                    AuthUI.IdpConfig.FacebookBuilder().build()
                                 )
                                 val signInIntent = AuthUI.getInstance()
                                     .createSignInIntentBuilder()
@@ -372,13 +392,11 @@ class NavActivity : GodActivity() {
                                     .setTheme(R.style.LoginTheme2)
                                     .setLogo(R.drawable.hideout_shadow_1)
                                     .setIsSmartLockEnabled(false)
-                                    //.setAlwaysShowSignInMethodScreen(true)
                                     .build()
                                 signInLauncher.launch(signInIntent)
                             }
                             else -> {
                                 navController.navigate(route) {
-                                    //launchSingleTop = true
                                     restoreState = true
                                     navController.popBackStack()
                                 }
@@ -407,17 +425,17 @@ class NavActivity : GodActivity() {
                             }
                         }
                     }
-
-                    //navViewModel.updateCurrentNavRoute(navBackStackEntry?.destination?.route.toString())
                 }
             }
         }
     }
 
+
+
     private fun setupDynamicLinks() {
         Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
             if (pendingDynamicLinkData != null) {
-                var deepLink = pendingDynamicLinkData.link
+                val deepLink = pendingDynamicLinkData.link
                 MaterialDialog(this).show {
                     title(text = "Join Team?")
                     message(text = "You've clicked an invite link, do you want to join this team?")
@@ -438,7 +456,7 @@ class NavActivity : GodActivity() {
     private fun setupReviewPopup() {
         val manager = ReviewManagerFactory.create(this)
         only("reviewPopup", times = 5) {
-            onDone {
+            onLastDo {
                 val request = manager.requestReviewFlow()
                 request.addOnSuccessListener { reviewInfo ->
                     Timber.d("LAUNCHING REVIEW")
@@ -449,7 +467,7 @@ class NavActivity : GodActivity() {
     }
 
     private val armorPickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val intent = result.data
             intent?.getSerializableExtra("item")?.let {
                 if (it is Item) {

@@ -8,10 +8,38 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
+        <activity
+            android:name=".profile.UserProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PremiumThanksActivity"
+            android:exported="true" />
+        <activity
+            android:name=".map.CustomMapMarkerAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".map.CustomMapMarkerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".barters.BarterDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".crafts.CraftDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".map.StaticMapsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ocr.ItemScannerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".hideout.detail.HideoutStationDetailActivity"
+            android:exported="true" />
         <activity
             android:name=".status.ServerStatusActivity"
             android:exported="true" />
@@ -31,7 +59,7 @@
         <activity
             android:name=".pickers.PickerActivity"
             android:exported="true"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar"></activity>
+            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
             android:name=".widgets.WidgetPickerActivity"
             android:exported="true"
@@ -47,12 +75,6 @@
         <activity
             android:name=".billing.PremiumPusherActivity"
             android:exported="true"
-            android:label="@string/title_activity_premium_pusher"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-        <activity
-            android:name=".billing.PremiumActivity"
-            android:exported="true"
-            android:label="@string/title_activity_premium"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
             android:name=".weapons.builder.WeaponBuilderActivity"
@@ -71,12 +93,10 @@
 
         <activity
             android:name=".map.MapsActivity"
-            android:exported="true"
-            android:label="@string/title_activity_maps" />
+            android:exported="true" />
         <activity
             android:name=".weapons.mods.ModDetailActivity"
             android:exported="true"
-            android:label="@string/title_activity_mod_detail"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
             android:name=".NavActivity"

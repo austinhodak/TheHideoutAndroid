@@ -1,20 +1,37 @@
 package com.austinhodak.tarkovapi
 
+import android.graphics.Color
 import com.austinhodak.tarkovapi.utils.Maps
 import com.michaelflisar.materialpreferences.core.SettingsModel
 import com.michaelflisar.materialpreferences.datastore.DataStoreStorage
+import java.util.*
 
 
 object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
+    fun getLevels(): List<Pair<String, Int>> {
+        val list = mutableListOf<Pair<String, Int>>()
+        list.add(Pair("prapor", praporLevel.value.toInt()))
+        list.add(Pair("therapist", therapistLevel.value.toInt()))
+        list.add(Pair("fence", fenceLevel.value.toInt()))
+        list.add(Pair("skier", skierLevel.value.toInt()))
+        list.add(Pair("peacekeeper", peacekeeperLevel.value.toInt()))
+        list.add(Pair("mechanic", mechanicLevel.value.toInt()))
+        list.add(Pair("ragman", ragmanLevel.value.toInt()))
+        list.add(Pair("jaeger", jaegerLevel.value.toInt()))
+        list.add(Pair("player", playerLevel.value))
+        return list
+    }
+
     val ttAPIKey by stringPref("", "ttAPIKey")
-    val ttSync by boolPref(true, "ttSync")
-    val ttSyncQuest by boolPref(true, "ttSyncQuest")
-    val ttSyncHideout by boolPref(true, "ttSyncHideout")
+    val ttSync by boolPref(false, "ttSync")
+    val ttSyncQuest by boolPref(false, "ttSyncQuest")
+    val ttSyncHideout by boolPref(false, "ttSyncHideout")
 
     val test by boolPref(true, "test")
 
     val keepScreenOn by boolPref(false, "keepScreenOn")
+    val hidePremiumBanner by boolPref(false, "hidePremiumBanner")
 
     val praporLevel by enumPref(Levels.`4`, "praporLevel")
     val therapistLevel by enumPref(Levels.`4`, "therapistLevel")
@@ -28,6 +45,10 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val openingScreen by enumPref(OpeningScreen.FLEA, "openingScreen")
 
     val defaultMap by enumPref(MapEnums.CUSTOMS, "defaultMap")
+
+    val fleaHideTime by enumPref(FleaHideTime.NONE, "fleaHideTime")
+    val fleaIconDisplay by enumPref(IconSelection.ORIGINAL, "fleaIconDisplay")
+    val fleaHideNonFlea by boolPref(false, "fleaHideNonFlea")
 
     val playerLevel by intPref(71, "playerLevel")
 
@@ -51,8 +72,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val hipfireSens by stringPref("0.50", "hipfireSens")
     val aimSens by stringPref("0.50", "aimSens")
 
-    val dataSyncFrequency by enumPref(DataSyncFrequency.`60`, "dataSyncFrequency")
-    val dataSyncFrequencyPrevious by enumPref(DataSyncFrequency.`60`, "dataSyncFrequencyPrevious")
+    val dataSyncFrequency by enumPref(DataSyncFrequency.`120`, "dataSyncFrequency")
+    val dataSyncFrequencyPrevious by enumPref(DataSyncFrequency.`120`, "dataSyncFrequencyPrevious")
 
     val showStatusOnHomeScreen by boolPref(true, "showStatusOnHomeScreen")
 
@@ -74,10 +95,49 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
     val priceAlertsGlobalNotifications by boolPref(true, "priceAlertsGlobalNotifications")
 
+    val isPremiumUser by boolPref(false, "isPremiumUser")
+
     val userGameEdition by enumPref(GameEdition.STANDARD, "userGameEdition")
+
+    val itemColorBlue by intPref(Color.parseColor("#222A2F"))
+    val itemColorGrey by intPref(Color.parseColor("#1B1C1C"))
+    val itemColorRed by intPref(Color.parseColor("#311B18"))
+    val itemColorOrange by intPref(Color.parseColor("#201813"))
+    val itemColorDefault by intPref(Color.parseColor("#383A3A"))
+    val itemColorViolet by intPref(Color.parseColor("#261F29"))
+    val itemColorYellow by intPref(Color.parseColor("#313122"))
+    val itemColorGreen by intPref(Color.parseColor("#181F11"))
+    val itemColorBlack by intPref(Color.parseColor("#181919"))
+
+    val traderRestockTime by enumPref(TraderRestockTime.`1`, "traderRestockTime")
+
+    val languageSetting by enumPref(LanguageSetting.values().find { Locale.getDefault().language == it.name } ?: LanguageSetting.ENGLISH, "language")
+
+    val showPriceGraph by boolPref(true, "showPriceGraph")
+    val showAddToCardButton by boolPref(true, "showAddToCardButton")
+}
+
+enum class LanguageSetting (val locale: Locale) {
+    ENGLISH (Locale.ENGLISH),
+    FRENCH (Locale.FRENCH),
+    GERMAN (Locale.GERMAN),
+    POLISH (Locale.forLanguageTag("PL")),
+    RUSSIAN (Locale.forLanguageTag("RU")),
+    TURKISH  (Locale.forLanguageTag("TR")),
+}
+
+enum class TraderRestockTime {
+    `1`,
+    `2`,
+    `5`,
+    `10`,
+    `15`,
+    `30`
 }
 
 enum class DataSyncFrequency {
+    `15`,
+    `30`,
     `60`,
     `120`,
     `360`,
@@ -93,7 +153,8 @@ enum class OpeningScreen {
     QUESTS,
     WEAPONS,
     LOADOUTS,
-    MODS
+    MODS,
+    NEEDED_ITEMS
 }
 
 enum class FleaVisiblePrice {
@@ -104,11 +165,28 @@ enum class FleaVisiblePrice {
     HIGH
 }
 
+enum class FleaHideTime {
+    NONE,
+    HOUR24,
+    DAY7,
+    DAY14,
+    DAY30
+}
+
 enum class Levels {
     `1`,
     `2`,
     `3`,
-    `4`
+    `4`;
+
+    fun toInt(): Int {
+        return super.toString().replace("`", "").toIntOrNull() ?: 1
+    }}
+
+enum class IconSelection {
+    ORIGINAL,
+    TRANSPARENT,
+    GAME
 }
 
 enum class GameEdition {

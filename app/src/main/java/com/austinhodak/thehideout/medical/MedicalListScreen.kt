@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.medical
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -23,6 +25,7 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
@@ -47,7 +50,7 @@ fun MedicalListScreen (
     tarkovRepo: TarkovRepo,
     navViewModel: NavViewModel
 ) {
-    val titles: List<String> = listOf("MEDS", "STIMS")
+    val titles: List<String> = listOf(stringResource(R.string.meds), stringResource(R.string.stims))
 
     val pagerState = rememberPagerState(pageCount = titles.size)
     val coroutineScope = rememberCoroutineScope()
@@ -65,7 +68,7 @@ fun MedicalListScreen (
         topBar = {
             Column {
                 MainToolbar(
-                    title = "Medical",
+                    title = stringResource(id = R.string.medical),
                     navViewModel = navViewModel,
                     elevation = 0.dp
                 )
@@ -92,11 +95,13 @@ fun MedicalListScreen (
             }
         }
     ) {
-        if (data.isNullOrEmpty()) {
-            LoadingItem()
-        } else {
-            HorizontalPager(state = pagerState) { page ->
-                MedList(data, page)
+        AnimatedContent(targetState = data.isNullOrEmpty()) {
+            if (it) {
+                LoadingItem()
+            } else {
+                HorizontalPager(state = pagerState) { page ->
+                    MedList(data, page)
+                }
             }
         }
     }
@@ -120,8 +125,8 @@ private fun MedList(
             .filter { it.pricing != null && it.pricing?.gridImageLink != null }
             .sortedBy { it.ShortName }
 
-        items(items = items) { item ->
-            MedCard(item = item)
+        items(items = items, key = { it.id }) { item ->
+            MedCard(item = item, Modifier.animateItemPlacement())
         }
     }
 }
@@ -132,11 +137,12 @@ private fun MedList(
 @ExperimentalMaterialApi
 @Composable
 private fun MedCard(
-    item: Item
+    item: Item,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),

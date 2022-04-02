@@ -21,8 +21,35 @@
 #-renamesourcefileattribute SourceFile
 -keepattributes Signature
 
--keep class com.austinhodak.thehideout.firebase.* { *; }
+-keep class com.austinhodak.thehideout.firebase.** { *; }
 -keep class com.austinhodak.thehideout.calculator.models.** { *; }
 -keep class com.austinhodak.thehideout.WeaponBuild { *; }
+-keep class com.austinhodak.thehideout.WeaponBuild$BuildMod { *; }
 -keep class com.austinhodak.thehideout.calculator.views.HealthBar$Health { *; }
 -keep class com.austinhodak.thehideout.flea_market.detail.FleaItemDetail$NavItem { *; }
+-keep class com.austinhodak.thehideout.map.models.** { *; }
+-keep class com.austinhodak.thehideout.news.models.** { *; }
+
+-keep class com.austinhodak.tarkovapi.models.** { *; }
+-keep class com.austinhodak.tarkovapi.room.models.** { *; }
+-keep class com.austinhodak.tarkovapi.tarkovtracker.models.** { *; }
+
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+-keep class **.R$*
+
+-keep class com.austinhodak.thehideout.crafts.CraftDetailActivity$ItemSubtitle { *; }
+-keep class com.austinhodak.thehideout.barters.BarterDetailActivity$ItemSubtitle { *; }
+
+-keepclassmembers class com.google.firebase.database.GenericTypeIndicator {
+  *;
+}
+
+-keep class com.adapty.** { *; }
+-keep class com.austinhodak.thehideout.billing.** { *; }
+
+-keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
+-keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.

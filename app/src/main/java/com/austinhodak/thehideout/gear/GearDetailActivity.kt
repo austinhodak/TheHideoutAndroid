@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -214,7 +215,7 @@ class GearDetailActivity : GodActivity() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "Last Price: ${item.getPrice().asCurrency()}",
+                            text = stringResource(id = R.string.last_price) + ": " + item.getPrice().asCurrency(),
                             style = MaterialTheme.typography.subtitle1,
                             fontSize = 16.sp
                         )
@@ -231,7 +232,7 @@ class GearDetailActivity : GodActivity() {
                         Row {
                             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
                                 Text(
-                                    text = "Last 48h: ",
+                                    text = stringResource(id = R.string.last_48h) + ": ",
                                     style = MaterialTheme.typography.caption,
                                     fontSize = 10.sp,
                                     fontWeight = FontWeight.Light
@@ -253,7 +254,8 @@ class GearDetailActivity : GodActivity() {
                             }),
                             contentDescription = "",
                             modifier = Modifier
-                                .defaultMinSize(minHeight = 1.dp).padding(vertical = 4.dp),
+                                .defaultMinSize(minHeight = 1.dp)
+                                .padding(vertical = 4.dp),
                             contentScale = ContentScale.FillHeight
                         )
                     }
@@ -378,7 +380,7 @@ class GearDetailActivity : GodActivity() {
             Column {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "AMMO PENETRATION CHANCE",
+                        text = stringResource(R.string.ammo_pen_chance),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -415,7 +417,7 @@ class GearDetailActivity : GodActivity() {
                             Modifier.weight(1f)
                         ) {
                             Text(
-                                text = selectedAmmo?.name ?: "Select Ammo",
+                                text = selectedAmmo?.name ?: stringResource(R.string.select_ammo),
                                 style = MaterialTheme.typography.body1,
                                 fontWeight = FontWeight.Bold
                             )
@@ -435,7 +437,7 @@ class GearDetailActivity : GodActivity() {
                 Divider(color = DividerDark)
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "DURABILITY",
+                        text = stringResource(id = R.string.durability),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -479,7 +481,7 @@ class GearDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "CHANCE TO PENETRATE ARMOR",
+                        text = stringResource(id = R.string.chance_to_pen_armor),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,

@@ -1,14 +1,8 @@
 package com.austinhodak.thehideout.gear
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,33 +16,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
+import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.gear.viewmodels.GearViewModel
+import com.austinhodak.thehideout.utils.fadeImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import java.util.*
 
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
@@ -80,11 +79,22 @@ fun GearListScreen(
         else -> ItemTypes.ARMOR
     }
 
+    val title = when (category) {
+        "Armor" -> R.string.armor
+        "Backpacks" -> R.string.backpacks
+        "Rigs" -> R.string.chest_rigs
+        "Eyewear" -> R.string.eyewear
+        "Facecover" -> R.string.face_coverings
+        "Headsets" -> R.string.headsets
+        "Headwear" -> R.string.headwear
+        else -> R.string.armor
+    }
+
     val data = tarkovRepo.getItemsByType(type).collectAsState(initial = emptyList())
     val titles: List<String>? = when (type) {
         ItemTypes.GLASSES,
-        ItemTypes.RIG -> listOf("UNARMORED", "ARMORED")
-        ItemTypes.HELMET -> listOf("ARMORED", "VANITY")
+        ItemTypes.RIG -> listOf(stringResource(R.string.unarmored), stringResource(R.string.armored))
+        ItemTypes.HELMET -> listOf(stringResource(R.string.armored), stringResource(R.string.vanity))
         else -> null
     }
 
@@ -106,7 +116,7 @@ fun GearListScreen(
                     )
                 } else {
                     MainToolbar(
-                        title = category ?: "Armor",
+                        title = stringResource(id = title),
                         navViewModel = navViewModel,
                         elevation = when (type) {
                             ItemTypes.HELMET,
@@ -121,15 +131,15 @@ fun GearListScreen(
                             }
                             IconButton(onClick = {
                                 val items = listOf(
-                                    "Name",
-                                    "Price: Low to High",
-                                    "Price: High to Low",
-                                    "Armor Class",
-                                    "Durability",
-                                    "Efficiency"
+                                    context.getString(R.string.name),
+                                    context.getString(R.string.price_low_to_high),
+                                    context.getString(R.string.price_high_to_low),
+                                    context.getString(R.string.armor_class),
+                                    context.getString(R.string.durability).lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+                                    context.getString(R.string.efficiency)
                                 )
                                 MaterialDialog(context).show {
-                                    title(text = "Sort By")
+                                    title(res = R.string.sort_by)
                                     listItemsSingleChoice(items = items, initialSelection = sort ?: 0) { _, index, _ ->
                                         gearViewModel.setSort(index)
                                     }
@@ -197,18 +207,24 @@ fun GearListScreen(
                     }
                 }
 
-                LazyColumn(
-                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                    modifier = Modifier.fillMaxHeight()
-                ) {
-                    items(items = items) { item ->
-                        when {
-                            type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item)
-                            type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item)
-                            type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item)
-                            else -> GearCard(item = item) {
-                                context.openActivity(GearDetailActivity::class.java) {
-                                    putString("id", item.pricing?.id)
+                AnimatedContent(targetState = items.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        LazyColumn(
+                            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                            modifier = Modifier.fillMaxHeight()
+                        ) {
+                            items(items = items, key = { it.id }) { item ->
+                                when {
+                                    type == ItemTypes.GLASSES && page == 0 -> HeadsetCard(item = item, Modifier.animateItemPlacement())
+                                    type == ItemTypes.RIG && page == 0 -> BackpackCard(item = item, Modifier.animateItemPlacement())
+                                    type == ItemTypes.HELMET && page == 1 -> HeadsetCard(item = item, Modifier.animateItemPlacement())
+                                    else -> GearCard(item = item, Modifier.animateItemPlacement()) {
+                                        context.openActivity(GearDetailActivity::class.java) {
+                                            putString("id", item.pricing?.id)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -216,38 +232,46 @@ fun GearListScreen(
                 }
             }
         } else {
-            LazyColumn(
-                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                val items = when (type) {
-                    ItemTypes.HELMET -> data.value.filter { it.pricing != null && it.cArmorClass() > 0 }.sortedBy { it.ShortName }
-                    ItemTypes.FACECOVER -> data.value.filter { it.pricing != null && it.cArmorClass() == 0 }.sortedBy { it.ShortName }
-                    else -> data.value.filter { it.pricing != null }.sortedBy { it.armorClass }
-                }.filter {
-                    it.ShortName?.contains(searchKey, ignoreCase = true) == true
-                            || it.Name?.contains(searchKey, ignoreCase = true) == true
-                            || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
-                }.let { data ->
-                    when (sort) {
-                        0 -> data.sortedBy { it.ShortName }
-                        1 -> data.sortedBy { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
-                        2 -> data.sortedByDescending { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
-                        3 -> data.sortedByDescending { it.armorClass }
-                        4 -> data.sortedByDescending { it.Durability }
-                        5 -> data.sortedByDescending { it.getInternalSlots()?.toDouble()?.div(it.getTotalSlots().toDouble()) }
-                        else -> data.sortedBy { it.ShortName }
-                    }
+            val items = when (type) {
+                ItemTypes.HELMET -> data.value.filter { it.pricing != null && it.cArmorClass() > 0 }.sortedBy { it.ShortName }
+                ItemTypes.FACECOVER -> data.value.filter { it.pricing != null && it.cArmorClass() == 0 }.sortedBy { it.ShortName }
+                else -> data.value.filter { it.pricing != null }.sortedBy { it.armorClass }
+            }.filter {
+                it.ShortName?.contains(searchKey, ignoreCase = true) == true
+                        || it.Name?.contains(searchKey, ignoreCase = true) == true
+                        || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
+            }.let { data ->
+                when (sort) {
+                    0 -> data.sortedBy { it.ShortName }
+                    1 -> data.sortedBy { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
+                    2 -> data.sortedByDescending { it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles() }
+                    3 -> data.sortedByDescending { it.armorClass }
+                    4 -> data.sortedByDescending { it.Durability }
+                    5 -> data.sortedByDescending { it.getInternalSlots()?.toDouble()?.div(it.getTotalSlots().toDouble()) }
+                    else -> data.sortedBy { it.ShortName }
                 }
+            }
 
-                items(items = items) { item ->
-                    when (type) {
-                        ItemTypes.BACKPACK -> BackpackCard(item = item)
-                        ItemTypes.FACECOVER,
-                        ItemTypes.HEADSET -> HeadsetCard(item = item)
-                        else -> GearCard(item = item) {
-                            context.openActivity(GearDetailActivity::class.java) {
-                                putString("id", item.pricing?.id)
+            AnimatedContent(targetState = items.isNullOrEmpty()) {
+                if (it) {
+                    LoadingItem()
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                        modifier = Modifier.fillMaxHeight()
+                    ) {
+
+
+                        items(items = items, key = { it.id }) { item ->
+                            when (type) {
+                                ItemTypes.BACKPACK -> BackpackCard(item = item, Modifier.animateItemPlacement())
+                                ItemTypes.FACECOVER,
+                                ItemTypes.HEADSET -> HeadsetCard(item = item, Modifier.animateItemPlacement())
+                                else -> GearCard(item = item, Modifier.animateItemPlacement()) {
+                                    context.openActivity(GearDetailActivity::class.java) {
+                                        putString("id", item.pricing?.id)
+                                    }
+                                }
                             }
                         }
                     }
@@ -262,10 +286,11 @@ fun GearListScreen(
 @Composable
 fun GearCard(
     item: Item,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),
@@ -283,11 +308,12 @@ fun GearCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)
                         .height(40.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier
@@ -318,7 +344,7 @@ fun GearCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "CLASS",
+                            text = stringResource(R.string.m_class),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp
@@ -335,7 +361,7 @@ fun GearCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "DURABILITY",
+                            text = stringResource(id = R.string.durability),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp
@@ -352,10 +378,11 @@ fun GearCard(
 @Composable
 fun ItemCard(
     item: Item,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),
@@ -373,11 +400,12 @@ fun ItemCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)
                         .height(40.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier
@@ -408,11 +436,12 @@ fun ItemCard(
 @ExperimentalMaterialApi
 @Composable
 private fun BackpackCard(
-    item: Item
+    item: Item,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),
@@ -440,11 +469,12 @@ private fun BackpackCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)
                         .height(38.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier
@@ -469,7 +499,7 @@ private fun BackpackCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "SLOTS",
+                            text = stringResource(R.string.slots),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp
@@ -486,7 +516,7 @@ private fun BackpackCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "EFFICIENCY",
+                            text = stringResource(id = R.string.efficiency),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp
@@ -504,11 +534,12 @@ private fun BackpackCard(
 @ExperimentalMaterialApi
 @Composable
 private fun HeadsetCard(
-    item: Item
+    item: Item,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(72.dp)
             .padding(vertical = 4.dp),
@@ -530,11 +561,12 @@ private fun HeadsetCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)
                         .height(40.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier

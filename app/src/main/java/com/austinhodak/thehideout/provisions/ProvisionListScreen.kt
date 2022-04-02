@@ -1,9 +1,7 @@
 package com.austinhodak.thehideout.provisions
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -31,11 +29,16 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.openActivity
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
+import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
+import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.utils.asColor
+import com.austinhodak.thehideout.utils.border
+import com.austinhodak.thehideout.utils.fadeImagePainter
+import com.austinhodak.thehideout.utils.fadeImagePainterPlaceholder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -82,16 +85,22 @@ fun ProvisionListScreen(
             }
         }
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
-        ) {
-            val items = keys.filter {
-                it.ShortName?.contains(searchKey, ignoreCase = true) == true
-                        || it.Name?.contains(searchKey, ignoreCase = true) == true
-                        || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
-            }.sortedBy { it.Name }.let {
-                items(items = it) { key ->
-                    ProvisionCard(item = key)
+        val items = keys.filter {
+            it.ShortName?.contains(searchKey, ignoreCase = true) == true
+                    || it.Name?.contains(searchKey, ignoreCase = true) == true
+                    || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
+        }.sortedBy { it.Name }
+
+        AnimatedContent(targetState = items.isNullOrEmpty()) {
+            if (it) {
+                LoadingItem()
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                ) {
+                    items(items = items, key = { it.id }) { key ->
+                        ProvisionCard(item = key, Modifier.animateItemPlacement())
+                    }
                 }
             }
         }
@@ -104,11 +113,12 @@ fun ProvisionListScreen(
 @ExperimentalCoilApi
 @Composable
 fun ProvisionCard(
-    item: Item
+    item: Item,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
@@ -130,11 +140,12 @@ fun ProvisionCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    fadeImagePainterPlaceholder(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)
                         .height(38.dp)
+                        .border()
                 )
                 Column(
                     modifier = Modifier

@@ -70,7 +70,7 @@ class ServerStatusActivity : AppCompatActivity() {
 
                 LaunchedEffect("") {
                     try {
-                        status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+                        status = apolloClient.query(ServerStatusQuery()).execute().data?.status?.toObj()
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -117,7 +117,7 @@ class ServerStatusActivity : AppCompatActivity() {
                                 }
                                 IconButton(onClick = {
                                     scope.launch {
-                                        status = apolloClient.query(ServerStatusQuery()).data?.status?.toObj()
+                                        status = apolloClient.query(ServerStatusQuery()).execute().data?.status?.toObj()
                                     }
                                     Toast.makeText(this@ServerStatusActivity, "Status updated.", Toast.LENGTH_SHORT).show()
                                 }) {
@@ -156,38 +156,6 @@ class ServerStatusActivity : AppCompatActivity() {
                                     }
                                 }
                             }
-                            /*item {
-                                Card(
-                                    backgroundColor = if (isSystemInDarkTheme()) Color(
-                                        0xFE1F1F1F
-                                    ) else MaterialTheme.colors.primary,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 4.dp),
-                                    onClick = {
-                                        scope.launch {
-                                            UserSettingsModel.showStatusOnHomeScreen.update(!UserSettingsModel.showStatusOnHomeScreen.value)
-                                        }
-                                    }
-                                ) {
-                                    Row(
-                                        Modifier.padding(vertical = 16.dp, horizontal = 16.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            text = "Show Status Updates on Home Screen",
-                                            //color = Color.White,
-                                            style = MaterialTheme.typography.subtitle2,
-                                        )
-                                        Spacer(modifier = Modifier.weight(1f))
-                                        Switch(checked = showOnHomeCheck, onCheckedChange = {
-                                            scope.launch {
-                                                UserSettingsModel.showStatusOnHomeScreen.update(it)
-                                            }
-                                        })
-                                    }
-                                }
-                            }*/
                         }
                     }
                 }
@@ -240,12 +208,14 @@ class ServerStatusActivity : AppCompatActivity() {
                         )
                     }
                 }
-                Divider(color = DividerDark, modifier = Modifier.padding(vertical = 16.dp))
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        text = message.content ?: "",
-                        style = MaterialTheme.typography.body2
-                    )
+                if (!message.content.isNullOrEmpty()) {
+                    Divider(color = DividerDark, modifier = Modifier.padding(vertical = 16.dp))
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            text = message.content ?: "",
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
                 }
             }
         }

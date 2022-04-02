@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.ammunition
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,11 +33,10 @@ import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.Bender
+import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
-import com.austinhodak.thehideout.utils.AmmoCalibers
-import com.austinhodak.thehideout.utils.getCaliberName
-import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -95,17 +96,17 @@ fun AmmunitionListScreen(
                     )
                 } else {
                     MainToolbar(
-                        title = "Ammunition",
+                        title = stringResource(id = R.string.ammunition),
                         navViewModel = navViewModel,
                         elevation = 0.dp
                     ) {
                         IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
-                            Icon(Icons.Filled.Search, contentDescription = "Sort Ammo", tint = Color.White)
+                            Icon(Icons.Filled.Search, contentDescription = stringResource(R.string.sort_ammo), tint = Color.White)
                         }
                         IconButton(onClick = {
-                            val items = listOf("Name", "Price: Low to High", "Price: High to Low", "Damage", "Penetration", "Armor Effectiveness")
+                            val items = listOf(context.getString(R.string.name), context.getString(R.string.price_low_to_high), context.getString(R.string.price_high_to_low), context.getString(R.string.damage), context.getString(R.string.penetration), context.getString(R.string.armor_effectiveness))
                             MaterialDialog(context).show {
-                                title(text = "Sort By")
+                                title(text = context.getString(R.string.sort_by))
                                 listItemsSingleChoice(items = items, initialSelection = sort.value) { _, index, _ ->
                                     sort.value = index
                                     coroutineScope.launch {
@@ -171,40 +172,45 @@ fun AmmunitionListScreen(
 
         ) {
         when {
-            data.isNullOrEmpty() -> {
-                LoadingItem()
-            }
             isSearchOpen -> {
                 AmmoSearchBody(searchKey, data)
             }
             else -> {
-                HorizontalPager(state = pagerState) { page ->
-                    LazyColumn(
-                        Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
-                    ) {
-                        var items = data.filter { it.Caliber == pages[page] }
-                        Timber.d(items.size.toString())
-                        items = when (sort.value) {
-                            0 -> items.sortedBy { it.shortName }
-                            1 -> items.sortedBy {
-                                it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
-                            }
-                            2 -> items.sortedByDescending {
-                                it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
-                            }
-                            3 -> items.sortedByDescending { it.ballistics?.damage }
-                            4 -> items.sortedByDescending { it.ballistics?.penetrationPower }
-                            5 -> items.sortedByDescending { it.getArmorValues() }
-                            else -> items.sortedBy { it.shortName }
-                        }
-                        items(items = items) { ammo ->
-                            AmmoCard(
-                                ammo,
-                                Modifier.padding(vertical = 4.dp)
+                AnimatedContent(targetState = data.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        HorizontalPager(state = pagerState) { page ->
+                            LazyColumn(
+                                Modifier.fillMaxSize(),
+                                contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
                             ) {
-                                context.openActivity(AmmoDetailActivity::class.java) {
-                                    putString("ammoID", ammo.id)
+                                var items = data.filter { it.Caliber == pages[page] }
+                                Timber.d(items.size.toString())
+                                items = when (sort.value) {
+                                    0 -> items.sortedBy { it.shortName }
+                                    1 -> items.sortedBy {
+                                        it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
+                                    }
+                                    2 -> items.sortedByDescending {
+                                        it.pricing?.getCheapestBuyRequirements()?.getPriceAsRoubles()
+                                    }
+                                    3 -> items.sortedByDescending { it.ballistics?.damage }
+                                    4 -> items.sortedByDescending { it.ballistics?.penetrationPower }
+                                    5 -> items.sortedByDescending { it.getArmorValues() }
+                                    else -> items.sortedBy { it.shortName }
+                                }
+                                items(items = items, key = { it.id }) { ammo ->
+                                    AmmoCard(
+                                        ammo,
+                                        Modifier
+                                            .padding(vertical = 4.dp)
+                                            .animateItemPlacement()
+                                    ) {
+                                        context.openActivity(AmmoDetailActivity::class.java) {
+                                            putString("ammoID", ammo.id)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -233,7 +239,7 @@ fun AmmoSearchBody(
     }.sortedBy { it.shortName }
 
     if (items.isNullOrEmpty()) {
-        EmptyText("Search Ammunition")
+        EmptyText(stringResource(R.string.search_ammunition))
         return
     }
 
@@ -241,10 +247,12 @@ fun AmmoSearchBody(
         Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        items(items = items) { ammo ->
+        items(items = items, key = { it.id }) { ammo ->
             AmmoCard(
                 ammo,
-                Modifier.padding(vertical = 4.dp)
+                Modifier
+                    .padding(vertical = 4.dp)
+                    .animateItemPlacement()
             ) {
                 context.openActivity(AmmoDetailActivity::class.java) {
                     putString("ammoID", ammo.id)
@@ -309,11 +317,12 @@ fun AmmoCard(
                     ArmorBox(ammo.getColor(6), Modifier.weight(1f))
                 }
                 Image(
-                    rememberImagePainter(ammo.pricing?.getIcon()),
+                    fadeImagePainterPlaceholder(url = ammo.pricing?.getIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)
                         .height(38.dp)
+                        .border(0.25.dp, BorderColor)
                 )
                 Column(
                     modifier = Modifier
@@ -344,7 +353,7 @@ fun AmmoCard(
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
-                            text = "DAMAGE",
+                            text = stringResource(id = R.string.damage),
                             style = MaterialTheme.typography.caption,
                             fontWeight = FontWeight.Light,
                             fontSize = 10.sp

@@ -1,10 +1,10 @@
 {
-  "name": "Tarkov Tools Schema",
+  "name": "Tarkov.dev Schema",
   "schemaPath": "schema.json",
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "https://tarkov-tools.com/graphql",
+        "url": "https://api.tarkov.dev/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

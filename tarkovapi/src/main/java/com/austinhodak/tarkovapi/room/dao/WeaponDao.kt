@@ -8,15 +8,15 @@ import kotlinx.coroutines.flow.Flow
 interface WeaponDao {
 
     @Transaction
-    @Query("SELECT * FROM weapons WHERE weapClass = :classID AND BackgroundColor IS NOT NULL AND Rarity IS NOT 'Not_exist' ORDER BY ShortName")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = weapons.id) AS pricing FROM weapons WHERE weapClass = :classID AND BackgroundColor IS NOT NULL AND Rarity IS NOT 'Not_exist' ORDER BY ShortName")
     fun getWeaponsByClass(classID: String): Flow<List<Weapon>>
 
     @Transaction
-    @Query("SELECT * FROM weapons WHERE id = :id")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = weapons.id) AS pricing FROM weapons WHERE id = :id")
     fun getWeapon(id: String): Flow<Weapon>
 
     @Transaction
-    @Query("SELECT * FROM weapons")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = weapons.id) AS pricing FROM weapons")
     fun getAllWeapons(): Flow<List<Weapon>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -2,9 +2,11 @@ package com.austinhodak.tarkovapi.utils
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.compose.ui.graphics.Color
 import com.austinhodak.tarkovapi.UserSettingsModel
+import org.json.JSONArray
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -66,15 +68,15 @@ fun Int.asCurrency(currency: String = "R"): String {
 
 fun String.traderIcon(): String {
     return when (this.lowercase()) {
-        "prapor" -> "https://tarkov-tools.com/images/prapor-icon.jpg"
-        "therapist" -> "https://tarkov-tools.com/images/therapist-icon.jpg"
-        "fence" -> "https://tarkov-tools.com/images/fence-icon.jpg"
-        "skier" -> "https://tarkov-tools.com/images/skier-icon.jpg"
-        "peacekeeper" -> "https://tarkov-tools.com/images/peacekeeper-icon.jpg"
-        "mechanic" -> "https://tarkov-tools.com/images/mechanic-icon.jpg"
-        "ragman" -> "https://tarkov-tools.com/images/ragman-icon.jpg"
-        "jaeger" -> "https://tarkov-tools.com/images/jaeger-icon.jpg"
-        else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+        "prapor" -> "https://tarkov.dev/images/prapor-icon.jpg"
+        "therapist" -> "https://tarkov.dev/images/therapist-icon.jpg"
+        "fence" -> "https://tarkov.dev/images/fence-icon.jpg"
+        "skier" -> "https://tarkov.dev/images/skier-icon.jpg"
+        "peacekeeper" -> "https://tarkov.dev/images/peacekeeper-icon.jpg"
+        "mechanic" -> "https://tarkov.dev/images/mechanic-icon.jpg"
+        "ragman" -> "https://tarkov.dev/images/ragman-icon.jpg"
+        "jaeger" -> "https://tarkov.dev/images/jaeger-icon.jpg"
+        else -> "https://tarkov.dev/images/prapor-icon.jpg"
     }
 }
 
@@ -288,3 +290,8 @@ fun euroToDollar(r: Long?): Long {
 fun getTTApiKey(): String = UserSettingsModel.ttAPIKey.value
 
 fun ttSyncEnabled(): Boolean = UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value
+
+fun isWindows(): Boolean = Build.BOARD == "windows"
+
+operator fun <T> JSONArray.iterator(): Iterator<T> =
+    (0 until this.length()).asSequence().map { this.get(it) as T }.iterator()

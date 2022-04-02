@@ -11,6 +11,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -159,6 +160,7 @@ class PickerActivity : GodActivity() {
                     LazyColumn(
                         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
                     ) {
+                        val data = 
                         list?.filter {
                             when (it) {
                                 is Ammo -> it.shortName?.contains(searchKey, true) == true || it.name?.contains(searchKey, true) == true
@@ -182,28 +184,45 @@ class PickerActivity : GodActivity() {
                                 is Weapon -> it.ShortName
                                 else -> null
                             }
-                        }?.forEach {
-                            item {
-                                when (it) {
-                                    is Ammo -> {
-                                        AmmoCard(ammo = it, Modifier.padding(vertical = 4.dp)) {
-                                            selectedItem(it)
-                                        }
+                        }
+
+                        
+                        items(items = data ?: emptyList(), key = {
+                            when (it) {
+                                is Ammo -> {
+                                    it.id
+                                }
+                                is Item -> {
+                                    it.id
+                                }
+                                is Character -> {
+                                    it.name
+                                }
+                                is Weapon -> {
+                                    it.id
+                                }
+                                else -> ""
+                            }
+                        }) {
+                            when (it) {
+                                is Ammo -> {
+                                    AmmoCard(ammo = it, Modifier.padding(vertical = 4.dp).animateItemPlacement()) {
+                                        selectedItem(it)
                                     }
-                                    is Item -> {
-                                        GearCard(item = it) {
-                                            selectedItem(it)
-                                        }
+                                }
+                                is Item -> {
+                                    GearCard(item = it, Modifier.animateItemPlacement()) {
+                                        selectedItem(it)
                                     }
-                                    is Character -> {
-                                        CharacterCard(character = it) {
-                                            selectedItem(it)
-                                        }
+                                }
+                                is Character -> {
+                                    CharacterCard(character = it, Modifier.animateItemPlacement()) {
+                                        selectedItem(it)
                                     }
-                                    is Weapon -> {
-                                        WeaponCard(weapon = it) { id ->
-                                            selectedItem(it)
-                                        }
+                                }
+                                is Weapon -> {
+                                    WeaponCard(weapon = it, Modifier.animateItemPlacement()) { id ->
+                                        selectedItem(it)
                                     }
                                 }
                             }
@@ -218,10 +237,11 @@ class PickerActivity : GodActivity() {
     @Composable
     fun CharacterCard(
         character: Character,
+        modifier: Modifier = Modifier,
         onClick: () -> Unit
     ) {
         Card(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .height(72.dp)
                 .padding(vertical = 4.dp),

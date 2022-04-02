@@ -18,28 +18,28 @@ import kotlin.math.roundToInt
 
 //Maps TarkovTools Quest Item to our Quest item.
 fun QuestsQuery.Quest.toQuest(): Quest {
-    val quest = this.fragments.questFragment
+    val quest = this.questFragment
     return Quest(
         quest?.id!!,
         quest.title,
         quest.wikiLink,
         quest.exp,
-        quest.giver.fragments.traderFragment,
-        quest.turnin.fragments.traderFragment,
+        quest.giver.traderFragment,
+        quest.turnin.traderFragment,
         quest.unlocks,
         Quest.QuestRequirement(
             level = quest.requirements?.level,
             quests = quest.requirements?.quests
         ),
         quest.objectives.map {
-            val obj = it?.fragments?.objectiveFragment
+            val obj = it?.objectiveFragment
             Quest.QuestObjective(
                 obj?.id,
                 obj?.type,
                 obj?.target,
                 obj?.number,
                 obj?.location,
-                obj?.targetItem?.fragments?.itemFragment?.toClass()
+                obj?.targetItem?.itemFragment?.toClass()
             )
         }
     )
@@ -86,21 +86,21 @@ fun ItemFragment.toClass(): Pricing {
         item.low24hPrice,
         item.high24hPrice,
         item.updated,
-        types = emptyList(),
+        types = item.types,
         item.width,
         item.height,
         sellFor = item.sellFor?.map { s1 ->
-            val s = s1.fragments.itemPrice
+            val s = s1.itemPrice
             s.toBuySell()
         },
         buyFor = item.buyFor?.map { s1 ->
-            val s = s1.fragments.itemPrice
+            val s = s1.itemPrice
             s.toBuySell()
         },
         item.wikiLink,
         item.types.contains(ItemType.noFlea),
         containsItem = item.containsItems?.mapNotNull {
-            val i = it?.fragments?.containsItem
+            val i = it?.containsItem
             Pricing.Contains(
                 quantity = i?.quantity,
                 count = i?.count?.toInt(),
@@ -126,15 +126,15 @@ fun ContainsItem.toClass(): Pricing.ContainsItem {
         item.low24hPrice,
         item.high24hPrice,
         item.updated,
-        types = emptyList(),
+        types = item.types,
         item.width,
         item.height,
         sellFor = item.sellFor?.map { s1 ->
-            val s = s1.fragments.itemPrice
+            val s = s1.itemPrice
             s.toBuySell()
         },
         buyFor = item.buyFor?.map { s1 ->
-            val s = s1.fragments.itemPrice
+            val s = s1.itemPrice
             s.toBuySell()
         },
         item.wikiLink,
@@ -165,14 +165,14 @@ fun CraftsQuery.Craft.toCraft(): Craft {
         duration = duration,
         requiredItems = requiredItems.map {
             Craft.CraftItem(
-                it?.fragments?.taskItem?.count?.roundToInt(),
-                it?.fragments?.taskItem?.item?.fragments?.itemFragment?.toClass()
+                it?.taskItem?.count?.roundToInt(),
+                it?.taskItem?.item?.itemFragment?.toClass()
             )
         },
         rewardItems = rewardItems.map {
             Craft.CraftItem(
-                it?.fragments?.taskItem?.count?.roundToInt(),
-                it?.fragments?.taskItem?.item?.fragments?.itemFragment?.toClass()
+                it?.taskItem?.count?.roundToInt(),
+                it?.taskItem?.item?.itemFragment?.toClass()
             )
         },
         source = source
@@ -184,14 +184,14 @@ fun BartersQuery.Barter.toBarter(): Barter {
     return Barter(
         requiredItems = requiredItems.map {
             Craft.CraftItem(
-                it?.fragments?.taskItem?.count?.roundToInt(),
-                it?.fragments?.taskItem?.item?.fragments?.itemFragment?.toClass()
+                it?.taskItem?.count?.roundToInt(),
+                it?.taskItem?.item?.itemFragment?.toClass()
             )
         },
         rewardItems = rewardItems.map {
             Craft.CraftItem(
-                it?.fragments?.taskItem?.count?.roundToInt(),
-                it?.fragments?.taskItem?.item?.fragments?.itemFragment?.toClass()
+                it?.taskItem?.count?.roundToInt(),
+                it?.taskItem?.item?.itemFragment?.toClass()
             )
         },
         source = source
@@ -199,7 +199,7 @@ fun BartersQuery.Barter.toBarter(): Barter {
 }
 
 fun ItemsByTypeQuery.ItemsByType.toPricing(): Pricing {
-    val item = this.fragments.itemFragment
+    val item = this.itemFragment
     return item?.toClass()!!
 }
 

@@ -9,39 +9,38 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
 
     signingConfigs {
-        /*release {
+        release {
             storeFile file('C:\\Development\\Keys\\TheHideoutKeystore.jks')
             storePassword RELEASE_STORE_PASSWORD
             keyAlias RELEASE_KEY_ALIAS
             keyPassword RELEASE_KEY_PASSWORD
-        }*/
+        }
         debug {
             storeFile file('../debug.keystore')
             storePassword "android"
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
-        release {
-            storeFile file('C:/Development/Keys/TheHideoutKeystore.jks')
+        /*release {
+            storeFile file('/Users/austinhodak/Library/Mobile Documents/com~apple~CloudDocs/Development/Keys/TheHideoutKeystore.jks')
             keyAlias 'key0'
             storePassword 'dg3hGsRvyUkBiHt67xkLgktK'
             keyPassword 'dg3hGsRvyUkBiHt67xkLgktK'
-            //storeFile file('C:\\Development\\Keys\\TheHideoutKeystore.jks')
-        }
+        }*/
     }
 
     defaultConfig {
         applicationId "com.austinhodak.thehideout"
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 32
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 13202
+        versionCode 15001
         // [1]-[0].[2].[0].[0]
-        versionName "1.3.2"
+        versionName "1.5.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -68,7 +67,7 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -103,10 +102,6 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-
-    /*lintOptions {
-        checkReleaseBuilds false
-    }*/
 }
 
 dependencies {
@@ -117,9 +112,9 @@ dependencies {
     implementation 'io.coil-kt:coil-compose:1.3.2'
     implementation("io.coil-kt:coil-gif:1.4.0")
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
 
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.9.0'
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
@@ -131,8 +126,8 @@ dependencies {
     implementation "androidx.core:core-ktx:${versions.ktx}"
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:2.38.1"
-    kapt 'com.google.dagger:hilt-android-compiler:2.40'
+    implementation 'com.google.dagger:hilt-android:2.41'
+    kapt 'com.google.dagger:hilt-android-compiler:2.41'
 
     //Compose
     implementation "androidx.compose.ui:ui:$compose_version"
@@ -151,9 +146,9 @@ dependencies {
     implementation "androidx.annotation:annotation:${versions.annotation}"
     implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
-    implementation "androidx.fragment:fragment-ktx:1.4.0"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
 
-    implementation "androidx.navigation:navigation-compose:2.4.0-rc01"
+    implementation "androidx.navigation:navigation-compose:2.4.1"
 
     //END AndroidX
 
@@ -172,8 +167,10 @@ dependencies {
     api 'com.google.firebase:firebase-inappmessaging-display-ktx'
     api 'com.google.firebase:firebase-dynamic-links-ktx'
     //api 'com.google.android.gms:play-services-ads'
-    api 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.1'
-    api 'com.firebaseui:firebase-ui-auth:8.0.0'
+   // api 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.1'
+    api 'com.google.mlkit:text-recognition:16.0.0-beta3'
+
+    api 'com.firebaseui:firebase-ui-auth:8.0.1'
     //END Firebase
 
     //Drawer
@@ -191,7 +188,7 @@ dependencies {
     implementation "com.afollestad.material-dialogs:input:${versions.mDialogs}"
     //END Dialogs
 
-    api ("com.github.bumptech.glide:glide:4.12.0") {
+    api ('com.github.bumptech.glide:glide:4.13.1') {
         exclude group: "com.android.support"
     }
 
@@ -199,13 +196,13 @@ dependencies {
 
     implementation "com.github.skydoves:only:1.0.8"
 
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
-    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 
-    implementation 'com.airbnb.android:lottie-compose:4.1.0'
+    implementation 'com.airbnb.android:lottie-compose:5.0.3'
 
     api "com.google.accompanist:accompanist-glide:0.15.0"
     api "com.google.accompanist:accompanist-insets:$accompanist"
@@ -223,22 +220,32 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
-    implementation 'com.google.maps.android:maps-ktx:3.1.0'
-    implementation 'com.google.maps.android:maps-utils-ktx:3.2.0'
+    implementation 'com.google.maps.android:maps-ktx:3.4.0'
+    implementation 'com.google.maps.android:maps-utils-ktx:3.4.0'
 
     implementation 'com.github.jeziellago:compose-markdown:0.2.6'
 
-    implementation("com.android.billingclient:billing:4.0.0")
-    implementation("com.android.billingclient:billing-ktx:4.0.0")
+    implementation("com.android.billingclient:billing:4.1.0")
+    implementation("com.android.billingclient:billing-ktx:4.1.0")
 
-    implementation 'com.facebook.android:facebook-login:12.0.0'
+    implementation 'com.facebook.android:facebook-login:12.3.0'
 
-    implementation 'com.github.adaptyteam:AdaptySDK-Android:1.2.0'
+    implementation 'com.github.adaptyteam:AdaptySDK-Android:1.9.0'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '6.3.9'
+    implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '6.4.10'
 
     implementation 'dev.bandb.graphview:graphview:0.8.1'
     implementation("com.otaliastudios:zoomlayout:1.9.0")
+
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+
+}
+
+apply plugin: 'com.localazy.gradle'
+
+localazy {
+    readKey "a8326093997345284198-458225f5d8bb7a2b6f13dd52e121a382438031ea079834db58acd4f4480d47d7"
+    writeKey "a8326093997345284198-ce5886e2b1d60ed9911160c015a79e31aaa94e023995e3ac3006649119585a97"
 }

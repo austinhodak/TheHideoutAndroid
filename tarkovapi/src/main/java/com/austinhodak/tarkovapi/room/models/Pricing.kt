@@ -1,11 +1,15 @@
 package com.austinhodak.tarkovapi.room.models
 
+import android.text.format.DateUtils
+import com.apollographql.apollo3.mpp.currentTimeMillis
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.fragment.ItemFragment
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.type.ItemType
 import com.austinhodak.tarkovapi.utils.*
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.log10
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -14,9 +18,9 @@ data class Pricing(
     val id: String,
     val name: String?,
     val shortName: String?,
-    val iconLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+    val iconLink: String? = "https://tarkov.dev/images/unknown-item-icon.jpg",
     val imageLink: String?,
-    val gridImageLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+    val gridImageLink: String? = "https://tarkov.dev/images/unknown-item-icon.jpg",
     val avg24hPrice: Int?,
     val basePrice: Int,
     val lastLowPrice: Int?,
@@ -24,7 +28,7 @@ data class Pricing(
     val low24hPrice: Int?,
     val high24hPrice: Int?,
     val updated: String?,
-    val types: List<ItemTypes?>,
+    val types: List<ItemType?>,
     val width: Int?,
     val height: Int?,
     val sellFor: List<BuySellPrice>?,
@@ -36,12 +40,34 @@ data class Pricing(
 
     fun hasChild(): Boolean = containsItem?.isNotEmpty() == true
 
-    fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
-    fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov-tools.com/images/unknown-item-icon.jpg"
+    fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov.dev/images/unknown-item-icon.jpg"
+    fun getCleanIcon(): String = iconLink ?: gridImageLink ?: "https://tarkov.dev/images/unknown-item-icon.jpg"
+    fun getTransparentIcon(): String = "https://assets.tarkov.dev/$id-base-image.png"
+
+    fun getTime(): Long? {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        sdf.timeZone = TimeZone.getTimeZone("GMT")
+        updated?.let {
+            return sdf.parse(it)?.time
+        }
+        return currentTimeMillis()
+    }
 
     fun getCheapestBuyRequirements(): BuySellPrice {
         return buyFor?.minByOrNull {
-            if (!it.isRequirementMet()) Int.MAX_VALUE else it.getPriceAsRoubles()
+            if (it.isRequirementMet()) it.getPriceAsRoubles() else Int.MAX_VALUE
+            //it.price ?: Int.MAX_VALUE
+        } ?: BuySellPrice(
+            "fleaMarket",
+            price = basePrice,
+            requirements = emptyList(),
+            "RUB"
+        )
+    }
+
+    fun getHighestSellRequirements(): BuySellPrice {
+        return sellFor?.maxByOrNull {
+            if (!it.isRequirementMet()) Int.MIN_VALUE else it.getPriceAsRoubles()
             //it.price ?: Int.MAX_VALUE
         } ?: BuySellPrice(
             "fleaMarket",
@@ -67,6 +93,10 @@ data class Pricing(
 
     fun getHighestSellTrader(): BuySellPrice? {
         return sellFor?.filterNot { it.isFleaMarket() }?.maxByOrNull { it.price ?: Int.MIN_VALUE }
+    }
+
+    fun getCheapestTrader(): BuySellPrice? {
+        return buyFor?.filterNot { it.isFleaMarket() }?.minByOrNull { it.price ?: Int.MAX_VALUE }
     }
 
     fun getPrice(): Int {
@@ -125,6 +155,8 @@ data class Pricing(
         }
 
         fun isRequirementMet(): Boolean {
+            if (requirements.isEmpty()) return true
+            if (price == 0) return false
             if (source == "fleaMarket") {
                 val playerLevel = UserSettingsModel.playerLevel.value
                 return playerLevel >= requirements.first().value
@@ -248,9 +280,9 @@ data class Pricing(
         val id: String,
         val name: String?,
         val shortName: String?,
-        val iconLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+        val iconLink: String? = "https://tarkov.dev/images/unknown-item-icon.jpg",
         val imageLink: String?,
-        val gridImageLink: String? = "https://tarkov-tools.com/images/unknown-item-icon.jpg",
+        val gridImageLink: String? = "https://tarkov.dev/images/unknown-item-icon.jpg",
         val avg24hPrice: Int?,
         val basePrice: Int,
         val lastLowPrice: Int?,
@@ -258,7 +290,7 @@ data class Pricing(
         val low24hPrice: Int?,
         val high24hPrice: Int?,
         val updated: String?,
-        val types: List<ItemTypes?>,
+        val types: List<ItemType?>,
         val width: Int?,
         val height: Int?,
         val sellFor: List<BuySellPrice>?,
@@ -282,7 +314,7 @@ data class Pricing(
                 item.low24hPrice,
                 item.high24hPrice,
                 item.updated,
-                types = emptyList(),
+                types = item.types,
                 item.width,
                 item.height,
                 sellFor = item.sellFor,

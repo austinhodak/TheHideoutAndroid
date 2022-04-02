@@ -7,8 +7,10 @@ data class WeaponPreset(
     val name: String,
     val parts: List<Part>
 ) {
-    data class Part(
+    data class Part (
         val id: String,
         val quantity: Int
     )
+
+    fun partsWithoutBase(): List<Part> = parts.filterNot { it.id == baseId }
 }

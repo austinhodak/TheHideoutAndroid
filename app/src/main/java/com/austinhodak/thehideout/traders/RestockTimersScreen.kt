@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.traders
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -10,11 +11,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.austinhodak.tarkovapi.TraderResetTimersQuery
+import com.austinhodak.tarkovapi.TraderRestockTime
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.TraderReset
 import com.austinhodak.tarkovapi.models.toObj
@@ -28,6 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@SuppressLint("CheckResult")
 @Composable
 fun RestockTimersScreen(
     navViewModel: NavViewModel,
@@ -37,12 +43,13 @@ fun RestockTimersScreen(
     val scaffoldState = rememberScaffoldState()
     var resetTimers: TraderReset? by remember { mutableStateOf(null) }
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     LaunchedEffect("restock") {
         while (true) {
             try {
                 Timber.d("Reloading")
-                val newData = apolloClient.query(TraderResetTimersQuery()).data?.toObj()
+                val newData = apolloClient.query(TraderResetTimersQuery()).execute().data?.toObj()
                 if (newData != resetTimers) {
                     resetTimers = newData
                 }
@@ -69,6 +76,12 @@ fun RestockTimersScreen(
 
     UserSettingsModel.globalRestockAlertAppOpen.observe(scope) {
         globalRestockAlertAppOpen = it
+    }
+
+    var restockTime by remember { mutableStateOf(UserSettingsModel.traderRestockTime.value) }
+
+    UserSettingsModel.traderRestockTime.observe(scope) {
+        restockTime = it
     }
 
     Scaffold(
@@ -139,6 +152,60 @@ fun RestockTimersScreen(
                         resetTimers,
                         scaffoldState
                     )
+                }
+                item {
+                    Card(
+                        backgroundColor = if (isSystemInDarkTheme()) Color(
+                            0xFE1F1F1F
+                        ) else MaterialTheme.colors.primary,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(64.dp)
+                            .padding(vertical = 4.dp),
+                        onClick = {
+                            if (globalRestockAlert) {
+                                MaterialDialog(context).show {
+                                    listItemsSingleChoice(items = TraderRestockTime.values().map {
+                                        if (it == TraderRestockTime.`1`) {
+                                            "$it Minute"
+                                        } else {
+                                            "$it Minutes"
+                                        }
+                                    }, initialSelection = TraderRestockTime.values().indexOf(restockTime)) { _, index, _ ->
+                                        scope.launch {
+                                            UserSettingsModel.traderRestockTime.update(TraderRestockTime.values()[index])
+                                        }
+                                    }
+                                }
+                            } else {
+                                scope.launch {
+                                    val result = scaffoldState.snackbarHostState.showSnackbar("Global Restock Notifications are off.", actionLabel = "TURN ON")
+                                    if (result == SnackbarResult.ActionPerformed) {
+                                        UserSettingsModel.globalRestockAlert.update(true)
+                                    }
+                                }
+                            }
+                        }
+                    ) {
+                        Row(
+                            Modifier.padding(vertical = 4.dp, horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "When to notify.",
+                                //color = Color.White,
+                                style = MaterialTheme.typography.subtitle1,
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            Text(text = restockTime.let {
+                                if (it == TraderRestockTime.`1`) {
+                                    "$it Minute"
+                                } else {
+                                    "$it Minutes"
+                                }
+                            })
+                        }
+                    }
                 }
                 item {
                     Card(

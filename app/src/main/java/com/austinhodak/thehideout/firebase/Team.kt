@@ -3,8 +3,11 @@ package com.austinhodak.thehideout.firebase
 import androidx.compose.ui.graphics.Color
 import com.austinhodak.thehideout.utils.questsFirebase
 import com.austinhodak.thehideout.utils.uid
+import com.austinhodak.thehideout.utils.userFirestore
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.Exclude
+import com.google.firebase.database.ServerValue
+import com.google.firebase.firestore.FieldValue
 
 data class Team (
     var name: String? = null,
@@ -33,6 +36,7 @@ data class Team (
             if (members?.size == 1) {
                 questsFirebase.child("teams/$it").removeValue()
             }
+            userFirestore()?.update("teams.$it", FieldValue.delete())
             userRefTracker("teams/$it").removeValue()
             questsFirebase.child("teams/$it/members/${uid()}").removeValue()
         }

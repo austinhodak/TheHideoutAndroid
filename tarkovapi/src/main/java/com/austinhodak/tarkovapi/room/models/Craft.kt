@@ -2,9 +2,12 @@ package com.austinhodak.tarkovapi.room.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.apollographql.apollo3.mpp.currentTimeMillis
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.utils.euroToRouble
 import com.austinhodak.tarkovapi.utils.fromDtoR
+import java.io.Serializable
+import java.text.SimpleDateFormat
 import kotlin.math.roundToInt
 
 @Entity(tableName = "crafts")
@@ -14,12 +17,18 @@ data class Craft(
     val requiredItems: List<CraftItem?>? = null,
     val rewardItems: List<CraftItem?>? = null,
     val source: String? = null
-) {
+) : Serializable {
     data class CraftItem(
         val count: Int? = null,
         val item: Pricing? = null
-    ) {
+    ) : Serializable
 
+    fun getSourceName(): String? {
+        return source?.split(" level ")?.get(0)
+    }
+
+    fun getSourceLevel(): Int? {
+        return source?.split(" level ")?.get(1)?.toIntOrNull()
     }
 
     fun rewardItem(): CraftItem? = rewardItems?.first()
@@ -55,12 +64,23 @@ data class Craft(
 
     fun estimatedProfitPerHour(): Int? = estimatedProfit()?.div((duration?.div(3600.0)!!))?.roundToInt()
 
-    fun getCraftingTime(): String {
+    fun getCraftingTime(format: String = "%02dH:%02dM"): String {
         val duration = duration ?: 1
         val hours = duration.div(3600)
         val minutes = (duration % 3600) / 60
         val seconds = duration % 60
 
-        return String.format("%02dH:%02dM", hours, minutes)
+        return String.format(format, hours, minutes)
+    }
+
+    fun getFleaThroughput(): Int? {
+        return rewardItem()?.item?.getHighestSell()?.price?.div((duration?.div(3600.0)!!))?.roundToInt()
+    }
+
+    fun getFinishTime(): String {
+        val ms = duration?.times(1000) ?: 0
+        val finishTime = currentTimeMillis() + ms
+        val simpleDateFormat = SimpleDateFormat("EEE '@' hh:mm")
+        return simpleDateFormat.format(finishTime)
     }
 }

@@ -24,3 +24,4 @@
 
 -keep class com.austinhodak.tarkovapi.models.** { *; }
 -keep class com.austinhodak.tarkovapi.room.models.** { *; }
+-keep class com.austinhodak.tarkovapi.tarkovtracker.models.** { *; }

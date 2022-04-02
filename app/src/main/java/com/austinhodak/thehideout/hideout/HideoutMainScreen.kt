@@ -2,6 +2,7 @@ package com.austinhodak.thehideout.hideout
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -16,12 +17,14 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +44,7 @@ import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Craft
+import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.fromDtoR
 import com.austinhodak.thehideout.NavViewModel
@@ -50,20 +54,19 @@ import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.crafts.CraftDetailActivity
 import com.austinhodak.thehideout.currency.euroToRouble
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
+import com.austinhodak.thehideout.fsUser
+import com.austinhodak.thehideout.hideout.detail.HideoutStationDetailActivity
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.quests.Chip
-import com.austinhodak.thehideout.utils.addQuotes
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.userRefTracker
+import com.austinhodak.thehideout.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
-import java.util.*
 import kotlin.math.roundToInt
 
 @SuppressLint("CheckResult")
@@ -84,6 +87,7 @@ fun HideoutMainScreen(
     val context = LocalContext.current
     val sort by hideoutViewModel.sortBy.observeAsState()
     val filterAvailable by hideoutViewModel.filterAvailable.observeAsState()
+    val allItems by navViewModel.allItems.observeAsState(initial = emptyList())
 
     HideoutTheme {
         Scaffold(
@@ -114,27 +118,27 @@ fun HideoutMainScreen(
                                 when (navBackStackEntry?.destination?.route) {
                                     HideoutNavigationScreens.Stations.route -> {
                                         Text(
-                                            "Stations",
+                                            stringResource(R.string.stations),
                                             modifier = Modifier.padding(end = 16.dp)
                                         )
                                     }
                                     HideoutNavigationScreens.Crafts.route -> {
                                         Text(
-                                            "Crafts",
+                                            stringResource(R.string.crafts),
                                             modifier = Modifier.padding(end = 16.dp)
                                         )
                                     }
                                     else -> {
-                                        Chip(text = "Current", selected = selected == HideoutFilter.CURRENT) {
+                                        Chip(text = stringResource(id = R.string.current), selected = selected == HideoutFilter.CURRENT) {
                                             hideoutViewModel.setView(HideoutFilter.CURRENT)
                                         }
-                                        Chip(text = "Available", selected = selected == HideoutFilter.AVAILABLE) {
+                                        Chip(text = stringResource(id = R.string.available), selected = selected == HideoutFilter.AVAILABLE) {
                                             hideoutViewModel.setView(HideoutFilter.AVAILABLE)
                                         }
-                                        Chip(text = "Locked", selected = selected == HideoutFilter.LOCKED) {
+                                        Chip(text = stringResource(id = R.string.locked), selected = selected == HideoutFilter.LOCKED) {
                                             hideoutViewModel.setView(HideoutFilter.LOCKED)
                                         }
-                                        Chip(text = "All", selected = selected == HideoutFilter.ALL) {
+                                        Chip(text = stringResource(id = R.string.all), selected = selected == HideoutFilter.ALL) {
                                             hideoutViewModel.setView(HideoutFilter.ALL)
                                         }
                                     }
@@ -161,28 +165,28 @@ fun HideoutMainScreen(
                             if (navBackStackEntry?.destination?.route == HideoutNavigationScreens.Crafts.route) {
                                 IconButton(onClick = {
                                     val items = listOf(
-                                        "Name",
-                                        "Time to Craft",
-                                        "Cost: Low to High",
-                                        "Cost: High to Low",
-                                        "Profit: Low to High",
-                                        "Profit: High to Low",
-                                        "Profit/Hour: Low to High",
-                                        "Profit/Hour: High to Low",
+                                        context.getString(R.string.name),
+                                        context.getString(R.string.time_to_craft),
+                                        context.getString(R.string.cost_low_to_high),
+                                        context.getString(R.string.cost_high_to_low),
+                                        context.getString(R.string.profit_low_to_high),
+                                        context.getString(R.string.profit_high_to_low),
+                                        context.getString(R.string.profit_hour_low_high),
+                                        context.getString(R.string.profit_hour_high_low),
                                     )
                                     MaterialDialog(context).show {
-                                        title(text = "Sort By")
+                                        title(res = R.string.sort_by)
                                         listItemsSingleChoice(items = items, initialSelection = sort ?: 0) { _, index, _ ->
                                             hideoutViewModel.setSort(index)
                                         }
-                                        checkBoxPrompt(text = "Show Only Available Crafts", isCheckedDefault = filterAvailable == true) {
+                                        checkBoxPrompt(res = R.string.show_only_available_crafts, isCheckedDefault = filterAvailable == true) {
                                             hideoutViewModel.setFilterAvailable(it)
                                         }
                                     }
                                 }) {
                                     Icon(
                                         painterResource(id = R.drawable.ic_baseline_sort_24),
-                                        contentDescription = "Sort",
+                                        contentDescription = null,
                                         tint = Color.White
                                     )
                                 }
@@ -197,7 +201,7 @@ fun HideoutMainScreen(
                     HideoutStationsPage(tarkovRepo, hideoutViewModel, padding)
                 }
                 composable(HideoutNavigationScreens.Modules.route) {
-                    HideoutModulesPage(tarkovRepo, hideoutViewModel, padding)
+                    HideoutModulesPage(tarkovRepo, hideoutViewModel, padding, navViewModel)
                 }
                 composable(HideoutNavigationScreens.Crafts.route) {
                     HideoutCraftsPage(tarkovRepo, hideoutViewModel, padding)
@@ -213,7 +217,8 @@ private fun OverviewItem(
     icon: Int = R.drawable.ic_baseline_assignment_turned_in_24,
     s1: String = "",
     s2: String = "",
-    progress: Float? = 0.5f
+    progress: Float? = 0.5f,
+    clicked: () -> Unit
 ) {
     val p by remember { mutableStateOf(progress) }
     val animatedProgress by animateFloatAsState(
@@ -226,7 +231,10 @@ private fun OverviewItem(
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .height(72.dp)
             .fillMaxWidth(),
-        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+        backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
+        onClick = {
+            clicked()
+        }
     ) {
         Row {
             Image(
@@ -272,6 +280,7 @@ private fun OverviewItem(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HideoutStationsPage(
     tarkovRepo: TarkovRepo,
@@ -280,7 +289,8 @@ private fun HideoutStationsPage(
 ) {
     val stations = hideoutList.hideout?.stations?.sortedBy { it?.locales?.en }
     val modules = hideoutList.hideout?.modules
-    val userData by hideoutViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
+    val context = LocalContext.current
 
     LazyColumn(
         contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding() + 4.dp)
@@ -288,7 +298,7 @@ private fun HideoutStationsPage(
         stations?.forEach {
             it?.let { station ->
                 val moduleTotal = modules?.count { it?.stationId == station.id }
-                val modulesComplete = modules?.filter { it?.stationId == station.id }?.count { userData?.isHideoutModuleComplete(it?.id) == true }
+                val modulesComplete = modules?.filter { it?.stationId == station.id }?.count { userData?.progress?.isHideoutModuleCompleted(it?.id) == true }
 
                 item {
                     OverviewItem(
@@ -297,48 +307,11 @@ private fun HideoutStationsPage(
                         s2 = "${modulesComplete}/${moduleTotal}",
                         color = if (moduleTotal == modulesComplete) Red400 else BorderColor,
                         progress = (modulesComplete?.toDouble()?.div(moduleTotal?.toDouble() ?: 1.0))?.toFloat()
-                    )
-                    /*Card(
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                        backgroundColor = Color(0xFE1F1F1F)
                     ) {
-                        Column {
-                            Row(
-                                Modifier
-                                    .padding(16.dp)
-                                    .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Image(
-                                        painter = painterResource(id = station.getIcon()),
-                                        contentDescription = "Module Icon",
-                                        modifier = Modifier
-                                            .size(40.dp)
-                                            .fillMaxWidth()
-                                    )
-                                }
-
-                                Column(
-                                    Modifier
-                                        .padding(start = 16.dp, end = 16.dp)
-                                        .weight(1f),
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Text(text = station.locales?.en ?: "", style = MaterialTheme.typography.h6)
-                                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                                        Text(
-                                            text = station.function ?: "",
-                                            style = MaterialTheme.typography.caption
-                                        )
-                                    }
-                                }
-
-                            }
+                        context.openActivity(HideoutStationDetailActivity::class.java) {
+                            putSerializable("station", station)
                         }
-                    }*/
+                    }
                 }
             }
         }
@@ -353,31 +326,32 @@ private fun HideoutStationsPage(
 private fun HideoutModulesPage(
     tarkovRepo: TarkovRepo,
     hideoutViewModel: HideoutMainViewModel,
-    padding: PaddingValues
+    padding: PaddingValues,
+    navViewModel: NavViewModel
 ) {
     val modules = hideoutList.hideout?.modules
 
     val searchKey by hideoutViewModel.searchKey.observeAsState("")
 
-    val userData by hideoutViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
     val view by hideoutViewModel.view.observeAsState()
 
-    Timber.d(userData?.hideoutModules.toString())
+    val allItems by navViewModel.allItems.observeAsState(initial = emptyList())
 
     val data = when (view) {
         HideoutFilter.CURRENT -> modules?.filter {
-            userData?.isHideoutModuleComplete(it?.id ?: return) == true
+            userData?.progress?.isHideoutModuleCompleted(it?.id ?: return) == true
         }
         HideoutFilter.AVAILABLE -> modules?.filter {
-            if (userData?.isHideoutModuleComplete(it?.id!!) == true) return@filter false
+            if (userData?.progress?.isHideoutModuleCompleted(it?.id!!) == true) return@filter false
             if (it?.getModuleRequirements(modules)?.isEmpty() == true) {
                 true
             } else {
-                userData?.completedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)!!) == true
+                userData?.progress?.getCompletedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)?.map { it.toString() }!!) == true
             }
         }
         HideoutFilter.LOCKED -> modules?.filter {
-            userData?.completedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)!!) == false
+            userData?.progress?.getCompletedHideoutIDs()?.containsAll(it?.getModuleRequirements(modules)?.map { it.toString() }!!) == false
         }
         HideoutFilter.ALL -> modules
         else -> modules
@@ -386,7 +360,7 @@ private fun HideoutModulesPage(
     }
 
     if (data.isNullOrEmpty()) {
-        EmptyText(text = "No Modules.")
+        EmptyText(text = stringResource(R.string.no_modules))
         return
     }
 
@@ -394,7 +368,7 @@ private fun HideoutModulesPage(
         contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
     ) {
         items(items = data) { module ->
-            HideoutModuleCard(module, tarkovRepo, userData, hideoutViewModel)
+            HideoutModuleCard(module, allItems, userData, hideoutViewModel)
         }
     }
 }
@@ -406,12 +380,12 @@ private fun HideoutModulesPage(
 @Composable
 private fun HideoutModuleCard(
     module: Hideout.Module?,
-    tarkovRepo: TarkovRepo,
-    userData: User?,
+    items: List<Item>,
+    userData: FSUser?,
     hideoutViewModel: HideoutMainViewModel
 ) {
     if (module == null) return
-    val isComplete = userData?.isHideoutModuleComplete(module.id ?: return) ?: false
+    val isComplete = userData?.progress?.isHideoutModuleCompleted(module.id ?: return) ?: false
 
     val view by hideoutViewModel.view.observeAsState()
     val modules = hideoutList.hideout?.modules
@@ -422,12 +396,16 @@ private fun HideoutModuleCard(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .combinedClickable(
-                onClick = {},
+                onClick = {
+                    context.openActivity(HideoutStationDetailActivity::class.java) {
+                        putString("moduleId", module.module.toString())
+                    }
+                },
                 onLongClick = {
                     MaterialDialog(context).show {
-                        title(text = "Add to Needed Items?")
-                        message(text = "This will add these items to the needed items list on the Flea Market screen.")
-                        positiveButton(text = "ADD") {
+                        title(res = R.string.add_to_needed_items)
+                        message(res = R.string.needed_items_desc)
+                        positiveButton(res = R.string.add) {
                             module.require
                                 ?.filter { it?.type == "item" }
                                 ?.forEach {
@@ -437,7 +415,7 @@ private fun HideoutModuleCard(
                                     userRefTracker("items/$itemID/hideoutObjective/${it?.id?.addQuotes()}").setValue(quantity)
                                 }
                         }
-                        negativeButton(text = "CANCEL")
+                        negativeButton(res = R.string.cancel)
                     }
                 }
             ),
@@ -486,18 +464,23 @@ private fun HideoutModuleCard(
                 //Text(text = "Level ${module.level}", style = MaterialTheme.typography.overline)
             }
             if (!isComplete) {
-                Divider(color = itemBlack)
+                if (module.require?.isNotEmpty() == true)
+                    Divider(color = DividerDark)
                 Column(
                     Modifier.padding(vertical = 8.dp)
                 ) {
                     module.require?.sortedByDescending { it?.type }?.forEach { requirement ->
                         when (requirement?.type) {
                             "item" -> {
-                                HideoutRequirementItem(
-                                    tarkovRepo,
-                                    requirement,
-                                    userData
-                                )
+                                items.find { it.id == requirement.name }?.let {
+                                    HideoutRequirementItem(
+                                        it,
+                                        requirement,
+                                        userData
+                                    ) {
+                                        context.openFleaDetail(it.id)
+                                    }
+                                }
                             }
                             "module" -> {
                                 HideoutRequirementModule(
@@ -516,8 +499,12 @@ private fun HideoutModuleCard(
                     }
                 }
             }
-            Divider(color = itemBlack)
-            Row(Modifier.padding(horizontal = 8.dp, vertical = 8.dp)) {
+            Divider(color = DividerDark)
+            Row(
+                Modifier
+                    .padding(horizontal = 8.dp, vertical = 2.dp)
+                    .align(End)
+            ) {
                 when (view) {
                     HideoutFilter.AVAILABLE -> {
                         TextButton(onClick = {
@@ -535,14 +522,14 @@ private fun HideoutModuleCard(
                             //Undo module
                         }) {
                             Text(
-                                "LOCKED",
+                                stringResource(id = R.string.locked),
                                 color = Color(0xFF555555)
                             )
                         }
                     }
                     HideoutFilter.ALL -> {
-                        if (module.getModuleRequirements(modules).isEmpty() && !isComplete || userData?.completedHideoutIDs()
-                                ?.containsAll(module.getModuleRequirements(modules)) == true && !isComplete
+                        if (module.getModuleRequirements(modules).isEmpty() && !isComplete || userData?.progress?.getCompletedHideoutIDs()
+                                ?.containsAll(module.getModuleRequirements(modules).map { it.toString() }) == true && !isComplete
                         ) {
                             TextButton(onClick = {
                                 //Build module
@@ -562,7 +549,7 @@ private fun HideoutModuleCard(
                                 hideoutViewModel.undoModule(module)
                             }) {
                                 Text(
-                                    "UNDO",
+                                    stringResource(R.string.undo),
                                     color = Color(0xFF555555)
                                 )
                             }
@@ -580,14 +567,14 @@ private fun HideoutModuleCard(
 @ExperimentalFoundationApi
 @Composable
 private fun HideoutRequirementItem(
-    tarkovRepo: TarkovRepo,
+    item: Item,
     requirement: Hideout.Module.Require,
-    userData: User?
+    userData: FSUser?,
+    clicked: () -> Unit
 ) {
     val context = LocalContext.current
 
-    val item by tarkovRepo.getItemByID(requirement.name.toString()).collectAsState(initial = null)
-    val pricing = item?.pricing
+    val pricing = item.pricing
 
     Row(
         modifier = Modifier
@@ -595,11 +582,11 @@ private fun HideoutRequirementItem(
             .fillMaxWidth()
             .clickable {
                 context.openActivity(FleaItemDetail::class.java) {
-                    putString("id", item?.id)
+                    putString("id", item.id)
                 }
             }
             .combinedClickable(onClick = {
-
+                clicked()
             }, onLongClick = {
                 /*if (requirement.quantity ?: 0 > 500) return@combinedClickable
                 MaterialDialog(context).show {
@@ -613,19 +600,29 @@ private fun HideoutRequirementItem(
             }),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            rememberImagePainter(
-                pricing?.getCleanIcon()
-            ),
-            contentDescription = null,
-            modifier = Modifier
-                .width(38.dp)
-                .height(38.dp)
-                .border(
-                    (0.25).dp,
-                    color = if (userData?.isHideoutObjectiveComplete(requirement) == true) Green500 else BorderColor
-                )
-        )
+        Box {
+            Image(
+                rememberImagePainter(
+                    pricing?.getCleanIcon()
+                ),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(38.dp)
+                    .height(38.dp)
+                    .border((0.25).dp, color = BorderColor)
+            )
+            Text(
+                text = "${requirement.quantity}",
+                Modifier
+                    .clip(RoundedCornerShape(topStart = 5.dp))
+                    .background(BorderColor)
+                    .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                    .align(Alignment.BottomEnd),
+                style = MaterialTheme.typography.caption,
+                fontWeight = FontWeight.Medium,
+                fontSize = 9.sp
+            )
+        }
         Column(
             modifier = Modifier.padding(start = 16.dp)
         ) {
@@ -634,37 +631,38 @@ private fun HideoutRequirementItem(
                 style = MaterialTheme.typography.body1
             )
             CompositionLocalProvider(LocalContentAlpha provides 0.6f) {
-                Text(
-                    text = "${pricing?.getTotalCostWithExplanation(requirement.quantity ?: 1)}",
-                    style = MaterialTheme.typography.caption,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Light,
-                )
-                /*Text(
-                    text = "${requirement.quantity} x ${pricing?.avg24hPrice?.asCurrency()} = ${
-                        (requirement.quantity?.times(pricing?.avg24hPrice ?: 1))?.asCurrency()
-                    }",
-                    style = MaterialTheme.typography.caption,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Light,
-                )*/
+                Row {
+                    SmallBuyPrice(pricing = pricing)
+                    Text(
+                        text = " (${((requirement.quantity ?: 1).times(pricing?.getCheapestBuyRequirements()?.price ?: 0)).asCurrency()})",
+                        style = MaterialTheme.typography.caption,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Light,
+                    )
+                }
             }
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalCoilApi
 @Composable
-private fun HideoutRequirementModule(
+fun HideoutRequirementModule(
     module: Hideout.Module,
     requirement: Hideout.Module.Require,
-    userData: User?
+    userData: FSUser?
 ) {
-
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                context.openActivity(HideoutStationDetailActivity::class.java) {
+                    putString("moduleId", requirement.name.toString())
+                }
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
@@ -675,7 +673,7 @@ private fun HideoutRequirementModule(
                 .height(38.dp)
                 .border(
                     (0.25).dp,
-                    color = if (userData?.isHideoutObjectiveComplete(requirement) == true) Green500 else BorderColor
+                    color = if (userData?.progress?.isHideoutObjectiveCompleted(requirement) == true) Green500 else BorderColor
                 )
                 .background(DarkerGrey)
         )
@@ -691,9 +689,9 @@ private fun HideoutRequirementModule(
 }
 
 @Composable
-private fun HideoutRequirementTrader(
+fun HideoutRequirementTrader(
     requirement: Hideout.Module.Require,
-    userData: User?
+    userData: FSUser?
 ) {
     val trader = Traders.values().find { it.int == (requirement.name as Double).toInt() }
 
@@ -711,7 +709,7 @@ private fun HideoutRequirementTrader(
                 .height(38.dp)
                 .border(
                     (0.25).dp,
-                    color = if (userData?.isHideoutObjectiveComplete(requirement) == true) Green500 else BorderColor
+                    color = if (userData?.progress?.isHideoutObjectiveCompleted(requirement) == true) Green500 else BorderColor
                 )
                 .background(DarkerGrey)
         )
@@ -740,41 +738,46 @@ private fun HideoutCraftsPage(
     val searchKey by hideoutViewModel.searchKey.observeAsState("")
     val sort by hideoutViewModel.sortBy.observeAsState()
     val filterAvailable by hideoutViewModel.filterAvailable.observeAsState()
-    val userData by hideoutViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
 
-    if (crafts.isEmpty()) {
-        LoadingItem()
-        return
-    }
-
-    LazyColumn(
-        contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
-    ) {
-        items(items = crafts.filter {
-            it.rewardItem()?.item?.name?.contains(searchKey, true) == true
-                    || it.rewardItem()?.item?.shortName?.contains(searchKey, true) == true
-        }.let { data ->
-            when (sort) {
-                0 -> data.sortedBy { it.rewardItems?.first()?.item?.name }
-                1 -> data.sortedBy { it.duration }
-                2 -> data.sortedBy { it.totalCost() }
-                3 -> data.sortedByDescending { it.totalCost() }
-                4 -> data.sortedBy { it.estimatedProfit() }
-                5 -> data.sortedByDescending { it.estimatedProfit() }
-                6 -> data.sortedBy { it.estimatedProfitPerHour() }
-                7 -> data.sortedByDescending { it.estimatedProfitPerHour() }
-                else -> data
-            }
-        }.filter {
-            if (filterAvailable == true) {
-                userData == null || userData!!.isHideoutModuleComplete(it.getSourceID(hideoutList.hideout) ?: 0)
-            } else {
-                true
-            }
-        }) { craft ->
-            CraftItem(craft, userData)
+    val items = crafts.filter {
+        it.rewardItem()?.item?.name?.contains(searchKey, true) == true
+                || it.rewardItem()?.item?.shortName?.contains(searchKey, true) == true
+    }.let { data ->
+        when (sort) {
+            0 -> data.sortedBy { it.rewardItems?.first()?.item?.name }
+            1 -> data.sortedBy { it.duration }
+            2 -> data.sortedBy { it.totalCost() }
+            3 -> data.sortedByDescending { it.totalCost() }
+            4 -> data.sortedBy { it.estimatedProfit() }
+            5 -> data.sortedByDescending { it.estimatedProfit() }
+            6 -> data.sortedBy { it.estimatedProfitPerHour() }
+            7 -> data.sortedByDescending { it.estimatedProfitPerHour() }
+            else -> data
+        }
+    }.filter {
+        if (filterAvailable == true) {
+            userData == null || userData!!.progress?.isHideoutModuleCompleted(it.getSourceID(hideoutList.hideout).toString()) == true
+        } else {
+            true
         }
     }
+
+    AnimatedContent(targetState = items.isNullOrEmpty()) {
+        if (it) {
+            LoadingItem()
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
+            ) {
+                items(items = items, key = { it.id.toString() }) { craft ->
+                    CraftItem(craft, userData, Modifier.animateItemPlacement())
+                }
+            }
+        }
+    }
+
+
 }
 
 @ExperimentalCoilApi
@@ -782,13 +785,13 @@ private fun HideoutCraftsPage(
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun CraftItem(craft: Craft, userData: User?) {
+fun CraftItem(craft: Craft, userData: FSUser?, modifier: Modifier = Modifier) {
     val rewardItem = craft.rewardItems?.firstOrNull()?.item
     val reward = craft.rewardItems?.firstOrNull()
     val requiredItems = craft.requiredItems
     val context = LocalContext.current
 
-    val alpha = if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+    val alpha = if (userData == null || userData.progress?.isHideoutModuleCompleted(craft.getSourceID(hideoutList.hideout).toString()) == true) {
         ContentAlpha.high
     } else {
         ContentAlpha.high
@@ -796,16 +799,16 @@ fun CraftItem(craft: Craft, userData: User?) {
 
     CompositionLocalProvider(LocalContentAlpha provides alpha) {
         Card(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             backgroundColor = Color(0xFE1F1F1F),
             onClick = {
-                context.openActivity(FleaItemDetail::class.java) {
-                    putString("id", rewardItem?.id)
+                context.openActivity(CraftDetailActivity::class.java) {
+                    putSerializable("craft", craft)
                 }
             },
         ) {
             Column {
-                if (userData == null || userData.isHideoutModuleComplete(craft.getSourceID(hideoutList.hideout) ?: 0)) {
+                if (userData == null || userData?.progress?.isHideoutModuleCompleted(craft.getSourceID(hideoutList.hideout).toString()) == true) {
 
                 } else {
                     Row(
@@ -892,11 +895,11 @@ fun CraftItem(craft: Craft, userData: User?) {
                 }
                 Divider(
                     modifier = Modifier.padding(bottom = 8.dp),
-                    color = Color(0x1F000000)
+                    color = DividerDark
                 )
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
-                        text = "NEEDS",
+                        text = stringResource(R.string.needs),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = Bender,
@@ -908,11 +911,11 @@ fun CraftItem(craft: Craft, userData: User?) {
                 }
                 Divider(
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                    color = Color(0x1F000000)
+                    color = DividerDark
                 )
-                AvgPriceRow(title = "COST", price = craft.totalCost())
-                SavingsRow(title = "ESTIMATED PROFIT", price = craft.estimatedProfit())
-                SavingsRow(title = "ESTIMATED PROFIT PER HOUR", price = craft.estimatedProfitPerHour())
+                AvgPriceRow(title = stringResource(R.string.cost), price = craft.totalCost())
+                SavingsRow(title = stringResource(R.string.estimated_profit), price = craft.estimatedProfit())
+                SavingsRow(title = stringResource(R.string.estimated_profit_ph), price = craft.estimatedProfitPerHour())
                 Spacer(modifier = Modifier.padding(bottom = 8.dp))
             }
         }
@@ -930,10 +933,11 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
 
     val cheapestBuy = item?.getCheapestBuyRequirements()?.copy()
     if (cheapestBuy?.currency == "USD") {
-        cheapestBuy.price =  cheapestBuy.price?.fromDtoR()?.roundToInt()
+        cheapestBuy.price = cheapestBuy.price?.fromDtoR()?.roundToInt()
     } else if (cheapestBuy?.currency == "EUR") {
         cheapestBuy.price = euroToRouble(cheapestBuy.price?.toLong()).toInt()
     }
+
     Row(
         modifier = Modifier
             .padding(start = 16.dp, top = 2.dp, bottom = 2.dp)

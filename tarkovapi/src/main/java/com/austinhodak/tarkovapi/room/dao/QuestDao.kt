@@ -29,6 +29,9 @@ interface QuestDao {
     suspend fun insert(craft: Quest)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(crafts: List<Quest>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(crafts: List<Quest>?)
 
     @Query("SELECT EXISTS (SELECT * FROM quests WHERE id IS '195' AND requirement LIKE '%' + :id + '%')")

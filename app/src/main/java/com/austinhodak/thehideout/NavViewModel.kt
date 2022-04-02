@@ -11,10 +11,12 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.system.measureTimeMillis
 
 @HiltViewModel
 class NavViewModel @Inject constructor(
@@ -65,7 +67,7 @@ class NavViewModel @Inject constructor(
         }
     }
 
-    private val _allItems = MutableLiveData<List<Item>>(null)
+    private val _allItems = MutableLiveData<List<Item>>(emptyList())
     val allItems = _allItems
 
     init {
@@ -73,8 +75,13 @@ class NavViewModel @Inject constructor(
             startGameTimers()
         }
 
+        getAllItems()
+    }
+
+    private fun getAllItems() {
         viewModelScope.launch {
-            tarkovRepo?.getAllItemsOnce()?.let {
+            tarkovRepo.getAllItems().collect {
+                Timber.d("Got ${it.size} items")
                 _allItems.value = it
             }
         }

@@ -1,19 +1,18 @@
 package com.austinhodak.thehideout.map.viewmodels
 
 import android.content.Context
+import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.austinhodak.tarkovapi.models.MapInteractive
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.utils.QuestExtraHelper
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.firebase.User
-import com.austinhodak.thehideout.utils.questsFirebase
-import com.austinhodak.thehideout.utils.uid
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
+import com.austinhodak.thehideout.map.models.CustomMarker
+import com.austinhodak.thehideout.utils.userFirestore
+
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.ktx.toObject
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -25,8 +24,10 @@ class MapViewModel @Inject constructor(
     @ApplicationContext context: Context
 ) : ViewModel() {
 
-    private val _userData = MutableLiveData<User?>(null)
-    val userData = _userData
+    var markerListener: ListenerRegistration? = null
+
+    private val _customMarkers = MutableLiveData<List<CustomMarker>>(null)
+    val customMarkers = _customMarkers
 
     private val _map = MutableLiveData("customs")
     val map = _map
@@ -60,18 +61,6 @@ class MapViewModel @Inject constructor(
     init {
         updateMap(context)
         _questsExtras.value = QuestExtraHelper.getQuests(context = context)
-
-        if (uid() != null) {
-            questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    _userData.value = snapshot.getValue<User>()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
-        }
     }
 
     private fun updateMap(context: Context) {
@@ -88,7 +77,26 @@ class MapViewModel @Inject constructor(
                 }
             }
         }
+        markerListener?.remove()
+        markerListener = userFirestore()?.collection("markers")?.whereEqualTo("map", _map.value?.lowercase()?.replace("lighthouse-dark", "lighthouse"))?.addSnapshotListener { value, error ->
+            if (error != null || value?.isEmpty == true) {
+                _customMarkers.postValue(emptyList())
+                return@addSnapshotListener
+            }
 
+            val markers = ArrayList<CustomMarker>()
+            for (doc in value!!) {
+                markers.add(doc.toObject())
+            }
+            _customMarkers.value = markers
+        }
+    }
+
+
+
+    override fun onCleared() {
+        super.onCleared()
+        markerListener?.remove()
     }
 
     private fun getMapRaw(map: String? = _map.value): Int {

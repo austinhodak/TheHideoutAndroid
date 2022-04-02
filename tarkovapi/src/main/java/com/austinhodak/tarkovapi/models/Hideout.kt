@@ -2,31 +2,44 @@ package com.austinhodak.tarkovapi.models
 
 import com.austinhodak.tarkovapi.R
 import com.austinhodak.tarkovapi.utils.Hideout
+import java.io.Serializable
 
 data class Hideout(
     var modules: List<Module?>? = null,
     var stations: List<Station?>? = null
-) {
+) : Serializable {
     data class Module(
         var id: Int? = null,
         var level: Int? = null,
         var module: String? = null,
         var require: List<Require?>? = null,
         var stationId: Int? = null
-    ) {
+    ) : Serializable {
         data class Require(
             var id: Int? = null,
             var name: Any? = null,
             var quantity: Int? = null,
             var type: String? = null
-        ) {
+        ) : Serializable {
             fun getNumberString(): String {
                 return if (quantity ?: 0 <= 1) "" else "${quantity}x "
+            }
+
+            override fun toString(): String {
+                return when (type) {
+                    "module" -> "MODULES NEEDED"
+                    "item" -> "ITEMS NEEDED"
+                    "trader" -> "TRADER LOYALTY NEEDED"
+                    "skill" -> "SKILL LEVEL NEEDED"
+                    else -> ""
+                }
             }
         }
 
         fun getModuleRequirements(modules: List<Module?>?): List<Int> {
             val ids: MutableList<Int> = emptyList<Int>().toMutableList()
+
+            if (module == "Stash") return emptyList()
 
             require?.filter { it?.type == "module" }?.forEach {
                 val name = it?.name
@@ -77,6 +90,8 @@ data class Hideout(
         override fun toString(): String {
             return "$module Level $level"
         }
+
+
     }
 
     data class Station(
@@ -85,10 +100,12 @@ data class Hideout(
         var id: Int? = null,
         var imgSource: String? = null,
         var locales: Locales? = null
-    ) {
+    ) : Serializable {
         data class Locales(
             var en: String? = null
-        )
+        ) : Serializable
+
+        fun getName() = locales?.en
 
         fun getIcon(name: String? = locales?.en): Int {
             return when (name) {

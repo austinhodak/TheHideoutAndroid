@@ -77,12 +77,25 @@ data class Item(
     @SerializedName("effects_health_null")
     var effects_health: JSONObject? = null,
     @SerializedName("effects_damage_null")
-    var effects_damage: JSONObject? = null,
-
-    //val SpawnFilter: List<String>? = null
+    var effects_damage: JSONObject? = null
 ) : Serializable {
 
-    fun getCleanIcon(): String? = pricing?.iconLink
+    fun getFormattedWeight(): String {
+        val weight = if (Weight?.rem(1.0) == 0.0 ) {
+            Weight.toInt()
+        } else {
+            String.format("%.2f", Weight)
+        }
+        return "${weight}kg"
+    }
+
+    fun getGridIDs(): List<String?> {
+        return Grids?.flatMap { it.getFilters() } ?: listOf()
+    }
+
+    fun getTotalInternalSize(): Int {
+        return Grids?.sumOf { it.getInternalSlots() } ?: 0
+    }
 
     fun getEnergy(): Int? {
         return effects_health?.optJSONObject("Energy")?.optInt("value")
@@ -164,6 +177,10 @@ data class Item(
             else -> "$ArmorMaterial"
         }
     }
+
+    fun isChildOf(item: Pricing?): Boolean? {
+        return item?.containsItem?.any { it.item?.id == this.id }
+    }
 }
 
 fun JSONObject.toItem(): Item {
@@ -174,7 +191,6 @@ fun JSONObject.toItem(): Item {
     val builder = GsonBuilder()
 
     val item = builder.create().fromJson(props.toString(), Item::class.java)
-
 
     item.itemType = itemType
     item.parent = optString("_parent")

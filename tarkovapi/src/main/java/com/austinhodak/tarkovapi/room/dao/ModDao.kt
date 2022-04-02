@@ -12,24 +12,27 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ModDao {
 
-    @Query("SELECT * FROM mods")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = mods.id) AS pricing FROM mods")
     fun getAllMods(): Flow<List<Mod>>
 
-    @Query("SELECT * FROM mods WHERE Slots LIKE :id ")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = mods.id) AS pricing FROM mods WHERE Slots LIKE :id ")
     fun getModsForSlot(id: String): Flow<List<Mod>>
 
-    @Query("SELECT * FROM mods WHERE id = :id")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = mods.id) AS pricing FROM mods WHERE id = :id")
     fun getByID(id: String): Flow<Mod>
 
-    @Query("SELECT * FROM mods WHERE id IN (:ids)")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = mods.id) AS pricing FROM mods WHERE id IN (:ids)")
     fun getByID(ids: List<String>): Flow<List<Mod>>
 
-    @Query("SELECT * FROM mods WHERE parent = :parent")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = mods.id) AS pricing FROM mods WHERE parent = :parent")
     fun getByParent(parent: String): Flow<List<Mod>>
 
-    @Query("SELECT * FROM mods WHERE parent IN (:parents)")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = mods.id) AS pricing FROM mods WHERE parent IN (:parents)")
     fun getByParent(parents: List<String>): Flow<List<Mod>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(mod: Mod)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(mods: List<Mod>)
 }

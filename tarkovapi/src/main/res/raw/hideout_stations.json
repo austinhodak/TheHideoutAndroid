@@ -152,15 +152,6 @@
     "imgSource": "/img/Workbench_Portrait.png"
   },
   {
-    "id": 19,
-    "locales": {
-      "en": "Christmas Tree"
-    },
-    "function": "Provides a wide variety of potential item crafts",
-    "imgSource": "/img/Christmas_tree_Portrait.png",
-    "disabled": true
-  },
-  {
     "id": 20,
     "locales": {
       "en": "Intelligence center"

@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.Flow
 interface AmmoDao {
 
     @Transaction
-    @Query("SELECT * FROM ammo")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = ammo.id) AS pricing FROM ammo")
     fun getAllAmmo(): Flow<List<Ammo>>
 
     @Transaction
-    @Query("SELECT * FROM ammo WHERE id = :id ORDER BY id DESC")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = ammo.id) AS pricing FROM ammo WHERE id = :id ORDER BY id DESC")
     fun getAmmo(id: String): Flow<Ammo>
 
-    @Query("SELECT * FROM ammo WHERE Caliber = :caliber")
+    @Query("SELECT *, (SELECT pricing FROM pricing_table WHERE pricing_table.id = ammo.id) AS pricing FROM ammo WHERE Caliber = :caliber")
     fun getAmmoByCaliber(caliber: String): Flow<List<Ammo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

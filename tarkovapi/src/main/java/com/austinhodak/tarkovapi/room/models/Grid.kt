@@ -9,6 +9,14 @@ data class Grid(
     val _props: Props? = null,
     val _proto: String? = null
 ) : Serializable {
+
+    fun getFilters(): List<String> {
+        if (_props?.filters?.isNullOrEmpty() == true) return emptyList()
+        return _props?.filters?.first()?.Filter?.filterNotNull() ?: emptyList()
+    }
+
+    fun getInternalSlots(): Int = _props?.cellsH?.times(_props.cellsV ?: 1) ?: 0
+
     data class Props(
         val cellsH: Int? = null,
         val cellsV: Int? = null,

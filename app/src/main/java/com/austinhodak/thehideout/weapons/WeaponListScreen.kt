@@ -1,10 +1,7 @@
 package com.austinhodak.thehideout.weapons
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -25,8 +23,10 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
+import com.austinhodak.thehideout.utils.fadeImagePainterPlaceholder
 import com.austinhodak.thehideout.utils.getCaliberShortName
 import com.austinhodak.thehideout.views.weaponCategories
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -65,7 +65,7 @@ fun WeaponListScreen(
                     )
                 } else {
                     MainToolbar(
-                        title = weaponClass?.first ?: "",
+                        title = stringResource(id = weaponClass?.first ?: R.string.weapons) ?: "",
                         navViewModel = navViewModel
                     ) {
                         IconButton(onClick = { navViewModel.setSearchOpen(true) }) {
@@ -77,19 +77,24 @@ fun WeaponListScreen(
         }
     ) {
         when {
-            data.isNullOrEmpty() -> LoadingItem()
             isSearchOpen -> {
                 WeaponSearchBody(searchKey = searchKey, data = allWeapons) {
                     weaponClicked(it)
                 }
             }
             else -> {
-                LazyColumn(
-                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
-                ) {
-                    items(items = data.sortedBy { it.ShortName }) { weapon ->
-                        WeaponCard(weapon) {
-                            weaponClicked(it)
+                AnimatedContent(targetState = data.isNullOrEmpty()) {
+                    if (it) {
+                        LoadingItem()
+                    } else {
+                        LazyColumn(
+                            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            items(items = data.sortedBy { it.ShortName }, key = { it.id }) { weapon ->
+                                WeaponCard(weapon, Modifier.animateItemPlacement()) {
+                                    weaponClicked(it)
+                                }
+                            }
                         }
                     }
                 }
@@ -126,8 +131,8 @@ fun WeaponSearchBody(
         Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
     ) {
-        items(items = items) { weapon ->
-            WeaponCard(weapon = weapon) {
+        items(items = items, key = { it.id }) { weapon ->
+            WeaponCard(weapon = weapon, Modifier.animateItemPlacement()) {
                 weaponClicked(it)
             }
         }
@@ -138,12 +143,13 @@ fun WeaponSearchBody(
 @Composable
 fun WeaponCard(
     weapon: Weapon,
+    modifier: Modifier = Modifier,
     weaponClicked: (weaponID: String) -> Unit
 ) {
     val context = LocalContext.current
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
             .padding(vertical = 4.dp),
@@ -164,7 +170,7 @@ fun WeaponCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(weapon.pricing?.getCleanIcon()),
+                    fadeImagePainterPlaceholder(weapon.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)

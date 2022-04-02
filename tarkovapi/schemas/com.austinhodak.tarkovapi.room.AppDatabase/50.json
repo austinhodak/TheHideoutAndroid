@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 50,
-    "identityHash": "c8c9fcc22725475615c4150ab5bcc03a",
+    "identityHash": "375d86eb8711e8045c22243941c90240",
     "entities": [
       {
         "tableName": "ammo",
@@ -1249,12 +1249,38 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "pricing_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `pricing` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pricing",
+            "columnName": "pricing",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c8c9fcc22725475615c4150ab5bcc03a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '375d86eb8711e8045c22243941c90240')"
     ]
   }
 }

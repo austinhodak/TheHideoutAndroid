@@ -7,6 +7,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import timber.log.Timber
 
 fun log(event: String, itemID: String, itemName: String, contentType: String) {
     Firebase.analytics.logEvent(event) {
@@ -37,7 +38,9 @@ fun userRefTracker(ref: String? = null): DatabaseReference {
 }
 
 fun uid(): String? {
-    return Firebase.auth.uid
+    val uid = Firebase.auth.currentUser?.uid
+    Timber.d("1 - $uid")
+    return uid
 }
 
 fun pushToken(token: String) {

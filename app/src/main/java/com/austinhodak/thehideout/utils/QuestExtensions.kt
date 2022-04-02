@@ -4,8 +4,11 @@ import androidx.annotation.DrawableRes
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.firebase.User
-import com.google.firebase.database.ServerValue
+import com.austinhodak.thehideout.firebase.FSUser
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
+import timber.log.Timber
 
 @DrawableRes
 fun Quest.QuestObjective.getIcon(): Int {
@@ -26,10 +29,10 @@ fun Quest.QuestObjective.getIcon(): Int {
     }
 }
 
-fun Quest.isLocked(userData: User?): Boolean {
-    val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
+fun Quest.isLocked(userData: FSUser?): Boolean {
+    val completedQuests = userData?.progress?.getCompletedQuestIDs()
 
-    return if (userData?.isQuestCompleted(this) == true) {
+    return if (userData?.progress?.isQuestCompleted(this) == true) {
         false
     } else {
         if (requirement?.level ?: 0 > userData?.playerLevel ?: 71) return true
@@ -38,17 +41,17 @@ fun Quest.isLocked(userData: User?): Boolean {
         } else {
             requirement?.quests?.any { l1 ->
                 l1?.all {
-                    completedQuests?.contains(it) == false
+                    completedQuests?.contains(it.toString()) == false
                 } == true
             } == true
         }
     }
 }
 
-fun Quest.isAvailable(userData: User?): Boolean {
-    val completedQuests = userData?.quests?.values?.filter { it?.completed == true }?.map { it?.id }
+fun Quest.isAvailable(userData: FSUser?): Boolean {
+    val completedQuests = userData?.progress?.getCompletedQuestIDs()
     if (this.isLocked(userData)) return false
-    return if (userData?.isQuestCompleted(this) == true) {
+    return if (userData?.progress?.isQuestCompleted(this) == true) {
         false
     } else {
         if (requirement?.quests.isNullOrEmpty()) {
@@ -57,7 +60,7 @@ fun Quest.isAvailable(userData: User?): Boolean {
             if (userData?.playerLevel ?: 71 >= requirement?.level ?: 0) {
                 requirement?.quests?.all { l1 ->
                     l1?.any {
-                        completedQuests?.contains(it) == true
+                        completedQuests?.contains(it.toString()) == true
                     } == true
                 } == true
             } else {
@@ -72,49 +75,70 @@ fun Quest.trader(): Traders {
 }
 
 fun Quest.QuestObjective.increment() {
-    userRefTracker("questObjectives/${this.id?.addQuotes()}/id").setValue(this.id?.toInt())
-    userRefTracker("questObjectives/${this.id?.addQuotes()}/progress").setValue(
-        ServerValue.increment(
-            1
-        )
+    userFirestore()?.update(
+        "progress.questObjectives.${this.id}.progress", FieldValue.increment(1)
     )
 }
 
 fun Quest.QuestObjective.decrement() {
-    userRefTracker("questObjectives/${this.id?.addQuotes()}/id").setValue(this.id?.toInt())
-    userRefTracker("questObjectives/${this.id?.addQuotes()}/progress").setValue(
-        ServerValue.increment(
-            -1
-        )
+    userFirestore()?.update(
+        "progress.questObjectives.${this.id}.progress", FieldValue.increment(-1)
     )
 }
 
 
-fun Quest.completed() {
+fun Quest.completed(success: ((Boolean) -> Unit)? = null) {
+    Timber.d("CLICKING COMPLETED")
     val quest = this
     log("quest_completed", quest.id, quest.title.toString(), "quest")
-    userRefTracker("quests/${quest.id.addQuotes()}").setValue(
-        mapOf(
-            "id" to quest.id.toInt(),
-            "completed" to true
-        )
-    )
 
-    //Mark quest objectives completed
-    for (obj in quest.objective!!) {
-        obj.completed()
+    val objectiveMap = quest.objective!!.associateBy({it.id}, {
+        mapOf(
+            "completed" to true,
+            "timestamp" to Timestamp.now()
+        )
+    })
+
+    userFirestore()?.set(
+        hashMapOf(
+            "progress" to hashMapOf(
+                "quests" to hashMapOf(
+                    quest.id to hashMapOf(
+                        "completed" to true,
+                        "timestamp" to Timestamp.now()
+                    )
+                ),
+                "questObjectives" to objectiveMap
+            )
+        ),
+        SetOptions.merge()
+    )?.addOnCompleteListener {
+        success?.invoke(it.isSuccessful)
+    }?.addOnCompleteListener {
+        if (!it.isSuccessful)
+            Timber.e(it.exception)
     }
 }
 
-fun Quest.QuestObjective.completed() {
+fun Quest.QuestObjective.completed(success: ((Boolean) -> Unit)? = null) {
     val objective = this
     log("objective_complete", objective.toString(), objective.toString(), "quest_objective")
-    userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").setValue(
-        mapOf(
-            "id" to objective.id?.toInt(),
-            "progress" to objective.number
-        )
+
+    userFirestore()?.set(
+        hashMapOf(
+            "progress" to hashMapOf(
+                "questObjectives" to hashMapOf(
+                    objective.id to hashMapOf(
+                        "completed" to true,
+                        "timestamp" to Timestamp.now(),
+                        "progress" to this.number
+                    )
+                )
+            )
+        ),
+        SetOptions.merge()
     )
+
     objective.target?.first()?.let {
         when (objective.type) {
             "collect", "find", "key", "build" -> {
@@ -128,7 +152,17 @@ fun Quest.QuestObjective.completed() {
 fun Quest.QuestObjective.undo() {
     val objective = this
     log("objective_un_complete", objective.toString(), objective.toString(), "quest_objective")
-    userRefTracker("questObjectives/${objective.id?.toInt()?.addQuotes()}").removeValue()
+
+    userFirestore()?.set(
+        hashMapOf(
+            "progress" to hashMapOf(
+                "questObjectives" to hashMapOf(
+                    objective.id to FieldValue.delete()
+                )
+            )
+        ),
+        SetOptions.merge()
+    )
 }
 
 fun Quest.undo(objectives: Boolean = false) {
@@ -141,16 +175,20 @@ fun Quest.undo(objectives: Boolean = false) {
         }
     }
 
-    userRefTracker("quests/${quest.id.addQuotes()}").setValue(
-        mapOf(
-            "id" to quest.id.toInt(),
-            "completed" to false
-        )
+    userFirestore()?.set(
+        hashMapOf(
+            "progress" to hashMapOf(
+                "quests" to hashMapOf(
+                    quest.id to FieldValue.delete()
+                )
+            )
+        ),
+        SetOptions.merge()
     )
 }
 
-fun User.toggleObjective(quest: Quest, objective: Quest.QuestObjective) {
-    if (isObjectiveCompleted(objective)) {
+fun FSUser.toggleObjective(quest: Quest, objective: Quest.QuestObjective) {
+    if (this.progress?.isQuestObjectiveCompleted(objective) == true) {
         objective.undo()
         quest.undo()
     } else {

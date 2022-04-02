@@ -5,23 +5,30 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.lifecycleScope
+import androidx.compose.ui.unit.dp
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.adapty.Adapty
 import com.adapty.errors.AdaptyError
 import com.adapty.models.GoogleValidationResult
@@ -41,27 +48,31 @@ import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
 import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
-import com.austinhodak.tarkovapi.utils.getTTApiKey
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
-import com.austinhodak.thehideout.billing.PremiumActivity
 import com.austinhodak.thehideout.billing.PremiumPusherActivity
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
+import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red500
-import com.austinhodak.thehideout.firebase.User
+import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.material.textfield.TextInputEditText
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.firebase.Timestamp
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -71,6 +82,11 @@ import timber.log.Timber
 import java.text.DecimalFormat
 import java.util.concurrent.ExecutionException
 import kotlin.math.round
+
+fun userFirestore() = uid()?.let {
+    Timber.d(it)
+    Firebase.firestore.collection("users").document(it)
+}
 
 @SuppressLint("CheckResult")
 fun Context.showDialog(vararg item: Pair<String, () -> Unit>) {
@@ -147,20 +163,20 @@ fun Double.getColor(reverse: Boolean = false, surfaceColor: Color): Color {
 
 fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
     //Flea Market Icon
-    if (this.source == "fleaMarket") return "https://tarkov-tools.com/images/flea-market-icon.jpg"
+    if (this.source == "fleaMarket") return "https://tarkov.dev/images/flea-market-icon.jpg"
 
     when {
         requirements.isNullOrEmpty() || showLevel == false -> {
             return when (this.source) {
-                ItemSourceName.prapor.rawValue -> "https://tarkov-tools.com/images/prapor-icon.jpg"
-                ItemSourceName.therapist.rawValue -> "https://tarkov-tools.com/images/therapist-icon.jpg"
-                ItemSourceName.fence.rawValue -> "https://tarkov-tools.com/images/fence-icon.jpg"
-                ItemSourceName.skier.rawValue -> "https://tarkov-tools.com/images/skier-icon.jpg"
-                ItemSourceName.peacekeeper.rawValue -> "https://tarkov-tools.com/images/peacekeeper-icon.jpg"
-                ItemSourceName.mechanic.rawValue -> "https://tarkov-tools.com/images/mechanic-icon.jpg"
-                ItemSourceName.ragman.rawValue -> "https://tarkov-tools.com/images/ragman-icon.jpg"
-                ItemSourceName.jaeger.rawValue -> "https://tarkov-tools.com/images/jaeger-icon.jpg"
-                else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+                ItemSourceName.prapor.rawValue -> "https://tarkov.dev/images/prapor-icon.jpg"
+                ItemSourceName.therapist.rawValue -> "https://tarkov.dev/images/therapist-icon.jpg"
+                ItemSourceName.fence.rawValue -> "https://tarkov.dev/images/fence-icon.jpg"
+                ItemSourceName.skier.rawValue -> "https://tarkov.dev/images/skier-icon.jpg"
+                ItemSourceName.peacekeeper.rawValue -> "https://tarkov.dev/images/peacekeeper-icon.jpg"
+                ItemSourceName.mechanic.rawValue -> "https://tarkov.dev/images/mechanic-icon.jpg"
+                ItemSourceName.ragman.rawValue -> "https://tarkov.dev/images/ragman-icon.jpg"
+                ItemSourceName.jaeger.rawValue -> "https://tarkov.dev/images/jaeger-icon.jpg"
+                else -> "https://tarkov.dev/images/prapor-icon.jpg"
             }
         }
         requirements.first().type == "loyaltyLevel" -> {
@@ -216,11 +232,11 @@ fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
                     4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f2/Jaeger_4_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221026"
                     else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/Jaeger_1_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221027"
                 }
-                else -> "https://tarkov-tools.com/images/prapor-icon.jpg"
+                else -> "https://tarkov.dev/images/prapor-icon.jpg"
             }
         }
         else -> {
-            return "https://tarkov-tools.com/images/flea-market-icon.jpg"
+            return "https://tarkov.dev/images/flea-market-icon.jpg"
         }
     }
 }
@@ -681,17 +697,16 @@ fun startPremiumPurchase(activity: Activity) {
 }
 
 fun isPremium(isPremium: (Boolean) -> Unit) {
-    Adapty.getPurchaserInfo { purchaserInfo, error ->
-        if (error == null) {
-            //Check for premium
-            isPremium.invoke(purchaserInfo?.accessLevels?.get("premium")?.isActive == true)
-        }
-    }
+    isPremium.invoke(UserSettingsModel.isPremiumUser.value)
+}
+
+fun isPremium(): Boolean {
+    return UserSettingsModel.isPremiumUser.value
 }
 
 fun Uri.acceptTeamInvite(joined: () -> Unit) {
     val teamID = this.lastPathSegment
-    userRefTracker("teams/$teamID").setValue(true).addOnSuccessListener {
+    userFirestore()?.update("teams.$teamID", true)?.addOnSuccessListener {
         questsFirebase.child("teams/$teamID/members/${uid()}/color").setValue("#F44336").addOnSuccessListener {
             joined()
         }
@@ -701,89 +716,160 @@ fun Uri.acceptTeamInvite(joined: () -> Unit) {
 fun syncTT(scope: CoroutineScope, ttRepository: TTRepository) {
     scope.launch {
         val ttProgress = ttRepository.getUserProgress().body()
-        questsFirebase.child("users/${uid()}").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                scope.launch {
-                    val userData = snapshot.getValue<User>()
+        fsUser.value?.let { userData ->
+            scope.launch {
+                if (UserSettingsModel.ttSyncQuest.value) {
+                    val ttQuestComplete = ttProgress?.quests?.filter { it.value.complete }
+                    val userQuestComplete = userData.progress?.quests?.filter { it.value.completed == true }
 
-                    if (UserSettingsModel.ttSyncQuest.value) {
-                        val ttQuestComplete = ttProgress?.quests?.filter { it.value.complete }
-                        val userQuestComplete = userData?.quests?.filter { it.value?.completed == true }
-
-                        //Quests that are done in TT not in ours.
-                        val quest1 = ttQuestComplete?.filterNot { userQuestComplete?.containsKey(it.key.addQuotes()) == true }
-                        quest1?.forEach { (id, _) ->
-                            userRefTracker("quests/${id.addQuotes()}").setValue(
-                                mapOf(
-                                    "id" to id.toInt(),
-                                    "completed" to true
+                    //Quests that are done in TT not in ours.
+                    val quest1 = ttQuestComplete?.filterNot { userQuestComplete?.containsKey(it.key.addQuotes()) == true }
+                    quest1?.forEach { (id, _) ->
+                        userFirestore()?.set(
+                            hashMapOf(
+                                "progress" to hashMapOf(
+                                    "quests" to hashMapOf(
+                                        id to hashMapOf(
+                                            "completed" to true,
+                                            "timestamp" to Timestamp.now()
+                                        )
+                                    )
                                 )
+                            ),
+                            SetOptions.merge()
+                        )
+                        /*userRefTracker("quests/${id.addQuotes()}").setValue(
+                            mapOf(
+                                "id" to id.toInt(),
+                                "completed" to true
                             )
-                        }
-
-                        //Quests that we have but TT does not
-                        val quest2 = userQuestComplete?.filterNot { ttQuestComplete?.containsKey(it.key.removeQuotes()) == true }
-                        quest2?.forEach { (id, _) ->
-                            ttRepository.updateQuest(id.removeQuotes().toInt(), TTUser.TTQuest(null, true))
-                        }
-
-                        val ttObjectiveComplete = ttProgress?.objectives?.filter { it.value.complete }
-                        val userObjectiveComplete = userData?.questObjectives?.filter { it.value?.completed == true }
-
-                        //Objective done in TT not in ours
-                        val objective1 = ttObjectiveComplete?.filterNot { userObjectiveComplete?.containsKey(it.key.addQuotes()) == true }
-                        objective1?.forEach { (id, _) ->
-                            userRefTracker("questObjectives/${id.addQuotes()}").setValue(
-                                mapOf(
-                                    "id" to id.toInt(),
-                                    "completed" to true
-                                )
-                            )
-                        }
-
-                        //Objective that we have but TT does not
-                        val objective2 = userObjectiveComplete?.filterNot { ttObjectiveComplete?.containsKey(it.key.removeQuotes()) == true }
-                        objective2?.forEach { (id, _) ->
-                            ttRepository.updateQuestObjective(id.removeQuotes().toInt(), TTUser.TTObjective(null, true, null))
-                        }
+                        )*/
                     }
 
-                    //
-                    // HIDEOUT
-                    //
+                    //Quests that we have but TT does not
+                    val quest2 = userQuestComplete?.filterNot { ttQuestComplete?.containsKey(it.key.removeQuotes()) == true }
+                    quest2?.forEach { (id, _) ->
+                        ttRepository.updateQuest(id.removeQuotes().toInt(), TTUser.TTQuest(null, true))
+                    }
 
-                    if (UserSettingsModel.ttSyncHideout.value) {
-                        /*val ttHideoutComplete = ttProgress?.hideout?.filter { it.value.complete }
-                    val userHideoutComplete = userData?.hideoutModules?.filter { it.value?.complete == true }
+                    val ttObjectiveComplete = ttProgress?.objectives?.filter { it.value.complete }
+                    val userObjectiveComplete = userData.progress?.questObjectives?.filter { it.value?.completed == true }
+
+                    //Objective done in TT not in ours
+                    val objective1 = ttObjectiveComplete?.filterNot { userObjectiveComplete?.containsKey(it.key.addQuotes()) == true }
+                    objective1?.forEach { (id, _) ->
+                        userFirestore()?.set(
+                            hashMapOf(
+                                "progress" to hashMapOf(
+                                    "questObjectives" to hashMapOf(
+                                        id to hashMapOf(
+                                            "completed" to true,
+                                            "timestamp" to Timestamp.now()
+                                        )
+                                    )
+                                )
+                            ),
+                            SetOptions.merge()
+                        )
+                        /*userRefTracker("questObjectives/${id.addQuotes()}").setValue(
+                            mapOf(
+                                "id" to id.toInt(),
+                                "completed" to true
+                            )
+                        )*/
+                    }
+
+                    //Objective that we have but TT does not
+                    val objective2 = userObjectiveComplete?.filterNot { ttObjectiveComplete?.containsKey(it.key.removeQuotes()) == true }
+                    objective2?.forEach { (id, obj) ->
+                        ttRepository.updateQuestObjective(id.removeQuotes().toInt(), TTUser.TTObjective(null, true, null))
+                    }
+                }
+
+                //
+                // HIDEOUT
+                //
+
+                if (UserSettingsModel.ttSyncHideout.value) {
+                    val ttHideoutComplete = ttProgress?.hideout?.filter { it.value.complete }
+                    val userHideoutComplete = userData.progress?.hideoutModules?.filter { it.value?.completed == true }
 
                     //Hideout done in TT not in ours
                     val hideout1 = ttHideoutComplete?.filterNot { userHideoutComplete?.containsKey(it.key.addQuotes()) == true }
+                    hideout1?.forEach { (id, _) ->
+                        userFirestore()?.set(
+                            hashMapOf(
+                                "progress" to hashMapOf(
+                                    "hideoutModules" to hashMapOf(
+                                        id to hashMapOf(
+                                            "completed" to true,
+                                            "timestamp" to Timestamp.now()
+                                        )
+                                    )
+                                )
+                            ),
+                            SetOptions.merge()
+                        )
+                        /*userRefTracker("hideoutModules/${id.addQuotes()}").setValue(
+                            mapOf(
+                                "id" to id.toInt(),
+                                "complete" to true
+                            )
+                        )*/
+                    }
 
                     //Hideout that we have but TT does not
                     val hideout2 = userHideoutComplete?.filterNot { ttHideoutComplete?.containsKey(it.key.removeQuotes()) == true }
+                    hideout2?.forEach { (id, _) ->
+                        ttRepository.updateHideout(id.removeQuotes().toInt(), TTUser.TTQuest(null, true))
+                    }
 
                     val ttHideoutObjectiveComplete = ttProgress?.hideout?.filter { it.value.complete }
-                    val userHideoutObjectiveComplete = userData?.hideoutModules?.filter { it.value?.complete == true }
+                    val userHideoutObjectiveComplete = userData.progress?.hideoutModules?.filter { it.value?.completed == true }
 
                     //Objective done in TT not in ours
                     val hideoutObjective1 = ttHideoutObjectiveComplete?.filterNot { userHideoutObjectiveComplete?.containsKey(it.key.addQuotes()) == true }
+                    hideoutObjective1?.forEach { (id, _) ->
+                        userFirestore()?.set(
+                            hashMapOf(
+                                "progress" to hashMapOf(
+                                    "hideoutObjectives" to hashMapOf(
+                                        id to hashMapOf(
+                                            "completed" to true,
+                                            "timestamp" to Timestamp.now()
+                                        )
+                                    )
+                                )
+                            ),
+                            SetOptions.merge()
+                        )
+                        /*userRefTracker("hideoutObjectives/${id.addQuotes()}").setValue(
+                            mapOf(
+                                "id" to id.toInt(),
+                                "completed" to true
+                            )
+                        )*/
+                    }
 
                     //Objective that we have but TT does not
-                    val hideoutObjective2 = userHideoutObjectiveComplete?.filterNot { ttHideoutObjectiveComplete?.containsKey(it.key.removeQuotes()) == true }*/
+                    val hideoutObjective2 = userHideoutObjectiveComplete?.filterNot { ttHideoutObjectiveComplete?.containsKey(it.key.removeQuotes()) == true }
+                    hideoutObjective2?.forEach { (id, _) ->
+                        ttRepository.updateHideoutObjective(id.removeQuotes().toInt(), TTUser.TTObjective(null, true, null))
                     }
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
+        }
     }
 }
 
-fun User.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
+fun FSUser.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
     val userLevel = UserSettingsModel.playerLevel.value
     scope.launch {
+        val quests = progress?.quests
+        val questObjectives = progress?.questObjectives
+        val hideoutModules = progress?.hideoutModules
+        val hideoutObjectives = progress?.hideoutObjectives
+
         val ttProgress = ttRepository.getUserProgress().body()
         ttProgress?.level?.let { level ->
             if (level != userLevel) {
@@ -816,7 +902,11 @@ fun User.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
                     if (questObjectives?.containsKey(id) == true) {
                         questObjectives?.get(id)?.let { userObjective ->
                             if (userObjective.completed == false) {
-                                ttRepository.updateQuestObjective(id.toInt(), TTUser.TTObjective(null, false, null))
+                                if (userObjective.progress != null && userObjective.progress ?: 0 > 0) {
+                                    ttRepository.updateQuestObjective(id.toInt(), TTUser.TTObjective(null, false, userObjective.progress?.toLong()))
+                                } else {
+                                    ttRepository.updateQuestObjective(id.toInt(), TTUser.TTObjective(null, false, null))
+                                }
                             }
                         }
                     } else {
@@ -836,12 +926,11 @@ fun User.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
         }
 
         if (UserSettingsModel.ttSyncHideout.value) {
-            //TODO Enable this once endpoint is fixed.
-            /*ttProgress?.hideout?.forEach { (id, ttObjective) ->
+            ttProgress?.hideout?.forEach { (id, ttObjective) ->
                 if (ttObjective.complete) {
                     if (hideoutModules?.containsKey(id) == true) {
                         hideoutModules?.get(id)?.let { userObjective ->
-                            if (userObjective.complete == false) {
+                            if (userObjective.completed == false) {
                                 ttRepository.updateHideout(id.toInt(), TTUser.TTQuest(null, false))
                             }
                         }
@@ -851,22 +940,75 @@ fun User.pushToTT(scope: CoroutineScope, ttRepository: TTRepository) {
                 }
             }
             hideoutModules?.forEach { (id, objective) ->
-                if (objective?.complete == true) {
+                if (objective?.completed == true) {
                     ttRepository.updateHideout(id.replace("\"", "").toInt(), TTUser.TTQuest(null, true))
                 }
-            }*/
+            }
+
+            ttProgress?.hideoutObjectives?.forEach { (id, ttObjective) ->
+                if (ttObjective.complete) {
+                    if (hideoutObjectives?.containsKey(id) == true) {
+                        hideoutObjectives?.get(id)?.let { userObjective ->
+                            if (userObjective.completed == false) {
+                                ttRepository.updateHideoutObjective(id.toInt(), TTUser.TTObjective(null, false, have = null))
+                            }
+                        }
+                    } else {
+                        ttRepository.updateHideoutObjective(id.toInt(), TTUser.TTObjective(null, false, have = null))
+                    }
+                }
+            }
+            hideoutObjectives?.forEach { (id, objective) ->
+                if (objective?.completed == true) {
+                    ttRepository.updateHideoutObjective(id.replace("\"", "").toInt(), TTUser.TTObjective(null, true, have = null))
+                }
+            }
         }
     }
 }
 
 fun TTUser.pushToDB() {
     //Wipe data.
-    userRefTracker("quests").removeValue()
+    /*userRefTracker("quests").removeValue()
     userRefTracker("questObjectives").removeValue()
     userRefTracker("hideoutModules").removeValue()
-    userRefTracker("hideoutObjectives").removeValue()
+    userRefTracker("hideoutObjectives").removeValue()*/
 
-    quests.forEach {
+    //Delete progress first.
+    userFirestore()?.set(hashMapOf("progress" to FieldValue.delete()), SetOptions.merge())?.addOnSuccessListener {
+        userFirestore()?.set(
+            hashMapOf(
+                "progress" to hashMapOf(
+                    "quests" to quests.mapValues {
+                        hashMapOf(
+                            "completed" to it.value.complete,
+                            "timestamp" to Timestamp.now()
+                        )
+                    },
+                    "questObjectives" to objectives.mapValues {
+                        hashMapOf(
+                            "completed" to it.value.complete,
+                            "timestamp" to Timestamp.now()
+                        )
+                    },
+                    "hideoutModules" to hideout.mapValues {
+                        hashMapOf(
+                            "completed" to it.value.complete,
+                            "timestamp" to Timestamp.now()
+                        )
+                    },
+                    "hideoutObjectives" to hideoutObjectives.mapValues {
+                        hashMapOf(
+                            "completed" to it.value.complete,
+                            "timestamp" to Timestamp.now()
+                        )
+                    }
+                )
+            ),
+            SetOptions.merge()
+        )
+    }
+    /*quests.forEach {
         userRefTracker("quests/${it.key.addQuotes()}").updateChildren(it.value.toMap(it.key))
     }
 
@@ -880,7 +1022,9 @@ fun TTUser.pushToDB() {
 
     hideoutObjectives.forEach {
         userRefTracker("hideoutObjectives/${it.key.addQuotes()}").updateChildren(it.value.toMap(it.key))
-    }
+    }*/
+
+
 }
 
 fun isWorkScheduled(context: Context, tag: String): Boolean {
@@ -925,4 +1069,149 @@ fun isWorkRunning(context: Context, tag: String): Boolean {
 
 fun openStatusSite(context: Context) {
     "https://status.escapefromtarkov.com/".openWithCustomTab(context)
+}
+
+fun ttSyncEnabledPremium(isEnabled: (Boolean) -> Unit) {
+    if (isPremium() || isDebug()) {
+        isEnabled(UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value)
+    } else {
+        isEnabled(false)
+    }
+}
+
+fun ttSyncEnabledPremium(): Boolean {
+    return if (isPremium() || isDebug()) {
+        UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value
+    } else {
+        false
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Context.openNotificationSettings(channelID: String) {
+    val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+    intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+    intent.putExtra(Settings.EXTRA_CHANNEL_ID, channelID)
+    startActivity(intent)
+}
+
+@Composable
+fun fadeImagePainter(url: String?) = rememberImagePainter(data = url, builder = { crossfade(true) })
+
+@Composable
+fun fadeImagePainterPlaceholder(url: String?, @DrawableRes placeHolder: Int = R.drawable.unknown_item_icon) = rememberImagePainter(data = url, builder = { crossfade(true); placeholder(placeHolder) })
+
+fun Modifier.border(): Modifier = this.border(0.25.dp, BorderColor)
+
+fun String.traderIconSource(name: String? = this.split(" ")[0].lowercase(), level: Int? = this.split(" ")[1].replace("LL", "").toIntOrNull()): String {
+    return when (name) {
+        "prapor" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fc/Prapor_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110125"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/7/75/Prapor_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110134"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/64/Prapor_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110141"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f1/Prapor_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110153"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fc/Prapor_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110125"
+        }
+        "therapist" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fb/Therapist_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110312"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5f/Therapist_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110321"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f6/Therapist_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110328"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Therapist_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110338"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Therapist_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110338"
+        }
+        "fence" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f7/Fence_Portrait.png/revision/latest/scale-to-width-down/127?cb=20180425012754"
+        "ragman" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e5/Ragman_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110204"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/20/Ragman_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110215"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ed/Ragman_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110221"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1c/Ragman_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110230"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e5/Ragman_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110204"
+        }
+        "peacekeeper" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Peacekeeper_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110041"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/96/Peacekeeper_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110052"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/95/Peacekeeper_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110059"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3e/Peacekeeper_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110108"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/af/Peacekeeper_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110041"
+        }
+        "skier" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/eb/Skier_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110238"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/12/Skier_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110248"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/65/Skier_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110257"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e8/Skier_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110304"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/eb/Skier_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110238"
+        }
+        "mechanic" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3f/Mechanic_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822105848"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/9b/Mechanic_2_icon.png/revision/latest/scale-to-width-down/130?cb=20180822105910"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b8/Mechanic_3_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110019"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/bd/Mechanic_4_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110029"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3f/Mechanic_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822105848"
+        }
+        "jaeger" -> when (level) {
+            1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/Jaeger_1_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221027"
+            2 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/18/Jaeger_2_icon.png/revision/latest/scale-to-width-down/130?cb=20191101214208"
+            3 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ed/Jaeger_3_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221028"
+            4 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f2/Jaeger_4_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221026"
+            else -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d4/Jaeger_1_icon.png/revision/latest/scale-to-width-down/130?cb=20191101221027"
+        }
+        else -> "https://tarkov.dev/images/prapor-icon.jpg"
+    }
+}
+
+fun String.currentTraderLevel(): Int {
+    return when (this.lowercase()) {
+        "prapor" -> {
+            return UserSettingsModel.praporLevel.value.toString().toInt()
+        }
+        "therapist" -> {
+            return UserSettingsModel.therapistLevel.value.toString().toInt()
+        }
+        "fence" -> {
+            return UserSettingsModel.fenceLevel.value.toString().toInt()
+        }
+        "skier" -> {
+            return UserSettingsModel.skierLevel.value.toString().toInt()
+        }
+        "peacekeeper" -> {
+            return UserSettingsModel.peacekeeperLevel.value.toString().toInt()
+        }
+        "mechanic" -> {
+            return UserSettingsModel.mechanicLevel.value.toString().toInt()
+        }
+        "ragman" -> {
+            return UserSettingsModel.ragmanLevel.value.toString().toInt()
+        }
+        "jaeger" -> {
+            return UserSettingsModel.jaegerLevel.value.toString().toInt()
+        }
+        else -> 1
+    }
+}
+
+fun String.getHideoutIcon(): Int {
+    Timber.d(this.lowercase())
+    return when (this.lowercase()) {
+        "air filtering unit" -> com.austinhodak.tarkovapi.R.drawable.air_filtering_unit_portrait
+        "bitcoin farm" -> com.austinhodak.tarkovapi.R.drawable.bitcoin_farm_portrait
+        "booze generator" -> com.austinhodak.tarkovapi.R.drawable.booze_generator_portrait
+        "generator" -> com.austinhodak.tarkovapi.R.drawable.generator_portrait
+        "heating" -> com.austinhodak.tarkovapi.R.drawable.heating_portrait
+        "illumination" -> com.austinhodak.tarkovapi.R.drawable.illumination_portrait
+        "intelligence center" -> com.austinhodak.tarkovapi.R.drawable.intelligence_center_portrait
+        "lavatory" -> com.austinhodak.tarkovapi.R.drawable.lavatory_portrait
+        "library" -> com.austinhodak.tarkovapi.R.drawable.library_portrait
+        "medstation" -> com.austinhodak.tarkovapi.R.drawable.medstation_portrait
+        "nutrition unit" -> com.austinhodak.tarkovapi.R.drawable.nutrition_unit_portrait
+        "rest space" -> com.austinhodak.tarkovapi.R.drawable.rest_space_portrait
+        "scav case" -> com.austinhodak.tarkovapi.R.drawable.scav_case_portrait
+        "security" -> com.austinhodak.tarkovapi.R.drawable.security_portrait
+        "shooting range" -> com.austinhodak.tarkovapi.R.drawable.shooting_range_portrait
+        "solar power" -> com.austinhodak.tarkovapi.R.drawable.solar_power_portrait
+        "stash" -> com.austinhodak.tarkovapi.R.drawable.stash_portrait
+        "vents" -> com.austinhodak.tarkovapi.R.drawable.vents_portrait
+        "water collector" -> com.austinhodak.tarkovapi.R.drawable.water_collector_portrait
+        "workbench" -> com.austinhodak.tarkovapi.R.drawable.workbench_portrait
+        else -> com.austinhodak.tarkovapi.R.drawable.workbench_portrait
+    }
 }

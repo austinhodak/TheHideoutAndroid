@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,9 +31,11 @@ import coil.compose.rememberImagePainter
 import com.adapty.Adapty
 import com.adapty.models.PaywallModel
 import com.android.billingclient.api.*
+import com.austinhodak.thehideout.PremiumThanksActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.purchase
 import com.austinhodak.thehideout.utils.restartNavActivity
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -77,10 +76,10 @@ class PremiumPusherActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        billingClient = BillingClient.newBuilder(this)
+        /*billingClient = BillingClient.newBuilder(this)
             .setListener(purchasesUpdatedListener)
             .enablePendingPurchases()
-            .build()
+            .build()*/
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -100,7 +99,7 @@ class PremiumPusherActivity : ComponentActivity() {
                         mutableStateOf(null)
                     }
 
-                    billingClient.startConnection(object : BillingClientStateListener {
+                    /*billingClient.startConnection(object : BillingClientStateListener {
                         override fun onBillingServiceDisconnected() {
                             billingClient.startConnection(this)
                         }
@@ -122,9 +121,9 @@ class PremiumPusherActivity : ComponentActivity() {
                             }
                             Timber.d(billingResult.responseCode.toString())
                         }
-                    })
+                    })*/
 
-                    Adapty.getPaywalls(true) { paywalls, products, error ->
+                    Adapty.getPaywalls { paywalls, products, error ->
                         if (error == null) {
                             paywalls?.find { it.developerId == "premium" }?.let {
                                 paywall = it
@@ -162,6 +161,8 @@ class PremiumPusherActivity : ComponentActivity() {
             "• Custom Map Markers <br>• Tarkov Tracker Integration <br>• Team Quest Tracking <br>• Quest Tracker Integration with Maps <br>• Team Map Collaboration <br>• Discord Role and Special Access <br>• Lots more! "
         }
 
+        var isProcessing by remember { mutableStateOf(false) }
+
         Image(
             painter = image,
             contentDescription = "Background Image",
@@ -169,12 +170,13 @@ class PremiumPusherActivity : ComponentActivity() {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxHeight()
         )
-        if (paywall == null) {
+        if (paywall == null || isProcessing) {
             LoadingItem()
         }
         AnimatedVisibility(
-            visible = paywall != null,
-            enter = fadeIn()
+            visible = paywall != null && !isProcessing,
+            enter = fadeIn(),
+            exit = fadeOut()
         ) {
             Scaffold(
                 topBar = {
@@ -293,15 +295,29 @@ class PremiumPusherActivity : ComponentActivity() {
                             Timber.d(product.toString())
                             Button(
                                 onClick = {
-                                    product.purchase(this@PremiumPusherActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, e ->
-                                        if (e == null) {
-                                            Toast.makeText(this@PremiumPusherActivity, "Thank you!", Toast.LENGTH_SHORT).show()
-                                            if (intent.hasExtra("setResult")) {
-                                                setResult(RESULT_OK)
-                                                finish()
-                                            } else {
-                                                restartNavActivity()
+                                    Adapty.getPurchaserInfo { purchaserInfo, error ->
+                                        Timber.d(purchaserInfo.toString())
+                                        if (purchaserInfo?.subscriptions?.containsKey("premium_lifetime") == false || purchaserInfo?.subscriptions?.get("premium_lifetime")?.isActive == false) {
+                                            isProcessing = true
+                                            product.purchase(this@PremiumPusherActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, e ->
+                                                if (e == null) {
+                                                    if (intent.hasExtra("setResult")) {
+                                                        openActivity(PremiumThanksActivity::class.java)
+                                                        setResult(RESULT_OK)
+                                                        finish()
+                                                    } else {
+                                                        openActivity(PremiumThanksActivity::class.java) {
+                                                            putBoolean("restart", true)
+                                                        }
+                                                        //restartNavActivity()
+                                                    }
+                                                    isProcessing = false
+                                                } else {
+                                                    isProcessing = false
+                                                }
                                             }
+                                        } else {
+                                            Toast.makeText(this@PremiumPusherActivity, "You already bought this.", Toast.LENGTH_SHORT).show()
                                         }
                                     }
                                 },

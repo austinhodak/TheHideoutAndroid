@@ -12,12 +12,16 @@ class TarkovRepo @Inject constructor(
     private val weaponDao: WeaponDao,
     private val questDao: QuestDao,
     private val barterDao: BarterDao,
-    private val craftDao: CraftDao
+    private val craftDao: CraftDao,
+    private val priceDao: PriceDao
 ) {
     fun getQuestDao() = questDao
     fun getBarterDao() = barterDao
     fun getCraftDao() = craftDao
     fun getItemDao() = itemDao
+    fun getPriceDao() = priceDao
+
+    fun isPriceDaoEmpty() = priceDao.count() == 0
 
     val getAllAmmo: Flow<List<Ammo>> get() = ammoDao.getAllAmmo()
     fun getAmmoByID(id: String): Flow<Ammo> = ammoDao.getAmmo(id)

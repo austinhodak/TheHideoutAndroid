@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.FleaVisiblePrice
+import com.austinhodak.tarkovapi.IconSelection
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.utils.asCurrency
@@ -34,6 +35,8 @@ import com.austinhodak.thehideout.utils.*
 fun FleaItem(
     item: Item,
     priceDisplay: FleaVisiblePrice,
+    iconDisplay: IconSelection,
+    modifier: Modifier = Modifier,
     onClick: (String) -> Unit
 ) {
 
@@ -52,8 +55,20 @@ fun FleaItem(
         else -> itemDefault
     }
 
+    val icon = when (iconDisplay) {
+        IconSelection.ORIGINAL -> item.pricing?.getCleanIcon()
+        IconSelection.TRANSPARENT -> item.pricing?.getTransparentIcon()
+        IconSelection.GAME -> item.pricing?.getIcon()
+    }
+
+    val border = when (iconDisplay) {
+        IconSelection.ORIGINAL -> BorderColor
+        IconSelection.TRANSPARENT -> Color.Unspecified
+        IconSelection.GAME -> Color.Unspecified
+    }
+
     Card(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).combinedClickable(
+        modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp).combinedClickable(
             onClick = {
                 onClick(item.id)
             },
@@ -87,14 +102,13 @@ fun FleaItem(
                     .fillMaxHeight()
                     .padding(end = 16.dp))
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    rememberImagePainter(data = icon, builder = { crossfade(true); placeholder(R.drawable.unknown_item_icon) }),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)
                         .width(48.dp)
                         .height(48.dp)
-                        .border((0.25).dp, color = BorderColor)
-
+                        .border((0.25).dp, color = border)
                 )
                 Column(
                     Modifier
@@ -180,6 +194,29 @@ fun SmallBuyPrice(pricing: Pricing?) {
         modifier = Modifier.padding(top = 0.dp)
     ) {
         Image(
+            painter = fadeImagePainter(i.traderImage(false)),
+            contentDescription = "Trader",
+            modifier = Modifier.size(16.dp)
+        )
+        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+            Text(
+                text = i.getPriceAsCurrency() ?: "",
+                style = MaterialTheme.typography.caption,
+                fontSize = 10.sp,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun SmallSellPrice(pricing: Pricing?) {
+    val i = pricing?.getHighestSellRequirements() ?: return
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(top = 0.dp)
+    ) {
+        Image(
             painter = rememberImagePainter(data = i.traderImage(false)),
             contentDescription = "Trader",
             modifier = Modifier.size(16.dp)
@@ -220,7 +257,7 @@ fun TraderSmall(item: Pricing?) {
                 )
             }
             Image(
-                painter = rememberImagePainter(data = i.traderImage()),
+                painter = rememberImagePainter(data = i.traderImage(), builder = { crossfade(true) }),
                 contentDescription = "Trader",
                 modifier = Modifier.size(16.dp)
             )
