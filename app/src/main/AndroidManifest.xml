@@ -4,7 +4,6 @@
     package="com.austinhodak.thehideout">
 
     <application
-        android:debuggable="true"
         android:name=".Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

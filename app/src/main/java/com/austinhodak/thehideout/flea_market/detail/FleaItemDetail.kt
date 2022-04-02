@@ -208,9 +208,6 @@ class FleaItemDetail : GodActivity() {
                             FleaDetailToolbar(
                                 item = item,
                                 actions = {
-                                    /*IconButton(onClick = {}) {
-                                        Icon(painter = painterResource(id = R.drawable.icons8_add_list_96), contentDescription = "Add to List")
-                                    }*/
                                     IconButton(onClick = {
                                         isFavorited = if (isFavorited == true) {
                                             extras.removeFavorite(itemID)
@@ -255,21 +252,6 @@ class FleaItemDetail : GodActivity() {
                         Box(modifier = Modifier.padding(innerPadding)) {
                             Crossfade(
                                 targetState = selectedNavItem,
-                                /*transitionSpec = {
-                                    if (targetState > initialState) {
-                                        slideInVertically() {
-                                            it
-                                        } with slideOutVertically() {
-                                            -it
-                                        }
-                                    } else {
-                                        slideInVertically() {
-                                           -it
-                                        } with slideOutVertically() {
-                                            it
-                                        }
-                                    }
-                                },*/
                                 modifier = Modifier.fillMaxHeight()
                             ) {
                                 when (it) {
@@ -1328,7 +1310,7 @@ class FleaItemDetail : GodActivity() {
                     )
                     Column(
                         Modifier
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .padding(start = 16.dp, top = 16.dp, bottom = 16.dp)
                             .weight(1f),
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -1720,8 +1702,12 @@ class FleaItemDetail : GodActivity() {
                         modifier = Modifier.padding(bottom = 8.dp),
                         color = DividerDark
                     )
-                    BasicStatRow(title = "WEIGHT", text = "${item?.Weight}kg")
+                    BasicStatRow(title = "WEIGHT", text = item?.getFormattedWeight())
                     if (item?.pricing?.types?.contains(ItemType.container) == true) {
+                        Divider(
+                            modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+                            color = DividerDark
+                        )
                         BasicStatRow(title = "CAPACITY", text = "${item.getTotalInternalSize()} Slots")
                         BasicStatRow(title = "PRICE/SLOT", text = "${(item.getPrice() / item.getTotalInternalSize()).asCurrency()}/slot")
                     }
