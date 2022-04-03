@@ -119,7 +119,7 @@ class PickerActivity : GodActivity() {
                             "weapons" -> {
                                 tarkovRepo.getAllWeapons().collect {
                                     list = it.filter {
-                                        it.pricing != null
+                                        it.pricing != null && it.weapClass != null
                                     }
                                 }
                             }
