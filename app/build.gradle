@@ -38,7 +38,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 32
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 15001
+        versionCode 15009
         // [1]-[0].[2].[0].[0]
         versionName "1.5.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -71,7 +71,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

@@ -19,9 +19,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
--keepattributes Signature
-
--keep class com.austinhodak.tarkovapi.models.** { *; }
--keep class com.austinhodak.tarkovapi.room.models.** { *; }
--keep class com.austinhodak.tarkovapi.tarkovtracker.models.** { *; }
