@@ -3,6 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.google.gson.Gson
 import org.json.JSONObject
 import timber.log.Timber
@@ -59,6 +60,10 @@ data class Weapon(
     val weapUseType: String? = null,
     val RecoilForceUp: Int? = null,
     val RecoilForceBack: Int? = null,
+    //Knife
+    //val knifeHitSlashDam: Double? = null,
+    //val knifeHitStabDam: Double? = null,
+
     val pricing: Pricing? = null
 ) : Serializable {
     data class Chamber(

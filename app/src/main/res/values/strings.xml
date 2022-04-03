@@ -190,5 +190,7 @@
     <string name="about">About</string>
     <string name="socials">Socials</string>
     <string name="more_about">More About</string>
+    <string name="grenades">Grenades</string>
+    <string name="melee">Melee</string>
 
 </resources>

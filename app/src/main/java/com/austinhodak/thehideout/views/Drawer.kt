@@ -76,8 +76,10 @@ import kotlinx.coroutines.*
 val weaponCategories = mutableListOf(
     Triple(R.string.assault_rifles, 301, "assaultRifle"),
     Triple(R.string.assault_carbines, 302, "assaultCarbine"),
+    Triple(R.string.grenades, 309, "grenade"),
     Triple(R.string.lmg, 303, "machinegun"),
     Triple(R.string.marksman_rifles, 306, "marksmanRifle"),
+    Triple(R.string.melee, 310, "melee"),
     Triple(R.string.pistols, 308, "pistol"),
     Triple(R.string.sniper_rifles, 307, "sniperRifle"),
     Triple(R.string.shotguns, 305, "shotgun"),

@@ -82,8 +82,10 @@ abstract class AppDatabase : RoomDatabase() {
                 val mods: MutableList<Mod> = mutableListOf()
                 val weapons: MutableList<Weapon> = mutableListOf()
                 for (item in jsonArray.iterator<JSONObject>()) {
-                    when (item.itemType()) {
+                    when (item.getItemType()) {
                         ItemTypes.AMMO -> ammo.add(item.toAmmoItem())
+                        ItemTypes.GRENADE,
+                        ItemTypes.MELEE,
                         ItemTypes.WEAPON -> {
                             val weapon = item.getJSONObject("_props").toWeapon(item.getString("_id"))
                             weapons.add(weapon)

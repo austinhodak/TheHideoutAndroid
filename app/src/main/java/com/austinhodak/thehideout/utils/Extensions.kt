@@ -430,7 +430,7 @@ fun getCaliberShortName(caliber: String?): String {
         "Caliber9x19PARA" -> "9x19mm"
         "Caliber9x21" -> "9x21mm"
         "Caliber9x39" -> "9x39mm"
-        else -> "Unknown Ammo Type"
+        else -> ""
     }
 }
 
