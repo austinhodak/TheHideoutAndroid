@@ -137,8 +137,12 @@ data class Pricing(
     ) : Serializable {
         data class Requirement(
             val type: String,
-            val value: Int
+            val value: Int?
         ) : Serializable
+
+        fun isQuestLocked(): Boolean {
+            return requirements.any { it.type == "questCompleted" }
+        }
 
         fun getPriceAsCurrency(): String? {
             return price?.asCurrency(currency ?: "R")
@@ -159,7 +163,7 @@ data class Pricing(
             if (price == 0) return false
             if (source == "fleaMarket") {
                 val playerLevel = UserSettingsModel.playerLevel.value
-                return playerLevel >= requirements.first().value
+                return playerLevel >= requirements.first().value ?: 1
             }
             return when (source) {
                 "prapor" -> {
@@ -211,7 +215,7 @@ data class Pricing(
                 "Flea Market"
             } else {
                 if (requirements.isNotEmpty() && requirements.first().type == "loyaltyLevel") {
-                    "${source?.sourceTitle()} ${requirements.first().value.getTraderLevel()}"
+                    "${source?.sourceTitle()} ${requirements.first().value?.getTraderLevel()}"
                 } else {
                     source?.sourceTitle() ?: ""
                 }

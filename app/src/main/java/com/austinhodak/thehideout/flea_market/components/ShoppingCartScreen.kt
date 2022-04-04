@@ -282,7 +282,7 @@ private fun ShoppingFleaItem(
                             .border((0.25).dp, color = BorderColor)
                     )
                     val text = if (buy?.requirements?.isNotEmpty() == true) {
-                        "${buy.source?.sourceTitle()} ${buy.requirements.first().value.getTraderLevel()}"
+                        "${buy.source?.sourceTitle()} ${buy.requirements.first().value?.getTraderLevel()}"
                     } else {
                         "${buy?.source?.sourceTitle()}"
                     }

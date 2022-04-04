@@ -179,8 +179,9 @@ fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
                 else -> "https://tarkov.dev/images/prapor-icon.jpg"
             }
         }
-        requirements.first().type == "loyaltyLevel" -> {
-            val level = requirements.first().value
+        requirements.first().type == "loyaltyLevel" || isQuestLocked() -> {
+            val level = requirements.find { it.type == "loyaltyLevel" }?.value ?: 1
+            Timber.d("Loyalty level: $level")
             return when (this.source) {
                 "prapor" -> when (level) {
                     1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fc/Prapor_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110125"
