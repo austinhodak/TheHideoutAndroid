@@ -60,6 +60,8 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val discordName by stringPref(key = "discordName")
 
     val fleaVisiblePrice by enumPref(FleaVisiblePrice.DEFAULT, "fleaVisiblePrice")
+    val fleaVisibleTraderPrice by enumPref(FleaVisibleTraderPrice.BEST_SELL, "fleaVisibleTraderPrice")
+    val fleaVisibleName by enumPref(FleaVisibleName.NAME, "fleaVisibleName")
 
     // Sorting and filtering
     val fleaSort by intPref(2, "fleaSort")
@@ -163,6 +165,16 @@ enum class FleaVisiblePrice {
     LOW,
     AVG,
     HIGH
+}
+
+enum class FleaVisibleTraderPrice {
+    BEST_SELL,
+    BEST_BUY
+}
+
+enum class FleaVisibleName {
+    NAME,
+    SHORT_NAME
 }
 
 enum class FleaHideTime {

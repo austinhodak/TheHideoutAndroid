@@ -38,6 +38,7 @@ data class Pricing(
     val containsItem: List<Contains>?
 ) : Serializable {
 
+    fun isDisabled(): Boolean = types.contains(ItemType.disabled)
     fun hasChild(): Boolean = containsItem?.isNotEmpty() == true
 
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov.dev/images/unknown-item-icon.jpg"
@@ -96,7 +97,7 @@ data class Pricing(
     }
 
     fun getCheapestTrader(): BuySellPrice? {
-        return buyFor?.filterNot { it.isFleaMarket() }?.minByOrNull { it.price ?: Int.MAX_VALUE }
+        return buyFor?.filterNot { it.isFleaMarket() || !it.isRequirementMet() }?.minByOrNull { it.price ?: Int.MAX_VALUE }
     }
 
     fun getPrice(): Int {

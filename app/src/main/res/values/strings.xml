@@ -180,7 +180,7 @@
     <string name="opening_screen">Opening Screen</string>
     <string name="hide_premium_banner">Hide Premium Banner</string>
     <string name="language">Language</string>
-    <string name="list_price">List Price</string>
+    <string name="list_price">Item Display Price</string>
     <string name="icon_display">Icon Display</string>
     <string name="only_show_items_scanned">Only Show Items Scanned</string>
     <string name="hide_banned_from_flea">Hide Items Banned From Flea</string>

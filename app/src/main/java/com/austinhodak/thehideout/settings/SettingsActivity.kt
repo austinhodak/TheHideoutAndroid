@@ -524,9 +524,21 @@ class SettingsActivity : GodActivity() {
                                 subScreen {
                                     title = getString(R.string.flea_market).asText()
                                     icon = R.drawable.ic_baseline_storefront_24.asIcon()
+                                    singleChoice(UserSettingsModel.fleaVisibleName, FleaVisibleName.values(), {
+                                        when (it) {
+                                            FleaVisibleName.NAME -> "Full Name"
+                                            FleaVisibleName.SHORT_NAME -> "Short Name"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "Display Name".asText()
+                                        icon = R.drawable.ic_baseline_text_fields_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
+                                    }
                                     singleChoice(UserSettingsModel.fleaVisiblePrice, FleaVisiblePrice.values(), {
                                         when (it) {
-                                            FleaVisiblePrice.DEFAULT -> "Default (Original Method)"
+                                            FleaVisiblePrice.DEFAULT -> "Default (Combo of all 4)"
                                             FleaVisiblePrice.AVG -> "Average 24 Hour Price"
                                             FleaVisiblePrice.HIGH -> "Highest 24 Hour Price"
                                             FleaVisiblePrice.LOW -> "Lowest 24 Hour Price"
@@ -536,6 +548,18 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.list_price).asText()
                                         icon = R.drawable.ic_baseline_money_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
+                                    }
+                                    singleChoice(UserSettingsModel.fleaVisibleTraderPrice, FleaVisibleTraderPrice.values(), {
+                                        when (it) {
+                                            FleaVisibleTraderPrice.BEST_SELL -> "Best Sell Price"
+                                            FleaVisibleTraderPrice.BEST_BUY -> "Best Buy Price"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "Trader Display Price".asText()
+                                        icon = R.drawable.ic_baseline_person_24.asIcon()
                                         showCheckBoxes = true
                                         bottomSheet = true
                                     }
