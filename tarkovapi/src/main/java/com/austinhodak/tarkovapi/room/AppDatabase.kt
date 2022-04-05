@@ -23,7 +23,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.system.measureTimeMillis
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 53)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 54)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -58,8 +58,7 @@ abstract class AppDatabase : RoomDatabase() {
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
             scope.launch(Dispatchers.IO) {
-                //updatePricing()
-                //loadItemsFile()
+                loadItemsFile()
             }
         }
 
@@ -107,7 +106,6 @@ abstract class AppDatabase : RoomDatabase() {
                 ammoDao.insertAll(ammo)
                 weaponDao.insertAll(weapons)
                 modDao.insertAll(mods)
-
             }
 
             Timber.d("Database populated in $ms ms")
