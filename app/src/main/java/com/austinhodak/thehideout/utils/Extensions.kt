@@ -358,6 +358,7 @@ fun AmmoCalibers(): List<String> = arrayListOf(
     "Caliber86x70",
     "Caliber366TKM",
     "Caliber1143x23ACP",
+    "Caliber9x33R",
     "Caliber127x55",
     "Caliber12g",
     "Caliber20g",
@@ -374,7 +375,7 @@ fun AmmoCalibers(): List<String> = arrayListOf(
     "Caliber9x18PM",
     "Caliber9x19PARA",
     "Caliber9x21",
-    "Caliber9x39",
+    "Caliber9x39"
 )
 
 fun getCaliberName(caliber: String?): String {
@@ -383,6 +384,7 @@ fun getCaliberName(caliber: String?): String {
         "Caliber86x70" -> ".338 Lapua"
         "Caliber366TKM" -> ".366 TKM"
         "Caliber1143x23ACP" -> ".45 ACP"
+        "Caliber9x33R" -> ".357 Magnum"
         "Caliber127x55" -> "12.7x55mm"
         "Caliber12g" -> "12 Gauge"
         "Caliber20g" -> "20 Gauge"
@@ -414,6 +416,7 @@ fun getCaliberShortName(caliber: String?): String {
         "Caliber86x70" -> ".338"
         "Caliber366TKM" -> ".366 TKM"
         "Caliber1143x23ACP" -> ".45 ACP"
+        "Caliber9x33R" -> ".357"
         "Caliber127x55" -> "12.7x55mm"
         "Caliber12g" -> "12G"
         "Caliber20g" -> "20G"

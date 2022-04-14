@@ -20,7 +20,7 @@ import kotlin.math.roundToInt
 fun QuestsQuery.Quest.toQuest(): Quest {
     val quest = this.questFragment
     return Quest(
-        quest?.id!!,
+        quest.id,
         quest.title,
         quest.wikiLink,
         quest.exp,
@@ -53,6 +53,10 @@ fun JSONObject.itemType(): ItemTypes {
         || getString("_parent").isNullOrBlank()
         || getString("_parent") == "54009119af1c881c07000029"
         || getString("_parent") == "5661632d4bdc2d903d8b456b"
+        || getString("_id") == "5996f6cb86f774678763a6ca"
+        || getString("_id") == "5996f6d686f77467977ba6cc"
+        || getString("_id") == "5996f6fc86f7745e585b4de3"
+        || getString("_id") == "5943d9c186f7745a13413ac9"
     ) {
         return ItemTypes.NULL
     }
@@ -102,7 +106,7 @@ fun ItemFragment.toClass(): Pricing {
         containsItem = item.containsItems?.mapNotNull {
             val i = it?.containsItem
             Pricing.Contains(
-                quantity = i?.quantity,
+                quantity = i?.quantity?.toInt(),
                 count = i?.count?.toInt(),
                 item = i?.toClass()
             )
@@ -162,6 +166,7 @@ fun ItemPrice?.toBuySell(): Pricing.BuySellPrice {
 //Maps TarkovTools Craft to our Craft.
 fun CraftsQuery.Craft.toCraft(): Craft {
     return Craft(
+        id = id,
         duration = duration,
         requiredItems = requiredItems.map {
             Craft.CraftItem(
@@ -200,7 +205,7 @@ fun BartersQuery.Barter.toBarter(): Barter {
 
 fun ItemsByTypeQuery.ItemsByType.toPricing(): Pricing {
     val item = this.itemFragment
-    return item?.toClass()!!
+    return item.toClass()
 }
 
 fun JSONObject.getItemType(): ItemTypes {
