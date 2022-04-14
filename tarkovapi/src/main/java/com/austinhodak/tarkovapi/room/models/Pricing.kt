@@ -38,6 +38,7 @@ data class Pricing(
     val containsItem: List<Contains>?
 ) : Serializable {
 
+    fun isDisabled(): Boolean = types.contains(ItemType.disabled)
     fun hasChild(): Boolean = containsItem?.isNotEmpty() == true
 
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov.dev/images/unknown-item-icon.jpg"
@@ -96,7 +97,7 @@ data class Pricing(
     }
 
     fun getCheapestTrader(): BuySellPrice? {
-        return buyFor?.filterNot { it.isFleaMarket() }?.minByOrNull { it.price ?: Int.MAX_VALUE }
+        return buyFor?.filterNot { it.isFleaMarket() || !it.isRequirementMet() }?.minByOrNull { it.price ?: Int.MAX_VALUE }
     }
 
     fun getPrice(): Int {
@@ -137,8 +138,12 @@ data class Pricing(
     ) : Serializable {
         data class Requirement(
             val type: String,
-            val value: Int
+            val value: Int?
         ) : Serializable
+
+        fun isQuestLocked(): Boolean {
+            return requirements.any { it.type == "questCompleted" }
+        }
 
         fun getPriceAsCurrency(): String? {
             return price?.asCurrency(currency ?: "R")
@@ -159,7 +164,7 @@ data class Pricing(
             if (price == 0) return false
             if (source == "fleaMarket") {
                 val playerLevel = UserSettingsModel.playerLevel.value
-                return playerLevel >= requirements.first().value
+                return playerLevel >= requirements.first().value ?: 1
             }
             return when (source) {
                 "prapor" -> {
@@ -211,7 +216,7 @@ data class Pricing(
                 "Flea Market"
             } else {
                 if (requirements.isNotEmpty() && requirements.first().type == "loyaltyLevel") {
-                    "${source?.sourceTitle()} ${requirements.first().value.getTraderLevel()}"
+                    "${source?.sourceTitle()} ${requirements.first().value?.getTraderLevel()}"
                 } else {
                     source?.sourceTitle() ?: ""
                 }

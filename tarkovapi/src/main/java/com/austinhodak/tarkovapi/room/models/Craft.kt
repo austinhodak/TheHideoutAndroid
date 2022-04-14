@@ -12,7 +12,7 @@ import kotlin.math.roundToInt
 
 @Entity(tableName = "crafts")
 data class Craft(
-    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    @PrimaryKey val id: String,
     val duration: Int? = null,
     val requiredItems: List<CraftItem?>? = null,
     val rewardItems: List<CraftItem?>? = null,
@@ -37,6 +37,8 @@ data class Craft(
 
     fun getSourceID(hideout: Hideout?): Int? {
         if (hideout == null) return null
+        if (source == "Booze Generator") return hideout.modules?.find { it?.module == "Booze generator" }?.id
+        if (source == "Bitcoin Farm") return hideout.modules?.find { it?.module == "Bitcoin farm" }?.id
         val station = source?.split(" level ")?.get(0)?.lowercase()
         val level = source?.split(" level ")?.get(1)?.toInt()
         return hideout.modules?.find { it?.level == level && it?.module?.lowercase() == station }?.id

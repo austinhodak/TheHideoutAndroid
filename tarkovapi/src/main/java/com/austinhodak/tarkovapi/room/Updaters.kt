@@ -104,9 +104,6 @@ class Updaters (
             } ?: emptyList()
 
             return if (crafts.isNotEmpty()) {
-                Timber.d("NUKING CRAFT TABLE")
-                craftDao.nukeTable()
-
                 val ms = measureTimeMillis {
                     craftDao.insertAll(crafts.filterNotNull())
                 }

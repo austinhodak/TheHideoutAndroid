@@ -171,7 +171,7 @@
     <string name="reset_all_progress">Reset All Progress</string>
     <string name="team_management">Team Management</string>
     <string name="settings">Settings</string>
-    <string name="data_sync">Data Sync</string>
+    <string name="data_sync">Price Sync</string>
     <string name="sync_frequency">Sync Frequency</string>
     <string name="sync_now">Sync Now</string>
     <string name="data_provided_by">Data Provided By</string>
@@ -180,7 +180,7 @@
     <string name="opening_screen">Opening Screen</string>
     <string name="hide_premium_banner">Hide Premium Banner</string>
     <string name="language">Language</string>
-    <string name="list_price">List Price</string>
+    <string name="list_price">Item Display Price</string>
     <string name="icon_display">Icon Display</string>
     <string name="only_show_items_scanned">Only Show Items Scanned</string>
     <string name="hide_banned_from_flea">Hide Items Banned From Flea</string>
@@ -190,5 +190,7 @@
     <string name="about">About</string>
     <string name="socials">Socials</string>
     <string name="more_about">More About</string>
+    <string name="grenades">Grenades</string>
+    <string name="melee">Melee</string>
 
 </resources>

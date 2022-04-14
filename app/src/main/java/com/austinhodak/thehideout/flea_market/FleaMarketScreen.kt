@@ -317,6 +317,8 @@ fun FleaMarketFavoritesList(
     val searchKey by fleaViewModel.searchKey.observeAsState("")
     val iconDisplay = UserSettingsModel.fleaIconDisplay.value
     val priceDisplay = UserSettingsModel.fleaVisiblePrice.value
+    val traderPriceDisplay = UserSettingsModel.fleaVisibleTraderPrice.value
+    val displayName = UserSettingsModel.fleaVisibleName.value
 
     val list = when (sortBy.value) {
         0 -> data?.sortedBy { it.Name }
@@ -377,7 +379,7 @@ fun FleaMarketFavoritesList(
                 contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
             ) {
                 items(items = list ?: emptyList()) { item ->
-                    FleaItem(item = item, priceDisplay = priceDisplay, iconDisplay) {
+                    FleaItem(item = item, priceDisplay = priceDisplay, iconDisplay, traderPriceDisplay, settings = listOf(priceDisplay, iconDisplay, traderPriceDisplay, displayName)) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", item.id)
                         }
@@ -404,6 +406,8 @@ fun FleaMarketListScreen(
     val fleaHideTime = UserSettingsModel.fleaHideTime.value
     val fleaHideNonFlea = UserSettingsModel.fleaHideNonFlea.value
     val iconDisplay = UserSettingsModel.fleaIconDisplay.value
+    val traderPriceDisplay = UserSettingsModel.fleaVisibleTraderPrice.value
+    val displayName = UserSettingsModel.fleaVisibleName.value
 
     val list = when (sortBy.value) {
         0 -> data?.sortedBy { it.Name }
@@ -482,7 +486,7 @@ fun FleaMarketListScreen(
                 contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
             ) {
                 items(items = list ?: emptyList(), key = { item -> item.id }) { item ->
-                    FleaItem(item = item, priceDisplay, iconDisplay, modifier = Modifier.animateItemPlacement()) {
+                    FleaItem(item = item, priceDisplay, iconDisplay, modifier = Modifier.animateItemPlacement(), traderPrice = traderPriceDisplay,  settings = listOf(priceDisplay, iconDisplay, traderPriceDisplay, displayName)) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", item.id)
                         }

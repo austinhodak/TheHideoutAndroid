@@ -71,6 +71,7 @@ fun Quest.isAvailable(userData: FSUser?): Boolean {
 }
 
 fun Quest.trader(): Traders {
+    Timber.d("Trader: ${this.giver}")
     return Traders.valueOf(giver?.name?.uppercase()!!)
 }
 

@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.austinhodak.tarkovapi.FleaVisibleName
 import com.austinhodak.tarkovapi.FleaVisiblePrice
+import com.austinhodak.tarkovapi.FleaVisibleTraderPrice
 import com.austinhodak.tarkovapi.IconSelection
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -36,6 +38,8 @@ fun FleaItem(
     item: Item,
     priceDisplay: FleaVisiblePrice,
     iconDisplay: IconSelection,
+    traderPrice: FleaVisibleTraderPrice,
+    settings: List<Any>,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit
 ) {
@@ -65,6 +69,12 @@ fun FleaItem(
         IconSelection.ORIGINAL -> BorderColor
         IconSelection.TRANSPARENT -> Color.Unspecified
         IconSelection.GAME -> Color.Unspecified
+    }
+
+    val displayName = when (settings.find { it is FleaVisibleName } as? FleaVisibleName ?: FleaVisibleName.NAME) {
+        FleaVisibleName.NAME -> item.Name
+        FleaVisibleName.SHORT_NAME -> item.ShortName
+        else -> item.Name
     }
 
     Card(
@@ -117,15 +127,19 @@ fun FleaItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = item.pricing?.name ?: "",
+                        text = displayName ?: "",
                         style = MaterialTheme.typography.h6,
                         fontSize = 15.sp
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        val text = if (item.pricing?.noFlea == false) {
+                        val text = if (item.pricing?.noFlea == false && item.pricing?.isDisabled() == false) {
                             item.getUpdatedTime()
                         } else {
-                            "${item.getUpdatedTime()} • Not on Flea"
+                            if (item.pricing?.isDisabled() == true) {
+                                "Disabled item, not available in game."
+                            } else {
+                                "Not available on flea market."
+                            }
                         }
                         Text(
                             text = text,
@@ -166,7 +180,7 @@ fun FleaItem(
                             fontSize = 10.sp
                         )
                     }*/
-                    TraderSmall(item = item.pricing)
+                    TraderSmall(item = item.pricing, traderPrice)
                 }
             }
         }
@@ -233,18 +247,18 @@ fun SmallSellPrice(pricing: Pricing?) {
 }
 
 @Composable
-fun TraderSmall(item: Pricing?) {
-    val i = item?.getHighestSellTrader()
+fun TraderSmall(item: Pricing?, price: FleaVisibleTraderPrice = FleaVisibleTraderPrice.BEST_SELL) {
+    val i = if (price == FleaVisibleTraderPrice.BEST_SELL) item?.getHighestSellTrader() else item?.getCheapestTrader()
     i?.let {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(top = 0.dp)
         ) {
             when {
-                item.changeLast48h ?: 0.0 > 0.0 -> {
+                item?.changeLast48h ?: 0.0 > 0.0 -> {
                     Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_up_24), contentDescription = "", modifier = Modifier.size(16.dp), tint = Green500)
                 }
-                item.changeLast48h ?: 0.0 < 0.0 -> {
+                item?.changeLast48h ?: 0.0 < 0.0 -> {
                     Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24), contentDescription = "", modifier = Modifier.size(16.dp), tint = Red500)
                 }
             }

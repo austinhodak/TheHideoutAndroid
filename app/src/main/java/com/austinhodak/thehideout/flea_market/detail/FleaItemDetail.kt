@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -24,6 +26,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -35,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.LiveData
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
@@ -85,6 +89,7 @@ import com.google.firebase.database.ktx.getValue
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -114,6 +119,8 @@ class FleaItemDetail : GodActivity() {
     lateinit var tarkovRepo: TarkovRepo
     private lateinit var itemID: String
 
+    lateinit var scaffoldState: ScaffoldState
+
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,14 +128,14 @@ class FleaItemDetail : GodActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         //WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        itemID = intent.getStringExtra("id") ?: "5c0530ee86f774697952d952"
+        itemID = intent.getStringExtra("id") ?: "5751a25924597722c463c472"
         viewModel.getItemByID(itemID)
 
         setContent {
             ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
 
                 HideoutTheme {
-                    val scaffoldState = rememberScaffoldState()
+                    scaffoldState = rememberScaffoldState()
                     var selectedNavItem by remember { mutableStateOf(0) }
 
                     val item by viewModel.item.observeAsState()
@@ -247,7 +254,17 @@ class FleaItemDetail : GodActivity() {
                                         tint = MaterialTheme.colors.onSecondary
                                     )
                                 }
-                        }
+                        },
+                        snackbarHost = {
+                            SnackbarHost(it) { data ->
+                                Snackbar(
+                                    backgroundColor = Red400,
+                                    snackbarData = data,
+                                    contentColor = Color.Black,
+                                    actionColor = Color.Black
+                                )
+                            }
+                        },
                     ) { innerPadding ->
                         Box(modifier = Modifier.padding(innerPadding)) {
                             Crossfade(
@@ -299,7 +316,8 @@ class FleaItemDetail : GodActivity() {
                                                 if (!item?.pricing?.buyFor?.filter { it.price != 0 }.isNullOrEmpty()) TradersBuyCard(
                                                     title = "BUY PRICES",
                                                     item = item,
-                                                    item?.pricing?.buyFor
+                                                    item?.pricing?.buyFor,
+                                                    fsUser
                                                 )
                                                 if (parentItems.isNotEmpty()) {
                                                     ParentItems(parents = parentItems)
@@ -1546,7 +1564,7 @@ class FleaItemDetail : GodActivity() {
                     Row(
                         Modifier
                             .padding(start = 16.dp, end = 16.dp),
-                            //.height(IntrinsicSize.Max),
+                        //.height(IntrinsicSize.Max),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
@@ -1756,7 +1774,7 @@ class FleaItemDetail : GodActivity() {
                 ) {
                     itemsIndexed(prices?.filter { it.price != 0 }?.sortedByDescending { it.price }
                         ?: emptyList()) { index, item ->
-                        TraderPriceListGridItem(item, index == 0, false)
+                        TraderPriceListGridItem(item, index == 0, false, null)
                     }
                 }
                 /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
@@ -1770,7 +1788,8 @@ class FleaItemDetail : GodActivity() {
     private fun TradersBuyCard(
         title: String,
         item: Item?,
-        prices: List<Pricing.BuySellPrice>?
+        prices: List<Pricing.BuySellPrice>?,
+        fsUser: LiveData<FSUser?>
     ) {
         Card(
             modifier = Modifier
@@ -1792,14 +1811,17 @@ class FleaItemDetail : GodActivity() {
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
                 ) {
-                    itemsIndexed(prices?.filter { it.price != 0 }?.sortedBy { it.price }
-                        ?: emptyList()) { index, item ->
-                        TraderPriceListGridItem(item, index == 0, true)
+                    itemsIndexed(prices?.filter { it.price != 0 }?.sortedBy { it.price } ?: emptyList()) { index, item ->
+                        val isUnlocked = if (item.isQuestLocked()) {
+                            val questID = item.requirements.find { it.type == "questCompleted" }?.value
+                            fsUser.value?.progress?.isQuestCompleted(questID.toString()) == true
+                        } else {
+                            item.isRequirementMet()
+                        }
+
+                        TraderPriceListGridItem(item, if (index == 0 && isUnlocked) true else index == 1, true, fsUser.value)
                     }
                 }
-                /*prices?.sortedByDescending { it.fragments.itemPrice.price }?.forEachIndexed { index, item ->
-                TraderPriceListItem(item.fragments.itemPrice, index == 0)
-            }*/
             }
         }
     }
@@ -1808,38 +1830,79 @@ class FleaItemDetail : GodActivity() {
     private fun TraderPriceListGridItem(
         item: Pricing.BuySellPrice,
         isHighest: Boolean = false,
-        isBuy: Boolean
+        isBuy: Boolean,
+        fsUser: FSUser?
     ) {
-        val isUnlocked = if (isBuy) {
-            item.isRequirementMet()
+        val scope = rememberCoroutineScope()
+
+        val isQuestLocked = if (item.isQuestLocked()) {
+            val questID = item.requirements.find { it.type == "questCompleted" }?.value
+            fsUser?.progress?.isQuestCompleted(questID.toString()) == false
         } else {
-            true
+            false
         }
+
+        val isUnlocked = if (!isBuy) true else if (item.isQuestLocked()) {
+            !isQuestLocked
+        } else {
+            item.isRequirementMet()
+        }
+
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.clickable(interactionSource = MutableInteractionSource(), indication = null, enabled = isQuestLocked, onClick = {
+                scope.launch {
+                    val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Item is quest locked.",
+                        actionLabel = "OPEN QUEST"
+                    )
+                    when (snackbarResult) {
+                        SnackbarResult.ActionPerformed -> openQuestDetail(item.requirements.find { it.type == "questCompleted" }?.value.toString())
+                        else -> {}
+                    }
+                }
+            })
         ) {
-            Image(
+            Box(
                 modifier = Modifier
                     .size(72.dp)
-                    .padding(bottom = 8.dp),
-                painter = fadeImagePainter(url = item.traderImage()),
-                contentDescription = "Prapor",
-            )
-            Text(
-                text = if (item.source == ItemSourceName.peacekeeper.rawValue) {
-                    if (isBuy) {
-                        item.price?.asCurrency("D") ?: ""
+                    .padding(bottom = 8.dp)
+            ) {
+                Image(
+                    modifier = Modifier.size(72.dp),
+                    painter = fadeImagePainter(url = item.traderImage()),
+                    contentDescription = "Prapor",
+                )
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (isQuestLocked) {
+                    Icon(
+                        Icons.Filled.Lock,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(14.dp)
+                            .padding(end = 2.dp),
+                        tint = Red400
+                    )
+                }
+
+                Text(
+                    text = if (item.source == ItemSourceName.peacekeeper.rawValue) {
+                        if (isBuy) {
+                            item.price?.asCurrency("D") ?: ""
+                        } else {
+                            item.price?.roubleToDollar()?.asCurrency("D") ?: ""
+                        }
                     } else {
-                        item.price?.roubleToDollar()?.asCurrency("D") ?: ""
-                    }
-                } else {
-                    item.price?.asCurrency() ?: ""
-                },
-                style = MaterialTheme.typography.body1,
-                fontSize = 12.sp,
-                fontWeight = if (isHighest) FontWeight.Bold else FontWeight.Normal,
-                color = if (!isUnlocked) Red400 else Color.Unspecified
-            )
+                        item.price?.asCurrency() ?: ""
+                    },
+                    style = MaterialTheme.typography.body1,
+                    fontSize = 12.sp,
+                    fontWeight = if (isHighest) FontWeight.Bold else FontWeight.Normal,
+                    color = if (!isUnlocked) Red400 else Color.Unspecified
+                )
+            }
+
         }
     }
 

@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.weapons
 
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.*
@@ -156,6 +157,10 @@ fun WeaponCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
+            if (weapon.weapClass == null) {
+                Toast.makeText(context, "Details page coming soon.", Toast.LENGTH_SHORT).show()
+                return@Card
+            }
             weaponClicked(weapon.id)
         }
     ) {

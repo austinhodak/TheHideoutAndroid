@@ -179,8 +179,9 @@ fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
                 else -> "https://tarkov.dev/images/prapor-icon.jpg"
             }
         }
-        requirements.first().type == "loyaltyLevel" -> {
-            val level = requirements.first().value
+        requirements.first().type == "loyaltyLevel" || isQuestLocked() -> {
+            val level = requirements.find { it.type == "loyaltyLevel" }?.value ?: 1
+            Timber.d("Loyalty level: $level")
             return when (this.source) {
                 "prapor" -> when (level) {
                     1 -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/fc/Prapor_1_icon.png/revision/latest/scale-to-width-down/130?cb=20180822110125"
@@ -357,6 +358,7 @@ fun AmmoCalibers(): List<String> = arrayListOf(
     "Caliber86x70",
     "Caliber366TKM",
     "Caliber1143x23ACP",
+    "Caliber9x33R",
     "Caliber127x55",
     "Caliber12g",
     "Caliber20g",
@@ -373,7 +375,7 @@ fun AmmoCalibers(): List<String> = arrayListOf(
     "Caliber9x18PM",
     "Caliber9x19PARA",
     "Caliber9x21",
-    "Caliber9x39",
+    "Caliber9x39"
 )
 
 fun getCaliberName(caliber: String?): String {
@@ -382,6 +384,7 @@ fun getCaliberName(caliber: String?): String {
         "Caliber86x70" -> ".338 Lapua"
         "Caliber366TKM" -> ".366 TKM"
         "Caliber1143x23ACP" -> ".45 ACP"
+        "Caliber9x33R" -> ".357 Magnum"
         "Caliber127x55" -> "12.7x55mm"
         "Caliber12g" -> "12 Gauge"
         "Caliber20g" -> "20 Gauge"
@@ -413,6 +416,7 @@ fun getCaliberShortName(caliber: String?): String {
         "Caliber86x70" -> ".338"
         "Caliber366TKM" -> ".366 TKM"
         "Caliber1143x23ACP" -> ".45 ACP"
+        "Caliber9x33R" -> ".357"
         "Caliber127x55" -> "12.7x55mm"
         "Caliber12g" -> "12G"
         "Caliber20g" -> "20G"
@@ -430,7 +434,7 @@ fun getCaliberShortName(caliber: String?): String {
         "Caliber9x19PARA" -> "9x19mm"
         "Caliber9x21" -> "9x21mm"
         "Caliber9x39" -> "9x39mm"
-        else -> "Unknown Ammo Type"
+        else -> ""
     }
 }
 
