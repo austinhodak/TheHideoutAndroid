@@ -23,7 +23,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.system.measureTimeMillis
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 54)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 59)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -64,7 +64,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun loadItemsFile() {
             scope.launch(Dispatchers.IO) {
-                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_011922).bufferedReader().use { it.readText() }))
+                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_041322).bufferedReader().use { it.readText() }))
             }
         }
 
@@ -82,7 +82,10 @@ abstract class AppDatabase : RoomDatabase() {
                 val weapons: MutableList<Weapon> = mutableListOf()
                 for (item in jsonArray.iterator<JSONObject>()) {
                     when (item.getItemType()) {
-                        ItemTypes.AMMO -> ammo.add(item.toAmmoItem())
+                        ItemTypes.AMMO -> {
+                            if (item.itemType() == ItemTypes.NULL) continue
+                            ammo.add(item.toAmmoItem())
+                        }
                         ItemTypes.GRENADE,
                         ItemTypes.MELEE,
                         ItemTypes.WEAPON -> {
