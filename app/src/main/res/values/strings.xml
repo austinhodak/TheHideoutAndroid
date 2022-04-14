@@ -171,7 +171,7 @@
     <string name="reset_all_progress">Reset All Progress</string>
     <string name="team_management">Team Management</string>
     <string name="settings">Settings</string>
-    <string name="data_sync">Data Sync</string>
+    <string name="data_sync">Price Sync</string>
     <string name="sync_frequency">Sync Frequency</string>
     <string name="sync_now">Sync Now</string>
     <string name="data_provided_by">Data Provided By</string>

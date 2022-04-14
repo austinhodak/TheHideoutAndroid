@@ -407,69 +407,7 @@ class SettingsActivity : GodActivity() {
                                 category {
                                     title = getString(R.string.settings).asText()
                                 }
-                                subScreen {
-                                    title = getString(R.string.data_sync).asText()
-                                    icon = R.drawable.ic_baseline_update_24.asIcon()
-                                    val updateTime = if (isWorkRunning(this@SettingsActivity, "price_update")) {
-                                        "Updating now..."
-                                    } else roomUpdatesTime.toString()
-                                    button {
-                                        title = "Last Price Sync".asText()
-                                        summary = updateTime.asText()
-                                        icon = R.drawable.ic_baseline_access_time_24.asIcon()
-                                        enabled = false
-                                    }
-                                    singleChoice(UserSettingsModel.dataSyncFrequency, DataSyncFrequency.values(), {
-                                        when (it) {
-                                            DataSyncFrequency.`15` -> "15 Minutes"
-                                            DataSyncFrequency.`30` -> "30 Minutes"
-                                            DataSyncFrequency.`60` -> "1 Hour"
-                                            DataSyncFrequency.`120` -> "2 Hours"
-                                            DataSyncFrequency.`360` -> "6 Hours"
-                                            DataSyncFrequency.`720` -> "12 Hours"
-                                            DataSyncFrequency.`1440` -> "1 Day"
-                                            else -> ""
-                                        }
-                                    }) {
-                                        title = getString(R.string.sync_frequency).asText()
-                                        icon = R.drawable.ic_baseline_update_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
-                                    }
-                                    button {
-                                        title = getString(R.string.sync_now).asText()
-                                        summary = "".asText()
-                                        icon = R.drawable.ic_baseline_sync_24.asIcon()
-                                        //badge = "PRO".asBatch()
-                                        onClick = {
-                                            Toast.makeText(this@SettingsActivity, "Updating...", Toast.LENGTH_SHORT).show()
-                                            val priceUpdateRequestTest = OneTimeWorkRequest.Builder(
-                                                PriceUpdateWorker::class.java
-                                            ).build()
 
-                                            WorkManager.getInstance(this@SettingsActivity).enqueue(priceUpdateRequestTest)
-                                        }
-                                    }
-                                    category {
-                                        title = getString(R.string.data_provided_by).asText()
-                                    }
-                                    button {
-                                        title = "Tarkov.dev".asText()
-                                        //summary = "Created by kokarn".asText()
-                                        icon = R.drawable.ic_icons8_github.asIcon()
-                                        onClick = {
-                                            "https://tarkov.dev/".openWithCustomTab(this@SettingsActivity)
-                                        }
-                                    }
-                                    button {
-                                        title = "Tarkov Data".asText()
-                                        summary = "Maintained by Community Devs".asText()
-                                        icon = R.drawable.ic_icons8_github.asIcon()
-                                        onClick = {
-                                            "https://github.com/TarkovTracker/tarkovdata/".openWithCustomTab(this@SettingsActivity)
-                                        }
-                                    }
-                                }
                                 subScreen {
                                     title = getString(R.string.display).asText()
                                     icon = R.drawable.ic_baseline_wb_sunny_24.asIcon()
@@ -730,6 +668,69 @@ class SettingsActivity : GodActivity() {
                                                 openNotificationSettings("PRICE_ALERTS")
                                             }
                                         }
+                                }
+                                subScreen {
+                                    title = getString(R.string.data_sync).asText()
+                                    icon = R.drawable.ic_baseline_update_24.asIcon()
+                                    val updateTime = if (isWorkRunning(this@SettingsActivity, "price_update")) {
+                                        "Updating now..."
+                                    } else roomUpdatesTime.toString()
+                                    button {
+                                        title = "Last Price Sync".asText()
+                                        summary = updateTime.asText()
+                                        icon = R.drawable.ic_baseline_access_time_24.asIcon()
+                                        enabled = false
+                                    }
+                                    singleChoice(UserSettingsModel.dataSyncFrequency, DataSyncFrequency.values(), {
+                                        when (it) {
+                                            DataSyncFrequency.`15` -> "15 Minutes"
+                                            DataSyncFrequency.`30` -> "30 Minutes"
+                                            DataSyncFrequency.`60` -> "1 Hour"
+                                            DataSyncFrequency.`120` -> "2 Hours"
+                                            DataSyncFrequency.`360` -> "6 Hours"
+                                            DataSyncFrequency.`720` -> "12 Hours"
+                                            DataSyncFrequency.`1440` -> "1 Day"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = getString(R.string.sync_frequency).asText()
+                                        icon = R.drawable.ic_baseline_update_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
+                                    }
+                                    button {
+                                        title = getString(R.string.sync_now).asText()
+                                        summary = "".asText()
+                                        icon = R.drawable.ic_baseline_sync_24.asIcon()
+                                        //badge = "PRO".asBatch()
+                                        onClick = {
+                                            Toast.makeText(this@SettingsActivity, "Updating...", Toast.LENGTH_SHORT).show()
+                                            val priceUpdateRequestTest = OneTimeWorkRequest.Builder(
+                                                PriceUpdateWorker::class.java
+                                            ).build()
+
+                                            WorkManager.getInstance(this@SettingsActivity).enqueue(priceUpdateRequestTest)
+                                        }
+                                    }
+                                    category {
+                                        title = getString(R.string.data_provided_by).asText()
+                                    }
+                                    button {
+                                        title = "Tarkov.dev".asText()
+                                        //summary = "Created by kokarn".asText()
+                                        icon = R.drawable.ic_icons8_github.asIcon()
+                                        onClick = {
+                                            "https://tarkov.dev/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    button {
+                                        title = "Tarkov Data".asText()
+                                        summary = "Maintained by Community Devs".asText()
+                                        icon = R.drawable.ic_icons8_github.asIcon()
+                                        onClick = {
+                                            "https://github.com/TarkovTracker/tarkovdata/".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
                                 }
                                 category {
                                     title = getString(R.string.integrations_beta).asText()
