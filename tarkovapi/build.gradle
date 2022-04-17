@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id("com.apollographql.apollo3").version("3.2.0")
+    id("com.apollographql.apollo3").version("3.2.2")
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -17,8 +17,6 @@ android {
     defaultConfig {
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -47,8 +45,8 @@ android {
 
 dependencies {
 
-    api("com.apollographql.apollo3:apollo-runtime:3.2.0")
-    api("com.apollographql.apollo3:apollo-api:3.2.0")
+    api('com.apollographql.apollo3:apollo-runtime:3.2.2')
+    api('com.apollographql.apollo3:apollo-api:3.2.2')
 
     implementation "io.github.resilience4j:resilience4j-retry:1.7.1"
     implementation "io.github.resilience4j:resilience4j-kotlin:1.7.1"
@@ -64,7 +62,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'com.google.dagger:hilt-android:2.41'
-    kapt 'com.google.dagger:hilt-android-compiler:2.40.5'
+    kapt 'com.google.dagger:hilt-android-compiler:2.41'
 
     api("androidx.room:room-runtime:${versions.room}")
     kapt "androidx.room:room-compiler:${versions.room}"
