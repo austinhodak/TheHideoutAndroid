@@ -258,7 +258,7 @@ class QuestDetailActivity : GodActivity() {
                         floatingActionButton = {
                             //if (isDebug())
                             quest?.let {
-                                if (userData?.progress?.isQuestCompleted(it) == false && it.isAvailable(userData) || userData == null) {
+                                if (it.isAvailable(userData) || userData == null) {
                                     ExtendedFloatingActionButton(
                                         icon = {
                                             Icon(
