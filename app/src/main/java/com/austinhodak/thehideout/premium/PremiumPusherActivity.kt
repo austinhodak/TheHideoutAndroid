@@ -1,4 +1,4 @@
-package com.austinhodak.thehideout.billing
+package com.austinhodak.thehideout.premium
 
 import android.os.Bundle
 import android.widget.Toast
@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
 import com.adapty.Adapty
 import com.adapty.models.PaywallModel
 import com.android.billingclient.api.*
@@ -44,10 +43,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.jeziellago.compose.markdowntext.MarkdownText
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @ExperimentalPagerApi

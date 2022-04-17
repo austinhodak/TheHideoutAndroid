@@ -73,7 +73,7 @@
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name=".billing.PremiumPusherActivity"
+            android:name=".premium.PremiumPusherActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity

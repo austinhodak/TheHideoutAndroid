@@ -1,4 +1,4 @@
-package com.austinhodak.thehideout.billing.viewmodels
+package com.austinhodak.thehideout.premium.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltViewModel
-class BillingViewModel @Inject constructor(
+class PremiumViewModel @Inject constructor(
     @ApplicationContext context: Context
 ): ViewModel() {
 
