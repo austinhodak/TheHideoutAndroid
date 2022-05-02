@@ -203,6 +203,7 @@ fun Rectangle(
 @Composable
 fun SmallBuyPrice(pricing: Pricing?) {
     val i = pricing?.getCheapestBuyRequirements() ?: return
+    if (i.isZero()) return
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(top = 0.dp)

@@ -135,8 +135,10 @@ class GearDetailActivity : GodActivity() {
                         item {
                             GearInfoCard(item = gear!!)
                         }
-                        item {
-                            PricingCard(pricing = gear?.pricing!!)
+                        if (gear?.pricing?.buyFor?.isNullOrEmpty() == false) {
+                            item {
+                                PricingCard(pricing = gear?.pricing!!)
+                            }
                         }
                         if (gear?.armorClass?.toInt() ?: 0 > 0) {
                             item {

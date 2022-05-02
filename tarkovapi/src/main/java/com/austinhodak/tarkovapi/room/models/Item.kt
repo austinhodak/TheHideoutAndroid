@@ -80,6 +80,13 @@ data class Item(
     var effects_damage: JSONObject? = null
 ) : Serializable {
 
+    /*fun getPricingHeader(): String {
+        if (pricing == null) return ""
+        if (pricing.noFlea == true) {
+            return ""
+        }
+    }*/
+
     fun getFormattedWeight(): String {
         val weight = if (Weight?.rem(1.0) == 0.0 ) {
             Weight.toInt()
