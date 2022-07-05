@@ -23,7 +23,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.system.measureTimeMillis
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 59)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 61)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -64,7 +64,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun loadItemsFile() {
             scope.launch(Dispatchers.IO) {
-                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_041322).bufferedReader().use { it.readText() }))
+                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_070522).bufferedReader().use { it.readText() }))
             }
         }
 

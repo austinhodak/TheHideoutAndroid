@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package com.austinhodak.thehideout.ammunition
 
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -176,7 +179,7 @@ fun AmmunitionListScreen(
                 AmmoSearchBody(searchKey, data)
             }
             else -> {
-                AnimatedContent(targetState = data.isNullOrEmpty()) {
+                AnimatedContent(targetState = data.isEmpty()) {
                     if (it) {
                         LoadingItem()
                     } else {

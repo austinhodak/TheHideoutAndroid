@@ -72,9 +72,7 @@ val weaponCategories = mutableListOf(
     Triple(R.string.sniper_rifles, 307, "sniperRifle"),
     Triple(R.string.shotguns, 305, "shotgun"),
     Triple(R.string.smgs, 304, "smg"),
-    //Triple("Grenade Launchers", 309, "grenadeLauncher"),
-    //Triple("Melee Weapons", 310, ""),
-    //Triple("Throwables", 311, ""),
+    //Triple("Grenade Launchers", 309, "grenadeLauncher")
 )
 
 @ExperimentalCoilApi
@@ -220,8 +218,8 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
             drawerEyewear,
             drawerFaceCover,
             drawerHeadsets,
-            drawerHeadwear,
-            drawerTacticalClothing
+            drawerHeadwear
+            //drawerTacticalClothing
         )
     }
 
