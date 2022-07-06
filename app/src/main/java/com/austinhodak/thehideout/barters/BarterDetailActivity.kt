@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package com.austinhodak.thehideout.barters
 
 import android.os.Bundle
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
@@ -37,6 +40,7 @@ import com.austinhodak.thehideout.crafts.CraftDetailActivity
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
 import com.austinhodak.thehideout.utils.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.math.exp
 
 class BarterDetailActivity : AppCompatActivity() {
@@ -232,7 +236,7 @@ class BarterDetailActivity : AppCompatActivity() {
         val subtitleComposable: @Composable (() -> Unit)? = null
     )
 
-    @OptIn(ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class, ExperimentalCoroutinesApi::class, ExperimentalCoilApi::class)
     @Composable
     fun CompactItem(item: Pricing, extras: ItemSubtitle? = null) {
         var showPrices by remember {

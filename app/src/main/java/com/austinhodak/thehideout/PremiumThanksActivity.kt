@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -26,14 +27,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import com.airbnb.lottie.compose.*
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.austinhodak.thehideout.utils.restartNavActivity
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoilApi
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
+@ExperimentalPagerApi
 class PremiumThanksActivity : AppCompatActivity() {
 
     @OptIn(ExperimentalFoundationApi::class)
