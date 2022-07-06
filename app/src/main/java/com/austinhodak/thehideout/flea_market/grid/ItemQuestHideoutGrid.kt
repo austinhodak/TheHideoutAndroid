@@ -42,6 +42,7 @@ import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.quests.Chip
@@ -55,6 +56,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRepo, questViewModel: QuestMainViewModel, hideoutViewModel: HideoutMainViewModel) {
@@ -65,7 +68,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
     val context = LocalContext.current
     val isSearchOpen by questViewModel.isSearchOpen.observeAsState(false)
     val searchKey by questViewModel.searchKey.observeAsState("")
-    val userData by questViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
     val allItems by navViewModel.allItems.observeAsState()
     val allQuests by questViewModel.questsList.observeAsState(emptyList())
     val allHideoutModules = hideoutList.hideout?.modules
@@ -75,6 +78,8 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
     var sort by rememberSaveable {
         mutableStateOf(1)
     }
+
+    //Timber.d("Quests ${userData}")
 
     Scaffold(
         topBar = {
@@ -170,7 +175,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
             var data = when (pagerState.currentPage) {
                 0 -> {
                     questObjectives.map { obj ->
-                        val item = allItems?.find { it.id.equals(obj.target) || it.id == obj.targetItem?.id }
+                        val item = allItems?.find { obj.target?.contains(it.id) == true || it.id.equals(obj.target) || it.id == obj.targetItem?.id }
                         Pair(item, obj.number)
                     }.plus(
                         modules?.map { require ->
@@ -185,7 +190,9 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 }
                 1 -> {
                     questObjectives.map { obj ->
-                        val item = allItems?.find { it.id.equals(obj.target) || it.id == obj.targetItem?.id }
+
+                        val item = allItems?.find { obj.target?.contains(it.id) == true || it.id.equals(obj.target) || it.id == obj.targetItem?.id }
+                        Timber.d("Quest ${obj.target} | ${obj.targetItem?.id}")
                         Pair(item, obj.number)
                     }.groupBy {
                         it.first
@@ -204,7 +211,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                     }
                 }
                 else -> questObjectives.map { obj ->
-                    val item = allItems?.find { it.id.equals(obj.target) || it.id == obj.targetItem?.id }
+                    val item = allItems?.find { obj.target?.contains(it.id) == true || it.id.equals(obj.target) || it.id == obj.targetItem?.id }
                     Pair(item, obj.number)
                 }.plus(
                     modules?.map { require ->
@@ -229,6 +236,8 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 2 -> data.sortedBy { it.text?.toLongOrNull() }
                 else -> data.sortedBy { it.item?.pricing?.name }
             }
+
+            Timber.d(data.toString())
 
             if (data.isNullOrEmpty()) {
                 LoadingItem()
