@@ -34,6 +34,7 @@ data class Item(
     val Durability: Int? = null,
     val MaxDurability: Int? = null,
     val pricing: Pricing? = null,
+    val DiscardLimit: Int? = null,
     //Armor
     val Slots: List<Weapon.Slot>? = null,
     val BlocksEarpiece: Boolean? = null,
@@ -187,6 +188,13 @@ data class Item(
 
     fun isChildOf(item: Pricing?): Boolean? {
         return item?.containsItem?.any { it.item?.id == this.id }
+    }
+
+    fun discardLimit(): String {
+        return when (DiscardLimit ?: -1) {
+            -1, 0 -> "No Limit."
+            else -> "$DiscardLimit"
+        }
     }
 }
 

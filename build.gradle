@@ -21,7 +21,7 @@ buildscript {
                 slidingpaneLayout : "1.1.0",
                 swiperefreshLayout: "1.1.0",
                 materialDrawer    : '8.4.3',
-                firebaseBOM       : "29.3.1",
+                firebaseBOM       : "30.2.0",
                 ktx               : '1.7.0',
                 mDialogs          : "3.3.0",
                 epoxy             : "4.1.0",
@@ -66,7 +66,7 @@ buildscript {
         classpath "com.localazy:gradle:1.5.3"
         classpath 'com.android.tools.build:gradle:7.2.1'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
-        classpath 'com.google.gms:google-services:4.3.12'
+        classpath 'com.google.gms:google-services:4.3.13'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.1'
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.1"
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.5'
@@ -83,17 +83,17 @@ allprojects {
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
             freeCompilerArgs += [
-                    "-Xuse-experimental=kotlin.ExperimentalUnsignedTypes",
-                    "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                    "-Xuse-experimental=kotlinx.coroutines.InternalCoroutinesApi",
-                    "-Xuse-experimental=androidx.compose.animation.ExperimentalAnimationApi",
-                    "-Xuse-experimental=androidx.compose.ExperimentalComposeApi",
-                    "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
-                    "-Xuse-experimental=androidx.compose.runtime.ExperimentalComposeApi",
-                    "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
-                    "-Xuse-experimental=coil.annotation.ExperimentalCoilApi",
-                    "-Xuse-experimental=kotlinx.serialization.ExperimentalSerializationApi",
-                    "-Xuse-experimental=com.google.accompanist.pager.ExperimentalPagerApi"
+                    // Avoid having to stutter experimental annotations all over the codebase
+                    "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
+                    "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
+                    "-Xopt-in=androidx.compose.runtime.ExperimentalComposeApi",
+                    "-Xopt-in=androidx.compose.ui.ExperimentalComposeUiApi",
+                    "-Xopt-in=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi",
+                    "-Xopt-in=com.google.accompanist.pager.ExperimentalPagerApi",
+                    "-Xopt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi",
+                    "-Xopt-in=kotlin.ExperimentalUnsignedTypes",
+                    "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-Xopt-in=kotlinx.coroutines.InternalCoroutinesApi"
             ]
         }
     }

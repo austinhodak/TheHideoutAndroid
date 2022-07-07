@@ -13,12 +13,6 @@ android {
     buildToolsVersion "33.0.0"
 
     signingConfigs {
-        /*release {
-            storeFile file('C:\\Development\\Keys\\TheHideoutKeystore.jks')
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
-        }*/
         debug {
             storeFile file('../debug.keystore')
             storePassword "android"
@@ -38,9 +32,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 32
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 15020
+        versionCode 16001
         // [1]-[0].[2].[0].[0]
-        versionName "1.5.2"
+        versionName "1.6.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true

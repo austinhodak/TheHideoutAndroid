@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package com.austinhodak.thehideout.flea_market.detail
 
 import android.annotation.SuppressLint
@@ -80,6 +82,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -102,6 +105,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FleaItemDetail : GodActivity() {
 
+    @OptIn(ExperimentalPagerApi::class)
     override fun onBackPressed() {
         if (intent.hasExtra("fromNoti")) {
             val intent = Intent(this, NavActivity::class.java)
@@ -888,6 +892,7 @@ class FleaItemDetail : GodActivity() {
         }
     }
 
+    @OptIn(ExperimentalPagerApi::class)
     private fun launchPremiumPusher() {
         launchPremiumPusherResult()
     }
@@ -1520,6 +1525,7 @@ class FleaItemDetail : GodActivity() {
         )
     }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @SuppressLint("CheckResult")
     @Composable
     private fun Card1(
@@ -1721,6 +1727,9 @@ class FleaItemDetail : GodActivity() {
                         color = DividerDark
                     )
                     BasicStatRow(title = "WEIGHT", text = item?.getFormattedWeight())
+                    if ((item?.DiscardLimit ?: -1) > 0) {
+                        BasicStatRow(title = "DROP LIMIT", text = item?.discardLimit())
+                    }
                     if (item?.pricing?.types?.contains(ItemType.container) == true) {
                         Divider(
                             modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
@@ -1729,6 +1738,7 @@ class FleaItemDetail : GodActivity() {
                         BasicStatRow(title = "CAPACITY", text = "${item.getTotalInternalSize()} Slots")
                         BasicStatRow(title = "PRICE/SLOT", text = "${(item.getPrice() / item.getTotalInternalSize()).asCurrency()}/slot")
                     }
+
                 }
             }
         }

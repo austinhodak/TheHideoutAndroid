@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TheHideout" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.TheHideout" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#1F1F1F</item>
-        <item name="colorPrimaryVariant">@color/md_red_700</item>
+        <item name="colorPrimaryVariant">@color/md_red_400</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/md_red_400</item>
@@ -13,7 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
 
-        <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyleLight</item>
+        <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyleCustom</item>
         <item name="materialDrawerHeaderStyle">@style/Widget.MaterialDrawerHeaderStyle</item>
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>

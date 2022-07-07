@@ -58,7 +58,7 @@ import timber.log.Timber
 
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
-@OptIn(ExperimentalFoundationApi::class)
+@ExperimentalFoundationApi
 @Composable
 fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRepo, questViewModel: QuestMainViewModel, hideoutViewModel: HideoutMainViewModel) {
     val navController = rememberNavController()
@@ -78,8 +78,6 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
     var sort by rememberSaveable {
         mutableStateOf(1)
     }
-
-    //Timber.d("Quests ${userData}")
 
     Scaffold(
         topBar = {
@@ -190,9 +188,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 }
                 1 -> {
                     questObjectives.map { obj ->
-
                         val item = allItems?.find { obj.target?.contains(it.id) == true || it.id.equals(obj.target) || it.id == obj.targetItem?.id }
-                        Timber.d("Quest ${obj.target} | ${obj.targetItem?.id}")
                         Pair(item, obj.number)
                     }.groupBy {
                         it.first
@@ -237,9 +233,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 else -> data.sortedBy { it.item?.pricing?.name }
             }
 
-            Timber.d(data.toString())
-
-            if (data.isNullOrEmpty()) {
+            if (data.isEmpty()) {
                 LoadingItem()
             }
 
@@ -261,13 +255,6 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                         }, modifier = Modifier.size(screenWidth / 8))
                     }
                 }
-                /*LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
-                    items(items = data) { item ->
-                        GridItem(url = item.item?.pricing?.getCleanIcon(), text = item.text, onClick = {
-                            item.item?.pricing?.id?.let { id -> context.openFleaDetail(id) }
-                        })
-                    }
-                }*/
             }
         }
     }
