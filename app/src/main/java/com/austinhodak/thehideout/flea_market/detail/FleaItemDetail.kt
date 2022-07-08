@@ -1232,7 +1232,7 @@ class FleaItemDetail : GodActivity() {
                                     iconText = item.count?.toString(),
                                     showPriceInSubtitle = true,
                                     subtitle = " (${(item.count?.times(pricing.getCheapestBuyRequirements().price ?: 0))?.asCurrency()})"
-                                )
+                                ), if (item.isTool()) ToolBlue else BorderColor
                             )
                         }
                         //BarterCraftCostItem(taskItem)

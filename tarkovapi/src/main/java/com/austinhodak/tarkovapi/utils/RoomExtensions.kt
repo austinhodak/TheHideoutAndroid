@@ -7,6 +7,7 @@ import com.austinhodak.tarkovapi.QuestsQuery
 import com.austinhodak.tarkovapi.fragment.ContainsItem
 import com.austinhodak.tarkovapi.fragment.ItemFragment
 import com.austinhodak.tarkovapi.fragment.ItemPrice
+import com.austinhodak.tarkovapi.fragment.TaskItem
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
@@ -171,13 +172,27 @@ fun CraftsQuery.Craft.toCraft(): Craft {
         requiredItems = requiredItems.map {
             Craft.CraftItem(
                 it?.taskItem?.count?.roundToInt(),
-                it?.taskItem?.item?.itemFragment?.toClass()
+                it?.taskItem?.item?.itemFragment?.toClass(),
+                it?.taskItem?.attributes?.map { att ->
+                    Craft.CraftItem.Attributes(
+                        att?.type,
+                        att?.name,
+                        att?.value
+                    )
+                }
             )
         },
         rewardItems = rewardItems.map {
             Craft.CraftItem(
                 it?.taskItem?.count?.roundToInt(),
-                it?.taskItem?.item?.itemFragment?.toClass()
+                it?.taskItem?.item?.itemFragment?.toClass(),
+                it?.taskItem?.attributes?.map { att ->
+                    Craft.CraftItem.Attributes(
+                        att?.type,
+                        att?.name,
+                        att?.value
+                    )
+                }
             )
         },
         source = source

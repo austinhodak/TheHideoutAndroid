@@ -12,6 +12,8 @@ val Pink500 = Color(0xFFE91E63)
 val Amber500 = Color(0xFFFFC107)
 val Blue400 = Color(0xFF42A5F5)
 
+val ToolBlue = Color(0xFF3498DB)
+
 val White = Color(0xFFFFFFFF)
 
 // Dark Theme Colors

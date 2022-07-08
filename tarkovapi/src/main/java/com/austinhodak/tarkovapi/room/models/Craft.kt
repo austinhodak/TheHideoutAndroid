@@ -3,6 +3,7 @@ package com.austinhodak.tarkovapi.room.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.apollographql.apollo3.mpp.currentTimeMillis
+import com.austinhodak.tarkovapi.fragment.TaskItem
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.utils.euroToRouble
 import com.austinhodak.tarkovapi.utils.fromDtoR
@@ -20,8 +21,17 @@ data class Craft(
 ) : Serializable {
     data class CraftItem(
         val count: Int? = null,
-        val item: Pricing? = null
-    ) : Serializable
+        val item: Pricing? = null,
+        val attributes: List<Attributes?>? = null
+    ) : Serializable {
+        fun isTool(): Boolean = attributes?.any { it?.name == "tool" && it.value == "true" } == true
+
+        data class Attributes(
+            val type: String? = null,
+            val name: String? = null,
+            val value: String? = null
+        ) : Serializable
+    }
 
     fun getSourceName(): String? {
         return source?.split(" level ")?.get(0)
@@ -45,7 +55,7 @@ data class Craft(
     }
 
     fun totalCost(): Int {
-        return requiredItems?.sumOf {
+        return requiredItems?.filterNot { it?.isTool() == true }?.sumOf {
             val cheapestBuy = it?.item?.getCheapestBuyRequirements()
             val price = if (cheapestBuy?.currency == "USD") {
                 cheapestBuy.price?.fromDtoR()?.roundToInt()

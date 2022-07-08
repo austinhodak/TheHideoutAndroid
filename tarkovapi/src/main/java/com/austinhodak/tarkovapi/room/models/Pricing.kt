@@ -38,7 +38,7 @@ data class Pricing(
     val containsItem: List<Contains>?
 ) : Serializable {
 
-    fun isDisabled(): Boolean = types.contains(ItemType.disabled)
+    fun isDisabled(): Boolean = false
     fun hasChild(): Boolean = containsItem?.isNotEmpty() == true
 
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov.dev/images/unknown-item-icon.jpg"

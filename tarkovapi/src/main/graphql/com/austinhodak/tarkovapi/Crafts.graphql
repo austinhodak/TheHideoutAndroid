@@ -9,6 +9,11 @@ query Crafts {
         rewardItems {
             ...TaskItem
         }
+        station {
+            id
+            name
+            tarkovDataId
+        }
     }
 }
 
@@ -17,4 +22,9 @@ fragment TaskItem on ContainedItem {
         ...ItemFragment
     }
     count
+    attributes {
+        type
+        name
+        value
+    }
 }

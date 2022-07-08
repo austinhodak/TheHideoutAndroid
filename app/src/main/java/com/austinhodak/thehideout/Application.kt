@@ -70,6 +70,7 @@ class Application : android.app.Application(), Configuration.Provider {
         var presets: WeaponPresets? = null
         var hideout: Hideout? = null
         var ballistics: AmmoBallistics? = null
+        var stims: Stims? = null
         lateinit var instance: Application
             private set
     }
@@ -124,6 +125,7 @@ class Application : android.app.Application(), Configuration.Provider {
         presets = WeaponPresets(applicationContext)
         hideout = Hideout(applicationContext)
         ballistics = AmmoBallistics(applicationContext)
+        stims = Stims(applicationContext)
 
         //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
         if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
@@ -282,6 +284,8 @@ val skillsList: Skills = Application.skills!!
 val presetList: WeaponPresets = Application.presets!!
 
 val ballistics: AmmoBallistics = Application.ballistics!!
+
+val stims: Stims = Application.stims!!
 
 val hideoutList: Hideout by lazy {
     Application.hideout!!
