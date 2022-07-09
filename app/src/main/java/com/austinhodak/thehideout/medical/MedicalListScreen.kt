@@ -149,7 +149,7 @@ private fun MedCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
-            context.openActivity(FleaItemDetail::class.java) {
+            context.openActivity(MedDetailActivity::class.java) {
                 putString("id", item.pricing?.id)
             }
         },

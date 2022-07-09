@@ -128,6 +128,9 @@ class SettingsActivity : GodActivity() {
                 OpeningScreen.NEEDED_ITEMS -> {
                     extras.setOpeningItem(116, "neededGrid")
                 }
+                OpeningScreen.MEDS -> {
+                    extras.setOpeningItem(105, "medical")
+                }
             }
         }
         setContent {
@@ -426,6 +429,7 @@ class SettingsActivity : GodActivity() {
                                             OpeningScreen.MODS -> "Weapon Mods"
                                             OpeningScreen.WEAPONS -> "Weapons"
                                             OpeningScreen.NEEDED_ITEMS -> "Needed Items Grid"
+                                            OpeningScreen.MEDS -> "Medical"
                                             else -> ""
                                         }
                                     }) {

@@ -156,7 +156,8 @@ enum class OpeningScreen {
     WEAPONS,
     LOADOUTS,
     MODS,
-    NEEDED_ITEMS
+    NEEDED_ITEMS,
+    MEDS
 }
 
 enum class FleaVisiblePrice {
