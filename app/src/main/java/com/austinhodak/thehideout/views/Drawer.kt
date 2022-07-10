@@ -83,6 +83,11 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
     private val benderFont = ResourcesCompat.getFont(context, R.font.bender)
     private val benderBoldFont = ResourcesCompat.getFont(context, R.font.bender_bold)
 
+    private val drawerBosses = PrimaryDrawerItem().apply {
+        tag = "bosses"; identifier = 117; nameText = "Bosses"; iconRes = R.drawable.icons8_crown_96
+        isIconTinted = true; typeface = benderFont
+    }
+
     private val drawerNeededItemsGrid = PrimaryDrawerItem().apply {
         tag = "neededGrid"; identifier = 116; nameText = context.getString(R.string.needed_items); iconRes =
         R.drawable.ic_baseline_grid_view_24; isIconTinted = true; typeface =
@@ -118,20 +123,26 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         benderFont
     }
 
-    val interactiveMaps = SecondaryDrawerItem().apply {
-        level = 1; iconRes = R.drawable.ic_blank; identifier = 701
-        nameText = context.getString(R.string.interactive); typeface = benderFont; tag = "map_interactive"; isSelectable = false
+    private val interactiveMaps = SecondaryDrawerItem().apply {
+        level = 2; iconRes = R.drawable.ic_baseline_touch_app_24; identifier = 701
+        nameText = context.getString(R.string.interactive); typeface = benderFont; tag = "map_interactive"; isIconTinted = true; isSelectable = false;
     }
 
-    val staticMaps = SecondaryDrawerItem().apply {
-        level = 1; iconRes = R.drawable.ic_blank; identifier = 702
-        nameText = context.getString(R.string.n_static); typeface = benderFont; tag = "map_static"; isSelectable = false
+    private val staticMaps = SecondaryDrawerItem().apply {
+        level = 2; iconRes = R.drawable.ic_baseline_image_24; identifier = 702
+        nameText = context.getString(R.string.n_static); typeface = benderFont; tag = "map_static"; isSelectable = false; isIconTinted = true
+    }
+
+    private val mapsInfo = SecondaryDrawerItem().apply {
+        level = 2; iconRes = R.drawable.ic_baseline_info_24; identifier = 703
+        nameText = "Information"; typeface = benderFont; tag = "map_info"; isIconTinted = true
     }
 
     private val drawerMaps = ExpandableDrawerItem().apply {
         tag = "map_selector"; identifier = 110; nameText = context.getString(R.string.maps); iconRes =
         R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont; isSelectable = false;
         subItems = mutableListOf(
+            mapsInfo,
             interactiveMaps,
             staticMaps
         )
@@ -397,6 +408,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         itemAdapter.add(
             //drawerDivider,
             drawerAmmo,
+            //drawerBosses,
             drawerGear,
             drawerKeys,
             drawerMedical,

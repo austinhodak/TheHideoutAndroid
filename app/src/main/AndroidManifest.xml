@@ -176,6 +176,8 @@
             android:exported="true" />
         <activity android:name=".medical.MedDetailActivity"
             android:exported="true" />
+        <activity android:name=".map.MapDetailActivity"
+            android:exported="true" />
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"

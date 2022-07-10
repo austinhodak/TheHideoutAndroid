@@ -29,6 +29,7 @@ import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
 import com.austinhodak.thehideout.bitcoin.BitcoinPriceScreen
+import com.austinhodak.thehideout.bosses.BossesListScreen
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.currency.CurrenyConverterScreen
@@ -42,6 +43,7 @@ import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.keys.KeyListScreen
 import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
 import com.austinhodak.thehideout.map.MapsActivity
+import com.austinhodak.thehideout.map.MapsListScreen
 import com.austinhodak.thehideout.medical.MedicalListScreen
 import com.austinhodak.thehideout.news.NewsScreen
 import com.austinhodak.thehideout.provisions.ProvisionListScreen
@@ -354,6 +356,15 @@ class NavActivity : GodActivity() {
                                 questViewModel,
                                 hideoutViewModel
                             )
+                        }
+                        composable("bosses") {
+                            BossesListScreen(
+                                navViewModel,
+                                apolloClient
+                            )
+                        }
+                        composable("map_info") {
+                            MapsListScreen(navViewModel = navViewModel, apolloClient = apolloClient)
                         }
                     }
 
