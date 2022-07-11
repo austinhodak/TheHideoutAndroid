@@ -756,7 +756,7 @@ class WeaponDetailActivity : GodActivity() {
             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
         ) {
             Column(
-                Modifier.padding(16.dp)
+                Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 12.dp)
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
@@ -780,6 +780,4 @@ class WeaponDetailActivity : GodActivity() {
             }
         }
     }
-
-
 }

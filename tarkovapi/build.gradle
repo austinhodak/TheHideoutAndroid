@@ -48,6 +48,8 @@ dependencies {
 
     api('com.apollographql.apollo3:apollo-runtime:3.2.2')
     api('com.apollographql.apollo3:apollo-api:3.2.2')
+    api('com.apollographql.apollo3:apollo-normalized-cache:3.2.2')
+    api('com.apollographql.apollo3:apollo-normalized-cache-sqlite:3.2.2')
 
     implementation "io.github.resilience4j:resilience4j-retry:1.7.1"
     implementation "io.github.resilience4j:resilience4j-kotlin:1.7.1"

@@ -3,6 +3,9 @@ package com.austinhodak.tarkovapi.di
 import android.content.Context
 import androidx.room.Room
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.normalizedCache
+import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.network.okHttpClient
 import com.austinhodak.tarkovapi.room.AppDatabase
 import com.austinhodak.tarkovapi.tarkovtracker.AuthIntercept
@@ -31,15 +34,26 @@ object Module {
     }
 
     @Provides
-    fun provideApolloClient(): ApolloClient {
+    fun provideApolloClient(
+        @ApplicationContext appContext: Context
+    ): ApolloClient {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
+
+        val cacheFactory = MemoryCacheFactory(maxSizeBytes = 10 * 1024 * 1024)
+        val sqlCacheFactory = SqlNormalizedCacheFactory(appContext, "apollo.db")
+
+        val memoryFirstThenSqlCacheFactory = cacheFactory.chain(sqlCacheFactory)
 
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)
             .build()
 
-        return ApolloClient.Builder().serverUrl("https://api.tarkov.dev/graphql").okHttpClient(client).build()
+        return ApolloClient.Builder()
+            .serverUrl("https://api.tarkov.dev/graphql")
+            .normalizedCache(memoryFirstThenSqlCacheFactory)
+            .okHttpClient(client)
+            .build()
     }
 
     @Provides

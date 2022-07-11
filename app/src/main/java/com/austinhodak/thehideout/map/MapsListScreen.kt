@@ -65,14 +65,7 @@ fun MapsListScreen(navViewModel: NavViewModel, apolloClient: ApolloClient) {
             } else {
                 MainToolbar(
                     title = "Maps",
-                    navViewModel = navViewModel,
-                    actions = {
-                        /*IconButton(onClick = {
-                            navViewModel.setSearchOpen(true)
-                        }) {
-                            Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
-                        }*/
-                    }
+                    navViewModel = navViewModel
                 )
             }
         }

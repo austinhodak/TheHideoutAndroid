@@ -52,6 +52,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.ColorHolder
+import com.mikepenz.materialdrawer.holder.DimenHolder
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.badgeText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
@@ -135,7 +136,9 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
 
     private val mapsInfo = SecondaryDrawerItem().apply {
         level = 2; iconRes = R.drawable.ic_baseline_info_24; identifier = 703
-        nameText = "Information"; typeface = benderFont; tag = "map_info"; isIconTinted = true
+        nameText = "Information"; typeface = benderFont; tag = "map_info"; isIconTinted = true;
+        badgeText = "NEW";
+        badgeStyle = BadgeStyle().apply { paddingLeftRight = DimenHolder.fromDp(4); textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_green_500); }
     }
 
     private val drawerMaps = ExpandableDrawerItem().apply {
