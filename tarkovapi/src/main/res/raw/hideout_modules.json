@@ -193,7 +193,7 @@
         "type": "item",
         "name": "5d03794386f77420415576f5",
         "quantity": 1,
-        "id": 320
+        "id": 321
       }
     ],
     "id": 3,
@@ -769,14 +769,14 @@
       },
       {
         "type": "item",
-        "name": "590a3efd86f77437d351a25b",
-        "quantity": 1,
+        "name": "62a0a16d0b9d3c46de5b6e97",
+        "quantity": 5,
         "id": 74
       },
       {
         "type": "item",
         "name": "5d0375ff86f774186372f685",
-        "quantity": 4,
+        "quantity": 5,
         "id": 75
       },
       {
@@ -788,7 +788,7 @@
       {
         "type": "item",
         "name": "61bf7c024770ee6f9c6b8b53",
-        "quantity": 1,
+        "quantity": 2,
         "id": 319
       }
     ],
@@ -822,6 +822,12 @@
         "name": "5c13cd2486f774072c757944",
         "quantity": 1,
         "id": 254
+      },
+      {
+        "type": "item",
+        "name": "62a0a098de7ac8199358053b",
+        "quantity": 1,
+        "id": 323
       }
     ],
     "id": 18,
@@ -1016,6 +1022,12 @@
         "name": "544fb25a4bdc2dfb738b4567",
         "quantity": 2,
         "id": 298
+      },
+      {
+        "type": "item",
+        "name": "62a0a043cf4a99369e2624a5",
+        "quantity": 1,
+        "id": 322
       }
     ],
     "id": 22,
@@ -1172,6 +1184,12 @@
         "name": "5449016a4bdc2d6f028b456f",
         "quantity": 25000,
         "id": 200
+      },
+      {
+        "type": "item",
+        "name": "62a09ee4cf4a99369e262453",
+        "quantity": 1,
+        "id": 324
       }
     ],
     "id": 25,
@@ -1434,7 +1452,7 @@
       {
         "type": "item",
         "name": "59e3639286f7741777737013",
-        "quantity": 4,
+        "quantity": 3,
         "id": 118
       },
       {
@@ -1472,6 +1490,12 @@
         "name": "Intelligence center",
         "quantity": 2,
         "id": 122
+      },
+      {
+        "type": "item",
+        "name": "5bc9bc53d4351e00367fbcee",
+        "quantity": 1,
+        "id": 325
       }
     ],
     "id": 31,
@@ -2291,5 +2315,43 @@
     ],
     "id": 49,
     "stationId": 18
+  },
+  {
+    "module": "Christmas Tree",
+    "level": 1,
+    "require": [
+      {
+        "type": "module",
+        "name": "Generator",
+        "quantity": 1,
+        "id": 220
+      },
+      {
+        "type": "item",
+        "name": "5df8a6a186f77412640e2e80",
+        "quantity": 1,
+        "id": 221
+      },
+      {
+        "type": "item",
+        "name": "5df8a72c86f77412640e2e83",
+        "quantity": 1,
+        "id": 222
+      },
+      {
+        "type": "item",
+        "name": "5df8a77486f77412672a1e3f",
+        "quantity": 1,
+        "id": 223
+      },
+      {
+        "type": "item",
+        "name": "5449016a4bdc2d6f028b456f",
+        "quantity": 10000,
+        "id": 224
+      }
+    ],
+    "id": 5,
+    "stationId": 19
   }
 ]
