@@ -345,7 +345,7 @@ private fun QuestItemsScreen(
 
     val itemObjectives = quests.associateWith {
         it.objective?.filterNot { obj ->
-            obj.type == "build" || obj.type == "reputation" || obj.number ?: 0 > 1000
+            obj.type == "build" || obj.type == "reputation" || (obj.number ?: 0) > 1000
         } ?: emptyList()
     }
 

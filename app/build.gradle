@@ -29,12 +29,12 @@ android {
 
     defaultConfig {
         applicationId "com.austinhodak.thehideout"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 32
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 16001
+        versionCode 16110
         // [1]-[0].[2].[0].[0]
-        versionName "1.6.0"
+        versionName "1.6.1"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
@@ -107,7 +107,7 @@ dependencies {
     implementation 'io.coil-kt:coil-compose:1.3.2'
     implementation("io.coil-kt:coil-gif:1.4.0")
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
 
     implementation 'com.google.code.gson:gson:2.9.0'
 
@@ -121,14 +121,14 @@ dependencies {
     implementation "androidx.core:core-ktx:${versions.ktx}"
 
     // Hilt
-    implementation 'com.google.dagger:hilt-android:2.41'
-    kapt 'com.google.dagger:hilt-android-compiler:2.41'
+    implementation 'com.google.dagger:hilt-android:2.42'
+    kapt 'com.google.dagger:hilt-android-compiler:2.42'
 
     //Compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "androidx.activity:activity-compose:1.4.0"
+    implementation "androidx.activity:activity-compose:1.5.0"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
@@ -141,9 +141,9 @@ dependencies {
     implementation "androidx.annotation:annotation:${versions.annotation}"
     implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
-    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.0"
 
-    implementation 'androidx.navigation:navigation-compose:2.4.2'
+    implementation 'androidx.navigation:navigation-compose:2.5.0'
 
     //END AndroidX
 
@@ -163,7 +163,7 @@ dependencies {
     api 'com.google.firebase:firebase-dynamic-links-ktx'
     //api 'com.google.android.gms:play-services-ads'
    // api 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.1'
-    api 'com.google.mlkit:text-recognition:16.0.0-beta3'
+    api 'com.google.mlkit:text-recognition:16.0.0-beta4'
 
     api 'com.firebaseui:firebase-ui-auth:8.0.1'
     //END Firebase
@@ -183,7 +183,7 @@ dependencies {
     implementation "com.afollestad.material-dialogs:input:${versions.mDialogs}"
     //END Dialogs
 
-    api ('com.github.bumptech.glide:glide:4.13.1') {
+    api ('com.github.bumptech.glide:glide:4.13.2') {
         exclude group: "com.android.support"
     }
 
@@ -191,13 +191,13 @@ dependencies {
 
     implementation "com.github.skydoves:only:1.0.8"
 
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
 
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
-    implementation 'com.airbnb.android:lottie-compose:5.0.3'
+    implementation 'com.airbnb.android:lottie-compose:5.2.0'
 
     api "com.google.accompanist:accompanist-glide:0.15.0"
     api "com.google.accompanist:accompanist-insets:$accompanist"
@@ -229,7 +229,7 @@ dependencies {
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '6.4.12'
+    implementation group: 'io.gleap', name: 'gleap-android-sdk', version: '7.0.19'
 
     implementation 'dev.bandb.graphview:graphview:0.8.1'
     implementation("com.otaliastudios:zoomlayout:1.9.0")

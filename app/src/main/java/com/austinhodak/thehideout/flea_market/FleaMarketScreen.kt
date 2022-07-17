@@ -57,6 +57,7 @@ import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.components.ShoppingCartScreen
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
+import com.austinhodak.thehideout.profile.UserProfileActivity
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
@@ -148,6 +149,9 @@ fun FleaMarketScreen(
                                             Pair("Refresh Prices") {
                                                 Toast.makeText(context, "Refreshing prices...", Toast.LENGTH_SHORT).show()
                                                 fleaViewModel.refreshList()
+                                            },
+                                            Pair("Set Trader Levels") {
+                                                context.openActivity(UserProfileActivity::class.java)
                                             },
                                         )
                                     )

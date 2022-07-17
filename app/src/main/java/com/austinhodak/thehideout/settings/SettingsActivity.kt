@@ -924,7 +924,7 @@ class SettingsActivity : GodActivity() {
                                         summary = "Take a screenshot, try it!".asText()
                                         icon = R.drawable.ic_baseline_feedback_24.asIcon()
                                         onClick = {
-                                            Gleap.getInstance().startFeedbackFlow()
+                                            //Gleap.getInstance().startFeedbackFlow()
                                         }
                                     }
                                 }
@@ -1038,12 +1038,12 @@ class SettingsActivity : GodActivity() {
                                         icon = R.drawable.icons8_toilet_paper_24.asIcon()
                                         enabled = false
                                     }
-                                    button {
+                                    /*button {
                                         title = "Data Pulled".asText()
-                                        summary = "Jan 19, 2022".asText()
+                                        summary = "Jul 17, 2022".asText()
                                         icon = R.drawable.ic_baseline_access_time_24.asIcon()
                                         enabled = false
-                                    }
+                                    }*/
                                     button {
                                         title = "Translations".asText()
                                         summary = "Click to contribute!".asText()

@@ -48,6 +48,9 @@ class QuestMainViewModel @Inject constructor(
         _view.value = int
     }
 
+    private val _views = MutableLiveData(listOf(QuestFilter.AVAILABLE).toMutableList())
+    val views = _views
+
     val pmcElimsTotal = MutableLiveData(0)
     val scavElimsTotal = MutableLiveData(0)
     val questItemsTotal = MutableLiveData(0)

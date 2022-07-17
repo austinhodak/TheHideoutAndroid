@@ -139,6 +139,7 @@
         <entry key="app/src/main/res/drawable/ic_groups_white_24dp.xml" value="0.3485" />
         <entry key="app/src/main/res/drawable/login_bg.xml" value="0.351" />
         <entry key="app/src/main/res/layout/login_picker.xml" value="0.44972826086956524" />
+        <entry key="app/src/main/res/layout/price_chart_marker_view.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/view_health_bar.xml" value="0.5802083333333333" />
       </map>
     </option>

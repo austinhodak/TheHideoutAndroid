@@ -42,7 +42,6 @@ class MapDetailActivity : AppCompatActivity() {
     @Inject
     lateinit var apolloClient: ApolloClient
 
-    @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,7 +68,9 @@ class MapDetailActivity : AppCompatActivity() {
                     topBar = {
                         TopAppBar(
                             title = {
-                                Row {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
                                     Image(
                                         painter = painterResource(icon), contentDescription = null,
                                         Modifier.size(36.dp)
@@ -78,18 +79,16 @@ class MapDetailActivity : AppCompatActivity() {
                                         Text(
                                             text = mapData?.name ?: "Loading...",
                                             color = MaterialTheme.colors.onPrimary,
-                                            style = MaterialTheme.typography.h6,
                                             maxLines = 1,
-                                            fontSize = 18.sp,
                                             overflow = TextOverflow.Ellipsis
                                         )
-                                        Text(
+                                        /*Text(
                                             text = mapData?.description ?: "",
                                             color = MaterialTheme.colors.onPrimary,
                                             style = MaterialTheme.typography.caption,
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis
-                                        )
+                                        )*/
                                     }
                                 }
                             },
@@ -133,15 +132,15 @@ class MapDetailActivity : AppCompatActivity() {
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
         ) {
-            Column (Modifier.padding(bottom = 8.dp)) {
-                Row (Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.padding(bottom = 8.dp)) {
+                Row(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp), verticalAlignment = Alignment.CenterVertically) {
                     //Icon
-                    Image(painter = painterResource(id = boss.icon()), contentDescription = null, Modifier.size(42.dp), contentScale = ContentScale.Crop)
+                    Image(painter = painterResource(id = boss.icon()), contentDescription = null, Modifier.size(42.dp).border(0.25.dp, BorderColor), contentScale = ContentScale.Crop)
                     Column(
                         Modifier.padding(start = 16.dp)
                     ) {
                         Text(
-                            text = boss.name ?: "",
+                            text = boss.name,
                             fontWeight = FontWeight.Medium,
                             color = White,
                             style = MaterialTheme.typography.h6,
@@ -183,10 +182,14 @@ class MapDetailActivity : AppCompatActivity() {
                         )
                     }
                     boss.escorts.forEach { escort ->
-                        BasicStatRow(title = escort?.name?.uppercase() ?: "", text = "${escort?.amount?.joinToString(separator = " • ") { 
-                            val chance = (it?.chance?.times(100))?.roundToInt() ?: 100
-                            "${it?.count}/${chance}%"
-                        }}")
+                        BasicStatRow(
+                            title = escort?.name?.uppercase() ?: "", text = "${
+                                escort?.amount?.joinToString(separator = " • ") {
+                                    val chance = (it?.chance?.times(100))?.roundToInt() ?: 100
+                                    "${it?.count}/${chance}%"
+                                }
+                            }"
+                        )
                     }
                 }
             }
@@ -229,155 +232,4 @@ class MapDetailActivity : AppCompatActivity() {
             }
         }
     }
-
-    @Composable
-    private fun BuffsCard(item: Item, effects: Stim?) {
-        Card(
-            backgroundColor = if (isSystemInDarkTheme()) Color(
-                0xFE1F1F1F
-            ) else MaterialTheme.colors.primary,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp)
-        ) {
-            Column(
-                Modifier.padding(bottom = 12.dp)
-            ) {
-                Row(
-                    modifier = Modifier.padding(
-                        bottom = 8.dp,
-                        top = 16.dp,
-                        start = 0.dp,
-                        end = 16.dp
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(
-                            text = "BUFFS",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Light,
-                            fontFamily = Bender,
-                            modifier = Modifier.padding(start = 16.dp)
-                        )
-                    }
-                }
-                item.getBuffs(effects).filter { it.type == "buff" }.sortedBy { it.icon == null }.forEach { effect ->
-                    Row(
-                        modifier = Modifier.padding(end = 16.dp, top = 4.dp, bottom = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        effect.icon?.let {
-                            Image(painter = painterResource(id = it), contentDescription = null, modifier = Modifier
-                                .padding(start = 16.dp)
-                                .size(16.dp))
-                        }
-                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                            Text(
-                                text = effect.title.uppercase(),
-                                style = MaterialTheme.typography.body1,
-                                fontSize = 12.sp,
-                                modifier = Modifier
-                                    .padding(start = 16.dp, end = 16.dp)
-                                    .weight(1f),
-                                overflow = TextOverflow.Ellipsis,
-                                maxLines = 1
-                            )
-                        }
-                        //Spacer(modifier = Modifier.weight(1f))
-                        if (effect.color != null) {
-                            Text(
-                                text = effect.value ?: "",
-                                style = MaterialTheme.typography.body1,
-                                fontSize = 14.sp,
-                                color = effect.color!!
-                            )
-                        } else {
-                            Text(
-                                text = effect.value ?: "",
-                                style = MaterialTheme.typography.body1,
-                                fontSize = 14.sp,
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Composable
-    private fun DeBuffsCard(item: Item, effects: Stim?) {
-        Card(
-            backgroundColor = if (isSystemInDarkTheme()) Color(
-                0xFE1F1F1F
-            ) else MaterialTheme.colors.primary,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp)
-        ) {
-            Column(
-                Modifier.padding(bottom = 12.dp)
-            ) {
-                Row(
-                    modifier = Modifier.padding(
-                        bottom = 8.dp,
-                        top = 16.dp,
-                        start = 0.dp,
-                        end = 16.dp
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                        Text(
-                            text = "DEBUFFS",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Light,
-                            fontFamily = Bender,
-                            modifier = Modifier.padding(start = 16.dp)
-                        )
-                    }
-                }
-                item.getBuffs(effects).filter { it.type == "debuff" }.sortedBy { it.icon == null }.forEach { effect ->
-                    Row(
-                        modifier = Modifier.padding(end = 16.dp, top = 4.dp, bottom = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        effect.icon?.let {
-                            Image(painter = painterResource(id = it), contentDescription = null, modifier = Modifier
-                                .padding(start = 16.dp)
-                                .size(16.dp))
-                        }
-                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                            Text(
-                                text = effect.title.uppercase(),
-                                style = MaterialTheme.typography.body1,
-                                fontSize = 12.sp,
-                                modifier = Modifier
-                                    .padding(start = 16.dp, end = 16.dp)
-                                    .weight(1f),
-                                overflow = TextOverflow.Ellipsis,
-                                maxLines = 1
-                            )
-                        }
-                        //Spacer(modifier = Modifier.weight(1f))
-                        if (effect.color != null) {
-                            Text(
-                                text = effect.value ?: "",
-                                style = MaterialTheme.typography.body1,
-                                fontSize = 14.sp,
-                                color = effect.color!!
-                            )
-                        } else {
-                            Text(
-                                text = effect.value ?: "",
-                                style = MaterialTheme.typography.body1,
-                                fontSize = 14.sp,
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 }
