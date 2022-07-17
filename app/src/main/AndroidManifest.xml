@@ -16,7 +16,7 @@
             android:name=".profile.UserProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".PremiumThanksActivity"
+            android:name=".premium.PremiumThanksActivity"
             android:exported="true" />
         <activity
             android:name=".map.CustomMapMarkerAddActivity"

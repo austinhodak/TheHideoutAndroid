@@ -72,8 +72,7 @@ val weaponCategories = mutableListOf(
     Triple(R.string.pistols, 308, "pistol"),
     Triple(R.string.sniper_rifles, 307, "sniperRifle"),
     Triple(R.string.shotguns, 305, "shotgun"),
-    Triple(R.string.smgs, 304, "smg"),
-    //Triple("Grenade Launchers", 309, "grenadeLauncher")
+    Triple(R.string.smgs, 304, "smg")
 )
 
 @ExperimentalCoilApi
@@ -94,7 +93,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         R.drawable.ic_baseline_grid_view_24; isIconTinted = true; typeface =
         benderFont;
         badgeText = "Beta";
-        badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_orange_700) }
+        badgeStyle = BadgeStyle().apply { paddingLeftRight = DimenHolder.fromDp(4); textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_orange_700) }
     }
     private val drawerAmmo = PrimaryDrawerItem().apply {
         tag = "ammunition/Caliber762x35"; identifier = 101; iconRes =
@@ -137,7 +136,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
     private val mapsInfo = SecondaryDrawerItem().apply {
         level = 2; iconRes = R.drawable.ic_baseline_info_24; identifier = 703
         nameText = "Information"; typeface = benderFont; tag = "map_info"; isIconTinted = true;
-        badgeText = "NEW";
+        badgeText = "New";
         badgeStyle = BadgeStyle().apply { paddingLeftRight = DimenHolder.fromDp(4); textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_green_500); }
     }
 
@@ -291,7 +290,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         tag = "item_scanner"; level = 2; identifier = 407; nameText =
         context.getString(R.string.item_scanner); iconRes = R.drawable.ic_baseline_document_scanner_24; isIconTinted =
         true; typeface = benderFont; isEnabled = true; badgeText = "Alpha";
-        badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_red_700) }
+        badgeStyle = BadgeStyle().apply { paddingLeftRight = DimenHolder.fromDp(4); textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_red_700) }
         isSelectable = false
     }
 
@@ -409,9 +408,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
 
     init {
         itemAdapter.add(
-            //drawerDivider,
             drawerAmmo,
-            //drawerBosses,
             drawerGear,
             drawerKeys,
             drawerMedical,
@@ -614,7 +611,8 @@ fun MainDrawer(
                         badgeText = status?.getBadgeText() ?: ""
                         badgeStyle = BadgeStyle().apply {
                             color = ColorHolder.fromColor(status?.currentStatusColor()?.toArgb() ?: 0x00000000)
-                            typeface = benderFont
+                            typeface = benderFont;
+                            paddingLeftRight = DimenHolder.fromDp(4);
                         }
                     }
                     if (status != null && !status?.getBadgeText().isNullOrBlank()) {
@@ -644,7 +642,6 @@ fun MainDrawer(
                         val isLoggedIn =
                             it.currentUser != null && it.currentUser?.isAnonymous == false
                         if (!isLoggedIn) {
-                            //drawer.removeAllStickyFooterItems()
                             try {
                                 drawer.removeStickyFooterItemAtPosition(1)
                             } catch (e: Exception) {

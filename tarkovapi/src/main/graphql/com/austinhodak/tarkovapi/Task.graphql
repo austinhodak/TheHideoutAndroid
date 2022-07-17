@@ -1,0 +1,149 @@
+fragment TaskFragment on Task {
+    id
+    tarkovDataId
+    name
+    trader {
+        id
+        name
+    }
+    map {
+        id
+        tarkovDataId
+        name
+    }
+    experience
+    wikiLink
+    minPlayerLevel
+    taskRequirements {
+        status
+        task {
+            id
+        }
+    }
+    traderLevelRequirements {
+        id
+        trader {
+            id
+        }
+        level
+    }
+    objectives {
+        id
+        type
+        description
+        maps {
+            id
+        }
+        optional
+        ... on TaskObjectiveBasic {
+            ...TaskObjectiveFragment
+        }
+        ... on TaskObjectiveBuildItem {
+            ...TaskObjectiveFragment
+            item {
+                id
+            }
+            containsAll {
+                id
+            }
+            containsOne {
+                id
+            }
+            attributes {
+                name
+                requirement {
+                    compareMethod
+                    value
+                }
+            }
+        }
+    }
+    startRewards {
+        traderStanding {
+            trader {
+                id
+            }
+            standing
+        }
+        items {
+            item {
+                id
+            }
+            quantity
+            count
+        }
+        offerUnlock {
+            id
+            trader {
+                id
+            }
+            level
+            item {
+                id
+            }
+        }
+        skillLevelReward {
+            name
+            level
+        }
+        traderUnlock {
+            id
+            name
+        }
+    }
+    finishRewards {
+        traderStanding {
+            trader {
+                id
+            }
+            standing
+        }
+        items {
+            item {
+                id
+            }
+            quantity
+            count
+        }
+        offerUnlock {
+            id
+            trader {
+                id
+            }
+            level
+            item {
+                id
+            }
+        }
+        skillLevelReward {
+            name
+            level
+        }
+        traderUnlock {
+            id
+            name
+        }
+    }
+    factionName
+    neededKeys {
+        keys {
+            id
+            name
+        }
+        map {
+            id
+            tarkovDataId
+            name
+        }
+    }
+}
+
+fragment TaskObjectiveFragment on TaskObjective {
+    id
+    type
+    description
+    maps {
+        id
+    }
+    optional
+}

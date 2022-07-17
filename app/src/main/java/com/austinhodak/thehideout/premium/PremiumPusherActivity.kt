@@ -30,7 +30,6 @@ import coil.annotation.ExperimentalCoilApi
 import com.adapty.Adapty
 import com.adapty.models.PaywallModel
 import com.android.billingclient.api.*
-import com.austinhodak.thehideout.PremiumThanksActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.theme.*

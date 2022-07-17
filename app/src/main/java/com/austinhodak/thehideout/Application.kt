@@ -20,6 +20,7 @@ import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.SetOptions
@@ -191,8 +192,12 @@ class Application : android.app.Application(), Configuration.Provider {
 
         Only.init(applicationContext)
 
-        Firebase.firestore.firestoreSettings = firestoreSettings {
-            isPersistenceEnabled = true
+        try {
+            Firebase.firestore.firestoreSettings = firestoreSettings {
+                isPersistenceEnabled = true
+            }
+        } catch (e: Exception) {
+            Firebase.crashlytics.recordException(e)
         }
 
         Firebase.messaging.token.addOnSuccessListener {
@@ -258,7 +263,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
         Firebase.remoteConfig.setDefaultsAsync(
             mapOf(
-                "game_info" to "{\"version\":\"0.12.12.10.16440\",\"version_date\":\"01-09-2022\",\"wipe_date\":\"12-12-2021\"}"
+                "game_info" to "{\"version\":\"0.12.12.30.19047\",\"version_date\":\"07-15-2022\",\"wipe_date\":\"06-30-2022\"}"
             )
         )
 

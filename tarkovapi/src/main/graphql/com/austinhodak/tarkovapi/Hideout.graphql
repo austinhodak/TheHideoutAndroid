@@ -1,0 +1,48 @@
+query Hideout {
+    hideoutStations {
+        id
+        name
+        tarkovDataId
+        levels {
+            id
+            level
+            constructionTime
+            tarkovDataId
+            itemRequirements {
+                id
+                item {
+                    id
+                }
+                count
+                quantity
+                attributes {
+                    type
+                    name
+                    value
+                }
+            }
+            stationLevelRequirements {
+                id
+                level
+                station {
+                    name
+                    tarkovDataId
+                    id
+                }
+            }
+            skillRequirements {
+                id
+                name
+                level
+            }
+            traderRequirements {
+                id
+                trader {
+                    id
+                    name
+                }
+                level
+            }
+        }
+    }
+}
