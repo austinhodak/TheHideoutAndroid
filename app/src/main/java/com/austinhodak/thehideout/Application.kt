@@ -105,6 +105,16 @@ class Application : android.app.Application(), Configuration.Provider {
         }
     }
 
+    private fun createRaidAlertsNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Raid Alerts"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("RAID_ALERTS", name, importance)
+            // Register the channel with the system
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
     lateinit var listenerRegistration: ListenerRegistration
 
     override fun onCreate() {
@@ -113,6 +123,7 @@ class Application : android.app.Application(), Configuration.Provider {
         createServerStatusChannel()
         createRestockNotificationChannel()
         createPriceAlertsNotificationChannel()
+        createRaidAlertsNotificationChannel()
 
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 

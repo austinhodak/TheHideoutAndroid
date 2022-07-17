@@ -43,7 +43,7 @@ class MessagingService : FirebaseMessagingService() {
             if (remoteMessage.data.containsKey("title") && remoteMessage.data.containsKey("content") && !remoteMessage.data.containsKey("restock") && !remoteMessage.data.containsKey("priceAlert")) {
                 val title = remoteMessage.data["title"]
                 val content = remoteMessage.data["content"]
-                sendNotification(title ?: "", content ?: "")
+                sendServerStatusNotification(title ?: "", content ?: "")
             } else if (remoteMessage.data.containsKey("data") && !remoteMessage.data.containsKey("restock") && !remoteMessage.data.containsKey("priceAlert")) {
                 val data = JSONObject(remoteMessage.data.getValue("data"))
                 Timber.d("$data")
@@ -63,7 +63,7 @@ class MessagingService : FirebaseMessagingService() {
                     }
 
                     if (UserSettingsModel.serverStatusUpdates.value)
-                    sendNotification(title, message)
+                    sendServerStatusNotification(title, message)
                 }
 
                 if (data.has("message")) {
@@ -74,7 +74,7 @@ class MessagingService : FirebaseMessagingService() {
                     val solveTime = message.getString("solveTime")
 
                     if (UserSettingsModel.serverStatusMessages.value)
-                    sendNotification("New Status Update", content)
+                    sendServerStatusNotification("New Status Update", content)
                 }
             } else if (remoteMessage.data.containsKey("restock")) {
                 //User has restock notifications off, do nothing.
@@ -117,35 +117,59 @@ class MessagingService : FirebaseMessagingService() {
                 } catch (e: Exception) {
                     Timber.e(e)
                 }
-            }
+            } else if (remoteMessage.data.containsKey("raid")) {
+                val raidData = JSONObject(remoteMessage.data.getValue("raid"))
+                val eventType = raidData.optString("event")
 
-            /*val fleaItem = JSONObject(remoteMessage.data["fleaItem"])
-            val alertItem = JSONObject(remoteMessage.data["alertItem"])
-
-            val whenText = when (alertItem["when"] as String) {
-                "below" -> "dropped below"
-                "above" -> "risen above"
-                else -> ""
-            }
-
-            *//*val notiText = "${fleaItem["name"]} has $whenText your alert price of ${(alertItem["price"] as Int).getPrice("₽")}.\n\n" +
-                    "Current Price: ${(fleaItem["price"] as Int).getPrice("₽")}. \uD83D\uDE4C"*//*
-
-            val builder = NotificationCompat.Builder(this, "FLEA_ALERTS").apply {
-                setSmallIcon(R.drawable.hideout_shadow_1)
-                setContentTitle("Flea Market Price Alert \uD83D\uDCB8")
-                priority = NotificationCompat.PRIORITY_DEFAULT
-                setContentText("")
-                setStyle(NotificationCompat.BigTextStyle().bigText(""))
-            }
-
-            Glide.with(this).asBitmap().load(fleaItem["icon"]).into(object : SimpleTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    builder.setLargeIcon(resource)
-                    notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+                if (eventType.isNotEmpty()) {
+                    when(eventType) {
+                        "MatchingCompleted" -> {
+                            if (UserSettingsModel.raidAlertMatched.value) {
+                                sendRaidAlertNotification("You have matched to a raid!", "The raid will be starting soon.")
+                            }
+                        }
+                        "GameStarting" -> {
+                            if (UserSettingsModel.raidAlertCountdown.value) {
+                                sendRaidAlertNotification("The raid is starting!", "The countdown has started!")
+                            }
+                        }
+                        "GameStarted" -> {
+                            if (UserSettingsModel.raidAlertStarted.value) {
+                                sendRaidAlertNotification("The raid has started!", "You are currently in a raid!")
+                            }
+                        }
+                    }
                 }
-            })*/
+            }
         }
+    }
+
+    private fun sendRaidAlertNotification(title: String, content: String) {
+        if (!UserSettingsModel.raidAlertGlobalNotifications.value) return
+
+        val intent = Intent(this, ServerStatusActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        intent.putExtra("fromNoti", true)
+
+        val pendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        } else {
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
+        val builder = NotificationCompat.Builder(this, "RAID_ALERTS").apply {
+            setSmallIcon(R.drawable.hideout_shadow_1)
+            setContentTitle(title)
+            priority = NotificationCompat.PRIORITY_DEFAULT
+            setContentText(content)
+            setStyle(NotificationCompat.BigTextStyle().bigText(content))
+            setContentIntent(pendingIntent)
+            setAutoCancel(true)
+        }
+
+        notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
     }
 
     private fun sendPriceAlertNotification(title: String, content: String, item: JSONObject) {
@@ -218,7 +242,7 @@ class MessagingService : FirebaseMessagingService() {
         })*/
     }
 
-    private fun sendNotification(title: String, message: String) {
+    private fun sendServerStatusNotification(title: String, message: String) {
         if (!UserSettingsModel.serverStatusNotifications.value) return
 
         val intent = Intent(this, ServerStatusActivity::class.java).apply {

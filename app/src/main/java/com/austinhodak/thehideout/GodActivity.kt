@@ -41,6 +41,7 @@ open class GodActivity : ComponentActivity() {
             setupRestockTopics()
             setupScreenOn()
             setupPlayerInfoSync()
+            setupRaidAlerts()
         }
 
         Adapty.getPurchaserInfo { purchaserInfo, error ->
@@ -48,6 +49,14 @@ open class GodActivity : ComponentActivity() {
                 lifecycleScope.launch {
                     UserSettingsModel.isPremiumUser.update(purchaserInfo?.accessLevels?.get("premium")?.isActive == true)
                 }
+            }
+        }
+    }
+
+    private fun setupRaidAlerts() {
+        UserSettingsModel.pcHardwareID.observe(lifecycleScope) { id ->
+            if (id.isNotEmpty()) {
+                Firebase.messaging.subscribeToTopic("raid-${id}")
             }
         }
     }
