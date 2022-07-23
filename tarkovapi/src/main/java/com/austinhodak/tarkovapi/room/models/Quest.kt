@@ -42,8 +42,10 @@ data class Quest(
         val location: String? = null,
         val targetItem: Pricing? = null
     ) {
-        override fun toString(): String {
-            val location = com.austinhodak.tarkovapi.room.enums.Maps.values().find { it.int == location?.toInt() }?.id
+       /* override fun toString(): String {
+            //val location = com.austinhodak.tarkovapi.room.enums.Maps.values().find { it.int == location?.toInt() }?.id
+            val location = null
+
             return when (type) {
                 "kill" -> "Eliminate $number ${target?.first()} on $location"
                 "collect" -> "Hand over ${getNumber()}${target?.first()}"
@@ -59,7 +61,7 @@ data class Quest(
                 "survive" -> "Survive in the raid at $location $number times."
                 else -> ""
             }
-        }
+        }*/
 
         fun toStringBasic(): String {
             val location = com.austinhodak.tarkovapi.room.enums.Maps.values().find { it.int == location?.toInt() }?.id
