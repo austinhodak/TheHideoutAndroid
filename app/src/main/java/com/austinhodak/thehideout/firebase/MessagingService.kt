@@ -147,7 +147,7 @@ class MessagingService : FirebaseMessagingService() {
     private fun sendRaidAlertNotification(title: String, content: String) {
         if (!UserSettingsModel.raidAlertGlobalNotifications.value) return
 
-        val intent = Intent(this, ServerStatusActivity::class.java).apply {
+        val intent = Intent(this, NavActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
