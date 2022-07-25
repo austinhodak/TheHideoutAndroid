@@ -721,7 +721,7 @@ class SettingsActivity : GodActivity() {
                                         title = "Download Windows Program".asText()
                                         icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
                                         onClick = {
-                                            //"https://github.com/TarkovTracker/tarkovdata/".openWithCustomTab(this@SettingsActivity)
+                                            "https://github.com/austinhodak/the-hideout-desktop/releases".openWithCustomTab(this@SettingsActivity)
                                         }
                                     }
                                     input(UserSettingsModel.pcHardwareID) {
