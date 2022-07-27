@@ -25,8 +25,14 @@ fun QuestsQuery.Quest.toQuest(): Quest {
         quest.title,
         quest.wikiLink,
         quest.exp,
-        quest.giver.traderFragment,
-        quest.turnin.traderFragment,
+        Quest.TraderFragment(
+            quest.giver.traderFragment.name,
+            quest.giver.traderFragment.id
+        ),
+        Quest.TraderFragment(
+            quest.turnin.traderFragment.name,
+            quest.turnin.traderFragment.id
+        ),
         quest.unlocks,
         Quest.QuestRequirement(
             level = quest.requirements?.level,

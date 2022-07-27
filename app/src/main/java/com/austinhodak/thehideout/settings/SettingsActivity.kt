@@ -747,7 +747,7 @@ class SettingsActivity : GodActivity() {
                                 }
                                 subScreen {
                                     title = "Tarkov Tracker".asText()
-                                    icon = R.drawable.ic_baseline_link_24.asIcon()
+                                    icon = R.drawable.ic_baseline_explore_24.asIcon()
                                     //summary = "Coming soon.".asText()
                                     badge = "PRO".asBatch()
                                     if (isPremium() || isDebug()) {
@@ -1089,8 +1089,9 @@ class SettingsActivity : GodActivity() {
                                 }
                                 button {
                                     title = "Vote For Features".asText()
+                                    summary = "Give feedback and report bugs.".asText()
                                     icon = R.drawable.ic_baseline_how_to_vote_24.asIcon()
-                                    enabled = true
+                                    badge = "NEW".asBatch()
                                     onClick = {
                                         "https://feedback.thehideout.io".openWithCustomTab(this@SettingsActivity)
                                     }

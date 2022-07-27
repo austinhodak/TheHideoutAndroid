@@ -12,9 +12,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BuildCircle
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -49,7 +49,7 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.tarkovapi.utils.fromDtoR
 import com.austinhodak.tarkovapi.utils.openActivity
-import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
@@ -63,10 +63,8 @@ import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
-import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.hideout.detail.HideoutStationDetailActivity
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
-import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.quests.Chip
 import com.austinhodak.thehideout.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -744,6 +742,8 @@ private fun HideoutCraftsPage(
     val filterAvailable by hideoutViewModel.filterAvailable.observeAsState()
     val userData by fsUser.observeAsState()
 
+    val favorites by Favorites.crafts.observeAsState(emptySet())
+
     val items = crafts.filter {
         it.rewardItem()?.item?.name?.contains(searchKey, true) == true
                 || it.rewardItem()?.item?.shortName?.contains(searchKey, true) == true
@@ -775,18 +775,16 @@ private fun HideoutCraftsPage(
                 contentPadding = PaddingValues(top = 4.dp, bottom = padding.calculateBottomPadding())
             ) {
                 items(items = items, key = { it.id.toString() }) { craft ->
-                    CraftItem(craft, userData)
+                    CraftItem(craft, userData, favorites.contains(craft.id))
                 }
             }
         }
     }
-
-
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun CraftItem(craft: Craft, userData: FSUser?) {
+fun CraftItem(craft: Craft, userData: FSUser?, isFavorite: Boolean) {
     val rewardItem = craft.rewardItems?.firstOrNull()?.item
     val reward = craft.rewardItems?.firstOrNull()
     val requiredItems = craft.requiredItems
@@ -802,11 +800,6 @@ fun CraftItem(craft: Craft, userData: FSUser?) {
                 context.openActivity(CraftDetailActivity::class.java) {
                     putSerializable("craft", craft)
                 }
-                /*if (rewardItem?.id != itemID) {
-                    context.openActivity(FleaItemDetail::class.java) {
-                        putString("id", rewardItem?.id)
-                    }
-                }*/
             },
         ) {
             Column {
@@ -839,7 +832,7 @@ fun CraftItem(craft: Craft, userData: FSUser?) {
                     Modifier
                         .padding(16.dp)
                         .height(IntrinsicSize.Min),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.Top
                 ) {
                     Box {
                         Image(
@@ -893,6 +886,9 @@ fun CraftItem(craft: Craft, userData: FSUser?) {
                             )
                         }
                     }
+                    if (isFavorite) {
+                        Icon(Icons.Filled.Favorite, null, tint = Pink500, modifier = Modifier.size(16.dp))
+                    }
                 }
                 Divider(
                     modifier = Modifier.padding(bottom = 8.dp),
@@ -907,7 +903,9 @@ fun CraftItem(craft: Craft, userData: FSUser?) {
                         modifier = Modifier.padding(bottom = 8.dp, top = 4.dp, start = 16.dp, end = 16.dp)
                     )
                 }
-                requiredItems?.forEach { item ->
+                requiredItems?.sortedWith(
+                    compareBy({ it?.isTool() }, {it?.item?.shortName})
+                )?.forEach { item ->
                     item?.item?.let { pricing ->
                         CompactItem(
                             item = pricing, extras = CraftDetailActivity.ItemSubtitle(

@@ -51,7 +51,7 @@ object Module {
 
         return ApolloClient.Builder()
             .serverUrl("https://api.tarkov.dev/graphql")
-            .normalizedCache(memoryFirstThenSqlCacheFactory)
+            //.normalizedCache(memoryFirstThenSqlCacheFactory)
             .okHttpClient(client)
             .build()
     }
@@ -62,7 +62,7 @@ object Module {
         @ApplicationContext appContext: Context,
         callback: AppDatabase.Callback
     ) = Room.databaseBuilder(appContext, AppDatabase::class.java, "hideout-database")
-        .createFromAsset("hideout_database_62.db")
+        .createFromAsset("hideout_database_63.db")
         .fallbackToDestructiveMigration()
         .addCallback(callback)
         .build()

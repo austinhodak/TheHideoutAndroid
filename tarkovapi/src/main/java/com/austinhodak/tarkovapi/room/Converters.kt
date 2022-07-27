@@ -128,12 +128,12 @@ class Converters {
     }
 
     @TypeConverter
-    fun toTraderFragment(value: String?): TraderFragment? {
-        return Gson().fromJson(value, TraderFragment::class.java)
+    fun toTraderFragment(value: String?): Quest.TraderFragment? {
+        return Gson().fromJson(value, Quest.TraderFragment::class.java)
     }
 
     @TypeConverter
-    fun fromTraderFragment(value: TraderFragment?): String? {
+    fun fromTraderFragment(value: Quest.TraderFragment?): String? {
         if (value == null) return null
         return Gson().toJson(value)
     }
