@@ -125,17 +125,17 @@ class MessagingService : FirebaseMessagingService() {
                     when(eventType) {
                         "MatchingCompleted" -> {
                             if (UserSettingsModel.raidAlertMatched.value) {
-                                sendRaidAlertNotification("You have matched to a raid!", "The raid will be starting soon.")
+                                sendRaidAlertNotification("You have matched to a raid!", "The raid will be starting soon.", 101)
                             }
                         }
                         "GameStarting" -> {
                             if (UserSettingsModel.raidAlertCountdown.value) {
-                                sendRaidAlertNotification("The raid is starting!", "The countdown has started!")
+                                sendRaidAlertNotification("The raid is starting!", "The countdown has started!", 102)
                             }
                         }
                         "GameStarted" -> {
                             if (UserSettingsModel.raidAlertStarted.value) {
-                                sendRaidAlertNotification("The raid has started!", "You are currently in a raid!")
+                                sendRaidAlertNotification("The raid has started!", "You are currently in a raid!", 103)
                             }
                         }
                     }
@@ -144,7 +144,25 @@ class MessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun sendRaidAlertNotification(title: String, content: String) {
+    private fun cancelRaidAlerts(id: Int) {
+        when (id) {
+            101 -> {
+                notificationManager.cancel(101)
+                notificationManager.cancel(102)
+                notificationManager.cancel(103)
+            }
+            102 -> {
+                notificationManager.cancel(102)
+            }
+            103 -> {
+                notificationManager.cancel(103)
+            }
+        }
+    }
+
+    private fun sendRaidAlertNotification(title: String, content: String, id: Int) {
+        cancelRaidAlerts(id)
+
         if (!UserSettingsModel.raidAlertGlobalNotifications.value) return
 
         val intent = Intent(this, NavActivity::class.java).apply {
@@ -169,7 +187,7 @@ class MessagingService : FirebaseMessagingService() {
             setAutoCancel(true)
         }
 
-        notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+        notificationManager.notify(id, builder.build())
     }
 
     private fun sendPriceAlertNotification(title: String, content: String, item: JSONObject) {
