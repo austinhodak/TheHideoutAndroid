@@ -23,7 +23,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.system.measureTimeMillis
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 62)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 63)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao

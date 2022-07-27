@@ -15,6 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,12 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.components.SmallSellPrice
@@ -51,6 +55,14 @@ class BarterDetailActivity : AppCompatActivity() {
 
         setContent {
             HideoutTheme {
+                var isFavorited by remember {
+                    mutableStateOf(Favorites.barters.contains(barter.id ?: 0))
+                }
+
+                Favorites.barters.observe(lifecycleScope) {
+                    isFavorited = it.contains(barter.id ?: 0)
+                }
+
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -78,6 +90,27 @@ class BarterDetailActivity : AppCompatActivity() {
                             navigationIcon = {
                                 IconButton(onClick = { finish() }) {
                                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                                }
+                            },
+                            actions = {
+                                IconButton(onClick = {
+                                    isFavorited = if (isFavorited) {
+                                        barter.id?.let {
+                                            Favorites.barters.remove(lifecycleScope, it)
+                                        }
+                                        false
+                                    } else {
+                                        barter.id?.let {
+                                            Favorites.barters.add(lifecycleScope, it)
+                                        }
+                                        true
+                                    }
+                                }) {
+                                    if (isFavorited) {
+                                        Icon(Icons.Filled.Favorite, contentDescription = null, tint = Pink500)
+                                    } else {
+                                        Icon(Icons.Filled.FavoriteBorder, contentDescription = null, tint = Color.White)
+                                    }
                                 }
                             }
                         )

@@ -47,12 +47,11 @@ import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
-import com.austinhodak.thehideout.extras
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.components.ShoppingCartScreen
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
@@ -313,7 +312,7 @@ private fun showNeededItemsHelp(context: Context) {
 @ExperimentalMaterialApi
 @Composable
 fun FleaMarketFavoritesList(
-    data: List<Item>?,
+    items: List<Item>?,
     fleaViewModel: FleaViewModel,
     paddingValues: PaddingValues
 ) {
@@ -324,9 +323,11 @@ fun FleaMarketFavoritesList(
     val traderPriceDisplay = UserSettingsModel.fleaVisibleTraderPrice.value
     val displayName = UserSettingsModel.fleaVisibleName.value
 
+    val data = Favorites.items.value.mapNotNull { favorite -> items?.find { it.id == favorite } }
+
     val list = when (sortBy.value) {
-        0 -> data?.sortedBy { it.Name }
-        1 -> data?.sortedBy {
+        0 -> data.sortedBy { it.Name }
+        1 -> data.sortedBy {
             when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
                 FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
@@ -335,7 +336,7 @@ fun FleaMarketFavoritesList(
                 FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
             }
         }
-        2 -> data?.sortedByDescending {
+        2 -> data.sortedByDescending {
             when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
                 FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
@@ -344,7 +345,7 @@ fun FleaMarketFavoritesList(
                 FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
             }
         }
-        3 -> data?.sortedByDescending {
+        3 -> data.sortedByDescending {
             val price = when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
                 FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
@@ -354,20 +355,21 @@ fun FleaMarketFavoritesList(
             }
             it.getPricePerSlot(price ?: 0)
         }
-        4 -> data?.sortedBy { it.pricing?.changeLast48h }
-        5 -> data?.sortedByDescending { it.pricing?.changeLast48h }
-        6 -> data?.sortedBy { it.pricing?.getInstaProfit() }
-        7 -> data?.sortedByDescending { it.pricing?.getInstaProfit() }
-        else -> data?.sortedBy { it.getPrice() }
-    }?.filter {
+        4 -> data.sortedBy { it.pricing?.changeLast48h }
+        5 -> data.sortedByDescending { it.pricing?.changeLast48h }
+        6 -> data.sortedBy { it.pricing?.getInstaProfit() }
+        7 -> data.sortedByDescending { it.pricing?.getInstaProfit() }
+        else -> data.sortedBy { it.getPrice() }
+    }.filter {
         it.ShortName?.contains(searchKey, ignoreCase = true) == true
                 || it.Name?.contains(searchKey, ignoreCase = true) == true
                 || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
-    }?.filter {
-        extras.favoriteItems?.contains(it.id) ?: false
+    }.filter {
+        Favorites.items.contains(it.id)
+        //extras.favoriteItems?.contains(it.id) ?: false
     }
 
-    if (list?.isEmpty() == true) {
+    if (list.isEmpty()) {
         EmptyText(text = "No Favorites.")
         return
     }

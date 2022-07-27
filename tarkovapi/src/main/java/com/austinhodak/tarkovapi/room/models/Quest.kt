@@ -2,10 +2,8 @@ package com.austinhodak.tarkovapi.room.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.austinhodak.tarkovapi.fragment.TraderFragment
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.utils.Maps
-import timber.log.Timber
 
 @Entity(tableName = "quests")
 data class Quest(
@@ -23,6 +21,11 @@ data class Quest(
 ) {
 
     fun getGiverName(): String? = giver?.name
+
+    data class TraderFragment (
+        val name: String?,
+        val id: String?
+    )
 
     data class QuestRequirement(
         val level: Int? = null,

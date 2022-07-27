@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
@@ -180,13 +181,11 @@ class FleaItemDetail : GodActivity() {
                     )
 
                     var isFavorited by remember {
-                        mutableStateOf(extras.favoriteItems?.contains(itemID))
+                        mutableStateOf(Favorites.items.contains(itemID))
                     }
 
-                    extras.preference.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->
-                        if (s == "FAVORITE_ITEMS") {
-                            isFavorited = extras.favoriteItems?.contains(itemID)
-                        }
+                    Favorites.items.observe(lifecycleScope) {
+                        isFavorited = it.contains(itemID)
                     }
 
                     if (isDebug()) {
@@ -220,15 +219,17 @@ class FleaItemDetail : GodActivity() {
                                 item = item,
                                 actions = {
                                     IconButton(onClick = {
-                                        isFavorited = if (isFavorited == true) {
-                                            extras.removeFavorite(itemID)
+                                        isFavorited = if (isFavorited) {
+                                            Favorites.items.remove(lifecycleScope, itemID)
+                                            //extras.removeFavorite(itemID)
                                             false
                                         } else {
-                                            extras.addFavorite(itemID)
+                                            Favorites.items.add(lifecycleScope, itemID)
+                                            //extras.addFavorite(itemID)
                                             true
                                         }
                                     }) {
-                                        if (isFavorited == true) {
+                                        if (isFavorited) {
                                             Icon(Icons.Filled.Favorite, contentDescription = null, tint = Pink500)
                                         } else {
                                             Icon(Icons.Filled.FavoriteBorder, contentDescription = null, tint = Color.White)
