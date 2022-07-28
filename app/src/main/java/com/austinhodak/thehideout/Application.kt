@@ -18,7 +18,10 @@ import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
+import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.database.ktx.database
@@ -127,6 +130,12 @@ class Application : android.app.Application(), Configuration.Provider {
         hideout = Hideout(applicationContext)
         ballistics = AmmoBallistics(applicationContext)
         stims = Stims(applicationContext)
+
+        FirebaseApp.initializeApp(/*context=*/this)
+        val firebaseAppCheck = FirebaseAppCheck.getInstance()
+        firebaseAppCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance()
+        )
 
         //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
         if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
