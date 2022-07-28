@@ -48,8 +48,33 @@ class QuestMainViewModel @Inject constructor(
         _view.value = int
     }
 
-    private val _views = MutableLiveData(listOf(QuestFilter.AVAILABLE).toMutableList())
+    private val _views = MutableLiveData(listOf(QuestFilter.AVAILABLE))
     val views = _views
+
+    fun toggleView(view: QuestFilter) {
+        if (view == QuestFilter.ALL && _views.value?.contains(QuestFilter.ALL) == false) {
+            _views.value = _views.value?.toMutableList()?.apply {
+                clear()
+                add(view)
+            }
+            return
+        } else if (_views.value?.contains(QuestFilter.ALL) == true) {
+            _views.value = _views.value?.toMutableList()?.apply {
+                remove(QuestFilter.ALL)
+                add(QuestFilter.AVAILABLE)
+            }
+            return
+        }
+        if (_views.value?.contains(view) == true && _views.value?.size != 1) {
+            _views.value = _views.value?.toMutableList()?.apply {
+                remove(view)
+            }
+        } else {
+            _views.value = _views.value?.toMutableList()?.apply {
+                add(view)
+            }
+        }
+    }
 
     val pmcElimsTotal = MutableLiveData(0)
     val scavElimsTotal = MutableLiveData(0)
