@@ -104,8 +104,10 @@ class QuestDetailActivity : GodActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val questID = intent.getStringExtra("questID") ?: "8"
-
-        Firebase.crashlytics.setCustomKey("questID", questID)
+        
+        setCrashKeys(
+            Pair("questID", questID)
+        )
 
         setContent {
             HideoutTheme {

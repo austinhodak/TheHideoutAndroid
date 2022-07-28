@@ -68,6 +68,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.material.textfield.TextInputEditText
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.Timestamp
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.crashlytics.ktx.setCustomKeys
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
@@ -1217,5 +1219,28 @@ fun String.getHideoutIcon(): Int {
         "water collector" -> com.austinhodak.tarkovapi.R.drawable.water_collector_portrait
         "workbench" -> com.austinhodak.tarkovapi.R.drawable.workbench_portrait
         else -> com.austinhodak.tarkovapi.R.drawable.workbench_portrait
+    }
+}
+
+fun <T> setCrashKeys(vararg keys: Pair<String, T>) {
+    keys.forEach {
+        if (it.second is Boolean) {
+            Firebase.crashlytics.setCustomKey(it.first, it.second as Boolean)
+        }
+        if (it.second is Double) {
+            Firebase.crashlytics.setCustomKey(it.first, it.second as Double)
+        }
+        if (it.second is Float) {
+            Firebase.crashlytics.setCustomKey(it.first, it.second as Float)
+        }
+        if (it.second is Int) {
+            Firebase.crashlytics.setCustomKey(it.first, it.second as Int)
+        }
+        if (it.second is Long) {
+            Firebase.crashlytics.setCustomKey(it.first, it.second as Long)
+        }
+        if (it.second is String) {
+            Firebase.crashlytics.setCustomKey(it.first, it.second as String)
+        }
     }
 }

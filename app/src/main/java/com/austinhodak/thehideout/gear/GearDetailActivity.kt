@@ -80,7 +80,9 @@ class GearDetailActivity : GodActivity() {
         val gearID = intent.getStringExtra("id") ?: "5e4abb5086f77406975c9342"
         gearViewModel.getGear(gearID)
 
-        Firebase.crashlytics.setCustomKey("gearID", gearID)
+        setCrashKeys(
+            Pair("gearID", gearID)
+        )
 
         setContent {
             HideoutTheme {

@@ -108,7 +108,9 @@ class AmmoDetailActivity : GodActivity() {
         val ammoID = intent.getStringExtra("ammoID") ?: "5fd20ff893a8961fc660a954"
         ammoViewModel.getAmmo(ammoID)
 
-        Firebase.crashlytics.setCustomKey("ammoID", ammoID)
+        setCrashKeys(
+            Pair("ammoID", ammoID)
+        )
 
         val ballisticsData = ballistics.getAmmo(ammoID)
         Timber.d(ballisticsData.toString())
