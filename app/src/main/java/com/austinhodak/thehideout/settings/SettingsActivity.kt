@@ -272,6 +272,13 @@ class SettingsActivity : GodActivity() {
                                         showCheckBoxes = true
                                         bottomSheet = true
                                     }
+                                    singleChoice(UserSettingsModel.faction, Faction.values(), {
+                                        it.name
+                                    }) {
+                                        title = "Faction".asText()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
+                                    }
                                     category {
                                         title = getString(R.string.mouse_settings).asText()
                                     }
@@ -647,6 +654,7 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                 }
+
                                 subScreen {
                                     title = getString(R.string.data_sync).asText()
                                     icon = R.drawable.ic_baseline_update_24.asIcon()
@@ -710,13 +718,17 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                 }
+                                /*subScreen {
+                                    title = "Quests".asText()
+                                    icon = R.drawable.ic_baseline_assignment_24.asIcon()
+                                }*/
                                 category {
                                     title = getString(R.string.integrations_beta).asText()
                                 }
                                 subScreen {
                                     title = "Raid Alerts".asText()
                                     icon = R.drawable.ic_baseline_computer_24.asIcon()
-                                    badge = "BETA".asBatch()
+                                    badge = "NEW".asBatch()
                                     button {
                                         title = "Download Windows Program".asText()
                                         icon = R.drawable.ic_baseline_cloud_download_24.asIcon()

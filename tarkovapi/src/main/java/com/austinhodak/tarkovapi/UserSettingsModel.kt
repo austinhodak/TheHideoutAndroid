@@ -100,6 +100,7 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val isPremiumUser by boolPref(false, "isPremiumUser")
 
     val userGameEdition by enumPref(GameEdition.STANDARD, "userGameEdition")
+    val faction by enumPref(Faction.USEC, "faction")
 
     val itemColorBlue by intPref(Color.parseColor("#222A2F"))
     val itemColorGrey by intPref(Color.parseColor("#1B1C1C"))
@@ -213,6 +214,11 @@ enum class GameEdition {
     LEFT_BEHIND,
     PREPARE_FOR_ESCAPE,
     EDGE_OF_DARKNESS
+}
+
+enum class Faction {
+    USEC,
+    BEAR
 }
 
 enum class MapEnums(var id: String, var int: Int, var icon: Int) {
