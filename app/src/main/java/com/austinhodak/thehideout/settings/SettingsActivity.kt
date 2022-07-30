@@ -260,38 +260,6 @@ class SettingsActivity : GodActivity() {
                                             openActivity(UserProfileActivity::class.java)
                                         }
                                     }
-                                    /*subScreen {
-                                        title = "Traders".asText()
-                                        //icon = R.drawable.ic_baseline_person_24.asIcon()
-                                        category {
-                                            title = "Trader Levels".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.praporLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Prapor".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.therapistLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Therapist".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.fenceLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Fence".asText()
-                                            enabled = false
-                                        }
-                                        singleChoice(UserSettingsModel.skierLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Skier".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.peacekeeperLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Peacekeeper".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.mechanicLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Mechanic".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.ragmanLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Ragman".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.jaegerLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Jaeger".asText()
-                                        }
-                                    }*/
                                     singleChoice(UserSettingsModel.userGameEdition, GameEdition.values(), {
                                         when (it) {
                                             GameEdition.STANDARD -> "Standard Edition"
@@ -746,6 +714,60 @@ class SettingsActivity : GodActivity() {
                                     title = getString(R.string.integrations_beta).asText()
                                 }
                                 subScreen {
+                                    title = "Raid Alerts".asText()
+                                    icon = R.drawable.ic_baseline_computer_24.asIcon()
+                                    badge = "BETA".asBatch()
+                                    button {
+                                        title = "Download Windows Program".asText()
+                                        icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
+                                        onClick = {
+                                            "https://github.com/austinhodak/the-hideout-desktop/releases".openWithCustomTab(this@SettingsActivity)
+                                        }
+                                    }
+                                    input(UserSettingsModel.pcHardwareID) {
+                                        title = "Hardware ID".asText()
+                                        hint = "Enter ID here.".asText()
+                                        icon = R.drawable.ic_baseline_vpn_key_24.asIcon()
+                                        summary = "".asText()
+                                        textInputType = InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
+                                    }
+                                    button {
+                                        title = "Scan QR Code".asText()
+                                        icon = R.drawable.ic_baseline_qr_code_scanner_24.asIcon()
+                                        onClick = {
+                                            val scanOptions = ScanOptions()
+                                            scanOptions.setPrompt("Scan hardware ID.")
+                                            scanOptions.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+                                            scanOptions.setBeepEnabled(false)
+                                            scanOptions.setBarcodeImageEnabled(false)
+                                            scanOptions.setOrientationLocked(false)
+                                            scanOptions.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.MIXED_SCAN)
+                                            hardwareIDScanner.launch(scanOptions)
+                                        }
+                                    }
+                                    category {
+                                        title = "Notifications".asText()
+                                    }
+                                    switch(UserSettingsModel.raidAlertGlobalNotifications) {
+                                        title = "Show Notifications".asText()
+                                    }
+                                    switch(UserSettingsModel.raidAlertMatched) {
+                                        title = "Alert When Matched".asText()
+                                        summary = "Will notify when matchmaking is completed. (Loading Loot... is shown)".asText()
+                                        dependsOn = UserSettingsModel.raidAlertGlobalNotifications.asDependency()
+                                    }
+                                    switch(UserSettingsModel.raidAlertCountdown) {
+                                        title = "Alert When Countdown Starts".asText()
+                                        summary = "Will notify when raid countdown starts.".asText()
+                                        dependsOn = UserSettingsModel.raidAlertGlobalNotifications.asDependency()
+                                    }
+                                    switch(UserSettingsModel.raidAlertStarted) {
+                                        title = "Alert When Raid Starts".asText()
+                                        summary = "Will notify when raid has started.".asText()
+                                        dependsOn = UserSettingsModel.raidAlertGlobalNotifications.asDependency()
+                                    }
+                                }
+                                subScreen {
                                     title = "Tarkov Tracker".asText()
                                     icon = R.drawable.ic_baseline_explore_24.asIcon()
                                     //summary = "Coming soon.".asText()
@@ -1129,6 +1151,19 @@ class SettingsActivity : GodActivity() {
             lifecycleScope.launch {
                 UserSettingsModel.ttAPIKey.update(result.contents)
                 Toast.makeText(this@SettingsActivity, "API Token saved, please reload page.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private val hardwareIDScanner: ActivityResultLauncher<ScanOptions> = registerForActivityResult(
+        ScanContract()
+    ) { result: ScanIntentResult ->
+        if (result.contents == null) {
+
+        } else {
+            lifecycleScope.launch {
+                UserSettingsModel.pcHardwareID.update(result.contents)
+                Toast.makeText(this@SettingsActivity, "Hardware ID saved, please reload page.", Toast.LENGTH_SHORT).show()
             }
         }
     }

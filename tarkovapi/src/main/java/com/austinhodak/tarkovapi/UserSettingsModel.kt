@@ -117,6 +117,12 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
     val showPriceGraph by boolPref(true, "showPriceGraph")
     val showAddToCardButton by boolPref(true, "showAddToCardButton")
+
+    val pcHardwareID by stringPref(key = "pcHardwareID")
+    val raidAlertGlobalNotifications by boolPref(true, "raidAlertGlobalNotifications")
+    val raidAlertMatched by boolPref(false, "raidAlertMatched")
+    val raidAlertCountdown by boolPref(true, "raidAlertCountdown")
+    val raidAlertStarted by boolPref(false, "raidAlertStarted")
 }
 
 enum class LanguageSetting (val locale: Locale) {
