@@ -1,0 +1,2 @@
+⭐ Add ability to select multiple categories in the Needed Items Grid
+🪲 Bug & Crash Fixes
