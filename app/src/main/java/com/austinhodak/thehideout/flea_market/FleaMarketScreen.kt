@@ -8,9 +8,10 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -229,7 +230,7 @@ fun FleaMarketNeededScreen(
         return
     }
 
-    LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
+    LazyVerticalGrid(columns = GridCells.Adaptive(52.dp)) {
         items(items = neededItems) {
             val needed = userData?.items?.get(it.id)
             val color = if (needed?.has == needed?.getTotalNeeded()) {
