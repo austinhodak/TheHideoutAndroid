@@ -408,6 +408,15 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
 
     init {
         itemAdapter.add(
+            drawerFleaMarket,
+            drawerHideout,
+            drawerMaps,
+            drawerNeededItemsGrid,
+            drawerQuests,
+            drawerDamageSimulator,
+            drawerExtraTools,
+            drawerTraders,
+            drawerDivider,
             drawerAmmo,
             drawerGear,
             drawerKeys,
@@ -417,15 +426,6 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
             drawerWeaponExpandable,
             drawerWeaponLoadouts,
             drawerWeaponMods,
-            drawerDivider,
-            drawerFleaMarket,
-            drawerHideout,
-            drawerMaps,
-            drawerNeededItemsGrid,
-            drawerQuests,
-            drawerDamageSimulator,
-            drawerExtraTools,
-            drawerTraders,
             drawerDivider,
             drawerNews,
             drawerServerStatus
@@ -510,7 +510,7 @@ fun MainDrawer(
                 )
             }
         }
-    ) {
+    ) { _ ->
         Column(
             Modifier
                 .fillMaxSize()

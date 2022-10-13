@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id("com.apollographql.apollo3").version("3.2.2")
+    id("com.apollographql.apollo3").version("3.6.2")
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -11,12 +11,12 @@ apollo {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -46,10 +46,10 @@ android {
 
 dependencies {
 
-    api('com.apollographql.apollo3:apollo-runtime:3.2.2')
-    api('com.apollographql.apollo3:apollo-api:3.2.2')
-    api('com.apollographql.apollo3:apollo-normalized-cache:3.2.2')
-    api('com.apollographql.apollo3:apollo-normalized-cache-sqlite:3.2.2')
+    api('com.apollographql.apollo3:apollo-runtime:3.6.2')
+    api('com.apollographql.apollo3:apollo-api:3.6.2')
+    api('com.apollographql.apollo3:apollo-normalized-cache:3.6.2')
+    api('com.apollographql.apollo3:apollo-normalized-cache-sqlite:3.6.2')
 
     implementation "io.github.resilience4j:resilience4j-retry:1.7.1"
     implementation "io.github.resilience4j:resilience4j-kotlin:1.7.1"
