@@ -13,6 +13,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -220,7 +221,7 @@ class SettingsActivity : GodActivity() {
                     }
                 ) {
                     AndroidView(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().padding(it),
                         factory = { context ->
                             val recyclerView = RecyclerView(context)
                             recyclerView.layoutManager = LinearLayoutManager(context)
@@ -416,6 +417,19 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.opening_screen).asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
+                                    }
+                                    singleChoice(UserSettingsModel.menuDrawerLayout, MenuDrawerLayout.values(), {
+                                        when (it) {
+                                            MenuDrawerLayout.ORIGINAL -> "Original"
+                                            MenuDrawerLayout.ALPHABETICAL -> "Alphabetical"
+                                            MenuDrawerLayout.FLIPPED -> "Flipped"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "Menu Drawer Layout".asText()
+                                        icon = R.drawable.round_view_sidebar_24.asIcon()
                                         showCheckBoxes = true
                                         bottomSheet = true
                                     }

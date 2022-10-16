@@ -3,7 +3,6 @@ package com.austinhodak.thehideout.views
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.InputType
-import android.util.AttributeSet
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -24,11 +23,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloNetworkException
+import com.austinhodak.tarkovapi.MenuDrawerLayout
 import com.austinhodak.tarkovapi.ServerStatusQuery
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.ServerStatus
@@ -77,8 +78,8 @@ val weaponCategories = mutableListOf(
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
-class Drawer(context: Context, attrs: AttributeSet? = null) :
-    MaterialDrawerSliderView(context, attrs) {
+class Drawer(context: Context, lifecycleOwner: LifecycleOwner) :
+    MaterialDrawerSliderView(context, null) {
 
     private val benderFont = ResourcesCompat.getFont(context, R.font.bender)
     private val benderBoldFont = ResourcesCompat.getFont(context, R.font.bender_bold)
@@ -406,30 +407,92 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         isSelectable = false
     }
 
+
+
     init {
-        itemAdapter.add(
-            drawerFleaMarket,
-            drawerHideout,
-            drawerMaps,
-            drawerNeededItemsGrid,
-            drawerQuests,
-            drawerDamageSimulator,
-            drawerExtraTools,
-            drawerTraders,
-            drawerDivider,
-            drawerAmmo,
-            drawerGear,
-            drawerKeys,
-            drawerMedical,
-            drawerProvisions,
-            drawerSkills,
-            drawerWeaponExpandable,
-            drawerWeaponLoadouts,
-            drawerWeaponMods,
-            drawerDivider,
-            drawerNews,
-            drawerServerStatus
-        )
+
+        UserSettingsModel.menuDrawerLayout.observe(lifecycleOwner.lifecycleScope) {  layoutSetting ->
+            removeAllItems()
+
+            when (layoutSetting) {
+                MenuDrawerLayout.ORIGINAL -> {
+                    itemAdapter.add(
+                        drawerAmmo,
+                        drawerGear,
+                        drawerKeys,
+                        drawerMedical,
+                        drawerProvisions,
+                        drawerSkills,
+                        drawerWeaponExpandable,
+                        drawerWeaponLoadouts,
+                        drawerWeaponMods,
+                        drawerDivider,
+                        drawerFleaMarket,
+                        drawerHideout,
+                        drawerMaps,
+                        drawerNeededItemsGrid,
+                        drawerQuests,
+                        drawerDamageSimulator,
+                        drawerExtraTools,
+                        drawerTraders,
+                        drawerDivider,
+                        drawerNews,
+                        drawerServerStatus
+                    )
+                }
+                MenuDrawerLayout.ALPHABETICAL -> {
+                    itemAdapter.add(
+                        drawerAmmo,
+                        //drawerDivider,
+                        //drawerDivider,
+                        drawerFleaMarket,
+                        drawerGear,
+                        drawerHideout,
+                        drawerKeys,
+                        drawerMaps,
+                        drawerMedical,
+                        drawerNeededItemsGrid,
+                        drawerNews,
+                        drawerProvisions,
+                        drawerQuests,
+                        drawerServerStatus,
+                        drawerSkills,
+                        drawerDamageSimulator,
+                        drawerExtraTools,
+                        drawerTraders,
+                        drawerWeaponExpandable,
+                        drawerWeaponLoadouts,
+                        drawerWeaponMods,
+                    )
+                }
+                MenuDrawerLayout.FLIPPED -> {
+                    itemAdapter.add(
+                        drawerFleaMarket,
+                        drawerHideout,
+                        drawerMaps,
+                        drawerNeededItemsGrid,
+                        drawerQuests,
+                        drawerDamageSimulator,
+                        drawerExtraTools,
+                        drawerTraders,
+                        drawerDivider,
+                        drawerAmmo,
+                        drawerGear,
+                        drawerKeys,
+                        drawerMedical,
+                        drawerProvisions,
+                        drawerSkills,
+                        drawerWeaponExpandable,
+                        drawerWeaponLoadouts,
+                        drawerWeaponMods,
+                        drawerDivider,
+                        drawerNews,
+                        drawerServerStatus
+                    )
+                }
+            }
+        }
+
 
         addStickyFooterItem(drawerSettings)
 
@@ -571,7 +634,7 @@ fun MainDrawer(
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
                 factory = { context ->
-                    val drawer = Drawer(context)
+                    val drawer = Drawer(context, lifecycleOwner)
                     drawer.onDrawerItemClickListener = { _, item, _ ->
                         if (item.tag != null) {
                             if (item.isSelectable || item.identifier.toInt() == 999) {

@@ -124,6 +124,12 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val raidAlertMatched by boolPref(false, "raidAlertMatched")
     val raidAlertCountdown by boolPref(true, "raidAlertCountdown")
     val raidAlertStarted by boolPref(false, "raidAlertStarted")
+
+    val menuDrawerLayout by enumPref(MenuDrawerLayout.ORIGINAL, "menuDrawerLayout")
+}
+
+enum class MenuDrawerLayout {
+    ORIGINAL, ALPHABETICAL, FLIPPED
 }
 
 enum class LanguageSetting (val locale: Locale) {
