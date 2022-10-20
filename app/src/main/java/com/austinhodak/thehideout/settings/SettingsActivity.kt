@@ -1141,7 +1141,7 @@ class SettingsActivity : GodActivity() {
                                     icon = R.drawable.ic_baseline_how_to_vote_24.asIcon()
                                     badge = "NEW".asBatch()
                                     onClick = {
-                                        "https://feedback.thehideout.io".openWithCustomTab(this@SettingsActivity)
+                                        "https://feedback.thehideout.dev".openWithCustomTab(this@SettingsActivity)
                                     }
                                 }
                             }

@@ -32,9 +32,9 @@ android {
         minSdkVersion 24
         targetSdkVersion 33
         // { Major }.{ Minor }.{ Bug Fixes }
-        versionCode 16301
+        versionCode 16401
         // [1]-[0].[2].[0].[0]
-        versionName "1.6.3"
+        versionName "1.6.4"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary true
