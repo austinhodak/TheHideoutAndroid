@@ -128,7 +128,7 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "androidx.activity:activity-compose:1.6.0"
+    implementation 'androidx.activity:activity-compose:1.6.1'
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
@@ -141,9 +141,9 @@ dependencies {
     implementation "androidx.annotation:annotation:${versions.annotation}"
     implementation "androidx.navigation:navigation-fragment-ktx:${versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
-    implementation "androidx.fragment:fragment-ktx:1.5.3"
+    implementation "androidx.fragment:fragment-ktx:1.5.4"
 
-    implementation 'androidx.navigation:navigation-compose:2.5.2'
+    implementation "androidx.navigation:navigation-compose:$versions.navigation"
 
     //END AndroidX
 
@@ -165,6 +165,7 @@ dependencies {
    // api 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.1'
     api 'com.google.mlkit:text-recognition:16.0.0-beta6'
     implementation 'com.google.firebase:firebase-appcheck-playintegrity'
+    implementation 'com.google.firebase:firebase-iid:21.1.0'
 
     api 'com.firebaseui:firebase-ui-auth:8.0.1'
     //END Firebase

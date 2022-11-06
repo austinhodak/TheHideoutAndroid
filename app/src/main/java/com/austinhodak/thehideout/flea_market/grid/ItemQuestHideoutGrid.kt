@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.flea_market.grid
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -7,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
@@ -59,6 +61,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalFoundationApi
@@ -106,17 +109,39 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
             }
         }
     ) {
-        val pagerState = rememberPagerState(pageCount = 3)
+        var pagerState: Int by remember {
+            mutableStateOf(0)
+        }
         Column(
             Modifier
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
-            Tabs(
-                pagerState = pagerState,
-                scope = scope,
-                items = listOf("BOTH", "QUESTS", "HIDEOUT")
-            )
+
+            TabRow(
+                modifier = Modifier.fillMaxWidth(),
+                selectedTabIndex = pagerState,
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        Modifier.tabIndicatorOffset(tabPositions[pagerState]),
+                        color = Red400
+                    )
+                },
+            ) {
+                listOf("BOTH", "QUESTS", "HIDEOUT").forEachIndexed { index, string ->
+                    Tab(
+                        text = { Text(string, fontFamily = Bender) },
+                        selected = pagerState == index,
+                        onClick = {
+                            scope.launch {
+                                pagerState = index
+                            }
+                        },
+                        selectedContentColor = Red400,
+                        unselectedContentColor = White
+                    )
+                }
+            }
 
             val questObjectivesNew = mutableListOf<Quest.QuestObjective>()
             if (selectedViews.contains(QuestFilter.AVAILABLE)) {
@@ -267,7 +292,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 )
             }
 
-            var data = when (pagerState.currentPage) {
+            var data = when (pagerState) {
                 0 -> {
                     questObjectivesNew.map { obj ->
                         val item = allItems?.find { obj.target?.contains(it.id) == true || it.id.equals(obj.target) || it.id == obj.targetItem?.id }
@@ -415,40 +440,6 @@ private fun GridItem(
                 style = MaterialTheme.typography.caption,
                 fontWeight = FontWeight.Medium,
                 fontSize = 9.sp
-            )
-        }
-    }
-}
-
-@ExperimentalMaterialApi
-@ExperimentalPagerApi
-@Composable
-private fun Tabs(
-    pagerState: PagerState,
-    scope: CoroutineScope,
-    items: List<String>
-) {
-    TabRow(
-        modifier = Modifier.fillMaxWidth(),
-        selectedTabIndex = pagerState.currentPage,
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                color = Red400
-            )
-        },
-    ) {
-        items.forEachIndexed { index, string ->
-            Tab(
-                text = { Text(string, fontFamily = Bender) },
-                selected = pagerState.currentPage == index,
-                onClick = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(index)
-                    }
-                },
-                selectedContentColor = Red400,
-                unselectedContentColor = White
             )
         }
     }

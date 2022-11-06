@@ -23,18 +23,19 @@ import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.components.EmptyText
 import com.austinhodak.thehideout.compose.components.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.hideout.detail.components.CraftsPage
 import com.austinhodak.thehideout.hideoutList
+import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @ExperimentalFoundationApi
@@ -60,7 +61,7 @@ class HideoutStationDetailActivity : AppCompatActivity() {
         } else if (intent.hasExtra("moduleId")) {
             hideoutList.hideout?.modules?.find {
                 val s = intent.getStringExtra("moduleId") ?: ""
-                it?.module?.equals(s, true) == true
+                it?.module?.contains(s, true) == true
                 //it?.id?.equals(intent.getIntExtra("moduleId", 18)) == true
             }?.stationId
         } else {
@@ -74,8 +75,8 @@ class HideoutStationDetailActivity : AppCompatActivity() {
             HideoutTheme {
                 val scaffoldState = rememberScaffoldState()
                 val navController = rememberNavController()
-                val pagerState = rememberPagerState(pageCount = modules?.size ?: 0)
-                val pagerStateCrafts = rememberPagerState(pageCount = modules?.size?.plus(1) ?: 0)
+                val pagerState = rememberPagerState()
+                val pagerStateCrafts = rememberPagerState()
                 val coroutineScope = rememberCoroutineScope()
                 val searchKey by navViewModel.searchKey.observeAsState("")
                 val isSearchOpen by navViewModel.isSearchOpen.observeAsState(false)
@@ -160,6 +161,7 @@ class HideoutStationDetailActivity : AppCompatActivity() {
                                             },
                                             selected = pagerState.currentPage == index,
                                             onClick = {
+                                                Timber.d("Clicked $index")
                                                 coroutineScope.launch {
                                                     pagerState.animateScrollToPage(index)
                                                 }
@@ -235,22 +237,30 @@ class HideoutStationDetailActivity : AppCompatActivity() {
                                         LoadingItem()
                                         return@Crossfade
                                     }
-                                    HideoutDetailModuleScreen(
-                                        allItems,
-                                        pagerState,
-                                        modules,
-                                        station,
-                                    )
+                                    HorizontalPager(
+                                        count = modules?.size ?: 1,
+                                        state = pagerState,
+                                    ) {
+                                        HideoutDetailModuleScreen(
+                                            allItems,
+                                            this,
+                                            modules,
+                                            station,
+                                        )
+                                    }
+
                                 }
                                 1 -> {
-                                    CraftsPage(
-                                        crafts,
-                                        navViewModel,
-                                        pagerStateCrafts,
-                                        modules,
-                                        station
-                                    ) { noCrafts ->
+                                    HorizontalPager(count = modules?.size?.plus(1) ?: 1, state = pagerStateCrafts) {
+                                        CraftsPage(
+                                            crafts,
+                                            navViewModel,
+                                            this,
+                                            modules,
+                                            station
+                                        ) { noCrafts ->
 
+                                        }
                                     }
                                 }
                             }

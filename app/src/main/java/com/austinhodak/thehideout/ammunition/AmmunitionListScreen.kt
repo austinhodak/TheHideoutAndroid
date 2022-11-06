@@ -54,7 +54,7 @@ import kotlin.math.roundToInt
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
-@SuppressLint("CheckResult")
+@SuppressLint("CheckResult", "UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalPagerApi
 @Composable
 fun AmmunitionListScreen(
@@ -65,7 +65,7 @@ fun AmmunitionListScreen(
     val pages = AmmoCalibers()
     val context = LocalContext.current
 
-    val pagerState = rememberPagerState(pageCount = pages.size)
+    val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
     val sort = remember { mutableStateOf(UserSettingsModel.ammoSort.value) }
@@ -184,7 +184,7 @@ fun AmmunitionListScreen(
                     if (it) {
                         LoadingItem()
                     } else {
-                        HorizontalPager(state = pagerState) { page ->
+                        HorizontalPager(state = pagerState, count = pages.size) { page ->
                             LazyColumn(
                                 Modifier.fillMaxSize(),
                                 contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)

@@ -119,7 +119,7 @@ class StaticMapsActivity : AppCompatActivity() {
                                         }
                                     )
                                     AnimatedVisibility(visible = selectedMap?.images?.size ?: 1 > 1) {
-                                        val pagerState = rememberPagerState(pageCount = selectedMap?.images?.size ?: 1)
+                                        val pagerState = rememberPagerState()
                                         Tabs(
                                             pagerState = pagerState,
                                             scope = scope,
