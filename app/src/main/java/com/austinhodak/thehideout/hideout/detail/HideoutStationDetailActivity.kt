@@ -61,8 +61,12 @@ class HideoutStationDetailActivity : AppCompatActivity() {
         } else if (intent.hasExtra("moduleId")) {
             hideoutList.hideout?.modules?.find {
                 val s = intent.getStringExtra("moduleId") ?: ""
-                it?.module?.contains(s, true) == true
-                //it?.id?.equals(intent.getIntExtra("moduleId", 18)) == true
+                //If s is Generator
+                if (s == "Generator") {
+                    it?.module == "Generator"
+                } else {
+                    it?.module?.contains(s, true) == true
+                }
             }?.stationId
         } else {
             intent.getIntExtra("stationId", 0)
