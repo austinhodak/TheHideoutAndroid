@@ -117,29 +117,6 @@ class MessagingService : FirebaseMessagingService() {
                 } catch (e: Exception) {
                     Timber.e(e)
                 }
-            } else if (remoteMessage.data.containsKey("raid")) {
-                val raidData = JSONObject(remoteMessage.data.getValue("raid"))
-                val eventType = raidData.optString("event")
-
-                if (eventType.isNotEmpty()) {
-                    when(eventType) {
-                        "MatchingCompleted" -> {
-                            if (UserSettingsModel.raidAlertMatched.value) {
-                                sendRaidAlertNotification("You have matched to a raid!", "The raid will be starting soon.", 101)
-                            }
-                        }
-                        "GameStarting" -> {
-                            if (UserSettingsModel.raidAlertCountdown.value) {
-                                sendRaidAlertNotification("The raid is starting!", "The countdown has started!", 102)
-                            }
-                        }
-                        "GameStarted" -> {
-                            if (UserSettingsModel.raidAlertStarted.value) {
-                                sendRaidAlertNotification("The raid has started!", "You are currently in a raid!", 103)
-                            }
-                        }
-                    }
-                }
             }
         }
     }
@@ -158,36 +135,6 @@ class MessagingService : FirebaseMessagingService() {
                 notificationManager.cancel(103)
             }
         }
-    }
-
-    private fun sendRaidAlertNotification(title: String, content: String, id: Int) {
-        cancelRaidAlerts(id)
-
-        if (!UserSettingsModel.raidAlertGlobalNotifications.value) return
-
-        val intent = Intent(this, NavActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-
-        intent.putExtra("fromNoti", true)
-
-        val pendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-        } else {
-            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        }
-
-        val builder = NotificationCompat.Builder(this, "RAID_ALERTS").apply {
-            setSmallIcon(R.drawable.hideout_shadow_1)
-            setContentTitle(title)
-            priority = NotificationCompat.PRIORITY_DEFAULT
-            setContentText(content)
-            setStyle(NotificationCompat.BigTextStyle().bigText(content))
-            setContentIntent(pendingIntent)
-            setAutoCancel(true)
-        }
-
-        notificationManager.notify(id, builder.build())
     }
 
     private fun sendPriceAlertNotification(title: String, content: String, item: JSONObject) {

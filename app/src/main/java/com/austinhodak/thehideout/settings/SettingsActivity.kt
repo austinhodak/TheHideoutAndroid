@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,7 +66,6 @@ import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDep
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
-import io.gleap.Gleap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -221,7 +219,9 @@ class SettingsActivity : GodActivity() {
                     }
                 ) {
                     AndroidView(
-                        modifier = Modifier.fillMaxSize().padding(it),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it),
                         factory = { context ->
                             val recyclerView = RecyclerView(context)
                             recyclerView.layoutManager = LinearLayoutManager(context)
@@ -724,7 +724,7 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                     button {
-                                        title = "Tarkov Data".asText()
+//                                        title = "Tarkov Data".asText()
                                         summary = "Maintained by Community Devs".asText()
                                         icon = R.drawable.ic_icons8_github.asIcon()
                                         onClick = {
@@ -738,60 +738,6 @@ class SettingsActivity : GodActivity() {
                                 }*/
                                 category {
                                     title = getString(R.string.integrations_beta).asText()
-                                }
-                                subScreen {
-                                    title = "Raid Alerts".asText()
-                                    icon = R.drawable.ic_baseline_computer_24.asIcon()
-                                    badge = "NEW".asBatch()
-                                    button {
-                                        title = "Download Windows Program".asText()
-                                        icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
-                                        onClick = {
-                                            "https://github.com/austinhodak/the-hideout-desktop/releases".openWithCustomTab(this@SettingsActivity)
-                                        }
-                                    }
-                                    input(UserSettingsModel.pcHardwareID) {
-                                        title = "Hardware ID".asText()
-                                        hint = "Enter ID here.".asText()
-                                        icon = R.drawable.ic_baseline_vpn_key_24.asIcon()
-                                        summary = "".asText()
-                                        textInputType = InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
-                                    }
-                                    button {
-                                        title = "Scan QR Code".asText()
-                                        icon = R.drawable.ic_baseline_qr_code_scanner_24.asIcon()
-                                        onClick = {
-                                            val scanOptions = ScanOptions()
-                                            scanOptions.setPrompt("Scan hardware ID.")
-                                            scanOptions.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
-                                            scanOptions.setBeepEnabled(false)
-                                            scanOptions.setBarcodeImageEnabled(false)
-                                            scanOptions.setOrientationLocked(false)
-                                            scanOptions.addExtra(Intents.Scan.SCAN_TYPE, Intents.Scan.MIXED_SCAN)
-                                            hardwareIDScanner.launch(scanOptions)
-                                        }
-                                    }
-                                    category {
-                                        title = "Notifications".asText()
-                                    }
-                                    switch(UserSettingsModel.raidAlertGlobalNotifications) {
-                                        title = "Show Notifications".asText()
-                                    }
-                                    switch(UserSettingsModel.raidAlertMatched) {
-                                        title = "Alert When Matched".asText()
-                                        summary = "Will notify when matchmaking is completed. (Loading Loot... is shown)".asText()
-                                        dependsOn = UserSettingsModel.raidAlertGlobalNotifications.asDependency()
-                                    }
-                                    switch(UserSettingsModel.raidAlertCountdown) {
-                                        title = "Alert When Countdown Starts".asText()
-                                        summary = "Will notify when raid countdown starts.".asText()
-                                        dependsOn = UserSettingsModel.raidAlertGlobalNotifications.asDependency()
-                                    }
-                                    switch(UserSettingsModel.raidAlertStarted) {
-                                        title = "Alert When Raid Starts".asText()
-                                        summary = "Will notify when raid has started.".asText()
-                                        dependsOn = UserSettingsModel.raidAlertGlobalNotifications.asDependency()
-                                    }
                                 }
                                 subScreen {
                                     title = "Tarkov Tracker".asText()

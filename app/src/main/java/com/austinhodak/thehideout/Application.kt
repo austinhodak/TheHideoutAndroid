@@ -15,7 +15,10 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.*
 import com.austinhodak.thehideout.firebase.FSUser
-import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.utils.Extras
+import com.austinhodak.thehideout.utils.isWorkRunning
+import com.austinhodak.thehideout.utils.isWorkScheduled
+import com.austinhodak.thehideout.utils.uid
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.firebase.FirebaseApp
@@ -43,7 +46,6 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import timber.log.Timber.DebugTree
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -109,16 +111,6 @@ class Application : android.app.Application(), Configuration.Provider {
         }
     }
 
-    private fun createRaidAlertsNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Raid Alerts"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel("RAID_ALERTS", name, importance)
-            // Register the channel with the system
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
     lateinit var listenerRegistration: ListenerRegistration
 
     override fun onCreate() {
@@ -127,7 +119,6 @@ class Application : android.app.Application(), Configuration.Provider {
         createServerStatusChannel()
         createRestockNotificationChannel()
         createPriceAlertsNotificationChannel()
-        createRaidAlertsNotificationChannel()
 
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
 
