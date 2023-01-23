@@ -83,12 +83,16 @@ dependencies {
 //    api "com.github.MFlisar.MaterialPreferences:screen-choice:$prefs"
 //    api "com.github.MFlisar.MaterialPreferences:screen-color:$prefs"
 
-    api project(':mp-core')
+/*    api project(':mp-core')
     api project(':mp-library-datastore')
     api project(':mp-library-preference-screen')
     api project(':mp-library-preference-screen-input')
     api project(':mp-library-preference-screen-choice')
-    api project(':mp-library-preference-screen-color')
+    api project(':mp-library-preference-screen-color')*/
+
+    api "com.github.MFlisar.MaterialPreferences:core:$material_prefs"
+    // data store module
+    api "com.github.MFlisar.MaterialPreferences:datastore:$material_prefs"
 
     api "androidx.work:work-runtime-ktx:2.7.1"
 

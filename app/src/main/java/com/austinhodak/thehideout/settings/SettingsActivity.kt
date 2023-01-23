@@ -9,14 +9,22 @@ import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,14 +41,34 @@ import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
 import com.adapty.Adapty
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.tarkovapi.*
-import com.austinhodak.thehideout.*
+import com.austinhodak.tarkovapi.DataSyncFrequency
+import com.austinhodak.tarkovapi.Faction
+import com.austinhodak.tarkovapi.FleaHideTime
+import com.austinhodak.tarkovapi.FleaVisibleName
+import com.austinhodak.tarkovapi.FleaVisiblePrice
+import com.austinhodak.tarkovapi.FleaVisibleTraderPrice
+import com.austinhodak.tarkovapi.GameEdition
+import com.austinhodak.tarkovapi.IconSelection
+import com.austinhodak.tarkovapi.LanguageSetting
+import com.austinhodak.tarkovapi.MapEnums
+import com.austinhodak.tarkovapi.MenuDrawerLayout
+import com.austinhodak.tarkovapi.OpeningScreen
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.profile.UserProfileActivity
-import com.austinhodak.thehideout.team.TeamManagementActivity
-import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.extras
+import com.austinhodak.thehideout.features.profile.UserProfileActivity
+import com.austinhodak.thehideout.features.team.TeamManagementActivity
+import com.austinhodak.thehideout.utils.isDebug
+import com.austinhodak.thehideout.utils.isPremium
+import com.austinhodak.thehideout.utils.isWorkRunning
+import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.openNotificationSettings
+import com.austinhodak.thehideout.utils.openWithCustomTab
+import com.austinhodak.thehideout.utils.restartNavActivity
+import com.austinhodak.thehideout.utils.userFirestore
+import com.austinhodak.thehideout.utils.userRefTracker
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -53,21 +81,24 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.zxing.client.android.Intents
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
-import com.michaelflisar.materialpreferences.preferencescreen.*
+import com.michaelflisar.materialpreferences.preferencescreen.PreferenceScreen
+import com.michaelflisar.materialpreferences.preferencescreen.PreferenceScreenConfig
+import com.michaelflisar.materialpreferences.preferencescreen.bool.switch
+import com.michaelflisar.materialpreferences.preferencescreen.button
+import com.michaelflisar.materialpreferences.preferencescreen.category
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asBatch
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
-import com.michaelflisar.materialpreferences.preferencescreen.dependencies.Dependency
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDependency
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
+import com.michaelflisar.materialpreferences.preferencescreen.screen
+import com.michaelflisar.materialpreferences.preferencescreen.subScreen
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
@@ -85,7 +116,7 @@ import javax.inject.Inject
 @ExperimentalPagerApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
-class SettingsActivity : GodActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     lateinit var screen: PreferenceScreen
 
@@ -270,14 +301,14 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }) {
                                         title = getString(R.string.game_edition).asText()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     singleChoice(UserSettingsModel.faction, Faction.values(), {
                                         it.name
                                     }) {
                                         title = "Faction".asText()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     category {
@@ -417,7 +448,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.opening_screen).asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     singleChoice(UserSettingsModel.menuDrawerLayout, MenuDrawerLayout.values(), {
@@ -430,7 +461,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = "Menu Drawer Layout".asText()
                                         icon = R.drawable.round_view_sidebar_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     category {
@@ -454,7 +485,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.language).asText()
                                         icon = R.drawable.ic_baseline_language_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                 }
@@ -470,7 +501,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = "Display Name".asText()
                                         icon = R.drawable.ic_baseline_text_fields_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     singleChoice(UserSettingsModel.fleaVisiblePrice, FleaVisiblePrice.values(), {
@@ -485,7 +516,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.list_price).asText()
                                         icon = R.drawable.ic_baseline_money_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     singleChoice(UserSettingsModel.fleaVisibleTraderPrice, FleaVisibleTraderPrice.values(), {
@@ -497,7 +528,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = "Trader Display Price".asText()
                                         icon = R.drawable.ic_baseline_person_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     singleChoice(UserSettingsModel.fleaIconDisplay, IconSelection.values(), {
@@ -509,7 +540,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.icon_display).asText()
                                         icon = R.drawable.ic_baseline_image_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     singleChoice(UserSettingsModel.fleaHideTime, FleaHideTime.values(), {
@@ -523,7 +554,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.only_show_items_scanned).asText()
                                         icon = R.drawable.ic_baseline_access_time_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     switch(UserSettingsModel.fleaHideNonFlea) {
@@ -611,7 +642,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.default_map).asText()
                                         icon = R.drawable.ic_baseline_map_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                 }
@@ -627,12 +658,12 @@ class SettingsActivity : GodActivity() {
                                     switch(UserSettingsModel.serverStatusUpdates) {
                                         title = "Service Status Updates".asText()
                                         summary = "Will notify when a new status update is posted.".asText()
-                                        dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
+                                        enabledDependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
                                     }
                                     switch(UserSettingsModel.serverStatusMessages) {
                                         title = "New Status Messages".asText()
                                         summary = "Will notify when a new status message is received.".asText()
-                                        dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
+                                        enabledDependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
                                     }
                                     if (Build.VERSION.SDK_INT >= 26)
                                         button {
@@ -695,7 +726,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.sync_frequency).asText()
                                         icon = R.drawable.ic_baseline_update_24.asIcon()
-                                        showCheckBoxes = true
+                                        
                                         bottomSheet = true
                                     }
                                     button {
@@ -739,7 +770,7 @@ class SettingsActivity : GodActivity() {
                                 category {
                                     title = getString(R.string.integrations_beta).asText()
                                 }
-                                subScreen {
+                                /*subScreen {
                                     title = "Tarkov Tracker".asText()
                                     icon = R.drawable.ic_baseline_explore_24.asIcon()
                                     //summary = "Coming soon.".asText()
@@ -797,9 +828,9 @@ class SettingsActivity : GodActivity() {
                                             title = "Sync Your Progress".asText()
                                             summary = "Automatic sync temporarily disabled, please sync manually below.".asText()
                                             icon = R.drawable.ic_baseline_cloud_sync_24.asIcon()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -807,9 +838,9 @@ class SettingsActivity : GodActivity() {
                                         }
                                         switch(UserSettingsModel.ttSyncQuest) {
                                             title = "Sync Quest Progress".asText()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -817,9 +848,9 @@ class SettingsActivity : GodActivity() {
                                         }
                                         switch(UserSettingsModel.ttSyncHideout) {
                                             title = "Sync Hideout Progress".asText()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -829,9 +860,9 @@ class SettingsActivity : GodActivity() {
                                             title = "Sync Now".asText()
                                             summary = "".asText()
                                             icon = R.drawable.ic_baseline_sync_24.asIcon()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -854,9 +885,9 @@ class SettingsActivity : GodActivity() {
                                             title = "Push".asText()
                                             summary = "Will overwrite any data on Tarkov Tracker.".asText()
                                             icon = R.drawable.ic_baseline_backup_24.asIcon()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -878,9 +909,9 @@ class SettingsActivity : GodActivity() {
                                             title = "Pull".asText()
                                             summary = "Will overwrite any data on app.".asText()
                                             icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -914,7 +945,7 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                     }
-                                }
+                                }*/
                                 category {
                                     title = getString(R.string.about).asText()
                                 }
@@ -1092,7 +1123,7 @@ class SettingsActivity : GodActivity() {
                                 }
                             }
 
-                            screen.bind(recyclerView)
+                            screen.bind(recyclerView, this@SettingsActivity)
                             recyclerView
                         }
                     )

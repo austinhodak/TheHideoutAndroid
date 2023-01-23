@@ -239,6 +239,17 @@ dependencies {
 
     implementation "androidx.compose.material:material-icons-extended"
 
+    implementation "androidx.compose.material3:material3:1.1.0-alpha04"
+
+    // screen modules
+    implementation "com.github.MFlisar.MaterialPreferences:screen:$material_prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen-bool:$material_prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen-input:$material_prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen-choice:$material_prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen-color:$material_prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen-slider:$material_prefs"
+    implementation "com.github.MFlisar.MaterialPreferences:screen-image:$material_prefs"
+
 }
 
 apply plugin: 'com.localazy.gradle'
