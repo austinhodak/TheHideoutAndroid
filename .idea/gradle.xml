@@ -1,26 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="openjdk-18" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/mp-core" />
-            <option value="$PROJECT_DIR$/mp-library-datastore" />
-            <option value="$PROJECT_DIR$/mp-library-preference-screen" />
-            <option value="$PROJECT_DIR$/mp-library-preference-screen-choice" />
-            <option value="$PROJECT_DIR$/mp-library-preference-screen-color" />
-            <option value="$PROJECT_DIR$/mp-library-preference-screen-input" />
-            <option value="$PROJECT_DIR$/tarkovapi" />
-          </set>
-        </option>
+        <option name="gradleJvm" value="17" />
       </GradleProjectSettings>
     </option>
   </component>
