@@ -7,7 +7,6 @@ import com.austinhodak.tarkovapi.QuestsQuery
 import com.austinhodak.tarkovapi.fragment.ContainsItem
 import com.austinhodak.tarkovapi.fragment.ItemFragment
 import com.austinhodak.tarkovapi.fragment.ItemPrice
-import com.austinhodak.tarkovapi.fragment.TaskItem
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
@@ -56,7 +55,9 @@ fun QuestsQuery.Quest.toQuest(): Quest {
 fun JSONObject.itemType(): ItemTypes {
     val props = getJSONObject("_props")
     if (
-        getString("_name").equals("Ammo")
+        !props.has("Name")
+        || !props.has("ShortName")
+        || getString("_name").equals("Ammo")
         || getString("_parent").isNullOrBlank()
         || getString("_parent") == "54009119af1c881c07000029"
         || getString("_parent") == "5661632d4bdc2d903d8b456b"

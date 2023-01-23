@@ -4,13 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.network.okHttpClient
 import com.austinhodak.tarkovapi.room.AppDatabase
-import com.austinhodak.tarkovapi.tarkovtracker.AuthIntercept
 import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
-import com.austinhodak.tarkovapi.utils.getTTApiKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,7 +59,7 @@ object Module {
         @ApplicationContext appContext: Context,
         callback: AppDatabase.Callback
     ) = Room.databaseBuilder(appContext, AppDatabase::class.java, "hideout-database")
-        .createFromAsset("hideout_database_63.db")
+        .createFromAsset("hideout_database_64.db")
         .fallbackToDestructiveMigration()
         .addCallback(callback)
         .build()

@@ -305,9 +305,18 @@ data class Item(
         return price / getTotalSlots()
     }
 
-    fun getUpdatedTime(): String {
+    fun getUpdatedTime(short: Boolean? = false): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         sdf.timeZone = TimeZone.getTimeZone("GMT")
+
+        val date = sdf.parse(pricing?.updated ?: "2021-07-01T08:36:35.194Z") ?: Calendar.getInstance().time
+        val currentTime = System.currentTimeMillis()
+        if (short == true) {
+            val timeString = DateUtils.getRelativeTimeSpanString(date.time, currentTime, DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()
+
+            return timeString.removeSuffix(". ago")
+        }
+
         return "Updated ${
             DateUtils.getRelativeTimeSpanString(
                 sdf.parse(pricing?.updated ?: "2021-07-01T08:36:35.194Z")?.time ?: 0,

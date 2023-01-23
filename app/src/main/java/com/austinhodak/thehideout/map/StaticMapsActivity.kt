@@ -411,6 +411,23 @@ class StaticMapsActivity : AppCompatActivity() {
             )
         ),
         StaticMap(
+            "Streets",
+            listOf(
+                StaticMap.StaticMapImage(
+                    "3D",
+                    R.drawable.streets_3d
+                ),
+                StaticMap.StaticMapImage(
+                    "2D",
+                    R.drawable.streets_2d
+                ),
+                StaticMap.StaticMapImage(
+                    "2D Tycho",
+                    R.drawable.streets_2d_tycho
+                )
+            )
+        ),
+        StaticMap(
             "Woods",
             listOf(
                 StaticMap.StaticMapImage(
