@@ -46,13 +46,11 @@ import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.tarkovtracker.models.TTUser
-import com.austinhodak.tarkovapi.type.ItemSourceName
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
-import com.austinhodak.thehideout.premium.PremiumPusherActivity
 import com.austinhodak.thehideout.calculator.models.CAmmo
 import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.compose.theme.BorderColor
@@ -61,6 +59,7 @@ import com.austinhodak.thehideout.compose.theme.Red500
 import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.fsUser
+import com.austinhodak.thehideout.premium.PremiumPusherActivity
 import com.austinhodak.thehideout.quests.QuestDetailActivity
 import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
@@ -69,7 +68,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.firebase.Timestamp
 import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.crashlytics.ktx.setCustomKeys
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
@@ -165,20 +163,21 @@ fun Double.getColor(reverse: Boolean = false, surfaceColor: Color): Color {
 
 fun Pricing.BuySellPrice.traderImage(showLevel: Boolean? = true): String {
     //Flea Market Icon
-    if (this.source == "fleaMarket") return "https://tarkov.dev/images/flea-market-icon.jpg"
+    if (this.source == "fleaMarket") return "https://tarkov.dev/images/traders/flea-market-portrait.png"
 
     when {
         requirements.isNullOrEmpty() || showLevel == false -> {
             return when (this.source) {
-                ItemSourceName.prapor.rawValue -> "https://tarkov.dev/images/prapor-icon.jpg"
-                ItemSourceName.therapist.rawValue -> "https://tarkov.dev/images/therapist-icon.jpg"
-                ItemSourceName.fence.rawValue -> "https://tarkov.dev/images/fence-icon.jpg"
-                ItemSourceName.skier.rawValue -> "https://tarkov.dev/images/skier-icon.jpg"
-                ItemSourceName.peacekeeper.rawValue -> "https://tarkov.dev/images/peacekeeper-icon.jpg"
-                ItemSourceName.mechanic.rawValue -> "https://tarkov.dev/images/mechanic-icon.jpg"
-                ItemSourceName.ragman.rawValue -> "https://tarkov.dev/images/ragman-icon.jpg"
-                ItemSourceName.jaeger.rawValue -> "https://tarkov.dev/images/jaeger-icon.jpg"
-                else -> "https://tarkov.dev/images/prapor-icon.jpg"
+                "prapor" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/6b/Prapor_Portrait.png/revision/latest?cb=20180425012550"
+                "therapist" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c7/Therapist_Portrait.png/revision/latest?cb=20221124232039"
+                "fence" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/f7/Fence_Portrait.png/revision/latest?cb=20230120170036"
+                "skier" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/0a/Skier_Portrait.png/revision/latest?cb=20180425012638"
+                "peacekeeper" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/08/Peacekeeper_Portrait.png/revision/latest?cb=20180108000742"
+                "mechanic" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ef/Mechanic_Portrait.png/revision/latest?cb=20180425012513"
+                "ragman" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/8b/Ragman_Portrait.png/revision/latest?cb=20180425012401"
+                "jaeger" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/d/d1/Jaeger_Portrait.png/revision/latest?cb=20191102063456"
+                "lightkeeper" -> "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b1/Lightkeeper_Portrait.png/revision/latest?cb=20230120170122"
+                else -> "https://tarkov.dev/images/traders/prapor-icon.jpg"
             }
         }
         requirements.first().type == "loyaltyLevel" || isQuestLocked() -> {
