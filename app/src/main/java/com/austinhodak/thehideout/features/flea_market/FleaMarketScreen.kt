@@ -7,8 +7,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -40,7 +41,6 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.apollographql.apollo3.mpp.currentTimeMillis
 import com.austinhodak.tarkovapi.FleaHideTime
 import com.austinhodak.tarkovapi.FleaVisiblePrice
@@ -52,18 +52,24 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
-import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.features.flea_market.components.ShoppingCartScreen
 import com.austinhodak.thehideout.features.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.features.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.features.profile.UserProfileActivity
+import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.ui.common.EmptyText
+import com.austinhodak.thehideout.ui.theme3.HideoutTheme3
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.list.ListDialog
+import com.maxkeppeler.sheets.list.models.ListOption
+import com.maxkeppeler.sheets.list.models.ListSelection
 import com.skydoves.only.onlyOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
 @ExperimentalCoilApi
 @SuppressLint("CheckResult")
@@ -103,62 +109,101 @@ fun FleaMarketScreen(
                         }
                     )
                 } else {
+                    val sheetState = rememberSheetState()
+
+                    val items = listOf(
+                        "Name",
+                        "Price: Low to High",
+                        "Price: High to Low",
+                        "Price Per Slot",
+                        "Change Last 48H: Low to High",
+                        "Change Last 48H: High to Low",
+                        "Insta Profit: Low to High",
+                        "Insta Profit: High to Low",
+                        "Time Updated"
+                    )
+                    val options = items.mapIndexed { index, s ->
+                        ListOption(
+                            titleText = s,
+                            selected = index == sort
+                        )
+                    }
+                    HideoutTheme3(
+                        darkTheme = true,
+                        dynamicColor = false
+                    ) {
+                        ListDialog(
+                            state = sheetState,
+                            selection = ListSelection.Single(
+                                showRadioButtons = true,
+                                options = options,
+                                withButtonView = false
+                            ) { index, option ->
+                                fleaViewModel.setSort(index)
+                            }
+                        )
+                    }
                     MainToolbar(
                         title = "Flea Market",
-                        navViewModel = navViewModel,
-                        actions = {
-                            IconButton(onClick = {
-                                fleaViewModel.setSearchOpen(true)
-                            }) {
-                                Icon(Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
-                            }
-                            IconButton(onClick = {
-                                val items = listOf(
-                                    "Name",
-                                    "Price: Low to High",
-                                    "Price: High to Low",
-                                    "Price Per Slot",
-                                    "Change Last 48H: Low to High",
-                                    "Change Last 48H: High to Low",
-                                    "Insta Profit: Low to High",
-                                    "Insta Profit: High to Low",
-                                    "Time Updated"
+                        navViewModel = navViewModel
+                    ) {
+                        IconButton(onClick = {
+                            fleaViewModel.setSearchOpen(true)
+                        }) {
+                            Icon(
+                                Icons.Filled.Search,
+                                contentDescription = "Search",
+                                tint = Color.White
+                            )
+                        }
+                        IconButton(onClick = {
+                            sheetState.show()
+                            /*MaterialDialog(context).show {
+                                title(text = "Sort By")
+                                listItemsSingleChoice(
+                                    items = items,
+                                    initialSelection = sort ?: 2
+                                ) { _, index, _ ->
+                                    fleaViewModel.setSort(index)
+                                }
+                            }*/
+                        }) {
+                            Icon(
+                                painterResource(id = R.drawable.ic_baseline_sort_24),
+                                contentDescription = "Sort Ammo",
+                                tint = Color.White
+                            )
+                        }
+                        when (navBackStackEntry?.destination?.route) {
+                            FleaMarketScreens.Needed.route -> {
+                                OverFlowMenu(
+                                    menuItems = listOf(
+                                        Pair("Help") {
+                                            showNeededItemsHelp(context)
+                                        },
+                                    )
                                 )
-                                MaterialDialog(context).show {
-                                    title(text = "Sort By")
-                                    listItemsSingleChoice(items = items, initialSelection = sort ?: 2) { _, index, _ ->
-                                        fleaViewModel.setSort(index)
-                                    }
-                                }
-                            }) {
-                                Icon(painterResource(id = R.drawable.ic_baseline_sort_24), contentDescription = "Sort Ammo", tint = Color.White)
                             }
-                            when (navBackStackEntry?.destination?.route) {
-                                FleaMarketScreens.Needed.route -> {
-                                    OverFlowMenu(
-                                        menuItems = listOf(
-                                            Pair("Help") {
-                                                showNeededItemsHelp(context)
-                                            },
-                                        )
+
+                            else -> {
+                                OverFlowMenu(
+                                    menuItems = listOf(
+                                        Pair("Refresh Prices") {
+                                            Toast.makeText(
+                                                context,
+                                                "Refreshing prices...",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            fleaViewModel.refreshList()
+                                        },
+                                        Pair("Set Trader Levels") {
+                                            context.openActivity(UserProfileActivity::class.java)
+                                        },
                                     )
-                                }
-                                else -> {
-                                    OverFlowMenu(
-                                        menuItems = listOf(
-                                            Pair("Refresh Prices") {
-                                                Toast.makeText(context, "Refreshing prices...", Toast.LENGTH_SHORT).show()
-                                                fleaViewModel.refreshList()
-                                            },
-                                            Pair("Set Trader Levels") {
-                                                context.openActivity(UserProfileActivity::class.java)
-                                            },
-                                        )
-                                    )
-                                }
+                                )
                             }
                         }
-                    )
+                    }
                 }
             }
         },
@@ -337,6 +382,7 @@ fun FleaMarketFavoritesList(
                 FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
             }
         }
+
         2 -> data.sortedByDescending {
             when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
@@ -346,6 +392,7 @@ fun FleaMarketFavoritesList(
                 FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
             }
         }
+
         3 -> data.sortedByDescending {
             val price = when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
@@ -356,6 +403,7 @@ fun FleaMarketFavoritesList(
             }
             it.getPricePerSlot(price ?: 0)
         }
+
         4 -> data.sortedBy { it.pricing?.changeLast48h }
         5 -> data.sortedByDescending { it.pricing?.changeLast48h }
         6 -> data.sortedBy { it.pricing?.getInstaProfit() }
@@ -379,14 +427,29 @@ fun FleaMarketFavoritesList(
         null -> {
             LoadingItem()
         }
+
         else -> {
             val context = LocalContext.current
             LazyColumn(
                 modifier = Modifier,
-                contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
+                contentPadding = PaddingValues(
+                    top = 4.dp,
+                    bottom = paddingValues.calculateBottomPadding()
+                )
             ) {
                 items(items = list ?: emptyList()) { item ->
-                    FleaItem(item = item, priceDisplay = priceDisplay, iconDisplay, traderPriceDisplay, settings = listOf(priceDisplay, iconDisplay, traderPriceDisplay, displayName)) {
+                    FleaItem(
+                        item = item,
+                        priceDisplay = priceDisplay,
+                        iconDisplay,
+                        traderPriceDisplay,
+                        settings = listOf(
+                            priceDisplay,
+                            iconDisplay,
+                            traderPriceDisplay,
+                            displayName
+                        )
+                    ) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", item.id)
                         }
@@ -427,6 +490,7 @@ fun FleaMarketListScreen(
                 FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
             }
         }
+
         2 -> data?.sortedByDescending {
             when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
@@ -436,6 +500,7 @@ fun FleaMarketListScreen(
                 FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
             }
         }
+
         3 -> data?.sortedByDescending {
             val price = when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
@@ -446,6 +511,7 @@ fun FleaMarketListScreen(
             }
             it.getPricePerSlot(price ?: 0)
         }
+
         4 -> data?.sortedBy { it.pricing?.changeLast48h }
         5 -> data?.sortedByDescending { it.pricing?.changeLast48h }
         6 -> data?.sortedBy { it.pricing?.getInstaProfit() }
@@ -454,12 +520,14 @@ fun FleaMarketListScreen(
             if (it.pricing?.noFlea == true) return@sortedByDescending "";
             return@sortedByDescending it.pricing?.updated
         }
+
         else -> data?.sortedBy { it.getPrice() }
     }?.filter {
         it.ShortName?.contains(searchKey, ignoreCase = true) == true
                 || it.Name?.contains(searchKey, ignoreCase = true) == true
                 || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
-                || it.pricing?.types?.map { it?.rawValue }?.joinToString(" ")?.contains(searchKey, ignoreCase = true) == true
+                || it.pricing?.types?.map { it?.rawValue }?.joinToString(" ")
+            ?.contains(searchKey, ignoreCase = true) == true
     }?.filter {
         when (fleaHideTime) {
             FleaHideTime.HOUR24 -> it.pricing?.getTime() ?: currentTimeMillis() > (currentTimeMillis() - (1000 * 60 * 60 * 24))
@@ -490,10 +558,25 @@ fun FleaMarketListScreen(
             val context = LocalContext.current
             LazyColumn(
                 modifier = Modifier,
-                contentPadding = PaddingValues(top = 4.dp, bottom = paddingValues.calculateBottomPadding())
+                contentPadding = PaddingValues(
+                    top = 4.dp,
+                    bottom = paddingValues.calculateBottomPadding()
+                )
             ) {
                 items(items = list ?: emptyList(), key = { item -> item.id }) { item ->
-                    FleaItem(item = item, priceDisplay, iconDisplay, modifier = Modifier.animateItemPlacement(), traderPrice = traderPriceDisplay,  settings = listOf(priceDisplay, iconDisplay, traderPriceDisplay, displayName)) {
+                    FleaItem(
+                        item = item,
+                        priceDisplay,
+                        iconDisplay,
+                        modifier = Modifier.animateItemPlacement(),
+                        traderPrice = traderPriceDisplay,
+                        settings = listOf(
+                            priceDisplay,
+                            iconDisplay,
+                            traderPriceDisplay,
+                            displayName
+                        )
+                    ) {
                         context.openActivity(FleaItemDetail::class.java) {
                             putString("id", item.id)
                         }
@@ -536,7 +619,9 @@ fun FleaBottomNav(
                             )
                         } else {
                             Icon(
-                                painter = painterResource(id = item.unselectedDrawable ?: item.iconDrawable!!),
+                                painter = painterResource(
+                                    id = item.unselectedDrawable ?: item.iconDrawable!!
+                                ),
                                 contentDescription = item.resourceId,
                                 modifier = Modifier.size(24.dp)
                             )
@@ -573,7 +658,10 @@ sealed class FleaMarketScreens(
 ) {
     object Items : FleaMarketScreens("Items", "Items", null, R.drawable.ic_baseline_storefront_24)
     object Needed : FleaMarketScreens("Needed", "Needed", null, R.drawable.icons8_wish_list_96)
-    object Favorites : FleaMarketScreens("Favorites", "Favorites", null, R.drawable.ic_baseline_favorite_24)
-    object ShoppingCart : FleaMarketScreens("Cart", "Cart", null, R.drawable.ic_baseline_shopping_cart_24)
+    object Favorites :
+        FleaMarketScreens("Favorites", "Favorites", null, R.drawable.ic_baseline_favorite_24)
+
+    object ShoppingCart :
+        FleaMarketScreens("Cart", "Cart", null, R.drawable.ic_baseline_shopping_cart_24)
     //object Alerts : FleaMarketScreens("Alerts", "Price Alerts", null, R.drawable.ic_baseline_notifications_active_24)
 }
