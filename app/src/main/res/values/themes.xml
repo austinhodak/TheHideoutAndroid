@@ -72,6 +72,28 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
+
+        <item name="textAppearanceBody2">@style/MaterialPreferences.Category</item>
+        <item name="textAppearanceListItem">@style/MaterialPreferences.Preferences.Title</item>
+        <item name="textAppearanceListItemSecondary">@style/MaterialPreferences.Preferences.Summary</item>
+
+
+    </style>
+
+    <style name="MaterialPreferences.Category">
+        <item name="fontFamily">@font/bender</item>
+        <item name="android:textColor">?colorPrimary</item>
+    </style>
+    <style name="MaterialPreferences.Preferences.Title">
+<!--        <item name="android:textAppearance">?textAppearanceTitleLarge</item>-->
+        <item name="fontFamily">@font/bender</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="MaterialPreferences.Preferences.Summary">
+<!--        <item name="android:textAppearance">?textAppearanceBodySmall</item>-->
+        <item name="fontFamily">@font/bender</item>
+        <item name="android:textColor">?colorOnBackground</item>
     </style>
 
 </resources>

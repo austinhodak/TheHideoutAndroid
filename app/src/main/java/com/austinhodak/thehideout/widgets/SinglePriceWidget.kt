@@ -14,7 +14,7 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.features.flea_market.detail.FleaItemDetail
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.AppWidgetTarget

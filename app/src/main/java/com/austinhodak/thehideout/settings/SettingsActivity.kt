@@ -3,7 +3,6 @@ package com.austinhodak.thehideout.settings
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.InputType
 import android.text.format.DateUtils
 import android.widget.Toast
@@ -12,19 +11,18 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +30,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,10 +56,10 @@ import com.austinhodak.tarkovapi.OpeningScreen
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.theme.HideoutTheme
 import com.austinhodak.thehideout.extras
 import com.austinhodak.thehideout.features.profile.UserProfileActivity
 import com.austinhodak.thehideout.features.team.TeamManagementActivity
+import com.austinhodak.thehideout.ui.theme3.HideoutTheme3
 import com.austinhodak.thehideout.utils.isDebug
 import com.austinhodak.thehideout.utils.isPremium
 import com.austinhodak.thehideout.utils.isWorkRunning
@@ -72,6 +72,7 @@ import com.austinhodak.thehideout.utils.userRefTracker
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -93,6 +94,7 @@ import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoic
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asBatch
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDependency
+import com.michaelflisar.materialpreferences.preferencescreen.enums.NoIconVisibility
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.materialpreferences.preferencescreen.screen
 import com.michaelflisar.materialpreferences.preferencescreen.subScreen
@@ -125,8 +127,10 @@ class SettingsActivity : AppCompatActivity() {
     @Inject
     lateinit var myWorkerFactory: PriceUpdateFactory
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val preferences = getSharedPreferences("tarkov", MODE_PRIVATE)
 
@@ -136,37 +140,56 @@ class SettingsActivity : AppCompatActivity() {
                 OpeningScreen.AMMO -> {
                     extras.setOpeningItem(101, "ammunition/{caliber}")
                 }
+
                 OpeningScreen.KEYS -> {
                     extras.setOpeningItem(104, "keys")
                 }
+
                 OpeningScreen.FLEA -> {
                     extras.setOpeningItem(107, "flea")
                 }
+
                 OpeningScreen.HIDEOUT -> {
                     extras.setOpeningItem(108, "hideout")
                 }
+
                 OpeningScreen.QUESTS -> {
                     extras.setOpeningItem(109, "quests")
                 }
+
                 OpeningScreen.LOADOUTS -> {
                     extras.setOpeningItem(115, "weaponloadouts")
                 }
+
                 OpeningScreen.MODS -> {
                     extras.setOpeningItem(114, "weaponmods")
                 }
+
                 OpeningScreen.WEAPONS -> {
                     extras.setOpeningItem(301, "weapons/{classID}")
                 }
+
                 OpeningScreen.NEEDED_ITEMS -> {
                     extras.setOpeningItem(116, "neededGrid")
                 }
+
                 OpeningScreen.MEDS -> {
                     extras.setOpeningItem(105, "medical")
                 }
             }
         }
         setContent {
-            HideoutTheme {
+            HideoutTheme3(
+                darkTheme = true,
+                dynamicColor = false
+            ) {
+                val systemUiController = rememberSystemUiController()
+
+                // Update the dark content of the system bars to match the theme
+                DisposableEffect(systemUiController, true) {
+                    systemUiController.setSystemBarsColor(Color.Transparent, false)
+                    onDispose {}
+                }
 
                 var toolbarTitle by remember { mutableStateOf("Settings") }
 
@@ -224,13 +247,15 @@ class SettingsActivity : AppCompatActivity() {
                     DateUtils.MINUTE_IN_MILLIS
                 )
 
-                val scaffoldState = rememberScaffoldState()
-
                 Scaffold(
-                    scaffoldState = scaffoldState,
                     topBar = {
-                        TopAppBar(
-                            title = { Text(toolbarTitle) },
+                        CenterAlignedTopAppBar(
+                            title = {
+                                Text(
+                                    toolbarTitle,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            },
                             navigationIcon = {
                                 IconButton(onClick = {
                                     onBackPressed()
@@ -238,7 +263,6 @@ class SettingsActivity : AppCompatActivity() {
                                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
                                 }
                             },
-                            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                             actions = {
                                 IconButton(onClick = {
                                     "https://discord.gg/YQW36z29z6".openWithCustomTab(this@SettingsActivity)
@@ -258,7 +282,9 @@ class SettingsActivity : AppCompatActivity() {
                             recyclerView.layoutManager = LinearLayoutManager(context)
 
                             PreferenceScreenConfig.apply {
+                                bottomSheet = true
                                 alignIconsWithBackArrow = true
+                                noIconVisibility = NoIconVisibility.Invisible
                             }
 
                             screen = screen {
@@ -301,15 +327,15 @@ class SettingsActivity : AppCompatActivity() {
                                         }
                                     }) {
                                         title = getString(R.string.game_edition).asText()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.faction, Faction.values(), {
                                         it.name
                                     }) {
                                         title = "Faction".asText()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                     category {
                                         title = getString(R.string.mouse_settings).asText()
@@ -448,8 +474,8 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = getString(R.string.opening_screen).asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.menuDrawerLayout, MenuDrawerLayout.values(), {
                                         when (it) {
@@ -461,8 +487,8 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = "Menu Drawer Layout".asText()
                                         icon = R.drawable.round_view_sidebar_24.asIcon()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                     category {
                                         title = getString(R.string.other).asText()
@@ -485,8 +511,8 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = getString(R.string.language).asText()
                                         icon = R.drawable.ic_baseline_language_24.asIcon()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                 }
                                 subScreen {
@@ -501,8 +527,8 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = "Display Name".asText()
                                         icon = R.drawable.ic_baseline_text_fields_24.asIcon()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.fleaVisiblePrice, FleaVisiblePrice.values(), {
                                         when (it) {
@@ -516,8 +542,8 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = getString(R.string.list_price).asText()
                                         icon = R.drawable.ic_baseline_money_24.asIcon()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.fleaVisibleTraderPrice, FleaVisibleTraderPrice.values(), {
                                         when (it) {
@@ -528,8 +554,8 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = "Trader Display Price".asText()
                                         icon = R.drawable.ic_baseline_person_24.asIcon()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.fleaIconDisplay, IconSelection.values(), {
                                         when (it) {
@@ -540,8 +566,8 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = getString(R.string.icon_display).asText()
                                         icon = R.drawable.ic_baseline_image_24.asIcon()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.fleaHideTime, FleaHideTime.values(), {
                                         when (it) {
@@ -554,8 +580,7 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = getString(R.string.only_show_items_scanned).asText()
                                         icon = R.drawable.ic_baseline_access_time_24.asIcon()
-                                        
-                                        bottomSheet = true
+
                                     }
                                     switch(UserSettingsModel.fleaHideNonFlea) {
                                         title = getString(R.string.hide_banned_from_flea).asText()
@@ -642,8 +667,8 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = getString(R.string.default_map).asText()
                                         icon = R.drawable.ic_baseline_map_24.asIcon()
-                                        
-                                        bottomSheet = true
+
+
                                     }
                                 }
                                 subScreen {
@@ -726,8 +751,7 @@ class SettingsActivity : AppCompatActivity() {
                                     }) {
                                         title = getString(R.string.sync_frequency).asText()
                                         icon = R.drawable.ic_baseline_update_24.asIcon()
-                                        
-                                        bottomSheet = true
+                                        bottomSheet = false
                                     }
                                     button {
                                         title = getString(R.string.sync_now).asText()
@@ -754,22 +778,14 @@ class SettingsActivity : AppCompatActivity() {
                                             "https://tarkov.dev/".openWithCustomTab(this@SettingsActivity)
                                         }
                                     }
-                                    button {
-//                                        title = "Tarkov Data".asText()
-                                        summary = "Maintained by Community Devs".asText()
-                                        icon = R.drawable.ic_icons8_github.asIcon()
-                                        onClick = {
-                                            "https://github.com/TarkovTracker/tarkovdata/".openWithCustomTab(this@SettingsActivity)
-                                        }
-                                    }
                                 }
                                 /*subScreen {
                                     title = "Quests".asText()
                                     icon = R.drawable.ic_baseline_assignment_24.asIcon()
                                 }*/
-                                category {
-                                    title = getString(R.string.integrations_beta).asText()
-                                }
+                                /*                                category {
+                                                                    title = getString(R.string.integrations_beta).asText()
+                                                                }*/
                                 /*subScreen {
                                     title = "Tarkov Tracker".asText()
                                     icon = R.drawable.ic_baseline_explore_24.asIcon()
@@ -1123,7 +1139,7 @@ class SettingsActivity : AppCompatActivity() {
                                 }
                             }
 
-                            screen.bind(recyclerView, this@SettingsActivity)
+                            screen.bind(recyclerView, this)
                             recyclerView
                         }
                     )
@@ -1140,8 +1156,8 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         screen.onSaveInstanceState(outState)
     }
 
