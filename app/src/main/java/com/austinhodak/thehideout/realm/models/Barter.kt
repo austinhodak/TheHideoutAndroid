@@ -1,8 +1,7 @@
 package com.austinhodak.thehideout.realm.models
 
-import com.austinhodak.tarkovapi.BartersQuery
 import com.austinhodak.thehideout.BartersQuery
-import com.austinhodak.thehideout.data.findObjectById
+import com.austinhodak.thehideout.realm.converters.findObjectById
 import com.austinhodak.thehideout.fragment.TaskItem
 import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.ext.realmListOf

@@ -1,16 +1,14 @@
 package com.austinhodak.thehideout.realm.models
 
 import com.austinhodak.thehideout.BossesQuery
-import com.austinhodak.thehideout.data.findObjectById
+import com.austinhodak.thehideout.realm.converters.findObjectById
 import io.realm.kotlin.MutableRealm
-import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.toRealmList
 import io.realm.kotlin.types.EmbeddedRealmObject
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
-import org.mongodb.kbson.ObjectId
 
 class MobInfo : RealmObject {
     @PrimaryKey

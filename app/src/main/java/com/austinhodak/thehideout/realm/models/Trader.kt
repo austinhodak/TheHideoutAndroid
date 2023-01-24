@@ -1,10 +1,7 @@
 package com.austinhodak.thehideout.realm.models
 
 import com.apollographql.apollo3.ApolloClient
-import com.austinhodak.thehideout.data.findObjectById
-import com.austinhodak.thehideout.data.getApolloData
-import com.austinhodak.thehideout.data.toRealmItem
-import com.austinhodak.thehideout.fragment.ItemFragment
+import com.austinhodak.thehideout.realm.converters.findObjectById
 import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.toRealmList

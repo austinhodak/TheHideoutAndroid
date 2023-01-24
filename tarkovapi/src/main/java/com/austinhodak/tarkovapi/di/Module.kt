@@ -31,29 +31,6 @@ object Module {
     }
 
     @Provides
-    fun provideApolloClient(
-        @ApplicationContext appContext: Context
-    ): ApolloClient {
-        val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
-
-        val cacheFactory = MemoryCacheFactory(maxSizeBytes = 10 * 1024 * 1024)
-        val sqlCacheFactory = SqlNormalizedCacheFactory(appContext, "apollo.db")
-
-        val memoryFirstThenSqlCacheFactory = cacheFactory.chain(sqlCacheFactory)
-
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
-
-        return ApolloClient.Builder()
-            .serverUrl("https://api.tarkov.dev/graphql")
-            //.normalizedCache(memoryFirstThenSqlCacheFactory)
-            .okHttpClient(client)
-            .build()
-    }
-
-    @Provides
     @Singleton
     fun provideAppDatabase(
         @ApplicationContext appContext: Context,

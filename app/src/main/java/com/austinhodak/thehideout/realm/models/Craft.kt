@@ -1,8 +1,7 @@
 package com.austinhodak.thehideout.realm.models
 
 import com.austinhodak.thehideout.CraftsQuery
-import com.austinhodak.thehideout.data.findObjectById
-import com.austinhodak.thehideout.fragment.TaskItem
+import com.austinhodak.thehideout.realm.converters.findObjectById
 import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.toRealmList

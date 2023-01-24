@@ -38,6 +38,9 @@ import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.localazy.android.Localazy
+import com.qonversion.android.sdk.Qonversion
+import com.qonversion.android.sdk.QonversionConfig
+import com.qonversion.android.sdk.dto.QLaunchMode
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
 import io.gleap.Gleap
@@ -49,9 +52,11 @@ import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+internal const val SyncWorkName = "SyncWorkName"
 
 @HiltAndroidApp
 class Application : android.app.Application(), Configuration.Provider {
+
 
     @Inject
     lateinit var myWorkerFactory: PriceUpdateFactory
@@ -113,6 +118,10 @@ class Application : android.app.Application(), Configuration.Provider {
 
     lateinit var listenerRegistration: ListenerRegistration
 
+    private fun setupQonversion() {
+        Qonversion.initialize(QonversionConfig.Builder(this, "QGPONvV6rgfVxSM74fv5aID13TuunIu3", QLaunchMode.SubscriptionManagement).build())
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -121,6 +130,8 @@ class Application : android.app.Application(), Configuration.Provider {
         createPriceAlertsNotificationChannel()
 
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+
+        setupQonversion()
 
         instance = this
         extras = Extras(applicationContext)

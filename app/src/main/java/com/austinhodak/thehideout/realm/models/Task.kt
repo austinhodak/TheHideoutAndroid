@@ -9,8 +9,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.austinhodak.thehideout.TasksQuery
-import com.austinhodak.thehideout.base.Result
-import com.austinhodak.thehideout.data.findObjectById
+import com.austinhodak.thehideout.realm.converters.findObjectById
 import com.austinhodak.thehideout.firebase.models.TaskStatus
 import com.austinhodak.thehideout.firebase.models.UserData
 import com.austinhodak.thehideout.fragment.TaskFragment.Objective.Companion.asTaskObjectiveBuildItem
@@ -32,6 +31,7 @@ import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.coroutines.flow.callbackFlow
+import com.austinhodak.thehideout.base.Result
 import com.google.android.gms.tasks.Task as FSTask
 
 class Task : RealmObject {

@@ -282,7 +282,7 @@ class SettingsActivity : AppCompatActivity() {
                             recyclerView.layoutManager = LinearLayoutManager(context)
 
                             PreferenceScreenConfig.apply {
-                                bottomSheet = true
+                                bottomSheet = false
                                 alignIconsWithBackArrow = true
                                 noIconVisibility = NoIconVisibility.Invisible
                             }
