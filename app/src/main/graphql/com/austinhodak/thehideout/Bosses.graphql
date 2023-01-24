@@ -1,0 +1,27 @@
+query Bosses (
+    $lang: LanguageCode,
+    $limit: Int,
+    $offset: Int,
+    $name: [String!]
+) {
+    bosses(
+        lang: $lang,
+        limit: $limit,
+        offset: $offset,
+        name: $name
+    ) {
+        name
+        normalizedName
+        health {
+            id
+            max
+            bodyPart
+        }
+        equipment {
+            ...TaskItem
+        }
+        items {
+            id
+        }
+    }
+}

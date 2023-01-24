@@ -1,0 +1,50 @@
+query Hideout {
+    hideoutStations {
+        id
+        name
+        normalizedName
+        levels {
+            id
+            level
+            constructionTime
+            description
+            itemRequirements {
+                id
+                item {
+                    id
+                }
+                count
+                attributes {
+                    type
+                    name
+                    value
+                }
+            }
+            stationLevelRequirements {
+                id
+                station {
+                    id
+                }
+                level
+            }
+            skillRequirements {
+                id
+                name
+                level
+            }
+            traderRequirements {
+                id
+                trader {
+                    id
+                }
+                level
+            }
+            crafts {
+                id
+            }
+        }
+        crafts {
+            id
+        }
+    }
+}

@@ -1,0 +1,333 @@
+query Item(
+    $id: ID!
+) {
+    item(id: $id) {
+        ...ItemFragment
+    }
+}
+
+fragment ItemFragment on Item {
+    backgroundColor
+    baseImageLink
+    id
+    name
+    normalizedName
+    shortName
+    description
+    iconLink
+    baseImageLink
+    inspectImageLink
+    image512pxLink
+    image8xLink
+    gridImageLink
+    avg24hPrice
+    basePrice
+    lastLowPrice
+    changeLast48h
+    changeLast48hPercent
+    low24hPrice
+    high24hPrice
+    lastOfferCount
+    updated
+    types
+    wikiLink
+    sellFor {
+        ...ItemPrice
+    }
+    buyFor {
+        ...ItemPrice
+    }
+    width
+    height
+    weight
+    lastOfferCount
+    containsItems {
+        quantity
+        item {
+            id
+        }
+        attributes {
+            type
+            name
+            value
+        }
+    }
+    properties {
+        ...on ItemPropertiesAmmo {
+            caliber
+            stackMaxSize
+            tracer
+            tracer
+            ammoType
+            projectileCount
+            damage
+            armorDamage
+            fragmentationChance
+            ricochetChance
+            penetrationPower
+            penetrationChance
+            accuracyModifier
+            recoilModifier
+            initialSpeed
+            lightBleedModifier
+            heavyBleedModifier
+            durabilityBurnFactor
+            heatFactor
+        }
+        ...on ItemPropertiesArmorAttachment {
+            class
+            durability
+            repairCost
+            speedPenalty
+            turnPenalty
+            ergoPenalty
+            headZones
+            material {
+                ...ArmorMaterial
+            }
+            blindnessProtection
+        }
+        ...on ItemPropertiesArmor {
+            class
+            durability
+            repairCost
+            speedPenalty
+            turnPenalty
+            ergoPenalty
+            zones
+            material {
+                ...ArmorMaterial
+            }
+        }
+        ... on ItemPropertiesBackpack {
+            capacity
+        }
+        ... on ItemPropertiesBarrel {
+            ergonomics
+            recoilModifier
+            centerOfImpact
+            deviationCurve
+            deviationMax
+            #slots
+        }
+        ... on ItemPropertiesChestRig {
+            class
+            durability
+            repairCost
+            speedPenalty
+            turnPenalty
+            ergoPenalty
+            zones
+            material {
+                ...ArmorMaterial
+            }
+            capacity
+        }
+        ... on ItemPropertiesContainer {
+            capacity
+        }
+        ... on ItemPropertiesFoodDrink {
+            energy
+            hydration
+            units
+            #stimeffects
+        }
+        ... on ItemPropertiesGlasses {
+            class
+            durability
+            repairCost
+            blindnessProtection
+            material {
+                ...ArmorMaterial
+            }
+        }
+        ... on ItemPropertiesGrenade {
+            type
+            fuse
+            minExplosionDistance
+            maxExplosionDistance
+            fragments
+            contusionRadius
+        }
+        ... on ItemPropertiesHelmet {
+            class
+            durability
+            repairCost
+            speedPenalty
+            turnPenalty
+            ergoPenalty
+            headZones
+            material {
+                ...ArmorMaterial
+            }
+            deafening
+            blocksHeadset
+            blindnessProtection
+            #slots
+            ricochetX
+            ricochetY
+            ricochetZ
+        }
+        ... on ItemPropertiesKey {
+            uses
+        }
+        ... on ItemPropertiesMagazine {
+            ergonomics
+            recoilModifier
+            capacity
+            loadModifier
+            ammoCheckModifier
+            malfunctionChance
+            #slots
+            allowedAmmo {
+                id
+            }
+        }
+        ... on ItemPropertiesMedicalItem {
+            uses
+            useTime
+            cures
+        }
+        ... on ItemPropertiesMelee {
+            slashDamage
+            stabDamage
+            hitRadius
+        }
+        ... on ItemPropertiesMedKit {
+            hitpoints
+            useTime
+            maxHealPerUse
+            cures
+            hpCostLightBleeding
+            hpCostHeavyBleeding
+        }
+        ... on ItemPropertiesNightVision {
+            intensity
+            noiseIntensity
+            noiseScale
+            diffuseIntensity
+        }
+        ... on ItemPropertiesPainkiller {
+            uses
+            useTime
+            cures
+            painkillerDuration
+            energyImpact
+            hydrationImpact
+        }
+        ... on ItemPropertiesPreset {
+            baseItem {
+                id
+            }
+            ergonomics
+            recoilVertical
+            recoilHorizontal
+            moa
+        }
+        ... on ItemPropertiesScope {
+            ergonomics
+            sightModes
+            sightingRange
+            recoilModifier
+            #slots
+            zoomLevels
+        }
+        ... on ItemPropertiesSurgicalKit {
+            uses
+            useTime
+            cures
+            minLimbHealth
+            maxLimbHealth
+        }
+        ... on ItemPropertiesWeapon {
+            caliber
+            defaultAmmo {
+                id
+            }
+            effectiveDistance
+            ergonomics
+            fireModes
+            fireRate
+            maxDurability
+            recoilVertical
+            recoilHorizontal
+            repairCost
+            sightingRange
+            centerOfImpact
+            deviationCurve
+            deviationMax
+            defaultWidth
+            defaultHeight
+            defaultErgonomics
+            defaultRecoilVertical
+            defaultRecoilHorizontal
+            defaultWeight
+            defaultPreset {
+                id
+            }
+            #slots
+            allowedAmmo {
+                id
+            }
+        }
+        ... on ItemPropertiesWeaponMod {
+            ergonomics
+            recoilModifier
+            accuracyModifier
+            #slots
+        }
+        ... on ItemPropertiesStim {
+            useTime
+            cures
+            stimEffects {
+                type
+                chance
+                delay
+                duration
+                value
+                percent
+                skillName
+            }
+        }
+    }
+    conflictingItems {
+        id
+    }
+    conflictingSlotIds
+    hasGrid
+#    category {
+#        id
+#    }
+#    categories {
+#        id
+#    }
+#    bsgCategoryId
+#    handbookCategories {
+#        id
+#    }
+}
+
+fragment ItemPrice on ItemPrice {
+    currency
+    vendor {
+        name
+        normalizedName
+        ... on FleaMarket {
+            minPlayerLevel
+            enabled
+            sellOfferFeeRate
+            sellRequirementFeeRate
+        }
+        ... on TraderOffer {
+            trader {
+                id
+            }
+            minTraderLevel
+            taskUnlock {
+                id
+            }
+        }
+    }
+    priceRUB
+    price
+}

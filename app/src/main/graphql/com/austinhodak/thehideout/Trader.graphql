@@ -1,0 +1,48 @@
+query Traders {
+    traders {
+        ...Trader
+    }
+}
+
+fragment Trader on Trader {
+    id
+    name
+    normalizedName
+    description
+    resetTime
+    currency {
+        id
+    }
+    discount
+    levels {
+        id
+        level
+        requiredPlayerLevel
+        requiredReputation
+        requiredCommerce
+        payRate
+        insuranceRate
+        repairCostMultiplier
+        barters {
+            id
+        }
+        cashOffers {
+            item {
+                id
+            }
+            minTraderLevel
+            price
+            currency
+            currencyItem {
+                id
+            }
+            priceRUB
+            taskUnlock {
+                id
+            }
+        }
+        barters {
+            id
+        }
+    }
+}

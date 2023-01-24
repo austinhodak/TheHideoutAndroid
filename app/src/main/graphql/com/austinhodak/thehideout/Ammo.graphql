@@ -1,0 +1,29 @@
+query Ammo (
+    $lang: LanguageCode,
+    $limit: Int,
+    $offset: Int,
+) {
+    ammo (lang: $lang, limit: $limit, offset: $offset) {
+        item {
+            id
+        }
+        weight
+        caliber
+        tracer
+        tracerColor
+        ammoType
+        projectileCount
+        damage
+        armorDamage
+        fragmentationChance
+        ricochetChance
+        penetrationPower
+        penetrationChance
+        accuracyModifier
+        recoilModifier
+        initialSpeed
+        lightBleedModifier
+        heavyBleedModifier
+        stackMaxSize
+    }
+}

@@ -1,0 +1,34 @@
+query Crafts {
+    crafts {
+        id
+        station {
+            id
+        }
+        level
+        taskUnlock {
+            id
+        }
+        duration
+        requiredItems {
+            ...TaskItem
+        }
+        rewardItems {
+            ...TaskItem
+        }
+        requiredQuestItems {
+            id
+        }
+    }
+}
+
+fragment TaskItem on ContainedItem {
+    item {
+        id
+    }
+    count
+    attributes {
+        type
+        name
+        value
+    }
+}

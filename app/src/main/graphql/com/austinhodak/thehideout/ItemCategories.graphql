@@ -1,0 +1,39 @@
+query ItemCategories (
+    $lang: LanguageCode,
+    $limit: Int,
+    $offset: Int
+) {
+    itemCategories(
+        lang: $lang,
+        limit: $limit,
+        offset: $offset
+    ) {
+        ...ItemCategory
+    }
+}
+
+query HandbookCategories (
+    $lang: LanguageCode,
+    $limit: Int,
+    $offset: Int
+) {
+    handbookCategories(
+        lang: $lang,
+        limit: $limit,
+        offset: $offset
+    ) {
+        ...ItemCategory
+    }
+}
+
+fragment ItemCategory on ItemCategory {
+    id
+    name
+    normalizedName
+    parent {
+        id
+    }
+    children {
+        id
+    }
+}
