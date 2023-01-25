@@ -10,7 +10,7 @@ import com.austinhodak.tarkovapi.repository.ModsRepo
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Mod
 import com.austinhodak.tarkovapi.room.models.Weapon
-import com.austinhodak.thehideout.WeaponBuild
+import com.austinhodak.thehideout.features.weapons.builder.WeaponBuild
 import com.austinhodak.thehideout.firebase.WeaponBuildFirestore
 import com.austinhodak.thehideout.utils.uid
 import com.google.firebase.firestore.ktx.firestore

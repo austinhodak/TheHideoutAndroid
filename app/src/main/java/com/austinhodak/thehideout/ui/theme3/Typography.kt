@@ -1,13 +1,35 @@
 package com.austinhodak.thehideout.ui.theme3
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.sp
 import com.austinhodak.thehideout.R
+
+@OptIn(ExperimentalTextApi::class)
+val provider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
+)
+
+@OptIn(ExperimentalTextApi::class)
+val rubik = FontFamily(
+    androidx.compose.ui.text.googlefonts.Font(googleFont = GoogleFont("Rubik", true), fontProvider = provider),
+    androidx.compose.ui.text.googlefonts.Font(googleFont = GoogleFont("Rubik", true), fontProvider = provider, weight = FontWeight.Bold),
+    androidx.compose.ui.text.googlefonts.Font(googleFont = GoogleFont("Rubik", true), fontProvider = provider, weight = FontWeight.Black),
+    androidx.compose.ui.text.googlefonts.Font(googleFont = GoogleFont("Rubik", true), fontProvider = provider, weight = FontWeight.Medium),
+    androidx.compose.ui.text.googlefonts.Font(googleFont = GoogleFont("Rubik", true), fontProvider = provider, weight = FontWeight.SemiBold),
+    androidx.compose.ui.text.googlefonts.Font(googleFont = GoogleFont("Rubik", true), fontProvider = provider, weight = FontWeight.ExtraBold),
+    androidx.compose.ui.text.googlefonts.Font(googleFont = GoogleFont("Rubik", true), fontProvider = provider, weight = FontWeight.Light),
+    androidx.compose.ui.text.googlefonts.Font(googleFont = GoogleFont("Rubik", true), fontProvider = provider, weight = FontWeight.Thin),
+    androidx.compose.ui.text.googlefonts.Font(googleFont = GoogleFont("Rubik", true), fontProvider = provider, weight = FontWeight.ExtraLight),
+)
 
 val Bender = FontFamily(
     Font(R.font.bender, FontWeight.Normal),

@@ -9,11 +9,12 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
-import com.adapty.Adapty
+import com.airbnb.mvrx.Mavericks
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.*
+import com.austinhodak.thehideout.features.premium.viewmodels.checkEntitlement
 import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.utils.Extras
 import com.austinhodak.thehideout.utils.isWorkRunning
@@ -33,6 +34,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -40,10 +42,14 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.localazy.android.Localazy
 import com.qonversion.android.sdk.Qonversion
 import com.qonversion.android.sdk.QonversionConfig
+import com.qonversion.android.sdk.dto.QEntitlementRenewState
+import com.qonversion.android.sdk.dto.QEnvironment
 import com.qonversion.android.sdk.dto.QLaunchMode
+import com.qonversion.android.sdk.dto.QUserProperty
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
 import io.gleap.Gleap
+import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -119,11 +125,43 @@ class Application : android.app.Application(), Configuration.Provider {
     lateinit var listenerRegistration: ListenerRegistration
 
     private fun setupQonversion() {
-        Qonversion.initialize(QonversionConfig.Builder(this, "QGPONvV6rgfVxSM74fv5aID13TuunIu3", QLaunchMode.SubscriptionManagement).build())
+        Qonversion.initialize(
+            QonversionConfig.Builder(
+                this,
+                "QGPONvV6rgfVxSM74fv5aID13TuunIu3",
+                QLaunchMode.SubscriptionManagement
+            ).apply {
+                if (BuildConfig.DEBUG) {
+                    setEnvironment(QEnvironment.Sandbox)
+                }
+            }.build()
+        )
+
+        Firebase.analytics.appInstanceId.addOnSuccessListener { instanceId ->
+            Qonversion.shared.setProperty(QUserProperty.FirebaseAppInstanceId, instanceId)
+        }
+
+        Qonversion.shared.checkEntitlement { map, qonversionError -> 
+            map?.get("Premium")?.let { entitlement ->
+                if (entitlement.isActive) {
+                    Timber.d("User is premium")
+
+                    when (entitlement.renewState) {
+                        QEntitlementRenewState.NonRenewable -> {}
+                        QEntitlementRenewState.Unknown -> {}
+                        QEntitlementRenewState.WillRenew -> {}
+                        QEntitlementRenewState.Canceled -> {}
+                        QEntitlementRenewState.BillingIssue -> {}
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreate() {
         super.onCreate()
+
+        Mavericks.initialize(this)
 
         createServerStatusChannel()
         createRestockNotificationChannel()
@@ -144,7 +182,6 @@ class Application : android.app.Application(), Configuration.Provider {
         ballistics = AmmoBallistics(applicationContext)
         stims = Stims(applicationContext)
 
-        FirebaseApp.initializeApp(/*context=*/this)
         val firebaseAppCheck = FirebaseAppCheck.getInstance()
         firebaseAppCheck.installAppCheckProviderFactory(
             PlayIntegrityAppCheckProviderFactory.getInstance()
@@ -162,41 +199,47 @@ class Application : android.app.Application(), Configuration.Provider {
 
         Firebase.database.setPersistenceEnabled(true)
 
+        setupFirebaseAuth()
+
         if (Firebase.auth.currentUser == null) {
             Firebase.auth.signInAnonymously().addOnSuccessListener {
                 Timber.d("Result ${uid()}")
                 it.user?.uid?.let {
-                    listenerRegistration = Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
-                        val user = value?.toObject<FSUser>()
-                        if (value?.exists() == false) {
-                            Firebase.firestore.collection("users").document(it).set(
-                                hashMapOf(
-                                    "playerLevel" to UserSettingsModel.playerLevel.value
-                                ), SetOptions.merge())
+                    listenerRegistration = Firebase.firestore.collection("users").document(it)
+                        .addSnapshotListener { value, error ->
+                            val user = value?.toObject<FSUser>()
+                            if (value?.exists() == false) {
+                                Firebase.firestore.collection("users").document(it).set(
+                                    hashMapOf(
+                                        "playerLevel" to UserSettingsModel.playerLevel.value
+                                    ), SetOptions.merge()
+                                )
+                            }
+                            Timber.d("User $user")
+                            user?.let {
+                                fsUser.postValue(it)
+                            }
                         }
-                        Timber.d("User $user")
-                        user?.let {
-                            fsUser.postValue(it)
-                        }
-                    }
                 }
             }
         } else {
             Timber.d("${uid()}")
             uid()?.let {
-                listenerRegistration = Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
-                    val user = value?.toObject<FSUser>()
-                    if (value?.exists() == false) {
-                        Firebase.firestore.collection("users").document(it).set(
-                            hashMapOf(
-                                "playerLevel" to UserSettingsModel.playerLevel.value
-                            ), SetOptions.merge())
+                listenerRegistration = Firebase.firestore.collection("users").document(it)
+                    .addSnapshotListener { value, error ->
+                        val user = value?.toObject<FSUser>()
+                        if (value?.exists() == false) {
+                            Firebase.firestore.collection("users").document(it).set(
+                                hashMapOf(
+                                    "playerLevel" to UserSettingsModel.playerLevel.value
+                                ), SetOptions.merge()
+                            )
+                        }
+                        Timber.d("$user")
+                        user?.let {
+                            fsUser.postValue(it)
+                        }
                     }
-                    Timber.d("$user")
-                    user?.let {
-                        fsUser.postValue(it)
-                    }
-                }
 
             }
         }
@@ -217,8 +260,6 @@ class Application : android.app.Application(), Configuration.Provider {
 
         setupRemoteConfig()
 
-        Adapty.activate(applicationContext, "public_live_SqlSm08V.OIqFvCDBsqP81tCyaNEU", customerUserId = uid())
-
         UserSettingsModel.dataSyncFrequency.observe(MainScope()) {
             val workManager = WorkManager.getInstance(this)
             val oldFrequency = UserSettingsModel.dataSyncFrequencyPrevious.value
@@ -232,11 +273,20 @@ class Application : android.app.Application(), Configuration.Provider {
                 //Do nothing, already set.
             } else {
                 //Possible fix for prices not updating properly
-                val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).setRequiresDeviceIdle(false).build()
+                val constraints =
+                    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED)
+                        .setRequiresDeviceIdle(false).build()
 
-                val priceUpdateRequest = PeriodicWorkRequestBuilder<PriceUpdateWorker>(it.toString().toLong(), TimeUnit.MINUTES).setConstraints(constraints).build()
+                val priceUpdateRequest = PeriodicWorkRequestBuilder<PriceUpdateWorker>(
+                    it.toString().toLong(),
+                    TimeUnit.MINUTES
+                ).setConstraints(constraints).build()
 
-                workManager.enqueueUniquePeriodicWork("price_update", ExistingPeriodicWorkPolicy.REPLACE, priceUpdateRequest)
+                workManager.enqueueUniquePeriodicWork(
+                    "price_update",
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    priceUpdateRequest
+                )
 
                 MainScope().launch {
                     UserSettingsModel.dataSyncFrequencyPrevious.update(it)
@@ -245,7 +295,9 @@ class Application : android.app.Application(), Configuration.Provider {
 
             MainScope().launch(Dispatchers.IO) {
                 if (tarkovRepo.isPriceDaoEmpty()) {
-                    workManager.enqueue(OneTimeWorkRequest.Builder(PriceUpdateWorker::class.java).build())
+                    workManager.enqueue(
+                        OneTimeWorkRequest.Builder(PriceUpdateWorker::class.java).build()
+                    )
                 }
             }
         }
@@ -256,6 +308,26 @@ class Application : android.app.Application(), Configuration.Provider {
                 val currentSelectedLocale = it
 
                 Localazy.forceLocale(currentSelectedLocale.locale, true)
+            }
+        }
+    }
+
+    private fun setupFirebaseAuth() {
+        Firebase.auth.addAuthStateListener { auth ->
+            auth.currentUser?.let { currentUser ->
+                Qonversion.shared.identify(currentUser.uid)
+                Qonversion.shared.setProperty(QUserProperty.CustomUserId, currentUser.uid)
+
+                currentUser.email?.let { email ->
+                    Qonversion.shared.setProperty(QUserProperty.Email, email)
+                }
+
+                currentUser.displayName?.let { name ->
+                    Qonversion.shared.setProperty(QUserProperty.Name, name)
+                }
+            } ?: run {
+                //Current user is null
+                Qonversion.shared.logout()
             }
         }
     }
@@ -291,7 +363,6 @@ class Application : android.app.Application(), Configuration.Provider {
         .setWorkerFactory(myWorkerFactory)
         .build()
 }
-
 
 
 val extras: Extras by lazy {

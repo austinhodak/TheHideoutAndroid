@@ -24,8 +24,8 @@
 
 -keep class com.austinhodak.thehideout.firebase.** { *; }
 -keep class com.austinhodak.thehideout.calculator.models.** { *; }
--keep class com.austinhodak.thehideout.WeaponBuild { *; }
--keep class com.austinhodak.thehideout.WeaponBuild$BuildMod { *; }
+-keep class com.austinhodak.thehideout.features.weapons.builder.WeaponBuild { *; }
+-keep class com.austinhodak.thehideout.features.weapons.builder.WeaponBuild$BuildMod { *; }
 -keep class com.austinhodak.thehideout.features.calculator.views.HealthBar$Health { *; }
 -keep class com.austinhodak.thehideout.features.flea_market.detail.FleaItemDetail$NavItem { *; }
 -keep class com.austinhodak.thehideout.map.models.** { *; }
@@ -115,3 +115,8 @@
 # kept. Suspend functions are wrapped in continuations where the type argument
 # is used.
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+
+-keep class com.newrelic.** { *; }
+-dontwarn com.newrelic.**
+-keepattributes Exceptions, Signature, InnerClasses, LineNumberTable

@@ -22,11 +22,9 @@ import androidx.compose.ui.unit.sp
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.MapEnums
 import com.austinhodak.tarkovapi.MapsQuery
-import com.austinhodak.tarkovapi.models.Stim
 import com.austinhodak.tarkovapi.repository.TarkovRepo
-import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.components.LoadingItem
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.features.flea_market.detail.BasicStatRow
 import com.austinhodak.thehideout.ui.theme.Bender

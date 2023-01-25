@@ -96,4 +96,8 @@
         <item name="android:textColor">?colorOnBackground</item>
     </style>
 
+    <style name="PremiumPusher" parent="Theme.Material3.Dark.NoActionBar" >
+
+    </style>
+
 </resources>

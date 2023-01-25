@@ -33,6 +33,7 @@ import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.ui.common.EmptyText
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.utils.*
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem

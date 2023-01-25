@@ -81,7 +81,7 @@ class PremiumThanksActivity : AppCompatActivity() {
                         )
                     },
                     backgroundColor = Color(0xFF1F1F1F)
-                ) {
+                ) { padding ->
                     Box(
                         Modifier.fillMaxSize(),
                     ) {

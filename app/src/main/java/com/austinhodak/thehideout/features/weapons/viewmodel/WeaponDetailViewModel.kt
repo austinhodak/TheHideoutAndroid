@@ -6,9 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Weapon
-import com.austinhodak.thehideout.WeaponBuild
+import com.austinhodak.thehideout.features.weapons.builder.WeaponBuild
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -1119,12 +1119,7 @@ class SettingsActivity : AppCompatActivity() {
                                         title = "Restore Purchases".asText()
                                         icon = R.drawable.ic_baseline_settings_backup_restore_24.asIcon()
                                         onClick = {
-                                            Adapty.restorePurchases { purchaserInfo, googleValidationResultList, error ->
-                                                if (error == null) {
-                                                    // successful restore
-                                                    Toast.makeText(this@SettingsActivity, "Purchases restored.", Toast.LENGTH_SHORT).show()
-                                                }
-                                            }
+
                                         }
                                     }
                                 }

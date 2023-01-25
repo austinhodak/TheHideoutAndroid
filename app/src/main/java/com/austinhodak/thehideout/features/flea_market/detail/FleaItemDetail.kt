@@ -90,8 +90,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.newrelic.agent.android.NewRelic
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
+import io.sentry.Sentry
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -252,6 +254,11 @@ class FleaItemDetail : GodActivity() {
                             if (UserSettingsModel.showAddToCardButton.value)
                                 FloatingActionButton(onClick = {
                                     item?.pricing?.addToCartDialog(this)
+                                    try {
+                                        throw Exception("Test")
+                                    } catch (e: Exception) {
+                                        Sentry.captureException(e)
+                                    }
                                 }) {
                                     Icon(
                                         painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),

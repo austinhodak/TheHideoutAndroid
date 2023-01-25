@@ -58,6 +58,7 @@ import com.austinhodak.thehideout.features.flea_market.viewmodels.FleaViewModel
 import com.austinhodak.thehideout.features.profile.UserProfileActivity
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.ui.common.EmptyText
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.ui.theme3.HideoutTheme3
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker

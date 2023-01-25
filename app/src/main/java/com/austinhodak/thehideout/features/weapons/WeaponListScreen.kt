@@ -25,6 +25,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.ui.common.EmptyText
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.utils.fadeImagePainterPlaceholder
 import com.austinhodak.thehideout.utils.getCaliberShortName
 import com.austinhodak.thehideout.ui.legacy.weaponCategories

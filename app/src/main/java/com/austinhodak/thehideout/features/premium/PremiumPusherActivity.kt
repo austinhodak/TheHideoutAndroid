@@ -1,345 +1,459 @@
 package com.austinhodak.thehideout.features.premium
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.*
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
+import androidx.compose.animation.graphics.res.animatedVectorResource
+import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
+import androidx.compose.animation.graphics.vector.AnimatedImageVector
+import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import coil.annotation.ExperimentalCoilApi
-import com.adapty.Adapty
-import com.adapty.models.PaywallModel
-import com.android.billingclient.api.*
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.components.LoadingItem
-import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.ui.theme.Bender
-import com.austinhodak.thehideout.ui.theme.HideoutTheme
-import com.austinhodak.thehideout.utils.openActivity
-import com.austinhodak.thehideout.utils.purchase
-import com.austinhodak.thehideout.utils.restartNavActivity
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
+import com.austinhodak.thehideout.features.premium.viewmodels.PremiumPusherState
+import com.austinhodak.thehideout.features.premium.viewmodels.PremiumViewModel
+import com.austinhodak.thehideout.ui.theme3.HideoutTheme3
+import com.austinhodak.thehideout.ui.theme3.premium_gradient_color
+import com.austinhodak.thehideout.ui.theme3.rubik
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import dev.jeziellago.compose.markdowntext.MarkdownText
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.state.StateDialog
+import com.maxkeppeler.sheets.state.models.ProgressIndicator
+import com.maxkeppeler.sheets.state.models.State
+import com.maxkeppeler.sheets.state.models.StateConfig
+import com.qonversion.android.sdk.dto.products.QProductDuration
+import com.qonversion.android.sdk.dto.products.QProductType
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
+import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @ExperimentalCoilApi
 @ExperimentalCoroutinesApi
-@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
+@AndroidEntryPoint
 class PremiumPusherActivity : ComponentActivity() {
-    private lateinit var billingClient: BillingClient
 
-    @ExperimentalPagerApi
-    private val purchasesUpdatedListener = PurchasesUpdatedListener { result, purchases ->
-        if (result.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-            for (purchase in purchases) {
-                restartNavActivity()
-                Toast.makeText(this, "Purchase successful! Thank you!", Toast.LENGTH_LONG).show()
-            }
-        } else if (result.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
-            // Handle an error caused by a user cancelling the purchase flow.
-        } else {
-            // Handle any other error codes.
-        }
-    }
-
+    @OptIn(
+        ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+        ExperimentalAnimationGraphicsApi::class
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        /*billingClient = BillingClient.newBuilder(this)
-            .setListener(purchasesUpdatedListener)
-            .enablePendingPurchases()
-            .build()*/
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            ProvideWindowInsets {
-                HideoutTheme {
-                    val scope = rememberCoroutineScope()
-                    val uiController = rememberSystemUiController()
-                    uiController.setNavigationBarColor(Color.Transparent)
-                    uiController.setStatusBarColor(Color.Transparent)
+            val viewModel: PremiumViewModel = mavericksViewModel()
 
-                    var details: SkuDetails? by remember {
-                        mutableStateOf(null)
-                    }
-
-                    var paywall: PaywallModel? by remember {
-                        mutableStateOf(null)
-                    }
-
-                    /*billingClient.startConnection(object : BillingClientStateListener {
-                        override fun onBillingServiceDisconnected() {
-                            billingClient.startConnection(this)
-                        }
-
-                        override fun onBillingSetupFinished(billingResult: BillingResult) {
-                            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                                val skuList = ArrayList<String>()
-                                skuList.add("premium_1")
-                                val params = SkuDetailsParams.newBuilder()
-                                params.setSkusList(skuList).setType(BillingClient.SkuType.SUBS)
-
-                                scope.launch {
-                                    val skuDetailsResult = withContext(Dispatchers.IO) {
-                                        billingClient.querySkuDetails(params.build())
-                                    }
-                                    details = skuDetailsResult.skuDetailsList?.firstOrNull()
-                                }
-
-                            }
-                            Timber.d(billingResult.responseCode.toString())
-                        }
-                    })*/
-
-                    Adapty.getPaywalls { paywalls, products, error ->
-                        if (error == null) {
-                            paywalls?.find { it.developerId == "premium" }?.let {
-                                paywall = it
-                            }
-                        }
-                    }
-
-                    Pusher(paywall)
-                }
-            }
-        }
-    }
-
-    @Composable
-    fun Pusher(
-        paywall: PaywallModel?
-    ) {
-
-        val image = if (paywall?.customPayload?.containsKey("background_image") == true) {
-            //rememberImagePainter(data = paywall.customPayload?.get("background_image"))
-            painterResource(id = R.drawable.g7z8a1hc71f51)
-        } else {
-            painterResource(id = R.drawable.g7z8a1hc71f51)
-        }
-
-        val currentFeatures = if (paywall?.customPayload?.containsKey("features") == true) {
-            paywall.customPayload?.get("features") as String
-        } else {
-            "• Unlimited Loadout Slots <br>• Future access to premium features."
-        }
-
-        val comingSoon = if (paywall?.customPayload?.containsKey("coming_soon") == true) {
-            paywall.customPayload?.get("coming_soon") as String
-        } else {
-            "• Custom Map Markers <br>• Tarkov Tracker Integration <br>• Team Quest Tracking <br>• Quest Tracker Integration with Maps <br>• Team Map Collaboration <br>• Discord Role and Special Access <br>• Lots more! "
-        }
-
-        var isProcessing by remember { mutableStateOf(false) }
-
-        Image(
-            painter = image,
-            contentDescription = "Background Image",
-            alignment = Alignment.Center,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxHeight()
-        )
-        if (paywall == null || isProcessing) {
-            LoadingItem()
-        }
-        AnimatedVisibility(
-            visible = paywall != null && !isProcessing,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = {
-
-                        },
-                        backgroundColor = Color.Transparent,
-                        modifier = Modifier.statusBarsPadding(),
-                        navigationIcon = {
-                            IconButton(onClick = {
-                                onBackPressed()
-                            }) {
-                                Icon(Icons.Filled.Close, contentDescription = null, tint = Color.White)
-                            }
-                        },
-                        elevation = 0.dp,
-                        actions = {
-
-                        }
-                    )
-                },
-                backgroundColor = Color.Black.copy(alpha = 0.5f)
+            HideoutTheme3(
+                darkTheme = true,
+                dynamicColor = false
             ) {
-                LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(bottom = 16.dp)
-                        .navigationBarsPadding(bottom = true),
-                    // .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    item {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(start = 0.dp)
-                        ) {
-                            Image(
-                                modifier = Modifier.size(0.dp),
-                                painter = painterResource(id = R.drawable.hideout_shadow_1),
-                                contentDescription = "Logo"
+                val snackbarState = remember { SnackbarHostState() }
+                val scope = rememberCoroutineScope()
+
+                val offers by viewModel.collectAsState(PremiumPusherState::mainOffering)
+                val snackbar by viewModel.collectAsState(PremiumPusherState::snackbarText)
+                val isProcessing by viewModel.collectAsState(PremiumPusherState::isProcessingPurchase)
+
+                val state = State.Loading(labelText = "Processing...", ProgressIndicator.Linear())
+                val sheetState = rememberSheetState()
+                StateDialog(
+                    state = sheetState,
+                    config = StateConfig(state = state)
+                )
+
+                LaunchedEffect(isProcessing) {
+                    scope.launch {
+                        if (isProcessing)
+                            sheetState.show()
+                        else sheetState.hide()
+                    }
+                }
+
+                LaunchedEffect(snackbar) {
+                    if (snackbar != null) {
+                        scope.launch {
+                            snackbarState.showSnackbar(
+                                snackbar!!
                             )
-                            Column(
-                                Modifier.padding(horizontal = 16.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Text(
-                                    text = "The Hideout",
-                                    style = MaterialTheme.typography.h4,
-                                    color = Color.White
-                                )
-                                Text(
-                                    text = "Premium",
-                                    style = MaterialTheme.typography.h5,
-                                    color = Color.White,
-                                    fontStyle = FontStyle.Normal,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = 8.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .background(Red400)
-                                        .padding(horizontal = 8.dp, vertical = 8.dp),
-                                    textAlign = TextAlign.Center
-                                )
-                            }
                         }
                     }
-                    item {
-                        Surface(
-                            shape = RoundedCornerShape(16.dp),
-                            color = DarkGrey.copy(alpha = 0.9f),
+                }
+
+                Scaffold(
+                    snackbarHost = { SnackbarHost(hostState = snackbarState) }
+                ) { padding ->
+                    Image(
+                        painter = painterResource(id = R.drawable.g7z8a1hc71f51),
+                        contentDescription = "Background Image",
+                        alignment = Center,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                    )
+                    Box(
+                        modifier = Modifier
+                            .padding(padding)
+                            .consumeWindowInsets(padding)
+                            .fillMaxSize()
+                    ) {
+                        Box(
                             modifier = Modifier
-                                .padding(top = 8.dp)
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp)
-                            //.weight(1f)
+                                .fillMaxSize()
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        0f to premium_gradient_color.copy(alpha = 0f),
+                                        0.4f to premium_gradient_color,
+                                        1f to premium_gradient_color
+                                    )
+                                )
+                        )
+                        AnimatedVisibility(
+                            visible = offers?.products == null,
+                            modifier = Modifier.align(Center)
+                        ) {
+                            CircularProgressIndicator(
+
+                            )
+                        }
+                        AnimatedVisibility(
+                            visible = offers?.products != null,
+                            enter = EnterTransition.None,
+                            exit = ExitTransition.None
                         ) {
                             Column(
-                                Modifier.padding(16.dp)
-                            ) {
-                                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                                    Text(
-                                        text = "WHAT YOU GET",
-                                        fontSize = 14.sp,
-                                        fontWeight = FontWeight.Medium,
-                                        fontFamily = Bender,
-                                        color = White
-                                    )
-                                    MarkdownText(
-                                        markdown = currentFeatures,
-                                        style = MaterialTheme.typography.body1,
-                                        fontResource = R.font.bender,
-                                        color = White,
-                                        modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
-                                    )
-                                    Text(
-                                        text = "WHAT'S COMING SOON FOR PREMIUM",
-                                        fontSize = 14.sp,
-                                        fontWeight = FontWeight.Medium,
-                                        fontFamily = Bender,
-                                        color = White
-                                    )
-                                    MarkdownText(
-                                        markdown = comingSoon,
-                                        style = MaterialTheme.typography.body1,
-                                        fontResource = R.font.bender,
-                                        color = White,
-                                        modifier = Modifier.padding(top = 8.dp)
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    item {
-                        paywall?.products?.sortedBy { it.price }?.filterNot { it.skuDetails == null }?.forEach { product ->
-                            Timber.d(product.toString())
-                            Button(
-                                onClick = {
-                                    Adapty.getPurchaserInfo { purchaserInfo, error ->
-                                        Timber.d(purchaserInfo.toString())
-                                        if (purchaserInfo?.subscriptions?.containsKey("premium_lifetime") == false || purchaserInfo?.subscriptions?.get("premium_lifetime")?.isActive == false) {
-                                            isProcessing = true
-                                            product.purchase(this@PremiumPusherActivity) { purchaserInfo, purchaseToken, googleValidationResult, product, e ->
-                                                if (e == null) {
-                                                    if (intent.hasExtra("setResult")) {
-                                                        openActivity(PremiumThanksActivity::class.java)
-                                                        setResult(RESULT_OK)
-                                                        finish()
-                                                    } else {
-                                                        openActivity(PremiumThanksActivity::class.java) {
-                                                            putBoolean("restart", true)
-                                                        }
-                                                        //restartNavActivity()
-                                                    }
-                                                    isProcessing = false
-                                                } else {
-                                                    isProcessing = false
-                                                }
-                                            }
-                                        } else {
-                                            Toast.makeText(this@PremiumPusherActivity, "You already bought this.", Toast.LENGTH_SHORT).show()
-                                        }
-                                    }
-                                },
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
-                                    .height(60.dp),
-                                shape = RoundedCornerShape(16.dp),
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Red400)
+                                    .fillMaxSize()
+                                    .systemBarsPadding()
                             ) {
+                                Row(
+                                    Modifier
+                                        .padding(horizontal = 16.dp)
+                                        .padding(top = 8.dp),
+                                    verticalAlignment = CenterVertically
+                                ) {
+                                    //Exit button
+                                    FilledIconButton(
+                                        onClick = {
+                                            finish()
+                                        },
+                                        colors = IconButtonDefaults.filledIconButtonColors(
+                                            containerColor = Color.Black.copy(alpha = 0.3f)
+                                        )
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Close,
+                                            contentDescription = "Close",
+                                            tint = Color.White
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    //Restore Button
+                                    TextButton(onClick = {
+                                        viewModel.restorePurchases()
+                                    }) {
+                                        Text(
+                                            text = "Restore",
+                                            style = MaterialTheme.typography.labelLarge,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+                                    }
+                                }
+                                Spacer(modifier = Modifier.weight(1f))
                                 Column(
+                                    modifier = Modifier
+                                        .height(IntrinsicSize.Max)
+                                        .padding(horizontal = 32.dp),
                                     horizontalAlignment = CenterHorizontally
                                 ) {
-                                    Text(text = "${product.skuDetails?.price}/${(product.subscriptionPeriod?.unit?.period ?: "LIFETIME").uppercase()}", fontSize = 16.sp, color = Color.White)
-                                    product.freeTrialPeriod?.let {
-                                        Text(text = "${it.numberOfUnits} ${it.unit?.period?.uppercase()} TRIAL", fontSize = 10.sp, color = Color.White)
+                                    val image =
+                                        AnimatedImageVector.animatedVectorResource(R.drawable.animated_icon)
+                                    var atEnd by remember { mutableStateOf(false) }
+
+                                    LaunchedEffect(image) {
+                                        atEnd = true
+                                    }
+
+                                    Image(
+                                        painter = rememberAnimatedVectorPainter(image, atEnd),
+                                        contentDescription = "Your content description",
+                                        modifier = Modifier
+                                            .height(200.dp)
+                                            .width(200.dp)
+                                            .padding(bottom = 64.dp)
+                                    )
+                                    Text(
+                                        text = "The Hideout",
+                                        fontSize = 40.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        fontFamily = rubik
+                                    )
+                                    Text(
+                                        text = "Unlimited Access to Premium Content & Features",
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontWeight = FontWeight.Normal,
+                                        modifier = Modifier.padding(top = 16.dp),
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        fontFamily = rubik,
+                                        textAlign = TextAlign.Center
+                                    )
+                                    val points = listOf(
+                                        "No Ads. Ever.",
+                                        "Custom Map Markers",
+                                        "Unlimited Price Alerts",
+                                        "1 Year Price History",
+                                        //"Tarkov Tracker Integration",
+                                        "Discord Role",
+                                        "More coming soon!"
+                                    )
+                                    Spacer(modifier = Modifier.padding(top = 64.dp))
+                                    Column(
+                                        modifier = Modifier.width(IntrinsicSize.Max)
+                                    ) {
+                                        points.forEach {
+                                            Row(
+                                                verticalAlignment = CenterVertically,
+                                                horizontalArrangement = Arrangement.Start,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(vertical = 2.dp)
+                                            ) {
+                                                Icon(
+                                                    Icons.Filled.ArrowForward,
+                                                    null,
+                                                    modifier = Modifier.padding(end = 16.dp),
+                                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                                )
+                                                Text(
+                                                    text = it,
+                                                    fontFamily = rubik,
+                                                    fontWeight = FontWeight.Light,
+                                                    fontSize = 18.sp,
+                                                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                                                )
+                                            }
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.padding(top = 64.dp))
+                                    Column(
+                                        modifier = Modifier.animateEnterExit(
+                                            enter = slideInVertically { it }
+                                        )
+                                    ) {
+                                        offers?.products?.sortedByDescending { it.skuDetail?.priceAmountMicros }
+                                            ?.forEach { offer ->
+                                                if (offer.type == QProductType.InApp) {
+                                                    Button(
+                                                        onClick = {
+                                                            viewModel.purchase(
+                                                                this@PremiumPusherActivity,
+                                                                offer
+                                                            )
+                                                        },
+                                                        modifier = Modifier
+                                                            .padding(top = 8.dp)
+                                                            .fillMaxWidth(),
+                                                        colors = ButtonDefaults.buttonColors(
+                                                            containerColor = MaterialTheme.colorScheme.onPrimary
+                                                        )
+                                                    ) {
+                                                        Column(
+                                                            modifier = Modifier.padding(8.dp),
+                                                            horizontalAlignment = CenterHorizontally
+                                                        ) {
+                                                            Text(
+                                                                text = "${offer.prettyPrice}/Lifetime",
+                                                                style = MaterialTheme.typography.titleLarge,
+                                                                fontWeight = FontWeight.Medium,
+                                                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                                fontFamily = rubik
+                                                            )
+                                                            Text(
+                                                                text = "Most Popular",
+                                                                fontWeight = FontWeight.Normal,
+                                                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                                fontFamily = rubik,
+                                                                fontSize = 16.sp
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                                if (offer.type == QProductType.Trial) {
+                                                    Button(
+                                                        onClick = {
+                                                            viewModel.purchase(
+                                                                this@PremiumPusherActivity,
+                                                                offer
+                                                            )
+                                                        },
+                                                        modifier = Modifier
+                                                            .padding(top = 8.dp)
+                                                            .fillMaxWidth(),
+                                                        colors = ButtonDefaults.buttonColors(
+                                                            containerColor = MaterialTheme.colorScheme.onPrimary
+                                                        )
+                                                    ) {
+                                                        Column(
+                                                            modifier = Modifier.padding(8.dp),
+                                                            horizontalAlignment = CenterHorizontally
+                                                        ) {
+                                                            val title = when (offer.duration) {
+                                                                QProductDuration.Monthly -> {
+                                                                    "${offer.prettyPrice}/Month"
+                                                                }
+
+                                                                QProductDuration.Annual -> {
+                                                                    "${offer.prettyPrice}/Year"
+                                                                }
+
+                                                                else -> {
+                                                                    ""
+                                                                }
+                                                            }
+                                                            Text(
+                                                                text = title,
+                                                                style = MaterialTheme.typography.titleLarge,
+                                                                fontWeight = FontWeight.Medium,
+                                                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                                fontFamily = rubik
+                                                            )
+                                                            Text(
+                                                                text = "with 7-day Free Trial",
+                                                                fontWeight = FontWeight.Normal,
+                                                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                                fontFamily = rubik,
+                                                                fontSize = 16.sp
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                                if (offer.type == QProductType.Subscription) {
+                                                    OutlinedButton(
+                                                        onClick = {
+                                                            viewModel.purchase(
+                                                                this@PremiumPusherActivity,
+                                                                offer
+                                                            )
+                                                        },
+                                                        modifier = Modifier
+                                                            .padding(top = 8.dp)
+                                                            .fillMaxWidth(),
+                                                        border = BorderStroke(
+                                                            1.dp,
+                                                            color = MaterialTheme.colorScheme.onSecondary
+                                                        )
+                                                    ) {
+                                                        Column(
+                                                            modifier = Modifier.padding(8.dp),
+                                                            horizontalAlignment = CenterHorizontally
+                                                        ) {
+                                                            val title = when (offer.duration) {
+                                                                QProductDuration.Monthly -> {
+                                                                    "Monthly"
+                                                                }
+
+                                                                QProductDuration.Annual -> {
+                                                                    "Yearly"
+                                                                }
+
+                                                                else -> {
+                                                                    ""
+                                                                }
+                                                            }
+                                                            Text(
+                                                                text = "${offer.prettyPrice}",
+                                                                style = MaterialTheme.typography.titleLarge,
+                                                                fontWeight = FontWeight.Medium,
+                                                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                                                fontFamily = rubik
+                                                            )
+                                                            Text(
+                                                                text = title,
+                                                                fontWeight = FontWeight.Normal,
+                                                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                                                fontFamily = rubik,
+                                                                fontSize = 16.sp
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            }
                                     }
                                 }
+                                Spacer(modifier = Modifier.padding(bottom = 32.dp))
                             }
                         }
                     }
                 }
             }
         }
-
     }
 }
 

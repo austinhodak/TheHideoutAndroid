@@ -1,11 +1,10 @@
-package com.austinhodak.thehideout
+package com.austinhodak.thehideout.features.weapons.builder
 
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Mod
 import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.thehideout.utils.uid
 import com.google.firebase.Timestamp
-import com.google.firebase.ktx.Firebase
 import kotlin.math.roundToInt
 
 data class WeaponBuild (

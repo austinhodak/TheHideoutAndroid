@@ -34,7 +34,7 @@ import com.austinhodak.thehideout.features.ammunition.AmmoCard
 import com.austinhodak.thehideout.features.calculator.CalculatorHelper
 import com.austinhodak.thehideout.features.calculator.models.Character
 import com.austinhodak.thehideout.compose.components.AmmoDetailToolbar
-import com.austinhodak.thehideout.compose.components.LoadingItem
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.DarkPrimary
 import com.austinhodak.thehideout.ui.theme.HideoutTheme
@@ -46,7 +46,6 @@ import com.austinhodak.thehideout.features.weapons.WeaponCard
 import com.austinhodak.thehideout.features.weapons.builder.WeaponBuilderActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import java.io.Serializable
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.austinhodak.thehideout.compose.components
+package com.austinhodak.thehideout.ui.common
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

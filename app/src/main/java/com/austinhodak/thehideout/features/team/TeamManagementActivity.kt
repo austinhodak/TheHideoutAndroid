@@ -32,7 +32,7 @@ import com.afollestad.materialdialogs.input.input
 import com.austinhodak.thehideout.GodActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ui.common.EmptyText
-import com.austinhodak.thehideout.compose.components.LoadingItem
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.compose.theme.DarkGrey
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.ui.theme.HideoutTheme

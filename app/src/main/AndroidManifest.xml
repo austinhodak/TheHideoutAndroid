@@ -74,7 +74,7 @@
         <activity
             android:name=".features.premium.PremiumPusherActivity"
             android:exported="true"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
+            android:theme="@style/Theme.Material3.Dark.NoActionBar" />
         <activity
             android:name=".features.weapons.builder.WeaponBuilderActivity"
             android:exported="true"
@@ -198,6 +198,11 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.TheHideoutOS" />
+
+        <meta-data android:name="io.sentry.dsn" android:value="https://40cb2a7b02fb47cdb3cb1350e3c54909@o4504563082133504.ingest.sentry.io/4504563084099584" />
+        <meta-data android:name="io.sentry.breadcrumbs.user-interaction" android:value="true" />
+        <meta-data android:name="io.sentry.attach-screenshot" android:value="true" />
+
     </application>
 
 </manifest>

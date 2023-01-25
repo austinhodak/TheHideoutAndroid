@@ -25,9 +25,8 @@ import com.austinhodak.tarkovapi.models.TraderReset
 import com.austinhodak.tarkovapi.models.toObj
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.thehideout.NavViewModel
-import com.austinhodak.thehideout.compose.components.LoadingItem
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.compose.components.MainToolbar
-import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red400
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

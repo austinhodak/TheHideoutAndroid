@@ -40,7 +40,6 @@ import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Weapon
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.WeaponBuild
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.WeaponBuildFirestore

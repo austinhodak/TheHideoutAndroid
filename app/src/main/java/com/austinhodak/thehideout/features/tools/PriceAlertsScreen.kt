@@ -31,6 +31,7 @@ import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.firebase.PriceAlert
 import com.austinhodak.thehideout.ui.common.EmptyText
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.openFleaDetail
 import com.austinhodak.thehideout.utils.questsFirebase

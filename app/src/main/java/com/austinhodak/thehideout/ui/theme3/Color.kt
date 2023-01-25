@@ -73,6 +73,7 @@ val md_theme_dark_scrim = Color(0xFF000000)
 val seed = Color(0xFFB52524)
 
 val short_name_color = Color(0xFFA4AEB4)
+val premium_gradient_color = Color(0xFF1C0A01)
 
 fun Color.asIconics(): ColorFilter {
     return ColorFilter.tint(this)

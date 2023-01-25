@@ -25,19 +25,16 @@ import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.ServerStatusQuery
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.ServerStatus
-import com.austinhodak.tarkovapi.models.StatusOrange
 import com.austinhodak.tarkovapi.models.toObj
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.components.LoadingItem
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.ui.theme.Bender
 import com.austinhodak.thehideout.compose.theme.DividerDark
 import com.austinhodak.thehideout.ui.theme.HideoutTheme
-import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.utils.openStatusSite
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject
 
