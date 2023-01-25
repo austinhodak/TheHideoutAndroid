@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.austinhodak.thehideout">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:name=".Application"
@@ -17,7 +16,7 @@
             android:name=".profile.UserProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".PremiumThanksActivity"
+            android:name=".premium.PremiumThanksActivity"
             android:exported="true" />
         <activity
             android:name=".map.CustomMapMarkerAddActivity"
@@ -73,7 +72,7 @@
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name=".billing.PremiumPusherActivity"
+            android:name=".premium.PremiumPusherActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
@@ -175,7 +174,10 @@
         <activity
             android:name=".skills.SkillDetailActivity"
             android:exported="true" />
-
+        <activity android:name=".medical.MedDetailActivity"
+            android:exported="true" />
+        <activity android:name=".map.MapDetailActivity"
+            android:exported="true" />
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"

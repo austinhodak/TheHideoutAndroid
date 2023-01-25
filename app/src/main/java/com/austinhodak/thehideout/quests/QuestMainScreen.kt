@@ -345,7 +345,7 @@ private fun QuestItemsScreen(
 
     val itemObjectives = quests.associateWith {
         it.objective?.filterNot { obj ->
-            obj.type == "build" || obj.type == "reputation" || obj.number ?: 0 > 1000
+            obj.type == "build" || obj.type == "reputation" || (obj.number ?: 0) > 1000
         } ?: emptyList()
     }
 
@@ -649,9 +649,15 @@ private fun QuestTradersScreen(
     val searchKey by questViewModel.searchKey.observeAsState("")
 
     val pagerState = if (!isMapTab) {
-        rememberPagerState(pageCount = Traders.values().size)
+        rememberPagerState()
     } else {
-        rememberPagerState(pageCount = Maps.values().size)
+        rememberPagerState()
+    }
+
+    val count = if (!isMapTab) {
+        Traders.values().size
+    } else {
+        Maps.values().size
     }
 
     val completedQuests = userData?.progress?.getCompletedQuestIDs()
@@ -666,7 +672,7 @@ private fun QuestTradersScreen(
             MapsTab(pagerState, scope)
         }
 
-        HorizontalPager(modifier = Modifier.fillMaxWidth(), state = pagerState) { page ->
+        HorizontalPager(modifier = Modifier.fillMaxWidth(), state = pagerState, count = count) { page ->
             val questsList = if (!isMapTab) {
                 val trader = Traders.values()[page]
                 quests.filter { it.giver?.name == trader.id }

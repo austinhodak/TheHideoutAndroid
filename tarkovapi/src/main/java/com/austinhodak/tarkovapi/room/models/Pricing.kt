@@ -38,7 +38,7 @@ data class Pricing(
     val containsItem: List<Contains>?
 ) : Serializable {
 
-    fun isDisabled(): Boolean = types.contains(ItemType.disabled)
+    fun isDisabled(): Boolean = false
     fun hasChild(): Boolean = containsItem?.isNotEmpty() == true
 
     fun getIcon(): String = gridImageLink ?: iconLink ?: "https://tarkov.dev/images/unknown-item-icon.jpg"
@@ -60,7 +60,7 @@ data class Pricing(
             //it.price ?: Int.MAX_VALUE
         } ?: BuySellPrice(
             "fleaMarket",
-            price = basePrice,
+            price = 0,
             requirements = emptyList(),
             "RUB"
         )
@@ -105,9 +105,9 @@ data class Pricing(
             return getHighestSellTrader()?.getPriceAsRoubles() ?: 0
         }
         return if (avg24hPrice ?: 0 > 0) {
-            avg24hPrice ?: lastLowPrice ?: basePrice
+            avg24hPrice ?: lastLowPrice ?: 0
         } else {
-            lastLowPrice ?: basePrice
+            lastLowPrice ?: 0
         }
     }
 
@@ -224,6 +224,7 @@ data class Pricing(
         }
 
         fun isFleaMarket(): Boolean = source == "fleaMarket"
+        fun isZero(): Boolean = price == 0
     }
 
     private fun getFleaMarketBuy(): BuySellPrice? {

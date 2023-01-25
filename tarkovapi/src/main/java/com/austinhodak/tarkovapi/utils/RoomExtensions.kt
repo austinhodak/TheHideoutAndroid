@@ -24,8 +24,14 @@ fun QuestsQuery.Quest.toQuest(): Quest {
         quest.title,
         quest.wikiLink,
         quest.exp,
-        quest.giver.traderFragment,
-        quest.turnin.traderFragment,
+        Quest.TraderFragment(
+            quest.giver.traderFragment.name,
+            quest.giver.traderFragment.id
+        ),
+        Quest.TraderFragment(
+            quest.turnin.traderFragment.name,
+            quest.turnin.traderFragment.id
+        ),
         quest.unlocks,
         Quest.QuestRequirement(
             level = quest.requirements?.level,
@@ -49,7 +55,9 @@ fun QuestsQuery.Quest.toQuest(): Quest {
 fun JSONObject.itemType(): ItemTypes {
     val props = getJSONObject("_props")
     if (
-        getString("_name").equals("Ammo")
+        !props.has("Name")
+        || !props.has("ShortName")
+        || getString("_name").equals("Ammo")
         || getString("_parent").isNullOrBlank()
         || getString("_parent") == "54009119af1c881c07000029"
         || getString("_parent") == "5661632d4bdc2d903d8b456b"
@@ -171,13 +179,27 @@ fun CraftsQuery.Craft.toCraft(): Craft {
         requiredItems = requiredItems.map {
             Craft.CraftItem(
                 it?.taskItem?.count?.roundToInt(),
-                it?.taskItem?.item?.itemFragment?.toClass()
+                it?.taskItem?.item?.itemFragment?.toClass(),
+                it?.taskItem?.attributes?.map { att ->
+                    Craft.CraftItem.Attributes(
+                        att?.type,
+                        att?.name,
+                        att?.value
+                    )
+                }
             )
         },
         rewardItems = rewardItems.map {
             Craft.CraftItem(
                 it?.taskItem?.count?.roundToInt(),
-                it?.taskItem?.item?.itemFragment?.toClass()
+                it?.taskItem?.item?.itemFragment?.toClass(),
+                it?.taskItem?.attributes?.map { att ->
+                    Craft.CraftItem.Attributes(
+                        att?.type,
+                        att?.name,
+                        att?.value
+                    )
+                }
             )
         },
         source = source

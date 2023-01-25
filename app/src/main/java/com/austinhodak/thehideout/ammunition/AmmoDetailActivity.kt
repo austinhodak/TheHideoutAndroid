@@ -108,7 +108,9 @@ class AmmoDetailActivity : GodActivity() {
         val ammoID = intent.getStringExtra("ammoID") ?: "5fd20ff893a8961fc660a954"
         ammoViewModel.getAmmo(ammoID)
 
-        Firebase.crashlytics.setCustomKey("ammoID", ammoID)
+        setCrashKeys(
+            Pair("ammoID", ammoID)
+        )
 
         val ballisticsData = ballistics.getAmmo(ammoID)
         Timber.d(ballisticsData.toString())
@@ -1025,7 +1027,7 @@ fun PricingCard(
         backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
     ) {
         Column(
-            Modifier.padding(16.dp)
+            Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 12.dp)
         ) {
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 Text(

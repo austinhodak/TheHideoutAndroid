@@ -1,12 +1,14 @@
 package com.austinhodak.thehideout.flea_market.grid
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
@@ -30,10 +32,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
+import com.austinhodak.tarkovapi.room.models.Quest
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.LoadingItem
@@ -42,6 +46,8 @@ import com.austinhodak.thehideout.compose.theme.Bender
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Red400
 import com.austinhodak.thehideout.compose.theme.White
+import com.austinhodak.thehideout.firebase.FSUser
+import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
 import com.austinhodak.thehideout.hideoutList
 import com.austinhodak.thehideout.quests.Chip
@@ -55,7 +61,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(ExperimentalFoundationApi::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
+@ExperimentalFoundationApi
 @Composable
 fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRepo, questViewModel: QuestMainViewModel, hideoutViewModel: HideoutMainViewModel) {
     val navController = rememberNavController()
@@ -65,11 +74,14 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
     val context = LocalContext.current
     val isSearchOpen by questViewModel.isSearchOpen.observeAsState(false)
     val searchKey by questViewModel.searchKey.observeAsState("")
-    val userData by questViewModel.userData.observeAsState()
+    val userData by fsUser.observeAsState()
     val allItems by navViewModel.allItems.observeAsState()
     val allQuests by questViewModel.questsList.observeAsState(emptyList())
     val allHideoutModules = hideoutList.hideout?.modules
+
     val selectedView by questViewModel.view.observeAsState()
+    val selectedViews by questViewModel.views.observeAsState(initial = listOf(QuestFilter.AVAILABLE))
+
     val completedQuests = userData?.progress?.getCompletedQuestIDs()
 
     var sort by rememberSaveable {
@@ -89,24 +101,91 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                     }
                 )
             } else {
-                TopBar(questViewModel, navViewModel, sort) {
+                TopBar(questViewModel, navViewModel, sort, {
+                    questViewModel.toggleView(it)
+                }) {
                     sort = it
                 }
             }
         }
     ) {
-        val pagerState = rememberPagerState(pageCount = 3)
+        var pagerState: Int by remember {
+            mutableStateOf(0)
+        }
         Column(
             Modifier
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
-            Tabs(
-                pagerState = pagerState,
-                scope = scope,
-                items = listOf("BOTH", "QUESTS", "HIDEOUT")
-            )
-            val questObjectives = when (selectedView) {
+
+            TabRow(
+                modifier = Modifier.fillMaxWidth(),
+                selectedTabIndex = pagerState,
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        Modifier.tabIndicatorOffset(tabPositions[pagerState]),
+                        color = Red400
+                    )
+                },
+            ) {
+                listOf("BOTH", "QUESTS", "HIDEOUT").forEachIndexed { index, string ->
+                    Tab(
+                        text = { Text(string, fontFamily = Bender) },
+                        selected = pagerState == index,
+                        onClick = {
+                            scope.launch {
+                                pagerState = index
+                            }
+                        },
+                        selectedContentColor = Red400,
+                        unselectedContentColor = White
+                    )
+                }
+            }
+
+            val questObjectivesNew = mutableListOf<Quest.QuestObjective>()
+            if (selectedViews.contains(QuestFilter.AVAILABLE)) {
+                questObjectivesNew.addAll(
+                    allQuests.filter {
+                        it.isAvailable(userData)
+                    }.flatMap { quest ->
+                        quest.objective?.filterNot { obj ->
+                            userData?.progress?.isQuestObjectiveCompleted(obj) == true
+                        } ?: emptyList()
+                    }
+                )
+            }
+
+            if (selectedViews.contains(QuestFilter.LOCKED)) {
+                questObjectivesNew.addAll(
+                    allQuests.filter {
+                        it.isLocked(userData)
+                    }.flatMap { quest ->
+                        quest.objective ?: emptyList()
+                    }
+                )
+            }
+
+            if (selectedViews.contains(QuestFilter.COMPLETED)) {
+                questObjectivesNew.addAll(
+                    allQuests.filter {
+                        completedQuests?.contains(it.id) == true
+                    }.flatMap { quest ->
+                        quest.objective ?: emptyList()
+                    }
+                )
+            }
+
+            if (selectedViews.contains(QuestFilter.ALL)) {
+                questObjectivesNew.clear()
+                questObjectivesNew.addAll(
+                    allQuests.flatMap { quest ->
+                        quest.objective ?: emptyList()
+                    }
+                )
+            }
+
+            /*val questObjectives = when (selectedView) {
                 QuestFilter.AVAILABLE -> {
                     allQuests.filter {
                         it.isAvailable(userData)
@@ -136,9 +215,10 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 else -> allQuests.flatMap { quest ->
                     quest.objective ?: emptyList()
                 }
-            }
+            }*/
 
-            val modules = when (selectedView) {
+
+           /* val modules = when (selectedView) {
                 QuestFilter.COMPLETED -> allHideoutModules?.filter {
                     userData?.progress?.isHideoutModuleCompleted(it?.id.toString()) == true
                 }?.flatMap {
@@ -165,17 +245,62 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 else -> allHideoutModules?.flatMap {
                     it?.require ?: emptyList()
                 }
+            }*/
+
+            val modulesNew = mutableListOf<Hideout.Module.Require>()
+            if (selectedViews.contains(QuestFilter.AVAILABLE)) {
+                modulesNew.addAll(
+                    allHideoutModules?.filter {
+                        if (userData?.progress?.isHideoutModuleCompleted(it?.id.toString()) == true) return@filter false
+                        if (it?.getModuleRequirements(allHideoutModules)?.isEmpty() == true) {
+                            true
+                        } else {
+                            userData?.progress?.getCompletedHideoutIDs()?.containsAll(it?.getModuleRequirements(allHideoutModules)?.map { it.toString() }!!) == true
+                        }
+                    }?.flatMap {
+                        it?.require ?: emptyList()
+                    }?.filterNotNull() ?: emptyList()
+                )
             }
 
-            var data = when (pagerState.currentPage) {
+            if (selectedViews.contains(QuestFilter.LOCKED)) {
+                modulesNew.addAll(
+                    allHideoutModules?.filter {
+                        userData?.progress?.getCompletedHideoutIDs()?.containsAll(it?.getModuleRequirements(allHideoutModules)?.map { it.toString() }!!) == false
+                    }?.flatMap {
+                        it?.require ?: emptyList()
+                    }?.filterNotNull() ?: emptyList()
+                )
+            }
+
+            if (selectedViews.contains(QuestFilter.COMPLETED)) {
+                modulesNew.addAll(
+                    allHideoutModules?.filter {
+                        userData?.progress?.isHideoutModuleCompleted(it?.id.toString()) == true
+                    }?.flatMap {
+                        it?.require ?: emptyList()
+                    }?.filterNotNull() ?: emptyList()
+                )
+            }
+
+            if (selectedViews.contains(QuestFilter.ALL)) {
+                modulesNew.clear()
+                modulesNew.addAll(
+                    allHideoutModules?.flatMap {
+                        it?.require ?: emptyList()
+                    }?.filterNotNull() ?: emptyList()
+                )
+            }
+
+            var data = when (pagerState) {
                 0 -> {
-                    questObjectives.map { obj ->
-                        val item = allItems?.find { it.id.equals(obj.target) || it.id == obj.targetItem?.id }
+                    questObjectivesNew.map { obj ->
+                        val item = allItems?.find { obj.target?.contains(it.id) == true || it.id.equals(obj.target) || it.id == obj.targetItem?.id }
                         Pair(item, obj.number)
                     }.plus(
-                        modules?.map { require ->
-                            val item = allItems?.find { it.id == require?.name }
-                            Pair(item, require?.quantity)
+                        modulesNew.map { require ->
+                            val item = allItems?.find { it.id == require.name }
+                            Pair(item, require.quantity)
                         } ?: emptyList()
                     ).groupBy {
                         it.first
@@ -184,8 +309,8 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                     }
                 }
                 1 -> {
-                    questObjectives.map { obj ->
-                        val item = allItems?.find { it.id.equals(obj.target) || it.id == obj.targetItem?.id }
+                    questObjectivesNew.map { obj ->
+                        val item = allItems?.find { obj.target?.contains(it.id) == true || it.id.equals(obj.target) || it.id == obj.targetItem?.id }
                         Pair(item, obj.number)
                     }.groupBy {
                         it.first
@@ -194,22 +319,22 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                     }
                 }
                 2 -> {
-                    (modules?.map { require ->
-                        val item = allItems?.find { it.id == require?.name }
-                        Pair(item, require?.quantity)
+                    (modulesNew.map { require ->
+                        val item = allItems?.find { it.id == require.name }
+                        Pair(item, require.quantity)
                     } ?: emptyList()).groupBy {
                         it.first
                     }.map {
                         GridItemData(item = it.key, text = it.value.sumOf { it.second ?: 0 }.toString())
                     }
                 }
-                else -> questObjectives.map { obj ->
-                    val item = allItems?.find { it.id.equals(obj.target) || it.id == obj.targetItem?.id }
+                else -> questObjectivesNew.map { obj ->
+                    val item = allItems?.find { obj.target?.contains(it.id) == true || it.id.equals(obj.target) || it.id == obj.targetItem?.id }
                     Pair(item, obj.number)
                 }.plus(
-                    modules?.map { require ->
-                        val item = allItems?.find { it.id == require?.name }
-                        Pair(item, require?.quantity)
+                    modulesNew.map { require ->
+                        val item = allItems?.find { it.id == require.name }
+                        Pair(item, require.quantity)
                     } ?: emptyList()
                 ).groupBy {
                     it.first
@@ -230,7 +355,7 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                 else -> data.sortedBy { it.item?.pricing?.name }
             }
 
-            if (data.isNullOrEmpty()) {
+            if (data.isEmpty()) {
                 LoadingItem()
             }
 
@@ -252,13 +377,6 @@ fun ItemQuestHideoutGridScreen(navViewModel: NavViewModel, tarkovRepo: TarkovRep
                         }, modifier = Modifier.size(screenWidth / 8))
                     }
                 }
-                /*LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
-                    items(items = data) { item ->
-                        GridItem(url = item.item?.pricing?.getCleanIcon(), text = item.text, onClick = {
-                            item.item?.pricing?.id?.let { id -> context.openFleaDetail(id) }
-                        })
-                    }
-                }*/
             }
         }
     }
@@ -327,43 +445,12 @@ private fun GridItem(
     }
 }
 
-@ExperimentalMaterialApi
-@ExperimentalPagerApi
 @Composable
-private fun Tabs(
-    pagerState: PagerState,
-    scope: CoroutineScope,
-    items: List<String>
-) {
-    TabRow(
-        modifier = Modifier.fillMaxWidth(),
-        selectedTabIndex = pagerState.currentPage,
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                color = Red400
-            )
-        },
-    ) {
-        items.forEachIndexed { index, string ->
-            Tab(
-                text = { Text(string, fontFamily = Bender) },
-                selected = pagerState.currentPage == index,
-                onClick = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(index)
-                    }
-                },
-                selectedContentColor = Red400,
-                unselectedContentColor = White
-            )
-        }
-    }
-}
-
-@Composable
-private fun TopBar(questViewModel: QuestMainViewModel, navViewModel: NavViewModel, sort: Int, sortSelected: (Int) -> Unit) {
+private fun TopBar(questViewModel: QuestMainViewModel, navViewModel: NavViewModel, sort: Int, clicked: (QuestFilter) -> Unit, sortSelected: (Int) -> Unit) {
     val context = LocalContext.current
+    val views by questViewModel.views.observeAsState()
+
+    Timber.d("${views}")
     TopAppBar(
         title = {
             val selected by questViewModel.view.observeAsState()
@@ -374,27 +461,35 @@ private fun TopBar(questViewModel: QuestMainViewModel, navViewModel: NavViewMode
             ) {
                 Chip(
                     text = "Active",
-                    selected = selected == QuestFilter.AVAILABLE
+                    //selected = selected == QuestFilter.AVAILABLE
+                    selected = views?.contains(QuestFilter.AVAILABLE) == true
                 ) {
-                    questViewModel.setView(QuestFilter.AVAILABLE)
+                    clicked(QuestFilter.AVAILABLE)
+                    //questViewModel.setView(QuestFilter.AVAILABLE)
                 }
                 Chip(
                     text = "Locked",
-                    selected = selected == QuestFilter.LOCKED
+                    //selected = selected == QuestFilter.LOCKED
+                    selected = views?.contains(QuestFilter.LOCKED) == true
                 ) {
-                    questViewModel.setView(QuestFilter.LOCKED)
+                    clicked(QuestFilter.LOCKED)
+                    //questViewModel.setView(QuestFilter.LOCKED)
                 }
                 Chip(
                     text = "Completed",
-                    selected = selected == QuestFilter.COMPLETED
+                    //selected = selected == QuestFilter.COMPLETED
+                    selected = views?.contains(QuestFilter.COMPLETED) == true
                 ) {
-                    questViewModel.setView(QuestFilter.COMPLETED)
+                    clicked(QuestFilter.COMPLETED)
+                    //questViewModel.setView(QuestFilter.COMPLETED)
                 }
                 Chip(
                     text = "All",
-                    selected = selected == QuestFilter.ALL
+                    //selected = selected == QuestFilter.ALL
+                    selected = views?.contains(QuestFilter.ALL) == true
                 ) {
-                    questViewModel.setView(QuestFilter.ALL)
+                    clicked(QuestFilter.ALL)
+                    //questViewModel.setView(QuestFilter.ALL)
                 }
             }
         },

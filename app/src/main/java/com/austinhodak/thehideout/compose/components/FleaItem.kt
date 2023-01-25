@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,27 +79,29 @@ fun FleaItem(
     }
 
     Card(
-        modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp).combinedClickable(
-            onClick = {
-                onClick(item.id)
-            },
-            onLongClick = {
-                context.showDialog(
-                    Pair("Wiki Page") {
-                        item.pricing?.wikiLink?.openWithCustomTab(context)
-                    },
-                    Pair("Add to Needed Items") {
-                        item.pricing?.addToNeededItemsDialog(context)
-                    },
-                    Pair("Add Price Alert") {
-                        item.pricing?.addPriceAlertDialog(context)
-                    },
-                    Pair("Add to Cart") {
-                        item.pricing?.addToCartDialog(context)
-                    },
-                )
-            }
-        ),
+        modifier = modifier
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .combinedClickable(
+                onClick = {
+                    onClick(item.id)
+                },
+                onLongClick = {
+                    context.showDialog(
+                        Pair("Wiki Page") {
+                            item.pricing?.wikiLink?.openWithCustomTab(context)
+                        },
+                        Pair("Add to Needed Items") {
+                            item.pricing?.addToNeededItemsDialog(context)
+                        },
+                        Pair("Add Price Alert") {
+                            item.pricing?.addPriceAlertDialog(context)
+                        },
+                        Pair("Add to Cart") {
+                            item.pricing?.addToCartDialog(context)
+                        },
+                    )
+                }
+            ),
         backgroundColor = Color(0xFE1F1F1F)
     ) {
         Column {
@@ -127,9 +130,20 @@ fun FleaItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
+                        text = item.ShortName ?: "",
+                        style = MaterialTheme.typography.subtitle2,
+                        fontSize = 10.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colors.secondary
+                    )
+                    Text(
                         text = displayName ?: "",
                         style = MaterialTheme.typography.h6,
-                        fontSize = 15.sp
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 14.sp,
+                        lineHeight = 12.sp
                     )
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         val text = if (item.pricing?.noFlea == false && item.pricing?.isDisabled() == false) {
@@ -150,7 +164,7 @@ fun FleaItem(
                 }
                 Column(
                     horizontalAlignment = Alignment.End,
-                    modifier = Modifier.padding(vertical = 16.dp)
+                    modifier = Modifier.padding(vertical = 8.dp)
                 ) {
                     val price = when (priceDisplay) {
                         FleaVisiblePrice.DEFAULT -> item.getPrice()
@@ -181,6 +195,35 @@ fun FleaItem(
                         )
                     }*/
                     TraderSmall(item = item.pricing, traderPrice)
+/*                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        val text = if (item.pricing?.noFlea == false && item.pricing?.isDisabled() == false) {
+                            item.getUpdatedTime(true)
+                        } else {
+                            if (item.pricing?.isDisabled() == true) {
+                                "Disabled item, not available in game."
+                            } else {
+                                "Flea Banned"
+                            }
+                        }
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 10.sp
+                        )
+                        Icon(
+                            imageVector = Icons.Filled.Sync,
+                            contentDescription = "Last Updated",
+                            modifier = Modifier
+                                .padding(start = 2.dp)
+                                .size(12.dp),
+                            tint = White
+                        )
+                    }
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+
+                    }*/
                 }
             }
         }
@@ -203,6 +246,7 @@ fun Rectangle(
 @Composable
 fun SmallBuyPrice(pricing: Pricing?) {
     val i = pricing?.getCheapestBuyRequirements() ?: return
+    if (i.isZero()) return
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(top = 0.dp)

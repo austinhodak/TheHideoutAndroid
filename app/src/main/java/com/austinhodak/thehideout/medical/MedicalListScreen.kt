@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.medical
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -40,6 +41,7 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalCoilApi
@@ -52,7 +54,7 @@ fun MedicalListScreen (
 ) {
     val titles: List<String> = listOf(stringResource(R.string.meds), stringResource(R.string.stims))
 
-    val pagerState = rememberPagerState(pageCount = titles.size)
+    val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
     var data by remember {
@@ -99,7 +101,7 @@ fun MedicalListScreen (
             if (it) {
                 LoadingItem()
             } else {
-                HorizontalPager(state = pagerState) { page ->
+                HorizontalPager(state = pagerState, count = titles.size) { page ->
                     MedList(data, page)
                 }
             }
@@ -149,7 +151,7 @@ private fun MedCard(
         border = BorderStroke(1.dp, if (isSystemInDarkTheme()) Color(0xFF313131) else Color(0xFFDEDEDE)),
         elevation = 0.dp,
         onClick = {
-            context.openActivity(FleaItemDetail::class.java) {
+            context.openActivity(MedDetailActivity::class.java) {
                 putString("id", item.pricing?.id)
             }
         },

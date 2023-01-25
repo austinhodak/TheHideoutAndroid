@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="Widget.MaterialDrawerStyleCustom" parent="Widget.MaterialDrawerStyle">
+        <!-- MaterialDrawer specific values -->
+        <item name="materialDrawerSelectedBackgroundColor">?colorPrimaryVariant</item>
+        <item name="materialDrawerDividerColor">#1F000000</item>
+        <item name="materialDrawerBackground">?attr/colorPrimary</item>
+    </style>
+
     <style name="Theme.TheHideout.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
         <item name="android:statusBarColor" tools:targetApi="l">#1F1F1F</item>
@@ -37,7 +44,7 @@
         <item name="android:statusBarColor">#1F1F1F</item>
     </style>
 
-    <style name="LoginTheme2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="LoginTheme2" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/md_red_400</item>
         <item name="colorPrimaryVariant">@color/md_red_400</item>
         <item name="colorAccent">@color/md_red_400</item>

@@ -1,11 +1,15 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package com.austinhodak.thehideout.ammunition
 
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -50,7 +54,7 @@ import kotlin.math.roundToInt
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
-@SuppressLint("CheckResult")
+@SuppressLint("CheckResult", "UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalPagerApi
 @Composable
 fun AmmunitionListScreen(
@@ -61,7 +65,7 @@ fun AmmunitionListScreen(
     val pages = AmmoCalibers()
     val context = LocalContext.current
 
-    val pagerState = rememberPagerState(pageCount = pages.size)
+    val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
     val sort = remember { mutableStateOf(UserSettingsModel.ammoSort.value) }
@@ -176,11 +180,11 @@ fun AmmunitionListScreen(
                 AmmoSearchBody(searchKey, data)
             }
             else -> {
-                AnimatedContent(targetState = data.isNullOrEmpty()) {
+                AnimatedContent(targetState = data.isEmpty()) {
                     if (it) {
                         LoadingItem()
                     } else {
-                        HorizontalPager(state = pagerState) { page ->
+                        HorizontalPager(state = pagerState, count = pages.size) { page ->
                             LazyColumn(
                                 Modifier.fillMaxSize(),
                                 contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)

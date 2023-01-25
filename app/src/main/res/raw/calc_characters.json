@@ -220,5 +220,41 @@
     },
     "image": "",
     "c_type": "guard"
+  },
+  {
+    "name": "Knight",
+    "health": {
+      "head": 80,
+      "thorax": 220,
+      "stomach": 220,
+      "arms": 150,
+      "legs": 150
+    },
+    "image": "",
+    "c_type": "boss"
+  },
+  {
+    "name": "Big Pipe",
+    "health": {
+      "head": 70,
+      "thorax": 220,
+      "stomach": 200,
+      "arms": 110,
+      "legs": 100
+    },
+    "image": "",
+    "c_type": "boss"
+  },
+  {
+    "name": "Birdeye",
+    "health": {
+      "head": 70,
+      "thorax": 175,
+      "stomach": 150,
+      "arms": 100,
+      "legs": 100
+    },
+    "image": "",
+    "c_type": "boss"
   }
 ]

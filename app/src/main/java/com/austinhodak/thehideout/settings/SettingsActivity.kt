@@ -13,6 +13,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,7 +66,6 @@ import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDep
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
-import io.gleap.Gleap
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -127,6 +128,9 @@ class SettingsActivity : GodActivity() {
                 }
                 OpeningScreen.NEEDED_ITEMS -> {
                     extras.setOpeningItem(116, "neededGrid")
+                }
+                OpeningScreen.MEDS -> {
+                    extras.setOpeningItem(105, "medical")
                 }
             }
         }
@@ -205,13 +209,19 @@ class SettingsActivity : GodActivity() {
                             },
                             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                             actions = {
-
+                                IconButton(onClick = {
+                                    "https://discord.gg/YQW36z29z6".openWithCustomTab(this@SettingsActivity)
+                                }) {
+                                    Icon(painter = painterResource(id = R.drawable.ic_icons8_discord_svg), contentDescription = null, tint = Color.White)
+                                }
                             }
                         )
                     }
                 ) {
                     AndroidView(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it),
                         factory = { context ->
                             val recyclerView = RecyclerView(context)
                             recyclerView.layoutManager = LinearLayoutManager(context)
@@ -251,38 +261,6 @@ class SettingsActivity : GodActivity() {
                                             openActivity(UserProfileActivity::class.java)
                                         }
                                     }
-                                    /*subScreen {
-                                        title = "Traders".asText()
-                                        //icon = R.drawable.ic_baseline_person_24.asIcon()
-                                        category {
-                                            title = "Trader Levels".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.praporLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Prapor".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.therapistLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Therapist".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.fenceLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Fence".asText()
-                                            enabled = false
-                                        }
-                                        singleChoice(UserSettingsModel.skierLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Skier".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.peacekeeperLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Peacekeeper".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.mechanicLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Mechanic".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.ragmanLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Ragman".asText()
-                                        }
-                                        singleChoice(UserSettingsModel.jaegerLevel, Levels.values(), { "Level $it" }) {
-                                            title = "Jaeger".asText()
-                                        }
-                                    }*/
                                     singleChoice(UserSettingsModel.userGameEdition, GameEdition.values(), {
                                         when (it) {
                                             GameEdition.STANDARD -> "Standard Edition"
@@ -292,6 +270,13 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }) {
                                         title = getString(R.string.game_edition).asText()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
+                                    }
+                                    singleChoice(UserSettingsModel.faction, Faction.values(), {
+                                        it.name
+                                    }) {
+                                        title = "Faction".asText()
                                         showCheckBoxes = true
                                         bottomSheet = true
                                     }
@@ -426,11 +411,25 @@ class SettingsActivity : GodActivity() {
                                             OpeningScreen.MODS -> "Weapon Mods"
                                             OpeningScreen.WEAPONS -> "Weapons"
                                             OpeningScreen.NEEDED_ITEMS -> "Needed Items Grid"
+                                            OpeningScreen.MEDS -> "Medical"
                                             else -> ""
                                         }
                                     }) {
                                         title = getString(R.string.opening_screen).asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
+                                        showCheckBoxes = true
+                                        bottomSheet = true
+                                    }
+                                    singleChoice(UserSettingsModel.menuDrawerLayout, MenuDrawerLayout.values(), {
+                                        when (it) {
+                                            MenuDrawerLayout.ORIGINAL -> "Original"
+                                            MenuDrawerLayout.ALPHABETICAL -> "Alphabetical"
+                                            MenuDrawerLayout.FLIPPED -> "Flipped"
+                                            else -> ""
+                                        }
+                                    }) {
+                                        title = "Menu Drawer Layout".asText()
+                                        icon = R.drawable.round_view_sidebar_24.asIcon()
                                         showCheckBoxes = true
                                         bottomSheet = true
                                     }
@@ -669,6 +668,7 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                 }
+
                                 subScreen {
                                     title = getString(R.string.data_sync).asText()
                                     icon = R.drawable.ic_baseline_update_24.asIcon()
@@ -724,7 +724,7 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                     button {
-                                        title = "Tarkov Data".asText()
+//                                        title = "Tarkov Data".asText()
                                         summary = "Maintained by Community Devs".asText()
                                         icon = R.drawable.ic_icons8_github.asIcon()
                                         onClick = {
@@ -732,12 +732,16 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                 }
+                                /*subScreen {
+                                    title = "Quests".asText()
+                                    icon = R.drawable.ic_baseline_assignment_24.asIcon()
+                                }*/
                                 category {
                                     title = getString(R.string.integrations_beta).asText()
                                 }
                                 subScreen {
                                     title = "Tarkov Tracker".asText()
-                                    icon = R.drawable.ic_baseline_link_24.asIcon()
+                                    icon = R.drawable.ic_baseline_explore_24.asIcon()
                                     //summary = "Coming soon.".asText()
                                     badge = "PRO".asBatch()
                                     if (isPremium() || isDebug()) {
@@ -920,7 +924,7 @@ class SettingsActivity : GodActivity() {
                                         summary = "Take a screenshot, try it!".asText()
                                         icon = R.drawable.ic_baseline_feedback_24.asIcon()
                                         onClick = {
-                                            Gleap.getInstance().startFeedbackFlow()
+                                            //Gleap.getInstance().startFeedbackFlow()
                                         }
                                     }
                                 }
@@ -1034,12 +1038,12 @@ class SettingsActivity : GodActivity() {
                                         icon = R.drawable.icons8_toilet_paper_24.asIcon()
                                         enabled = false
                                     }
-                                    button {
+                                    /*button {
                                         title = "Data Pulled".asText()
-                                        summary = "Jan 19, 2022".asText()
+                                        summary = "Jul 17, 2022".asText()
                                         icon = R.drawable.ic_baseline_access_time_24.asIcon()
                                         enabled = false
-                                    }
+                                    }*/
                                     button {
                                         title = "Translations".asText()
                                         summary = "Click to contribute!".asText()
@@ -1077,6 +1081,15 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }
                                 }
+                                button {
+                                    title = "Vote For Features".asText()
+                                    summary = "Give feedback and report bugs.".asText()
+                                    icon = R.drawable.ic_baseline_how_to_vote_24.asIcon()
+                                    badge = "NEW".asBatch()
+                                    onClick = {
+                                        "https://feedback.thehideout.dev".openWithCustomTab(this@SettingsActivity)
+                                    }
+                                }
                             }
 
                             screen.bind(recyclerView)
@@ -1110,6 +1123,19 @@ class SettingsActivity : GodActivity() {
             lifecycleScope.launch {
                 UserSettingsModel.ttAPIKey.update(result.contents)
                 Toast.makeText(this@SettingsActivity, "API Token saved, please reload page.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private val hardwareIDScanner: ActivityResultLauncher<ScanOptions> = registerForActivityResult(
+        ScanContract()
+    ) { result: ScanIntentResult ->
+        if (result.contents == null) {
+
+        } else {
+            lifecycleScope.launch {
+                UserSettingsModel.pcHardwareID.update(result.contents)
+                Toast.makeText(this@SettingsActivity, "Hardware ID saved, please reload page.", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -8,9 +8,10 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -47,16 +48,16 @@ import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.thehideout.NavViewModel
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.*
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
-import com.austinhodak.thehideout.extras
 import com.austinhodak.thehideout.firebase.User
 import com.austinhodak.thehideout.flea_market.components.ShoppingCartScreen
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
+import com.austinhodak.thehideout.profile.UserProfileActivity
 import com.austinhodak.thehideout.utils.openActivity
 import com.austinhodak.thehideout.utils.userRefTracker
 import com.google.firebase.database.ServerValue
@@ -149,6 +150,9 @@ fun FleaMarketScreen(
                                                 Toast.makeText(context, "Refreshing prices...", Toast.LENGTH_SHORT).show()
                                                 fleaViewModel.refreshList()
                                             },
+                                            Pair("Set Trader Levels") {
+                                                context.openActivity(UserProfileActivity::class.java)
+                                            },
                                         )
                                     )
                                 }
@@ -226,7 +230,7 @@ fun FleaMarketNeededScreen(
         return
     }
 
-    LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
+    LazyVerticalGrid(columns = GridCells.Adaptive(52.dp)) {
         items(items = neededItems) {
             val needed = userData?.items?.get(it.id)
             val color = if (needed?.has == needed?.getTotalNeeded()) {
@@ -309,7 +313,7 @@ private fun showNeededItemsHelp(context: Context) {
 @ExperimentalMaterialApi
 @Composable
 fun FleaMarketFavoritesList(
-    data: List<Item>?,
+    items: List<Item>?,
     fleaViewModel: FleaViewModel,
     paddingValues: PaddingValues
 ) {
@@ -320,9 +324,11 @@ fun FleaMarketFavoritesList(
     val traderPriceDisplay = UserSettingsModel.fleaVisibleTraderPrice.value
     val displayName = UserSettingsModel.fleaVisibleName.value
 
+    val data = Favorites.items.value.mapNotNull { favorite -> items?.find { it.id == favorite } }
+
     val list = when (sortBy.value) {
-        0 -> data?.sortedBy { it.Name }
-        1 -> data?.sortedBy {
+        0 -> data.sortedBy { it.Name }
+        1 -> data.sortedBy {
             when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
                 FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
@@ -331,7 +337,7 @@ fun FleaMarketFavoritesList(
                 FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
             }
         }
-        2 -> data?.sortedByDescending {
+        2 -> data.sortedByDescending {
             when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
                 FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
@@ -340,7 +346,7 @@ fun FleaMarketFavoritesList(
                 FleaVisiblePrice.LAST -> it.pricing?.lastLowPrice
             }
         }
-        3 -> data?.sortedByDescending {
+        3 -> data.sortedByDescending {
             val price = when (priceDisplay) {
                 FleaVisiblePrice.DEFAULT -> it.getPrice()
                 FleaVisiblePrice.AVG -> it.pricing?.avg24hPrice
@@ -350,20 +356,21 @@ fun FleaMarketFavoritesList(
             }
             it.getPricePerSlot(price ?: 0)
         }
-        4 -> data?.sortedBy { it.pricing?.changeLast48h }
-        5 -> data?.sortedByDescending { it.pricing?.changeLast48h }
-        6 -> data?.sortedBy { it.pricing?.getInstaProfit() }
-        7 -> data?.sortedByDescending { it.pricing?.getInstaProfit() }
-        else -> data?.sortedBy { it.getPrice() }
-    }?.filter {
+        4 -> data.sortedBy { it.pricing?.changeLast48h }
+        5 -> data.sortedByDescending { it.pricing?.changeLast48h }
+        6 -> data.sortedBy { it.pricing?.getInstaProfit() }
+        7 -> data.sortedByDescending { it.pricing?.getInstaProfit() }
+        else -> data.sortedBy { it.getPrice() }
+    }.filter {
         it.ShortName?.contains(searchKey, ignoreCase = true) == true
                 || it.Name?.contains(searchKey, ignoreCase = true) == true
                 || it.itemType?.name?.contains(searchKey, ignoreCase = true) == true
-    }?.filter {
-        extras.favoriteItems?.contains(it.id) ?: false
+    }.filter {
+        Favorites.items.contains(it.id)
+        //extras.favoriteItems?.contains(it.id) ?: false
     }
 
-    if (list?.isEmpty() == true) {
+    if (list.isEmpty()) {
         EmptyText(text = "No Favorites.")
         return
     }

@@ -104,14 +104,18 @@ class QuestDetailActivity : GodActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val questID = intent.getStringExtra("questID") ?: "8"
-
-        Firebase.crashlytics.setCustomKey("questID", questID)
+        
+        setCrashKeys(
+            Pair("questID", questID)
+        )
 
         setContent {
             HideoutTheme {
                 ProvideWindowInsets {
                     val quest by questViewModel.questDetails.observeAsState()
                     questViewModel.getQuest(questID)
+
+                    val quests by tarkovRepo.getAllQuests().collectAsState(initial = null)
 
                     this.quest = quest
 
@@ -258,7 +262,7 @@ class QuestDetailActivity : GodActivity() {
                         floatingActionButton = {
                             //if (isDebug())
                             quest?.let {
-                                if (userData?.progress?.isQuestCompleted(it) == false && it.isAvailable(userData) || userData == null) {
+                                if (it.isAvailable(userData) || userData == null) {
                                     ExtendedFloatingActionButton(
                                         icon = {
                                             Icon(
@@ -337,6 +341,14 @@ class QuestDetailActivity : GodActivity() {
                                         preQuests?.let {
                                             item {
                                                 PreQuestCard(it, userData)
+                                            }
+                                        }
+                                    }
+                                    val postQuests = quests?.filter { it.requiredQuestsList()?.contains(quest?.id?.toInt()) == true }
+                                    postQuests?.let {
+                                        if (it.isNotEmpty()) {
+                                            item {
+                                                PostQuestCard(list = it.map { it.id.toInt() }, userData = userData)
                                             }
                                         }
                                     }
@@ -578,6 +590,49 @@ class QuestDetailActivity : GodActivity() {
                         Text(
                             modifier = Modifier.padding(start = 8.dp),
                             text = "PREREQUISITE QUESTS",
+                            style = MaterialTheme.typography.caption,
+                            color = White
+                        )
+                    }
+                }
+                list.forEach {
+                    val quest by tarkovRepo.getQuestByID(it.toString()).collectAsState(initial = null)
+                    quest?.let { quest ->
+                        SmallQuestItem(quest, userData)
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun PostQuestCard(
+        list: List<Int?>,
+        userData: FSUser?
+    ) {
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .fillMaxWidth(),
+            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
+        ) {
+            Column(
+                Modifier.padding(bottom = 12.dp)
+            ) {
+                Row(
+                    Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_lock_24),
+                            contentDescription = "",
+                            modifier = Modifier.size(20.dp),
+                            tint = White
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            text = "QUESTS LOCKED BEHIND",
                             style = MaterialTheme.typography.caption,
                             color = White
                         )
@@ -936,7 +991,10 @@ class QuestDetailActivity : GodActivity() {
                             painter = painterResource(id = R.drawable.ic_baseline_check_circle_outline_24),
                             null,
                             tint = if (hasKey) Green400 else if (objective.type == "find") Amber500 else Color.Transparent,
-                            modifier = Modifier.size(12.dp).padding(bottom = 2.dp, end = 2.dp).align(Alignment.BottomEnd)
+                            modifier = Modifier
+                                .size(12.dp)
+                                .padding(bottom = 2.dp, end = 2.dp)
+                                .align(Alignment.BottomEnd)
                         )
                     }
                 }

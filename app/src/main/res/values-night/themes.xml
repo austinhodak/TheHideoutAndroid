@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TheHideout" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.TheHideout" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#1F1F1F</item>
         <item name="colorPrimaryVariant">@color/md_red_400</item>
@@ -29,7 +29,7 @@
 
     </style>
 
-    <style name="Theme.TheHideoutOS" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.TheHideoutOS" parent="Theme.MaterialComponents">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#1F1F1F</item>
         <item name="colorPrimaryVariant">@color/md_red_400</item>

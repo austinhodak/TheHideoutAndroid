@@ -31,12 +31,12 @@ import com.austinhodak.thehideout.hideout.HideoutRequirementTrader
 import com.austinhodak.thehideout.skillsList
 import com.austinhodak.thehideout.utils.fadeImagePainter
 import com.austinhodak.thehideout.utils.openActivity
-import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.PagerScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
 @Composable
-fun HideoutDetailModuleScreen(items: List<Item>, pagerStateCrafts: PagerState, modules: List<Hideout.Module?>?, station: Hideout.Station?) {
+fun HideoutDetailModuleScreen(items: List<Item>, pagerStateCrafts: PagerScope, modules: List<Hideout.Module?>?, station: Hideout.Station?) {
     val module = modules?.find { it?.level == pagerStateCrafts.currentPage + 1 }
 
     Timber.d(module.toString())

@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.gear
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
@@ -49,6 +50,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import java.util.*
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalCoroutinesApi
 @ExperimentalFoundationApi
 @ExperimentalCoilApi
@@ -98,7 +100,7 @@ fun GearListScreen(
         else -> null
     }
 
-    val pagerState = rememberPagerState(pageCount = titles?.size ?: 0)
+    val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
@@ -177,7 +179,7 @@ fun GearListScreen(
     ) {
         if (titles != null) {
 
-            HorizontalPager(state = pagerState) { page ->
+            HorizontalPager(state = pagerState, count = titles?.size ?: 0) { page ->
                 val items = when {
                     type == ItemTypes.RIG && page == 0 -> data.value.filter { it.cArmorClass() == 0 }.sortedBy { it.ShortName }
                     type == ItemTypes.RIG && page == 1 -> data.value.filter { it.cArmorClass() > 0 }.sortedBy { it.ShortName }

@@ -35,14 +35,13 @@ import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
 import com.austinhodak.thehideout.utils.openActivity
-import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.PagerScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CraftsPage(crafts: List<Craft>, navViewModel: NavViewModel, pagerState: PagerState, modules: List<Hideout.Module?>?, station: Hideout.Station?, noCrafts: (Boolean) -> Unit) {
+fun CraftsPage(crafts: List<Craft>, navViewModel: NavViewModel, pagerState: PagerScope, modules: List<Hideout.Module?>?, station: Hideout.Station?, noCrafts: (Boolean) -> Unit) {
     val searchKey by navViewModel.searchKey.observeAsState("")
     val selectedModule = modules?.getOrNull(pagerState.currentPage)
 

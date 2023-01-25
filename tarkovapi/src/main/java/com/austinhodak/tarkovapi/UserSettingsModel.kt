@@ -100,6 +100,7 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
     val isPremiumUser by boolPref(false, "isPremiumUser")
 
     val userGameEdition by enumPref(GameEdition.STANDARD, "userGameEdition")
+    val faction by enumPref(Faction.USEC, "faction")
 
     val itemColorBlue by intPref(Color.parseColor("#222A2F"))
     val itemColorGrey by intPref(Color.parseColor("#1B1C1C"))
@@ -117,6 +118,18 @@ object UserSettingsModel : SettingsModel(DataStoreStorage(name = "user")) {
 
     val showPriceGraph by boolPref(true, "showPriceGraph")
     val showAddToCardButton by boolPref(true, "showAddToCardButton")
+
+    val pcHardwareID by stringPref(key = "pcHardwareID")
+    val raidAlertGlobalNotifications by boolPref(true, "raidAlertGlobalNotifications")
+    val raidAlertMatched by boolPref(false, "raidAlertMatched")
+    val raidAlertCountdown by boolPref(true, "raidAlertCountdown")
+    val raidAlertStarted by boolPref(false, "raidAlertStarted")
+
+    val menuDrawerLayout by enumPref(MenuDrawerLayout.ORIGINAL, "menuDrawerLayout")
+}
+
+enum class MenuDrawerLayout {
+    ORIGINAL, ALPHABETICAL, FLIPPED
 }
 
 enum class LanguageSetting (val locale: Locale) {
@@ -156,7 +169,8 @@ enum class OpeningScreen {
     WEAPONS,
     LOADOUTS,
     MODS,
-    NEEDED_ITEMS
+    NEEDED_ITEMS,
+    MEDS
 }
 
 enum class FleaVisiblePrice {
@@ -206,6 +220,11 @@ enum class GameEdition {
     LEFT_BEHIND,
     PREPARE_FOR_ESCAPE,
     EDGE_OF_DARKNESS
+}
+
+enum class Faction {
+    USEC,
+    BEAR
 }
 
 enum class MapEnums(var id: String, var int: Int, var icon: Int) {

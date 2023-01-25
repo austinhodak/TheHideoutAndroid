@@ -8,9 +8,10 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -200,7 +201,7 @@ class QuestInRaidActivity : GodActivity() {
             return
         }
 
-        LazyVerticalGrid(cells = GridCells.Adaptive(52.dp)) {
+        LazyVerticalGrid(columns = GridCells.Adaptive(52.dp)) {
             items(items = neededItems) { item ->
                 val totalNeeded = objectives.filter {
                     it.target?.first() == item.id

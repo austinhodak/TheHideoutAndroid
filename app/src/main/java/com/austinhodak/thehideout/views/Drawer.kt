@@ -3,20 +3,15 @@ package com.austinhodak.thehideout.views
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.InputType
-import android.util.AttributeSet
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
@@ -28,24 +23,20 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
-import com.adapty.Adapty
-import com.adapty.listeners.OnPurchaserInfoUpdatedListener
-import com.adapty.models.PurchaserInfoModel
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloNetworkException
+import com.austinhodak.tarkovapi.MenuDrawerLayout
 import com.austinhodak.tarkovapi.ServerStatusQuery
-import com.austinhodak.tarkovapi.TraderResetTimersQuery
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.models.ServerStatus
-import com.austinhodak.tarkovapi.models.TraderReset
 import com.austinhodak.tarkovapi.models.toObj
-import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.billing.PremiumPusherActivity
+import com.austinhodak.thehideout.premium.PremiumPusherActivity
 import com.austinhodak.thehideout.calculator.CalculatorMainActivity
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.map.MapsActivity
@@ -60,10 +51,9 @@ import com.austinhodak.thehideout.utils.openWithCustomTab
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.michaelflisar.materialpreferences.core.initialisation.SettingSetup.context
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.holder.ColorHolder
+import com.mikepenz.materialdrawer.holder.DimenHolder
 import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.badgeText
 import com.mikepenz.materialdrawer.model.interfaces.iconRes
@@ -83,26 +73,28 @@ val weaponCategories = mutableListOf(
     Triple(R.string.pistols, 308, "pistol"),
     Triple(R.string.sniper_rifles, 307, "sniperRifle"),
     Triple(R.string.shotguns, 305, "shotgun"),
-    Triple(R.string.smgs, 304, "smg"),
-    //Triple("Grenade Launchers", 309, "grenadeLauncher"),
-    //Triple("Melee Weapons", 310, ""),
-    //Triple("Throwables", 311, ""),
+    Triple(R.string.smgs, 304, "smg")
 )
 
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
-class Drawer(context: Context, attrs: AttributeSet? = null) :
-    MaterialDrawerSliderView(context, attrs) {
+class Drawer(context: Context, lifecycleOwner: LifecycleOwner) :
+    MaterialDrawerSliderView(context, null) {
 
     private val benderFont = ResourcesCompat.getFont(context, R.font.bender)
     private val benderBoldFont = ResourcesCompat.getFont(context, R.font.bender_bold)
+
+    private val drawerBosses = PrimaryDrawerItem().apply {
+        tag = "bosses"; identifier = 117; nameText = "Bosses"; iconRes = R.drawable.icons8_crown_96
+        isIconTinted = true; typeface = benderFont
+    }
 
     private val drawerNeededItemsGrid = PrimaryDrawerItem().apply {
         tag = "neededGrid"; identifier = 116; nameText = context.getString(R.string.needed_items); iconRes =
         R.drawable.ic_baseline_grid_view_24; isIconTinted = true; typeface =
         benderFont;
         badgeText = "Beta";
-        badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_orange_700) }
+        badgeStyle = BadgeStyle().apply { paddingLeftRight = DimenHolder.fromDp(4); textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_orange_700) }
     }
     private val drawerAmmo = PrimaryDrawerItem().apply {
         tag = "ammunition/Caliber762x35"; identifier = 101; iconRes =
@@ -132,20 +124,28 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         benderFont
     }
 
-    val interactiveMaps = SecondaryDrawerItem().apply {
-        level = 1; iconRes = R.drawable.ic_blank; identifier = 701
-        nameText = context.getString(R.string.interactive); typeface = benderFont; tag = "map_interactive"; isSelectable = false
+    private val interactiveMaps = SecondaryDrawerItem().apply {
+        level = 2; iconRes = R.drawable.ic_baseline_touch_app_24; identifier = 701
+        nameText = context.getString(R.string.interactive); typeface = benderFont; tag = "map_interactive"; isIconTinted = true; isSelectable = false;
     }
 
-    val staticMaps = SecondaryDrawerItem().apply {
-        level = 1; iconRes = R.drawable.ic_blank; identifier = 702
-        nameText = context.getString(R.string.n_static); typeface = benderFont; tag = "map_static"; isSelectable = false
+    private val staticMaps = SecondaryDrawerItem().apply {
+        level = 2; iconRes = R.drawable.ic_baseline_image_24; identifier = 702
+        nameText = context.getString(R.string.n_static); typeface = benderFont; tag = "map_static"; isSelectable = false; isIconTinted = true
+    }
+
+    private val mapsInfo = SecondaryDrawerItem().apply {
+        level = 2; iconRes = R.drawable.ic_baseline_info_24; identifier = 703
+        nameText = "Information"; typeface = benderFont; tag = "map_info"; isIconTinted = true;
+        badgeText = "New";
+        badgeStyle = BadgeStyle().apply { paddingLeftRight = DimenHolder.fromDp(4); textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_green_500); }
     }
 
     private val drawerMaps = ExpandableDrawerItem().apply {
         tag = "map_selector"; identifier = 110; nameText = context.getString(R.string.maps); iconRes =
         R.drawable.ic_baseline_map_24; isIconTinted = true; typeface = benderFont; isSelectable = false;
         subItems = mutableListOf(
+            mapsInfo,
             interactiveMaps,
             staticMaps
         )
@@ -232,8 +232,8 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
             drawerEyewear,
             drawerFaceCover,
             drawerHeadsets,
-            drawerHeadwear,
-            drawerTacticalClothing
+            drawerHeadwear
+            //drawerTacticalClothing
         )
     }
 
@@ -291,7 +291,7 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         tag = "item_scanner"; level = 2; identifier = 407; nameText =
         context.getString(R.string.item_scanner); iconRes = R.drawable.ic_baseline_document_scanner_24; isIconTinted =
         true; typeface = benderFont; isEnabled = true; badgeText = "Alpha";
-        badgeStyle = BadgeStyle().apply { textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_red_700) }
+        badgeStyle = BadgeStyle().apply { paddingLeftRight = DimenHolder.fromDp(4); textColor = ColorHolder.fromColorRes(R.color.md_white_1000); color = ColorHolder.fromColorRes(R.color.md_red_700) }
         isSelectable = false
     }
 
@@ -407,31 +407,92 @@ class Drawer(context: Context, attrs: AttributeSet? = null) :
         isSelectable = false
     }
 
+
+
     init {
-        itemAdapter.add(
-            //drawerDivider,
-            drawerAmmo,
-            drawerGear,
-            drawerKeys,
-            drawerMedical,
-            drawerProvisions,
-            drawerSkills,
-            drawerWeaponExpandable,
-            drawerWeaponLoadouts,
-            drawerWeaponMods,
-            drawerDivider,
-            drawerFleaMarket,
-            drawerHideout,
-            drawerMaps,
-            drawerNeededItemsGrid,
-            drawerQuests,
-            drawerDamageSimulator,
-            drawerExtraTools,
-            drawerTraders,
-            drawerDivider,
-            drawerNews,
-            drawerServerStatus
-        )
+
+        UserSettingsModel.menuDrawerLayout.observe(lifecycleOwner.lifecycleScope) {  layoutSetting ->
+            removeAllItems()
+
+            when (layoutSetting) {
+                MenuDrawerLayout.ORIGINAL -> {
+                    itemAdapter.add(
+                        drawerAmmo,
+                        drawerGear,
+                        drawerKeys,
+                        drawerMedical,
+                        drawerProvisions,
+                        drawerSkills,
+                        drawerWeaponExpandable,
+                        drawerWeaponLoadouts,
+                        drawerWeaponMods,
+                        drawerDivider,
+                        drawerFleaMarket,
+                        drawerHideout,
+                        drawerMaps,
+                        drawerNeededItemsGrid,
+                        drawerQuests,
+                        drawerDamageSimulator,
+                        drawerExtraTools,
+                        drawerTraders,
+                        drawerDivider,
+                        drawerNews,
+                        drawerServerStatus
+                    )
+                }
+                MenuDrawerLayout.ALPHABETICAL -> {
+                    itemAdapter.add(
+                        drawerAmmo,
+                        //drawerDivider,
+                        //drawerDivider,
+                        drawerFleaMarket,
+                        drawerGear,
+                        drawerHideout,
+                        drawerKeys,
+                        drawerMaps,
+                        drawerMedical,
+                        drawerNeededItemsGrid,
+                        drawerNews,
+                        drawerProvisions,
+                        drawerQuests,
+                        drawerServerStatus,
+                        drawerSkills,
+                        drawerDamageSimulator,
+                        drawerExtraTools,
+                        drawerTraders,
+                        drawerWeaponExpandable,
+                        drawerWeaponLoadouts,
+                        drawerWeaponMods,
+                    )
+                }
+                MenuDrawerLayout.FLIPPED -> {
+                    itemAdapter.add(
+                        drawerFleaMarket,
+                        drawerHideout,
+                        drawerMaps,
+                        drawerNeededItemsGrid,
+                        drawerQuests,
+                        drawerDamageSimulator,
+                        drawerExtraTools,
+                        drawerTraders,
+                        drawerDivider,
+                        drawerAmmo,
+                        drawerGear,
+                        drawerKeys,
+                        drawerMedical,
+                        drawerProvisions,
+                        drawerSkills,
+                        drawerWeaponExpandable,
+                        drawerWeaponLoadouts,
+                        drawerWeaponMods,
+                        drawerDivider,
+                        drawerNews,
+                        drawerServerStatus
+                    )
+                }
+            }
+        }
+
 
         addStickyFooterItem(drawerSettings)
 
@@ -512,7 +573,7 @@ fun MainDrawer(
                 )
             }
         }
-    ) {
+    ) { _ ->
         Column(
             Modifier
                 .fillMaxSize()
@@ -573,7 +634,7 @@ fun MainDrawer(
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
                 factory = { context ->
-                    val drawer = Drawer(context)
+                    val drawer = Drawer(context, lifecycleOwner)
                     drawer.onDrawerItemClickListener = { _, item, _ ->
                         if (item.tag != null) {
                             if (item.isSelectable || item.identifier.toInt() == 999) {
@@ -613,7 +674,8 @@ fun MainDrawer(
                         badgeText = status?.getBadgeText() ?: ""
                         badgeStyle = BadgeStyle().apply {
                             color = ColorHolder.fromColor(status?.currentStatusColor()?.toArgb() ?: 0x00000000)
-                            typeface = benderFont
+                            typeface = benderFont;
+                            paddingLeftRight = DimenHolder.fromDp(4);
                         }
                     }
                     if (status != null && !status?.getBadgeText().isNullOrBlank()) {
@@ -643,7 +705,6 @@ fun MainDrawer(
                         val isLoggedIn =
                             it.currentUser != null && it.currentUser?.isAnonymous == false
                         if (!isLoggedIn) {
-                            //drawer.removeAllStickyFooterItems()
                             try {
                                 drawer.removeStickyFooterItemAtPosition(1)
                             } catch (e: Exception) {

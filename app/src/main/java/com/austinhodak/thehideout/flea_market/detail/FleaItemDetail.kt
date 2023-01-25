@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package com.austinhodak.thehideout.flea_market.detail
 
 import android.annotation.SuppressLint
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
@@ -80,6 +83,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -102,6 +106,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FleaItemDetail : GodActivity() {
 
+    @OptIn(ExperimentalPagerApi::class)
     override fun onBackPressed() {
         if (intent.hasExtra("fromNoti")) {
             val intent = Intent(this, NavActivity::class.java)
@@ -176,13 +181,11 @@ class FleaItemDetail : GodActivity() {
                     )
 
                     var isFavorited by remember {
-                        mutableStateOf(extras.favoriteItems?.contains(itemID))
+                        mutableStateOf(Favorites.items.contains(itemID))
                     }
 
-                    extras.preference.registerOnSharedPreferenceChangeListener { sharedPreferences, s ->
-                        if (s == "FAVORITE_ITEMS") {
-                            isFavorited = extras.favoriteItems?.contains(itemID)
-                        }
+                    Favorites.items.observe(lifecycleScope) {
+                        isFavorited = it.contains(itemID)
                     }
 
                     if (isDebug()) {
@@ -216,15 +219,17 @@ class FleaItemDetail : GodActivity() {
                                 item = item,
                                 actions = {
                                     IconButton(onClick = {
-                                        isFavorited = if (isFavorited == true) {
-                                            extras.removeFavorite(itemID)
+                                        isFavorited = if (isFavorited) {
+                                            Favorites.items.remove(lifecycleScope, itemID)
+                                            //extras.removeFavorite(itemID)
                                             false
                                         } else {
-                                            extras.addFavorite(itemID)
+                                            Favorites.items.add(lifecycleScope, itemID)
+                                            //extras.addFavorite(itemID)
                                             true
                                         }
                                     }) {
-                                        if (isFavorited == true) {
+                                        if (isFavorited) {
                                             Icon(Icons.Filled.Favorite, contentDescription = null, tint = Pink500)
                                         } else {
                                             Icon(Icons.Filled.FavoriteBorder, contentDescription = null, tint = Color.White)
@@ -888,6 +893,7 @@ class FleaItemDetail : GodActivity() {
         }
     }
 
+    @OptIn(ExperimentalPagerApi::class)
     private fun launchPremiumPusher() {
         launchPremiumPusherResult()
     }
@@ -1227,7 +1233,7 @@ class FleaItemDetail : GodActivity() {
                                     iconText = item.count?.toString(),
                                     showPriceInSubtitle = true,
                                     subtitle = " (${(item.count?.times(pricing.getCheapestBuyRequirements().price ?: 0))?.asCurrency()})"
-                                )
+                                ), if (item.isTool()) ToolBlue else BorderColor
                             )
                         }
                         //BarterCraftCostItem(taskItem)
@@ -1520,6 +1526,7 @@ class FleaItemDetail : GodActivity() {
         )
     }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @SuppressLint("CheckResult")
     @Composable
     private fun Card1(
@@ -1721,6 +1728,9 @@ class FleaItemDetail : GodActivity() {
                         color = DividerDark
                     )
                     BasicStatRow(title = "WEIGHT", text = item?.getFormattedWeight())
+                    if ((item?.DiscardLimit ?: -1) > 0) {
+                        BasicStatRow(title = "DROP LIMIT", text = item?.discardLimit())
+                    }
                     if (item?.pricing?.types?.contains(ItemType.container) == true) {
                         Divider(
                             modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
@@ -1729,6 +1739,7 @@ class FleaItemDetail : GodActivity() {
                         BasicStatRow(title = "CAPACITY", text = "${item.getTotalInternalSize()} Slots")
                         BasicStatRow(title = "PRICE/SLOT", text = "${(item.getPrice() / item.getTotalInternalSize()).asCurrency()}/slot")
                     }
+
                 }
             }
         }

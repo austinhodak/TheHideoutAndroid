@@ -119,7 +119,7 @@ class StaticMapsActivity : AppCompatActivity() {
                                         }
                                     )
                                     AnimatedVisibility(visible = selectedMap?.images?.size ?: 1 > 1) {
-                                        val pagerState = rememberPagerState(pageCount = selectedMap?.images?.size ?: 1)
+                                        val pagerState = rememberPagerState()
                                         Tabs(
                                             pagerState = pagerState,
                                             scope = scope,
@@ -407,6 +407,23 @@ class StaticMapsActivity : AppCompatActivity() {
                 StaticMap.StaticMapImage(
                     "Resort",
                     R.drawable.resort
+                )
+            )
+        ),
+        StaticMap(
+            "Streets",
+            listOf(
+                StaticMap.StaticMapImage(
+                    "3D",
+                    R.drawable.streets_3d
+                ),
+                StaticMap.StaticMapImage(
+                    "2D",
+                    R.drawable.streets_2d
+                ),
+                StaticMap.StaticMapImage(
+                    "2D Tycho",
+                    R.drawable.streets_2d_tycho
                 )
             )
         ),

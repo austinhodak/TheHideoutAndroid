@@ -43,7 +43,7 @@ class MessagingService : FirebaseMessagingService() {
             if (remoteMessage.data.containsKey("title") && remoteMessage.data.containsKey("content") && !remoteMessage.data.containsKey("restock") && !remoteMessage.data.containsKey("priceAlert")) {
                 val title = remoteMessage.data["title"]
                 val content = remoteMessage.data["content"]
-                sendNotification(title ?: "", content ?: "")
+                sendServerStatusNotification(title ?: "", content ?: "")
             } else if (remoteMessage.data.containsKey("data") && !remoteMessage.data.containsKey("restock") && !remoteMessage.data.containsKey("priceAlert")) {
                 val data = JSONObject(remoteMessage.data.getValue("data"))
                 Timber.d("$data")
@@ -63,7 +63,7 @@ class MessagingService : FirebaseMessagingService() {
                     }
 
                     if (UserSettingsModel.serverStatusUpdates.value)
-                    sendNotification(title, message)
+                    sendServerStatusNotification(title, message)
                 }
 
                 if (data.has("message")) {
@@ -74,7 +74,7 @@ class MessagingService : FirebaseMessagingService() {
                     val solveTime = message.getString("solveTime")
 
                     if (UserSettingsModel.serverStatusMessages.value)
-                    sendNotification("New Status Update", content)
+                    sendServerStatusNotification("New Status Update", content)
                 }
             } else if (remoteMessage.data.containsKey("restock")) {
                 //User has restock notifications off, do nothing.
@@ -118,33 +118,22 @@ class MessagingService : FirebaseMessagingService() {
                     Timber.e(e)
                 }
             }
+        }
+    }
 
-            /*val fleaItem = JSONObject(remoteMessage.data["fleaItem"])
-            val alertItem = JSONObject(remoteMessage.data["alertItem"])
-
-            val whenText = when (alertItem["when"] as String) {
-                "below" -> "dropped below"
-                "above" -> "risen above"
-                else -> ""
+    private fun cancelRaidAlerts(id: Int) {
+        when (id) {
+            101 -> {
+                notificationManager.cancel(101)
+                notificationManager.cancel(102)
+                notificationManager.cancel(103)
             }
-
-            *//*val notiText = "${fleaItem["name"]} has $whenText your alert price of ${(alertItem["price"] as Int).getPrice("₽")}.\n\n" +
-                    "Current Price: ${(fleaItem["price"] as Int).getPrice("₽")}. \uD83D\uDE4C"*//*
-
-            val builder = NotificationCompat.Builder(this, "FLEA_ALERTS").apply {
-                setSmallIcon(R.drawable.hideout_shadow_1)
-                setContentTitle("Flea Market Price Alert \uD83D\uDCB8")
-                priority = NotificationCompat.PRIORITY_DEFAULT
-                setContentText("")
-                setStyle(NotificationCompat.BigTextStyle().bigText(""))
+            102 -> {
+                notificationManager.cancel(102)
             }
-
-            Glide.with(this).asBitmap().load(fleaItem["icon"]).into(object : SimpleTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    builder.setLargeIcon(resource)
-                    notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
-                }
-            })*/
+            103 -> {
+                notificationManager.cancel(103)
+            }
         }
     }
 
@@ -218,7 +207,7 @@ class MessagingService : FirebaseMessagingService() {
         })*/
     }
 
-    private fun sendNotification(title: String, message: String) {
+    private fun sendServerStatusNotification(title: String, message: String) {
         if (!UserSettingsModel.serverStatusNotifications.value) return
 
         val intent = Intent(this, ServerStatusActivity::class.java).apply {

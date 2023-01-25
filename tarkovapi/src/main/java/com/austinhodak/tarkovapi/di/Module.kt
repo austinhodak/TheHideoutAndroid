@@ -3,11 +3,11 @@ package com.austinhodak.tarkovapi.di
 import android.content.Context
 import androidx.room.Room
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.network.okHttpClient
 import com.austinhodak.tarkovapi.room.AppDatabase
-import com.austinhodak.tarkovapi.tarkovtracker.AuthIntercept
 import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
-import com.austinhodak.tarkovapi.utils.getTTApiKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,15 +31,26 @@ object Module {
     }
 
     @Provides
-    fun provideApolloClient(): ApolloClient {
+    fun provideApolloClient(
+        @ApplicationContext appContext: Context
+    ): ApolloClient {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
+
+        val cacheFactory = MemoryCacheFactory(maxSizeBytes = 10 * 1024 * 1024)
+        val sqlCacheFactory = SqlNormalizedCacheFactory(appContext, "apollo.db")
+
+        val memoryFirstThenSqlCacheFactory = cacheFactory.chain(sqlCacheFactory)
 
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)
             .build()
 
-        return ApolloClient.Builder().serverUrl("https://api.tarkov.dev/graphql").okHttpClient(client).build()
+        return ApolloClient.Builder()
+            .serverUrl("https://api.tarkov.dev/graphql")
+            //.normalizedCache(memoryFirstThenSqlCacheFactory)
+            .okHttpClient(client)
+            .build()
     }
 
     @Provides
@@ -48,7 +59,7 @@ object Module {
         @ApplicationContext appContext: Context,
         callback: AppDatabase.Callback
     ) = Room.databaseBuilder(appContext, AppDatabase::class.java, "hideout-database")
-        .createFromAsset("hideout_database_59.db")
+        .createFromAsset("hideout_database_64.db")
         .fallbackToDestructiveMigration()
         .addCallback(callback)
         .build()

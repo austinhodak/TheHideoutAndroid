@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
@@ -78,7 +79,9 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
 
     val searchKey by navViewModel.searchKey.observeAsState("")
     val isSearchOpen by navViewModel.isSearchOpen.observeAsState(false)
-    val pagerState = rememberPagerState(pageCount = titles.size)
+
+
+    var pagerState: Int by remember { mutableStateOf(0) }
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -166,12 +169,11 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                 }
                 if (navBackStackEntry?.destination?.route != BottomNavigationScreens.Info.route) {
                     TabRow(
-                        selectedTabIndex = pagerState.currentPage,
+                        selectedTabIndex = pagerState,
                         indicator = { tabPositions ->
                             TabRowDefaults.Indicator(
-                                Modifier.pagerTabIndicatorOffset(
-                                    pagerState,
-                                    tabPositions
+                                Modifier.tabIndicatorOffset(
+                                    currentTabPosition = tabPositions[pagerState],
                                 ), color = Red400
                             )
                         },
@@ -185,10 +187,10 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                                         fontFamily = Bender
                                     )
                                 },
-                                selected = pagerState.currentPage == index,
+                                selected = pagerState == index,
                                 onClick = {
                                     coroutineScope.launch {
-                                        pagerState.animateScrollToPage(index)
+                                       pagerState = index
                                     }
                                 },
                                 selectedContentColor = Red400,
@@ -233,10 +235,10 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
                 val itemList = items?.filter { item ->
                     item.pricing?.buyFor?.any {
                         it.source == trader && it.requirements.any {
-                            if (pagerState.currentPage == 4) {
+                            if (pagerState == 4) {
                                 true
                             } else {
-                                it.type == "loyaltyLevel" && it.value == pagerState.currentPage + 1
+                                it.type == "loyaltyLevel" && it.value == pagerState + 1
                             }
                         }
                     } == true
@@ -274,10 +276,10 @@ fun TraderScreen(trader: String?, navViewModel: NavViewModel, tarkovRepo: Tarkov
             composable(BottomNavigationScreens.Barters.route) {
                 val barterList = barters.filter {
                     val i = it.source?.split(" ")
-                    if (pagerState.currentPage == 4) {
+                    if (pagerState == 4) {
                         i?.get(0)?.lowercase()?.equals(trader) == true
                     } else {
-                        i?.get(0)?.lowercase()?.equals(trader) == true && i[1].removePrefix("LL") == (pagerState.currentPage + 1).toString()
+                        i?.get(0)?.lowercase()?.equals(trader) == true && i[1].removePrefix("LL") == (pagerState + 1).toString()
                     }
                 }.filter {
                     it.rewardItems?.first()?.item?.name?.contains(searchKey, ignoreCase = true) == true ||

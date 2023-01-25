@@ -75,6 +75,7 @@ import java.net.URL
 import javax.inject.Inject
 import kotlin.collections.List
 import kotlin.collections.MutableList
+import kotlin.collections.Set
 import kotlin.collections.arrayListOf
 import kotlin.collections.contains
 import kotlin.collections.emptyList
@@ -85,10 +86,12 @@ import kotlin.collections.first
 import kotlin.collections.flatMap
 import kotlin.collections.forEach
 import kotlin.collections.indexOf
+import kotlin.collections.isNotEmpty
 import kotlin.collections.isNullOrEmpty
 import kotlin.collections.listOf
 import kotlin.collections.map
 import kotlin.collections.setOf
+import kotlin.collections.toList
 import kotlin.collections.toMutableList
 import kotlin.collections.toSet
 
@@ -161,19 +164,19 @@ class MapsActivity : GodActivity() {
             } else {
                 val defaultMap = UserSettingsModel.defaultMap.value
                 if (selectedMapText == "customs")
-                mapViewModel.setMap(defaultMap.id.lowercase(), this@MapsActivity)
+                    mapViewModel.setMap(defaultMap.id.lowercase(), this@MapsActivity)
             }
 
             scope.launch {
                 selectedMap?.let {
                     if (UserSettingsModel.mapMarkerCategories.value.isEmpty())
-                    UserSettingsModel.mapMarkerCategories.update(
-                        it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
-                    )
+                        UserSettingsModel.mapMarkerCategories.update(
+                            it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
+                        )
 
                     Timber.d(selectedCategories.size.toString())
                     if (selectedCategories.isEmpty() && currentZoom == 0f)
-                    selectedCategories = it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
+                        selectedCategories = it.groups?.flatMap { it?.categories!! }?.map { it?.id!! }?.toSet()!!
 
                     updateMarkers(selectedCategories.toMutableList(), showCustomMarkers)
 
@@ -249,6 +252,7 @@ class MapsActivity : GodActivity() {
                                                         tint = Color.White
                                                     )
                                                 }
+
                                                 it.isConcealed -> {
                                                     Icon(
                                                         painter = painterResource(id = R.drawable.ic_baseline_filter_alt_24),
@@ -522,6 +526,11 @@ class MapsActivity : GodActivity() {
                                 sheetPeekHeight = 0.dp,
                                 sheetElevation = 5.dp,
                                 sheetContent = {
+                                    if (selectedMarker == null) {
+                                        Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
+                                            Text("Error Loading Marker")
+                                        }
+                                    }
                                     selectedMarker?.let {
                                         if (it.tag is CustomMarker) {
                                             val marker = it.tag as CustomMarker
@@ -531,7 +540,13 @@ class MapsActivity : GodActivity() {
                                                 Row(
                                                     verticalAlignment = Alignment.CenterVertically
                                                 ) {
-                                                    Text(text = marker.title ?: "", style = MaterialTheme.typography.h6, modifier = Modifier.weight(1f).padding(top = 16.dp, start = 16.dp, end = 16.dp))
+                                                    Text(
+                                                        text = marker.title ?: "",
+                                                        style = MaterialTheme.typography.h6,
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                                                    )
                                                     IconButton(onClick = {
                                                         openActivity(CustomMapMarkerAddActivity::class.java) {
                                                             putParcelable("marker", marker)
@@ -821,7 +836,7 @@ class MapsActivity : GodActivity() {
                                     snackbarData = data
                                 )
                             }
-                        }
+                        },
                     )
 
                     /*FloatingActionButton(
@@ -890,7 +905,12 @@ class MapsActivity : GodActivity() {
                 val normalizedCords = getNormalizedCord(x, y, zoom, selectedMap) ?: return null
                 val url = if (selectedMap.map?.id == 71) {
                     if (darkMode) {
-                        "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path?.replace("default", "dark")}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.${selectedMap.getFirstMap()?.extension}"
+                        "${selectedMap.map?.url}${
+                            selectedMap.getFirstMap()?.path?.replace(
+                                "default",
+                                "dark"
+                            )
+                        }/${zoom}/${normalizedCords.first}/${normalizedCords.second}.${selectedMap.getFirstMap()?.extension}"
                     } else {
                         "${selectedMap.map?.url}${selectedMap.getFirstMap()?.path}/${zoom}/${normalizedCords.first}/${normalizedCords.second}.${selectedMap.getFirstMap()?.extension}"
                     }
@@ -1015,6 +1035,7 @@ class MapsActivity : GodActivity() {
                 947 -> R.drawable.icon_key
                 949,
                 946 -> R.drawable.icon_loose_loot
+
                 943 -> R.drawable.icon_meds
                 945 -> R.drawable.icon_money
                 968 -> R.drawable.icon_pc
@@ -1026,6 +1047,7 @@ class MapsActivity : GodActivity() {
                 951 -> R.drawable.icon_boss
                 4736,
                 950 -> R.drawable.icon_scav
+
                 1011 -> R.drawable.icon_sniper
                 1014 -> R.drawable.icon_easter_eggs
                 954 -> {
@@ -1037,6 +1059,7 @@ class MapsActivity : GodActivity() {
                         R.drawable.icon_extract_both
                     }
                 }
+
                 952 -> R.drawable.icon_location
                 957 -> R.drawable.icon_lock
                 2000 -> R.drawable.icon_gattling
@@ -1059,6 +1082,7 @@ class MapsActivity : GodActivity() {
                         ).zIndex(if (it.category_id == 972) 1f else 2f)
                     )
                 }
+
                 it.category_id == 952 -> {
                     map.addMarker(
                         MarkerOptions().position(LatLng(it.latitude!!.toDouble() - 0.0003, it.longitude!!.toDouble())).icon(
@@ -1073,6 +1097,7 @@ class MapsActivity : GodActivity() {
                         )
                     )
                 }
+
                 it.category_id == 954 -> {
                     map.addMarker(
                         MarkerOptions().position(LatLng(it.latitude!!.toDouble() - 0.0003, it.longitude!!.toDouble())).icon(
@@ -1087,6 +1112,7 @@ class MapsActivity : GodActivity() {
                         )
                     )
                 }
+
                 else -> {
                     map.addMarker(
                         MarkerOptions().position(LatLng(it.latitude!!.toDouble(), it.longitude!!.toDouble())).icon(

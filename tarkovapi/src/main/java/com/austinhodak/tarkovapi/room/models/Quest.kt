@@ -2,10 +2,8 @@ package com.austinhodak.tarkovapi.room.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.austinhodak.tarkovapi.fragment.TraderFragment
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.utils.Maps
-import timber.log.Timber
 
 @Entity(tableName = "quests")
 data class Quest(
@@ -23,6 +21,11 @@ data class Quest(
 ) {
 
     fun getGiverName(): String? = giver?.name
+
+    data class TraderFragment (
+        val name: String?,
+        val id: String?
+    )
 
     data class QuestRequirement(
         val level: Int? = null,
@@ -42,25 +45,6 @@ data class Quest(
         val location: String? = null,
         val targetItem: Pricing? = null
     ) {
-        override fun toString(): String {
-            val location = com.austinhodak.tarkovapi.room.enums.Maps.values().find { it.int == location?.toInt() }?.id
-            return when (type) {
-                "kill" -> "Eliminate $number ${target?.first()} on $location"
-                "collect" -> "Hand over ${getNumber()}${target?.first()}"
-                "pickup" -> "Pick-up ${getNumber()}${target?.first()}"
-                "key" -> "${target?.first()} needed on $location"
-                "place" -> "Place ${target?.first()} on $location"
-                "mark" -> "Place MS2000 marker at ${target?.first()} on $location"
-                "locate" -> "Locate ${target?.first()} on $location"
-                "find" -> "Find in raid $number ${target?.first()}"
-                "reputation" -> "Reach loyalty level $number with ${target?.first()}"
-                "warning" -> target?.first() ?: ""
-                "skill" -> "Reach skill level $number with ${target?.first()}"
-                "survive" -> "Survive in the raid at $location $number times."
-                else -> ""
-            }
-        }
-
         fun toStringBasic(): String {
             val location = com.austinhodak.tarkovapi.room.enums.Maps.values().find { it.int == location?.toInt() }?.id
             return when (type) {

@@ -16,6 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,18 +30,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import coil.compose.rememberImagePainter
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.utils.asCurrency
+import com.austinhodak.thehideout.*
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.components.SmallBuyPrice
 import com.austinhodak.thehideout.compose.components.SmallSellPrice
-import com.austinhodak.thehideout.compose.theme.Bender
-import com.austinhodak.thehideout.compose.theme.BorderColor
-import com.austinhodak.thehideout.compose.theme.DividerDark
-import com.austinhodak.thehideout.compose.theme.HideoutTheme
+import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.flea_market.detail.AvgPriceRow
 import com.austinhodak.thehideout.flea_market.detail.SavingsRow
 import com.austinhodak.thehideout.utils.*
@@ -52,6 +53,14 @@ class CraftDetailActivity : AppCompatActivity() {
 
         setContent {
             HideoutTheme {
+                var isFavorited by remember {
+                    mutableStateOf(Favorites.crafts.contains(craft.id))
+                }
+
+                Favorites.crafts.observe(lifecycleScope) {
+                    isFavorited = it.contains(craft.id)
+                }
+
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -79,6 +88,27 @@ class CraftDetailActivity : AppCompatActivity() {
                             navigationIcon = {
                                 IconButton(onClick = { finish() }) {
                                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                                }
+                            },
+                            actions = {
+                                IconButton(onClick = {
+                                    isFavorited = if (isFavorited) {
+                                        craft.id.let {
+                                            Favorites.crafts.remove(lifecycleScope, it)
+                                        }
+                                        false
+                                    } else {
+                                        craft.id.let {
+                                            Favorites.crafts.add(lifecycleScope, it)
+                                        }
+                                        true
+                                    }
+                                }) {
+                                    if (isFavorited) {
+                                        Icon(Icons.Filled.Favorite, contentDescription = null, tint = Pink500)
+                                    } else {
+                                        Icon(Icons.Filled.FavoriteBorder, contentDescription = null, tint = Color.White)
+                                    }
                                 }
                             }
                         )
@@ -173,14 +203,16 @@ class CraftDetailActivity : AppCompatActivity() {
                         )
                     }
                 }
-                list.forEach { item ->
+                list.sortedWith(
+                    compareBy({ it?.isTool() }, {it?.item?.shortName})
+                ).forEach { item ->
                     item?.item?.let { pricing ->
                         CompactItem(
                             item = pricing, extras = ItemSubtitle(
                                 iconText = item.count?.toString(),
                                 showPriceInSubtitle = true,
                                 subtitle = " (${(item.count?.times(pricing.getCheapestBuyRequirements().price ?: 0))?.asCurrency()})"
-                            )
+                            ), if (item.isTool()) ToolBlue else BorderColor
                         )
                     }
                 }
@@ -284,7 +316,7 @@ class CraftDetailActivity : AppCompatActivity() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CompactItem(item: Pricing, extras: CraftDetailActivity.ItemSubtitle? = null) {
+fun CompactItem(item: Pricing, extras: CraftDetailActivity.ItemSubtitle? = null, color: Color = BorderColor) {
     val context = LocalContext.current
     var showPrices by remember {
         mutableStateOf(false)
@@ -318,20 +350,24 @@ fun CompactItem(item: Pricing, extras: CraftDetailActivity.ItemSubtitle? = null)
                             modifier = Modifier
                                 .width(38.dp)
                                 .height(38.dp)
-                                .border((0.25).dp, color = BorderColor)
+                                .border((0.25).dp, color = color)
                         )
-                        extras?.iconText?.let {
-                            Text(
-                                text = it,
-                                Modifier
-                                    .clip(RoundedCornerShape(topStart = 5.dp))
-                                    .background(BorderColor)
-                                    .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
-                                    .align(Alignment.BottomEnd),
-                                style = MaterialTheme.typography.caption,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 9.sp
-                            )
+                        if (color == ToolBlue) {
+                            Image(painter = painterResource(id = R.drawable.icons8_wrench_50), contentDescription = null, modifier = Modifier.size(16.dp).padding(2.dp).align(Alignment.BottomEnd))
+                        } else {
+                            extras?.iconText?.let {
+                                Text(
+                                    text = it,
+                                    Modifier
+                                        .clip(RoundedCornerShape(topStart = 5.dp))
+                                        .background(color)
+                                        .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                                        .align(Alignment.BottomEnd),
+                                    style = MaterialTheme.typography.caption,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 9.sp
+                                )
+                            }
                         }
                     }
                     Column(
@@ -453,6 +489,9 @@ fun CompactItem(item: Pricing, extras: CraftDetailActivity.ItemSubtitle? = null)
                         }
                     }
                 }
+                if (color == ToolBlue) {
+                    Text("Auxiliary Tool, will return to stash.", color = ToolBlue, modifier = Modifier.padding(start = 16.dp), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                }
             }
         } else {
             Column {
@@ -471,20 +510,24 @@ fun CompactItem(item: Pricing, extras: CraftDetailActivity.ItemSubtitle? = null)
                             modifier = Modifier
                                 .width(38.dp)
                                 .height(38.dp)
-                                .border((0.25).dp, color = BorderColor)
+                                .border((0.25).dp, color = color)
                         )
-                        extras?.iconText?.let {
-                            Text(
-                                text = it,
-                                Modifier
-                                    .clip(RoundedCornerShape(topStart = 5.dp))
-                                    .background(BorderColor)
-                                    .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
-                                    .align(Alignment.BottomEnd),
-                                style = MaterialTheme.typography.caption,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 9.sp
-                            )
+                        if (color == ToolBlue) {
+                            Image(painter = painterResource(id = R.drawable.icons8_wrench_50), contentDescription = null, modifier = Modifier.size(16.dp).padding(2.dp).align(Alignment.BottomEnd))
+                        } else {
+                            extras?.iconText?.let {
+                                Text(
+                                    text = it,
+                                    Modifier
+                                        .clip(RoundedCornerShape(topStart = 5.dp))
+                                        .background(color)
+                                        .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                                        .align(Alignment.BottomEnd),
+                                    style = MaterialTheme.typography.caption,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 9.sp
+                                )
+                            }
                         }
                     }
                     Column(

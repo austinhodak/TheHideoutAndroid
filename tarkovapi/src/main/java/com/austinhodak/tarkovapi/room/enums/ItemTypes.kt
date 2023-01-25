@@ -27,15 +27,15 @@ enum class ItemTypes {
     NOFLEA
 }
 
-enum class Traders(var id: String, var icon: Int, var int: Int) {
-    PRAPOR("Prapor", R.drawable.prapor_portrait,0),
-    THERAPIST("Therapist", R.drawable.therapist_portrait, 1),
-    FENCE("Fence", R.drawable.fence_portrait,7),
-    SKIER("Skier", R.drawable.skier_portrait, 2),
-    PEACEKEEPER("Peacekeeper", R.drawable.peacekeeper_portrait, 3),
-    MECHANIC("Mechanic", R.drawable.mechanic_portrait, 4),
-    RAGMAN("Ragman", R.drawable.ragman_portrait, 5),
-    JAEGER("Jaeger", R.drawable.jaeger_portrait ,6),
+enum class Traders(var id: String, var icon: Int, var int: Int, var bsgID: String) {
+    PRAPOR("Prapor", R.drawable.prapor_portrait,0, "54cb50c76803fa8b248b4571"),
+    THERAPIST("Therapist", R.drawable.therapist_portrait, 1, "54cb57776803fa99248b456e"),
+    FENCE("Fence", R.drawable.fence_portrait,7, "579dc571d53a0658a154fbec"),
+    SKIER("Skier", R.drawable.skier_portrait, 2, "58330581ace78e27b8b10cee"),
+    PEACEKEEPER("Peacekeeper", R.drawable.peacekeeper_portrait, 3, "5935c25fb3acc3127c3d8cd9"),
+    MECHANIC("Mechanic", R.drawable.mechanic_portrait, 4, "5a7c2eca46aef81a7ca2145d"),
+    RAGMAN("Ragman", R.drawable.ragman_portrait, 5, "5ac3b934156ae10c4430e83c"),
+    JAEGER("Jaeger", R.drawable.jaeger_portrait ,6, "5c0647fdd443bc2504c2d371"),
 }
 
 enum class Maps(var id: String, var int: Int, var icon: Int) {

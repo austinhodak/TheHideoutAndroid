@@ -4,6 +4,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.ComponentActivity
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
@@ -23,7 +24,7 @@ abstract class BaseViewHolder<T : ViewBinding, P : PreferenceItem>(
 
     abstract val adapter: PreferenceAdapter
 
-    protected val scope = (binding.root.context as AppCompatActivity).lifecycleScope
+    protected val scope = (binding.root.context as ComponentActivity).lifecycleScope
     private var job: Job? = null
 
     @CallSuper

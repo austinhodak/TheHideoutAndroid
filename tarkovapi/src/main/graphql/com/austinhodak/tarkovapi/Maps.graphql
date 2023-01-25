@@ -1,0 +1,30 @@
+query Maps {
+    maps {
+        id
+        tarkovDataId
+        name
+        wiki
+        description
+        enemies
+        raidDuration
+        players
+        bosses {
+            name
+            spawnChance
+            spawnLocations {
+                name
+                chance
+            }
+            escorts {
+                name
+                amount {
+                    count
+                    chance
+                }
+            }
+            spawnTime
+            spawnTimeRandom
+            spawnTrigger
+        }
+    }
+}

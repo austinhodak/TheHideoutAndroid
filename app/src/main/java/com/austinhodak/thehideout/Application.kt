@@ -15,11 +15,18 @@ import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.*
 import com.austinhodak.thehideout.firebase.FSUser
-import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.utils.Extras
+import com.austinhodak.thehideout.utils.isWorkRunning
+import com.austinhodak.thehideout.utils.isWorkScheduled
+import com.austinhodak.thehideout.utils.uid
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
+import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.SetOptions
@@ -39,7 +46,6 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import timber.log.Timber.DebugTree
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -70,6 +76,7 @@ class Application : android.app.Application(), Configuration.Provider {
         var presets: WeaponPresets? = null
         var hideout: Hideout? = null
         var ballistics: AmmoBallistics? = null
+        var stims: Stims? = null
         lateinit var instance: Application
             private set
     }
@@ -124,6 +131,13 @@ class Application : android.app.Application(), Configuration.Provider {
         presets = WeaponPresets(applicationContext)
         hideout = Hideout(applicationContext)
         ballistics = AmmoBallistics(applicationContext)
+        stims = Stims(applicationContext)
+
+        FirebaseApp.initializeApp(/*context=*/this)
+        val firebaseAppCheck = FirebaseAppCheck.getInstance()
+        firebaseAppCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance()
+        )
 
         //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
         if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
@@ -178,8 +192,12 @@ class Application : android.app.Application(), Configuration.Provider {
 
         Only.init(applicationContext)
 
-        Firebase.firestore.firestoreSettings = firestoreSettings {
-            isPersistenceEnabled = true
+        try {
+            Firebase.firestore.firestoreSettings = firestoreSettings {
+                isPersistenceEnabled = true
+            }
+        } catch (e: Exception) {
+            Firebase.crashlytics.recordException(e)
         }
 
         Firebase.messaging.token.addOnSuccessListener {
@@ -245,7 +263,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
         Firebase.remoteConfig.setDefaultsAsync(
             mapOf(
-                "game_info" to "{\"version\":\"0.12.12.10.16440\",\"version_date\":\"01-09-2022\",\"wipe_date\":\"12-12-2021\"}"
+                "game_info" to "{\"version\":\"0.12.12.30.19047\",\"version_date\":\"07-15-2022\",\"wipe_date\":\"06-30-2022\"}"
             )
         )
 
@@ -282,6 +300,8 @@ val skillsList: Skills = Application.skills!!
 val presetList: WeaponPresets = Application.presets!!
 
 val ballistics: AmmoBallistics = Application.ballistics!!
+
+val stims: Stims = Application.stims!!
 
 val hideoutList: Hideout by lazy {
     Application.hideout!!

@@ -1,6 +1,7 @@
 package com.austinhodak.thehideout
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.adapty.Adapty
@@ -24,7 +25,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-open class GodActivity : AppCompatActivity() {
+open class GodActivity : ComponentActivity() {
 
     @Inject
     lateinit var apolloClient: ApolloClient
@@ -40,6 +41,7 @@ open class GodActivity : AppCompatActivity() {
             setupRestockTopics()
             setupScreenOn()
             setupPlayerInfoSync()
+            setupRaidAlerts()
         }
 
         Adapty.getPurchaserInfo { purchaserInfo, error ->
@@ -47,6 +49,14 @@ open class GodActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     UserSettingsModel.isPremiumUser.update(purchaserInfo?.accessLevels?.get("premium")?.isActive == true)
                 }
+            }
+        }
+    }
+
+    private fun setupRaidAlerts() {
+        UserSettingsModel.pcHardwareID.observe(lifecycleScope) { id ->
+            if (id.isNotEmpty()) {
+                Firebase.messaging.subscribeToTopic("raid-${id}")
             }
         }
     }
@@ -264,61 +274,5 @@ open class GodActivity : AppCompatActivity() {
                 Firebase.messaging.unsubscribeFromTopic("jaegerRestock30")
             }
         }
-
-        /*UserSettingsModel.praporRestockAlert.observe(lifecycleScope) {
-            if (it) {
-                Firebase.messaging.subscribeToTopic("praporRestock")
-            } else {
-                Firebase.messaging.unsubscribeFromTopic("praporRestock")
-            }
-        }
-
-        UserSettingsModel.therapistRestockAlert.observe(lifecycleScope) {
-            if (it) {
-                Firebase.messaging.subscribeToTopic("therapistRestock")
-            } else {
-                Firebase.messaging.unsubscribeFromTopic("therapistRestock")
-            }
-        }
-
-        UserSettingsModel.skierRestockAlert.observe(lifecycleScope) {
-            if (it) {
-                Firebase.messaging.subscribeToTopic("skierRestock")
-            } else {
-                Firebase.messaging.unsubscribeFromTopic("skierRestock")
-            }
-        }
-
-        UserSettingsModel.peacekeeperRestockAlert.observe(lifecycleScope) {
-            if (it) {
-                Firebase.messaging.subscribeToTopic("peacekeeperRestock")
-            } else {
-                Firebase.messaging.unsubscribeFromTopic("peacekeeperRestock")
-            }
-        }
-
-        UserSettingsModel.mechanicRestockAlert.observe(lifecycleScope) {
-            if (it) {
-                Firebase.messaging.subscribeToTopic("mechanicRestock")
-            } else {
-                Firebase.messaging.unsubscribeFromTopic("mechanicRestock")
-            }
-        }
-
-        UserSettingsModel.ragmanRestockAlert.observe(lifecycleScope) {
-            if (it) {
-                Firebase.messaging.subscribeToTopic("ragmanRestock")
-            } else {
-                Firebase.messaging.unsubscribeFromTopic("ragmanRestock")
-            }
-        }
-
-        UserSettingsModel.jaegerRestockAlert.observe(lifecycleScope) {
-            if (it) {
-                Firebase.messaging.subscribeToTopic("jaegerRestock")
-            } else {
-                Firebase.messaging.unsubscribeFromTopic("jaegerRestock")
-            }
-        }*/
     }
 }

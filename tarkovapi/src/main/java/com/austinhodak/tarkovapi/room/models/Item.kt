@@ -1,8 +1,14 @@
 package com.austinhodak.tarkovapi.room.models
 
 import android.text.format.DateUtils
+import androidx.annotation.DrawableRes
+import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.austinhodak.tarkovapi.R
+import com.austinhodak.tarkovapi.models.StatusGreen
+import com.austinhodak.tarkovapi.models.StatusRed
+import com.austinhodak.tarkovapi.models.Stim
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.utils.getItemType
 import com.google.gson.GsonBuilder
@@ -12,6 +18,7 @@ import timber.log.Timber
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 @Entity(tableName = "items")
 data class Item(
@@ -34,6 +41,7 @@ data class Item(
     val Durability: Int? = null,
     val MaxDurability: Int? = null,
     val pricing: Pricing? = null,
+    val DiscardLimit: Int? = null,
     //Armor
     val Slots: List<Weapon.Slot>? = null,
     val BlocksEarpiece: Boolean? = null,
@@ -97,6 +105,172 @@ data class Item(
         return Grids?.sumOf { it.getInternalSlots() } ?: 0
     }
 
+    fun getBuffs(effects: Stim?): List<Effect> {
+        val list: MutableList<Effect> = emptyList<Effect>().toMutableList()
+        effects_health?.let {
+            if (it.has("Hydration")) {
+                val value = it.optJSONObject("Hydration")?.optInt("value") ?: 0
+                if (value > 0) {
+                    list.add(
+                        Effect(null, "Hydration", value.toString(), type = "buff", color = StatusGreen)
+                    )
+                } else {
+                    list.add(
+                        Effect(null, "Hydration", value.toString(), type = "debuff", color = StatusRed)
+                    )
+                }
+            }
+            if (it.has("Energy")) {
+                val value = it.optJSONObject("Energy")?.optInt("value") ?: 0
+                if (value > 0) {
+                    list.add(
+                        Effect(null, "Energy", value.toString(), type = "buff", color = StatusGreen)
+                    )
+                } else {
+                    list.add(
+                        Effect(null, "Energy", value.toString(), type = "debuff", color = StatusRed)
+                    )
+                }
+            }
+        }
+
+        effects_damage?.let {
+            if (it.has("Pain")) {
+                val duration = it.optJSONObject("Pain")?.optInt("duration") ?: 0
+                list.add(
+                    Effect(R.drawable.pain_icon, "Removes Pain", "${duration}s", type = "buff")
+                )
+                list.add(
+                    Effect(R.drawable.painkiller_icon, "On Painkillers", "${duration}s", type = "buff")
+                )
+            }
+            if (it.has("Intoxication")) {
+                list.add(
+                    Effect(R.drawable.toxin_icon, "Removes Poisoning", "", type = "buff")
+                )
+            }
+            if (it.has("Contusion")) {
+                list.add(
+                    Effect(R.drawable.contusion_icon, "Removes Contusion", "", type = "buff")
+                )
+            }
+
+            if (it.has("LightBleeding")) {
+                list.add(
+                    Effect(R.drawable.light_bleeding_icon, "Removes Light Bleeding", "", type = "buff")
+                )
+                list.add(
+                    Effect(R.drawable.fresh_wound_icon, "Adds Fresh Wound", "", type = "buff")
+                )
+            }
+
+            if (it.has("HeavyBleeding")) {
+                list.add(
+                    Effect(R.drawable.heavy_bleeding_icon, "Removes Heavy Bleeding", "", type = "buff")
+                )
+                list.add(
+                    Effect(R.drawable.fresh_wound_icon, "Adds Fresh Wound", "", type = "buff")
+                )
+            }
+
+            if (it.has("Fracture")) {
+                list.add(
+                    Effect(R.drawable.fracture_icon, "Removes Fracture", "", type = "buff")
+                )
+                list.add(
+                    Effect(R.drawable.fresh_wound_icon, "Adds Fresh Wound", "", type = "buff")
+                )
+            }
+        }
+
+        effects?.let {
+            it.stats.find { it.BuffType == "EnergyRate" }?.let {
+                list.add(
+                    Effect(null, "Energy Recovery (${it.Delay}s Delay/${it.Duration}s Duration)", "${it.Value}/s", type = "buff", color = StatusGreen)
+                )
+            }
+            it.stats.find { it.BuffType == "HydrationRate" }?.let {
+                list.add(
+                    Effect(null, "Hydration Recovery (${it.Delay}s Delay/${it.Duration}s Duration)", "${it.Value}/s", type = "buff", color = StatusGreen)
+                )
+            }
+
+            it.stats.find { it.BuffType == "Contusion" }?.let {
+                list.add(
+                    Effect(R.drawable.contusion_icon, "Causes Contusion (${it.Delay}s Delay/${it.Duration}s Duration)", "${it.Value}/s", type = "debuff", color = StatusRed)
+                )
+            }
+
+            it.stats.find { it.BuffType == "MaxStamina" }?.let {
+                list.add(
+                    Effect(null, "Increases Max Stamina (${it.Delay}s Delay/${it.Duration}s Duration)", "${it.Value}", type = "buff", color = StatusGreen)
+                )
+            }
+
+            it.stats.find { it.BuffType == "StaminaRate" }?.let {
+                list.add(
+                    Effect(null, "Increases Stamina Recovery (${it.Delay}s Delay/${it.Duration}s Duration)", "${it.Value}/s", type = "buff", color = StatusGreen)
+                )
+            }
+
+            it.stats.filter { it.BuffType == "SkillRate" }.forEach {
+                list.add(
+                    Effect(null, "Increases ${it.SkillName} (${it.Delay}s Delay/${it.Duration}s Duration)", "${it.Value}", type = "buff", color = StatusGreen)
+                )
+            }
+
+            it.stats.find { it.BuffType == "HandsTremor" }?.let {
+                list.add(
+                    Effect(R.drawable.tremor_icon, "Causes Tremor (${it.Delay}s Delay/${it.Duration}s Duration)", "", type = "debuff")
+                )
+            }
+
+            it.stats.find { it.BuffType == "QuantumTunnelling" }?.let {
+                list.add(
+                    Effect(R.drawable.tunnelvision, "Causes Tunnel Vision (${it.Delay}s Delay/${it.Duration}s Duration)", "", type = "debuff")
+                )
+            }
+
+            it.stats.find { it.BuffType == "HealthRate" }?.let {
+                list.add(
+                    Effect(null, "${if (it.Value > 0) "increases" else "decreases"} Health Regen (${it.Delay}s Delay/${it.Duration}s Duration)", "${it.Value}/s", type = if (it.Value > 0) "buff" else "debuff")
+                )
+            }
+
+            it.stats.find { it.BuffType == "RemovesAllBloodLosses" }?.let {
+                list.add(
+                    Effect(R.drawable.light_bleeding_icon, "Remove Light Bleeding (${it.Delay}s Delay/${it.Duration}s Duration)", "", type = "buff", color = StatusGreen)
+                )
+                list.add(
+                    Effect(R.drawable.heavy_bleeding_icon, "Removes Heavy Bleeding (${it.Delay}s Delay/${it.Duration}s Duration)", "", type = "buff", color = StatusGreen)
+                )
+            }
+
+            it.stats.find { it.BuffType == "DamageModifier" }?.let {
+                list.add(
+                    Effect(null, "${if (it.Value > 0) "increases" else "decreases"} Damage Taken (${it.Delay}s Delay/${it.Duration}s Duration)", "${(it.Value * 100)}%", type = if (it.Value > 0) "debuff" else "buff")
+                )
+            }
+
+            it.stats.find { it.BuffType == "BodyTemperature" }?.let {
+                list.add(
+                    Effect(null, "Lowers Body Temp (${it.Delay}s Delay/${it.Duration}s Duration)", "-${it.Value.roundToInt()}°C", type = "buff", color = StatusGreen)
+                )
+            }
+        }
+
+        return list.distinctBy { it.title }
+    }
+
+    data class Effect(
+        @DrawableRes
+        val icon: Int?,
+        val title: String,
+        val value: String?,
+        val color: Color? = null,
+        val type: String
+    )
+
     fun getEnergy(): Int? {
         return effects_health?.optJSONObject("Energy")?.optInt("value")
     }
@@ -131,9 +305,18 @@ data class Item(
         return price / getTotalSlots()
     }
 
-    fun getUpdatedTime(): String {
+    fun getUpdatedTime(short: Boolean? = false): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         sdf.timeZone = TimeZone.getTimeZone("GMT")
+
+        val date = sdf.parse(pricing?.updated ?: "2021-07-01T08:36:35.194Z") ?: Calendar.getInstance().time
+        val currentTime = System.currentTimeMillis()
+        if (short == true) {
+            val timeString = DateUtils.getRelativeTimeSpanString(date.time, currentTime, DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString()
+
+            return timeString.removeSuffix(". ago")
+        }
+
         return "Updated ${
             DateUtils.getRelativeTimeSpanString(
                 sdf.parse(pricing?.updated ?: "2021-07-01T08:36:35.194Z")?.time ?: 0,
@@ -180,6 +363,13 @@ data class Item(
 
     fun isChildOf(item: Pricing?): Boolean? {
         return item?.containsItem?.any { it.item?.id == this.id }
+    }
+
+    fun discardLimit(): String {
+        return when (DiscardLimit ?: -1) {
+            -1, 0 -> "No Limit."
+            else -> "$DiscardLimit"
+        }
     }
 }
 

@@ -84,7 +84,9 @@ class WeaponDetailActivity : GodActivity() {
         val weaponID = intent.getStringExtra("weaponID") ?: "5926bb2186f7744b1c6c6e60"
         weaponViewModel.getWeapon(weaponID)
 
-        Firebase.crashlytics.setCustomKey("weaponID", weaponID)
+        setCrashKeys(
+            Pair("weaponID", weaponID)
+        )
 
         setContent {
             HideoutTheme {
@@ -756,7 +758,7 @@ class WeaponDetailActivity : GodActivity() {
             backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary
         ) {
             Column(
-                Modifier.padding(16.dp)
+                Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 12.dp)
             ) {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
@@ -780,6 +782,4 @@ class WeaponDetailActivity : GodActivity() {
             }
         }
     }
-
-
 }

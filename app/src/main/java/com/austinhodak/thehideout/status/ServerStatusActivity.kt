@@ -117,7 +117,11 @@ class ServerStatusActivity : AppCompatActivity() {
                                 }
                                 IconButton(onClick = {
                                     scope.launch {
-                                        status = apolloClient.query(ServerStatusQuery()).execute().data?.status?.toObj()
+                                        try {
+                                            status = apolloClient.query(ServerStatusQuery()).execute().data?.status?.toObj()
+                                        } catch (e: Exception) {
+                                            TODO("Not yet implemented")
+                                        }
                                     }
                                     Toast.makeText(this@ServerStatusActivity, "Status updated.", Toast.LENGTH_SHORT).show()
                                 }) {
