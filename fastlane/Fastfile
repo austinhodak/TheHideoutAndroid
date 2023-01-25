@@ -24,10 +24,10 @@ platform :android do
         flavor: 'beta', 
         build_type: 'Release',
         properties: {
-          "android.injected.signing.store.file" ==> ENV["KEYSTORE_FILE"],
-          "android.injected.signing.store.password" ==> ENV["STORE_PASSWORD"],
-          "android.injected.signing.key.alias" ==> ENV["KEY_ALIAS"],
-          "android.injected.signing.key.password" ==> ENV["KEY_PASSWORD"],
+          "android.injected.signing.store.file" => ENV["KEYSTORE_FILE"],
+          "android.injected.signing.store.password" => ENV["STORE_PASSWORD"],
+          "android.injected.signing.key.alias" => ENV["KEY_ALIAS"],
+          "android.injected.signing.key.password" => ENV["KEY_PASSWORD"],
         }
       )
       upload_to_play_store(
