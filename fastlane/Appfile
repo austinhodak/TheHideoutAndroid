@@ -1,0 +1,2 @@
+json_key_file("/Users/austinhodak/Development/pc-api-8529450148277158654-981-617b63ff4487.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("com.austinhodak.thehideout") # e.g. com.krausefx.app

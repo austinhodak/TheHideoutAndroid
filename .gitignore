@@ -8,6 +8,5 @@
 .externalNativeBuild
 .cxx
 local.properties
-/tarkovapi/schemas/com.austinhodak.tarkovapi.room.TarkovDatabase/18.json
-/tarkovapi/schemas/com.austinhodak.tarkovapi.room.TarkovDatabase/19.json
 /app/.localazy
+/tarkovapi/schemas/com.austinhodak.tarkovapi.room.AppDatabase/*
