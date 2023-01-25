@@ -15,9 +15,6 @@ jobs:
        ruby-version: 2.7.2
        bundler-cache: true
  
-   - name: Run tests
-     run: bundle exec fastlane android test
- 
    - name: Decode Service Account Key JSON File
      uses: timheuer/base64-to-file@v1
      id: service_account_json_file
@@ -35,19 +32,24 @@ jobs:
    - name: Define version code with offset
      env:
          RUN_NUMBER: ${{ github.run_number }}
-         INITIAL_VERSION_CODE: 73
+         INITIAL_VERSION_CODE: 17000
      run: |
          VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))
-         echo "version_code=$VERSION_CODE" >> $GITHUB_ENV
+         echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+
+   - name: Generate App Version Name
+     run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
  
    - name: Update version code
      uses: chkfung/android-version-actions@v1.1
      with:
        gradlePath: android/app/build.gradle
-       versionCode: ${{ env.version_code }}
+       versionCode: ${{ env.VERSION_CODE }}
+       versionName: ${{ env.VERSION_NAME }}
  
    - name: Build & deploy Android release
-     run: bundle exec fastlane android deploy
+     run: bundle exec fastlane android internal
      env:
        KEYSTORE_FILE: ${{ steps.android_keystore.outputs.filePath }}
        STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
