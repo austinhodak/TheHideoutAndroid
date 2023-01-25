@@ -23,21 +23,6 @@ android {
     compileSdkVersion 33
     buildToolsVersion '33.0.1'
 
-    signingConfigs {
-        debug {
-            storeFile file('../debug.keystore')
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
-        }
-        release {
-            storeFile file('/Users/austinhodak/Library/Mobile Documents/com~apple~CloudDocs/Development/Keys/TheHideoutKeystore.jks')
-            keyAlias 'key0'
-            storePassword 'dg3hGsRvyUkBiHt67xkLgktK'
-            keyPassword 'dg3hGsRvyUkBiHt67xkLgktK'
-        }
-    }
-
     defaultConfig {
         applicationId "com.austinhodak.thehideout"
         minSdkVersion 24
@@ -71,13 +56,13 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            applicationIdSuffix ".debug"
         }
     }
 
