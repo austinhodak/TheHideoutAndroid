@@ -1,0 +1,79 @@
+{
+  "project_info": {
+    "project_number": "217323738064",
+    "firebase_url": "https://the-hideout-tarkov-default-rtdb.firebaseio.com",
+    "project_id": "the-hideout-tarkov",
+    "storage_bucket": "the-hideout-tarkov.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217323738064:android:69b0e7b3ca4a8e2f6d1fd5",
+        "android_client_info": {
+          "package_name": "com.austinhodak.thehideout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217323738064-dnqpm18ns9hgr1bsgpi5qdf66072e33o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.austinhodak.thehideout",
+            "certificate_hash": "ab8c0415a02bead7911450352feb8c8fa41829f2"
+          }
+        },
+        {
+          "client_id": "217323738064-evrljseubg7rvkcjqvmvfrl11bokhi1p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.austinhodak.thehideout",
+            "certificate_hash": "05ebc85bea5cd2012cf11009e4be3750ce2550a9"
+          }
+        },
+        {
+          "client_id": "217323738064-to6lnd7oo37ahs9u81qt4e49ggfmtoth.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.austinhodak.thehideout",
+            "certificate_hash": "cc151077808c32f77feddf5b9b1c95e6647c62b3"
+          }
+        },
+        {
+          "client_id": "217323738064-u1755ibmmngrr0h5js10b931bfsp6u84.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.austinhodak.thehideout",
+            "certificate_hash": "f196e31a01a32a023c7cceb5018fbfc0895a681d"
+          }
+        },
+        {
+          "client_id": "217323738064-chohrqm3pcs2hdms8ihg4a2h1li6dtrf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhs7l6znENsZy4IUYm0V8KB1L5nisclX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217323738064-chohrqm3pcs2hdms8ihg4a2h1li6dtrf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "217323738064-ttt1dq5fgdok8rcakqtm1db3jcom2i4v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thehideout"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
