@@ -37,7 +37,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.localazy.android.Localazy
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
 import io.gleap.Gleap
@@ -240,12 +239,7 @@ class Application : android.app.Application(), Configuration.Provider {
         }
 
         UserSettingsModel.languageSetting.observe(MainScope()) {
-            if (Localazy.isEnabled()) {
-                val currentLocale = Localazy.getCurrentLocale()
-                val currentSelectedLocale = it
 
-                Localazy.forceLocale(currentSelectedLocale.locale, true)
-            }
         }
     }
 

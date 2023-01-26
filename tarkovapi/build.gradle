@@ -12,7 +12,6 @@ apollo {
 
 android {
     compileSdkVersion 33
-    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 23
@@ -29,12 +28,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     kapt {
@@ -42,6 +41,12 @@ android {
     }
     namespace 'com.austinhodak.tarkovapi'
 
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
 }
 
 dependencies {
@@ -55,7 +60,7 @@ dependencies {
     implementation "io.github.resilience4j:resilience4j-kotlin:1.7.1"
     implementation "io.github.resilience4j:resilience4j-retrofit:1.7.1"
 
-    implementation "androidx.core:core-ktx:${versions.ktx}"
+    implementation "androidx.core:core-ktx:1.9.0"
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.compose.ui:ui-graphics:1.3.0-alpha01'
@@ -67,10 +72,10 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.44.2'
     kapt 'com.google.dagger:hilt-android-compiler:2.44.2'
 
-    api("androidx.room:room-runtime:${versions.room}")
-    kapt "androidx.room:room-compiler:${versions.room}"
+    api("androidx.room:room-runtime:2.5.0")
+    kapt "androidx.room:room-compiler:2.5.0"
 
-    implementation("androidx.room:room-ktx:${versions.room}")
+    implementation("androidx.room:room-ktx:2.5.0")
 
     implementation 'com.google.code.gson:gson:2.10'
 

@@ -9,15 +9,15 @@ group = 'com.github.MFlisar'
 
 android {
 
-    compileSdkVersion setup.compileSdk
+    compileSdkVersion 31
 
     buildFeatures {
-        viewBinding setup.enableViewBinding
+        viewBinding true
     }
 
     defaultConfig {
-        minSdkVersion setup.minSdk
-        targetSdkVersion setup.targetSdk
+        minSdkVersion 21
+        targetSdkVersion 31
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -45,23 +45,23 @@ dependencies {
     // Kotlin
     // ------------------------
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.20"
 
     // ------------------------
     // AndroidX
     // ------------------------
 
-    implementation "com.google.android.material:material:${androidx.material}"
-    implementation "androidx.recyclerview:recyclerview:${androidx.recyclerview}"
-    implementation "androidx.startup:startup-runtime:${androidx.startup}"
-    implementation "androidx.core:core-ktx:${androidx.core}"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${androidx.lifecycle}"
+    implementation(libs.material)
+    implementation(androidx.recyclerview)
+    implementation(androidx.startup)
+    implementation(androidx.core)
+    implementation(androidx.lifecycle.runtime)
 
     // ------------------------
     // Library
     // ------------------------
 
-    api "com.github.MFlisar:AndroidText:${versions.androidText}"
+    api "com.github.MFlisar:AndroidText:0.6"
 
     implementation project(':mp-core')
 }

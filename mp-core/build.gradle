@@ -8,11 +8,11 @@ group = 'com.github.MFlisar'
 
 android {
 
-    compileSdkVersion setup.compileSdk
+    compileSdkVersion 31
 
     defaultConfig {
-        minSdkVersion setup.minSdk
-        targetSdkVersion setup.targetSdk
+        minSdkVersion 21
+        targetSdkVersion 31
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -40,12 +40,12 @@ dependencies {
     // Kotlin
     // ------------------------
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlinVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.20"
 
     // ------------------------
     // AndroidX
     // ------------------------
 
-    implementation "androidx.datastore:datastore-preferences:${androidx.datastorePrefs}"
-    implementation "androidx.startup:startup-runtime:${androidx.startup}"
+    implementation(androidx.datastore.preferences)
+    implementation(androidx.startup)
 }

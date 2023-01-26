@@ -1050,7 +1050,7 @@ class SettingsActivity : GodActivity() {
                                         icon = R.drawable.ic_baseline_translate_24.asIcon()
                                         enabled = true
                                         onClick = {
-                                            "https://localazy.com/p/the-hideout".openWithCustomTab(this@SettingsActivity)
+                                            //"https://localazy.com/p/the-hideout".openWithCustomTab(this@SettingsActivity)
                                         }
                                     }
                                     button {
