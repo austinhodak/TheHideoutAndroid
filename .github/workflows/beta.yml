@@ -47,7 +47,7 @@ jobs:
         uses: timheuer/base64-to-file@v1
         id: android_keystore
         with:
-          fileName: "android_keystore.keystore"
+          fileName: "android_keystore.jks"
           encodedString: ${{ secrets.KEYSTORE_FILE }}
 
       - name: Decode Google App Credentials
@@ -137,7 +137,7 @@ jobs:
         uses: timheuer/base64-to-file@v1
         id: android_keystore
         with:
-          fileName: "android_keystore.keystore"
+          fileName: "android_keystore.jks"
           encodedString: ${{ secrets.KEYSTORE_FILE }}
 
       - name: Decode Google App Credentials
