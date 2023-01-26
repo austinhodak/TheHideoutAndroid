@@ -37,21 +37,21 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Decode Service Account Key JSON File
-        uses: timheuer/base64-to-file@v1
+        uses: timheuer/base64-to-file@v1.2
         id: service_account_json_file
         with:
           fileName: "serviceAccount.json"
           encodedString: ${{ secrets.GPLAY_SERVICE_ACCOUNT_KEY_JSON }}
 
       - name: Decode Keystore File
-        uses: timheuer/base64-to-file@v1
+        uses: timheuer/base64-to-file@v1.2
         id: android_keystore
         with:
           fileName: "android_keystore.jks"
           encodedString: ${{ secrets.KEYSTORE_FILE }}
 
       - name: Decode Google App Credentials
-        uses: timheuer/base64-to-file@v1
+        uses: timheuer/base64-to-file@v1.2
         id: google_app_credentials
         with:
           fileName: "google_app_credentials.json"
@@ -61,9 +61,7 @@ jobs:
         env:
           RUN_NUMBER: ${{ github.run_number }}
           INITIAL_VERSION_CODE: 17000
-        run: |
-          VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))
-          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+        run: echo "VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))" >> $GITHUB_ENV
 
       - name: Generate App Version Name
         run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
@@ -71,9 +69,9 @@ jobs:
       - name: Build Release
         env:
           KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
-          KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
-          KEYSTORE_ALIAS: ${{ env.KEY_ALIAS }}
-          KEYSTORE_ALIAS_PASSWORD: ${{ env.KEY_PASSWORD }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           VERSION: ${{ env.VERSION_NAME }}
           VERSION_CODE: ${{ env.VERSION_CODE }}
         run: ./gradlew assembleBetaRelease
@@ -161,9 +159,9 @@ jobs:
       - name: Build Release
         env:
           KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
-          KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
-          KEYSTORE_ALIAS: ${{ env.KEYSTORE_ALIAS }}
-          KEYSTORE_ALIAS_PASSWORD: ${{ env.KEYSTORE_ALIAS_PASSWORD }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           VERSION: ${{ env.VERSION_NAME }}
           VERSION_CODE: ${{ env.VERSION_CODE }}
         run: ./gradlew bundleBetaRelease
