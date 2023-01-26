@@ -3,6 +3,9 @@ name: Beta Deploy
 on:
   push:
     branches: [master]
+    tags:
+      - '*-beta.*'
+      - '*-beta'
   workflow_dispatch:
 
 jobs:
@@ -63,9 +66,7 @@ jobs:
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
       - name: Generate App Version Name
-        run: |
-          echo "VERSION_NAME=$(git describe --tags --abbrev=0) Beta" >> $GITHUB_ENV
-          echo "GH_VERSION_NAME=$(git describe --tags --abbrev=0)-beta.${{ github.run_number }}" >> $GITHUB_ENV
+        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
       - name: Build Release
         env:
@@ -73,15 +74,14 @@ jobs:
           KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
           KEYSTORE_ALIAS: ${{ env.KEYSTORE_ALIAS }}
           KEYSTORE_ALIAS_PASSWORD: ${{ env.KEYSTORE_ALIAS_PASSWORD }}
-          VERSION: ${{ env.VERSION }}
+          VERSION: ${{ env.VERSION_NAME }}
           VERSION_CODE: ${{ env.VERSION_CODE }}
         run: ./gradlew assembleBetaRelease
 
       - name: Create Github Pre-Release
         uses: softprops/action-gh-release@v0.1.15
         with:
-          tag_name: ${{ steps.rel_number.outputs.version }}
-          body_path: ./app/build/outputs/changelogGithub
+          tag_name: ${{ env.VERSION_NAME }}
           draft: false
           prerelease: true
           files: |
@@ -99,6 +99,8 @@ jobs:
   play_publish:
     name: Publish to Google Play
     runs-on: ubuntu-latest
+    concurrency:
+      group: playstore_deploy
     needs: app_build
     steps:
       - uses: actions/checkout@v3
@@ -154,9 +156,7 @@ jobs:
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
       - name: Generate App Version Name
-        run: |
-          echo "VERSION_NAME=$(git describe --tags --abbrev=0) Beta" >> $GITHUB_ENV
-          echo "GH_VERSION_NAME=$(git describe --tags --abbrev=0)-beta.${{ github.run_number }}" >> $GITHUB_ENV
+        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
       - name: Build Release
         env:
@@ -164,7 +164,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
           KEYSTORE_ALIAS: ${{ env.KEYSTORE_ALIAS }}
           KEYSTORE_ALIAS_PASSWORD: ${{ env.KEYSTORE_ALIAS_PASSWORD }}
-          VERSION: ${{ env.VERSION }}
+          VERSION: ${{ env.VERSION_NAME }}
           VERSION_CODE: ${{ env.VERSION_CODE }}
         run: ./gradlew bundleBetaRelease
 
