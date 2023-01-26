@@ -1,0 +1,163 @@
+name: Production Deploy
+
+on:
+  release:
+    types: [ released ]
+  workflow_dispatch:
+
+jobs:
+  app_build:
+    name: Github, Firebase, and Sentry Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up ruby env
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+          bundler-cache: true
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3.9.0
+        with:
+          distribution: "temurin"
+          java-version: "11"
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Decode Service Account Key JSON File
+        uses: timheuer/base64-to-file@v1
+        id: service_account_json_file
+        with:
+          fileName: "serviceAccount.json"
+          encodedString: ${{ secrets.GPLAY_SERVICE_ACCOUNT_KEY_JSON }}
+
+      - name: Decode Keystore File
+        uses: timheuer/base64-to-file@v1
+        id: android_keystore
+        with:
+          fileName: "android_keystore.keystore"
+          encodedString: ${{ secrets.KEYSTORE_FILE }}
+
+      - name: Decode Google App Credentials
+        uses: timheuer/base64-to-file@v1
+        id: google_app_credentials
+        with:
+          fileName: "google_app_credentials.json"
+          encodedString: ${{ secrets.GOOGLE_APP_CREDENTIALS }}
+
+      - name: Define version code with offset
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+          INITIAL_VERSION_CODE: 17000
+        run: |
+          VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+
+      - name: Generate App Version Name
+        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
+      - name: Build Release
+        env:
+          KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
+          KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
+          KEYSTORE_ALIAS: ${{ env.KEY_ALIAS }}
+          KEYSTORE_ALIAS_PASSWORD: ${{ env.KEY_PASSWORD }}
+          VERSION: ${{ env.VERSION_NAME }}
+          VERSION_CODE: ${{ env.VERSION_CODE }}
+        run: ./gradlew assembleFullRelease
+
+      - name: Create a Sentry.io release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+
+  play_publish:
+    name: Publish to Google Play
+    runs-on: ubuntu-latest
+    concurrency:
+      group: playstore_deploy
+    needs: app_build
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up ruby env
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+          bundler-cache: true
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3.9.0
+        with:
+          distribution: "temurin"
+          java-version: "11"
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Decode Service Account Key JSON File
+        uses: timheuer/base64-to-file@v1
+        id: service_account_json_file
+        with:
+          fileName: "serviceAccount.json"
+          encodedString: ${{ secrets.GPLAY_SERVICE_ACCOUNT_KEY_JSON }}
+
+      - name: Decode Keystore File
+        uses: timheuer/base64-to-file@v1
+        id: android_keystore
+        with:
+          fileName: "android_keystore.keystore"
+          encodedString: ${{ secrets.KEYSTORE_FILE }}
+
+      - name: Decode Google App Credentials
+        uses: timheuer/base64-to-file@v1
+        id: google_app_credentials
+        with:
+          fileName: "google_app_credentials.json"
+          encodedString: ${{ secrets.GOOGLE_APP_CREDENTIALS }}
+
+      - name: Define version code with offset
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+          INITIAL_VERSION_CODE: 17000
+        run: |
+          VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+
+      - name: Generate App Version Name
+        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+
+      - name: Build Release
+        env:
+          KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
+          KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD }}
+          KEYSTORE_ALIAS: ${{ env.KEY_ALIAS }}
+          KEYSTORE_ALIAS_PASSWORD: ${{ env.KEY_PASSWORD }}
+          VERSION: ${{ env.VERSION_NAME }}
+          VERSION_CODE: ${{ env.VERSION_CODE }}
+        run: ./gradlew bundleFullRelease
+
+      - name: Build & deploy Android production release
+        run: bundle exec fastlane android release
+        env:
+          ANDROID_JSON_KEY_FILE: ${{ steps.service_account_json_file.outputs.filePath }}
+          GOOGLE_APP_CREDENTIALS: ${{ steps.google_app_credentials.outputs.filePath }}
