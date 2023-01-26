@@ -19,51 +19,51 @@ platform :android do
 
   desc "Deploy to internal sharing."
   lane :internal do
-      gradle(
-        task: 'bundle', 
-        flavor: 'beta', 
-        build_type: 'Release',
-        properties: {
-          "android.injected.signing.store.file" => ENV["KEYSTORE_FILE"],
-          "android.injected.signing.store.password" => ENV["STORE_PASSWORD"],
-          "android.injected.signing.key.alias" => ENV["KEY_ALIAS"],
-          "android.injected.signing.key.password" => ENV["KEY_PASSWORD"],
-        }
+      firebase_app_distribution(
+        app: "1:217323738064:android:69b0e7b3ca4a8e2f6d1fd5",
+        android_artifact_type: "aab",
+        android_artifact_path: "./app/build/outputs/bundle/betaRelease/app-beta-release.aab",
+        service_credentials_file: ENV["GOOGLE_APP_CREDENTIALS"],
       )
       upload_to_play_store(
           json_key: ENV["ANDROID_JSON_KEY_FILE"],
           track: 'internal',
           skip_upload_images: 'true',
-          skip_upload_screenshots: 'true'
+          skip_upload_screenshots: 'true',
+          skip_upload_changelogs: 'true',
+          aab: "./app/build/outputs/bundle/betaRelease/app-beta-release.aab"
       )
     end
 
   desc "Submit a new Beta Build and release."
   lane :beta do
-    gradle(task: 'bundle', flavor: 'beta', build_type: 'Release')
-    upload_to_play_store(
-        json_key: ENV["ANDROID_JSON_KEY_FILE"],
-        track: 'beta',
-        skip_upload_images: 'true',
-        skip_upload_screenshots: 'true'
-    )
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+      firebase_app_distribution(
+        app: "1:217323738064:android:69b0e7b3ca4a8e2f6d1fd5",
+        android_artifact_type: "aab",
+        android_artifact_path: "./app/build/outputs/bundle/betaRelease/app-beta-release.aab",
+        service_credentials_file: ENV["GOOGLE_APP_CREDENTIALS"],
+      )
+      upload_to_play_store(
+          json_key: ENV["ANDROID_JSON_KEY_FILE"],
+          track: 'beta',
+          skip_upload_images: 'true',
+          skip_upload_screenshots: 'true',
+          skip_upload_changelogs: 'true',
+          aab: "./app/build/outputs/bundle/betaRelease/app-beta-release.aab",
+          rollout: 0.1
+      )
   end
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-
-    gradle(task: 'bundle', flavor: 'full', build_type: 'Release')
-    rollout = prompt(
-      text: "Rollout: "
-    )
-    upload_to_play_store(
-        json_key: ENV["ANDROID_JSON_KEY_FILE"],
-        track: 'production',
-        rollout: rollout,
-        skip_upload_images: 'true',
-        skip_upload_screenshots: 'true'
-    )
+      upload_to_play_store(
+          json_key: ENV["ANDROID_JSON_KEY_FILE"],
+          track: 'production',
+          skip_upload_images: 'true',
+          skip_upload_screenshots: 'true',
+          skip_upload_changelogs: 'true',
+          aab: "./app/build/outputs/bundle/fullRelease/app-full-release.aab",
+          rollout: 0.1
+      )
   end
 end
