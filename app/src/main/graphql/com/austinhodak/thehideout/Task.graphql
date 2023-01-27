@@ -1,0 +1,244 @@
+query Task($id: ID!) {
+    task(id: $id) {
+        ...TaskFragment
+    }
+}
+
+fragment TaskFragment on Task {
+    id
+    tarkovDataId
+    name
+    normalizedName
+    trader {
+        id
+    }
+    map {
+        id
+    }
+    experience
+    wikiLink
+    minPlayerLevel
+    taskRequirements {
+        status
+        task {
+            id
+        }
+    }
+    traderLevelRequirements {
+        id
+        trader {
+            id
+        }
+        level
+    }
+    objectives {
+        id
+        type
+        description
+        maps {
+            id
+        }
+        optional
+        ... on TaskObjectiveBuildItem {
+            item {
+                id
+            }
+            containsAll {
+                id
+            }
+            containsCategory {
+                id
+            }
+            attributes {
+                name
+                requirement {
+                    compareMethod
+                    value
+                }
+            }
+        }
+        ... on TaskObjectiveExperience {
+            healthEffect {
+                bodyParts
+                effects
+                time {
+                    compareMethod
+                    value
+                }
+            }
+        }
+        ... on TaskObjectiveExtract {
+            exitStatus
+            exitName
+            zoneNames
+        }
+        ... on TaskObjectiveItem {
+            minDurability
+            maxDurability
+            item {
+                id
+            }
+            count
+            foundInRaid
+            dogTagLevel
+            maxDurability
+            minDurability
+        }
+        ... on TaskObjectiveMark {
+            markerItem {
+                id
+            }
+        }
+        ... on TaskObjectivePlayerLevel {
+            playerLevel
+        }
+        ... on TaskObjectiveQuestItem {
+            count
+            questItem {
+                id
+            }
+        }
+        ... on TaskObjectiveShoot {
+            count
+            zoneNames
+            bodyParts
+            target
+            distance {
+                value
+                compareMethod
+            }
+            enemyHealthEffect {
+                bodyParts
+                time {
+                    compareMethod
+                    value
+                }
+                effects
+            }
+            playerHealthEffect {
+                bodyParts
+                time {
+                    compareMethod
+                    value
+                }
+                effects
+            }
+            notWearing {
+                id
+            }
+            wearing {
+                id
+            }
+            shotType
+            usingWeapon {
+                id
+            }
+            usingWeaponMods {
+                id
+            }
+        }
+        ... on TaskObjectiveSkill {
+            skillLevel {
+                name
+                level
+            }
+        }
+        ... on TaskObjectiveTaskStatus {
+            task {
+                id
+            }
+            status
+        }
+        ... on TaskObjectiveTraderLevel {
+            trader {
+                id
+            }
+            level
+        }
+    }
+    startRewards {
+        traderStanding {
+            trader {
+                id
+            }
+            standing
+        }
+        items {
+            ...TaskItem
+        }
+        offerUnlock {
+            id
+            trader {
+                id
+            }
+            level
+            item {
+                id
+            }
+        }
+        skillLevelReward {
+            name
+            level
+        }
+        traderUnlock {
+            id
+        }
+        craftUnlock {
+            id
+        }
+    }
+    finishRewards {
+        traderStanding {
+            trader {
+                id
+            }
+            standing
+        }
+        items {
+            ...TaskItem
+        }
+        offerUnlock {
+            id
+            trader {
+                id
+            }
+            level
+            item {
+                id
+            }
+        }
+        skillLevelReward {
+            name
+            level
+        }
+        traderUnlock {
+            id
+        }
+        craftUnlock {
+            id
+        }
+    }
+    factionName
+    neededKeys {
+        keys {
+            id
+        }
+        map {
+            id
+        }
+    }
+    descriptionMessageId
+    failMessageId
+    startMessageId
+    successMessageId
+}
+
+fragment TaskObjectiveFragment on TaskObjective {
+    id
+    type
+    description
+    maps {
+        id
+    }
+    optional
+}

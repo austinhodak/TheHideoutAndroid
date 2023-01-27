@@ -24,10 +24,10 @@
 
 -keep class com.austinhodak.thehideout.firebase.** { *; }
 -keep class com.austinhodak.thehideout.calculator.models.** { *; }
--keep class com.austinhodak.thehideout.WeaponBuild { *; }
--keep class com.austinhodak.thehideout.WeaponBuild$BuildMod { *; }
--keep class com.austinhodak.thehideout.calculator.views.HealthBar$Health { *; }
--keep class com.austinhodak.thehideout.flea_market.detail.FleaItemDetail$NavItem { *; }
+-keep class com.austinhodak.thehideout.features.weapons.builder.WeaponBuild { *; }
+-keep class com.austinhodak.thehideout.features.weapons.builder.WeaponBuild$BuildMod { *; }
+-keep class com.austinhodak.thehideout.features.calculator.views.HealthBar$Health { *; }
+-keep class com.austinhodak.thehideout.features.flea_market.detail.FleaItemDetail$NavItem { *; }
 -keep class com.austinhodak.thehideout.map.models.** { *; }
 -keep class com.austinhodak.thehideout.news.models.** { *; }
 
@@ -42,8 +42,8 @@
 
 -keep class **.R$*
 
--keep class com.austinhodak.thehideout.crafts.CraftDetailActivity$ItemSubtitle { *; }
--keep class com.austinhodak.thehideout.barters.BarterDetailActivity$ItemSubtitle { *; }
+-keep class com.austinhodak.thehideout.features.crafts.CraftDetailActivity$ItemSubtitle { *; }
+-keep class com.austinhodak.thehideout.features.barters.BarterDetailActivity$ItemSubtitle { *; }
 
 -keepclassmembers class com.google.firebase.database.GenericTypeIndicator {
   *;
@@ -96,9 +96,6 @@
     @retrofit2.http.* <methods>;
 }
 
-# Ignore annotation used for build tooling.
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-
 # Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
 -dontwarn kotlin.Unit
 
@@ -118,3 +115,8 @@
 # kept. Suspend functions are wrapped in continuations where the type argument
 # is used.
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+
+-keep class com.newrelic.** { *; }
+-dontwarn com.newrelic.**
+-keepattributes Exceptions, Signature, InnerClasses, LineNumberTable

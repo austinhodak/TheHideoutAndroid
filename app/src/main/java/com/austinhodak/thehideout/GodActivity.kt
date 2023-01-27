@@ -44,13 +44,13 @@ open class GodActivity : ComponentActivity() {
             setupRaidAlerts()
         }
 
-        Adapty.getPurchaserInfo { purchaserInfo, error ->
+        /*Adapty.getPurchaserInfo { purchaserInfo, error ->
             if (error == null) {
                 lifecycleScope.launch {
                     UserSettingsModel.isPremiumUser.update(purchaserInfo?.accessLevels?.get("premium")?.isActive == true)
                 }
             }
-        }
+        }*/
     }
 
     private fun setupRaidAlerts() {

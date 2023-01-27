@@ -29,11 +29,6 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.adapty.Adapty
-import com.adapty.errors.AdaptyError
-import com.adapty.models.GoogleValidationResult
-import com.adapty.models.ProductModel
-import com.adapty.models.PurchaserInfoModel
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -50,19 +45,19 @@ import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ammunition.AmmoDetailActivity
-import com.austinhodak.thehideout.calculator.models.CAmmo
-import com.austinhodak.thehideout.calculator.models.CArmor
 import com.austinhodak.thehideout.compose.theme.BorderColor
 import com.austinhodak.thehideout.compose.theme.Green500
 import com.austinhodak.thehideout.compose.theme.Red500
+import com.austinhodak.thehideout.features.ammunition.AmmoDetailActivity
+import com.austinhodak.thehideout.features.calculator.models.CAmmo
+import com.austinhodak.thehideout.features.calculator.models.CArmor
+import com.austinhodak.thehideout.features.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.features.premium.PremiumPusherActivity
+import com.austinhodak.thehideout.features.quests.QuestDetailActivity
+import com.austinhodak.thehideout.features.weapons.detail.WeaponDetailActivity
+import com.austinhodak.thehideout.features.weapons.mods.ModDetailActivity
 import com.austinhodak.thehideout.firebase.FSUser
-import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
 import com.austinhodak.thehideout.fsUser
-import com.austinhodak.thehideout.premium.PremiumPusherActivity
-import com.austinhodak.thehideout.quests.QuestDetailActivity
-import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
-import com.austinhodak.thehideout.weapons.mods.ModDetailActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.material.textfield.TextInputEditText
 import com.google.common.util.concurrent.ListenableFuture
@@ -676,29 +671,6 @@ fun Pricing.addToCart(quantity: Long? = 1) {
 fun Pricing.addToNeededItems(quantity: Long? = 1) {
     val token = FirebaseDatabase.getInstance().reference.push()
     userRefTracker("items/${this.id}/user/${token.key}/quantity").setValue(quantity)
-}
-
-fun ProductModel.purchase(
-    activity: Activity,
-    adaptyCallback: (purchaserInfo: PurchaserInfoModel?, purchaseToken: String?, googleValidationResult: GoogleValidationResult?, product: ProductModel, error: AdaptyError?) -> Unit
-) {
-    Adapty.makePurchase(activity, this) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
-        adaptyCallback.invoke(purchaserInfo, purchaseToken, googleValidationResult, product, error)
-    }
-}
-
-fun startPremiumPurchase(activity: Activity) {
-    Adapty.getPaywalls { paywalls, products, error ->
-        products?.find { it.skuDetails?.sku == "premium_1" }?.let {
-            it.purchase(activity) { purchaserInfo, purchaseToken, googleValidationResult, product, error ->
-                if (error != null) {
-                    Toast.makeText(activity, "Error upgrading.", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(activity, "Thank You! Premium features unlocked!", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
 }
 
 fun isPremium(isPremium: (Boolean) -> Unit) {

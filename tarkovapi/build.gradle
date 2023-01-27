@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id("com.apollographql.apollo3").version("3.7.3")
+    id("com.apollographql.apollo3").version("3.7.4")
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -17,7 +17,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 33
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
         kapt {
@@ -51,10 +51,10 @@ kotlin {
 
 dependencies {
 
-    api('com.apollographql.apollo3:apollo-runtime:3.7.3')
-    api('com.apollographql.apollo3:apollo-api:3.7.3')
-    api('com.apollographql.apollo3:apollo-normalized-cache:3.7.3')
-    api('com.apollographql.apollo3:apollo-normalized-cache-sqlite:3.7.3')
+    api('com.apollographql.apollo3:apollo-runtime:3.7.4')
+    api('com.apollographql.apollo3:apollo-api:3.7.4')
+    api('com.apollographql.apollo3:apollo-normalized-cache:3.7.4')
+    api('com.apollographql.apollo3:apollo-normalized-cache-sqlite:3.7.4')
 
     implementation "io.github.resilience4j:resilience4j-retry:1.7.1"
     implementation "io.github.resilience4j:resilience4j-kotlin:1.7.1"
@@ -65,9 +65,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.compose.ui:ui-graphics:1.3.0-alpha01'
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.google.dagger:hilt-android:2.44.2'
     kapt 'com.google.dagger:hilt-android-compiler:2.44.2'
@@ -88,12 +88,16 @@ dependencies {
 //    api "com.github.MFlisar.MaterialPreferences:screen-choice:$prefs"
 //    api "com.github.MFlisar.MaterialPreferences:screen-color:$prefs"
 
-    api project(':mp-core')
+/*    api project(':mp-core')
     api project(':mp-library-datastore')
     api project(':mp-library-preference-screen')
     api project(':mp-library-preference-screen-input')
     api project(':mp-library-preference-screen-choice')
-    api project(':mp-library-preference-screen-color')
+    api project(':mp-library-preference-screen-color')*/
+
+    api "com.github.MFlisar.MaterialPreferences:core:$material_prefs"
+    // data store module
+    api "com.github.MFlisar.MaterialPreferences:datastore:$material_prefs"
 
     api "androidx.work:work-runtime-ktx:2.7.1"
 
