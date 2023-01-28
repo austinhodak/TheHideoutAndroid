@@ -47,7 +47,6 @@ import com.qonversion.android.sdk.dto.QLaunchMode
 import com.qonversion.android.sdk.dto.QUserProperty
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
-import io.gleap.Gleap
 import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -343,13 +342,6 @@ class Application : android.app.Application(), Configuration.Provider {
                 "game_info" to "{\"version\":\"0.12.12.30.19047\",\"version_date\":\"07-15-2022\",\"wipe_date\":\"06-30-2022\"}"
             )
         )
-
-        //Fetch and active.
-        Firebase.remoteConfig.fetchAndActivate().addOnSuccessListener {
-            if (Firebase.remoteConfig.getBoolean("gleap_enabled")) {
-                Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
-            }
-        }
     }
 
     override fun getWorkManagerConfiguration(): Configuration = Configuration.Builder()

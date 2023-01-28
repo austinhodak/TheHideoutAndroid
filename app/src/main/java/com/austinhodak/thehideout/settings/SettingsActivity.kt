@@ -965,16 +965,6 @@ class SettingsActivity : AppCompatActivity() {
                                 category {
                                     title = getString(R.string.about).asText()
                                 }
-                                if (Firebase.remoteConfig.getBoolean("gleap_enabled")) {
-                                    button {
-                                        title = "Send Feedback".asText()
-                                        summary = "Take a screenshot, try it!".asText()
-                                        icon = R.drawable.ic_baseline_feedback_24.asIcon()
-                                        onClick = {
-                                            //Gleap.getInstance().startFeedbackFlow()
-                                        }
-                                    }
-                                }
                                 subScreen {
                                     title = getString(R.string.socials).asText()
                                     icon = R.drawable.ic_icons8_discord_svg.asIcon()
