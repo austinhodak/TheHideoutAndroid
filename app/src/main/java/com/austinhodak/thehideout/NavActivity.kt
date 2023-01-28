@@ -1,7 +1,9 @@
 package com.austinhodak.thehideout
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,17 +14,14 @@ import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.consumedWindowInsets
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -77,6 +76,12 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import com.maxkeppeker.sheets.core.models.base.Header
+import com.maxkeppeker.sheets.core.models.base.SelectionButton
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.info.InfoDialog
+import com.maxkeppeler.sheets.info.models.InfoBody
+import com.maxkeppeler.sheets.info.models.InfoSelection
 import com.skydoves.only.only
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -182,9 +187,19 @@ class NavActivity : GodActivity() {
                 this.doubleBackToExitPressedOnce = true
                 Toast.makeText(this, getString(R.string.back_exit), Toast.LENGTH_SHORT).show()
 
-                Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+                Handler(Looper.getMainLooper()).postDelayed(
+                    { doubleBackToExitPressedOnce = false },
+                    2000
+                )
             }
         }
+    }
+
+    val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts
+            .RequestPermission()
+    ) { isGranted: Boolean ->
+
     }
 
     @OptIn(ExperimentalLayoutApi::class)
@@ -210,7 +225,24 @@ class NavActivity : GodActivity() {
             val lifeCycleOwner = this
             val navController = rememberNavController()
 
-            val tag: String = navViewModel.selectedDrawerItem.value?.tag?.toString() ?: extras.openingPageTag
+            val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
+            val permissionStatus = ContextCompat.checkSelfPermission(this, notificationPermission)
+            val notificationDialogSheetState = rememberSheetState(visible = false)
+
+            if (permissionStatus == PackageManager.PERMISSION_DENIED) {
+                shouldShowRequestPermissionRationale(notificationPermission).let { shouldShow ->
+                    if (shouldShow) {
+                        notificationDialogSheetState.show()
+                    } else {
+                        requestPermissionLauncher.launch(
+                            notificationPermission
+                        )
+                    }
+                }
+            }
+
+            val tag: String =
+                navViewModel.selectedDrawerItem.value?.tag?.toString() ?: extras.openingPageTag
 
             navViewModel.isDrawerOpen.observe(lifeCycleOwner) { isOpen ->
                 coroutineScope.launch {
@@ -223,10 +255,34 @@ class NavActivity : GodActivity() {
             }
 
             HideoutTheme {
+                InfoDialog(
+                    state = notificationDialogSheetState,
+                    header = Header.Default(
+                        title = "Enable Notifications?",
+                    ),
+                    body = InfoBody.Default(
+                        bodyText = "The Hideout needs to be able to send you notifications to alert you of restocks and more. Please enable notifications for The Hideout.",
+                    ),
+                    selection = InfoSelection(
+                        onPositiveClick = {},
+                        positiveButton = SelectionButton(text = "Okay"),
+                        onNegativeClick = {},
+                        negativeButton = SelectionButton(text = "No Thanks"),
+                    ),
+                )
+
+                systemUiController.setSystemBarsColor(
+                    color = MaterialTheme.colors.primary,
+                )
                 Scaffold(
                     scaffoldState = scaffoldState,
                     drawerContent = {
-                        MainDrawer(navViewModel = navViewModel, lifeCycleOwner, this@NavActivity, apolloClient)
+                        MainDrawer(
+                            navViewModel = navViewModel,
+                            lifeCycleOwner,
+                            this@NavActivity,
+                            apolloClient
+                        )
                         val testUser by fsUser.observeAsState()
                         Timber.d("USER: $testUser")
                     },
@@ -376,6 +432,7 @@ class NavActivity : GodActivity() {
                             route.contains("url:") -> {
                                 route.split(":")[1].openWithCustomTab(this@NavActivity)
                             }
+
                             identifier == 999 -> {
                                 val customLayout = AuthMethodPickerLayout
                                     .Builder(R.layout.login_picker)
@@ -402,6 +459,7 @@ class NavActivity : GodActivity() {
                                     .build()
                                 signInLauncher.launch(signInIntent)
                             }
+
                             else -> {
                                 navController.navigate(route) {
                                     restoreState = true
