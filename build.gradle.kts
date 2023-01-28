@@ -8,8 +8,9 @@ plugins {
     alias(libs.plugins.ksp).apply(false)
     alias(libs.plugins.gms.googleServices).apply(false)
     alias(libs.plugins.firebase.crashlytics).apply(false)
-
+    alias(libs.plugins.secrets).apply(false)
     id("io.realm.kotlin").version("1.5.2").apply(false)
+
 }
 
 allprojects {

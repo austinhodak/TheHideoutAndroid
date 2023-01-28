@@ -64,6 +64,7 @@ doctorPlugin = "0.8.1"
 kotlinx-binaryCompatibilityValidator = "0.12.1"
 owasp-dependencycheck = "8.0.1"
 versionsPlugin = "0.44.0"
+secrets = "2.0.1"
 
 [libraries]
 
@@ -288,3 +289,5 @@ doctor = { id = "com.osacky.doctor", version.ref = "doctorPlugin" }
 kotlinx-binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlinx-binaryCompatibilityValidator" }
 owasp-dependencycheck = { id = "org.owasp.dependencycheck", version.ref = "owasp-dependencycheck" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin" }
+
+secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }

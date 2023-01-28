@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -7,6 +9,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("io.realm.kotlin")
     id("com.apollographql.apollo3").version("3.7.4")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 apollo {
@@ -51,10 +54,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "release_keystore.keystore")
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
-            keyAlias = System.getenv("KEYSTORE_ALIAS") ?: ""
-            keyPassword = System.getenv("KEYSTORE_ALIAS_PASSWORD") ?: ""
+            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "../TheHideoutKeystore.jks")
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: gradleLocalProperties(rootDir).getProperty("storePassword")
+            keyAlias = System.getenv("KEYSTORE_ALIAS") ?: gradleLocalProperties(rootDir).getProperty("keyAlias")
+            keyPassword = System.getenv("KEYSTORE_ALIAS_PASSWORD") ?: gradleLocalProperties(rootDir).getProperty("keyPassword")
             enableV1Signing = true
             enableV2Signing = true
         }
