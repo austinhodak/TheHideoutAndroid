@@ -5,6 +5,15 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("io.realm.kotlin")
+    id("com.apollographql.apollo3").version("3.7.4")
+}
+
+apollo {
+    service("service") {
+        packageName.set("com.austinhodak.thehideout")
+        codegenModels.set("responseBased")
+    }
 }
 
 android {
@@ -90,6 +99,12 @@ dependencies {
     implementation(project(":tarkovapi"))
     implementation(platform(androidx.compose.bom))
 
+    implementation("androidx.compose.runtime:runtime-tracing:1.0.0-alpha01")
+    implementation("androidx.tracing:tracing-ktx:1.2.0-alpha01")
+
+    implementation("io.realm.kotlin:library-base:1.5.2")
+
+    implementation("io.sentry:sentry-android:6.12.1")
 
     implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
 
@@ -112,7 +127,7 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.44.2")
     kapt("com.google.dagger:hilt-android-compiler:2.44.2")
-
+    implementation("androidx.hilt:hilt-work:1.0.0")
     //Compose
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material:material")
@@ -224,5 +239,38 @@ dependencies {
     implementation("com.otaliastudios:zoomlayout:1.9.0")
 
     implementation("androidx.compose.material:material-icons-extended")
+
+    implementation("io.qonversion.android.sdk:sdk:4.+")
+    implementation("com.airbnb.android:mavericks:3.0.1")
+    implementation("com.airbnb.android:mavericks-compose:3.0.1")
+    implementation("com.airbnb.android:mavericks-hilt:3.0.1")
+    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.3.3")
+    implementation("androidx.compose.animation:animation-graphics:1.4.0-alpha04")
+
+
+    implementation("androidx.compose.material3:material3:1.1.0-alpha04")
+
+    // screen modules
+    implementation("com.github.MFlisar.MaterialPreferences:screen:1.1.2")
+    implementation("com.github.MFlisar.MaterialPreferences:screen-bool:1.1.2")
+    implementation("com.github.MFlisar.MaterialPreferences:screen-input:1.1.2")
+    implementation("com.github.MFlisar.MaterialPreferences:screen-choice:1.1.2")
+    implementation("com.github.MFlisar.MaterialPreferences:screen-color:1.1.2")
+    implementation("com.github.MFlisar.MaterialPreferences:screen-slider:1.1.2")
+    implementation("com.github.MFlisar.MaterialPreferences:screen-image:1.1.2")
+
+    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:info:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:color:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:date-time:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:option:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:list:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:input:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:emoji:1.0.3")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:state:1.0.3")
 
 }

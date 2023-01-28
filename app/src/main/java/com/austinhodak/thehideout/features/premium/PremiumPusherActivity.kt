@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
@@ -159,21 +160,21 @@ class PremiumPusherActivity : ComponentActivity() {
                     )
                     Box(
                         modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    0f to premium_gradient_color.copy(alpha = 0f),
+                                    0.4f to premium_gradient_color,
+                                    1f to premium_gradient_color
+                                )
+                            )
+                    )
+                    Box(
+                        modifier = Modifier
                             .padding(padding)
                             .consumeWindowInsets(padding)
                             .fillMaxSize()
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        0f to premium_gradient_color.copy(alpha = 0f),
-                                        0.4f to premium_gradient_color,
-                                        1f to premium_gradient_color
-                                    )
-                                )
-                        )
                         AnimatedVisibility(
                             visible = offers?.products == null,
                             modifier = Modifier.align(Center)

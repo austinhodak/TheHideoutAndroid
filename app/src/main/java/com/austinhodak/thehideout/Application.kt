@@ -39,6 +39,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.qonversion.android.sdk.Qonversion
+import com.qonversion.android.sdk.QonversionConfig
+import com.qonversion.android.sdk.dto.QEntitlementRenewState
+import com.qonversion.android.sdk.dto.QEnvironment
+import com.qonversion.android.sdk.dto.QLaunchMode
+import com.qonversion.android.sdk.dto.QUserProperty
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
 import io.gleap.Gleap

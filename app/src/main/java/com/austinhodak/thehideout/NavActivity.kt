@@ -11,6 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -18,6 +20,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -184,6 +187,7 @@ class NavActivity : GodActivity() {
         }
     }
 
+    @OptIn(ExperimentalLayoutApi::class)
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -231,12 +235,11 @@ class NavActivity : GodActivity() {
                         Timber.d("USER: $testUser")
                     },
                     drawerScrimColor = Color(0xFF121212)
-                ) {
-
-
+                ) { padding ->
                     NavHost(
                         navController = navController,
-                        startDestination = tag
+                        startDestination = tag,
+                        modifier = Modifier.consumeWindowInsets(padding)
                     ) {
                         composable("ammunition/{caliber}") {
                             AmmunitionListScreen(
