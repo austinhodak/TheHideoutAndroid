@@ -1,8 +1,6 @@
 package com.austinhodak.tarkovapi.room
 
-import android.content.Context
 import androidx.work.ListenableWorker
-import androidx.work.WorkerParameters
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.fetchPolicy
@@ -17,13 +15,9 @@ import com.austinhodak.tarkovapi.utils.toBarter
 import com.austinhodak.tarkovapi.utils.toCraft
 import com.austinhodak.tarkovapi.utils.toPricing
 import com.austinhodak.tarkovapi.utils.toQuest
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import timber.log.Timber
-import javax.inject.Inject
 import kotlin.system.measureTimeMillis
 
 class Updaters (
@@ -64,7 +58,7 @@ class Updaters (
                 })
             }
 
-            Timber.d("Updated ${items.count()} prices in $ms ms")
+            //Timber.d("Updated ${items.count()} prices in $ms ms")
 
             ListenableWorker.Result.success()
 
@@ -87,7 +81,7 @@ class Updaters (
                 questDao.insertAll(quests.filterNotNull())
             }
 
-            Timber.d("Inserted ${quests.count()} quests in $ms ms")
+            //Timber.d("Inserted ${quests.count()} quests in $ms ms")
 
             return ListenableWorker.Result.success()
         } catch (e: Exception) {
@@ -110,7 +104,7 @@ class Updaters (
                     craftDao.insertAll(crafts.filterNotNull())
                 }
 
-                Timber.d("Inserted ${crafts.count()} crafts in $ms ms")
+                //Timber.d("Inserted ${crafts.count()} crafts in $ms ms")
 
                 ListenableWorker.Result.success()
             } else ListenableWorker.Result.failure()
@@ -130,14 +124,14 @@ class Updaters (
             } ?: emptyList()
 
             return if (barters.isNotEmpty()) {
-                Timber.d("NUKING BARTER TABLE")
+                //Timber.d("NUKING BARTER TABLE")
                 barterDao.nukeTable()
 
                 val ms = measureTimeMillis {
                     barterDao.insertAll(barters.filterNotNull())
                 }
 
-                Timber.d("Inserted ${barters.count()} barters in $ms ms")
+                //Timber.d("Inserted ${barters.count()} barters in $ms ms")
 
                 ListenableWorker.Result.success()
             } else ListenableWorker.Result.failure()

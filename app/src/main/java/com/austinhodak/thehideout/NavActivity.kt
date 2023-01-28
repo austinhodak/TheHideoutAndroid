@@ -13,6 +13,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.consumedWindowInsets
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -59,14 +60,14 @@ import com.austinhodak.thehideout.features.tools.ServerPingScreen
 import com.austinhodak.thehideout.features.tools.viewmodels.SensitivityViewModel
 import com.austinhodak.thehideout.features.traders.RestockTimersScreen
 import com.austinhodak.thehideout.features.traders.TraderScreen
-import com.austinhodak.thehideout.utils.*
-import com.austinhodak.thehideout.ui.legacy.MainDrawer
 import com.austinhodak.thehideout.features.weapons.WeaponListScreen
 import com.austinhodak.thehideout.features.weapons.builder.WeaponLoadoutScreen
 import com.austinhodak.thehideout.features.weapons.builder.viewmodel.WeaponLoadoutViewModel
 import com.austinhodak.thehideout.features.weapons.detail.WeaponDetailActivity
 import com.austinhodak.thehideout.features.weapons.mods.ModsListScreen
+import com.austinhodak.thehideout.ui.legacy.MainDrawer
 import com.austinhodak.thehideout.ui.theme.HideoutTheme
+import com.austinhodak.thehideout.utils.*
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
@@ -239,7 +240,7 @@ class NavActivity : GodActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = tag,
-                        modifier = Modifier.consumeWindowInsets(padding)
+                        modifier = Modifier.consumedWindowInsets(padding)
                     ) {
                         composable("ammunition/{caliber}") {
                             AmmunitionListScreen(
@@ -297,8 +298,7 @@ class NavActivity : GodActivity() {
                             QuestMainScreen(
                                 navViewModel,
                                 questViewModel,
-                                tarkovRepo,
-                                ttRepository
+                                tarkovRepo
                             )
                         }
                         composable("hideout") {
@@ -388,15 +388,13 @@ class NavActivity : GodActivity() {
                                     .setPhoneButtonId(R.id.login_phone)
                                     .setGoogleButtonId(R.id.login_google)
                                     .setGithubButtonId(R.id.login_github)
-                                    .setFacebookButtonId(R.id.login_facebook)
                                     .build()
 
                                 val providers = arrayListOf(
                                     AuthUI.IdpConfig.EmailBuilder().build(),
                                     AuthUI.IdpConfig.PhoneBuilder().build(),
                                     AuthUI.IdpConfig.GoogleBuilder().build(),
-                                    AuthUI.IdpConfig.GitHubBuilder().build(),
-                                    AuthUI.IdpConfig.FacebookBuilder().build()
+                                    AuthUI.IdpConfig.GitHubBuilder().build()
                                 )
                                 val signInIntent = AuthUI.getInstance()
                                     .createSignInIntentBuilder()

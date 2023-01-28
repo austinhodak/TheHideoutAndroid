@@ -17,7 +17,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import org.json.JSONArray
 import org.json.JSONObject
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.system.measureTimeMillis
@@ -68,7 +67,6 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private suspend fun populateDatabase(jsonArray: JSONArray) {
-            Timber.d("Populating Database")
             val ammoDao = database.get().AmmoDao()
             val itemDao = database.get().ItemDao()
             val weaponDao = database.get().WeaponDao()
@@ -100,8 +98,6 @@ abstract class AppDatabase : RoomDatabase() {
                     }
 
                     items.add(item.toItem())
-
-                    Timber.d("Item: ${item.getString("_id")}")
                 }
 
                 itemDao.insertAll(items)
@@ -109,10 +105,6 @@ abstract class AppDatabase : RoomDatabase() {
                 weaponDao.insertAll(weapons)
                 modDao.insertAll(mods)
             }
-
-            Timber.d("Database populated in $ms ms")
-
-            //Updaters(tarkovRepo, apolloClient).updateAll()
         }
     }
 }

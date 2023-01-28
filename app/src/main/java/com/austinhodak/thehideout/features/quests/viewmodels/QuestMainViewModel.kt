@@ -10,19 +10,16 @@ import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Pricing
 import com.austinhodak.tarkovapi.room.models.Quest
-import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.QuestExtraHelper
 import com.austinhodak.thehideout.SearchViewModel
+import com.austinhodak.thehideout.features.quests.QuestFilter
 import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.mapsList
-import com.austinhodak.thehideout.features.quests.QuestFilter
 import com.austinhodak.thehideout.utils.completed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,8 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class QuestMainViewModel @Inject constructor(
     private val repository: TarkovRepo,
-    @ApplicationContext context: Context,
-    private val ttApiRepo: TTRepository
+    @ApplicationContext context: Context
 ) : SearchViewModel() {
 
     private val _questsExtras = MutableLiveData<List<QuestExtra.QuestExtraItem>>()

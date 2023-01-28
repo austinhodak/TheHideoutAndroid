@@ -7,7 +7,6 @@ import android.text.InputType
 import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -80,9 +79,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanIntentResult
-import com.journeyapps.barcodescanner.ScanOptions
 import com.michaelflisar.materialpreferences.preferencescreen.PreferenceScreen
 import com.michaelflisar.materialpreferences.preferencescreen.PreferenceScreenConfig
 import com.michaelflisar.materialpreferences.preferencescreen.bool.switch
@@ -99,7 +95,6 @@ import com.michaelflisar.materialpreferences.preferencescreen.subScreen
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
 import java.time.LocalDate
@@ -1142,32 +1137,6 @@ class SettingsActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         screen.onSaveInstanceState(outState)
-    }
-
-    private val barcodeLauncher: ActivityResultLauncher<ScanOptions> = registerForActivityResult(
-        ScanContract()
-    ) { result: ScanIntentResult ->
-        if (result.contents == null) {
-
-        } else {
-            lifecycleScope.launch {
-                UserSettingsModel.ttAPIKey.update(result.contents)
-                Toast.makeText(this@SettingsActivity, "API Token saved, please reload page.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private val hardwareIDScanner: ActivityResultLauncher<ScanOptions> = registerForActivityResult(
-        ScanContract()
-    ) { result: ScanIntentResult ->
-        if (result.contents == null) {
-
-        } else {
-            lifecycleScope.launch {
-                UserSettingsModel.pcHardwareID.update(result.contents)
-                Toast.makeText(this@SettingsActivity, "Hardware ID saved, please reload page.", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 }
 

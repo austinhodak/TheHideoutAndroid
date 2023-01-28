@@ -10,6 +10,7 @@ plugins {
     id("io.realm.kotlin")
     id("com.apollographql.apollo3").version("3.7.4")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.firebase.firebase-perf")
 }
 
 apollo {
@@ -99,8 +100,21 @@ kotlin {
 }
 
 dependencies {
+    val composeBom = platform(androidx.compose.bom)
+    implementation(androidx.browser)
     implementation(project(":tarkovapi"))
     implementation(platform(androidx.compose.bom))
+    implementation(platform(libs.kotlin.bom))
+
+    implementation ("com.github.fondesa:kpermissions:3.4.0")
+    implementation ("com.github.fondesa:kpermissions-coroutines:3.4.0")
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+
+    implementation(androidx.camera.camera2)
+    implementation(androidx.camera.lifecycle)
+    implementation(androidx.camera.view)
 
     implementation("androidx.compose.runtime:runtime-tracing:1.0.0-alpha01")
     implementation("androidx.tracing:tracing-ktx:1.2.0-alpha01")
@@ -113,34 +127,36 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:1.3.2")
     implementation("io.coil-kt:coil-gif:1.4.0")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 
-    implementation("com.google.code.gson:gson:2.10")
+    implementation(androidx.compose.ui.tooling.preview)
+    implementation(androidx.lifecycle.runtime)
+
+    implementation("com.google.code.gson:gson:2.10.1")
 
     // Tests
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    //androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    testImplementation(libs.junit4)
+    androidTestImplementation(androidx.test.ext.junit)
+    androidTestImplementation(androidx.test.espresso.core)
+    androidTestImplementation(androidx.compose.ui.test.junit4)
 
     // Core
     implementation(androidx.core)
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.44.2")
-    kapt("com.google.dagger:hilt-android-compiler:2.44.2")
-    implementation("androidx.hilt:hilt-work:1.0.0")
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(androidx.hilt.work)
     //Compose
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.material:material")
-    implementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation(androidx.compose.ui)
+    implementation(androidx.compose.material)
+    implementation(androidx.compose.ui.tooling)
+    implementation(androidx.activity.compose)
     implementation(libs.accompanist.systemuicontroller)
-    implementation("androidx.compose.runtime:runtime-livedata")
+    implementation(androidx.compose.runtime.livedata)
+    //implementation(androidx.compose.foundation.layout)
 
     //AndroidX
-    implementation(libs.material)
+    //implementation(libs.material)
     implementation(androidx.appcompat)
     implementation(androidx.recyclerview)
     implementation(androidx.constraintlayout)
@@ -161,25 +177,22 @@ dependencies {
     api("com.google.firebase:firebase-messaging-ktx")
     api("com.google.firebase:firebase-storage-ktx")
     api("com.google.firebase:firebase-crashlytics-ktx")
-    //api("com.google.firebase:firebase-perf-ktx")
+    api("com.google.firebase:firebase-perf-ktx")
     api("com.google.firebase:firebase-database-ktx")
     api("com.google.firebase:firebase-config-ktx")
     api("com.google.firebase:firebase-inappmessaging-display-ktx")
     api("com.google.firebase:firebase-dynamic-links-ktx")
-    //api("com.google.android.gms:play-services-ads")
-    // api("com.google.android.gms:play-services-mlkit-text-recognition:17.0.1")
     api("com.google.mlkit:text-recognition:16.0.0-beta6")
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
-    implementation("com.google.firebase:firebase-iid:21.1.0")
 
     api("com.firebaseui:firebase-ui-auth:8.0.2")
     //END Firebase
 
     //Drawer
-    implementation("com.mikepenz:materialdrawer-nav:8.4.3")
-    implementation("com.mikepenz:materialdrawer:8.4.3")
-    implementation("com.mikepenz:materialdrawer-iconics:8.4.3")
-    implementation("com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar")
+    implementation("com.mikepenz:materialdrawer-nav:8.4.5")
+    implementation("com.mikepenz:materialdrawer:8.4.5")
+    implementation("com.mikepenz:materialdrawer-iconics:8.4.5")
+    //implementation("com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar")
 
 
     //END Drawer
@@ -190,19 +203,15 @@ dependencies {
     implementation("com.afollestad.material-dialogs:input:3.3.0")
     //END Dialogs
 
-    api ("com.github.bumptech.glide:glide:4.13.2") {
+    api ("com.github.bumptech.glide:glide:4.14.2") {
         exclude(group = "com.android.support")
     }
 
-    implementation("androidx.browser:browser:1.4.0")
 
     implementation("com.github.skydoves:only:1.0.8")
-
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation(androidx.lifecycle.livedata)
 
     implementation("com.jakewharton.timber:timber:5.0.1")
-
-    implementation("androidx.preference:preference-ktx:1.2.0")
 
     implementation("com.airbnb.android:lottie-compose:5.2.0")
 
@@ -224,30 +233,22 @@ dependencies {
 
     implementation("com.google.maps.android:maps-ktx:3.4.0")
     implementation("com.google.maps.android:maps-utils-ktx:3.4.0")
-
     implementation("com.github.jeziellago:compose-markdown:0.2.6")
-
-    implementation("com.android.billingclient:billing:4.1.0")
-    implementation("com.android.billingclient:billing-ktx:4.1.0")
-
-    implementation("com.facebook.android:facebook-login:13.1.0")
 
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
-    implementation("com.otaliastudios:zoomlayout:1.9.0")
-
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(androidx.compose.material.icons.extended)
 
     implementation("io.qonversion.android.sdk:sdk:4.+")
     implementation("com.airbnb.android:mavericks:3.0.1")
     implementation("com.airbnb.android:mavericks-compose:3.0.1")
     implementation("com.airbnb.android:mavericks-hilt:3.0.1")
-    implementation("androidx.core:core-splashscreen:1.0.0")
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.3.3")
-    implementation("androidx.compose.animation:animation-graphics:1.4.0-alpha04")
+    implementation(androidx.core.splashscreen)
+    implementation(androidx.compose.ui.text.googleFonts)
+    implementation(androidx.compose.animation.graphics)
 
 
-    implementation("androidx.compose.material3:material3:1.1.0-alpha04")
+    implementation(androidx.compose.material3)
 
     // screen modules
     implementation("com.github.MFlisar.MaterialPreferences:screen:1.1.2")

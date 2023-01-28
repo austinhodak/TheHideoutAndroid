@@ -1,4 +1,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
+
+import org.slf4j.LoggerFactory
+
 plugins {
     id("com.android.application").version("7.4.0").apply(false)
     alias(libs.plugins.kotlin.android).apply(false)
@@ -10,6 +13,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics).apply(false)
     alias(libs.plugins.secrets).apply(false)
     id("io.realm.kotlin").version("1.5.2").apply(false)
+    id("com.google.firebase.firebase-perf").version("1.4.2").apply(false)
 }
 
 allprojects {
@@ -21,14 +25,26 @@ allprojects {
                 "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
                 "-opt-in=androidx.compose.runtime.ExperimentalComposeApi",
                 "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
-                "-opt-in=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi",
                 "-opt-in=com.google.accompanist.pager.ExperimentalPagerApi",
-                "-opt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi",
                 "-opt-in=kotlin.ExperimentalUnsignedTypes",
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-opt-in=kotlinx.coroutines.InternalCoroutinesApi"
+                "-opt-in=kotlinx.coroutines.InternalCoroutinesApi",
+                "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
             )
         }
     }
 
 }
+
+val loggerFactory: org.slf4j.ILoggerFactory = LoggerFactory.getILoggerFactory()
+val addNoOpLogger: java.lang.reflect.Method =
+    loggerFactory.javaClass.getDeclaredMethod("addNoOpLogger", String::class.java)
+addNoOpLogger.isAccessible = true
+addNoOpLogger.invoke(
+    loggerFactory,
+    "com.android.build.api.component.impl.MutableListBackedUpWithListProperty"
+)
+addNoOpLogger.invoke(
+    loggerFactory,
+    "com.android.build.api.component.impl.MutableMapBackedUpWithMapProperty"
+)

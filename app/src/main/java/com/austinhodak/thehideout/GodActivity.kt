@@ -5,11 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.UserSettingsModel
-import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.thehideout.utils.keepScreenOn
-import com.austinhodak.thehideout.utils.ttSyncEnabledPremium
 import com.austinhodak.thehideout.utils.userFirestore
-import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,9 +20,6 @@ open class GodActivity : ComponentActivity() {
 
     @Inject
     lateinit var apolloClient: ApolloClient
-
-    @Inject
-    lateinit var ttRepository: TTRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,30 +38,6 @@ open class GodActivity : ComponentActivity() {
             if (id.isNotEmpty()) {
                 Firebase.messaging.subscribeToTopic("raid-${id}")
             }
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        try {
-            ttSyncEnabledPremium {
-                /*if (it)
-                syncTT(lifecycleScope, ttRepository)*/
-            }
-        } catch (e: Exception) {
-            Firebase.crashlytics.recordException(e)
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        try {
-            ttSyncEnabledPremium {
-               /* if (it)
-                syncTT(lifecycleScope, ttRepository)*/
-            }
-        } catch (e: Exception) {
-            Firebase.crashlytics.recordException(e)
         }
     }
 

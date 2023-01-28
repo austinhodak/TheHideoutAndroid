@@ -42,19 +42,18 @@ import com.austinhodak.tarkovapi.room.enums.Maps
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.room.models.Quest
-import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
 import com.austinhodak.tarkovapi.utils.traderIcon
 import com.austinhodak.thehideout.NavViewModel
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.ui.common.EmptyText
-import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.compose.components.SearchToolbar
 import com.austinhodak.thehideout.compose.theme.*
+import com.austinhodak.thehideout.features.quests.inraid.QuestInRaidActivity
+import com.austinhodak.thehideout.features.quests.viewmodels.QuestMainViewModel
 import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.fsUser
 import com.austinhodak.thehideout.mapsList
-import com.austinhodak.thehideout.features.quests.inraid.QuestInRaidActivity
-import com.austinhodak.thehideout.features.quests.viewmodels.QuestMainViewModel
+import com.austinhodak.thehideout.ui.common.EmptyText
+import com.austinhodak.thehideout.ui.common.LoadingItem
 import com.austinhodak.thehideout.ui.theme.Bender
 import com.austinhodak.thehideout.ui.theme.HideoutTheme
 import com.austinhodak.thehideout.utils.*
@@ -74,8 +73,7 @@ import java.text.DecimalFormat
 fun QuestMainScreen(
     navViewModel: NavViewModel,
     questViewModel: QuestMainViewModel,
-    tarkovRepo: TarkovRepo,
-    ttRepository: TTRepository
+    tarkovRepo: TarkovRepo
 ) {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
@@ -253,17 +251,7 @@ fun QuestMainScreen(
                                         }
                                     }
                                     BottomNavigationScreens.Overview.route -> {
-                                        /*if (UserSettingsModel.ttAPIKey.value.isNotEmpty() && UserSettingsModel.ttSync.value) {
-                                            IconButton(onClick = {
-                                                syncTT(scope, ttRepository)
-                                            }) {
-                                                Icon(
-                                                    painterResource(id = R.drawable.ic_baseline_cloud_sync_24),
-                                                    contentDescription = null,
-                                                    tint = White
-                                                )
-                                            }
-                                        }*/
+
                                     }
                                 }
                             }

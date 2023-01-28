@@ -8,12 +8,24 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.work.*
+import androidx.work.Configuration
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.airbnb.mvrx.Mavericks
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
-import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
-import com.austinhodak.tarkovapi.utils.*
+import com.austinhodak.tarkovapi.utils.AmmoBallistics
+import com.austinhodak.tarkovapi.utils.Hideout
+import com.austinhodak.tarkovapi.utils.Maps
+import com.austinhodak.tarkovapi.utils.Rigs
+import com.austinhodak.tarkovapi.utils.Skills
+import com.austinhodak.tarkovapi.utils.Stims
+import com.austinhodak.tarkovapi.utils.Traders
+import com.austinhodak.tarkovapi.utils.WeaponPresets
 import com.austinhodak.thehideout.features.premium.viewmodels.checkEntitlement
 import com.austinhodak.thehideout.firebase.FSUser
 import com.austinhodak.thehideout.utils.Extras
@@ -22,7 +34,6 @@ import com.austinhodak.thehideout.utils.isWorkScheduled
 import com.austinhodak.thehideout.utils.uid
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
-import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
@@ -34,7 +45,6 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -47,7 +57,6 @@ import com.qonversion.android.sdk.dto.QLaunchMode
 import com.qonversion.android.sdk.dto.QUserProperty
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
-import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -64,9 +73,6 @@ class Application : android.app.Application(), Configuration.Provider {
 
     @Inject
     lateinit var myWorkerFactory: PriceUpdateFactory
-
-    @Inject
-    lateinit var ttRepository: TTRepository
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo
@@ -158,6 +164,10 @@ class Application : android.app.Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        val firebaseAppCheck = FirebaseAppCheck.getInstance()
+        firebaseAppCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance()
+        )
 
         Mavericks.initialize(this)
 
@@ -180,10 +190,7 @@ class Application : android.app.Application(), Configuration.Provider {
         ballistics = AmmoBallistics(applicationContext)
         stims = Stims(applicationContext)
 
-        val firebaseAppCheck = FirebaseAppCheck.getInstance()
-        firebaseAppCheck.installAppCheckProviderFactory(
-            PlayIntegrityAppCheckProviderFactory.getInstance()
-        )
+
 
         //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
         if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {

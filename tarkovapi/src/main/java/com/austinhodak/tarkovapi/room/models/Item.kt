@@ -14,7 +14,6 @@ import com.austinhodak.tarkovapi.utils.getItemType
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
-import timber.log.Timber
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
@@ -387,7 +386,7 @@ fun JSONObject.toItem(): Item {
     item.id = getString("_id") ?: ""
 
     if (props.has("effects_damage") && props["effects_damage"] is JSONObject) {
-        Timber.d(props.getJSONObject("effects_damage").toString())
+        //Timber.d(props.getJSONObject("effects_damage").toString())
     }
 
     item.effects_health = if (props.has("effects_health") && props["effects_health"] is JSONObject) {

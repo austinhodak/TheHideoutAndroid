@@ -2,12 +2,7 @@ package com.austinhodak.tarkovapi.di
 
 import android.content.Context
 import androidx.room.Room
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
-import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
-import com.apollographql.apollo3.network.okHttpClient
 import com.austinhodak.tarkovapi.room.AppDatabase
-import com.austinhodak.tarkovapi.tarkovtracker.TTApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,20 +10,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object Module {
-
-    @Provides
-    @Singleton
-    fun provideTTApiService(): TTApiService {
-        return TTApiService.getInstance()
-    }
 
     @Provides
     @Singleton
