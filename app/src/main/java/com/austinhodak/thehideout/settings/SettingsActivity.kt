@@ -39,7 +39,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
-import com.adapty.Adapty
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.DataSyncFrequency
 import com.austinhodak.tarkovapi.Faction
@@ -81,7 +80,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
-import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions

@@ -232,8 +232,6 @@ dependencies {
 
     implementation("com.facebook.android:facebook-login:13.1.0")
 
-    implementation("com.github.adaptyteam:AdaptySDK-Android:1.9.0")
-
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     implementation("com.otaliastudios:zoomlayout:1.9.0")

@@ -2,20 +2,14 @@ package com.austinhodak.thehideout
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.adapty.Adapty
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
-import com.austinhodak.tarkovapi.utils.ttSyncEnabled
-import com.austinhodak.thehideout.utils.*
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.austinhodak.thehideout.utils.keepScreenOn
+import com.austinhodak.thehideout.utils.ttSyncEnabledPremium
+import com.austinhodak.thehideout.utils.userFirestore
 import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,14 +37,6 @@ open class GodActivity : ComponentActivity() {
             setupPlayerInfoSync()
             setupRaidAlerts()
         }
-
-        /*Adapty.getPurchaserInfo { purchaserInfo, error ->
-            if (error == null) {
-                lifecycleScope.launch {
-                    UserSettingsModel.isPremiumUser.update(purchaserInfo?.accessLevels?.get("premium")?.isActive == true)
-                }
-            }
-        }*/
     }
 
     private fun setupRaidAlerts() {

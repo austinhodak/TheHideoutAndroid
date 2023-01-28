@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.firebase.crashlytics).apply(false)
     alias(libs.plugins.secrets).apply(false)
     id("io.realm.kotlin").version("1.5.2").apply(false)
-    id("nebula.lint").version("18.0.0")
 }
 
 allprojects {

@@ -49,7 +49,6 @@
   *;
 }
 
--keep class com.adapty.** { *; }
 -keep class com.austinhodak.thehideout.premium.** { *; }
 
 -keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
