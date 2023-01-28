@@ -10,3 +10,7 @@
 local.properties
 /app/.localazy
 /tarkovapi/schemas/com.austinhodak.tarkovapi.room.AppDatabase/*
+.vscode/
+/app/full/
+*.apk
+*.aab
