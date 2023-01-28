@@ -12,26 +12,8 @@ import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
 import androidx.compose.animation.graphics.vector.AnimatedImageVector
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
@@ -99,7 +81,7 @@ import kotlinx.coroutines.launch
 class PremiumPusherActivity : ComponentActivity() {
 
     @OptIn(
-        ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+        ExperimentalLayoutApi::class,
         ExperimentalAnimationGraphicsApi::class
     )
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,8 +129,11 @@ class PremiumPusherActivity : ComponentActivity() {
                     }
                 }
 
+
                 Scaffold(
-                    snackbarHost = { SnackbarHost(hostState = snackbarState) }
+                    snackbarHost = { SnackbarHost(hostState = snackbarState) },
+                    modifier = Modifier
+                        .fillMaxSize()
                 ) { padding ->
                     Image(
                         painter = painterResource(id = R.drawable.g7z8a1hc71f51),
@@ -156,7 +141,7 @@ class PremiumPusherActivity : ComponentActivity() {
                         alignment = Center,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .fillMaxHeight()
+                            .fillMaxSize()
                     )
                     Box(
                         modifier = Modifier
@@ -169,286 +154,289 @@ class PremiumPusherActivity : ComponentActivity() {
                                 )
                             )
                     )
-                    Box(
+                    AnimatedVisibility(
+                        visible = offers?.products == null,
                         modifier = Modifier
-                            .padding(padding)
-                            .consumeWindowInsets(padding)
                             .fillMaxSize()
+                            .consumedWindowInsets(padding)
                     ) {
-                        AnimatedVisibility(
-                            visible = offers?.products == null,
-                            modifier = Modifier.align(Center)
-                        ) {
+                        Box(modifier = Modifier.fillMaxSize()) {
                             CircularProgressIndicator(
-
+                                modifier = Modifier.align(Center)
                             )
                         }
-                        AnimatedVisibility(
-                            visible = offers?.products != null,
-                            enter = EnterTransition.None,
-                            exit = ExitTransition.None
+                    }
+                    AnimatedVisibility(
+                        visible = offers?.products != null,
+                        enter = EnterTransition.None,
+                        exit = ExitTransition.None,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .statusBarsPadding(),
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .systemBarsPadding()
+                            Row(
+                                Modifier
+                                    .padding(horizontal = 16.dp)
+                                    .padding(top = 8.dp),
+                                verticalAlignment = CenterVertically
                             ) {
-                                Row(
-                                    Modifier
-                                        .padding(horizontal = 16.dp)
-                                        .padding(top = 8.dp),
-                                    verticalAlignment = CenterVertically
+                                //Exit button
+                                FilledIconButton(
+                                    onClick = {
+                                        finish()
+                                    },
+                                    colors = IconButtonDefaults.filledIconButtonColors(
+                                        containerColor = Color.Black.copy(alpha = 0.3f)
+                                    )
                                 ) {
-                                    //Exit button
-                                    FilledIconButton(
-                                        onClick = {
-                                            finish()
-                                        },
-                                        colors = IconButtonDefaults.filledIconButtonColors(
-                                            containerColor = Color.Black.copy(alpha = 0.3f)
-                                        )
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Close,
-                                            contentDescription = "Close",
-                                            tint = Color.White
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.weight(1f))
-                                    //Restore Button
-                                    TextButton(onClick = {
-                                        viewModel.restorePurchases()
-                                    }) {
-                                        Text(
-                                            text = "Restore",
-                                            style = MaterialTheme.typography.labelLarge,
-                                            color = MaterialTheme.colorScheme.onSurface
-                                        )
-                                    }
+                                    Icon(
+                                        imageVector = Icons.Default.Close,
+                                        contentDescription = "Close",
+                                        tint = Color.White
+                                    )
                                 }
                                 Spacer(modifier = Modifier.weight(1f))
+                                //Restore Button
+                                TextButton(onClick = {
+                                    viewModel.restorePurchases()
+                                }) {
+                                    Text(
+                                        text = "Restore",
+                                        style = MaterialTheme.typography.labelLarge,
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                            }
+                            //Spacer(modifier = Modifier.weight(1f))
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .padding(horizontal = 32.dp),
+                                horizontalAlignment = CenterHorizontally,
+                                verticalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                val image =
+                                    AnimatedImageVector.animatedVectorResource(R.drawable.animated_icon)
+                                var atEnd by remember { mutableStateOf(false) }
+
+                                LaunchedEffect(image) {
+                                    atEnd = true
+                                }
+
+                                Image(
+                                    painter = rememberAnimatedVectorPainter(image, atEnd),
+                                    contentDescription = "Your content description",
+                                    modifier = Modifier
+                                        .height(120.dp)
+                                        .width(120.dp)
+                                    //.padding(bottom = 64.dp)
+                                )
+                                Text(
+                                    text = "The Hideout",
+                                    fontSize = 34.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    fontFamily = rubik
+                                )
+                                Text(
+                                    text = "Unlimited Access to Premium Content & Features",
+                                    style = MaterialTheme.typography.titleLarge,
+                                    fontWeight = FontWeight.Normal,
+                                    modifier = Modifier.padding(top = 12.dp),
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    fontFamily = rubik,
+                                    textAlign = TextAlign.Center
+                                )
+                                val points = listOf(
+                                    "No Ads. Ever.",
+                                    "Custom Map Markers",
+                                    "Unlimited Price Alerts",
+                                    "1 Year Price History",
+                                    //"Tarkov Tracker Integration",
+                                    "Discord Role",
+                                    "More coming soon!"
+                                )
+                                //Spacer(modifier = Modifier.padding(top = 64.dp))
                                 Column(
                                     modifier = Modifier
-                                        .height(IntrinsicSize.Max)
-                                        .padding(horizontal = 32.dp),
-                                    horizontalAlignment = CenterHorizontally
+                                        .padding(
+                                            top = 12.dp, bottom = 12.dp
+                                        )
                                 ) {
-                                    val image =
-                                        AnimatedImageVector.animatedVectorResource(R.drawable.animated_icon)
-                                    var atEnd by remember { mutableStateOf(false) }
-
-                                    LaunchedEffect(image) {
-                                        atEnd = true
-                                    }
-
-                                    Image(
-                                        painter = rememberAnimatedVectorPainter(image, atEnd),
-                                        contentDescription = "Your content description",
-                                        modifier = Modifier
-                                            .height(200.dp)
-                                            .width(200.dp)
-                                            .padding(bottom = 64.dp)
-                                    )
-                                    Text(
-                                        text = "The Hideout",
-                                        fontSize = 40.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                        fontFamily = rubik
-                                    )
-                                    Text(
-                                        text = "Unlimited Access to Premium Content & Features",
-                                        style = MaterialTheme.typography.titleLarge,
-                                        fontWeight = FontWeight.Normal,
-                                        modifier = Modifier.padding(top = 16.dp),
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                        fontFamily = rubik,
-                                        textAlign = TextAlign.Center
-                                    )
-                                    val points = listOf(
-                                        "No Ads. Ever.",
-                                        "Custom Map Markers",
-                                        "Unlimited Price Alerts",
-                                        "1 Year Price History",
-                                        //"Tarkov Tracker Integration",
-                                        "Discord Role",
-                                        "More coming soon!"
-                                    )
-                                    Spacer(modifier = Modifier.padding(top = 64.dp))
-                                    Column(
-                                        modifier = Modifier.width(IntrinsicSize.Max)
-                                    ) {
-                                        points.forEach {
-                                            Row(
-                                                verticalAlignment = CenterVertically,
-                                                horizontalArrangement = Arrangement.Start,
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(vertical = 2.dp)
-                                            ) {
-                                                Icon(
-                                                    Icons.Filled.ArrowForward,
-                                                    null,
-                                                    modifier = Modifier.padding(end = 16.dp),
-                                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
-                                                )
-                                                Text(
-                                                    text = it,
-                                                    fontFamily = rubik,
-                                                    fontWeight = FontWeight.Light,
-                                                    fontSize = 18.sp,
-                                                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                                                )
-                                            }
+                                    points.forEach {
+                                        Row(
+                                            verticalAlignment = CenterVertically,
+                                            horizontalArrangement = Arrangement.Start,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 2.dp)
+                                        ) {
+                                            Icon(
+                                                Icons.Filled.ArrowForward,
+                                                null,
+                                                modifier = Modifier.padding(end = 16.dp),
+                                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                            )
+                                            Text(
+                                                text = it,
+                                                fontFamily = rubik,
+                                                fontWeight = FontWeight.Light,
+                                                fontSize = 18.sp,
+                                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                                            )
                                         }
                                     }
-                                    Spacer(modifier = Modifier.padding(top = 64.dp))
-                                    Column(
-                                        modifier = Modifier.animateEnterExit(
+                                }
+                                //Spacer(modifier = Modifier.padding(top = 64.dp))
+                                Column(
+                                    modifier = Modifier
+                                        .animateEnterExit(
                                             enter = slideInVertically { it }
                                         )
-                                    ) {
-                                        offers?.products?.sortedByDescending { it.skuDetail?.priceAmountMicros }
-                                            ?.forEach { offer ->
-                                                if (offer.type == QProductType.InApp) {
-                                                    Button(
-                                                        onClick = {
-                                                            viewModel.purchase(
-                                                                this@PremiumPusherActivity,
-                                                                offer
-                                                            )
-                                                        },
-                                                        modifier = Modifier
-                                                            .padding(top = 8.dp)
-                                                            .fillMaxWidth(),
-                                                        colors = ButtonDefaults.buttonColors(
-                                                            containerColor = MaterialTheme.colorScheme.onPrimary
+                                        .padding(bottom = 32.dp)
+                                ) {
+                                    offers?.products?.sortedByDescending { it.skuDetail?.priceAmountMicros }
+                                        ?.forEach { offer ->
+                                            if (offer.type == QProductType.InApp) {
+                                                Button(
+                                                    onClick = {
+                                                        viewModel.purchase(
+                                                            this@PremiumPusherActivity,
+                                                            offer
                                                         )
+                                                    },
+                                                    modifier = Modifier
+                                                        .padding(top = 8.dp)
+                                                        .fillMaxWidth(),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = MaterialTheme.colorScheme.onPrimary
+                                                    )
+                                                ) {
+                                                    Column(
+                                                        modifier = Modifier.padding(8.dp),
+                                                        horizontalAlignment = CenterHorizontally
                                                     ) {
-                                                        Column(
-                                                            modifier = Modifier.padding(8.dp),
-                                                            horizontalAlignment = CenterHorizontally
-                                                        ) {
-                                                            Text(
-                                                                text = "${offer.prettyPrice}/Lifetime",
-                                                                style = MaterialTheme.typography.titleLarge,
-                                                                fontWeight = FontWeight.Medium,
-                                                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                                                fontFamily = rubik
-                                                            )
-                                                            Text(
-                                                                text = "Most Popular",
-                                                                fontWeight = FontWeight.Normal,
-                                                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                                                fontFamily = rubik,
-                                                                fontSize = 16.sp
-                                                            )
-                                                        }
-                                                    }
-                                                }
-                                                if (offer.type == QProductType.Trial) {
-                                                    Button(
-                                                        onClick = {
-                                                            viewModel.purchase(
-                                                                this@PremiumPusherActivity,
-                                                                offer
-                                                            )
-                                                        },
-                                                        modifier = Modifier
-                                                            .padding(top = 8.dp)
-                                                            .fillMaxWidth(),
-                                                        colors = ButtonDefaults.buttonColors(
-                                                            containerColor = MaterialTheme.colorScheme.onPrimary
+                                                        Text(
+                                                            text = "${offer.prettyPrice}/Lifetime",
+                                                            style = MaterialTheme.typography.titleLarge,
+                                                            fontWeight = FontWeight.Medium,
+                                                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                            fontFamily = rubik
                                                         )
-                                                    ) {
-                                                        Column(
-                                                            modifier = Modifier.padding(8.dp),
-                                                            horizontalAlignment = CenterHorizontally
-                                                        ) {
-                                                            val title = when (offer.duration) {
-                                                                QProductDuration.Monthly -> {
-                                                                    "${offer.prettyPrice}/Month"
-                                                                }
-
-                                                                QProductDuration.Annual -> {
-                                                                    "${offer.prettyPrice}/Year"
-                                                                }
-
-                                                                else -> {
-                                                                    ""
-                                                                }
-                                                            }
-                                                            Text(
-                                                                text = title,
-                                                                style = MaterialTheme.typography.titleLarge,
-                                                                fontWeight = FontWeight.Medium,
-                                                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                                                fontFamily = rubik
-                                                            )
-                                                            Text(
-                                                                text = "with 7-day Free Trial",
-                                                                fontWeight = FontWeight.Normal,
-                                                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                                                fontFamily = rubik,
-                                                                fontSize = 16.sp
-                                                            )
-                                                        }
-                                                    }
-                                                }
-                                                if (offer.type == QProductType.Subscription) {
-                                                    OutlinedButton(
-                                                        onClick = {
-                                                            viewModel.purchase(
-                                                                this@PremiumPusherActivity,
-                                                                offer
-                                                            )
-                                                        },
-                                                        modifier = Modifier
-                                                            .padding(top = 8.dp)
-                                                            .fillMaxWidth(),
-                                                        border = BorderStroke(
-                                                            1.dp,
-                                                            color = MaterialTheme.colorScheme.onSecondary
+                                                        Text(
+                                                            text = "Most Popular",
+                                                            fontWeight = FontWeight.Normal,
+                                                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                            fontFamily = rubik,
+                                                            fontSize = 16.sp
                                                         )
-                                                    ) {
-                                                        Column(
-                                                            modifier = Modifier.padding(8.dp),
-                                                            horizontalAlignment = CenterHorizontally
-                                                        ) {
-                                                            val title = when (offer.duration) {
-                                                                QProductDuration.Monthly -> {
-                                                                    "Monthly"
-                                                                }
-
-                                                                QProductDuration.Annual -> {
-                                                                    "Yearly"
-                                                                }
-
-                                                                else -> {
-                                                                    ""
-                                                                }
-                                                            }
-                                                            Text(
-                                                                text = "${offer.prettyPrice}",
-                                                                style = MaterialTheme.typography.titleLarge,
-                                                                fontWeight = FontWeight.Medium,
-                                                                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                                                fontFamily = rubik
-                                                            )
-                                                            Text(
-                                                                text = title,
-                                                                fontWeight = FontWeight.Normal,
-                                                                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                                                fontFamily = rubik,
-                                                                fontSize = 16.sp
-                                                            )
-                                                        }
                                                     }
                                                 }
                                             }
-                                    }
+                                            if (offer.type == QProductType.Trial) {
+                                                Button(
+                                                    onClick = {
+                                                        viewModel.purchase(
+                                                            this@PremiumPusherActivity,
+                                                            offer
+                                                        )
+                                                    },
+                                                    modifier = Modifier
+                                                        .padding(top = 8.dp)
+                                                        .fillMaxWidth(),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = MaterialTheme.colorScheme.onPrimary
+                                                    )
+                                                ) {
+                                                    Column(
+                                                        modifier = Modifier.padding(8.dp),
+                                                        horizontalAlignment = CenterHorizontally
+                                                    ) {
+                                                        val title = when (offer.duration) {
+                                                            QProductDuration.Monthly -> {
+                                                                "${offer.prettyPrice}/Month"
+                                                            }
+
+                                                            QProductDuration.Annual -> {
+                                                                "${offer.prettyPrice}/Year"
+                                                            }
+
+                                                            else -> {
+                                                                ""
+                                                            }
+                                                        }
+                                                        Text(
+                                                            text = title,
+                                                            style = MaterialTheme.typography.titleLarge,
+                                                            fontWeight = FontWeight.Medium,
+                                                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                            fontFamily = rubik
+                                                        )
+                                                        Text(
+                                                            text = "with 7-day Free Trial",
+                                                            fontWeight = FontWeight.Normal,
+                                                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                            fontFamily = rubik,
+                                                            fontSize = 16.sp
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                            if (offer.type == QProductType.Subscription) {
+                                                OutlinedButton(
+                                                    onClick = {
+                                                        viewModel.purchase(
+                                                            this@PremiumPusherActivity,
+                                                            offer
+                                                        )
+                                                    },
+                                                    modifier = Modifier
+                                                        .padding(top = 8.dp)
+                                                        .fillMaxWidth(),
+                                                    border = BorderStroke(
+                                                        1.dp,
+                                                        color = MaterialTheme.colorScheme.onSecondary
+                                                    )
+                                                ) {
+                                                    Column(
+                                                        modifier = Modifier.padding(8.dp),
+                                                        horizontalAlignment = CenterHorizontally
+                                                    ) {
+                                                        val title = when (offer.duration) {
+                                                            QProductDuration.Monthly -> {
+                                                                "Monthly"
+                                                            }
+
+                                                            QProductDuration.Annual -> {
+                                                                "Yearly"
+                                                            }
+
+                                                            else -> {
+                                                                ""
+                                                            }
+                                                        }
+                                                        Text(
+                                                            text = "${offer.prettyPrice}",
+                                                            style = MaterialTheme.typography.titleLarge,
+                                                            fontWeight = FontWeight.Medium,
+                                                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                                            fontFamily = rubik
+                                                        )
+                                                        Text(
+                                                            text = title,
+                                                            fontWeight = FontWeight.Normal,
+                                                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                                            fontFamily = rubik,
+                                                            fontSize = 16.sp
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
                                 }
-                                Spacer(modifier = Modifier.padding(bottom = 32.dp))
                             }
                         }
                     }
