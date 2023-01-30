@@ -31,7 +31,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -345,7 +345,7 @@ fun CompactItem(item: Pricing, extras: CraftDetailActivity.ItemSubtitle? = null,
                 ) {
                     Box {
                         Image(
-                            rememberImagePainter(
+                            rememberAsyncImagePainter(
                                 item.getCleanIcon()
                             ),
                             contentDescription = null,
@@ -505,7 +505,7 @@ fun CompactItem(item: Pricing, extras: CraftDetailActivity.ItemSubtitle? = null,
                 ) {
                     Box {
                         Image(
-                            rememberImagePainter(
+                            rememberAsyncImagePainter(
                                 item.getCleanIcon()
                             ),
                             contentDescription = null,

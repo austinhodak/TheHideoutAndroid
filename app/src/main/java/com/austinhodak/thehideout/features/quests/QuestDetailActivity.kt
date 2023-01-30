@@ -40,7 +40,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -138,15 +138,12 @@ class QuestDetailActivity : GodActivity() {
                         topBar = {
                             Column {
                                 Box {
-                                    val painter = rememberImagePainter(
-                                        questExtra?.image,
-                                        builder = {
-                                            crossfade(true)
-                                        }
+                                    val painter = fadeImagePainter(
+                                        questExtra?.image
                                     )
 
                                     //Hide if landscape
-                                    if (resources.configuration.orientation != ORIENTATION_LANDSCAPE) {
+                                    /*if (resources.configuration.orientation != ORIENTATION_LANDSCAPE) {
                                         Column {
                                             Image(
                                                 painter,
@@ -161,14 +158,16 @@ class QuestDetailActivity : GodActivity() {
                                                                 ?.painter
                                                                 ?.intrinsicSize
                                                                 ?.let { intrinsicSize ->
-                                                                    Modifier.aspectRatio(intrinsicSize.width / intrinsicSize.height)
+                                                                    Modifier.aspectRatio(
+                                                                        intrinsicSize.width / intrinsicSize.height
+                                                                    )
                                                                 } ?: Modifier
                                                         }
                                                     ),
                                                 contentScale = ContentScale.FillWidth
                                             )
                                         }
-                                    }
+                                    }*/
 
                                     Column(
                                         modifier = Modifier
@@ -176,7 +175,7 @@ class QuestDetailActivity : GodActivity() {
                                             .padding(
                                                 start = 72.dp,
                                                 bottom = 16.dp,
-                                                top = if (painter.state is ImagePainter.State.Success) 0.dp else 56.dp
+                                                top = 56.dp
                                             )
                                             .align(Alignment.BottomStart)
                                     ) {
@@ -974,7 +973,7 @@ class QuestDetailActivity : GodActivity() {
                     modifier = Modifier.size(38.dp)
                 ) {
                     Image(
-                        rememberImagePainter(pricing?.getCleanIcon()),
+                        rememberAsyncImagePainter(pricing?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .width(38.dp)

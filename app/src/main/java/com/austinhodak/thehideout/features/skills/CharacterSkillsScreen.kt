@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.FleaVisiblePrice
@@ -118,7 +118,7 @@ private fun SkillCard(skill: Skill, modifier: Modifier = Modifier) {
                         .padding(end = 16.dp)
                 )*/
                 Image(
-                    rememberImagePainter(skill.icon),
+                    rememberAsyncImagePainter(skill.icon),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)

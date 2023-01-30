@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
@@ -250,12 +250,12 @@ class ModPickerActivity : GodActivity() {
                         verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                            rememberImagePainter(item.pricing?.getCleanIcon()),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(40.dp)
-                                .height(40.dp)
-                                .border(0.25.dp, BorderColor)
+                        rememberAsyncImagePainter(item.pricing?.getCleanIcon()),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp)
+                            .border(0.25.dp, BorderColor)
                     )
                     Column(
                             modifier = Modifier

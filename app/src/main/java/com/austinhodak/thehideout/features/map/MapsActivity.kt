@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.UserSettingsModel
@@ -637,7 +637,9 @@ class MapsActivity : GodActivity() {
                                                     ) {
                                                         location.media?.forEach { media ->
                                                             Image(
-                                                                painter = rememberImagePainter(media?.url),
+                                                                painter = rememberAsyncImagePainter(
+                                                                    media?.url
+                                                                ),
                                                                 contentDescription = "",
                                                                 modifier = Modifier
                                                                     .height(100.dp)

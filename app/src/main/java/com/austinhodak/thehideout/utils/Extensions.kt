@@ -24,11 +24,14 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.imageLoader
+import coil.request.ImageRequest
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
@@ -750,10 +753,18 @@ fun Context.openNotificationSettings(channelID: String) {
 }
 
 @Composable
-fun fadeImagePainter(url: String?) = rememberImagePainter(data = url, builder = { crossfade(true) })
+fun fadeImagePainter(data: Any?) =
+    rememberAsyncImagePainter(
+        model = ImageRequest.Builder(
+            LocalContext.current
+        ).data(data).traderLevel(1).build(), LocalContext.current
+            .imageLoader
+    )
 
 @Composable
-fun fadeImagePainterPlaceholder(url: String?, @DrawableRes placeHolder: Int = R.drawable.unknown_item_icon) = rememberImagePainter(data = url, builder = { crossfade(true); placeholder(placeHolder) })
+fun fadeImagePainterPlaceholder(
+    url: Any?
+) = rememberAsyncImagePainter(model = url, LocalContext.current.imageLoader.unknown())
 
 fun Modifier.border(): Modifier = this.border(0.25.dp, BorderColor)
 

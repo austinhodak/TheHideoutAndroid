@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.graphics.Color
 import com.austinhodak.thehideout.compose.theme.DarkGrey
 import com.austinhodak.thehideout.compose.theme.DarkPrimary
@@ -34,6 +35,12 @@ private val LightColorPalette = lightColors(
 
 @Composable
 fun HideoutTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+    val systemUiController = rememberSystemUiController()
+    DisposableEffect(systemUiController, true) {
+        systemUiController.setSystemBarsColor(Color.Transparent, false)
+        onDispose {}
+    }
+
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {

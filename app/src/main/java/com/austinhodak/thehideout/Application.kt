@@ -1,11 +1,15 @@
 package com.austinhodak.thehideout
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.work.Configuration
@@ -15,6 +19,8 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import coil.ImageLoader
+import coil.ImageLoaderFactory
 import com.airbnb.mvrx.Mavericks
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -28,10 +34,7 @@ import com.austinhodak.tarkovapi.utils.Traders
 import com.austinhodak.tarkovapi.utils.WeaponPresets
 import com.austinhodak.thehideout.features.premium.viewmodels.checkEntitlement
 import com.austinhodak.thehideout.firebase.FSUser
-import com.austinhodak.thehideout.utils.Extras
-import com.austinhodak.thehideout.utils.isWorkRunning
-import com.austinhodak.thehideout.utils.isWorkScheduled
-import com.austinhodak.thehideout.utils.uid
+import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.firebase.analytics.ktx.analytics
@@ -68,8 +71,10 @@ import javax.inject.Inject
 internal const val SyncWorkName = "SyncWorkName"
 
 @HiltAndroidApp
-class Application : android.app.Application(), Configuration.Provider {
+class Application : android.app.Application(), Configuration.Provider, ImageLoaderFactory {
 
+    @Inject
+    lateinit var coilExtensions: CoilExtensions
 
     @Inject
     lateinit var myWorkerFactory: PriceUpdateFactory
@@ -312,6 +317,7 @@ class Application : android.app.Application(), Configuration.Provider {
         }
     }
 
+
     private fun setupFirebaseAuth() {
         Firebase.auth.addAuthStateListener { auth ->
             auth.currentUser?.let { currentUser ->
@@ -355,8 +361,11 @@ class Application : android.app.Application(), Configuration.Provider {
         .setMinimumLoggingLevel(android.util.Log.INFO)
         .setWorkerFactory(myWorkerFactory)
         .build()
-}
 
+    override fun newImageLoader(): ImageLoader {
+        return coilExtensions.crossFadeLoader
+    }
+}
 
 val extras: Extras by lazy {
     Application.extras!!

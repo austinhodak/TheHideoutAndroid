@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.size.OriginalSize
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
@@ -191,7 +191,7 @@ class GearDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(item.pricing?.getCleanIcon()),
+                        rememberAsyncImagePainter(item.pricing?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)
@@ -255,9 +255,7 @@ class GearDetailActivity : GodActivity() {
                     }
                     url?.let {
                         Image(
-                            painter = rememberImagePainter(data = url, builder = {
-                                size(OriginalSize)
-                            }),
+                            painter = rememberAsyncImagePainter(model = url),
                             contentDescription = "",
                             modifier = Modifier
                                 .defaultMinSize(minHeight = 1.dp)
@@ -410,7 +408,7 @@ class GearDetailActivity : GodActivity() {
                     ) {
                         selectedAmmo?.pricing?.gridImageLink?.let {
                             Image(
-                                rememberImagePainter(it),
+                                rememberAsyncImagePainter(it),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .padding(end = 16.dp)

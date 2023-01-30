@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.room.models.Item
 import com.austinhodak.tarkovapi.utils.asCurrency
@@ -212,7 +212,7 @@ fun HideoutRequirementItem(
     ) {
         Box {
             Image(
-                rememberImagePainter(
+                rememberAsyncImagePainter(
                     pricing?.getCleanIcon()
                 ),
                 contentDescription = null,

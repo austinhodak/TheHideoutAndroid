@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
@@ -114,7 +114,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
-                    rememberImagePainter(
+                    rememberAsyncImagePainter(
                         pricing.getCleanIcon()
                     ),
                     contentDescription = null,
@@ -157,7 +157,9 @@ class WeaponBuilderActivity : AppCompatActivity() {
                         )
                     }
                     Image(
-                        painter = rememberImagePainter(data = pricing.getCheapestBuyRequirements().traderImage(true)),
+                        painter = rememberAsyncImagePainter(
+                            model = pricing.getCheapestBuyRequirements().traderImage(true)
+                        ),
                         contentDescription = "Trader",
                         modifier = Modifier.size(32.dp)
                     )
@@ -218,7 +220,14 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                 Modifier
                                     .fillMaxWidth()
                                     .padding(bottom = 4.dp, top = 4.dp)
-                                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomEnd = 0.dp, bottomStart = 0.dp))
+                                    .clip(
+                                        RoundedCornerShape(
+                                            topStart = 16.dp,
+                                            topEnd = 16.dp,
+                                            bottomEnd = 0.dp,
+                                            bottomStart = 0.dp
+                                        )
+                                    )
                                     .background(Color(0xFF282828))
                                     .combinedClickable(
                                         onClick = {
@@ -270,11 +279,20 @@ class WeaponBuilderActivity : AppCompatActivity() {
                                     )
                                     Spacer(Modifier.weight(1f))
                                     Icon(
-                                        painter = if (totalPriceOpen) painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24) else painterResource(id = R.drawable.ic_baseline_keyboard_arrow_down_24),
+                                        painter = if (totalPriceOpen) painterResource(id = R.drawable.ic_baseline_keyboard_arrow_up_24) else painterResource(
+                                            id = R.drawable.ic_baseline_keyboard_arrow_down_24
+                                        ),
                                         contentDescription = "",
-                                        modifier = Modifier.clickable {
-                                            totalPriceOpen = !totalPriceOpen
-                                        }.padding(end = 16.dp, top = 16.dp, start = 16.dp, bottom = 16.dp)
+                                        modifier = Modifier
+                                            .clickable {
+                                                totalPriceOpen = !totalPriceOpen
+                                            }
+                                            .padding(
+                                                end = 16.dp,
+                                                top = 16.dp,
+                                                start = 16.dp,
+                                                bottom = 16.dp
+                                            )
                                     )
                                 }
                                 AnimatedVisibility(visible = totalPriceOpen) {
@@ -584,7 +602,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                     ) {
                         if (mod != null) {
                             Image(
-                                rememberImagePainter(mod.pricing?.getCleanIcon()),
+                                rememberAsyncImagePainter(mod.pricing?.getCleanIcon()),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .padding(end = 16.dp)
@@ -664,11 +682,17 @@ class WeaponBuilderActivity : AppCompatActivity() {
                 }, onLongClick = {
                     buildSlot?.let {
                         MaterialDialog(this).show {
-                            listItems(items = listOf("View Mod Details", "Remove")) { dialog, index, text ->
+                            listItems(
+                                items = listOf(
+                                    "View Mod Details",
+                                    "Remove"
+                                )
+                            ) { dialog, index, text ->
                                 when (index) {
                                     0 -> {
                                         it.mod?.id?.let { it1 -> openModDetail(it1) }
                                     }
+
                                     1 -> {
                                         loaded = true
                                         viewModel.removeMod(it.mod, slot._id, slot._parent, slot)
@@ -699,7 +723,7 @@ class WeaponBuilderActivity : AppCompatActivity() {
                     ) {
                         if (buildSlot?.mod != null) {
                             Image(
-                                rememberImagePainter(buildSlot.mod?.pricing?.getCleanIcon()),
+                                rememberAsyncImagePainter(buildSlot.mod?.pricing?.getCleanIcon()),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .padding(end = 16.dp)

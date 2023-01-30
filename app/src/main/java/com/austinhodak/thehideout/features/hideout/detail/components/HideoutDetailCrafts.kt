@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.models.Hideout
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.utils.asCurrency
@@ -102,7 +102,7 @@ fun CraftItem(craft: Craft, modifier: Modifier = Modifier) {
                 ) {
                     Box {
                         Image(
-                            rememberImagePainter(
+                            rememberAsyncImagePainter(
                                 rewardItem?.getCleanIcon()
                             ),
                             contentDescription = null,
@@ -211,7 +211,7 @@ fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     ) {
         Box {
             Image(
-                rememberImagePainter(
+                rememberAsyncImagePainter(
                     item?.getCleanIcon()
                 ),
                 contentDescription = null,

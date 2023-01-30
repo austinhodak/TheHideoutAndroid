@@ -35,7 +35,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.austinhodak.tarkovapi.TraderResetTimersQuery
@@ -323,7 +323,7 @@ private fun InfoCard1(trader: TraderInfo?) {
                 verticalAlignment = Alignment.Top
             ) {
                 Image(
-                    rememberImagePainter(traderEnum.icon),
+                    rememberAsyncImagePainter(traderEnum.icon),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)
@@ -443,7 +443,7 @@ private fun BarterItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(data = rewardItem?.getCleanIcon()),
+                    rememberAsyncImagePainter(model = rewardItem?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)
@@ -537,7 +537,7 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     ) {
         Box {
             Image(
-                rememberImagePainter(
+                rememberAsyncImagePainter(
                     item?.getCleanIcon()
                 ),
                 contentDescription = null,
@@ -735,7 +735,7 @@ fun TraderFleaItem(
                         .padding(end = 16.dp)
                 )
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    rememberAsyncImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(48.dp)

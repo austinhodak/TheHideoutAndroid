@@ -28,8 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.AsyncImagePainter
 import coil.compose.ImagePainter
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.repository.ModsRepo
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.*
@@ -132,11 +133,8 @@ class WeaponDetailActivity : GodActivity() {
                                         systemUiController.setNavigationBarColor(DarkPrimary)
                                         Column {
                                             Box {
-                                                val painter = rememberImagePainter(
-                                                    weapon?.getTarkovMarketImageURL(),
-                                                    builder = {
-                                                        crossfade(true)
-                                                    }
+                                                val painter = fadeImagePainter(
+                                                    weapon?.getTarkovMarketImageURL()
                                                 )
                                                 Column {
                                                     Image(
@@ -145,14 +143,18 @@ class WeaponDetailActivity : GodActivity() {
                                                         modifier = Modifier
                                                             .fillMaxWidth()
                                                             .then(
-                                                                if (painter.state is ImagePainter.State.Loading || painter.state is ImagePainter.State.Error) {
+                                                                if (painter.state is AsyncImagePainter.State
+                                                                    .Loading || painter.state is AsyncImagePainter.State.Error
+                                                                ) {
                                                                     Modifier.height(0.dp)
                                                                 } else {
-                                                                    (painter.state as? ImagePainter.State.Success)
+                                                                    (painter.state as? AsyncImagePainter.State.Success)
                                                                         ?.painter
                                                                         ?.intrinsicSize
                                                                         ?.let { intrinsicSize ->
-                                                                            Modifier.aspectRatio(intrinsicSize.width / intrinsicSize.height)
+                                                                            Modifier.aspectRatio(
+                                                                                intrinsicSize.width / intrinsicSize.height
+                                                                            )
                                                                         } ?: Modifier
                                                                 }
                                                             ),
@@ -162,11 +164,11 @@ class WeaponDetailActivity : GodActivity() {
                                                         modifier = Modifier
                                                             .fillMaxWidth()
                                                             .offset(y = (-4).dp)
-                                                            .background(if (painter.state is ImagePainter.State.Success) Color.Black else DarkPrimary)
+                                                            .background(if (painter.state is AsyncImagePainter.State.Success) Color.Black else DarkPrimary)
                                                             .padding(
                                                                 start = 72.dp,
                                                                 bottom = 16.dp,
-                                                                top = if (painter.state is ImagePainter.State.Success) 0.dp else 56.dp
+                                                                top = if (painter.state is AsyncImagePainter.State.Success) 0.dp else 56.dp
                                                             )
                                                     ) {
                                                         Text(
@@ -517,7 +519,7 @@ class WeaponDetailActivity : GodActivity() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
-                    rememberImagePainter(
+                    rememberAsyncImagePainter(
                         item.pricing?.getCleanIcon()
                     ),
                     contentDescription = null,

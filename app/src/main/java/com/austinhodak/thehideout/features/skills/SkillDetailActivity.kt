@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.models.Skill
 import com.austinhodak.tarkovapi.utils.color
 import com.austinhodak.thehideout.GodActivity
@@ -133,7 +133,7 @@ class SkillDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(skill.icon),
+                        rememberAsyncImagePainter(skill.icon),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)

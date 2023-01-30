@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,7 +40,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.apollographql.apollo3.mpp.currentTimeMillis
 import com.austinhodak.tarkovapi.FleaHideTime
@@ -148,9 +149,11 @@ fun FleaMarketScreen(
                         title = "Flea Market",
                         navViewModel = navViewModel
                     ) {
-                        IconButton(onClick = {
-                            fleaViewModel.setSearchOpen(true)
-                        }) {
+                        IconButton(
+                            modifier = Modifier.testTag("search"),
+                            onClick = {
+                                fleaViewModel.setSearchOpen(true)
+                            }) {
                             Icon(
                                 Icons.Filled.Search,
                                 contentDescription = "Search",
@@ -308,7 +311,7 @@ fun FleaMarketNeededScreen(
                 )
             ) {
                 Image(
-                    rememberImagePainter(it.pricing?.getCleanIcon() ?: ""),
+                    rememberAsyncImagePainter(it.pricing?.getCleanIcon() ?: ""),
                     contentDescription = "",
                     Modifier
                         .layout { measurable, constraints ->

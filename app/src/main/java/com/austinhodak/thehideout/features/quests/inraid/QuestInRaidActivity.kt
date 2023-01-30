@@ -37,7 +37,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -233,7 +233,7 @@ class QuestInRaidActivity : GodActivity() {
                     )
                 ) {
                     Image(
-                        rememberImagePainter(item.pricing?.getCleanIcon()),
+                        rememberAsyncImagePainter(item.pricing?.getCleanIcon()),
                         contentDescription = "",
                         Modifier
                             .layout { measurable, constraints ->
@@ -647,7 +647,7 @@ class QuestInRaidActivity : GodActivity() {
                     }
                 }
                 Image(
-                    rememberImagePainter(
+                    rememberAsyncImagePainter(
                         pricing?.getCleanIcon()
                     ),
                     contentDescription = null,

@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
@@ -165,7 +165,7 @@ private fun MedCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getCleanIcon()),
+                    rememberAsyncImagePainter(item.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)

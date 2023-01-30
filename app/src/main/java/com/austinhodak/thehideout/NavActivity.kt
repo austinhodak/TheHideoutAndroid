@@ -73,7 +73,6 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -210,7 +209,6 @@ class NavActivity : GodActivity() {
             val coroutineScope = rememberCoroutineScope()
             val lifeCycleOwner = this
             val navController = rememberNavController()
-            val systemUiController = rememberSystemUiController()
 
             val tag: String = navViewModel.selectedDrawerItem.value?.tag?.toString() ?: extras.openingPageTag
 
@@ -225,9 +223,6 @@ class NavActivity : GodActivity() {
             }
 
             HideoutTheme {
-                systemUiController.setSystemBarsColor(
-                    color = MaterialTheme.colors.primary,
-                )
                 Scaffold(
                     scaffoldState = scaffoldState,
                     drawerContent = {

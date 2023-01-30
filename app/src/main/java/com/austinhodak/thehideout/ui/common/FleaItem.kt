@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.FleaVisibleName
 import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.FleaVisibleTraderPrice
@@ -115,7 +115,9 @@ fun FleaItem(
                     .fillMaxHeight()
                     .padding(end = 16.dp))
                 Image(
-                    rememberImagePainter(data = icon, builder = { crossfade(true); placeholder(R.drawable.unknown_item_icon) }),
+                    fadeImagePainterPlaceholder(
+                        icon,
+                    ),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)
@@ -275,7 +277,7 @@ fun SmallSellPrice(pricing: Pricing?) {
         modifier = Modifier.padding(top = 0.dp)
     ) {
         Image(
-            painter = rememberImagePainter(data = i.traderImage(false)),
+            painter = rememberAsyncImagePainter(model = i.traderImage(false)),
             contentDescription = "Trader",
             modifier = Modifier.size(16.dp)
         )
@@ -315,7 +317,9 @@ fun TraderSmall(item: Pricing?, price: FleaVisibleTraderPrice = FleaVisibleTrade
                 )
             }
             Image(
-                painter = rememberImagePainter(data = i.traderImage(), builder = { crossfade(true) }),
+                painter = fadeImagePainter(
+                    i
+                ),
                 contentDescription = "Trader",
                 modifier = Modifier.size(16.dp)
             )

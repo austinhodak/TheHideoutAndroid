@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
@@ -286,7 +286,7 @@ class CalculatorMainActivity : GodActivity() {
             ) {
                 if (selectedAmmo?.pricing?.iconLink != null) {
                     Image(
-                        painter = rememberImagePainter(data = selectedAmmo.pricing?.getCleanIcon()),
+                        painter = rememberAsyncImagePainter(model = selectedAmmo.pricing?.getCleanIcon()),
                         contentDescription = "",
                         modifier = Modifier.size(40.dp)
                     )
@@ -333,7 +333,7 @@ class CalculatorMainActivity : GodActivity() {
             ) {
                 if (selectedArmor?.pricing?.iconLink != null) {
                     Image(
-                        painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
+                        painter = rememberAsyncImagePainter(model = selectedArmor.pricing?.getCleanIcon()),
                         contentDescription = "",
                         modifier = Modifier.size(40.dp)
                     )
@@ -380,7 +380,7 @@ class CalculatorMainActivity : GodActivity() {
             ) {
                 if (selectedArmor?.pricing?.iconLink != null) {
                     Image(
-                        painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
+                        painter = rememberAsyncImagePainter(model = selectedArmor.pricing?.getCleanIcon()),
                         contentDescription = "",
                         modifier = Modifier.size(40.dp)
                     )

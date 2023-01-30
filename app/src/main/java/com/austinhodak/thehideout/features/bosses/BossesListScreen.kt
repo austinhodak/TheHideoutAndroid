@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.apollographql.apollo3.ApolloClient
 import com.austinhodak.tarkovapi.MapEnums
 import com.austinhodak.tarkovapi.MapsQuery
@@ -134,7 +134,7 @@ fun BossCard(boss: MapsQuery.Boss, mapData: MapsQuery.Data) {
                         .padding(end = 16.dp)
                 )*/
                 Image(
-                    rememberImagePainter(boss.icon()),
+                    rememberAsyncImagePainter(boss.icon()),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(vertical = 16.dp)

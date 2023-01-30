@@ -35,7 +35,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.Maps
@@ -435,7 +435,7 @@ private fun QuestItemsScreenItem(
                     modifier = Modifier.size(38.dp)
                 ) {
                     Image(
-                        rememberImagePainter(item.pricing?.getCleanIcon()),
+                        rememberAsyncImagePainter(item.pricing?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .width(38.dp)
@@ -476,8 +476,8 @@ private fun QuestItemsScreenItem(
                             modifier = Modifier.padding(top = 1.dp)
                         ) {
                             Image(
-                                painter = rememberImagePainter(
-                                    data = quest.getGiverName()?.traderIcon()
+                                painter = rememberAsyncImagePainter(
+                                    model = quest.getGiverName()?.traderIcon()
                                 ),
                                 contentDescription = "Trader",
                                 modifier = Modifier
@@ -487,6 +487,7 @@ private fun QuestItemsScreenItem(
                                             userData?.progress?.isQuestCompleted(quest) == true -> {
                                                 Green400
                                             }
+
                                             quest.isLocked(userData) -> Red400
                                             else -> Color.Transparent
                                         },
@@ -782,6 +783,7 @@ private fun QuestCard(
                                 userData?.progress?.isQuestCompleted(quest.id) == true -> {
                                     Green400
                                 }
+
                                 quest.isLocked(userData) -> Red400
                                 else -> Color.Transparent
                             },

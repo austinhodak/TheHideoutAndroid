@@ -37,7 +37,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.FleaVisiblePrice
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -273,7 +273,7 @@ class ItemScannerActivity : AppCompatActivity() {
                         .fillMaxHeight()
                         .padding(end = 16.dp))
                     Image(
-                        rememberImagePainter(item.pricing?.getCleanIcon()),
+                        rememberAsyncImagePainter(item.pricing?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)

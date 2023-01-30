@@ -22,7 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -212,7 +212,7 @@ fun KeyCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(item.pricing?.getIcon()),
+                    rememberAsyncImagePainter(item.pricing?.getIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(38.dp)

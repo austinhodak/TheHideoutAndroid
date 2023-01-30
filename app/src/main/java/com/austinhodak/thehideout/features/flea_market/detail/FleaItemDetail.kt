@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,7 +42,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
@@ -219,21 +220,31 @@ class FleaItemDetail : GodActivity() {
                             FleaDetailToolbar(
                                 item = item,
                                 actions = {
-                                    IconButton(onClick = {
-                                        isFavorited = if (isFavorited) {
-                                            Favorites.items.remove(lifecycleScope, itemID)
-                                            //extras.removeFavorite(itemID)
-                                            false
-                                        } else {
-                                            Favorites.items.add(lifecycleScope, itemID)
-                                            //extras.addFavorite(itemID)
-                                            true
-                                        }
-                                    }) {
+                                    IconButton(
+                                        modifier = Modifier.testTag("bookmark"),
+                                        onClick = {
+                                            isFavorited = if (isFavorited) {
+                                                Favorites.items.remove(lifecycleScope, itemID)
+                                                //extras.removeFavorite(itemID)
+                                                false
+                                            } else {
+                                                Favorites.items.add(lifecycleScope, itemID)
+                                                //extras.addFavorite(itemID)
+                                                true
+                                            }
+                                        }) {
                                         if (isFavorited) {
-                                            Icon(Icons.Filled.Favorite, contentDescription = null, tint = Pink500)
+                                            Icon(
+                                                Icons.Filled.Favorite,
+                                                contentDescription = null,
+                                                tint = Pink500
+                                            )
                                         } else {
-                                            Icon(Icons.Filled.FavoriteBorder, contentDescription = null, tint = Color.White)
+                                            Icon(
+                                                Icons.Filled.FavoriteBorder,
+                                                contentDescription = null,
+                                                tint = Color.White
+                                            )
                                         }
                                     }
                                     OverflowMenu {
@@ -347,7 +358,10 @@ class FleaItemDetail : GodActivity() {
                                                 if (UserSettingsModel.showPriceGraph.value) {
                                                     Card(
                                                         modifier = Modifier
-                                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                                            .padding(
+                                                                horizontal = 8.dp,
+                                                                vertical = 4.dp
+                                                            )
                                                             .fillMaxWidth(),
                                                         backgroundColor = Color(0xFE1F1F1F)
                                                     ) {
@@ -645,7 +659,12 @@ class FleaItemDetail : GodActivity() {
                                     Modifier
                                         .clip(RoundedCornerShape(topStart = 5.dp))
                                         .background(BorderColor)
-                                        .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                                        .padding(
+                                            start = 3.dp,
+                                            end = 2.dp,
+                                            top = 1.dp,
+                                            bottom = 1.dp
+                                        )
                                         .align(Alignment.BottomEnd),
                                     style = MaterialTheme.typography.caption,
                                     fontWeight = FontWeight.Medium,
@@ -1080,7 +1099,7 @@ class FleaItemDetail : GodActivity() {
                     Column {
                         Box {
                             Image(
-                                rememberImagePainter(quest.trader().icon),
+                                rememberAsyncImagePainter(quest.trader().icon),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .width(72.dp)
@@ -1887,7 +1906,7 @@ class FleaItemDetail : GodActivity() {
             ) {
                 Image(
                     modifier = Modifier.size(72.dp),
-                    painter = fadeImagePainter(url = item.traderImage()),
+                    painter = fadeImagePainter(data = item.traderImage()),
                     contentDescription = "Prapor",
                 )
             }

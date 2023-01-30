@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.room.models.Barter
 import com.austinhodak.tarkovapi.room.models.Craft
 import com.austinhodak.tarkovapi.room.models.Pricing
@@ -300,7 +300,7 @@ class BarterDetailActivity : AppCompatActivity() {
                     ) {
                         Box {
                             Image(
-                                rememberImagePainter(
+                                rememberAsyncImagePainter(
                                     item.getCleanIcon()
                                 ),
                                 contentDescription = null,
@@ -315,7 +315,12 @@ class BarterDetailActivity : AppCompatActivity() {
                                     Modifier
                                         .clip(RoundedCornerShape(topStart = 5.dp))
                                         .background(BorderColor)
-                                        .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                                        .padding(
+                                            start = 3.dp,
+                                            end = 2.dp,
+                                            top = 1.dp,
+                                            bottom = 1.dp
+                                        )
                                         .align(Alignment.BottomEnd),
                                     style = MaterialTheme.typography.caption,
                                     fontWeight = FontWeight.Medium,
@@ -453,7 +458,7 @@ class BarterDetailActivity : AppCompatActivity() {
                     ) {
                         Box {
                             Image(
-                                rememberImagePainter(
+                                rememberAsyncImagePainter(
                                     item.getCleanIcon()
                                 ),
                                 contentDescription = null,
@@ -468,7 +473,12 @@ class BarterDetailActivity : AppCompatActivity() {
                                     Modifier
                                         .clip(RoundedCornerShape(topStart = 5.dp))
                                         .background(BorderColor)
-                                        .padding(start = 3.dp, end = 2.dp, top = 1.dp, bottom = 1.dp)
+                                        .padding(
+                                            start = 3.dp,
+                                            end = 2.dp,
+                                            top = 1.dp,
+                                            bottom = 1.dp
+                                        )
                                         .align(Alignment.BottomEnd),
                                     style = MaterialTheme.typography.caption,
                                     fontWeight = FontWeight.Medium,
@@ -538,7 +548,8 @@ class BarterDetailActivity : AppCompatActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = fadeImagePainter(url = "${barter?.source?.traderIconSource()}"), contentDescription = null,
+                        painter = fadeImagePainter(data = "${barter?.source?.traderIconSource()}"),
+                        contentDescription = null,
                         Modifier
                             //.border(1.dp, BorderColor)
                             .size(52.dp)

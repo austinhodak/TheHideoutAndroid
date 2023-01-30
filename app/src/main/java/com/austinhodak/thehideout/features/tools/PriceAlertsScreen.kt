@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.austinhodak.tarkovapi.UserSettingsModel
@@ -209,7 +209,7 @@ private fun PriceAlertItem(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 0.dp)
                 ) {
                     Image(
-                        rememberImagePainter(
+                        rememberAsyncImagePainter(
                             item.pricing?.getCleanIcon()
                         ),
                         contentDescription = null,

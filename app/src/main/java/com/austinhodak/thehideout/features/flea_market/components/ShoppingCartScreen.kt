@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItems
@@ -199,7 +199,7 @@ private fun ShoppingFleaItem(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
                     Image(
-                        rememberImagePainter(
+                        rememberAsyncImagePainter(
                             item.pricing?.getCleanIcon()
                         ),
                         contentDescription = null,
@@ -274,7 +274,7 @@ private fun ShoppingFleaItem(
                 ) {
                     val buy = item.pricing?.getCheapestBuyRequirements()
                     Image(
-                        rememberImagePainter(buy?.traderImage()),
+                        rememberAsyncImagePainter(buy?.traderImage()),
                         contentDescription = null,
                         modifier = Modifier
                             .width(24.dp)

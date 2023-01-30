@@ -24,7 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItems
@@ -191,7 +191,7 @@ private fun LoadoutItem(build: WeaponBuildFirestore, tarkovRepo: TarkovRepo) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    rememberImagePainter(weapon?.pricing?.getCleanIcon()),
+                    rememberAsyncImagePainter(weapon?.pricing?.getCleanIcon()),
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)

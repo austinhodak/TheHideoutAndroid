@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.repository.ModsRepo
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
@@ -287,7 +287,7 @@ class ModDetailActivity : GodActivity() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
-                    rememberImagePainter(
+                    rememberAsyncImagePainter(
                         item.pricing?.getCleanIcon()
                     ),
                     contentDescription = null,
@@ -335,7 +335,7 @@ class ModDetailActivity : GodActivity() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
-                    rememberImagePainter(
+                    rememberAsyncImagePainter(
                         item.pricing?.getCleanIcon()
                     ),
                     contentDescription = null,
@@ -427,7 +427,7 @@ class ModDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(mod.pricing?.getCleanIcon()),
+                        rememberAsyncImagePainter(mod.pricing?.getCleanIcon()),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)
@@ -436,7 +436,10 @@ class ModDetailActivity : GodActivity() {
                             .border((0.25).dp, color = BorderColor)
                             .clickable {
                                 StfalconImageViewer
-                                    .Builder(this@ModDetailActivity, listOf(mod.pricing?.imageLink)) { view, image ->
+                                    .Builder(
+                                        this@ModDetailActivity,
+                                        listOf(mod.pricing?.imageLink)
+                                    ) { view, image ->
                                         Glide
                                             .with(view)
                                             .load(image)

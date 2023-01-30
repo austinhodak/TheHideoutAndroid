@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.airbnb.lottie.compose.*
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.thehideout.NavViewModel
@@ -173,7 +173,9 @@ fun BitcoinPriceScreen(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painter = rememberImagePainter(data = btc?.pricing?.gridImageLink), contentDescription = "", modifier = Modifier
+                            painter = rememberAsyncImagePainter(model = btc?.pricing?.gridImageLink),
+                            contentDescription = "",
+                            modifier = Modifier
                                 .padding(end = 16.dp)
                                 .size(38.dp)
                                 .border((0.25).dp, color = BorderColor)

@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -281,7 +281,7 @@ private fun HelmetCard(selectedArmor: Item?, armorPickerLauncher: ActivityResult
         ) {
             if (selectedArmor?.pricing?.iconLink != null) {
                 Image(
-                    painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
+                    painter = rememberAsyncImagePainter(model = selectedArmor.pricing?.getCleanIcon()),
                     contentDescription = "",
                     modifier = Modifier.size(40.dp)
                 )
@@ -353,7 +353,7 @@ private fun ArmorCard(selectedArmor: Item?, armorPickerLauncher: ActivityResultL
         ) {
             if (selectedArmor?.pricing?.iconLink != null) {
                 Image(
-                    painter = rememberImagePainter(data = selectedArmor.pricing?.getCleanIcon()),
+                    painter = rememberAsyncImagePainter(model = selectedArmor.pricing?.getCleanIcon()),
                     contentDescription = "",
                     modifier = Modifier.size(40.dp)
                 )

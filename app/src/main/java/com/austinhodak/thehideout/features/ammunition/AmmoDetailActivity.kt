@@ -43,7 +43,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.models.AmmoBallistic
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
@@ -139,11 +139,6 @@ class AmmoDetailActivity : GodActivity() {
             }
 
             HideoutTheme {
-                val systemUiController = rememberSystemUiController()
-                systemUiController.setSystemBarsColor(
-                    color = MaterialTheme.colors.primary,
-                )
-
                 Scaffold(
                     modifier = Modifier
                         .nestedScroll(nestedScrollConnection),
@@ -675,7 +670,7 @@ class AmmoDetailActivity : GodActivity() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        rememberImagePainter(ammo.pricing?.getIcon() ?: ""),
+                        rememberAsyncImagePainter(ammo.pricing?.getIcon() ?: ""),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(vertical = 16.dp)

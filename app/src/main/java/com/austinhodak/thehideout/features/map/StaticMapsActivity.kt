@@ -31,7 +31,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.size.OriginalSize
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
@@ -40,6 +40,7 @@ import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
 import com.austinhodak.thehideout.ui.theme.Bender
 import com.austinhodak.thehideout.ui.theme.HideoutTheme
+import com.austinhodak.thehideout.utils.fadeImagePainter
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -137,10 +138,7 @@ class StaticMapsActivity : AppCompatActivity() {
                         Box(Modifier.fillMaxSize()) {
                             selectedMapImage?.let {
                                 ZoomableImage(
-                                    painter = rememberImagePainter(it.image, builder = {
-                                        crossfade(true)
-                                        //size(OriginalSize)
-                                    }),
+                                    painter = fadeImagePainter(data = it.image),
                                     modifier = Modifier
                                         .fillMaxSize(),
                                     minScale = 10f
@@ -192,9 +190,11 @@ class StaticMapsActivity : AppCompatActivity() {
                                         .size(40.dp),
                                 ) {
                                     Icon(
-                                        painter = if (isFullScreen) rememberImagePainter(
-                                            R.drawable.ic_baseline_fullscreen_exit_24,
-                                            builder = { crossfade(true) }) else rememberImagePainter(R.drawable.ic_baseline_fullscreen_24, builder = { crossfade(true) }),
+                                        painter = if (isFullScreen) fadeImagePainter(
+                                            R.drawable.ic_baseline_fullscreen_exit_24
+                                        ) else fadeImagePainter(
+                                            R.drawable.ic_baseline_fullscreen_24
+                                        ),
                                         contentDescription = null,
                                         tint = Color.White,
                                         modifier = Modifier.size(24.dp)

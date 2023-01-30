@@ -37,7 +37,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
@@ -606,7 +606,7 @@ private fun HideoutRequirementItem(
     ) {
         Box {
             Image(
-                rememberImagePainter(
+                rememberAsyncImagePainter(
                     pricing?.getCleanIcon()
                 ),
                 contentDescription = null,
@@ -670,7 +670,7 @@ fun HideoutRequirementModule(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            rememberImagePainter(module.getIcon(requirement.name.toString())),
+            rememberAsyncImagePainter(module.getIcon(requirement.name.toString())),
             contentDescription = null,
             modifier = Modifier
                 .width(38.dp)
@@ -961,7 +961,7 @@ private fun BarterCraftCostItem(taskItem: Craft.CraftItem?) {
     ) {
         Box {
             Image(
-                rememberImagePainter(
+                rememberAsyncImagePainter(
                     item?.getCleanIcon()
                 ),
                 contentDescription = null,

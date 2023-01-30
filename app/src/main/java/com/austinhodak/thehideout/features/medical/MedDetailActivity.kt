@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.tarkovapi.models.Stim
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.models.Item
@@ -60,7 +60,8 @@ class MedDetailActivity : AppCompatActivity() {
                             title = {
                                 Row {
                                     Image(
-                                        painter = rememberImagePainter(item?.pricing?.getTransparentIcon()), contentDescription = null,
+                                        painter = rememberAsyncImagePainter(item?.pricing?.getTransparentIcon()),
+                                        contentDescription = null,
                                         Modifier.size(36.dp)
                                     )
                                     Column(Modifier.padding(start = 16.dp)) {

@@ -66,7 +66,7 @@ android {
 
     buildTypes {
         named("debug").configure {
-            applicationIdSuffix = ".debug"
+            //applicationIdSuffix = ".debug"
         }
         named("release").configure {
             isDebuggable = false
@@ -125,8 +125,8 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
 
-    implementation("io.coil-kt:coil-compose:1.3.2")
-    implementation("io.coil-kt:coil-gif:1.4.0")
+    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-gif:2.2.2")
 
     implementation(androidx.compose.ui.tooling.preview)
     implementation(androidx.lifecycle.runtime)
@@ -227,19 +227,19 @@ dependencies {
     implementation("com.google.android.play:core:1.10.3")
     implementation("com.google.android.play:core-ktx:1.8.1")
 
-    implementation("com.github.stfalcon-studio:StfalconImageViewer:v1.0.1")
+    implementation("com.github.stfalcon-studio:StfalconImageViewer:1.0.1")
 
     implementation("com.google.android.gms:play-services-maps:18.1.0")
 
     implementation("com.google.maps.android:maps-ktx:3.4.0")
     implementation("com.google.maps.android:maps-utils-ktx:3.4.0")
-    implementation("com.github.jeziellago:compose-markdown:0.2.6")
+    implementation("com.github.jeziellago:compose-markdown:0.3.1")
 
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
 
     implementation(androidx.compose.material.icons.extended)
 
-    implementation("io.qonversion.android.sdk:sdk:4.+")
+    implementation("io.qonversion.android.sdk:sdk:4.1.3")
     implementation("com.airbnb.android:mavericks:3.0.1")
     implementation("com.airbnb.android:mavericks-compose:3.0.1")
     implementation("com.airbnb.android:mavericks-hilt:3.0.1")
@@ -271,5 +271,4 @@ dependencies {
     implementation("com.maxkeppeler.sheets-compose-dialogs:input:1.0.3")
     implementation("com.maxkeppeler.sheets-compose-dialogs:emoji:1.0.3")
     implementation("com.maxkeppeler.sheets-compose-dialogs:state:1.0.3")
-
 }
