@@ -158,7 +158,7 @@ dependencies {
     //END Firebase
 
     //Drawer
-    implementation("com.mikepenz:materialdrawer-nav:8.4.3")
+    implementation("com.mikepenz:materialdrawer-nav:9.0.1")
     implementation("com.mikepenz:materialdrawer:8.4.3")
     implementation("com.mikepenz:materialdrawer-iconics:8.4.3")
     implementation("com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar")
