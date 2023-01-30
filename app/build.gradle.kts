@@ -172,7 +172,7 @@ dependencies {
     implementation("com.afollestad.material-dialogs:input:3.3.0")
     //END Dialogs
 
-    api ("com.github.bumptech.glide:glide:4.13.2") {
+    api ("com.github.bumptech.glide:glide:4.14.2") {
         exclude(group = "com.android.support")
     }
 
