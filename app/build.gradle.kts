@@ -218,7 +218,7 @@ dependencies {
 
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
-    implementation(group = "io.gleap", name = "gleap-android-sdk", version = "7.0.19")
+    implementation(group = "io.gleap", name = "gleap-android-sdk", version = "8.5.2")
 
     implementation("dev.bandb.graphview:graphview:0.8.1")
     implementation("com.otaliastudios:zoomlayout:1.9.0")
