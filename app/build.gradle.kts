@@ -212,7 +212,7 @@ dependencies {
     implementation("com.android.billingclient:billing:4.1.0")
     implementation("com.android.billingclient:billing-ktx:4.1.0")
 
-    implementation("com.facebook.android:facebook-login:13.1.0")
+    implementation("com.facebook.android:facebook-login:15.2.0")
 
     implementation("com.github.adaptyteam:AdaptySDK-Android:1.9.0")
 
