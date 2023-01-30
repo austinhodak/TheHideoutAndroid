@@ -94,7 +94,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
 
     implementation("io.coil-kt:coil-compose:1.3.2")
-    implementation("io.coil-kt:coil-gif:1.4.0")
+    implementation("io.coil-kt:coil-gif:2.2.2")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 
