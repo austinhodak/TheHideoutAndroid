@@ -123,7 +123,7 @@ fun FleaItem(
                         .padding(vertical = 16.dp)
                         .width(48.dp)
                         .height(48.dp)
-                        .border((0.25).dp, color = border)
+                        //.border((0.25).dp, color = border)
                 )
                 Column(
                     Modifier

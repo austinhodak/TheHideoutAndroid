@@ -3,7 +3,7 @@
 import org.slf4j.LoggerFactory
 
 plugins {
-    id("com.android.application").version("7.4.0").apply(false)
+    alias(libs.plugins.android.application).apply(false)
     alias(libs.plugins.kotlin.android).apply(false)
     alias(libs.plugins.kotlin.kapt).apply(false)
     alias(libs.plugins.kotlin.parcelize).apply(false)
@@ -12,8 +12,9 @@ plugins {
     alias(libs.plugins.gms.googleServices).apply(false)
     alias(libs.plugins.firebase.crashlytics).apply(false)
     alias(libs.plugins.secrets).apply(false)
-    id("io.realm.kotlin").version("1.5.2").apply(false)
-    id("com.google.firebase.firebase-perf").version("1.4.2").apply(false)
+    alias(libs.plugins.realm).apply(false)
+    alias(libs.plugins.firebase.perf).apply(false)
+    id("org.jlleitschuh.gradle.ktlint") version "11.1.0"
 }
 
 allprojects {
@@ -34,6 +35,20 @@ allprojects {
         }
     }
 
+}
+
+subprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint") // Version should be inherited from parent
+
+    repositories {
+        // Required to download KtLint
+        mavenCentral()
+    }
+
+    // Optionally configure plugin
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        debug.set(true)
+    }
 }
 
 val loggerFactory: org.slf4j.ILoggerFactory = LoggerFactory.getILoggerFactory()

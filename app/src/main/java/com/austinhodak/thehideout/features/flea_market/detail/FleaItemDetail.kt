@@ -43,6 +43,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
+import coil.load
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.getInputField
@@ -1608,16 +1609,13 @@ class FleaItemDetail : GodActivity() {
                                 .height(52.dp)
                                 .border((0.25).dp, color = border)
                                 .clickable {
-                                    item?.pricing?.imageLink?.let {
+                                    "https://assets.tarkov.dev/${item?.id}-512.webp".let {
                                         StfalconImageViewer
                                             .Builder(
                                                 context,
                                                 listOf(it)
                                             ) { view, image ->
-                                                Glide
-                                                    .with(view)
-                                                    .load(image)
-                                                    .into(view)
+                                                view.load(image)
                                             }
                                             .withHiddenStatusBar(false)
                                             .withBackgroundColor(color.toArgb())

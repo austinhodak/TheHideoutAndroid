@@ -306,7 +306,7 @@ data class Item(
 
     fun getUpdatedTime(short: Boolean? = false): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        sdf.timeZone = TimeZone.getTimeZone("GMT")
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
 
         val date = sdf.parse(pricing?.updated ?: "2021-07-01T08:36:35.194Z") ?: Calendar.getInstance().time
         val currentTime = System.currentTimeMillis()

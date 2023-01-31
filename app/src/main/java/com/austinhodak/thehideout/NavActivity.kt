@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -72,6 +73,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -224,19 +226,23 @@ class NavActivity : GodActivity() {
             val coroutineScope = rememberCoroutineScope()
             val lifeCycleOwner = this
             val navController = rememberNavController()
-
-            val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
-            val permissionStatus = ContextCompat.checkSelfPermission(this, notificationPermission)
+            val systemUiController = rememberSystemUiController()
             val notificationDialogSheetState = rememberSheetState(visible = false)
 
-            if (permissionStatus == PackageManager.PERMISSION_DENIED) {
-                shouldShowRequestPermissionRationale(notificationPermission).let { shouldShow ->
-                    if (shouldShow) {
-                        notificationDialogSheetState.show()
-                    } else {
-                        requestPermissionLauncher.launch(
-                            notificationPermission
-                        )
+            if (Build.VERSION.SDK_INT greaterThanOrEqualTo (33)) {
+                val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
+                val permissionStatus =
+                    ContextCompat.checkSelfPermission(this, notificationPermission)
+
+                if (permissionStatus == PackageManager.PERMISSION_DENIED) {
+                    shouldShowRequestPermissionRationale(notificationPermission).let { shouldShow ->
+                        if (shouldShow) {
+                            notificationDialogSheetState.show()
+                        } else {
+                            requestPermissionLauncher.launch(
+                                notificationPermission
+                            )
+                        }
                     }
                 }
             }
@@ -264,7 +270,11 @@ class NavActivity : GodActivity() {
                         bodyText = "The Hideout needs to be able to send you notifications to alert you of restocks and more. Please enable notifications for The Hideout.",
                     ),
                     selection = InfoSelection(
-                        onPositiveClick = {},
+                        onPositiveClick = {
+                            requestPermissionLauncher.launch(
+                                Manifest.permission.POST_NOTIFICATIONS
+                            )
+                        },
                         positiveButton = SelectionButton(text = "Okay"),
                         onNegativeClick = {},
                         negativeButton = SelectionButton(text = "No Thanks"),

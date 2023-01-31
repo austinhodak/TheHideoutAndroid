@@ -39,6 +39,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
+import coil.load
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import com.austinhodak.tarkovapi.UserSettingsModel
@@ -308,10 +309,14 @@ class MapsActivity : GodActivity() {
                                                         .clickable(
                                                             indication = null,
                                                             interactionSource = remember { MutableInteractionSource() }) {
-                                                            val list = selectedCategories.toMutableList()
+                                                            val list =
+                                                                selectedCategories.toMutableList()
 
                                                             group?.categories?.forEach { category ->
-                                                                if (selectedCategories.contains(category?.id)) {
+                                                                if (selectedCategories.contains(
+                                                                        category?.id
+                                                                    )
+                                                                ) {
                                                                     category?.id?.let {
                                                                         list.remove(it)
                                                                     }
@@ -528,7 +533,9 @@ class MapsActivity : GodActivity() {
                                 sheetElevation = 5.dp,
                                 sheetContent = {
                                     if (selectedMarker == null) {
-                                        Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
+                                        Box(modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(200.dp), contentAlignment = Alignment.Center) {
                                             Text("Error Loading Marker")
                                         }
                                     }
@@ -546,7 +553,11 @@ class MapsActivity : GodActivity() {
                                                         style = MaterialTheme.typography.h6,
                                                         modifier = Modifier
                                                             .weight(1f)
-                                                            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                                                            .padding(
+                                                                top = 16.dp,
+                                                                start = 16.dp,
+                                                                end = 16.dp
+                                                            )
                                                     )
                                                     IconButton(onClick = {
                                                         openActivity(CustomMapMarkerAddActivity::class.java) {
@@ -652,10 +663,7 @@ class MapsActivity : GodActivity() {
                                                                                 this@MapsActivity,
                                                                                 listOf(media?.url)
                                                                             ) { view, image ->
-                                                                                Glide
-                                                                                    .with(view)
-                                                                                    .load(image)
-                                                                                    .into(view)
+                                                                                view.load(image)
                                                                             }
                                                                             .withHiddenStatusBar(
                                                                                 false

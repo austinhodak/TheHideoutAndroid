@@ -106,32 +106,32 @@ dependencies {
     implementation(platform(androidx.compose.bom))
     implementation(platform(libs.kotlin.bom))
 
-    implementation ("com.github.fondesa:kpermissions:3.4.0")
-    implementation ("com.github.fondesa:kpermissions-coroutines:3.4.0")
+    api(libs.kotlinx.datetime)
+
+    implementation(libs.kpermissions)
+    implementation(libs.kpermissions.coroutines)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
 
-    implementation(androidx.camera.camera2)
-    implementation(androidx.camera.lifecycle)
-    implementation(androidx.camera.view)
+    implementation(androidx.bundles.camera)
+    implementation(androidx.bundles.lifecycle)
 
-    implementation("androidx.compose.runtime:runtime-tracing:1.0.0-alpha01")
-    implementation("androidx.tracing:tracing-ktx:1.2.0-alpha01")
+    implementation(androidx.compose.runtime.tracing)
+    implementation(androidx.tracing)
 
-    implementation("io.realm.kotlin:library-base:1.5.2")
+    implementation(libs.realm)
 
-    implementation("io.sentry:sentry-android:6.12.1")
+    implementation(libs.sentry)
 
-    implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
+    implementation(libs.oss.licenses)
 
-    implementation("io.coil-kt:coil-compose:2.2.2")
-    implementation("io.coil-kt:coil-gif:2.2.2")
+    implementation(libs.bundles.coil)
 
     implementation(androidx.compose.ui.tooling.preview)
-    implementation(androidx.lifecycle.runtime)
 
-    implementation("com.google.code.gson:gson:2.10.1")
+
+    implementation(libs.gson)
 
     // Tests
     testImplementation(libs.junit4)
@@ -146,17 +146,16 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
     implementation(androidx.hilt.work)
-    //Compose
+
     implementation(androidx.compose.ui)
     implementation(androidx.compose.material)
     implementation(androidx.compose.ui.tooling)
     implementation(androidx.activity.compose)
     implementation(libs.accompanist.systemuicontroller)
     implementation(androidx.compose.runtime.livedata)
-    //implementation(androidx.compose.foundation.layout)
 
-    //AndroidX
-    //implementation(libs.material)
+
+
     implementation(androidx.appcompat)
     implementation(androidx.recyclerview)
     implementation(androidx.constraintlayout)
@@ -166,56 +165,29 @@ dependencies {
     implementation(androidx.navigation.ui)
     implementation(androidx.fragment)
 
-    //END AndroidX
 
-    //Firebase
     api(platform(libs.firebase.bom))
-    api("com.google.firebase:firebase-analytics-ktx")
-    api("com.google.firebase:firebase-auth-ktx")
-    api("com.google.firebase:firebase-firestore-ktx")
-    api("com.google.firebase:firebase-functions-ktx")
-    api("com.google.firebase:firebase-messaging-ktx")
-    api("com.google.firebase:firebase-storage-ktx")
-    api("com.google.firebase:firebase-crashlytics-ktx")
-    api("com.google.firebase:firebase-perf-ktx")
-    api("com.google.firebase:firebase-database-ktx")
-    api("com.google.firebase:firebase-config-ktx")
-    api("com.google.firebase:firebase-inappmessaging-display-ktx")
-    api("com.google.firebase:firebase-dynamic-links-ktx")
-    api("com.google.mlkit:text-recognition:16.0.0-beta6")
-    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    api(libs.bundles.firebase)
+    implementation(libs.mlkit.text)
 
-    api("com.firebaseui:firebase-ui-auth:8.0.2")
-    //END Firebase
-
+    implementation(libs.firebase.auth.ui)
     //Drawer
-    implementation("com.mikepenz:materialdrawer-nav:8.4.5")
-    implementation("com.mikepenz:materialdrawer:8.4.5")
-    implementation("com.mikepenz:materialdrawer-iconics:8.4.5")
-    //implementation("com.mikepenz:google-material-typeface:4.0.0.1-kotlin@aar")
 
+    implementation(libs.drawer)
 
     //END Drawer
 
     //Dialogs
-    implementation("com.afollestad.material-dialogs:core:3.3.0")
-    implementation("com.afollestad.material-dialogs:color:3.3.0")
-    implementation("com.afollestad.material-dialogs:input:3.3.0")
+    implementation(libs.bundles.afollestad.dialogs)
     //END Dialogs
 
-    api ("com.github.bumptech.glide:glide:4.14.2") {
-        exclude(group = "com.android.support")
-    }
 
+    implementation(libs.skydoves.only)
 
-    implementation("com.github.skydoves:only:1.0.8")
-    implementation(androidx.lifecycle.livedata)
+    api(libs.timber)
 
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.lottie.compose)
 
-    implementation("com.airbnb.android:lottie-compose:5.2.0")
-
-    api("com.google.accompanist:accompanist-glide:0.15.0")
     api("com.google.accompanist:accompanist-insets:0.28.0")
     api(libs.accompanist.pager)
     api(libs.accompanist.pager.indicators)
@@ -224,25 +196,20 @@ dependencies {
     api(libs.accompanist.placeholder.material)
     api(libs.accompanist.swiperefresh)
 
-    implementation("com.google.android.play:core:1.10.3")
-    implementation("com.google.android.play:core-ktx:1.8.1")
+    implementation(libs.bundles.google.play)
 
-    implementation("com.github.stfalcon-studio:StfalconImageViewer:1.0.1")
+    implementation(libs.stfalcon.imageviewer)
 
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation(libs.bundles.maps)
 
-    implementation("com.google.maps.android:maps-ktx:3.4.0")
-    implementation("com.google.maps.android:maps-utils-ktx:3.4.0")
-    implementation("com.github.jeziellago:compose-markdown:0.3.1")
+    implementation(libs.compose.markdown)
 
     implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
 
     implementation(androidx.compose.material.icons.extended)
 
-    implementation("io.qonversion.android.sdk:sdk:4.1.3")
-    implementation("com.airbnb.android:mavericks:3.0.1")
-    implementation("com.airbnb.android:mavericks-compose:3.0.1")
-    implementation("com.airbnb.android:mavericks-hilt:3.0.1")
+    implementation(libs.qonversion)
+    implementation(libs.bundles.mavericks)
     implementation(androidx.core.splashscreen)
     implementation(androidx.compose.ui.text.googleFonts)
     implementation(androidx.compose.animation.graphics)
@@ -251,24 +218,6 @@ dependencies {
     implementation(androidx.compose.material3)
 
     // screen modules
-    implementation("com.github.MFlisar.MaterialPreferences:screen:1.1.2")
-    implementation("com.github.MFlisar.MaterialPreferences:screen-bool:1.1.2")
-    implementation("com.github.MFlisar.MaterialPreferences:screen-input:1.1.2")
-    implementation("com.github.MFlisar.MaterialPreferences:screen-choice:1.1.2")
-    implementation("com.github.MFlisar.MaterialPreferences:screen-color:1.1.2")
-    implementation("com.github.MFlisar.MaterialPreferences:screen-slider:1.1.2")
-    implementation("com.github.MFlisar.MaterialPreferences:screen-image:1.1.2")
-
-    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:info:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:color:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:date-time:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:option:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:list:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:input:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:emoji:1.0.3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:state:1.0.3")
+    implementation(libs.bundles.preferences.screen)
+    implementation(libs.bundles.compose.dialogs)
 }

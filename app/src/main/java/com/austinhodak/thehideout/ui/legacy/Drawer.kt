@@ -608,7 +608,7 @@ fun MainDrawer(
 
                 GameClockText(Modifier.weight(1f), false, navViewModel)
             }
-            //if (!isPremium && !hideBanner) {
+            if (!isPremium && !hideBanner) {
                 Surface(
                     color = Red400,
                     modifier = Modifier,
@@ -626,7 +626,7 @@ fun MainDrawer(
                         Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "", tint = Black)
                     }
                 }
-            //}
+            }
             Divider(
                 modifier = Modifier.background(MaterialTheme.colors.surface),
                 color = DividerDark

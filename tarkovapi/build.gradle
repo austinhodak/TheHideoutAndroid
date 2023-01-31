@@ -52,6 +52,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(platform(androidx.compose.bom))
 
     api('com.apollographql.apollo3:apollo-runtime:3.7.4')
     api('com.apollographql.apollo3:apollo-api:3.7.4')
@@ -62,6 +63,7 @@ dependencies {
     implementation(libs.material)
     implementation(androidx.compose.ui.graphics)
 
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)

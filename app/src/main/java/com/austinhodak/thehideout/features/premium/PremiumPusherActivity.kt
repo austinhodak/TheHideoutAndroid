@@ -60,6 +60,7 @@ import com.austinhodak.thehideout.features.premium.viewmodels.PremiumViewModel
 import com.austinhodak.thehideout.ui.theme3.HideoutTheme3
 import com.austinhodak.thehideout.ui.theme3.premium_gradient_color
 import com.austinhodak.thehideout.ui.theme3.rubik
+import com.austinhodak.thehideout.utils.openActivity
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.state.StateDialog
@@ -103,6 +104,21 @@ class PremiumPusherActivity : ComponentActivity() {
                 val offers by viewModel.collectAsState(PremiumPusherState::mainOffering)
                 val snackbar by viewModel.collectAsState(PremiumPusherState::snackbarText)
                 val isProcessing by viewModel.collectAsState(PremiumPusherState::isProcessingPurchase)
+                val entitlements by viewModel.collectAsState(PremiumPusherState::entitlement)
+
+                if (entitlements != null) {
+                    if (intent.hasExtra("setResult")) {
+                        openActivity(PremiumThanksActivity::class.java)
+                        setResult(RESULT_OK)
+                        finish()
+                    } else {
+                        openActivity(PremiumThanksActivity::class.java) {
+                            putBoolean("restart", true)
+                        }
+                        finish()
+                        //restartNavActivity()
+                    }
+                }
 
                 val state = State.Loading(labelText = "Processing...", ProgressIndicator.Linear())
                 val sheetState = rememberSheetState()

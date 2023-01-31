@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
+import coil.load
 import coil.size.OriginalSize
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Ammo
@@ -76,6 +77,7 @@ class GearDetailActivity : GodActivity() {
             }
         }
 
+    @OptIn(ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -128,14 +130,23 @@ class GearDetailActivity : GodActivity() {
                                     }
                                 }
                             }) {
-                                Icon(painter = painterResource(id = R.drawable.ic_baseline_calculate_24), contentDescription = "Open Calculator", tint = Color.Black)
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_baseline_calculate_24),
+                                    contentDescription = "Open Calculator",
+                                    tint = Color.Black
+                                )
                             }
                         }
                     }
-                ) {
+                ) { padding ->
                     if (gear == null) return@Scaffold
 
-                    LazyColumn(contentPadding = PaddingValues(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 64.dp)) {
+                    LazyColumn(
+                        contentPadding = PaddingValues(
+                            top = 4.dp, start = 8.dp, end = 8
+                                .dp, bottom = 64.dp
+                        ), modifier = Modifier.consumedWindowInsets(padding)
+                    ) {
                         item {
                             GearInfoCard(item = gear!!)
                         }
@@ -204,10 +215,7 @@ class GearDetailActivity : GodActivity() {
                                         context,
                                         listOf(item.pricing?.imageLink)
                                     ) { view, image ->
-                                        Glide
-                                            .with(view)
-                                            .load(image)
-                                            .into(view)
+                                        view.load(image)
                                     }
                                     .withHiddenStatusBar(false)
                                     .withBackgroundColor(color.toArgb())

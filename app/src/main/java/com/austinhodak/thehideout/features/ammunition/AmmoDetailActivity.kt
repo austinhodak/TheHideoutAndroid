@@ -44,6 +44,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
+import coil.load
 import com.austinhodak.tarkovapi.models.AmmoBallistic
 import com.austinhodak.tarkovapi.room.models.Ammo
 import com.austinhodak.tarkovapi.room.models.Item
@@ -683,10 +684,7 @@ class AmmoDetailActivity : GodActivity() {
                                         context,
                                         listOf(ammo.pricing?.imageLink)
                                     ) { view, image ->
-                                        Glide
-                                            .with(view)
-                                            .load(image)
-                                            .into(view)
+                                        view.load(image)
                                     }
                                     .withHiddenStatusBar(false)
                                     .show()

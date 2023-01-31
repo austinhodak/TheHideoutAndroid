@@ -903,3 +903,35 @@ fun <T> setCrashKeys(vararg keys: Pair<String, T>) {
         }
     }
 }
+infix fun Int.greaterThan(value: Int): Boolean {
+    return this > value
+}
+
+infix fun Int.lessThan(value: Int): Boolean {
+    return this < value
+}
+
+infix fun Int.greaterThanOrEqualTo(value: Int): Boolean {
+    return this >= value
+}
+
+infix fun Int.lessThanOrEqualTo(value: Int): Boolean {
+    return this <= value
+}
+
+infix fun Int.equalTo(value: Int): Boolean {
+    return this == value
+}
+
+infix fun Int.notEqualTo(value: Int): Boolean {
+    return this != value
+}
+
+infix fun Int.between(value: IntRange): Boolean {
+    return this in value
+}
+
+infix fun Int.notBetween(value: IntRange): Boolean {
+    return this !in value
+}
+
