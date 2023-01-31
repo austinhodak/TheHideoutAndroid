@@ -270,7 +270,11 @@ class NavActivity : GodActivity() {
                         bodyText = "The Hideout needs to be able to send you notifications to alert you of restocks and more. Please enable notifications for The Hideout.",
                     ),
                     selection = InfoSelection(
-                        onPositiveClick = {},
+                        onPositiveClick = {
+                            requestPermissionLauncher.launch(
+                                Manifest.permission.POST_NOTIFICATIONS
+                            )
+                        },
                         positiveButton = SelectionButton(text = "Okay"),
                         onNegativeClick = {},
                         negativeButton = SelectionButton(text = "No Thanks"),

@@ -41,6 +41,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberAsyncImagePainter
+import coil.load
 import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.models.QuestExtra
 import com.austinhodak.tarkovapi.repository.TarkovRepo
@@ -538,10 +539,7 @@ class QuestDetailActivity : GodActivity() {
                                                 this@QuestDetailActivity,
                                                 questExtra.guideImages
                                             ) { view, image ->
-                                                Glide
-                                                    .with(view)
-                                                    .load(image)
-                                                    .into(view)
+                                                view.load(image)
                                             }
                                             .withStartPosition(index)
                                             .withHiddenStatusBar(false)

@@ -163,8 +163,9 @@ fun HtmlText(html: String, modifier: Modifier = Modifier) {
         factory = { context -> TextView(context) },
         update = {
             val benderFont = ResourcesCompat.getFont(it.context, R.font.bender)
-            val imageGetter = ImageGetter(it.context.resources, it)
-            val html = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY, imageGetter, null)
+            val imageGetter = ImageGetter(it.context.resources, it, it.context)
+            val html =
+                HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY, imageGetter, null)
             it.text = replaceQuoteSpans(html.trim().toSpannable(), it.context)
             it.movementMethod = LinkMovementMethod.getInstance()
 

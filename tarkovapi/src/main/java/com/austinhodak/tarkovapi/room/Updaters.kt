@@ -1,5 +1,6 @@
 package com.austinhodak.tarkovapi.room
 
+import android.util.Log
 import androidx.work.ListenableWorker
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
@@ -43,8 +44,11 @@ class Updaters (
         return try {
             val itemDao = tarkovRepo.getItemDao()
             val priceDao = tarkovRepo.getPriceDao()
-            val response = apolloClient.query(ItemsByTypeQuery(ItemType.any)).fetchPolicy(FetchPolicy.NetworkFirst).execute()
-            val items = response.data?.itemsByType?.map { fragments ->
+            val response = apolloClient.query(ItemsByTypeQuery(ItemType.any))
+                .fetchPolicy(FetchPolicy.NetworkOnly)
+                .execute()
+            val items = response.data?.items?.map { fragments ->
+                Log.d("Item", "${fragments?.itemFragment?.iconLink}")
                 fragments?.toPricing()
             } ?: emptyList()
 
@@ -58,7 +62,7 @@ class Updaters (
                 })
             }
 
-            //Timber.d("Updated ${items.count()} prices in $ms ms")
+            Log.d("Updater", "Updated ${items.count()} prices in $ms ms")
 
             ListenableWorker.Result.success()
 

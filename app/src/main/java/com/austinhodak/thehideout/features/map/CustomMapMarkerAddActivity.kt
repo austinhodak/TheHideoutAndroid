@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.features.map
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.Toast
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.res.ResourcesCompat
+import coil.compose.rememberAsyncImagePainter
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.ui.theme.Bender
 import com.austinhodak.thehideout.ui.theme.HideoutTheme
@@ -44,7 +46,6 @@ import com.austinhodak.thehideout.utils.userFirestore
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
-import com.google.accompanist.imageloading.rememberDrawablePainter
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
@@ -52,6 +53,7 @@ import timber.log.Timber
 import java.lang.reflect.Field
 
 class CustomMapMarkerAddActivity : AppCompatActivity() {
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -218,7 +220,7 @@ class CustomMapMarkerAddActivity : AppCompatActivity() {
                                                         || it.name.contains("icon_settings")
                                             }.forEach {
                                                 Image(
-                                                    painter = rememberDrawablePainter(drawable = ResourcesCompat.getDrawable(resources, it.getInt(null), null)),
+                                                    painter = painterResource(it.getInt(null)),
                                                     contentDescription = null,
                                                     modifier = Modifier
                                                         .size(52.dp)

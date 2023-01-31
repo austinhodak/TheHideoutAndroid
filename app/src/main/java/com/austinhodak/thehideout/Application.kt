@@ -60,18 +60,18 @@ import com.qonversion.android.sdk.dto.QLaunchMode
 import com.qonversion.android.sdk.dto.QUserProperty
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.coroutines.suspendCoroutine
 
 internal const val SyncWorkName = "SyncWorkName"
 
 @HiltAndroidApp
 class Application : android.app.Application(), Configuration.Provider, ImageLoaderFactory {
+    private val mainScope = MainScope()
 
     @Inject
     lateinit var coilExtensions: CoilExtensions
@@ -136,7 +136,7 @@ class Application : android.app.Application(), Configuration.Provider, ImageLoad
     private fun setupQonversion() {
         Qonversion.initialize(
             QonversionConfig.Builder(
-                this,
+                this@Application,
                 "QGPONvV6rgfVxSM74fv5aID13TuunIu3",
                 QLaunchMode.SubscriptionManagement
             ).apply {
@@ -150,10 +150,16 @@ class Application : android.app.Application(), Configuration.Provider, ImageLoad
             Qonversion.shared.setProperty(QUserProperty.FirebaseAppInstanceId, instanceId)
         }
 
-        Qonversion.shared.checkEntitlement { map, qonversionError -> 
+        Qonversion.shared.checkEntitlement { map, qonversionError ->
+            Timber.d("Qonversion: $map")
             map?.get("Premium")?.let { entitlement ->
                 if (entitlement.isActive) {
                     Timber.d("User is premium")
+
+                    mainScope.launch {
+                        UserSettingsModel.isPremiumUser.update(true)
+                        Timber.d(UserSettingsModel.isPremiumUser.value.toString())
+                    }
 
                     when (entitlement.renewState) {
                         QEntitlementRenewState.NonRenewable -> {}
@@ -161,6 +167,12 @@ class Application : android.app.Application(), Configuration.Provider, ImageLoad
                         QEntitlementRenewState.WillRenew -> {}
                         QEntitlementRenewState.Canceled -> {}
                         QEntitlementRenewState.BillingIssue -> {}
+                    }
+                } else {
+                    Timber.d("User is not premium")
+                    mainScope.launch {
+                        UserSettingsModel.isPremiumUser.update(false)
+                        Timber.d(UserSettingsModel.isPremiumUser.value.toString())
                     }
                 }
             }
@@ -365,6 +377,8 @@ class Application : android.app.Application(), Configuration.Provider, ImageLoad
     override fun newImageLoader(): ImageLoader {
         return coilExtensions.crossFadeLoader
     }
+
+
 }
 
 val extras: Extras by lazy {

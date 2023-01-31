@@ -1,17 +1,40 @@
 [versions]
 
+sheets-compose-dialog = "1.0.3"
+preferences-screen = "1.1.2"
+mavericks = "3.0.1"
+qonversion = "4.1.3"
+coil = "2.2.2"
+realm = "1.6.0"
+sentry = "6.12.1"
+
+afollestad-dialogs = "3.3.0"
+mikepenz-drawer = "8.4.5"
+kpermissions = "3.4.0"
+mlkit-text = "16.0.0-beta6"
+skydoves-only = "1.0.8"
+stfalcon-imageviewer = "1.0.1"
+
 kotlin = "1.7.20"
 kotlinx-datetime = "0.4.0"
 kotlinx-collections-immutable = "0.3.5"
 dokka = "1.7.20"
+oss-licenses = "17.0.0"
+gson = "2.10.1"
+lottie-compose = "5.2.0"
+google-play = "2.0.1"
+
+maps-compose = "2.9.1"
+play-services-maps = "18.1.0"
+maps-ktx = "3.4.0"
 
 # UI Tools
 accompanist = "0.28.0"
-coil = "1.4.0"
 epoxy = "5.1.1"
 groupie = "2.10.1"
 insetter = "0.6.1"
 material = "1.7.0"
+compose-markdown = "0.3.2"
 
 # Multithreading
 kotlinx-coroutines = "1.6.4"
@@ -53,8 +76,10 @@ firebase-bom = "31.2.0"
 firebase-config = "21.2.1"
 firebase-crashlytics = "18.3.3"
 firebase-crashlytics-gradle = "2.9.2"
+firebase-perf-gradle = "1.4.2"
 firebase-messaging = "23.1.1"
 gms-googleServices = "4.3.15"
+firebase-auth-ui = "8.0.2"
 
 # Gradle plugins
 gradle-android-cacheFix = "2.6.2"
@@ -65,8 +90,73 @@ kotlinx-binaryCompatibilityValidator = "0.12.1"
 owasp-dependencycheck = "8.0.1"
 versionsPlugin = "0.44.0"
 secrets = "2.0.1"
+oss-licenses-plugin = "0.10.6"
+application = "7.4.0"
 
 [libraries]
+qonversion = { module = "io.qonversion.android.sdk:sdk", version.ref = "qonversion" }
+
+mavericks = { module = "com.airbnb.android:mavericks", version.ref = "mavericks" }
+mavericks-compose = { module = "com.airbnb.android:mavericks-compose", version.ref = "mavericks" }
+mavericks-hilt = { module = "com.airbnb.android:mavericks-hilt", version.ref = "mavericks" }
+
+stfalcon-imageviewer = { module = "com.github.stfalcon-studio:StfalconImageViewer", version.ref = "stfalcon-imageviewer" }
+compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "compose-markdown" }
+
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "play-services-maps" }
+maps-ktx = { module = "com.google.maps.android:maps-ktx", version.ref = "maps-ktx" }
+maps-utils-ktx = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "maps-ktx" }
+maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
+
+play-review = { module = "com.google.android.play:review", version.ref = "google-play" }
+play-review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "google-play" }
+play-update = { module = "com.google.android.play:app-update", version.ref = "google-play" }
+play-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "google-play" }
+
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie-compose" }
+skydoves-only = { module = "com.github.skydoves:only", version.ref = "skydoves-only" }
+
+afollestad-dialogs = { module = "com.afollestad.material-dialogs:core", version.ref = "afollestad-dialogs" }
+afollestad-dialogs-input = { module = "com.afollestad.material-dialogs:input", version.ref = "afollestad-dialogs" }
+afollestad-dialogs-color = { module = "com.afollestad.material-dialogs:color", version.ref = "afollestad-dialogs" }
+
+drawer-nav = { module = "com.mikepenz:materialdrawer-nav", version.ref = "mikepenz-drawer" }
+drawer = { module = "com.mikepenz:materialdrawer", version.ref = "mikepenz-drawer" }
+iconics = { module = "com.mikepenz:materialdrawer-iconics", version.ref = "mikepenz-drawer" }
+
+mlkit-text = { module = "com.google.mlkit:text-recognition", version.ref = "mlkit-text" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+oss-licenses = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "oss-licenses" }
+
+sentry = { module = "io.sentry:sentry-android", version.ref = "sentry" }
+realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
+
+kpermissions = { module = "com.github.fondesa:kpermissions", version.ref = "kpermissions" }
+kpermissions-coroutines = { module = "com.github.fondesa:kpermissions-coroutines", version.ref = "kpermissions" }
+
+coil-bom = { module = "io.coil-kt:coil-bom", version.ref = "coil" }
+coil-core = { module = "io.coil-kt:coil" }
+coil-compose = { module = "io.coil-kt:coil-compose" }
+
+dialogs-core = { module = "com.maxkeppeler.sheets-compose-dialogs:core", version.ref = "sheets-compose-dialog" }
+dialogs-info = { module = "com.maxkeppeler.sheets-compose-dialogs:info", version.ref = "sheets-compose-dialog" }
+dialogs-color = { module = "com.maxkeppeler.sheets-compose-dialogs:color", version.ref = "sheets-compose-dialog" }
+dialogs-calendar = { module = "com.maxkeppeler.sheets-compose-dialogs:calendar", version.ref = "sheets-compose-dialog" }
+dialogs-clock = { module = "com.maxkeppeler.sheets-compose-dialogs:clock", version.ref = "sheets-compose-dialog" }
+dialogs-duration = { module = "com.maxkeppeler.sheets-compose-dialogs:duration", version.ref = "sheets-compose-dialog" }
+dialogs-date-time = { module = "com.maxkeppeler.sheets-compose-dialogs:date-time", version.ref = "sheets-compose-dialog" }
+dialogs-list = { module = "com.maxkeppeler.sheets-compose-dialogs:list", version.ref = "sheets-compose-dialog" }
+dialogs-input = { module = "com.maxkeppeler.sheets-compose-dialogs:input", version.ref = "sheets-compose-dialog" }
+dialogs-emoji = { module = "com.maxkeppeler.sheets-compose-dialogs:emoji", version.ref = "sheets-compose-dialog" }
+dialogs-state = { module = "com.maxkeppeler.sheets-compose-dialogs:state", version.ref = "sheets-compose-dialog" }
+
+preferences-screen = { module = "com.github.MFlisar.MaterialPreferences:screen", version.ref = "preferences-screen" }
+preferences-bool = { module = "com.github.MFlisar.MaterialPreferences:screen-bool", version.ref = "preferences-screen" }
+preferences-input = { module = "com.github.MFlisar.MaterialPreferences:screen-input", version.ref = "preferences-screen" }
+preferences-choice = { module = "com.github.MFlisar.MaterialPreferences:screen-choice", version.ref = "preferences-screen" }
+preferences-color = { module = "com.github.MFlisar.MaterialPreferences:screen-color", version.ref = "preferences-screen" }
+preferences-slider = { module = "com.github.MFlisar.MaterialPreferences:screen-slider", version.ref = "preferences-screen" }
+preferences-image = { module = "com.github.MFlisar.MaterialPreferences:screen-image", version.ref = "preferences-screen" }
 
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -107,10 +197,16 @@ dokka-plugin-versioning = { module = "org.jetbrains.dokka:versioning-plugin", ve
 # UI Tools
 accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
+
+# Deprecated in Compose 1.4
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
 accompanist-navigation-material = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanist" }
+
+# Deprecated in Compose 1.4
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
+
+# Deprecated in Compose 1.4
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
 accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder", version.ref = "accompanist" }
@@ -123,14 +219,6 @@ accompanist-themeadapter-core = { module = "com.google.accompanist:accompanist-t
 accompanist-themeadapter-material = { module = "com.google.accompanist:accompanist-themeadapter-material", version.ref = "accompanist" }
 accompanist-themeadapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
 accompanist-webview = { module = "com.google.accompanist:accompanist-webview", version.ref = "accompanist" }
-coil = { module = "io.coil-kt:coil", version.ref = "coil" }
-coil-base = { module = "io.coil-kt:coil-base", version.ref = "coil" }
-coil-bom = { module = "io.coil-kt:coil-bom", version.ref = "coil" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-coil-compose-base = { module = "io.coil-kt:coil-compose-base", version.ref = "coil" }
-coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
-coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
-coil-video = { module = "io.coil-kt:coil-video", version.ref = "coil" }
 epoxy = { module = "com.airbnb.android:epoxy", version.ref = "epoxy" }
 epoxy-annotations = { module = "com.airbnb.android:epoxy-annotations", version.ref = "epoxy" }
 epoxy-compose = { module = "com.airbnb.android:epoxy-compose", version.ref = "epoxy" }
@@ -243,13 +331,24 @@ ksp = { module = "com.google.devtools.ksp:symbol-processing", version.ref = "ksp
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 ksp-gradlePlugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 
-# Services
-firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics" }
+# Firebase
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
-firebase-config = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebase-config" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx" }
+firebase-functions = { module = "com.google.firebase:firebase-functions-ktx" }
+firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
+firebase-storage = { module = "com.google.firebase:firebase-storage-ktx" }
+firebase-perf = { module = "com.google.firebase:firebase-perf-ktx" }
+firebase-database = { module = "com.google.firebase:firebase-database-ktx" }
+firebase-inappmessaging = { module = "com.google.firebase:firebase-inappmessaging-display-ktx" }
+firebase-dynamic-links = { module = "com.google.firebase:firebase-dynamic-links-ktx" }
+firebase-app-check = { module = "com.google.firebase:firebase-appcheck-playintegrity" }
+firebase-auth-ui = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebase-auth-ui" }
+
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
-firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebase-messaging" }
 gms-googleServices = { module = "com.google.gms:google-services", version.ref = "gms-googleServices" }
 
 # Plugins
@@ -265,6 +364,7 @@ owasp-dependencyCheck-gradle = { module = "org.owasp:dependency-check-gradle", v
 gradleVersionsPlugin = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "versionsPlugin"  }
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "application" }
 
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -277,11 +377,12 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 dokka-android = { id = "org.jetbrains.dokka-android", version.ref = "dokka" }
 
-dagger-hilt-android = { id = "com.google.dagger.hilt.android" , version.ref = "dagger" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-gradle"}
-gms-googleServices = { id = "com.google.gms.google-services", version.ref = "gms-googleServices"}
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-gradle" }
+firebase-perf = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-perf-gradle" }
+gms-googleServices = { id = "com.google.gms.google-services", version.ref = "gms-googleServices" }
 
 gradle-android-cacheFix = { id = "org.gradle.android.cache-fix", version.ref = "gradle-android-cacheFix" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
@@ -291,3 +392,16 @@ owasp-dependencycheck = { id = "org.owasp.dependencycheck", version.ref = "owasp
 versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin" }
 
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
+
+oss-licenses-plugin = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
+realm = { id = "io.realm.kotlin", version.ref = "realm" }
+
+[bundles]
+compose-dialogs = ["dialogs-core", "dialogs-info", "dialogs-color", "dialogs-calendar", "dialogs-clock", "dialogs-duration", "dialogs-date-time", "dialogs-emoji", "dialogs-input", "dialogs-list", "dialogs-state"]
+preferences-screen = ["preferences-screen", "preferences-bool", "preferences-choice", "preferences-color", "preferences-image", "preferences-input", "preferences-slider"]
+firebase = ["firebase-analytics", "firebase-auth", "firebase-crashlytics", "firebase-database", "firebase-dynamic-links", "firebase-inappmessaging", "firebase-perf", "firebase-app-check", "firebase-config", "firebase-firestore", "firebase-functions", "firebase-messaging", "firebase-storage"]
+coil = ["coil-bom", "coil-compose", "coil-core"]
+afollestad-dialogs = ["afollestad-dialogs", "afollestad-dialogs-input", "afollestad-dialogs-color"]
+google-play = ["play-review", "play-review-ktx", "play-update", "play-update-ktx"]
+maps = ["play-services-maps", "maps-ktx", "maps-utils-ktx"]
+mavericks = ["mavericks", "mavericks-compose", "mavericks-hilt"]

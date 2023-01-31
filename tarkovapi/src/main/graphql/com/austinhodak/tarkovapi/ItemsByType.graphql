@@ -1,5 +1,5 @@
 query ItemsByType($type: ItemType!) {
-    itemsByType(type: $type) {
+    items(type: $type) {
         ...ItemFragment
     }
 }

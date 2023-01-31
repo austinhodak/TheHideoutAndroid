@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
+import coil.load
 import com.austinhodak.tarkovapi.repository.ModsRepo
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
@@ -440,10 +441,7 @@ class ModDetailActivity : GodActivity() {
                                         this@ModDetailActivity,
                                         listOf(mod.pricing?.imageLink)
                                     ) { view, image ->
-                                        Glide
-                                            .with(view)
-                                            .load(image)
-                                            .into(view)
+                                        view.load(image)
                                     }
                                     .withHiddenStatusBar(false)
                                     .show()

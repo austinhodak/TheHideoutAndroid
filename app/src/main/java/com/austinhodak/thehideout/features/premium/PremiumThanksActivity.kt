@@ -85,7 +85,9 @@ class PremiumThanksActivity : AppCompatActivity() {
                     Box(
                         Modifier.fillMaxSize(),
                     ) {
-                        FireworksLottie(modifier = Modifier.fillMaxSize().alpha(0.6f)) {
+                        FireworksLottie(modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(0.6f)) {
 
                         }
                         Column(
@@ -183,7 +185,10 @@ class PremiumThanksActivity : AppCompatActivity() {
     @Composable
     fun FireworksLottie(modifier: Modifier, progress: (Float) -> Unit) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.fireworks))
-        val p by animateLottieCompositionAsState(composition)
+        val p by animateLottieCompositionAsState(
+            composition, iterations = LottieConstants
+                .IterateForever
+        )
         progress.invoke(p)
         LottieAnimation(
             composition = composition,
