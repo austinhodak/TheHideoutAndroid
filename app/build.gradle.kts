@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.util.EnumSet
 import io.sentry.android.gradle.extensions.InstrumentationFeature
 
@@ -34,8 +33,7 @@ android {
         targetSdk = 33
 
         versionName = System.getenv("VERSION") ?: "1.6.7"
-        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?:
-        gradleLocalProperties(rootDir).getProperty("versionCode")?.toIntOrNull() ?: 1
+        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 1
     }
 
     buildFeatures {
@@ -60,9 +58,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file(System.getenv("KEYSTORE_PATH") ?: "../TheHideoutKeystore.jks")
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: gradleLocalProperties(rootDir).getProperty("storePassword")
-            keyAlias = System.getenv("KEYSTORE_ALIAS") ?: gradleLocalProperties(rootDir).getProperty("keyAlias")
-            keyPassword = System.getenv("KEYSTORE_ALIAS_PASSWORD") ?: gradleLocalProperties(rootDir).getProperty("keyPassword")
+            storePassword = System.getenv("KEYSTORE_PASSWORD") //?: gradleLocalProperties(rootDir).getProperty("storePassword")
+            keyAlias = System.getenv("KEYSTORE_ALIAS") //?: gradleLocalProperties(rootDir).getProperty("keyAlias")
+            keyPassword = System.getenv("KEYSTORE_ALIAS_PASSWORD") //?: gradleLocalProperties(rootDir).getProperty("keyPassword")
             enableV1Signing = true
             enableV2Signing = true
         }
