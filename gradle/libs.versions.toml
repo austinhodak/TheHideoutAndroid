@@ -129,7 +129,7 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 oss-licenses = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "oss-licenses" }
 
 sentry = { module = "io.sentry:sentry-android", version.ref = "sentry" }
-realm = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
+realm = { module = "io.realm.kotlin:library-sync", version.ref = "realm" }
 
 kpermissions = { module = "com.github.fondesa:kpermissions", version.ref = "kpermissions" }
 kpermissions-coroutines = { module = "com.github.fondesa:kpermissions-coroutines", version.ref = "kpermissions" }

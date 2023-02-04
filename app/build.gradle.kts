@@ -1,4 +1,6 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.EnumSet
+import io.sentry.android.gradle.extensions.InstrumentationFeature
 
 plugins {
     id("com.android.application")
@@ -11,6 +13,7 @@ plugins {
     id("com.apollographql.apollo3").version("3.7.4")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.google.firebase.firebase-perf")
+    id("io.sentry.android.gradle").version("3.4.1")
 }
 
 apollo {
@@ -30,8 +33,9 @@ android {
         minSdk = 24
         targetSdk = 33
 
-        versionName = System.getenv("VERSION") ?: "LOCAL"
-        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 1
+        versionName = System.getenv("VERSION") ?: gradleLocalProperties(rootDir).getProperty("versionName")
+        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?:
+        gradleLocalProperties(rootDir).getProperty("versionCode")?.toIntOrNull() ?: 1
     }
 
     buildFeatures {
@@ -69,8 +73,8 @@ android {
             //applicationIdSuffix = ".debug"
         }
         named("release").configure {
-            isDebuggable = false
-            isJniDebuggable = false
+            isDebuggable = true
+            isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("release")
         }
     }
@@ -79,7 +83,7 @@ android {
     productFlavors {
         create("beta") {
             dimension = "version"
-            versionNameSuffix = "Beta"
+            versionNameSuffix = " Beta"
         }
         create("full") {
             dimension = "version"
@@ -89,8 +93,13 @@ android {
     kapt {
         correctErrorTypes = true
     }
+}
 
-
+sentry {
+    tracingInstrumentation {
+        enabled.set(true)
+        features.set(EnumSet.allOf(InstrumentationFeature::class.java) - InstrumentationFeature.DATABASE)
+    }
 }
 
 kotlin {
@@ -105,6 +114,8 @@ dependencies {
     implementation(project(":tarkovapi"))
     implementation(platform(androidx.compose.bom))
     implementation(platform(libs.kotlin.bom))
+
+    implementation("com.google.firebase:firebase-appcheck-debug:16.1.1")
 
     api(libs.kotlinx.datetime)
 
