@@ -10,6 +10,8 @@ jobs:
   app_build:
     name: Github, Firebase, and Sentry Release
     runs-on: ubuntu-latest
+#    outputs:
+#      gplay: ${{ steps.gplay.outputs.filePath }}
     steps:
       - uses: actions/checkout@v3
 
@@ -24,15 +26,9 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "11"
-
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - name: Decode Service Account Key JSON File
         uses: timheuer/base64-to-file@v1.2
@@ -54,6 +50,9 @@ jobs:
         with:
           fileName: "google_app_credentials.json"
           encodedString: ${{ secrets.GOOGLE_APP_CREDENTIALS }}
+          
+#      - id: gplay
+#        run: echo "filePath=${{ steps.google_app_credentials.outputs.filePath }}" >> $GITHUB_OUTPUT
 
       - name: Define version code with offset
         env:
@@ -63,16 +62,18 @@ jobs:
 
 #      - name: Generate App Version Name
 #        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
-
-      - name: Build Release
+        
+      - name: Setup & Build Gradle
+        uses: gradle/gradle-build-action@v2
         env:
           KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          VERSION: ${{ env.VERSION_NAME }}
           VERSION_CODE: ${{ env.VERSION_CODE }}
-        run: ./gradlew assembleBetaRelease
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        with:
+          arguments: assembleBetaRelease
 
       - name: Create Github Pre-Release
         uses: marvinpinto/action-automatic-releases@latest
@@ -114,15 +115,6 @@ jobs:
           distribution: "temurin"
           java-version: "11"
 
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - name: Decode Service Account Key JSON File
         uses: timheuer/base64-to-file@v1
         id: service_account_json_file
@@ -155,15 +147,17 @@ jobs:
 #      - name: Generate App Version Name
 #        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
-      - name: Build Release
+      - name: Setup & Build Gradle
+        uses: gradle/gradle-build-action@v2
         env:
           KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-#          VERSION: ${{ env.VERSION_NAME }}
           VERSION_CODE: ${{ env.VERSION_CODE }}
-        run: ./gradlew bundleBetaRelease
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        with:
+          arguments: bundleBetaRelease
 
       - name: Build & deploy Android beta release
         run: bundle exec fastlane android internal
