@@ -74,6 +74,8 @@ jobs:
           KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           VERSION_CODE: ${{ env.VERSION_CODE }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           arguments: assembleBetaRelease
           cache-disabled: true
@@ -161,6 +163,8 @@ jobs:
           KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           VERSION_CODE: ${{ env.VERSION_CODE }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           arguments: bundleBetaRelease
           cache-disabled: true
