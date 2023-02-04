@@ -2,10 +2,8 @@ name: Beta Deploy
 
 on:
   push:
-    branches: [master]
-    tags:
-      - '*-beta.*'
-      - '*-beta'
+    branches:
+      - "master"
   workflow_dispatch:
 
 jobs:
@@ -63,8 +61,8 @@ jobs:
           INITIAL_VERSION_CODE: 17000
         run: echo "VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))" >> $GITHUB_ENV
 
-      - name: Generate App Version Name
-        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+#      - name: Generate App Version Name
+#        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
       - name: Build Release
         env:
@@ -77,10 +75,11 @@ jobs:
         run: ./gradlew assembleBetaRelease
 
       - name: Create Github Pre-Release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          tag_name: ${{ env.VERSION_NAME }}
-          draft: false
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: "latest"
+          title: "Beta Build"
           prerelease: true
           files: |
             ./app/build/outputs/apk/beta/release/app-beta-release.apk
@@ -153,8 +152,8 @@ jobs:
           VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
-      - name: Generate App Version Name
-        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+#      - name: Generate App Version Name
+#        run: echo "VERSION_NAME=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
       - name: Build Release
         env:
@@ -162,7 +161,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          VERSION: ${{ env.VERSION_NAME }}
+#          VERSION: ${{ env.VERSION_NAME }}
           VERSION_CODE: ${{ env.VERSION_CODE }}
         run: ./gradlew bundleBetaRelease
 
