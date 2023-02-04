@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Touch local properties
-        run: touch local.properties
+      run: touch local.properties
     - uses: actions/setup-java@v3
       with:
         distribution: temurin
