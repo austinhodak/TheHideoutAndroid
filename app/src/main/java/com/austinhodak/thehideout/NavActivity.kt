@@ -1,7 +1,10 @@
 package com.austinhodak.thehideout
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,14 +14,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.consumedWindowInsets
+import androidx.compose.material.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -27,43 +31,43 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.austinhodak.tarkovapi.room.models.Item
-import com.austinhodak.thehideout.ammunition.AmmunitionListScreen
-import com.austinhodak.thehideout.bitcoin.BitcoinPriceScreen
-import com.austinhodak.thehideout.bosses.BossesListScreen
-import com.austinhodak.thehideout.calculator.CalculatorMainActivity
-import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.currency.CurrenyConverterScreen
-import com.austinhodak.thehideout.flea_market.FleaMarketScreen
-import com.austinhodak.thehideout.flea_market.grid.ItemQuestHideoutGridScreen
-import com.austinhodak.thehideout.flea_market.viewmodels.FleaViewModel
-import com.austinhodak.thehideout.gear.GearListScreen
-import com.austinhodak.thehideout.gear.viewmodels.GearViewModel
-import com.austinhodak.thehideout.hideout.HideoutMainScreen
-import com.austinhodak.thehideout.hideout.viewmodels.HideoutMainViewModel
-import com.austinhodak.thehideout.keys.KeyListScreen
-import com.austinhodak.thehideout.keys.viewmodels.KeysViewModel
-import com.austinhodak.thehideout.map.MapsActivity
-import com.austinhodak.thehideout.map.MapsListScreen
-import com.austinhodak.thehideout.medical.MedicalListScreen
-import com.austinhodak.thehideout.news.NewsScreen
-import com.austinhodak.thehideout.provisions.ProvisionListScreen
-import com.austinhodak.thehideout.quests.QuestMainScreen
-import com.austinhodak.thehideout.quests.viewmodels.QuestMainViewModel
-import com.austinhodak.thehideout.skills.CharacterSkillsScreen
-import com.austinhodak.thehideout.team.TeamManagementActivity
-import com.austinhodak.thehideout.tools.PriceAlertsScreen
-import com.austinhodak.thehideout.tools.SensitivityCalculatorScreen
-import com.austinhodak.thehideout.tools.ServerPingScreen
-import com.austinhodak.thehideout.tools.viewmodels.SensitivityViewModel
-import com.austinhodak.thehideout.traders.RestockTimersScreen
-import com.austinhodak.thehideout.traders.TraderScreen
+import com.austinhodak.thehideout.features.ammunition.AmmunitionListScreen
+import com.austinhodak.thehideout.features.bitcoin.BitcoinPriceScreen
+import com.austinhodak.thehideout.features.bosses.BossesListScreen
+import com.austinhodak.thehideout.features.calculator.CalculatorMainActivity
+import com.austinhodak.thehideout.features.currency.CurrenyConverterScreen
+import com.austinhodak.thehideout.features.flea_market.FleaMarketScreen
+import com.austinhodak.thehideout.features.flea_market.grid.ItemQuestHideoutGridScreen
+import com.austinhodak.thehideout.features.flea_market.viewmodels.FleaViewModel
+import com.austinhodak.thehideout.features.gear.GearListScreen
+import com.austinhodak.thehideout.features.gear.viewmodels.GearViewModel
+import com.austinhodak.thehideout.features.hideout.HideoutMainScreen
+import com.austinhodak.thehideout.features.hideout.viewmodels.HideoutMainViewModel
+import com.austinhodak.thehideout.features.keys.KeyListScreen
+import com.austinhodak.thehideout.features.keys.viewmodels.KeysViewModel
+import com.austinhodak.thehideout.features.map.MapsActivity
+import com.austinhodak.thehideout.features.map.MapsListScreen
+import com.austinhodak.thehideout.features.medical.MedicalListScreen
+import com.austinhodak.thehideout.features.news.NewsScreen
+import com.austinhodak.thehideout.features.provisions.ProvisionListScreen
+import com.austinhodak.thehideout.features.quests.QuestMainScreen
+import com.austinhodak.thehideout.features.quests.viewmodels.QuestMainViewModel
+import com.austinhodak.thehideout.features.skills.CharacterSkillsScreen
+import com.austinhodak.thehideout.features.team.TeamManagementActivity
+import com.austinhodak.thehideout.features.tools.PriceAlertsScreen
+import com.austinhodak.thehideout.features.tools.SensitivityCalculatorScreen
+import com.austinhodak.thehideout.features.tools.ServerPingScreen
+import com.austinhodak.thehideout.features.tools.viewmodels.SensitivityViewModel
+import com.austinhodak.thehideout.features.traders.RestockTimersScreen
+import com.austinhodak.thehideout.features.traders.TraderScreen
+import com.austinhodak.thehideout.features.weapons.WeaponListScreen
+import com.austinhodak.thehideout.features.weapons.builder.WeaponLoadoutScreen
+import com.austinhodak.thehideout.features.weapons.builder.viewmodel.WeaponLoadoutViewModel
+import com.austinhodak.thehideout.features.weapons.detail.WeaponDetailActivity
+import com.austinhodak.thehideout.features.weapons.mods.ModsListScreen
+import com.austinhodak.thehideout.ui.legacy.MainDrawer
+import com.austinhodak.thehideout.ui.theme.HideoutTheme
 import com.austinhodak.thehideout.utils.*
-import com.austinhodak.thehideout.views.MainDrawer
-import com.austinhodak.thehideout.weapons.WeaponListScreen
-import com.austinhodak.thehideout.weapons.builder.WeaponLoadoutScreen
-import com.austinhodak.thehideout.weapons.builder.viewmodel.WeaponLoadoutViewModel
-import com.austinhodak.thehideout.weapons.detail.WeaponDetailActivity
-import com.austinhodak.thehideout.weapons.mods.ModsListScreen
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
@@ -74,6 +78,12 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import com.maxkeppeker.sheets.core.models.base.Header
+import com.maxkeppeker.sheets.core.models.base.SelectionButton
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.info.InfoDialog
+import com.maxkeppeler.sheets.info.models.InfoBody
+import com.maxkeppeler.sheets.info.models.InfoSelection
 import com.skydoves.only.only
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -179,11 +189,22 @@ class NavActivity : GodActivity() {
                 this.doubleBackToExitPressedOnce = true
                 Toast.makeText(this, getString(R.string.back_exit), Toast.LENGTH_SHORT).show()
 
-                Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+                Handler(Looper.getMainLooper()).postDelayed(
+                    { doubleBackToExitPressedOnce = false },
+                    2000
+                )
             }
         }
     }
 
+    val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts
+            .RequestPermission()
+    ) { isGranted: Boolean ->
+
+    }
+
+    @OptIn(ExperimentalLayoutApi::class)
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -206,8 +227,28 @@ class NavActivity : GodActivity() {
             val lifeCycleOwner = this
             val navController = rememberNavController()
             val systemUiController = rememberSystemUiController()
+            val notificationDialogSheetState = rememberSheetState(visible = false)
 
-            val tag: String = navViewModel.selectedDrawerItem.value?.tag?.toString() ?: extras.openingPageTag
+            if (Build.VERSION.SDK_INT greaterThanOrEqualTo (33)) {
+                val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
+                val permissionStatus =
+                    ContextCompat.checkSelfPermission(this, notificationPermission)
+
+                if (permissionStatus == PackageManager.PERMISSION_DENIED) {
+                    shouldShowRequestPermissionRationale(notificationPermission).let { shouldShow ->
+                        if (shouldShow) {
+                            notificationDialogSheetState.show()
+                        } else {
+                            requestPermissionLauncher.launch(
+                                notificationPermission
+                            )
+                        }
+                    }
+                }
+            }
+
+            val tag: String =
+                navViewModel.selectedDrawerItem.value?.tag?.toString() ?: extras.openingPageTag
 
             navViewModel.isDrawerOpen.observe(lifeCycleOwner) { isOpen ->
                 coroutineScope.launch {
@@ -220,23 +261,47 @@ class NavActivity : GodActivity() {
             }
 
             HideoutTheme {
+                InfoDialog(
+                    state = notificationDialogSheetState,
+                    header = Header.Default(
+                        title = "Enable Notifications?",
+                    ),
+                    body = InfoBody.Default(
+                        bodyText = "The Hideout needs to be able to send you notifications to alert you of restocks and more. Please enable notifications for The Hideout.",
+                    ),
+                    selection = InfoSelection(
+                        onPositiveClick = {
+                            requestPermissionLauncher.launch(
+                                Manifest.permission.POST_NOTIFICATIONS
+                            )
+                        },
+                        positiveButton = SelectionButton(text = "Okay"),
+                        onNegativeClick = {},
+                        negativeButton = SelectionButton(text = "No Thanks"),
+                    ),
+                )
+
                 systemUiController.setSystemBarsColor(
                     color = MaterialTheme.colors.primary,
                 )
                 Scaffold(
                     scaffoldState = scaffoldState,
                     drawerContent = {
-                        MainDrawer(navViewModel = navViewModel, lifeCycleOwner, this@NavActivity, apolloClient)
+                        MainDrawer(
+                            navViewModel = navViewModel,
+                            lifeCycleOwner,
+                            this@NavActivity,
+                            apolloClient
+                        )
                         val testUser by fsUser.observeAsState()
                         Timber.d("USER: $testUser")
                     },
                     drawerScrimColor = Color(0xFF121212)
-                ) {
-
-
+                ) { padding ->
                     NavHost(
                         navController = navController,
-                        startDestination = tag
+                        startDestination = tag,
+                        modifier = Modifier.consumedWindowInsets(padding)
                     ) {
                         composable("ammunition/{caliber}") {
                             AmmunitionListScreen(
@@ -294,8 +359,7 @@ class NavActivity : GodActivity() {
                             QuestMainScreen(
                                 navViewModel,
                                 questViewModel,
-                                tarkovRepo,
-                                ttRepository
+                                tarkovRepo
                             )
                         }
                         composable("hideout") {
@@ -378,6 +442,7 @@ class NavActivity : GodActivity() {
                             route.contains("url:") -> {
                                 route.split(":")[1].openWithCustomTab(this@NavActivity)
                             }
+
                             identifier == 999 -> {
                                 val customLayout = AuthMethodPickerLayout
                                     .Builder(R.layout.login_picker)
@@ -385,15 +450,13 @@ class NavActivity : GodActivity() {
                                     .setPhoneButtonId(R.id.login_phone)
                                     .setGoogleButtonId(R.id.login_google)
                                     .setGithubButtonId(R.id.login_github)
-                                    .setFacebookButtonId(R.id.login_facebook)
                                     .build()
 
                                 val providers = arrayListOf(
                                     AuthUI.IdpConfig.EmailBuilder().build(),
                                     AuthUI.IdpConfig.PhoneBuilder().build(),
                                     AuthUI.IdpConfig.GoogleBuilder().build(),
-                                    AuthUI.IdpConfig.GitHubBuilder().build(),
-                                    AuthUI.IdpConfig.FacebookBuilder().build()
+                                    AuthUI.IdpConfig.GitHubBuilder().build()
                                 )
                                 val signInIntent = AuthUI.getInstance()
                                     .createSignInIntentBuilder()
@@ -406,6 +469,7 @@ class NavActivity : GodActivity() {
                                     .build()
                                 signInLauncher.launch(signInIntent)
                             }
+
                             else -> {
                                 navController.navigate(route) {
                                     restoreState = true

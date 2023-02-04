@@ -59,6 +59,7 @@ What's new in `v2`?
 - Full support for tablets and foldables with support for Chromebooks planned.
 - All new animations.
 - Switch from Room to Realm database for local caching.
+
 - Lots of optimizations, better navigation framework, etc.
 
 ## Contribution

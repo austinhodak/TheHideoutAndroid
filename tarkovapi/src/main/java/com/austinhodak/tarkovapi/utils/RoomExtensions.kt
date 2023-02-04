@@ -225,7 +225,7 @@ fun BartersQuery.Barter.toBarter(): Barter {
     )
 }
 
-fun ItemsByTypeQuery.ItemsByType.toPricing(): Pricing {
+fun ItemsByTypeQuery.Item.toPricing(): Pricing {
     val item = this.itemFragment
     return item.toClass()
 }

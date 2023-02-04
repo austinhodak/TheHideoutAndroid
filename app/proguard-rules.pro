@@ -14,27 +14,24 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-printusage usage.txt
+
 -keepattributes Signature
 -keepattributes *Annotation*
 
 -keep class com.austinhodak.thehideout.firebase.** { *; }
--keep class com.austinhodak.thehideout.calculator.models.** { *; }
--keep class com.austinhodak.thehideout.WeaponBuild { *; }
--keep class com.austinhodak.thehideout.WeaponBuild$BuildMod { *; }
--keep class com.austinhodak.thehideout.calculator.views.HealthBar$Health { *; }
--keep class com.austinhodak.thehideout.flea_market.detail.FleaItemDetail$NavItem { *; }
--keep class com.austinhodak.thehideout.map.models.** { *; }
--keep class com.austinhodak.thehideout.news.models.** { *; }
-
--keep class com.austinhodak.tarkovapi.models.** { *; }
--keep class com.austinhodak.tarkovapi.room.models.** { *; }
--keep class com.austinhodak.tarkovapi.tarkovtracker.models.** { *; }
-
+-keep class com.austinhodak.thehideout.features.calculator.models.** { *; }
+-keep class com.austinhodak.thehideout.features.weapons.builder.WeaponBuild { *; }
+-keep class com.austinhodak.thehideout.features.weapons.builder.WeaponBuild$BuildMod { *; }
+-keep class com.austinhodak.thehideout.features.calculator.views.HealthBar$Health { *; }
+-keep class com.austinhodak.thehideout.features.flea_market.detail.FleaItemDetail$NavItem { *; }
+-keep class com.austinhodak.thehideout.features.map.models.** { *; }
+-keep class com.austinhodak.thehideout.features.news.models.** { *; }
 
 -keepclassmembers class **.R$* {
     public static <fields>;
@@ -42,15 +39,16 @@
 
 -keep class **.R$*
 
--keep class com.austinhodak.thehideout.crafts.CraftDetailActivity$ItemSubtitle { *; }
--keep class com.austinhodak.thehideout.barters.BarterDetailActivity$ItemSubtitle { *; }
+-keep class com.austinhodak.thehideout.features.crafts.CraftDetailActivity$ItemSubtitle { *; }
+-keep class com.austinhodak.thehideout.features.barters.BarterDetailActivity$ItemSubtitle { *; }
 
 -keepclassmembers class com.google.firebase.database.GenericTypeIndicator {
   *;
 }
 
--keep class com.adapty.** { *; }
--keep class com.austinhodak.thehideout.premium.** { *; }
+-keep class com.austinhodak.thehideout.features.premium.** { *; }
+
+
 
 -keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
 -keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.
@@ -58,10 +56,6 @@
 # Retain generic signatures of TypeToken and its subclasses with R8 version 3.0 and higher.
 -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
 -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
-
-
-
-
 
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
@@ -96,9 +90,6 @@
     @retrofit2.http.* <methods>;
 }
 
-# Ignore annotation used for build tooling.
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-
 # Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
 -dontwarn kotlin.Unit
 
@@ -118,3 +109,5 @@
 # kept. Suspend functions are wrapped in continuations where the type argument
 # is used.
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+-keepattributes Exceptions, Signature, InnerClasses, LineNumberTable

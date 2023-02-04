@@ -6,15 +6,17 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.widget.RemoteViews
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.graphics.toArgb
+import coil.request.ImageRequest
 import com.austinhodak.tarkovapi.repository.TarkovRepo
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
 import com.austinhodak.thehideout.compose.theme.*
-import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.features.flea_market.detail.FleaItemDetail
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.AppWidgetTarget
@@ -80,24 +82,29 @@ internal fun updateAppWidget(
     CoroutineScope(Dispatchers.Main).launch {
         val item = tarkovRepo.getItemByID(prefs.getString("widget_$appWidgetId", "59faff1d86f7746c51718c9c") ?: "59faff1d86f7746c51718c9c").first()
 
-        val pendingIntentTemplate = PendingIntent.getActivity(context, appWidgetId, Intent(context, FleaItemDetail::class.java).apply {
-            putExtra("id", item.id)
-            putExtra("fromNoti", true)
-        }, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntentTemplate = PendingIntent.getActivity(
+            context,
+            appWidgetId,
+            Intent(context, FleaItemDetail::class.java).apply {
+                putExtra("id", item.id)
+                putExtra("fromNoti", true)
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         val views = RemoteViews(context.packageName, R.layout.single_price_widget).apply {
             setOnClickPendingIntent(R.id.single_price_layout, pendingIntentTemplate)
         }
 
-        val awt: AppWidgetTarget = object : AppWidgetTarget(context.applicationContext, R.id.single_price_image, views, appWidgetId) {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                super.onResourceReady(resource, transition)
-            }
-        }
-
-        val options = RequestOptions().override(300, 300)
-
-        Glide.with(context.applicationContext).asBitmap().load(item.pricing?.getTransparentIcon()).apply(options).into(awt)
+        val request = ImageRequest.Builder(context)
+            .data(item.pricing?.getTransparentIcon())
+            .size(300)
+            .target(
+                onSuccess = { result ->
+                    val bitmap = (result as BitmapDrawable).bitmap
+                    views.setImageViewBitmap(R.id.single_price_image, bitmap)
+                }
+            )
 
         views.setTextViewText(R.id.single_price_name, item.getPrice().asCurrency())
 

@@ -23,9 +23,3 @@ dependencyResolutionManagement {
 include(":app")
 rootProject.name = "The Hideout"
 include(":tarkovapi")
-include(":mp-core")
-include(":mp-library-datastore")
-include(":mp-library-preference-screen")
-include(":mp-library-preference-screen-color")
-include(":mp-library-preference-screen-input")
-include(":mp-library-preference-screen-choice")

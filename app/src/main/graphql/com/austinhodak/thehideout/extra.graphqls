@@ -1,0 +1,16 @@
+# noinspection GraphQLUnresolvedReference,GraphQLMissingType,GraphQLDuplicateDirective
+extend type Item @typePolicy(keyFields: "id")
+
+extend type Craft @typePolicy(keyFields: "id")
+
+extend type Status @typePolicy(keyFields: "name")
+
+extend type Trader @typePolicy(keyFields: "id")
+
+extend type Query @fieldPolicy(forField: "item", keyArgs: "id")
+extend type Query @fieldPolicy(forField: "item", keyArgs: "type")
+
+extend type Query @fieldPolicy(forField: "task", keyArgs: "id")
+extend type Query @fieldPolicy(forField: "historicalItemPrices", keyArgs: "id")
+
+extend type Ammo @typePolicy(keyFields: "caliber damage armorDamage")

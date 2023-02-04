@@ -42,8 +42,4 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
     </style>
 
-    <style name="Theme.TheHideout.Settings" parent="Theme.TheHideout">
-
-    </style>
-
 </resources>

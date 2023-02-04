@@ -1,0 +1,22 @@
+query Barters (
+    $lang: LanguageCode,
+    $limit: Int,
+    $offset: Int,
+) {
+    barters(lang: $lang, limit: $limit, offset: $offset) {
+        requiredItems {
+            ...TaskItem
+        }
+        rewardItems {
+            ...TaskItem
+        }
+        id
+        trader {
+            id
+        }
+        level
+        taskUnlock {
+            id
+        }
+    }
+}

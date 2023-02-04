@@ -1,0 +1,32 @@
+appId: com.austinhodak.thehideout.debug
+---
+- launchApp
+- tapOn: "search"
+- inputText: "case"
+- tapOn: "Weapon case"
+- assertVisible: "50 Slots"
+- tapOn:
+    id: "bookmark"
+- tapOn: "Barters"
+
+- tapOn: "NEEDS"
+- assertVisible: "YOU RECEIVE"
+- back
+- tapOn: "Moonshine"
+- assertVisible: "1.20kg"
+
+- tapOn: "Crafts"
+- tapOn: "NEEDS"
+- assertVisible: "YOU RECEIVE"
+- back
+- back
+- back
+
+- assertVisible: "Items"
+- tapOn: "Favorites"
+- assertVisible: "Weapon case"
+
+- tapOn: "Items"
+# Search and validate
+
+

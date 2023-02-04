@@ -1,0 +1,12 @@
+
+
+fragment ArmorMaterial on ArmorMaterial {
+    id
+    name
+    destructibility
+    minRepairDegradation
+    maxRepairDegradation
+    explosionDestructibility
+    minRepairKitDegradation
+    maxRepairKitDegradation
+}

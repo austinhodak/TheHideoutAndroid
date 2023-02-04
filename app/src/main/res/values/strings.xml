@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">The Hideout</string>
 
-    <string name="facebook_application_id" translatable="false">930067851055050</string>
-    <!-- Facebook Application ID, prefixed by 'fb'. Enables Chrome Custom tabs. -->
-    <string name="facebook_login_protocol_scheme" translatable="false">fb930067851055050</string>
-
     <string name="meter">%sm</string>
     <string name="flea_alert_empty">No alerts set, long press on a flea market item to add one!</string>
     <string name="flea_favorites_empty">No favorites set!</string>

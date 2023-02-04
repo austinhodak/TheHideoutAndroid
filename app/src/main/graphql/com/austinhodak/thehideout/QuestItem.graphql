@@ -1,0 +1,23 @@
+query QuestItems (
+    $language: LanguageCode
+) {
+    questItems(lang: $language) {
+        ...QuestItem
+    }
+}
+
+fragment QuestItem on QuestItem {
+    id
+    name
+    shortName
+    description
+    normalizedName
+    width
+    height
+    iconLink
+    gridImageLink
+    baseImageLink
+    inspectImageLink
+    image512pxLink
+    image8xLink
+}

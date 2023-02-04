@@ -3,20 +3,25 @@ package com.austinhodak.thehideout.settings
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.InputType
 import android.text.format.DateUtils
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,26 +29,48 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import coil.annotation.ExperimentalCoilApi
-import com.adapty.Adapty
 import com.afollestad.materialdialogs.MaterialDialog
-import com.austinhodak.tarkovapi.*
-import com.austinhodak.thehideout.*
+import com.austinhodak.tarkovapi.DataSyncFrequency
+import com.austinhodak.tarkovapi.Faction
+import com.austinhodak.tarkovapi.FleaHideTime
+import com.austinhodak.tarkovapi.FleaVisibleName
+import com.austinhodak.tarkovapi.FleaVisiblePrice
+import com.austinhodak.tarkovapi.FleaVisibleTraderPrice
+import com.austinhodak.tarkovapi.GameEdition
+import com.austinhodak.tarkovapi.IconSelection
+import com.austinhodak.tarkovapi.LanguageSetting
+import com.austinhodak.tarkovapi.MapEnums
+import com.austinhodak.tarkovapi.MenuDrawerLayout
+import com.austinhodak.tarkovapi.OpeningScreen
+import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.thehideout.BuildConfig
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.compose.theme.HideoutTheme
-import com.austinhodak.thehideout.profile.UserProfileActivity
-import com.austinhodak.thehideout.team.TeamManagementActivity
-import com.austinhodak.thehideout.utils.*
+import com.austinhodak.thehideout.extras
+import com.austinhodak.thehideout.features.profile.UserProfileActivity
+import com.austinhodak.thehideout.features.team.TeamManagementActivity
+import com.austinhodak.thehideout.ui.theme3.HideoutTheme3
+import com.austinhodak.thehideout.utils.isDebug
+import com.austinhodak.thehideout.utils.isPremium
+import com.austinhodak.thehideout.utils.isWorkRunning
+import com.austinhodak.thehideout.utils.openActivity
+import com.austinhodak.thehideout.utils.openNotificationSettings
+import com.austinhodak.thehideout.utils.openWithCustomTab
+import com.austinhodak.thehideout.utils.restartNavActivity
+import com.austinhodak.thehideout.utils.userFirestore
+import com.austinhodak.thehideout.utils.userRefTracker
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -52,23 +79,22 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.zxing.client.android.Intents
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanIntentResult
-import com.journeyapps.barcodescanner.ScanOptions
-import com.michaelflisar.materialpreferences.preferencescreen.*
+import com.michaelflisar.materialpreferences.preferencescreen.PreferenceScreen
+import com.michaelflisar.materialpreferences.preferencescreen.PreferenceScreenConfig
+import com.michaelflisar.materialpreferences.preferencescreen.bool.switch
+import com.michaelflisar.materialpreferences.preferencescreen.button
+import com.michaelflisar.materialpreferences.preferencescreen.category
 import com.michaelflisar.materialpreferences.preferencescreen.choice.singleChoice
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asBatch
 import com.michaelflisar.materialpreferences.preferencescreen.classes.asIcon
-import com.michaelflisar.materialpreferences.preferencescreen.dependencies.Dependency
 import com.michaelflisar.materialpreferences.preferencescreen.dependencies.asDependency
+import com.michaelflisar.materialpreferences.preferencescreen.enums.NoIconVisibility
 import com.michaelflisar.materialpreferences.preferencescreen.input.input
+import com.michaelflisar.materialpreferences.preferencescreen.screen
+import com.michaelflisar.materialpreferences.preferencescreen.subScreen
 import com.michaelflisar.text.asText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import org.json.JSONObject
 import timber.log.Timber
 import java.time.LocalDate
@@ -85,7 +111,7 @@ import javax.inject.Inject
 @ExperimentalPagerApi
 @ExperimentalFoundationApi
 @AndroidEntryPoint
-class SettingsActivity : GodActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     lateinit var screen: PreferenceScreen
 
@@ -94,8 +120,10 @@ class SettingsActivity : GodActivity() {
     @Inject
     lateinit var myWorkerFactory: PriceUpdateFactory
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val preferences = getSharedPreferences("tarkov", MODE_PRIVATE)
 
@@ -105,37 +133,56 @@ class SettingsActivity : GodActivity() {
                 OpeningScreen.AMMO -> {
                     extras.setOpeningItem(101, "ammunition/{caliber}")
                 }
+
                 OpeningScreen.KEYS -> {
                     extras.setOpeningItem(104, "keys")
                 }
+
                 OpeningScreen.FLEA -> {
                     extras.setOpeningItem(107, "flea")
                 }
+
                 OpeningScreen.HIDEOUT -> {
                     extras.setOpeningItem(108, "hideout")
                 }
+
                 OpeningScreen.QUESTS -> {
                     extras.setOpeningItem(109, "quests")
                 }
+
                 OpeningScreen.LOADOUTS -> {
                     extras.setOpeningItem(115, "weaponloadouts")
                 }
+
                 OpeningScreen.MODS -> {
                     extras.setOpeningItem(114, "weaponmods")
                 }
+
                 OpeningScreen.WEAPONS -> {
                     extras.setOpeningItem(301, "weapons/{classID}")
                 }
+
                 OpeningScreen.NEEDED_ITEMS -> {
                     extras.setOpeningItem(116, "neededGrid")
                 }
+
                 OpeningScreen.MEDS -> {
                     extras.setOpeningItem(105, "medical")
                 }
             }
         }
         setContent {
-            HideoutTheme {
+            HideoutTheme3(
+                darkTheme = true,
+                dynamicColor = false
+            ) {
+                val systemUiController = rememberSystemUiController()
+
+                // Update the dark content of the system bars to match the theme
+                DisposableEffect(systemUiController, true) {
+                    systemUiController.setSystemBarsColor(Color.Transparent, false)
+                    onDispose {}
+                }
 
                 var toolbarTitle by remember { mutableStateOf("Settings") }
 
@@ -193,13 +240,15 @@ class SettingsActivity : GodActivity() {
                     DateUtils.MINUTE_IN_MILLIS
                 )
 
-                val scaffoldState = rememberScaffoldState()
-
                 Scaffold(
-                    scaffoldState = scaffoldState,
                     topBar = {
-                        TopAppBar(
-                            title = { Text(toolbarTitle) },
+                        CenterAlignedTopAppBar(
+                            title = {
+                                Text(
+                                    toolbarTitle,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            },
                             navigationIcon = {
                                 IconButton(onClick = {
                                     onBackPressed()
@@ -207,7 +256,6 @@ class SettingsActivity : GodActivity() {
                                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
                                 }
                             },
-                            backgroundColor = if (isSystemInDarkTheme()) Color(0xFE1F1F1F) else MaterialTheme.colors.primary,
                             actions = {
                                 IconButton(onClick = {
                                     "https://discord.gg/YQW36z29z6".openWithCustomTab(this@SettingsActivity)
@@ -227,7 +275,9 @@ class SettingsActivity : GodActivity() {
                             recyclerView.layoutManager = LinearLayoutManager(context)
 
                             PreferenceScreenConfig.apply {
+                                bottomSheet = false
                                 alignIconsWithBackArrow = true
+                                noIconVisibility = NoIconVisibility.Invisible
                             }
 
                             screen = screen {
@@ -270,15 +320,15 @@ class SettingsActivity : GodActivity() {
                                         }
                                     }) {
                                         title = getString(R.string.game_edition).asText()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.faction, Faction.values(), {
                                         it.name
                                     }) {
                                         title = "Faction".asText()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                     category {
                                         title = getString(R.string.mouse_settings).asText()
@@ -417,8 +467,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.opening_screen).asText()
                                         icon = R.drawable.ic_baseline_open_in_browser_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.menuDrawerLayout, MenuDrawerLayout.values(), {
                                         when (it) {
@@ -430,8 +480,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = "Menu Drawer Layout".asText()
                                         icon = R.drawable.round_view_sidebar_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                     category {
                                         title = getString(R.string.other).asText()
@@ -454,8 +504,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.language).asText()
                                         icon = R.drawable.ic_baseline_language_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                 }
                                 subScreen {
@@ -470,8 +520,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = "Display Name".asText()
                                         icon = R.drawable.ic_baseline_text_fields_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.fleaVisiblePrice, FleaVisiblePrice.values(), {
                                         when (it) {
@@ -485,8 +535,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.list_price).asText()
                                         icon = R.drawable.ic_baseline_money_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.fleaVisibleTraderPrice, FleaVisibleTraderPrice.values(), {
                                         when (it) {
@@ -497,8 +547,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = "Trader Display Price".asText()
                                         icon = R.drawable.ic_baseline_person_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.fleaIconDisplay, IconSelection.values(), {
                                         when (it) {
@@ -509,8 +559,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.icon_display).asText()
                                         icon = R.drawable.ic_baseline_image_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                     singleChoice(UserSettingsModel.fleaHideTime, FleaHideTime.values(), {
                                         when (it) {
@@ -523,8 +573,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.only_show_items_scanned).asText()
                                         icon = R.drawable.ic_baseline_access_time_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
                                     }
                                     switch(UserSettingsModel.fleaHideNonFlea) {
                                         title = getString(R.string.hide_banned_from_flea).asText()
@@ -611,8 +660,8 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.default_map).asText()
                                         icon = R.drawable.ic_baseline_map_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+
+
                                     }
                                 }
                                 subScreen {
@@ -627,12 +676,12 @@ class SettingsActivity : GodActivity() {
                                     switch(UserSettingsModel.serverStatusUpdates) {
                                         title = "Service Status Updates".asText()
                                         summary = "Will notify when a new status update is posted.".asText()
-                                        dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
+                                        enabledDependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
                                     }
                                     switch(UserSettingsModel.serverStatusMessages) {
                                         title = "New Status Messages".asText()
                                         summary = "Will notify when a new status message is received.".asText()
-                                        dependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
+                                        enabledDependsOn = UserSettingsModel.serverStatusNotifications.asDependency()
                                     }
                                     if (Build.VERSION.SDK_INT >= 26)
                                         button {
@@ -695,8 +744,7 @@ class SettingsActivity : GodActivity() {
                                     }) {
                                         title = getString(R.string.sync_frequency).asText()
                                         icon = R.drawable.ic_baseline_update_24.asIcon()
-                                        showCheckBoxes = true
-                                        bottomSheet = true
+                                        bottomSheet = false
                                     }
                                     button {
                                         title = getString(R.string.sync_now).asText()
@@ -723,23 +771,15 @@ class SettingsActivity : GodActivity() {
                                             "https://tarkov.dev/".openWithCustomTab(this@SettingsActivity)
                                         }
                                     }
-                                    button {
-//                                        title = "Tarkov Data".asText()
-                                        summary = "Maintained by Community Devs".asText()
-                                        icon = R.drawable.ic_icons8_github.asIcon()
-                                        onClick = {
-                                            "https://github.com/TarkovTracker/tarkovdata/".openWithCustomTab(this@SettingsActivity)
-                                        }
-                                    }
                                 }
                                 /*subScreen {
                                     title = "Quests".asText()
                                     icon = R.drawable.ic_baseline_assignment_24.asIcon()
                                 }*/
-                                category {
-                                    title = getString(R.string.integrations_beta).asText()
-                                }
-                                subScreen {
+                                /*                                category {
+                                                                    title = getString(R.string.integrations_beta).asText()
+                                                                }*/
+                                /*subScreen {
                                     title = "Tarkov Tracker".asText()
                                     icon = R.drawable.ic_baseline_explore_24.asIcon()
                                     //summary = "Coming soon.".asText()
@@ -797,9 +837,9 @@ class SettingsActivity : GodActivity() {
                                             title = "Sync Your Progress".asText()
                                             summary = "Automatic sync temporarily disabled, please sync manually below.".asText()
                                             icon = R.drawable.ic_baseline_cloud_sync_24.asIcon()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -807,9 +847,9 @@ class SettingsActivity : GodActivity() {
                                         }
                                         switch(UserSettingsModel.ttSyncQuest) {
                                             title = "Sync Quest Progress".asText()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -817,9 +857,9 @@ class SettingsActivity : GodActivity() {
                                         }
                                         switch(UserSettingsModel.ttSyncHideout) {
                                             title = "Sync Hideout Progress".asText()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -829,9 +869,9 @@ class SettingsActivity : GodActivity() {
                                             title = "Sync Now".asText()
                                             summary = "".asText()
                                             icon = R.drawable.ic_baseline_sync_24.asIcon()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -854,9 +894,9 @@ class SettingsActivity : GodActivity() {
                                             title = "Push".asText()
                                             summary = "Will overwrite any data on Tarkov Tracker.".asText()
                                             icon = R.drawable.ic_baseline_backup_24.asIcon()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -878,9 +918,9 @@ class SettingsActivity : GodActivity() {
                                             title = "Pull".asText()
                                             summary = "Will overwrite any data on app.".asText()
                                             icon = R.drawable.ic_baseline_cloud_download_24.asIcon()
-                                            dependsOn = object : Dependency<String> {
+                                            enabledDependsOn = object : Dependency<String> {
                                                 override val setting = UserSettingsModel.ttAPIKey
-                                                override suspend fun isEnabled(): Boolean {
+                                                override suspend fun state(): Boolean {
                                                     val value = setting.flow.first()
                                                     return value.isNotEmpty()
                                                 }
@@ -914,19 +954,9 @@ class SettingsActivity : GodActivity() {
                                             }
                                         }
                                     }
-                                }
+                                }*/
                                 category {
                                     title = getString(R.string.about).asText()
-                                }
-                                if (Firebase.remoteConfig.getBoolean("gleap_enabled")) {
-                                    button {
-                                        title = "Send Feedback".asText()
-                                        summary = "Take a screenshot, try it!".asText()
-                                        icon = R.drawable.ic_baseline_feedback_24.asIcon()
-                                        onClick = {
-                                            //Gleap.getInstance().startFeedbackFlow()
-                                        }
-                                    }
                                 }
                                 subScreen {
                                     title = getString(R.string.socials).asText()
@@ -1072,12 +1102,7 @@ class SettingsActivity : GodActivity() {
                                         title = "Restore Purchases".asText()
                                         icon = R.drawable.ic_baseline_settings_backup_restore_24.asIcon()
                                         onClick = {
-                                            Adapty.restorePurchases { purchaserInfo, googleValidationResultList, error ->
-                                                if (error == null) {
-                                                    // successful restore
-                                                    Toast.makeText(this@SettingsActivity, "Purchases restored.", Toast.LENGTH_SHORT).show()
-                                                }
-                                            }
+
                                         }
                                     }
                                 }
@@ -1092,7 +1117,7 @@ class SettingsActivity : GodActivity() {
                                 }
                             }
 
-                            screen.bind(recyclerView)
+                            screen.bind(recyclerView, this)
                             recyclerView
                         }
                     )
@@ -1109,35 +1134,9 @@ class SettingsActivity : GodActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         screen.onSaveInstanceState(outState)
-    }
-
-    private val barcodeLauncher: ActivityResultLauncher<ScanOptions> = registerForActivityResult(
-        ScanContract()
-    ) { result: ScanIntentResult ->
-        if (result.contents == null) {
-
-        } else {
-            lifecycleScope.launch {
-                UserSettingsModel.ttAPIKey.update(result.contents)
-                Toast.makeText(this@SettingsActivity, "API Token saved, please reload page.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private val hardwareIDScanner: ActivityResultLauncher<ScanOptions> = registerForActivityResult(
-        ScanContract()
-    ) { result: ScanIntentResult ->
-        if (result.contents == null) {
-
-        } else {
-            lifecycleScope.launch {
-                UserSettingsModel.pcHardwareID.update(result.contents)
-                Toast.makeText(this@SettingsActivity, "Hardware ID saved, please reload page.", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 }
 

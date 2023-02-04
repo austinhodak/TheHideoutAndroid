@@ -1,5 +1,6 @@
 package com.austinhodak.thehideout.utils
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -7,17 +8,16 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.text.Html
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
+import coil.imageLoader
+import coil.request.ImageRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ImageGetter(
     private val res: Resources,
-    private val htmlTextView: TextView
+    private val htmlTextView: TextView,
+    private val context: Context
 ) : Html.ImageGetter {
 
     // Function needs to overridden when extending [Html.ImageGetter] ,
@@ -31,27 +31,28 @@ class ImageGetter(
 
                 // downloading image in bitmap format using [Picasso] Library
 
-                Glide.with(htmlTextView).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        val drawable = BitmapDrawable(res, resource)
+                val request = ImageRequest.Builder(context)
+                    .data(url)
+                    .target(
+                        onSuccess = { result ->
+                            val drawable = result
 
-                        val width = getScreenWidth() - 150
+                            val width = getScreenWidth() - 150
 
-                        // Images may stretch out if you will only resize width,
-                        // hence resize height to according to aspect ratio
-                        val aspectRatio: Float =
-                            (drawable.intrinsicWidth.toFloat()) / (drawable.intrinsicHeight.toFloat())
-                        val height = width / aspectRatio
-                        drawable.setBounds(0, 0, width, height.toInt())
-                        holder.setDrawable(drawable)
-                        holder.setBounds(0, 0, width, height.toInt())
+                            // Images may stretch out if you will only resize width,
+                            // hence resize height to according to aspect ratio
+                            val aspectRatio: Float =
+                                (drawable.intrinsicWidth.toFloat()) / (drawable.intrinsicHeight.toFloat())
+                            val height = width / aspectRatio
+                            drawable.setBounds(0, 0, width, height.toInt())
+                            holder.setDrawable(drawable)
+                            holder.setBounds(0, 0, width, height.toInt())
 
-                        htmlTextView.text = htmlTextView.text
-                       /* withContext(Dispatchers.Main) {
+                            htmlTextView.text = htmlTextView.text
+                        }
+                    )
 
-                        }*/
-                    }
-                })
+                context.imageLoader.enqueue(request.build())
             }
         }
         return holder

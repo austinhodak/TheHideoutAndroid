@@ -3,10 +3,8 @@ package com.austinhodak.tarkovapi.room.models
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.austinhodak.tarkovapi.room.enums.ItemTypes
 import com.google.gson.Gson
 import org.json.JSONObject
-import timber.log.Timber
 import java.io.Serializable
 
 @Entity(tableName = "weapons")
@@ -163,7 +161,7 @@ data class Weapon(
         val url = "https://cdn.tarkov-market.com/loadouts/images"
         val name = ShortName?.replace("\"", "")?.replace("(", "_")?.replace(")", "_")?.replace(" ", "_")?.lowercase()
         val getUrl = "$url/$name/default.jpg"
-        Timber.d(getUrl)
+        //Timber.d(getUrl)
         return getUrl
     }
 }

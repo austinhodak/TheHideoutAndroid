@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -13,34 +15,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheHideout.Launcher">
         <activity
-            android:name=".profile.UserProfileActivity"
+            android:name=".features.profile.UserProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".premium.PremiumThanksActivity"
+            android:name=".features.premium.PremiumThanksActivity"
             android:exported="true" />
         <activity
-            android:name=".map.CustomMapMarkerAddActivity"
+            android:name=".features.map.CustomMapMarkerAddActivity"
             android:exported="false" />
         <activity
-            android:name=".map.CustomMapMarkerActivity"
+            android:name=".features.map.CustomMapMarkerActivity"
             android:exported="false" />
         <activity
-            android:name=".barters.BarterDetailActivity"
+            android:name=".features.barters.BarterDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".crafts.CraftDetailActivity"
+            android:name=".features.crafts.CraftDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".map.StaticMapsActivity"
+            android:name=".features.map.StaticMapsActivity"
             android:exported="true" />
         <activity
-            android:name=".ocr.ItemScannerActivity"
+            android:name=".features.ocr.ItemScannerActivity"
             android:exported="true" />
         <activity
-            android:name=".hideout.detail.HideoutStationDetailActivity"
+            android:name=".features.hideout.detail.HideoutStationDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".status.ServerStatusActivity"
+            android:name=".features.status.ServerStatusActivity"
             android:exported="true" />
 
         <receiver
@@ -56,7 +58,7 @@
         </receiver>
 
         <activity
-            android:name=".pickers.PickerActivity"
+            android:name=".features.pickers.PickerActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
@@ -68,22 +70,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:screenOrientation="portrait"
-            tools:replace="screenOrientation" />
+            android:name=".features.premium.PremiumPusherActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Material3.Dark.NoActionBar" />
         <activity
-            android:name=".premium.PremiumPusherActivity"
+            android:name=".features.weapons.builder.WeaponBuilderActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
-            android:name=".weapons.builder.WeaponBuilderActivity"
-            android:exported="true"
-            android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
-        <activity
-            android:name=".gear.GearDetailActivity"
+            android:name=".features.gear.GearDetailActivity"
             android:exported="true" />
         <activity
             android:name=".settings.SettingsActivity"
+            android:theme="@style/Theme.TheHideout.Settings"
             android:exported="true" />
 
         <meta-data
@@ -91,10 +90,10 @@
             android:value="AIzaSyAoGF3VmwlS_KJtYUq0fCuwuf2w1HCgElU" />
 
         <activity
-            android:name=".map.MapsActivity"
+            android:name=".features.map.MapsActivity"
             android:exported="true" />
         <activity
-            android:name=".weapons.mods.ModDetailActivity"
+            android:name=".features.weapons.mods.ModDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
@@ -119,30 +118,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ammunition.AmmoDetailActivity"
+            android:name=".features.ammunition.AmmoDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
-            android:name=".flea_market.detail.FleaItemDetail"
+            android:name=".features.flea_market.detail.FleaItemDetail"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
-            android:name=".quests.QuestDetailActivity"
+            android:name=".features.quests.QuestDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
-            android:name=".calculator.CalculatorMainActivity"
+            android:name=".features.calculator.CalculatorMainActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
-            android:name=".weapons.detail.WeaponDetailActivity"
+            android:name=".features.weapons.detail.WeaponDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
-            android:name=".weapons.mods.ModPickerActivity"
+            android:name=".features.weapons.mods.ModPickerActivity"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".features.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
 
@@ -165,18 +164,18 @@
         </service>
 
         <activity
-            android:name=".quests.inraid.QuestInRaidActivity"
+            android:name=".features.quests.inraid.QuestInRaidActivity"
             android:exported="true"
             android:theme="@style/Theme.TheHideout.Launcher.NoActionBar" />
         <activity
-            android:name=".team.TeamManagementActivity"
+            android:name=".features.team.TeamManagementActivity"
             android:exported="true" />
         <activity
-            android:name=".skills.SkillDetailActivity"
+            android:name=".features.skills.SkillDetailActivity"
             android:exported="true" />
-        <activity android:name=".medical.MedDetailActivity"
+        <activity android:name=".features.medical.MedDetailActivity"
             android:exported="true" />
-        <activity android:name=".map.MapDetailActivity"
+        <activity android:name=".features.map.MapDetailActivity"
             android:exported="true" />
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -197,6 +196,11 @@
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
             android:theme="@style/Theme.TheHideoutOS" />
+
+        <meta-data android:name="io.sentry.dsn" android:value="https://40cb2a7b02fb47cdb3cb1350e3c54909@o4504563082133504.ingest.sentry.io/4504563084099584" />
+        <meta-data android:name="io.sentry.breadcrumbs.user-interaction" android:value="true" />
+        <meta-data android:name="io.sentry.attach-screenshot" android:value="true" />
+
     </application>
 
 </manifest>

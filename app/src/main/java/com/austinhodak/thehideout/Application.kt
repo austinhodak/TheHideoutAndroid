@@ -1,29 +1,45 @@
 package com.austinhodak.thehideout
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.work.*
-import com.adapty.Adapty
+import androidx.work.Configuration
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import coil.ImageLoader
+import coil.ImageLoaderFactory
+import com.airbnb.mvrx.Mavericks
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.repository.TarkovRepo
-import com.austinhodak.tarkovapi.tarkovtracker.TTRepository
-import com.austinhodak.tarkovapi.utils.*
+import com.austinhodak.tarkovapi.utils.AmmoBallistics
+import com.austinhodak.tarkovapi.utils.Hideout
+import com.austinhodak.tarkovapi.utils.Maps
+import com.austinhodak.tarkovapi.utils.Rigs
+import com.austinhodak.tarkovapi.utils.Skills
+import com.austinhodak.tarkovapi.utils.Stims
+import com.austinhodak.tarkovapi.utils.Traders
+import com.austinhodak.tarkovapi.utils.WeaponPresets
+import com.austinhodak.thehideout.features.premium.viewmodels.checkEntitlement
 import com.austinhodak.thehideout.firebase.FSUser
-import com.austinhodak.thehideout.utils.Extras
-import com.austinhodak.thehideout.utils.isWorkRunning
-import com.austinhodak.thehideout.utils.isWorkScheduled
-import com.austinhodak.thehideout.utils.uid
+import com.austinhodak.thehideout.utils.*
 import com.austinhodak.thehideout.workmanager.PriceUpdateFactory
 import com.austinhodak.thehideout.workmanager.PriceUpdateWorker
-import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.ktx.crashlytics
@@ -37,26 +53,35 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.qonversion.android.sdk.Qonversion
+import com.qonversion.android.sdk.QonversionConfig
+import com.qonversion.android.sdk.dto.QEntitlementRenewState
+import com.qonversion.android.sdk.dto.QEnvironment
+import com.qonversion.android.sdk.dto.QLaunchMode
+import com.qonversion.android.sdk.dto.QUserProperty
 import com.skydoves.only.Only
 import dagger.hilt.android.HiltAndroidApp
-import io.gleap.Gleap
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import io.realm.kotlin.log.LogLevel
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.AppConfiguration
+import kotlinx.coroutines.*
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.coroutines.suspendCoroutine
 
+internal const val SyncWorkName = "SyncWorkName"
 
 @HiltAndroidApp
-class Application : android.app.Application(), Configuration.Provider {
+class Application : android.app.Application(), Configuration.Provider, ImageLoaderFactory {
+    private val mainScope = MainScope()
+
+    @Inject
+    lateinit var coilExtensions: CoilExtensions
 
     @Inject
     lateinit var myWorkerFactory: PriceUpdateFactory
-
-    @Inject
-    lateinit var ttRepository: TTRepository
 
     @Inject
     lateinit var tarkovRepo: TarkovRepo
@@ -112,14 +137,75 @@ class Application : android.app.Application(), Configuration.Provider {
 
     lateinit var listenerRegistration: ListenerRegistration
 
+    private fun setupQonversion() {
+        Qonversion.initialize(
+            QonversionConfig.Builder(
+                this@Application,
+                "QGPONvV6rgfVxSM74fv5aID13TuunIu3",
+                QLaunchMode.SubscriptionManagement
+            ).apply {
+                if (BuildConfig.DEBUG) {
+                    setEnvironment(QEnvironment.Sandbox)
+                }
+            }.build()
+        )
+
+        Firebase.analytics.appInstanceId.addOnSuccessListener { instanceId ->
+            Qonversion.shared.setProperty(QUserProperty.FirebaseAppInstanceId, instanceId)
+        }
+
+        Qonversion.shared.checkEntitlement { map, qonversionError ->
+            Timber.d("Qonversion: $map")
+            map?.get("Premium")?.let { entitlement ->
+                if (entitlement.isActive) {
+                    Timber.d("User is premium")
+
+                    mainScope.launch {
+                        UserSettingsModel.isPremiumUser.update(true)
+                        Timber.d(UserSettingsModel.isPremiumUser.value.toString())
+                    }
+
+                    when (entitlement.renewState) {
+                        QEntitlementRenewState.NonRenewable -> {}
+                        QEntitlementRenewState.Unknown -> {}
+                        QEntitlementRenewState.WillRenew -> {}
+                        QEntitlementRenewState.Canceled -> {}
+                        QEntitlementRenewState.BillingIssue -> {}
+                    }
+                } else {
+                    Timber.d("User is not premium")
+                    mainScope.launch {
+                        UserSettingsModel.isPremiumUser.update(false)
+                        Timber.d(UserSettingsModel.isPremiumUser.value.toString())
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
+        val firebaseAppCheck = FirebaseAppCheck.getInstance()
+        firebaseAppCheck.installAppCheckProviderFactory(
+            if (isDebug()) {
+                DebugAppCheckProviderFactory.getInstance()
+            } else {
+                PlayIntegrityAppCheckProviderFactory.getInstance()
+            }
+
+        )
+
+        val atlas = App.Companion.create(AppConfiguration.Builder("android-quwic").log(LogLevel.ALL).build())
+
+        Mavericks.initialize(this)
 
         createServerStatusChannel()
         createRestockNotificationChannel()
         createPriceAlertsNotificationChannel()
 
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+
+        setupQonversion()
 
         instance = this
         extras = Extras(applicationContext)
@@ -132,11 +218,7 @@ class Application : android.app.Application(), Configuration.Provider {
         ballistics = AmmoBallistics(applicationContext)
         stims = Stims(applicationContext)
 
-        FirebaseApp.initializeApp(/*context=*/this)
-        val firebaseAppCheck = FirebaseAppCheck.getInstance()
-        firebaseAppCheck.installAppCheckProviderFactory(
-            PlayIntegrityAppCheckProviderFactory.getInstance()
-        )
+
 
         //Device is either Firebase Test Lab or Google Play Pre-launch test device, disable analytics.
         if ("true" == Settings.System.getString(contentResolver, "firebase.test.lab")) {
@@ -150,41 +232,47 @@ class Application : android.app.Application(), Configuration.Provider {
 
         Firebase.database.setPersistenceEnabled(true)
 
+        setupFirebaseAuth()
+
         if (Firebase.auth.currentUser == null) {
             Firebase.auth.signInAnonymously().addOnSuccessListener {
                 Timber.d("Result ${uid()}")
                 it.user?.uid?.let {
-                    listenerRegistration = Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
-                        val user = value?.toObject<FSUser>()
-                        if (value?.exists() == false) {
-                            Firebase.firestore.collection("users").document(it).set(
-                                hashMapOf(
-                                    "playerLevel" to UserSettingsModel.playerLevel.value
-                                ), SetOptions.merge())
+                    listenerRegistration = Firebase.firestore.collection("users").document(it)
+                        .addSnapshotListener { value, error ->
+                            val user = value?.toObject<FSUser>()
+                            if (value?.exists() == false) {
+                                Firebase.firestore.collection("users").document(it).set(
+                                    hashMapOf(
+                                        "playerLevel" to UserSettingsModel.playerLevel.value
+                                    ), SetOptions.merge()
+                                )
+                            }
+                            Timber.d("User $user")
+                            user?.let {
+                                fsUser.postValue(it)
+                            }
                         }
-                        Timber.d("User $user")
-                        user?.let {
-                            fsUser.postValue(it)
-                        }
-                    }
                 }
             }
         } else {
             Timber.d("${uid()}")
             uid()?.let {
-                listenerRegistration = Firebase.firestore.collection("users").document(it).addSnapshotListener { value, error ->
-                    val user = value?.toObject<FSUser>()
-                    if (value?.exists() == false) {
-                        Firebase.firestore.collection("users").document(it).set(
-                            hashMapOf(
-                                "playerLevel" to UserSettingsModel.playerLevel.value
-                            ), SetOptions.merge())
+                listenerRegistration = Firebase.firestore.collection("users").document(it)
+                    .addSnapshotListener { value, error ->
+                        val user = value?.toObject<FSUser>()
+                        if (value?.exists() == false) {
+                            Firebase.firestore.collection("users").document(it).set(
+                                hashMapOf(
+                                    "playerLevel" to UserSettingsModel.playerLevel.value
+                                ), SetOptions.merge()
+                            )
+                        }
+                        Timber.d("$user")
+                        user?.let {
+                            fsUser.postValue(it)
+                        }
                     }
-                    Timber.d("$user")
-                    user?.let {
-                        fsUser.postValue(it)
-                    }
-                }
 
             }
         }
@@ -205,8 +293,6 @@ class Application : android.app.Application(), Configuration.Provider {
 
         setupRemoteConfig()
 
-        Adapty.activate(applicationContext, "public_live_SqlSm08V.OIqFvCDBsqP81tCyaNEU", customerUserId = uid())
-
         UserSettingsModel.dataSyncFrequency.observe(MainScope()) {
             val workManager = WorkManager.getInstance(this)
             val oldFrequency = UserSettingsModel.dataSyncFrequencyPrevious.value
@@ -220,11 +306,20 @@ class Application : android.app.Application(), Configuration.Provider {
                 //Do nothing, already set.
             } else {
                 //Possible fix for prices not updating properly
-                val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).setRequiresDeviceIdle(false).build()
+                val constraints =
+                    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED)
+                        .setRequiresDeviceIdle(false).build()
 
-                val priceUpdateRequest = PeriodicWorkRequestBuilder<PriceUpdateWorker>(it.toString().toLong(), TimeUnit.MINUTES).setConstraints(constraints).build()
+                val priceUpdateRequest = PeriodicWorkRequestBuilder<PriceUpdateWorker>(
+                    it.toString().toLong(),
+                    TimeUnit.MINUTES
+                ).setConstraints(constraints).build()
 
-                workManager.enqueueUniquePeriodicWork("price_update", ExistingPeriodicWorkPolicy.REPLACE, priceUpdateRequest)
+                workManager.enqueueUniquePeriodicWork(
+                    "price_update",
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    priceUpdateRequest
+                )
 
                 MainScope().launch {
                     UserSettingsModel.dataSyncFrequencyPrevious.update(it)
@@ -233,13 +328,36 @@ class Application : android.app.Application(), Configuration.Provider {
 
             MainScope().launch(Dispatchers.IO) {
                 if (tarkovRepo.isPriceDaoEmpty()) {
-                    workManager.enqueue(OneTimeWorkRequest.Builder(PriceUpdateWorker::class.java).build())
+                    workManager.enqueue(
+                        OneTimeWorkRequest.Builder(PriceUpdateWorker::class.java).build()
+                    )
                 }
             }
         }
 
         UserSettingsModel.languageSetting.observe(MainScope()) {
 
+        }
+    }
+
+
+    private fun setupFirebaseAuth() {
+        Firebase.auth.addAuthStateListener { auth ->
+            auth.currentUser?.let { currentUser ->
+                Qonversion.shared.identify(currentUser.uid)
+                Qonversion.shared.setProperty(QUserProperty.CustomUserId, currentUser.uid)
+
+                currentUser.email?.let { email ->
+                    Qonversion.shared.setProperty(QUserProperty.Email, email)
+                }
+
+                currentUser.displayName?.let { name ->
+                    Qonversion.shared.setProperty(QUserProperty.Name, name)
+                }
+            } ?: run {
+                //Current user is null
+                Qonversion.shared.logout()
+            }
         }
     }
 
@@ -260,22 +378,19 @@ class Application : android.app.Application(), Configuration.Provider {
                 "game_info" to "{\"version\":\"0.12.12.30.19047\",\"version_date\":\"07-15-2022\",\"wipe_date\":\"06-30-2022\"}"
             )
         )
-
-        //Fetch and active.
-        Firebase.remoteConfig.fetchAndActivate().addOnSuccessListener {
-            if (Firebase.remoteConfig.getBoolean("gleap_enabled")) {
-                Gleap.initialize("RHpheXAdEP7q0gz4utGMWYVobhULPsjz", this)
-            }
-        }
     }
 
     override fun getWorkManagerConfiguration(): Configuration = Configuration.Builder()
         .setMinimumLoggingLevel(android.util.Log.INFO)
         .setWorkerFactory(myWorkerFactory)
         .build()
+
+    override fun newImageLoader(): ImageLoader {
+        return coilExtensions.crossFadeLoader
+    }
+
+
 }
-
-
 
 val extras: Extras by lazy {
     Application.extras!!

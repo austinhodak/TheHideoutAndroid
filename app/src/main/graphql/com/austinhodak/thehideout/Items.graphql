@@ -1,0 +1,33 @@
+query Items(
+    $ids: [ID],
+    $name: String,
+    $names: [String],
+    $type: ItemType,
+    $types: [ItemType],
+    $categoryNames: [ItemCategoryName],
+    $handbookCategoryNames: [HandbookCategoryName],
+    $bsgCategoryId: String,
+    $bsgCategoryIds: [String],
+    $bsgCategory: String,
+    $lang: LanguageCode,
+    $limit: Int,
+    $offset: Int,
+) {
+    items(
+        ids: $ids,
+        type: $type,
+        name: $name,
+        names: $names,
+        types: $types,
+        categoryNames: $categoryNames,
+        handbookCategoryNames: $handbookCategoryNames,
+        bsgCategoryId: $bsgCategoryId,
+        bsgCategoryIds: $bsgCategoryIds,
+        bsgCategory: $bsgCategory,
+        lang: $lang,
+        limit: $limit,
+        offset: $offset,
+    ) {
+        ...ItemFragment
+    }
+}

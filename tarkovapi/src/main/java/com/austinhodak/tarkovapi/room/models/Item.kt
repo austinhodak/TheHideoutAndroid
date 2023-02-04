@@ -14,7 +14,6 @@ import com.austinhodak.tarkovapi.utils.getItemType
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
-import timber.log.Timber
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
@@ -307,7 +306,7 @@ data class Item(
 
     fun getUpdatedTime(short: Boolean? = false): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        sdf.timeZone = TimeZone.getTimeZone("GMT")
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
 
         val date = sdf.parse(pricing?.updated ?: "2021-07-01T08:36:35.194Z") ?: Calendar.getInstance().time
         val currentTime = System.currentTimeMillis()
@@ -387,7 +386,7 @@ fun JSONObject.toItem(): Item {
     item.id = getString("_id") ?: ""
 
     if (props.has("effects_damage") && props["effects_damage"] is JSONObject) {
-        Timber.d(props.getJSONObject("effects_damage").toString())
+        //Timber.d(props.getJSONObject("effects_damage").toString())
     }
 
     item.effects_health = if (props.has("effects_health") && props["effects_health"] is JSONObject) {

@@ -6,16 +6,19 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.core.app.NotificationCompat
+import coil.imageLoader
+import coil.request.ImageRequest
 import com.austinhodak.tarkovapi.UserSettingsModel
 import com.austinhodak.tarkovapi.room.enums.Traders
 import com.austinhodak.tarkovapi.utils.asCurrency
 import com.austinhodak.thehideout.NavActivity
 import com.austinhodak.thehideout.R
-import com.austinhodak.thehideout.flea_market.detail.FleaItemDetail
-import com.austinhodak.thehideout.status.ServerStatusActivity
+import com.austinhodak.thehideout.features.flea_market.detail.FleaItemDetail
+import com.austinhodak.thehideout.features.status.ServerStatusActivity
 import com.austinhodak.thehideout.utils.logNotification
 import com.austinhodak.thehideout.utils.pushToken
 import com.bumptech.glide.Glide
@@ -161,12 +164,16 @@ class MessagingService : FirebaseMessagingService() {
             setStyle(NotificationCompat.BigTextStyle().bigText(""))
         }
 
-        Glide.with(this).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                builder.setLargeIcon(resource)
-                notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
-            }
-        })
+        val request = ImageRequest.Builder(this)
+            .data(url)
+            .target(
+                onSuccess = { result ->
+                    builder.setLargeIcon((result as BitmapDrawable).bitmap)
+                    notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+                }
+            ).build()
+
+        imageLoader.enqueue(request)
     }
 
     private fun sendRestockNotification(title: String, message: String, trader: Traders) {
@@ -199,12 +206,6 @@ class MessagingService : FirebaseMessagingService() {
 
         notificationManager.notify(trader.int, builder.build())
 
-        /*Glide.with(this).asBitmap().load(trader.icon).into(object : SimpleTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                builder.setLargeIcon(resource)
-
-            }
-        })*/
     }
 
     private fun sendServerStatusNotification(title: String, message: String) {
