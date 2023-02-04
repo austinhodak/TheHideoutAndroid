@@ -33,7 +33,7 @@ android {
         minSdk = 24
         targetSdk = 33
 
-        versionName = System.getenv("VERSION") ?: gradleLocalProperties(rootDir).getProperty("versionName")
+        versionName = System.getenv("VERSION") ?: "1.6.7"
         versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?:
         gradleLocalProperties(rootDir).getProperty("versionCode")?.toIntOrNull() ?: 1
     }
