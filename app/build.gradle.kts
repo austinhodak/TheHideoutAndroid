@@ -71,7 +71,7 @@ android {
             //applicationIdSuffix = ".debug"
         }
         named("release").configure {
-            isDebuggable = true
+            isDebuggable = false
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("release")
         }
