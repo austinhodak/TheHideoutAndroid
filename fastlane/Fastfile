@@ -21,7 +21,7 @@ platform :android do
   lane :internal do
       firebase_app_distribution(
         app: "1:217323738064:android:69b0e7b3ca4a8e2f6d1fd5",
-        android_artifact_type: "aab",
+        android_artifact_type: "AAB",
         android_artifact_path: "./app/build/outputs/bundle/betaRelease/app-beta-release.aab",
         service_credentials_file: ENV["GOOGLE_APP_CREDENTIALS"],
       )
@@ -39,7 +39,7 @@ platform :android do
   lane :beta do
       firebase_app_distribution(
         app: "1:217323738064:android:69b0e7b3ca4a8e2f6d1fd5",
-        android_artifact_type: "aab",
+        android_artifact_type: "AAB",
         android_artifact_path: "./app/build/outputs/bundle/betaRelease/app-beta-release.aab",
         service_credentials_file: ENV["GOOGLE_APP_CREDENTIALS"],
       )
