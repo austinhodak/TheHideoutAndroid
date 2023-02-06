@@ -17,9 +17,8 @@ jobs:
         java-version: 11
     - uses: gradle/gradle-build-action@v2
       with:
-        gradle-version: current
+        gradle-version: release-candidate
     - run: gradle build --dry-run # just test build configuration
-    
   gradle-nightly:
     runs-on: ubuntu-latest
     steps:
@@ -32,5 +31,5 @@ jobs:
         java-version: 11
     - uses: gradle/gradle-build-action@v2
       with:
-        gradle-version: current
+        gradle-version: nightly
     - run: gradle build --dry-run # just test build configuration
