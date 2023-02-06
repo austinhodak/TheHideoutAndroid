@@ -25,6 +25,7 @@ jobs:
   emulator:
     needs: package-app
     runs-on: macos-latest
+    environment: development
     strategy:
       matrix:
         api-level: [24, 30, 33]
