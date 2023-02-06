@@ -19,6 +19,7 @@ jobs:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Log
         run: |
           echo "::debug::Environment: ${{ inputs.environment }}"
@@ -81,6 +82,7 @@ jobs:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Log
         run: |
           echo "::debug::Environment: ${{ inputs.environment }}"
