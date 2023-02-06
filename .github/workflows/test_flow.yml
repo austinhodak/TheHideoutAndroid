@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  runs-on: ubuntu-latest
   # First decode secrets
   # Then build and upload APKs and AABs to artifacts
   # Then Run emulator and tests
@@ -12,12 +11,10 @@ jobs:
   # Then add github release
 
   decode-secrets:
-    id: decode-secrets
     uses: ./.github/workflows/decode_secrets.yml
     secrets: inherit
 
   package-app:
-    id: package-app
     needs: decode-secrets
     uses: ./.github/workflows/gradle_package.yml
     secrets: inherit
