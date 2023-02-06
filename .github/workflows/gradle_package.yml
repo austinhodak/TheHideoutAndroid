@@ -49,6 +49,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           arguments: assembleRelease
+          gradle-version: current
 
       - name: Assemble AAB
         uses: gradle/gradle-build-action@v2
@@ -64,6 +65,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           arguments: bundleRelease
+          gradle-version: current
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
@@ -109,6 +111,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           arguments: assembleBetaRelease
+          gradle-version: current
 
       - name: Assemble Beta AAB
         uses: gradle/gradle-build-action@v2
@@ -124,6 +127,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           arguments: bundleBetaRelease
+          gradle-version: current
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
