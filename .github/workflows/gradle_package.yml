@@ -15,7 +15,7 @@ on:
 jobs:
   package_production:
     if: ${{ inputs.environment == 'production' }}
-    name: Build for ${{ inputs.environment }}
+    name: Build for production
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
@@ -80,10 +80,15 @@ jobs:
 
   package_development:
     if: ${{ inputs.environment == 'development' }}
-    name: Build for ${{ inputs.environment }}
+    name: Build for development
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: keystore
+          path: ~/artifacts
+
       - uses: actions/checkout@v2
       - name: Touch local properties
         run: touch local.properties
@@ -107,7 +112,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         if: ${{ inputs.environment == 'development' }}
         env:
-          KEYSTORE_PATH: ${{ inputs.keystore }}
+          KEYSTORE_PATH: ~/artifacts/android_keystore.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -123,7 +128,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         if: ${{ inputs.environment == 'development' }}
         env:
-          KEYSTORE_PATH: ${{ inputs.keystore }}
+          KEYSTORE_PATH: ~/artifacts/android_keystore.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
