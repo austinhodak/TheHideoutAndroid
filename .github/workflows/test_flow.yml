@@ -19,7 +19,7 @@ jobs:
     uses: ./.github/workflows/gradle_package.yml
     secrets: inherit
     with:
-      keystore: ${{ steps.decode-secrets.outputs.keystore }}
+      keystore: ${{ needs.decode-secrets.outputs.keystore }}
       environment: development
 
   emulator:
