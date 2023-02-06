@@ -17,3 +17,7 @@ local.properties
 *.jks
 
 sentry.properties
+
+act.secrets
+
+act.input

@@ -1,0 +1,68 @@
+name: Test Release Flow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  runs-on: ubuntu-latest
+  # First decode secrets
+  # Then build and upload APKs and AABs to artifacts
+  # Then Run emulator and tests
+  # Then upload APKs and AABs to stores, and github
+  # Then add github release
+
+  decode-secrets:
+    id: decode-secrets
+    uses: ./.github/workflows/decode_secrets.yml
+    secrets: inherit
+
+  package-app:
+    id: package-app
+    needs: decode-secrets
+    uses: ./.github/workflows/gradle_package.yml
+    secrets: inherit
+    with:
+      keystore: ${{ steps.decode-secrets.outputs.keystore }}
+      environment: development
+
+  emulator:
+    needs: package-app
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        api-level: [24, 30, 33]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: development-artifacts
+          path: ~/artifacts
+
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
+
+      - name: launch emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: adb install ~/artifacts/app-beta-release.apk && maestro test ./.maestro/main.yml

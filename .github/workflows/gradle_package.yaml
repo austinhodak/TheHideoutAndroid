@@ -1,0 +1,134 @@
+name: "Package and upload AAB and APK to artifacts"
+
+on:
+  workflow_call:
+    inputs:
+      keystore:
+        description: "Keystore file"
+        required: true
+        type: string
+      environment:
+        description: "Environment to build for"
+        required: true
+        type: string
+
+jobs:
+  package_production:
+    if: ${{ inputs.environment == 'production' }}
+    name: Build for ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log
+        run: |
+          echo "::debug::Environment: ${{ inputs.environment }}"
+          echo "Tasks: ${{ join(matrix.tasks) }}"
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+
+      - name: Define version code with offset
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+          INITIAL_VERSION_CODE: 17000
+        run: echo "VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))" >> $GITHUB_ENV
+
+      - name: Assemble APK
+        uses: gradle/gradle-build-action@v2
+        if: ${{ inputs.environment == 'development' }}
+        env:
+          KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          VERSION_CODE: ${{ env.VERSION_CODE }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          arguments: assembleRelease
+
+      - name: Assemble AAB
+        uses: gradle/gradle-build-action@v2
+        if: ${{ inputs.environment == 'development' }}
+        env:
+          KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          VERSION_CODE: ${{ env.VERSION_CODE }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          arguments: bundleRelease
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: production-artifacts
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/*.aab
+
+  package_development:
+    if: ${{ inputs.environment == 'development' }}
+    name: Build for ${{ inputs.environment }}
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log
+        run: |
+          echo "::debug::Environment: ${{ inputs.environment }}"
+          echo "Tasks: ${{ join(matrix.tasks) }}"
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+
+      - name: Define version code with offset
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+          INITIAL_VERSION_CODE: 17000
+        run: echo "VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))" >> $GITHUB_ENV
+
+      - name: Assemble Beta APK
+        uses: gradle/gradle-build-action@v2
+        if: ${{ inputs.environment == 'development' }}
+        env:
+          KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          VERSION_CODE: ${{ env.VERSION_CODE }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          arguments: assembleBetaRelease
+
+      - name: Assemble Beta AAB
+        uses: gradle/gradle-build-action@v2
+        if: ${{ inputs.environment == 'development' }}
+        env:
+          KEYSTORE_PATH: ${{ steps.android_keystore.outputs.filePath }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEYSTORE_ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          VERSION_CODE: ${{ env.VERSION_CODE }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          arguments: bundleBetaRelease
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: development-artifacts
+          path: |
+            app/build/outputs/apk/beta/release/*.apk
+            app/build/outputs/bundle/beta/release/*.aab
