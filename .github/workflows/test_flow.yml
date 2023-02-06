@@ -63,4 +63,4 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: adb install ~/artifacts/app-beta-release.apk && maestro test ./.maestro/main.yml
+          script: adb install artifacts/app-beta-release.apk && maestro test ./.maestro/main.yml
