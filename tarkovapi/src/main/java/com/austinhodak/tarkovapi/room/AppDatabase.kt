@@ -7,21 +7,45 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.apollographql.apollo3.ApolloClient
-import com.austinhodak.tarkovapi.*
+import com.austinhodak.tarkovapi.R
 import com.austinhodak.tarkovapi.di.ApplicationScope
-import com.austinhodak.tarkovapi.room.dao.*
+import com.austinhodak.tarkovapi.room.dao.AmmoDao
+import com.austinhodak.tarkovapi.room.dao.BarterDao
+import com.austinhodak.tarkovapi.room.dao.CraftDao
+import com.austinhodak.tarkovapi.room.dao.ItemDao
+import com.austinhodak.tarkovapi.room.dao.ModDao
+import com.austinhodak.tarkovapi.room.dao.PriceDao
+import com.austinhodak.tarkovapi.room.dao.QuestDao
+import com.austinhodak.tarkovapi.room.dao.TraderDao
+import com.austinhodak.tarkovapi.room.dao.WeaponDao
 import com.austinhodak.tarkovapi.room.enums.ItemTypes
-import com.austinhodak.tarkovapi.room.models.*
-import com.austinhodak.tarkovapi.utils.*
+import com.austinhodak.tarkovapi.room.models.Ammo
+import com.austinhodak.tarkovapi.room.models.Barter
+import com.austinhodak.tarkovapi.room.models.Craft
+import com.austinhodak.tarkovapi.room.models.Item
+import com.austinhodak.tarkovapi.room.models.Mod
+import com.austinhodak.tarkovapi.room.models.Price
+import com.austinhodak.tarkovapi.room.models.Quest
+import com.austinhodak.tarkovapi.room.models.Trader
+import com.austinhodak.tarkovapi.room.models.Weapon
+import com.austinhodak.tarkovapi.room.models.toAmmoItem
+import com.austinhodak.tarkovapi.room.models.toItem
+import com.austinhodak.tarkovapi.room.models.toMod
+import com.austinhodak.tarkovapi.room.models.toWeapon
+import com.austinhodak.tarkovapi.utils.getItemType
+import com.austinhodak.tarkovapi.utils.itemType
+import com.austinhodak.tarkovapi.utils.iterator
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.system.measureTimeMillis
 
-@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 64)
+@Database(entities = [Ammo::class, Item::class, Weapon::class, Quest::class, Trader::class, Craft::class, Barter::class, Mod::class, Price::class], version = 66)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun AmmoDao(): AmmoDao
@@ -62,7 +86,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun loadItemsFile() {
             scope.launch(Dispatchers.IO) {
-                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_011223).bufferedReader().use { it.readText() }))
+                populateDatabase(JSONArray(context.resources.openRawResource(R.raw.items_081023).bufferedReader().use { it.readText() }))
             }
         }
 

@@ -1,5 +1,5 @@
-import java.util.EnumSet
 import io.sentry.android.gradle.extensions.InstrumentationFeature
+import java.util.EnumSet
 
 plugins {
     id("com.android.application")
@@ -33,7 +33,7 @@ android {
         targetSdk = 33
 
         versionName = System.getenv("VERSION") ?: "1.6.7"
-        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 1
+        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 17020
     }
 
     buildFeatures {
